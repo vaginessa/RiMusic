@@ -143,10 +143,10 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
                 stateSaver = Appearance.Companion
             ) {
                 with(preferences) {
-                    val colorPaletteName = getEnum(colorPaletteNameKey, ColorPaletteName.Dynamic)
+                    val colorPaletteName = getEnum(colorPaletteNameKey, ColorPaletteName.PureBlack)
                     val colorPaletteMode = getEnum(colorPaletteModeKey, ColorPaletteMode.System)
                     val thumbnailRoundness =
-                        getEnum(thumbnailRoundnessKey, ThumbnailRoundness.Light)
+                        getEnum(thumbnailRoundnessKey, ThumbnailRoundness.Heavy)
 
                     val useSystemFont = getBoolean(useSystemFontKey, false)
                     val applyFontPadding = getBoolean(applyFontPaddingKey, false)
@@ -245,7 +245,7 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
 
                             thumbnailRoundnessKey -> {
                                 val thumbnailRoundness =
-                                    sharedPreferences.getEnum(key, ThumbnailRoundness.Light)
+                                    sharedPreferences.getEnum(key, ThumbnailRoundness.Heavy)
 
                                 appearance = appearance.copy(
                                     thumbnailShape = thumbnailRoundness.shape()
@@ -266,7 +266,7 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
                 with(preferences) {
                     registerOnSharedPreferenceChangeListener(listener)
 
-                    val colorPaletteName = getEnum(colorPaletteNameKey, ColorPaletteName.Dynamic)
+                    val colorPaletteName = getEnum(colorPaletteNameKey, ColorPaletteName.PureBlack)
                     if (colorPaletteName == ColorPaletteName.Dynamic) {
                         setDynamicPalette(getEnum(colorPaletteModeKey, ColorPaletteMode.System))
                     }

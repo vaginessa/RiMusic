@@ -11,8 +11,8 @@ android {
         applicationId = "it.fast4x.rimusic"
         minSdk = 21
         targetSdk = 33
-        versionCode = 2
-        versionName = "0.1.5"
+        versionCode = 3
+        versionName = "0.6.1"
     }
 
     splits {
@@ -66,6 +66,12 @@ android {
 kapt {
     arguments {
         arg("room.schemaLocation", "$projectDir/schemas")
+    }
+}
+
+android {
+    lint {
+        baseline = file("lint-baseline.xml")
     }
 }
 

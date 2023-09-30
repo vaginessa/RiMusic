@@ -40,11 +40,11 @@ import it.vfsfitvnm.vimusic.utils.useSystemFontKey
 fun AppearanceSettings() {
     val (colorPalette) = LocalAppearance.current
 
-    var colorPaletteName by rememberPreference(colorPaletteNameKey, ColorPaletteName.Dynamic)
+    var colorPaletteName by rememberPreference(colorPaletteNameKey, ColorPaletteName.PureBlack)
     var colorPaletteMode by rememberPreference(colorPaletteModeKey, ColorPaletteMode.System)
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
-        ThumbnailRoundness.Light
+        ThumbnailRoundness.Heavy
     )
     var useSystemFont by rememberPreference(useSystemFontKey, false)
     var applyFontPadding by rememberPreference(applyFontPaddingKey, false)
