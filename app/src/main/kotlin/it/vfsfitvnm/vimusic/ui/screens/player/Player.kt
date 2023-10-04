@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
@@ -41,6 +42,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
@@ -48,8 +50,10 @@ import androidx.media3.common.Player
 import coil.compose.AsyncImage
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.compose.routing.OnGlobalRoute
+import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.BottomSheet
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
@@ -57,6 +61,7 @@ import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.rememberBottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.themed.BaseMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.collapsedPlayerProgressBar
@@ -71,7 +76,11 @@ import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.shouldBePlaying
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.toast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlin.math.absoluteValue
+
+
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -177,12 +186,14 @@ fun Player(
                         .height(Dimensions.collapsedPlayer)
                         .weight(1f)
                 ) {
+                    /* minimized player */
                     BasicText(
                         text = mediaItem.mediaMetadata.title?.toString() ?: "",
                         style = typography.xs.semiBold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
+
                     BasicText(
                         text = mediaItem.mediaMetadata.artist?.toString() ?: "",
                         style = typography.xs.semiBold.secondary,
@@ -275,6 +286,10 @@ fun Player(
                 mediaId = mediaItem.mediaId,
                 title = mediaItem.mediaMetadata.title?.toString(),
                 artist = mediaItem.mediaMetadata.artist?.toString(),
+                //artistId = mediaItem.mediaMetadata.extras.toString(),
+                artistIds = mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds"),
+
+                //artistId = "x34222",
                 shouldBePlaying = shouldBePlaying,
                 position = positionAndDuration.first,
                 duration = positionAndDuration.second,

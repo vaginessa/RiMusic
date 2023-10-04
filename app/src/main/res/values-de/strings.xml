@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <string name="Abbrechen">Stornieren</string>
+        <string name="cancel">Stornieren</string>
         <string name="done">Fertig</string>
         <string name="hidesong">Möchten Sie diesen Song wirklich löschen? Die Wiedergabezeit und der \nCache werden gelöscht.</string>
         <string name="new_playlist">Neue Wiedergabeliste</string>
@@ -136,4 +136,5 @@
         <string name="cleanup">CLEANUP</string>
         <string name="delete_playback_events">Löschen %1$s Wiedergabeereignisse</string>
         <string name="existing_data_will_be_overwritten">Vorhandene Daten werden überschrieben.\n%1$s schließt sich automatisch nach dem Wiederherstellen der Datenbank.</string>
+        <string name="on_queue">in der Warteschlange</string>
 </resources>

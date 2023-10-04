@@ -136,4 +136,5 @@
     <string name="cleanup">LIMPIEZA</string>
     <string name="delete_playback_events">Eliminar %1$s eventos de reproducción</string>
     <string name="existing_data_will_be_overwritten">Los datos existentes se sobrescribirán.\n%1$s se cerrará automáticamente después de restaurar la base de datos.</string>
+    <string name="on_queue">en cola</string>
 </resources>

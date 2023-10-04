@@ -136,4 +136,5 @@
     <string name="cleanup">NETTOYAGE</string>
     <string name="delete_playback_events">Supprimer %1$s événements de lecture</string>
     <string name="existing_data_will_be_overwritten">Les données existantes seront écrasées.\n%1$s se fermera automatiquement après la restauration de la base de données.</string>
+    <string name="on_queue">en file d\'attente</string>
 </resources>

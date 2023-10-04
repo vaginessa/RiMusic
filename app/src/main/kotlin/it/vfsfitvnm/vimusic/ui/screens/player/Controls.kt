@@ -1,9 +1,11 @@
 package it.vfsfitvnm.vimusic.ui.screens.player
 
+import android.util.Log
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -53,12 +55,17 @@ import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import kotlinx.coroutines.flow.distinctUntilChanged
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.ui.text.AnnotatedString
+import it.vfsfitvnm.vimusic.ui.screens.artistRoute
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Controls(
     mediaId: String,
     title: String?,
     artist: String?,
+    artistIds: ArrayList<String>?,
     shouldBePlaying: Boolean,
     position: Long,
     duration: Long,
@@ -74,6 +81,8 @@ fun Controls(
     var scrubbingPosition by remember(mediaId) {
         mutableStateOf<Long?>(null)
     }
+
+    val onGoToArtist = artistRoute::global
 
     var likedAt by rememberSaveable {
         mutableStateOf<Long?>(null)
@@ -97,11 +106,12 @@ fun Controls(
             .fillMaxWidth()
             .padding(horizontal = 32.dp)
     ) {
+/*
         Spacer(
             modifier = Modifier
                 .weight(1f)
         )
-
+*/
         BasicText(
             text = title ?: "",
             style = typography.l.bold,
@@ -109,16 +119,27 @@ fun Controls(
             overflow = TextOverflow.Ellipsis
         )
 
-        BasicText(
-            text = artist ?: "",
-            style = typography.s.semiBold.secondary,
+         Spacer(
+             modifier = Modifier
+                 .weight(0.4f)
+         )
+
+        ClickableText(
+            text = AnnotatedString(artist ?: ""),
+            style = typography.s.bold,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            onClick = {
+                if (artistIds?.size==1)
+                    //Log.d("ClickArtist","id Artista ${artistIds[0].toString()}")
+                    onGoToArtist(artistIds?.get(0).toString())
+                //else Log.d("ClickArtist","More than 1 artist")
+            }
         )
 
         Spacer(
             modifier = Modifier
-                .weight(0.5f)
+                .weight(1f)
         )
 
         SeekBar(

@@ -1,5 +1,8 @@
 package it.vfsfitvnm.vimusic.ui.screens.settings
 
+import android.app.Application
+import android.content.Context
+import android.content.pm.ApplicationInfo
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -22,11 +25,14 @@ import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.secondary
 
+
+
 @ExperimentalAnimationApi
 @Composable
 fun About() {
     val (colorPalette, typography) = LocalAppearance.current
     val uriHandler = LocalUriHandler.current
+
 
     Column(
         modifier = Modifier
@@ -39,9 +45,10 @@ fun About() {
                     .asPaddingValues()
             )
     ) {
-        Header(title = stringResource(R.string.about)) {
+        //Header(title = stringResource(R.string.about)) {
+        Header(title = "RiMusic") {
             BasicText(
-                text = "v${BuildConfig.VERSION_NAME} by fast4x",
+                text =  "v${BuildConfig.VERSION_NAME} by fast4x",
                 style = typography.s.secondary
             )
         }

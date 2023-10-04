@@ -111,7 +111,7 @@
     <string name="invincible_service">Invincible service</string>
     <string name="turning_off_battery_optimizations_is_not_enough">Quando disattivare le ottimizzazioni della batteria non è sufficiente</string>
     <string name="player_audio"><![CDATA[Player & Audio]]></string>
-    <string name="player">PLAYER</string>
+    <string name="player">Player</string>
     <string name="persistent_queue">Coda persistente</string>
     <string name="save_and_restore_playing_songs">Salva e ripristina la riproduzione di brani</string>
     <string name="resume_playback">Riprendi la riproduzione</string>
@@ -136,4 +136,5 @@
     <string name="cleanup">PULIZIA</string>
     <string name="delete_playback_events">Elimina %1$s eventi di riproduzione</string>
     <string name="existing_data_will_be_overwritten">I dati esistenti verranno sovrascritti.\n%1$s si chiuderà automaticamente dopo aver ripristinato il database.</string>
+    <string name="on_queue">in coda</string>
 </resources>

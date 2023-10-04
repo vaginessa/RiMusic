@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.player
 
+import android.graphics.drawable.Icon
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.AnimatedVisibility
@@ -25,6 +26,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -331,26 +333,32 @@ fun Queue(
                     .padding(horizontalBottomPaddingValues)
                     .height(64.dp)
             ) {
+                Image(
+                    painter = painterResource(R.drawable.chevron_down),
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(colorPalette.text),
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .size(18.dp)
+                        //.padding(all = 10.dp)
+                )
+
                 BasicText(
-                    text = "${windows.size} " + stringResource(R.string.songs),
+                    text = "${windows.size} " + stringResource(R.string.songs) + " " + stringResource(R.string.on_queue),
                     style = typography.xxs.medium,
                     modifier = Modifier
                         .background(
                             color = colorPalette.background1,
                             shape = RoundedCornerShape(16.dp)
                         )
-                        .align(Alignment.CenterStart)
-                        .padding(all = 8.dp)
+                        .align(Alignment.BottomCenter)
+                        //.padding(all = 8.dp)
+                        //.offset(x = 25.dp)
+                        //.paddingFromBaseline(top = 50.dp)
+
                 )
 
-                Image(
-                    painter = painterResource(R.drawable.chevron_down),
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(colorPalette.text),
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .size(18.dp)
-                )
+
 
                 Row(
                     modifier = Modifier

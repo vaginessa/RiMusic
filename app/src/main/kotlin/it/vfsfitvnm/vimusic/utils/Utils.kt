@@ -49,8 +49,10 @@ val Innertube.VideoItem.asMediaItem: MediaItem
                 .setExtras(
                     bundleOf(
                         "durationText" to durationText,
-                        "artistNames" to if (isOfficialMusicVideo) authors?.filter { it.endpoint != null }?.mapNotNull { it.name } else null,
-                        "artistIds" to if (isOfficialMusicVideo) authors?.mapNotNull { it.endpoint?.browseId } else null,
+                        "artistNames" to authors?.filter { it.endpoint != null }?.mapNotNull { it.name } ,
+                        "artistIds" to authors?.mapNotNull { it.endpoint?.browseId },
+                       // "artistNames" to if (isOfficialMusicVideo) authors?.filter { it.endpoint != null }?.mapNotNull { it.name } else null,
+                       // "artistIds" to if (isOfficialMusicVideo) authors?.mapNotNull { it.endpoint?.browseId } else null,
                     )
                 )
                 .build()
