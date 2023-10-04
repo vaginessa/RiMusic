@@ -45,10 +45,9 @@ fun About() {
                     .asPaddingValues()
             )
     ) {
-        //Header(title = stringResource(R.string.about)) {
-        Header(title = "RiMusic") {
+        Header(title = stringResource(R.string.about)) {
             BasicText(
-                text =  "v${BuildConfig.VERSION_NAME} by fast4x",
+                text =  "RiMusic v${BuildConfig.VERSION_NAME} by fast4x",
                 style = typography.s.secondary
             )
         }
