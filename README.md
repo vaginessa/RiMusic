@@ -47,10 +47,10 @@
 </p>
 
 ## Languages Available
-* English, forked from ViMusic
-* Italian, native language, thank to me @fast4x
-* German, native language, thank to @siggi1984
-* Russian, native language, thank to @siggi1984
+* English, initial forked from ViMusic
+* Italian, native language, thank to me [@fast4x](https://github.com/fast4x)
+* German, native language, thank to [@siggi1984](https://github.com/siggi1984)
+* Russian, native language, thank to [@siggi1984](https://github.com/siggi1984)
 * French, non native language, contribute to improve
 * Spanish, non native language, contribute to improve
 
