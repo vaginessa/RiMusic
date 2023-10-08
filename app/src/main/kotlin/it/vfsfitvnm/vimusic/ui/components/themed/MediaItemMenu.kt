@@ -684,7 +684,7 @@ fun MediaItemMenu(
                     artistsInfo?.forEach { (authorId, authorName) ->
                         MenuEntry(
                             icon = R.drawable.person,
-                            text = stringResource(R.string.more_of) + " $authorName -> $authorId",
+                            text = stringResource(R.string.more_of) + " $authorName",
                             onClick = {
                                 onDismiss()
                                 onGoToArtist(authorId)
