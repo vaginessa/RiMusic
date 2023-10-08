@@ -1,7 +1,5 @@
 package it.vfsfitvnm.vimusic.ui.screens.player
 
-import android.util.Log
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.tween
@@ -22,6 +20,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.C
@@ -45,6 +45,8 @@ import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.SeekBar
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
+import it.vfsfitvnm.vimusic.ui.screens.albumRoute
+import it.vfsfitvnm.vimusic.ui.screens.artistRoute
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.utils.bold
@@ -56,17 +58,7 @@ import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import kotlinx.coroutines.flow.distinctUntilChanged
-import androidx.compose.foundation.text.ClickableText
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.semantics.Role.Companion.Button
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
-import it.vfsfitvnm.compose.reordering.animateItemPlacement
-import it.vfsfitvnm.vimusic.models.Info
-import it.vfsfitvnm.vimusic.ui.screens.artistRoute
+import okio.utf8Size
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -75,6 +67,7 @@ fun Controls(
     title: String?,
     artist: String?,
     artistIds: ArrayList<String>?,
+    albumId: String?,
     shouldBePlaying: Boolean,
     position: Long,
     duration: Long,
@@ -92,6 +85,7 @@ fun Controls(
     }
 
     val onGoToArtist = artistRoute::global
+    val onGoToAlbum = albumRoute::global
 
     var likedAt by rememberSaveable {
         mutableStateOf<Long?>(null)
@@ -121,7 +115,7 @@ fun Controls(
             modifier = Modifier
                 .weight(1f)
         )
-*/
+
         BasicText(
             text = "Title: " + title ?: "",
             style = typography.l.bold,
@@ -146,6 +140,75 @@ fun Controls(
                 //else Log.d("ClickArtist","More than 1 artist")
             }
         )
+
+        Spacer(
+            modifier = Modifier
+                .weight(0.4f)
+        )
+*/
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            IconButton(
+                icon = R.drawable.disc,
+                color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
+                enabled = if (albumId == null) false else true,
+                onClick = {
+                        onGoToAlbum(albumId)
+                },
+                modifier = Modifier
+                    .size(24.dp)
+            )
+
+            Spacer(
+                modifier = Modifier
+                    .width(8.dp)
+            )
+
+            BasicText(
+                text = AnnotatedString(title ?: ""),
+                style = typography.l.semiBold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+        }
+
+        Spacer(
+            modifier = Modifier
+                .weight(0.4f)
+        )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            IconButton(
+                icon = R.drawable.person,
+                color = if (artistIds?.size == 0) colorPalette.textDisabled else colorPalette.text,
+                enabled = if (artistIds?.size == 0) false else true,
+                onClick = {
+                        onGoToArtist(artistIds?.get(0).toString())
+                },
+                modifier = Modifier
+                    .size(24.dp)
+            )
+
+            Spacer(
+                modifier = Modifier
+                    .width(8.dp)
+            )
+
+            BasicText(
+                text = AnnotatedString(artist ?: ""),
+                style = typography.l.secondary,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+
+            )
+
+        }
 
         Spacer(
             modifier = Modifier

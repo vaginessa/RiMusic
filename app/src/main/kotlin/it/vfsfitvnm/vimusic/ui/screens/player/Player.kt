@@ -160,23 +160,32 @@ fun Player(
         }
     }
 
+
+
+    val ExistIdsExtras = mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.size.toString()
+    val ExistAlbumIdExtras = mediaItem.mediaMetadata.extras?.getString("albumId")?.toString()
+
+    var albumId   = albumInfo?.id
+    if (albumId == null) albumId = ExistAlbumIdExtras
+
     var artistIds = arrayListOf<String>()
-    //var albumIds = arrayListOf<String>()
-    //val ExistIdsExtras = mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.size.toString()
-
     artistsInfo?.forEach { (id) -> artistIds = arrayListOf(id) }
-    if (artistsInfo == null) mediaItem.mediaMetadata.extras?.getStringArray("artistIds")?.toCollection(artistIds)
+    if (ExistIdsExtras.equals(0).not()) mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.toCollection(artistIds)
 
-    /* TODO Album name */
-//    albumInfo?.forEach { (id) -> albumIds = arrayListOf(id) }
-//    if (albumInfo == null) mediaItem.mediaMetadata.extras?.getStringArray("artistIds")?.toCollection(albumIds)
-
-    //Log.d("mediaItem_play_mediaId",mediaItem.mediaId)
-    //Log.d("mediaItem_play_extra?",ExistIdsExtras.toString())
-    //Log.d("mediaItem_play_extras",mediaItem.mediaMetadata.extras.toString())
-    //Log.d("mediaItem_play_artinfo",artistsInfo.toString())
-    //Log.d("mediaItem_play_artid",artistIds.toString())
-    //Log.d("mediaItem_play_albinfo",albumInfo.toString())
+    /*
+    //Log.d("mediaItem_pl_mediaId",mediaItem.mediaId)
+    Log.d("mediaItem_pl","--- START LOG ARTIST ---")
+    Log.d("mediaItem_pl_extraArt?",ExistIdsExtras.toString())
+    Log.d("mediaItem_pl_extrasArt",mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds").toString())
+    Log.d("mediaItem_pl_artinfo",artistsInfo.toString())
+    Log.d("mediaItem_pl_artId",artistIds.toString())
+    Log.d("mediaItem_pl","--- START LOG ALBUM ---")
+    Log.d("mediaItem_pl_extraAlb?",ExistAlbumIdExtras.toString())
+    //Log.d("mediaItem_pl_extras",mediaItem.mediaMetadata.extras.toString())
+    Log.d("mediaItem_pl_albinfo",albumInfo.toString())
+    Log.d("mediaItem_pl_albId",albumId.toString())
+    Log.d("mediaItem_pl","--- END LOG ---")
+    */
 
     OnGlobalRoute {
         layoutState.collapseSoft()
@@ -336,6 +345,7 @@ fun Player(
                 title = mediaItem.mediaMetadata.title?.toString(),
                 artist = mediaItem.mediaMetadata.artist?.toString(),
                 artistIds = artistIds,
+                albumId = albumId,
                 shouldBePlaying = shouldBePlaying,
                 position = positionAndDuration.first,
                 duration = positionAndDuration.second,
