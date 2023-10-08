@@ -22,7 +22,7 @@
 - Android Auto
 - Persistent queue
 - Open YouTube/YouTube Music links (`watch`, `playlist`, `channel`)
-- **Multilingual support**, English, Italian, French, Spanish and German, contribute for other language are welcome 
+- **Multilingual support**, English, Italian, German, Russian, French and Spanish contribute for other language are welcome 
 - ...
 ## Screenshot
 <h4>Sample screenshot in English language</h4>
@@ -46,17 +46,20 @@
   <img src="./fastlane/metadata/android/it-IT/images/phoneScreenshots/6.jpg" width="15%" />
 </p>
 
-## Languages
-* English, native language
-* Italian, native language
+## Languages Available
+* English, forked from ViMusic
+* Italian, native language, thank to me @fast4x
+* German, native language, thank to @siggi1984
+* Russian, native language, thank to @siggi1984
 * French, non native language, contribute to improve
 * Spanish, non native language, contribute to improve
-* German, non native language, contribute to improve
+
 * contribute for any other language
 
 
 ## Installation
-Coming soon, under development...
+You can dowload it from [**releases page**](https://github.com/fast4x/RiMusic/releases)
+
 <!--
 [<img src="https://github.com/machiav3lli/oandbackupx/blob/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png"
     alt="Get it on GitHub"
