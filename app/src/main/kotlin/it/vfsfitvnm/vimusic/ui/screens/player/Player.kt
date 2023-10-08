@@ -47,6 +47,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.Log
 import coil.compose.AsyncImage
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.compose.routing.OnGlobalRoute
@@ -89,6 +90,8 @@ fun Player(
     layoutState: BottomSheetState,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+
     val menuState = LocalMenuState.current
 
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
@@ -103,6 +106,7 @@ fun Player(
     var shouldBePlaying by remember {
         mutableStateOf(binder.player.shouldBePlaying)
     }
+
 
     binder.player.DisposableListener {
         object : Player.Listener {
@@ -128,6 +132,51 @@ fun Player(
 
     val horizontalBottomPaddingValues = windowInsets
         .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom).asPaddingValues()
+
+    var albumInfo by remember {
+        mutableStateOf(mediaItem.mediaMetadata.extras?.getString("albumId")?.let { albumId ->
+            Info(albumId, null)
+        })
+    }
+
+    var artistsInfo by remember {
+        mutableStateOf(
+            mediaItem.mediaMetadata.extras?.getStringArrayList("artistNames")?.let { artistNames ->
+                mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.let { artistIds ->
+                    artistNames.zip(artistIds).map { (authorName, authorId) ->
+                        Info(authorId, authorName)
+                    }
+                }
+            }
+        )
+    }
+
+    LaunchedEffect(mediaItem.mediaId) {
+        withContext(Dispatchers.IO) {
+            //if (albumInfo == null)
+                albumInfo = Database.songAlbumInfo(mediaItem.mediaId)
+            //if (artistsInfo == null)
+                artistsInfo = Database.songArtistInfo(mediaItem.mediaId)
+        }
+    }
+
+    var artistIds = arrayListOf<String>()
+    //var albumIds = arrayListOf<String>()
+    //val ExistIdsExtras = mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.size.toString()
+
+    artistsInfo?.forEach { (id) -> artistIds = arrayListOf(id) }
+    if (artistsInfo == null) mediaItem.mediaMetadata.extras?.getStringArray("artistIds")?.toCollection(artistIds)
+
+    /* TODO Album name */
+//    albumInfo?.forEach { (id) -> albumIds = arrayListOf(id) }
+//    if (albumInfo == null) mediaItem.mediaMetadata.extras?.getStringArray("artistIds")?.toCollection(albumIds)
+
+    //Log.d("mediaItem_play_mediaId",mediaItem.mediaId)
+    //Log.d("mediaItem_play_extra?",ExistIdsExtras.toString())
+    //Log.d("mediaItem_play_extras",mediaItem.mediaMetadata.extras.toString())
+    //Log.d("mediaItem_play_artinfo",artistsInfo.toString())
+    //Log.d("mediaItem_play_artid",artistIds.toString())
+    //Log.d("mediaItem_play_albinfo",albumInfo.toString())
 
     OnGlobalRoute {
         layoutState.collapseSoft()
@@ -286,10 +335,7 @@ fun Player(
                 mediaId = mediaItem.mediaId,
                 title = mediaItem.mediaMetadata.title?.toString(),
                 artist = mediaItem.mediaMetadata.artist?.toString(),
-                //artistId = mediaItem.mediaMetadata.extras.toString(),
-                artistIds = mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds"),
-
-                //artistId = "x34222",
+                artistIds = artistIds,
                 shouldBePlaying = shouldBePlaying,
                 position = positionAndDuration.first,
                 duration = positionAndDuration.second,

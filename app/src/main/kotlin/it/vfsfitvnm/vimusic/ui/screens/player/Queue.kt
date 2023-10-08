@@ -369,9 +369,18 @@ fun Queue(
                         .align(Alignment.CenterEnd)
                         .animateContentSize()
                 ) {
-                    BasicText(
+                   /* BasicText(
                         text = stringResource(R.string.queue_loop),
                         style = typography.xxs.medium,
+                    )*/
+                    Image(
+                        painter = painterResource(R.drawable.infinite),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(colorPalette.text),
+                        modifier = Modifier
+                            //.align(Alignment.Center)
+                            .size(18.dp)
+
                     )
 
                     AnimatedContent(
@@ -386,7 +395,7 @@ fun Queue(
                         }
                     ) {
                         BasicText(
-                            text = if (it) "on" else "off",
+                            text = if (it) " on" else " off",
                             style = typography.xxs.medium,
                         )
                     }

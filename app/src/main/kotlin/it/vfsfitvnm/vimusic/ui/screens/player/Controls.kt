@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.ui.screens.player
 
 import android.util.Log
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.tween
@@ -56,7 +57,15 @@ import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import kotlinx.coroutines.flow.distinctUntilChanged
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
+import it.vfsfitvnm.compose.reordering.animateItemPlacement
+import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -100,8 +109,9 @@ fun Controls(
         targetValueByState = { if (it) 32.dp else 16.dp }
     )
 
+
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.Start,
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 32.dp)
@@ -113,7 +123,7 @@ fun Controls(
         )
 */
         BasicText(
-            text = title ?: "",
+            text = "Title: " + title ?: "",
             style = typography.l.bold,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
@@ -126,12 +136,12 @@ fun Controls(
 
         ClickableText(
             text = AnnotatedString(artist ?: ""),
-            style = typography.s.bold,
+            style = typography.l.secondary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             onClick = {
                 if (artistIds?.size==1)
-                    //Log.d("ClickArtist","id Artista ${artistIds[0].toString()}")
+                    //Log.d("ClickArtist","id Artist ${artistIds[0].toString()}")
                     onGoToArtist(artistIds?.get(0).toString())
                 //else Log.d("ClickArtist","More than 1 artist")
             }
@@ -139,7 +149,7 @@ fun Controls(
 
         Spacer(
             modifier = Modifier
-                .weight(1f)
+                .weight(2f)
         )
 
         SeekBar(
