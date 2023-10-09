@@ -578,7 +578,7 @@ fun MediaItemMenu(
                                                 .alpha(0f)
                                         )
                                         BasicText(
-                                            text = "${amount / 6}h ${(amount % 6) * 10}m",
+                                            text = "${amount / 6}h ${(amount % 6) * 5}m",
                                             style = typography.s.semiBold
                                         )
                                     }
@@ -614,7 +614,7 @@ fun MediaItemMenu(
                                         enabled = amount > 0,
                                         primary = true,
                                         onClick = {
-                                            binder?.startSleepTimer(amount * 10 * 60 * 1000L)
+                                            binder?.startSleepTimer(amount * 5 * 60 * 1000L)
                                             isShowingSleepTimerDialog = false
                                         }
                                     )
