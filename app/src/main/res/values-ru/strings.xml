@@ -142,4 +142,5 @@
     <string name="cache_location_folder">Location folder</string>
     <string name="custom_cache_from_android_10_may_not_be_available">From Android 10, this feature may not be available</string>
     <string name="reset_cache_location_folder">RESET CACHE LOCATION FOLDER</string>
+    <string name="used">" used"</string>
 </resources>

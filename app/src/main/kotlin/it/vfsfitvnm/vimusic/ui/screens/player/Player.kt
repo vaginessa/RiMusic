@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicText
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -42,6 +43,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -77,6 +79,7 @@ import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.shouldBePlaying
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.toast
+import it.vfsfitvnm.vimusic.enums.DragAnchors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.math.absoluteValue
@@ -107,7 +110,29 @@ fun Player(
         mutableStateOf(binder.player.shouldBePlaying)
     }
 
-
+    /*
+    val state = remember {
+        AnchoredDraggableState(
+            // 2
+            initialValue = DragAnchors.Start,
+            // 3
+            positionalThreshold = { distance: Float -> distance * 0.5f },
+            // 4
+            velocityThreshold = { with(density) { 100.dp.toPx() } },
+            // 5
+            animationSpec = tween(),
+        ).apply {
+            // 6
+            updateAnchors(
+                // 7
+                DraggableAnchors {
+                    DragAnchors.Start at 0f
+                    DragAnchors.End at 400f
+                }
+            )
+        }
+    }
+    */
     binder.player.DisposableListener {
         object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
@@ -384,6 +409,7 @@ fun Player(
                 modifier = containerModifier
                     .padding(top = 54.dp)
             ) {
+
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier

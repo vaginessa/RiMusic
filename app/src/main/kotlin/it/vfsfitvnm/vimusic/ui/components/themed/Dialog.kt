@@ -326,7 +326,7 @@ inline fun <T> ValueSelectorDialog(
                     .padding(end = 24.dp)
             ) {
                 DialogTextButton(
-                    text = "Cancel",
+                    text = stringResource(R.string.cancel),
                     onClick = onDismiss,
                     modifier = Modifier
                 )

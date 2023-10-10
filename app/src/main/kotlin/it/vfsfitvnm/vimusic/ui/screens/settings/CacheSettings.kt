@@ -74,10 +74,10 @@ fun CacheSettings() {
         }
     }
 
-    val release = Build.VERSION.RELEASE;
+    //val release = Build.VERSION.RELEASE;
     val sdkVersion = Build.VERSION.SDK_INT;
     //if (sdkVersion.toShort() < 29) exoPlayerAlternateCacheLocation=""
-    Log.d("SystemInfo","Android SDK: " + sdkVersion + " (" + release +")")
+    //Log.d("SystemInfo","Android SDK: " + sdkVersion + " (" + release +")")
 
     Column(
         modifier = Modifier
@@ -109,7 +109,7 @@ fun CacheSettings() {
                         context,
                         diskCacheSize
                     )
-                } used (${diskCacheSize * 100 / coilDiskCacheMaxSize.bytes.coerceAtLeast(1)}%)"
+                } ${stringResource(R.string.used)} (${diskCacheSize * 100 / coilDiskCacheMaxSize.bytes.coerceAtLeast(1)}%)"
             )
 
             EnumValueSelectorSettingsEntry(
@@ -133,7 +133,7 @@ fun CacheSettings() {
             SettingsDescription(
                 text = buildString {
                     append(Formatter.formatShortFileSize(context, diskCacheSize))
-                    append(" used")
+                    append(stringResource(R.string.used))
                     when (val size = exoPlayerDiskCacheMaxSize) {
                         ExoPlayerDiskCacheMaxSize.Unlimited -> {}
                         else -> append(" (${diskCacheSize * 100 / size.bytes}%)")

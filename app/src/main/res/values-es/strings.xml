@@ -142,4 +142,5 @@
     <string name="cache_location_folder">Carpeta de ubicación</string>
     <string name="custom_cache_from_android_10_may_not_be_available">A partir de Android 10, es posible que esta función no esté disponible</string>
     <string name="reset_cache_location_folder">RESTABLECER CACHE</string>
+    <string name="used">" usado"</string>
 </resources>

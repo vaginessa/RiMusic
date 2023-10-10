@@ -142,4 +142,5 @@
     <string name="cache_location_folder">Dossier emplacement</string>
     <string name="custom_cache_from_android_10_may_not_be_available">À partir d\'Android 10, cette fonctionnalité peut ne pas être disponible</string>
     <string name="reset_cache_location_folder">RÉINITIALISER CACHE</string>
+    <string name="used">" utilisé"</string>
 </resources>
