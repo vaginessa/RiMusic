@@ -2,6 +2,7 @@ package it.vfsfitvnm.vimusic.ui.screens.settings
 
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
+import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -125,7 +126,7 @@ fun DatabaseSettings() {
                 val dateFormat = SimpleDateFormat("yyyyMMddHHmmss")
 
                 try {
-                    backupLauncher.launch("vimusic_${dateFormat.format(Date())}.db")
+                    backupLauncher.launch("rimusic_${dateFormat.format(Date())}.db")
                 } catch (e: ActivityNotFoundException) {
                     context.toast("Couldn't find an application to create documents")
                 }

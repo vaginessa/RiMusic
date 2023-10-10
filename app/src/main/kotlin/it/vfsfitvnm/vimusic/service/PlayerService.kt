@@ -25,6 +25,9 @@ import android.media.audiofx.LoudnessEnhancer
 import android.media.session.MediaSession
 import android.media.session.PlaybackState
 import android.net.Uri
+import android.os.Environment
+import android.os.Environment.getExternalStorageDirectory
+import android.os.Environment.getExternalStorageState
 import android.os.Handler
 import android.text.format.DateUtils
 import androidx.compose.runtime.getValue
@@ -41,6 +44,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
+import androidx.media3.common.util.Log
 import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultHttpDataSource
@@ -84,6 +88,7 @@ import it.vfsfitvnm.vimusic.utils.TimerJob
 import it.vfsfitvnm.vimusic.utils.YouTubeRadio
 import it.vfsfitvnm.vimusic.utils.activityPendingIntent
 import it.vfsfitvnm.vimusic.utils.broadCastPendingIntent
+import it.vfsfitvnm.vimusic.utils.exoPlayerAlternateCacheLocationKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.findNextMediaItemById
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
@@ -117,6 +122,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.runBlocking
+import java.io.File
 
 @Suppress("DEPRECATION")
 class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListener.Callback,
@@ -165,6 +171,8 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
 
     private var isNotificationStarted = false
 
+    private var exoPlayerAlternateCacheLocation = ""
+
     override val notificationId: Int
         get() = NotificationId
 
@@ -195,29 +203,55 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         isShowingThumbnailInLockscreen =
             preferences.getBoolean(isShowingThumbnailInLockscreenKey, false)
 
+
         val cacheEvictor = when (val size =
             preferences.getEnum(exoPlayerDiskCacheMaxSizeKey, ExoPlayerDiskCacheMaxSize.`2GB`)) {
             ExoPlayerDiskCacheMaxSize.Unlimited -> NoOpCacheEvictor()
             else -> LeastRecentlyUsedCacheEvictor(size.bytes)
         }
 
-        // TODO: Remove in a future release
-        val directory = cacheDir.resolve("exoplayer").also { directory ->
-            if (directory.exists()) return@also
+        var directory = cacheDir
 
-            directory.mkdir()
+        if (exoPlayerAlternateCacheLocation=="") {
+           directory = cacheDir.resolve("rimusic_cache").also { directory ->
+                if (directory.exists()) return@also
 
-            cacheDir.listFiles()?.forEach { file ->
-                if (file.isDirectory && file.name.length == 1 && file.name.isDigitsOnly() || file.extension == "uid") {
-                    if (!file.renameTo(directory.resolve(file.name))) {
-                        file.deleteRecursively()
+                directory.mkdir()
+
+                cacheDir.listFiles()?.forEach { file ->
+                    if (file.isDirectory && file.name.length == 1 && file.name.isDigitsOnly() || file.extension == "uid") {
+                        if (!file.renameTo(directory.resolve(file.name))) {
+                            file.deleteRecursively()
+                        }
                     }
+                }
+
+                filesDir.resolve("coil").deleteRecursively()
+            }
+
+        } else {
+                // Available before android 10
+                var path = File(exoPlayerAlternateCacheLocation)
+                directory = path?.resolve("rimusic_cache").also { directory ->
+                    if (directory?.exists() == true) return@also
+
+                    directory?.mkdir()
+
+                    directory?.listFiles()?.forEach { file ->
+                        if (file.isDirectory && file.name.length == 1 && file.name.isDigitsOnly() || file.extension == "uid") {
+                            if (!file.renameTo(directory?.resolve(file.name))) {
+                                file.deleteRecursively()
+                            }
+                        }
+                    }
+
+                    directory?.resolve("coil")?.deleteRecursively()
                 }
             }
 
-            filesDir.resolve("coil").deleteRecursively()
-        }
+
         cache = SimpleCache(directory, cacheEvictor, StandaloneDatabaseProvider(this))
+
 
         player = ExoPlayer.Builder(this, createRendersFactory(), createMediaSourceFactory())
             .setHandleAudioBecomingNoisy(true)
