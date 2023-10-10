@@ -137,4 +137,9 @@
     <string name="delete_playback_events">Supprimer %1$s événements de lecture</string>
     <string name="existing_data_will_be_overwritten">Les données existantes seront écrasées.\n%1$s se fermera automatiquement après la restauration de la base de données.</string>
     <string name="on_queue">en file d\'attente</string>
+    <string name="folder_cache">CACHE DE DOSSIERS</string>
+    <string name="cache_reset_by_clicking_button">Attention en cliquant sur le bouton ci-dessous, le dossier d\'emplacement du cache sera réinitialisé par défaut</string>
+    <string name="cache_location_folder">Dossier emplacement</string>
+    <string name="custom_cache_from_android_10_may_not_be_available">À partir d\'Android 10, cette fonctionnalité peut ne pas être disponible</string>
+    <string name="reset_cache_location_folder">RÉINITIALISER CACHE</string>
 </resources>

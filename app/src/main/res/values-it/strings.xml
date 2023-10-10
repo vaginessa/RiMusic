@@ -137,4 +137,9 @@
     <string name="delete_playback_events">Elimina %1$s eventi di riproduzione</string>
     <string name="existing_data_will_be_overwritten">I dati esistenti verranno sovrascritti.\n%1$s si chiuderà automaticamente dopo aver ripristinato il database.</string>
     <string name="on_queue">in coda</string>
+    <string name="folder_cache">CARTELLA CACHE</string>
+    <string name="cache_reset_by_clicking_button">Attenzione cliccando sul pulsante in basso, la cartella di posizione della cache verrà ripristinata</string>
+    <string name="cache_location_folder">Posizione della cache</string>
+    <string name="custom_cache_from_android_10_may_not_be_available">A partire da Android 10, questa funzionalità potrebbe non essere disponibile</string>
+    <string name="reset_cache_location_folder">RESET CARTELLA CACHE</string>
 </resources>
