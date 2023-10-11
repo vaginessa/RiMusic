@@ -77,6 +77,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.DisposableListener
+import it.vfsfitvnm.vimusic.utils.forceSeekToNext
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.queueLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -338,9 +339,19 @@ fun Queue(
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(colorPalette.text),
                     modifier = Modifier
-                        .align(Alignment.CenterStart)
+                        .align(Alignment.Center)
                         .size(18.dp)
                         //.padding(all = 10.dp)
+                )
+
+                IconButton(
+                    icon = R.drawable.trash,
+                    color = colorPalette.text,
+                    onClick = binder.player::clearMediaItems,
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(horizontal = 4.dp, vertical = 8.dp)
+                        .size(18.dp)
                 )
 
                 BasicText(

@@ -22,4 +22,13 @@ enum class ThumbnailRoundness {
             Heavy -> RoundedCornerShape(8.dp)
         }
     }
+
+    fun ShapeName(): String {
+        return when (this) {
+            None -> "None"
+            Light -> "Light"
+            Medium -> "Medium"
+            Heavy -> "Heavy"
+        }
+    }
 }
