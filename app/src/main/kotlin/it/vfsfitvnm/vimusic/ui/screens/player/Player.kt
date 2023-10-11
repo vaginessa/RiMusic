@@ -80,6 +80,9 @@ import it.vfsfitvnm.vimusic.utils.shouldBePlaying
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.enums.DragAnchors
+import it.vfsfitvnm.vimusic.ui.components.themed.Header
+import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
+import it.vfsfitvnm.vimusic.utils.medium
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.math.absoluteValue
@@ -133,6 +136,7 @@ fun Player(
         }
     }
     */
+
     binder.player.DisposableListener {
         object : Player.Listener {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
@@ -272,14 +276,14 @@ fun Player(
                     /* minimized player */
                     BasicText(
                         text = mediaItem.mediaMetadata.title?.toString() ?: "",
-                        style = typography.xs.semiBold,
+                        style = typography.xxs.semiBold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
 
                     BasicText(
                         text = mediaItem.mediaMetadata.artist?.toString() ?: "",
-                        style = typography.xs.semiBold.secondary,
+                        style = typography.xxs.semiBold.secondary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -297,6 +301,15 @@ fun Player(
                         .height(Dimensions.collapsedPlayer)
                 ) {
                     IconButton(
+                        icon = R.drawable.play_skip_back,
+                        color = colorPalette.text,
+                        onClick = binder.player::forceSeekToPrevious,
+                        modifier = Modifier
+                            .padding(horizontal = 2.dp, vertical = 8.dp)
+                            .size(18.dp)
+                    )
+
+                    IconButton(
                         icon = if (shouldBePlaying) R.drawable.pause else R.drawable.play,
                         color = colorPalette.text,
                         onClick = {
@@ -310,8 +323,8 @@ fun Player(
                             }
                         },
                         modifier = Modifier
-                            .padding(horizontal = 4.dp, vertical = 8.dp)
-                            .size(20.dp)
+                            .padding(horizontal = 2.dp, vertical = 8.dp)
+                            .size(18.dp)
                     )
 
                     IconButton(
@@ -319,8 +332,8 @@ fun Player(
                         color = colorPalette.text,
                         onClick = binder.player::forceSeekToNext,
                         modifier = Modifier
-                            .padding(horizontal = 4.dp, vertical = 8.dp)
-                            .size(20.dp)
+                            .padding(horizontal = 2.dp, vertical = 8.dp)
+                            .size(18.dp)
                     )
                 }
 
@@ -407,13 +420,18 @@ fun Player(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = containerModifier
-                    .padding(top = 54.dp)
+                   // .padding(top = 54.dp)
             ) {
-
+                BasicText(
+                    text = stringResource(R.string.now_playing),
+                    style = typography.l.medium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .weight(1.25f)
+                       // .weight(1.25f)
                 ) {
                     thumbnailContent(
                         modifier = Modifier

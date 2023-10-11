@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
+import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.medium
 import kotlin.random.Random
 
@@ -35,7 +36,7 @@ fun Header(
         titleContent = {
             BasicText(
                 text = title,
-                style = typography.xxl.medium,
+                style = typography.l.medium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

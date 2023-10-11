@@ -143,4 +143,5 @@
     <string name="custom_cache_from_android_10_may_not_be_available">À partir d\'Android 10, cette fonctionnalité peut ne pas être disponible</string>
     <string name="reset_cache_location_folder">RÉINITIALISER CACHE</string>
     <string name="used">" utilisé"</string>
+    <string name="now_playing">Now playing...</string>
 </resources>
