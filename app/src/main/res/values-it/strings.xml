@@ -143,5 +143,5 @@
     <string name="custom_cache_from_android_10_may_not_be_available">A partire da Android 10, questa funzionalità potrebbe non essere disponibile</string>
     <string name="reset_cache_location_folder">RESET CARTELLA CACHE</string>
     <string name="used">" usato"</string>
-    <string name="now_playing">Adesso in riproduzione...</string>
+    <string name="now_playing">In riproduzione...</string>
 </resources>

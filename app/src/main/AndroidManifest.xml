@@ -41,7 +41,9 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:theme="@style/Theme.ViMusic.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+        >
+
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

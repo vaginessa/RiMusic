@@ -11,7 +11,9 @@ import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.ui.screens.album.AlbumScreen
 import it.vfsfitvnm.vimusic.ui.screens.artist.ArtistScreen
 import it.vfsfitvnm.vimusic.ui.screens.playlist.PlaylistScreen
+import it.vfsfitvnm.vimusic.ui.screens.home.QuickPicks
 
+val quickpicksRoute = Route1<String?>("quickpicksRoute")
 val albumRoute = Route1<String?>("albumRoute")
 val artistRoute = Route1<String?>("artistRoute")
 val builtInPlaylistRoute = Route1<BuiltInPlaylist>("builtInPlaylistRoute")
@@ -43,5 +45,9 @@ inline fun RouteHandlerScope.globalRoutes() {
         PlaylistScreen(
             browseId = browseId ?: error("browseId cannot be null")
         )
+    }
+
+    quickpicksRoute { browseId ->
+
     }
 }

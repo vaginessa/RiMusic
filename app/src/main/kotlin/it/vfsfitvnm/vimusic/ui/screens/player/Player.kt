@@ -96,7 +96,7 @@ fun Player(
     layoutState: BottomSheetState,
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
+    //val context = LocalContext.current
 
     val menuState = LocalMenuState.current
 
@@ -403,6 +403,7 @@ fun Player(
                         .weight(0.66f)
                         .padding(bottom = 16.dp)
                 ) {
+
                     thumbnailContent(
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
@@ -427,11 +428,13 @@ fun Player(
                     style = typography.l.medium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    modifier = modifier
+                        .padding(vertical = 15.dp)
                 )
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                       // .weight(1.25f)
+                    //modifier = Modifier
+                        //.weight(1.25f)
                 ) {
                     thumbnailContent(
                         modifier = Modifier
@@ -441,7 +444,7 @@ fun Player(
 
                 controlsContent(
                     modifier = Modifier
-                        .padding(vertical = 8.dp)
+                        .padding(vertical = 24.dp)
                         .fillMaxWidth()
                         .weight(1f)
                 )

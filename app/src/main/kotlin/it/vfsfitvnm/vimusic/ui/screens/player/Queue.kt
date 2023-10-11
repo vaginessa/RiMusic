@@ -72,6 +72,8 @@ import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.QueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.items.SongItemPlaceholder
+import it.vfsfitvnm.vimusic.ui.screens.albumRoute
+import it.vfsfitvnm.vimusic.ui.screens.quickpicksRoute
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
@@ -102,6 +104,8 @@ fun Queue(
 
     val horizontalBottomPaddingValues = windowInsets
         .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom).asPaddingValues()
+
+    //val onGoToHome = quickpicksRoute::global
 
     BottomSheet(
         state = layoutState,
@@ -347,7 +351,13 @@ fun Queue(
                 IconButton(
                     icon = R.drawable.trash,
                     color = colorPalette.text,
-                    onClick = binder.player::clearMediaItems,
+                    onClick = {
+                        val mediacount = binder.player.mediaItemCount-1
+                        for (i in mediacount.downTo(0)) {
+                            if (i == mediaItemIndex) null else binder.player.removeMediaItem(i)
+                        }
+
+                    },
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .padding(horizontal = 4.dp, vertical = 8.dp)
@@ -355,7 +365,7 @@ fun Queue(
                 )
 
                 BasicText(
-                    text = "${windows.size} " + stringResource(R.string.songs) + " " + stringResource(R.string.on_queue),
+                    text = "${binder.player.mediaItemCount} " + stringResource(R.string.songs) + " " + stringResource(R.string.on_queue),
                     style = typography.xxs.medium,
                     modifier = Modifier
                         .background(
