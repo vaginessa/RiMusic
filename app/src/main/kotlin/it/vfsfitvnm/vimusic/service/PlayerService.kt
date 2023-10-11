@@ -178,6 +178,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
 
     private lateinit var notificationActionReceiver: NotificationActionReceiver
 
+
     override fun onBind(intent: Intent?): AndroidBinder {
         super.onBind(intent)
         return binder
@@ -298,12 +299,24 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         maybeResumePlaybackWhenDeviceConnected()
     }
 
+/*
     override fun onTaskRemoved(rootIntent: Intent?) {
         if (!player.shouldBePlaying) {
             broadCastPendingIntent<NotificationDismissReceiver>().send()
         }
         super.onTaskRemoved(rootIntent)
     }
+*/
+override fun onTaskRemoved(rootIntent: Intent?) {
+    //Log.d("onTaskRemoved","onTaskRemoved called")
+    super.onTaskRemoved(rootIntent)
+    // if stop background player
+    //this.binder?.player?.stop()
+    //if close background player
+    super.stopSelf()
+}
+
+
 
     override fun onDestroy() {
         maybeSavePlayerQueue()

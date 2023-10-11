@@ -101,7 +101,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
 class MainActivity : ComponentActivity(), PersistMapOwner {
+
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             if (service is PlayerService.Binder) {
@@ -484,8 +486,10 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
                 (if (isDark) Color.Transparent else Color.Black.copy(alpha = 0.2f)).toArgb()
         }
     }
+
 }
 
 val LocalPlayerServiceBinder = staticCompositionLocalOf<PlayerService.Binder?> { null }
 
 val LocalPlayerAwareWindowInsets = staticCompositionLocalOf<WindowInsets> { TODO() }
+

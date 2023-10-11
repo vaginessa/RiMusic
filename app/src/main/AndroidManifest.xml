@@ -103,7 +103,10 @@
         <service
             android:name=".service.PlayerService"
             android:exported="false"
-            android:foregroundServiceType="mediaPlayback">
+            android:foregroundServiceType="mediaPlayback"
+            android:enabled="true"
+            android:stopWithTask="false"
+            >
         </service>
 
         <service android:name=".service.PlayerMediaBrowserService"
