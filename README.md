@@ -11,6 +11,7 @@
 - Cache songs offline playback
 - Background playback
 - Background playback stop while app swipe out from task manager
+- Minimized player optimized
 - Share Menu support for YouTube/YouTube Music links  
 - Search for songs, albums, artists and playlists
 - Bookmark artists and albums
