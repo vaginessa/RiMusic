@@ -6,23 +6,25 @@
 
 ---
 ## Features
-- Play song (or video under development) from YouTube Music
+- **Multilingual support**, English, Italian, German, Russian, French and Spanish contribute for other language are welcome
+- Play song from YouTube Music 
+- Cache songs offline playback
 - Background playback
-- Cache audio chunks for offline playback
-- Search for songs, albums, artists videos and playlists
+- Background playback stop while app swipe out from task manager
+- Share Menu support for YouTube/YouTube Music links  
+- Search for songs, albums, artists and playlists
 - Bookmark artists and albums
 - Import playlists
-- Fetch, display and edit songs lyrics or synchronized lyrics
 - Local playlist management
 - Reorder songs in playlist or queue
-- Light/Dark/Dynamic theme
-- Skip silence
+- Clear queue
+- Fetch, display and edit songs lyrics or synchronized lyrics
+- Light/Dark/Dynamic themes
 - Sleep timer
 - Audio normalization
-- Android Auto
+- Audio Skip silence
+- Android Auto support
 - Persistent queue
-- Open YouTube/YouTube Music links (`watch`, `playlist`, `channel`)
-- **Multilingual support**, English, Italian, German, Russian, French and Spanish contribute for other language are welcome 
 - ...
 ## Screenshot
 <h4>Sample screenshot in English language</h4>
@@ -74,7 +76,7 @@ You can dowload it from [**releases page**](https://github.com/fast4x/RiMusic/re
 
 ## Contribute
 ##### Pull Requests are welcome
-- **Clone**, if you want to develop new functions, or fix any bug, finally send your Pull Request.
+- **Clone**, if you want to develop new functions, fix bug or translation improvement, finally send your Pull Request.
 - **Translate**, if you want to translate into your language or improve the languages already provided, finally send your Pull Request.
 
 ## Acknowledgments
