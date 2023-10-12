@@ -414,7 +414,7 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
-
+/*
                val action = intent.action
                val type = intent.type
                val data = intent.data
@@ -423,7 +423,7 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
                if ("android.intent.action.SEND" == action && type != null && "text/plain" == type) {
                    Log.d("ShareActionTextExtra", intent.getStringExtra("android.intent.extra.TEXT")!!)
                }
-
+*/
 
         val uri = intent.getStringExtra("android.intent.extra.TEXT")?.toUri() ?: return
 

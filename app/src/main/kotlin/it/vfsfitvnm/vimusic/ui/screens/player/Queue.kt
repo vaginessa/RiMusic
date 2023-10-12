@@ -16,6 +16,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -51,6 +53,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
@@ -68,6 +72,7 @@ import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.MusicBars
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
+import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.QueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.items.SongItem
@@ -88,7 +93,7 @@ import it.vfsfitvnm.vimusic.utils.shuffleQueue
 import it.vfsfitvnm.vimusic.utils.smoothScrollToTop
 import it.vfsfitvnm.vimusic.utils.windows
 import kotlinx.coroutines.launch
-
+import it.vfsfitvnm.vimusic.ui.components.themed.Header
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
@@ -104,8 +109,6 @@ fun Queue(
 
     val horizontalBottomPaddingValues = windowInsets
         .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom).asPaddingValues()
-
-    //val onGoToHome = quickpicksRoute::global
 
     BottomSheet(
         state = layoutState,
@@ -189,12 +192,14 @@ fun Queue(
 
         val musicBarsTransition = updateTransition(targetState = mediaItemIndex, label = "")
 
+
         Column {
             Box(
                 modifier = Modifier
                     .background(colorPalette.background1)
                     .weight(1f)
             ) {
+
                 ReorderingLazyColumn(
                     reorderingState = reorderingState,
                     contentPadding = windowInsets

@@ -149,4 +149,10 @@
     <string name="opening_url">is loading...</string>
     <string name="an_error_has_occurred_while_fetching_the_lyrics">An error has occurred while fetching the lyrics</string>
     <string name="are_not_available_for_this_song">are not available for this song</string>
+    <string name="error_a_network_error_has_occurred">A network error has occurred</string>
+    <string name="error_couldn_t_find_a_playable_audio_format">Couldn\'t find a playable audio format</string>
+    <string name="error_the_original_video_source_of_this_song_has_been_deleted">The original video source of this song has been deleted</string>
+    <string name="error_this_song_cannot_be_played_due_to_server_restrictions">This song cannot be played due to server restrictions</string>
+    <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">The returned video id doesn\'t match the requested one</string>
+    <string name="error_an_unknown_playback_error_has_occurred">An unknown playback error has occurred</string>
 </resources>

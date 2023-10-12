@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
@@ -32,6 +33,7 @@ import androidx.media3.common.Player
 import coil.compose.AsyncImage
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
+import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.service.LoginRequiredException
 import it.vfsfitvnm.vimusic.service.PlayableFormatNotFoundException
 import it.vfsfitvnm.vimusic.service.UnplayableException
@@ -68,6 +70,18 @@ fun Thumbnail(
     var error by remember {
         mutableStateOf<PlaybackException?>(player.playerError)
     }
+
+    val networkerror = stringResource(R.string.error_a_network_error_has_occurred)
+    val notfindplayableaudioformaterror =
+        stringResource(R.string.error_couldn_t_find_a_playable_audio_format)
+    val originalvideodeletederror =
+        stringResource(R.string.error_the_original_video_source_of_this_song_has_been_deleted)
+    val songnotplayabledueserverrestrictionerror =
+        stringResource(R.string.error_this_song_cannot_be_played_due_to_server_restrictions)
+    val videoidmismatcherror =
+        stringResource(R.string.error_the_returned_video_id_doesn_t_match_the_requested_one)
+    val unknownplaybackerror = stringResource(R.string.error_an_unknown_playback_error_has_occurred)
+
 
     player.DisposableListener {
         object : Player.Listener {
@@ -158,12 +172,22 @@ fun Thumbnail(
                 isDisplayed = error != null,
                 messageProvider = {
                     when (error?.cause?.cause) {
+                        is UnresolvedAddressException, is UnknownHostException -> networkerror
+                        is PlayableFormatNotFoundException -> notfindplayableaudioformaterror
+                        is UnplayableException -> originalvideodeletederror
+                        is LoginRequiredException -> songnotplayabledueserverrestrictionerror
+                        is VideoIdMismatchException -> videoidmismatcherror
+
+                        /*
                         is UnresolvedAddressException, is UnknownHostException -> "A network error has occurred"
                         is PlayableFormatNotFoundException -> "Couldn't find a playable audio format"
                         is UnplayableException -> "The original video source of this song has been deleted"
                         is LoginRequiredException -> "This song cannot be played due to server restrictions"
                         is VideoIdMismatchException -> "The returned video id doesn't match the requested one"
                         else -> "An unknown playback error has occurred"
+                        */
+
+                        else -> unknownplaybackerror
                     }
                 },
                 onDismiss = player::prepare
