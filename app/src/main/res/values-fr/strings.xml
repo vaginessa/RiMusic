@@ -144,4 +144,9 @@
     <string name="reset_cache_location_folder">RÉINITIALISER CACHE</string>
     <string name="used">" utilisé"</string>
     <string name="now_playing">Now playing...</string>
+    <string name="close_background_player">Close background player</string>
+    <string name="when_app_swipe_out_from_task_manager">When app swipe out from task manager</string>
+    <string name="opening_url">is loading...</string>
+    <string name="an_error_has_occurred_while_fetching_the_lyrics">An error has occurred while fetching the lyrics</string>
+    <string name="are_not_available_for_this_song">are not available for this song</string>
 </resources>

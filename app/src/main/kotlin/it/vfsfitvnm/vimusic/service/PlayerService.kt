@@ -88,6 +88,7 @@ import it.vfsfitvnm.vimusic.utils.TimerJob
 import it.vfsfitvnm.vimusic.utils.YouTubeRadio
 import it.vfsfitvnm.vimusic.utils.activityPendingIntent
 import it.vfsfitvnm.vimusic.utils.broadCastPendingIntent
+import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerAlternateCacheLocationKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.findNextMediaItemById
@@ -159,6 +160,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
     private var volumeNormalizationJob: Job? = null
 
     private var isPersistentQueueEnabled = false
+    private var isclosebackgroundPlayerEnabled = false
     private var isShowingThumbnailInLockscreen = true
     override var isInvincibilityEnabled = false
 
@@ -203,7 +205,6 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         isInvincibilityEnabled = preferences.getBoolean(isInvincibilityEnabledKey, false)
         isShowingThumbnailInLockscreen =
             preferences.getBoolean(isShowingThumbnailInLockscreenKey, false)
-
 
         val cacheEvictor = when (val size =
             preferences.getEnum(exoPlayerDiskCacheMaxSizeKey, ExoPlayerDiskCacheMaxSize.`2GB`)) {
@@ -307,16 +308,11 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         super.onTaskRemoved(rootIntent)
     }
 */
-override fun onTaskRemoved(rootIntent: Intent?) {
-    //Log.d("onTaskRemoved","onTaskRemoved called")
-    super.onTaskRemoved(rootIntent)
-    // if stop background player
-    //this.binder?.player?.stop()
-    //if close background player
-    super.stopSelf()
-}
-
-
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        isclosebackgroundPlayerEnabled = preferences.getBoolean(closebackgroundPlayerKey, false)
+        super.onTaskRemoved(rootIntent)
+        if (isclosebackgroundPlayerEnabled == true) super.stopSelf()
+    }
 
     override fun onDestroy() {
         maybeSavePlayerQueue()

@@ -219,7 +219,8 @@ fun Lyrics(
                     .align(Alignment.TopCenter)
             ) {
                 BasicText(
-                    text = "An error has occurred while fetching the ${if (isShowingSynchronizedLyrics) "synchronized " else ""}lyrics",
+                    //text = "An error has occurred while fetching the ${if (isShowingSynchronizedLyrics) "synchronized " else ""}lyrics",
+                    text = stringResource( R.string.an_error_has_occurred_while_fetching_the_lyrics ),
                     style = typography.xs.center.medium.color(PureBlackColorPalette.text),
                     modifier = Modifier
                         .background(Color.Black.copy(0.4f))
@@ -236,7 +237,10 @@ fun Lyrics(
                     .align(Alignment.TopCenter)
             ) {
                 BasicText(
-                    text = "${if (isShowingSynchronizedLyrics) "Synchronized l" else "L"}yrics are not available for this song",
+                    //text = "${if (isShowingSynchronizedLyrics) "Synchronized l" else "L"}yrics are not available for this song",
+                    text = "${if (isShowingSynchronizedLyrics) stringResource(id = R.string.synchronized_lyrics) else stringResource(id = R.string.unsynchronized_lyrics)} " +
+                            " ${stringResource(R.string.are_not_available_for_this_song)}",
+                    //text = stringResource(R.string.are_not_available_for_this_song)
                     style = typography.xs.center.medium.color(PureBlackColorPalette.text),
                     modifier = Modifier
                         .background(Color.Black.copy(0.4f))

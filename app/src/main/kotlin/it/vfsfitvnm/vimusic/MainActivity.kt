@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -52,6 +53,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.coerceIn
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
@@ -409,15 +411,23 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
         onNewIntent(intent)
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
-        val uri = intent?.data ?: return
 
-        intent.data = null
-        this.intent = null
+               val action = intent.action
+               val type = intent.type
+               val data = intent.data
 
-        Toast.makeText(this, "Opening url...", Toast.LENGTH_SHORT).show()
+               Log.d("ShareActionInfo","Share action received action / type / data ${action} / ${type} / ${data}")
+               if ("android.intent.action.SEND" == action && type != null && "text/plain" == type) {
+                   Log.d("ShareActionTextExtra", intent.getStringExtra("android.intent.extra.TEXT")!!)
+               }
+
+
+        val uri = intent.getStringExtra("android.intent.extra.TEXT")?.toUri() ?: return
+
+        Toast.makeText(this, "${"RiMusic "}${getString(R.string.opening_url)}", Toast.LENGTH_LONG).show()
 
         lifecycleScope.launch(Dispatchers.IO) {
             when (val path = uri.pathSegments.firstOrNull()) {

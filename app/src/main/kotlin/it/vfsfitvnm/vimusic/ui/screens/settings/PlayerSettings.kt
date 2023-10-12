@@ -26,6 +26,7 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -42,6 +43,7 @@ fun PlayerSettings() {
     val binder = LocalPlayerServiceBinder.current
 
     var persistentQueue by rememberPreference(persistentQueueKey, false)
+    var closebackgroundPlayer by rememberPreference(closebackgroundPlayerKey, false)
     var resumePlaybackWhenDeviceConnected by rememberPreference(
         resumePlaybackWhenDeviceConnectedKey,
         false
@@ -76,6 +78,7 @@ fun PlayerSettings() {
             }
         )
 
+
         if (isAtLeastAndroid6) {
             SwitchSettingEntry(
                 title = stringResource(R.string.resume_playback),
@@ -86,6 +89,15 @@ fun PlayerSettings() {
                 }
             )
         }
+
+        SwitchSettingEntry(
+            title = stringResource(R.string.close_background_player),
+            text = stringResource(R.string.when_app_swipe_out_from_task_manager),
+            isChecked = closebackgroundPlayer,
+            onCheckedChange = {
+                closebackgroundPlayer = it
+            }
+        )
 
         SettingsGroupSpacer()
 
