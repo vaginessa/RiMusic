@@ -99,6 +99,7 @@ fun Controls(
     var nextmediaItemIndex = binder.player.nextMediaItemIndex ?: -1
     var nextmediaItemtitle = ""
 
+
     if (nextmediaItemIndex.toShort() > -1)
         nextmediaItemtitle = binder.player.getMediaItemAt(nextmediaItemIndex).mediaMetadata.title.toString()
 
@@ -120,7 +121,7 @@ fun Controls(
         horizontalAlignment = Alignment.Start,
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 32.dp)
+            .padding(horizontal = 10.dp)
     ) {
 /*
         Spacer(
@@ -190,7 +191,7 @@ fun Controls(
 
         Spacer(
             modifier = Modifier
-                .weight(0.4f)
+                .height(10.dp)
         )
 
         Row(
@@ -225,7 +226,7 @@ fun Controls(
 
         Spacer(
             modifier = Modifier
-                .weight(1f)
+                .height(15.dp)
         )
 
         Row(
@@ -270,7 +271,7 @@ fun Controls(
 
         Spacer(
             modifier = Modifier
-                .weight(2f)
+                .height(40.dp)
         )
 
 

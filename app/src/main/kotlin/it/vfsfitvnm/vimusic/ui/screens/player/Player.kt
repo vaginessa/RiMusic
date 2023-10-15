@@ -410,12 +410,12 @@ fun Player(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .weight(0.66f)
-                        .padding(bottom = 16.dp)
+                        .padding(bottom = 10.dp)
                 ) {
 
                     thumbnailContent(
                         modifier = Modifier
-                            .padding(horizontal = 16.dp)
+                            .padding(horizontal = 10.dp)
                     )
                 }
 
@@ -453,7 +453,7 @@ fun Player(
                 ) {
                     thumbnailContent(
                         modifier = Modifier
-                            .padding(horizontal = 32.dp, vertical = 8.dp)
+                            .padding(horizontal = 10.dp, vertical = 8.dp)
                     )
                 }
 
