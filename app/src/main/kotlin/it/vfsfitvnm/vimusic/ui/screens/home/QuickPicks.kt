@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,6 +40,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.size.Dimension
 import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
@@ -53,6 +55,7 @@ import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
+import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
@@ -72,6 +75,7 @@ import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.isLandscape
+import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -96,9 +100,9 @@ fun QuickPicks(
 
     LaunchedEffect(Unit) {
         Database.trending().distinctUntilChanged().collect { song ->
-            if ((song == null && relatedPageResult == null) || trending?.id != song?.id) {
+           if ((song == null && relatedPageResult == null) || trending?.id != song?.id) {
                 relatedPageResult =
-                    Innertube.relatedPage(NextBody(videoId = (song?.id ?: "J7p4bzqLvCw")))
+                    Innertube.relatedPage(NextBody(videoId = (song?.id ?: "HZnNt9nnEhw")))
             }
             trending = song
         }
@@ -152,10 +156,16 @@ fun QuickPicks(
                         .asPaddingValues()
                 )
         ) {
-            Header(
-                title = stringResource(R.string.quick_picks),
-                modifier = Modifier
-                    .padding(endPaddingValues)
+
+
+            HalfHeader(
+                title = stringResource(R.string.quick_picks)
+            )
+
+            BasicText(
+                text = stringResource(R.string.tips),
+                style = typography.m.semiBold,
+                modifier = sectionTextModifier
             )
 
             relatedPageResult?.getOrNull()?.let { related ->

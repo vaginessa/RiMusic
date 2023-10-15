@@ -37,6 +37,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.C
+import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
@@ -47,12 +48,14 @@ import it.vfsfitvnm.vimusic.ui.components.SeekBar
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
+import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
+import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -91,6 +94,11 @@ fun Controls(
     var likedAt by rememberSaveable {
         mutableStateOf<Long?>(null)
     }
+
+    var mediaItemIndex = binder.player.currentMediaItemIndex
+    var nextmediaItemIndex = binder.player.nextMediaItemIndex
+    var nextmediaItem = binder.player.getMediaItemAt(nextmediaItemIndex).mediaId
+    var nextmediaItemtitle = binder.player.getMediaItemAt(nextmediaItemIndex).mediaMetadata.title
 
     LaunchedEffect(mediaId) {
         Database.likedAt(mediaId).distinctUntilChanged().collect { likedAt = it }
@@ -147,11 +155,12 @@ fun Controls(
                 .weight(0.4f)
         )
 */
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            IconButton(
+           IconButton(
                 icon = R.drawable.disc,
                 color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
                 enabled = if (albumId == null) false else true,
@@ -159,7 +168,7 @@ fun Controls(
                         onGoToAlbum(albumId)
                 },
                 modifier = Modifier
-                    .size(24.dp)
+                    .size(20.dp)
             )
 
             Spacer(
@@ -169,7 +178,7 @@ fun Controls(
 
             BasicText(
                 text = AnnotatedString(title ?: ""),
-                style = typography.l.semiBold,
+                style = typography.m.medium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -193,7 +202,7 @@ fun Controls(
                         onGoToArtist(artistIds?.get(0).toString())
                 },
                 modifier = Modifier
-                    .size(24.dp)
+                    .size(20.dp)
             )
 
             Spacer(
@@ -203,7 +212,52 @@ fun Controls(
 
             BasicText(
                 text = AnnotatedString(artist ?: ""),
-                style = typography.l.secondary,
+                style = typography.m.medium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+
+            )
+
+        }
+
+        Spacer(
+            modifier = Modifier
+                .weight(1f)
+        )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            IconButton(
+                icon = R.drawable.playlist,
+                color = colorPalette.text,
+                enabled = false,
+                onClick = {
+                    //if add future action
+                },
+                modifier = Modifier
+                    .size(18.dp)
+            )
+            IconButton(
+                icon = R.drawable.chevron_forward,
+                color = colorPalette.text,
+                enabled = false,
+                onClick = {
+                    //if add future action
+                },
+                modifier = Modifier
+                    .size(18.dp)
+            )
+
+            Spacer(
+                modifier = Modifier
+                    .width(8.dp)
+            )
+
+            BasicText(
+                text = AnnotatedString(nextmediaItemtitle.toString() ?: ""),
+                style = typography.s.bold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
 
@@ -215,6 +269,7 @@ fun Controls(
             modifier = Modifier
                 .weight(2f)
         )
+
 
         SeekBar(
             value = scrubbingPosition ?: position,

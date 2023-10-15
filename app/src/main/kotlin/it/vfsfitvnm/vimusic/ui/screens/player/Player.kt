@@ -6,8 +6,10 @@ import android.media.audiofx.AudioEffect
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -80,6 +83,7 @@ import it.vfsfitvnm.vimusic.utils.shouldBePlaying
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.enums.DragAnchors
+import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.medium
@@ -180,12 +184,15 @@ fun Player(
         )
     }
 
+
+
     LaunchedEffect(mediaItem.mediaId) {
         withContext(Dispatchers.IO) {
             //if (albumInfo == null)
                 albumInfo = Database.songAlbumInfo(mediaItem.mediaId)
             //if (artistsInfo == null)
                 artistsInfo = Database.songArtistInfo(mediaItem.mediaId)
+
         }
     }
 
@@ -196,6 +203,7 @@ fun Player(
 
     var albumId   = albumInfo?.id
     if (albumId == null) albumId = ExistAlbumIdExtras
+    var albumTitle = albumInfo?.name
 
     var artistIds = arrayListOf<String>()
     artistsInfo?.forEach { (id) -> artistIds = arrayListOf(id) }
@@ -374,6 +382,7 @@ fun Player(
                 onShowStatsForNerds = { isShowingStatsForNerds = it },
                 modifier = modifier
                     .nestedScroll(layoutState.preUpPostDownNestedScrollConnection)
+                    .border(BorderStroke(1.dp, colorPalette.textDisabled))
             )
         }
 
@@ -423,6 +432,10 @@ fun Player(
                 modifier = containerModifier
                    // .padding(top = 54.dp)
             ) {
+                HalfHeader(
+                    title = stringResource(R.string.now_playing)
+                )
+/*
                 BasicText(
                     text = stringResource(R.string.now_playing),
                     style = typography.l.medium,
@@ -431,6 +444,8 @@ fun Player(
                     modifier = modifier
                         .padding(vertical = 15.dp)
                 )
+
+ */
                 Box(
                     contentAlignment = Alignment.Center,
                     //modifier = Modifier

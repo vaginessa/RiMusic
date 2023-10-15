@@ -14,11 +14,14 @@ import it.vfsfitvnm.innertube.utils.findSectionByTitle
 import it.vfsfitvnm.innertube.utils.from
 import it.vfsfitvnm.innertube.utils.runCatchingNonCancellable
 
+
 suspend fun Innertube.relatedPage(body: NextBody) = runCatchingNonCancellable {
     val nextResponse = client.post(next) {
         setBody(body)
         mask("contents.singleColumnMusicWatchNextResultsRenderer.tabbedRenderer.watchNextTabbedResultsRenderer.tabs.tabRenderer(endpoint,title)")
     }.body<NextResponse>()
+
+
 
     val browseId = nextResponse
         .contents
@@ -41,6 +44,8 @@ suspend fun Innertube.relatedPage(body: NextBody) = runCatchingNonCancellable {
     val sectionListRenderer = response
         .contents
         ?.sectionListRenderer
+
+
 
     Innertube.RelatedPage(
         songs = sectionListRenderer

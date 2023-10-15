@@ -98,3 +98,51 @@ fun HeaderPlaceholder(
         }
     }
 }
+
+@Composable
+fun HalfHeader(
+    title: String,
+    modifier: Modifier = Modifier,
+    actionsContent: @Composable RowScope.() -> Unit = {},
+) {
+    val typography = LocalAppearance.current.typography
+
+    HalfHeader(
+        modifier = modifier,
+        titleContent = {
+            BasicText(
+                text = title,
+                style = typography.l.medium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        actionsContent = actionsContent
+    )
+}
+
+@Composable
+fun HalfHeader(
+    modifier: Modifier = Modifier,
+    titleContent: @Composable () -> Unit,
+    actionsContent: @Composable RowScope.() -> Unit,
+) {
+    Box(
+        contentAlignment = Alignment.CenterEnd,
+        modifier = modifier
+            .padding(horizontal = 8.dp)
+            .height(Dimensions.halfheaderHeight)
+            .fillMaxWidth()
+    ) {
+        titleContent()
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .heightIn(min = 48.dp),
+            content = actionsContent,
+        )
+    }
+}

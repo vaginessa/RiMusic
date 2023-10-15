@@ -354,13 +354,16 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
 
         val totalPlayTimeMs = playbackStats.totalPlayTimeMs
 
+
+
         if (totalPlayTimeMs > 5000) {
             query {
                 Database.incrementTotalPlayTimeMs(mediaItem.mediaId, totalPlayTimeMs)
             }
+            //Log.d("MediaEvent", "incremented total play time")
         }
 
-        if (totalPlayTimeMs > 30000) {
+        if (totalPlayTimeMs > 10000) {
             query {
                 try {
                     Database.insert(
@@ -373,6 +376,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                 } catch (_: SQLException) {
                 }
             }
+
         }
     }
 
@@ -390,6 +394,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO || reason == Player.MEDIA_ITEM_TRANSITION_REASON_SEEK) {
             updateMediaSessionQueue(player.currentTimeline)
         }
+
     }
 
     override fun onTimelineChanged(timeline: Timeline, reason: Int) {

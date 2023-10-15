@@ -155,4 +155,5 @@
         <string name="error_this_song_cannot_be_played_due_to_server_restrictions">Dieses Lied kann aufgrund von Serverbeschränkungen nicht abgespielt werden</string>
         <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">Die zurückgegebene Video-ID stimmt nicht mit der angeforderten überein</string>
         <string name="error_an_unknown_playback_error_has_occurred">Es ist ein unbekannter Wiedergabefehler aufgetreten</string>
+    <string name="tips">Tips</string>
 </resources>

@@ -155,4 +155,5 @@
     <string name="error_this_song_cannot_be_played_due_to_server_restrictions">This song cannot be played due to server restrictions</string>
     <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">The returned video id doesn\'t match the requested one</string>
     <string name="error_an_unknown_playback_error_has_occurred">An unknown playback error has occurred</string>
+    <string name="tips">Suggerimenti</string>
 </resources>
