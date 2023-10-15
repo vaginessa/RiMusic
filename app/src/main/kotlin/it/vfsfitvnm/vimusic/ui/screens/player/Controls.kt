@@ -95,10 +95,13 @@ fun Controls(
         mutableStateOf<Long?>(null)
     }
 
-    var mediaItemIndex = binder.player.currentMediaItemIndex
-    var nextmediaItemIndex = binder.player.nextMediaItemIndex
-    var nextmediaItem = binder.player.getMediaItemAt(nextmediaItemIndex).mediaId
-    var nextmediaItemtitle = binder.player.getMediaItemAt(nextmediaItemIndex).mediaMetadata.title
+
+    var nextmediaItemIndex = binder.player.nextMediaItemIndex ?: -1
+    var nextmediaItemtitle = ""
+
+    if (nextmediaItemIndex.toShort() > -1)
+        nextmediaItemtitle = binder.player.getMediaItemAt(nextmediaItemIndex).mediaMetadata.title.toString()
+
 
     LaunchedEffect(mediaId) {
         Database.likedAt(mediaId).distinctUntilChanged().collect { likedAt = it }
