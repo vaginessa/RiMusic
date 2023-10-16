@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
@@ -54,6 +55,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.coerceIn
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
@@ -129,6 +131,7 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
 
     @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
 
         @Suppress("DEPRECATION", "UNCHECKED_CAST")
@@ -343,6 +346,8 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
                     }
                 }
 
+
+                
                 CompositionLocalProvider(
                     LocalAppearance provides appearance,
                     LocalIndication provides rememberRipple(bounded = true),

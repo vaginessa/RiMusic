@@ -97,6 +97,9 @@ dependencies {
 
     implementation(projects.innertube)
     implementation(projects.kugou)
+
+    implementation("androidx.core:core-splashscreen:1.0.0-beta02")
+
     //implementation("androidx.compose.foundation:foundation:1.6.0-alpha01")
 
     coreLibraryDesugaring(libs.desugaring)

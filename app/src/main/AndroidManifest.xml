@@ -40,7 +40,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.ViMusic.NoActionBar"
+            android:theme="@style/Theme.App.Starting"
             android:windowSoftInputMode="adjustResize"
         >
 
