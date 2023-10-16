@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -123,42 +124,13 @@ fun Controls(
             .fillMaxWidth()
             .padding(horizontal = 10.dp)
     ) {
-/*
-        Spacer(
-            modifier = Modifier
-                .weight(1f)
-        )
 
         BasicText(
-            text = "Title: " + title ?: "",
-            style = typography.l.bold,
+            text = stringResource(R.string.now_playing),
+            style = typography.xxs.secondary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-
-         Spacer(
-             modifier = Modifier
-                 .weight(0.4f)
-         )
-
-        ClickableText(
-            text = AnnotatedString(artist ?: ""),
-            style = typography.l.secondary,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            onClick = {
-                if (artistIds?.size==1)
-                    //Log.d("ClickArtist","id Artist ${artistIds[0].toString()}")
-                    onGoToArtist(artistIds?.get(0).toString())
-                //else Log.d("ClickArtist","More than 1 artist")
-            }
-        )
-
-        Spacer(
-            modifier = Modifier
-                .weight(0.4f)
-        )
-*/
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -172,7 +144,7 @@ fun Controls(
                         onGoToAlbum(albumId)
                 },
                 modifier = Modifier
-                    .size(20.dp)
+                    .size(24.dp)
             )
 
             Spacer(
@@ -206,7 +178,7 @@ fun Controls(
                         onGoToArtist(artistIds?.get(0).toString())
                 },
                 modifier = Modifier
-                    .size(20.dp)
+                    .size(24.dp)
             )
 
             Spacer(
@@ -233,6 +205,18 @@ fun Controls(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
+            BasicText(
+                text = stringResource(R.string.next_playing),
+                style = typography.xxs.secondary,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
             IconButton(
                 icon = R.drawable.playlist,
                 color = colorPalette.text,
@@ -241,7 +225,7 @@ fun Controls(
                     //if add future action
                 },
                 modifier = Modifier
-                    .size(18.dp)
+                    .size(14.dp)
             )
             IconButton(
                 icon = R.drawable.chevron_forward,
@@ -251,7 +235,7 @@ fun Controls(
                     //if add future action
                 },
                 modifier = Modifier
-                    .size(18.dp)
+                    .size(14.dp)
             )
 
             Spacer(
@@ -261,7 +245,7 @@ fun Controls(
 
             BasicText(
                 text = AnnotatedString(nextmediaItemtitle.toString() ?: ""),
-                style = typography.s.bold,
+                style = typography.xs.secondary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
 
@@ -271,7 +255,7 @@ fun Controls(
 
         Spacer(
             modifier = Modifier
-                .height(40.dp)
+                .height(30.dp)
         )
 
 

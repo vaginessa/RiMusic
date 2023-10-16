@@ -42,6 +42,7 @@ import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
+import androidx.media3.common.PlaybackParameters
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import androidx.media3.common.util.Log
@@ -338,6 +339,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         return !player.shouldBePlaying
     }
 
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         if (bitmapProvider.setDefaultBitmap() && player.currentMediaItem != null) {
             notificationManager?.notify(NotificationId, notification())
@@ -604,6 +606,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         )
     }
 
+
     private val Player.androidPlaybackState: Int
         get() = when (playbackState) {
             Player.STATE_BUFFERING -> if (playWhenReady) PlaybackState.STATE_BUFFERING else PlaybackState.STATE_PAUSED
@@ -665,6 +668,14 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                 notificationManager?.notify(NotificationId, notification)
             }
         }
+    }
+
+    override fun onIsPlayingChanged(isPlaying: Boolean) {
+        super.onIsPlayingChanged(isPlaying)
+        //val totalPlayTimeMs = player.totalBufferedDuration.toString()
+        //Log.d("mediaEvent","isPlaying "+isPlaying.toString() + " buffered duration "+totalPlayTimeMs)
+        // TODO future implementation
+
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {

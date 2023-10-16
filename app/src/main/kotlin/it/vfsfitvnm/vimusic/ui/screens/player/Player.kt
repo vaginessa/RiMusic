@@ -432,20 +432,7 @@ fun Player(
                 modifier = containerModifier
                    // .padding(top = 54.dp)
             ) {
-                HalfHeader(
-                    title = stringResource(R.string.now_playing)
-                )
-/*
-                BasicText(
-                    text = stringResource(R.string.now_playing),
-                    style = typography.l.medium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = modifier
-                        .padding(vertical = 15.dp)
-                )
 
- */
                 Box(
                     contentAlignment = Alignment.Center,
                     //modifier = Modifier
