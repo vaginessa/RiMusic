@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.components.themed
 
+import android.content.Context
 import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
@@ -44,7 +45,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
-import androidx.media3.common.util.Log
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
@@ -66,6 +66,7 @@ import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.addNext
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.download
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
@@ -75,6 +76,8 @@ import it.vfsfitvnm.vimusic.utils.thumbnail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
+
+
 
 @ExperimentalAnimationApi
 @Composable
@@ -161,6 +164,7 @@ fun NonQueuedMediaItemMenu(
         },
         onPlayNext = { binder?.player?.addNext(mediaItem) },
         onEnqueue = { binder?.player?.enqueue(mediaItem) },
+        onDownload = { binder?.player?.download(mediaItem) },
         onRemoveFromPlaylist = onRemoveFromPlaylist,
         onHideFromDatabase = onHideFromDatabase,
         onRemoveFromQuickPicks = onRemoveFromQuickPicks,
@@ -199,6 +203,7 @@ fun BaseMediaItemMenu(
     onStartRadio: (() -> Unit)? = null,
     onPlayNext: (() -> Unit)? = null,
     onEnqueue: (() -> Unit)? = null,
+    onDownload: (() -> Unit)? = null,
     onRemoveFromQueue: (() -> Unit)? = null,
     onRemoveFromPlaylist: (() -> Unit)? = null,
     onHideFromDatabase: (() -> Unit)? = null,
@@ -214,6 +219,7 @@ fun BaseMediaItemMenu(
         onStartRadio = onStartRadio,
         onPlayNext = onPlayNext,
         onEnqueue = onEnqueue,
+        onDownload = onDownload,
         onAddToPlaylist = { playlist, position ->
             transaction {
                 Database.insert(mediaItem)
@@ -259,6 +265,7 @@ fun MediaItemMenu(
     onStartRadio: (() -> Unit)? = null,
     onPlayNext: (() -> Unit)? = null,
     onEnqueue: (() -> Unit)? = null,
+    onDownload: (() -> Unit)? = null,
     onHideFromDatabase: (() -> Unit)? = null,
     onRemoveFromQueue: (() -> Unit)? = null,
     onRemoveFromPlaylist: (() -> Unit)? = null,
@@ -491,6 +498,17 @@ fun MediaItemMenu(
                         onClick = {
                             onDismiss()
                             onEnqueue()
+                        }
+                    )
+                }
+
+                onDownload?.let { onDownload ->
+                    MenuEntry(
+                        icon = R.drawable.download,
+                        text = "Download",
+                        onClick = {
+                            onDismiss()
+                            onDownload()
                         }
                     )
                 }

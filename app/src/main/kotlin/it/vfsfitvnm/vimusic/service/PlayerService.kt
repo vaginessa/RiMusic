@@ -125,6 +125,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.runBlocking
 import java.io.File
+import java.util.concurrent.Executor
 
 @Suppress("DEPRECATION")
 class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListener.Callback,
@@ -132,6 +133,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
     private lateinit var mediaSession: MediaSession
     private lateinit var cache: SimpleCache
     private lateinit var player: ExoPlayer
+    private lateinit var download: LocalDownloadService
 
     private val stateBuilder = PlaybackState.Builder()
         .setActions(
@@ -1064,4 +1066,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         const val SleepTimerNotificationId = 1002
         const val SleepTimerNotificationChannelId = "sleep_timer_channel_id"
     }
+
+
+
 }

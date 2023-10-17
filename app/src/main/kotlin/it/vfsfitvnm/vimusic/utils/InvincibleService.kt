@@ -18,6 +18,7 @@ import android.os.Looper
 // 3 - Lower the targetSdk (e.g. to 23) - security concerns;
 // 4 - Host the service in a separate process - overkill and pathetic.
 abstract class InvincibleService : Service() {
+
     protected val handler = Handler(Looper.getMainLooper())
 
     protected abstract val isInvincibilityEnabled: Boolean

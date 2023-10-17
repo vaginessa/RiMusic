@@ -1,9 +1,21 @@
 package it.vfsfitvnm.vimusic.utils
 
+import android.content.Context
+import android.media.session.MediaSession
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.net.toUri
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
+import androidx.media3.common.util.Log
+import androidx.media3.exoplayer.offline.DownloadRequest
+import androidx.media3.exoplayer.offline.DownloadService
+import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
+import it.vfsfitvnm.vimusic.service.LocalDownloadService
 
 val Player.currentWindow: Timeline.Window?
     get() = if (mediaItemCount == 0) null else currentTimeline.getWindow(currentMediaItemIndex, Timeline.Window())
@@ -71,6 +83,28 @@ fun Player.addNext(mediaItem: MediaItem) {
     } else {
         addMediaItem(currentMediaItemIndex + 1, mediaItem)
     }
+}
+
+fun Player.download(mediaItem: MediaItem) {
+   // if (playbackState == Player.STATE_IDLE || playbackState == Player.STATE_ENDED) {
+        //forcePlay(mediaItem)
+   // } else {
+        //addMediaItem(mediaItemCount, mediaItem)
+
+
+        //val downloadRequest = DownloadRequest.Builder(mediaItem.mediaId, "https://www.youtube.com/watch?v=sSDHIwAwnqU".toUri()).build()
+
+/*
+        DownloadService.sendAddDownload(
+            context,
+            LocalDownloadService::class.java,
+            downloadRequest,
+            /* foreground= */ false
+        )
+*/
+        Log.d("mediaEvent","requestUri https://www.youtube.com/watch?v="+mediaItem.mediaId)
+
+//    }
 }
 
 fun Player.enqueue(mediaItem: MediaItem) {
