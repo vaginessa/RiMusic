@@ -58,7 +58,7 @@ val DefaultDarkColorPalette = ColorPalette(
     textSecondary = Color(0xffa3a4a6),
     textDisabled = Color(0xff6f6f73),
     //accent = Color(0xff5055c0),
-    accent = Color(0xff2c6e49),
+    accent = Color(0xFF2c6e49),
     onAccent = Color.White,
     isDark = true
 )
