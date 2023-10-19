@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.compose.persist.persistList
@@ -44,6 +45,7 @@ import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
@@ -118,6 +120,11 @@ fun HomePlaylists(
         ) {
             item(key = "header", contentType = 0, span = { GridItemSpan(maxLineSpan) }) {
                 Header(title = stringResource(R.string.playlists)) {
+                    HeaderInfo(
+                        title = "${items.size}",
+                        icon = painterResource(R.drawable.playlist),
+                        spacer = 0
+                    )
                     SecondaryTextButton(
                         text = stringResource(R.string.new_playlist),
                         onClick = { isCreatingANewPlaylist = true }

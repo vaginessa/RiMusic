@@ -1,6 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.components.themed
 
-import android.content.Context
+
 import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
@@ -66,7 +66,6 @@ import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.addNext
 import it.vfsfitvnm.vimusic.utils.asMediaItem
-import it.vfsfitvnm.vimusic.utils.download
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
@@ -146,6 +145,7 @@ fun NonQueuedMediaItemMenu(
     onRemoveFromPlaylist: (() -> Unit)? = null,
     onHideFromDatabase: (() -> Unit)? = null,
     onRemoveFromQuickPicks: (() -> Unit)? = null,
+    onDownload: (() -> Unit)? = null,
 ) {
     val binder = LocalPlayerServiceBinder.current
 
@@ -164,7 +164,7 @@ fun NonQueuedMediaItemMenu(
         },
         onPlayNext = { binder?.player?.addNext(mediaItem) },
         onEnqueue = { binder?.player?.enqueue(mediaItem) },
-        onDownload = { binder?.player?.download(mediaItem) },
+        onDownload = onDownload,
         onRemoveFromPlaylist = onRemoveFromPlaylist,
         onHideFromDatabase = onHideFromDatabase,
         onRemoveFromQuickPicks = onRemoveFromQuickPicks,
@@ -176,6 +176,7 @@ fun NonQueuedMediaItemMenu(
 @Composable
 fun QueuedMediaItemMenu(
     onDismiss: () -> Unit,
+    onDownload: (() -> Unit)?,
     mediaItem: MediaItem,
     indexInQueue: Int?,
     modifier: Modifier = Modifier
@@ -185,6 +186,7 @@ fun QueuedMediaItemMenu(
     BaseMediaItemMenu(
         mediaItem = mediaItem,
         onDismiss = onDismiss,
+        onDownload = onDownload,
         onRemoveFromQueue = if (indexInQueue != null) ({
             binder?.player?.removeMediaItem(indexInQueue)
         }) else null,

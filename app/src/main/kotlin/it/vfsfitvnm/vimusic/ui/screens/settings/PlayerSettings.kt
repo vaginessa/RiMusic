@@ -24,9 +24,11 @@ import androidx.compose.ui.res.stringResource
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
+import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -51,6 +53,11 @@ fun PlayerSettings() {
     var skipSilence by rememberPreference(skipSilenceKey, false)
     var volumeNormalization by rememberPreference(volumeNormalizationKey, false)
 
+    var exoPlayerMinTimeForEvent by rememberPreference(
+        exoPlayerMinTimeForEventKey,
+        ExoPlayerMinTimeForEvent.`20s`
+    )
+
     val activityResultLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
 
@@ -65,9 +72,18 @@ fun PlayerSettings() {
                     .asPaddingValues()
             )
     ) {
-        Header(title = stringResource(R.string.player_audio))
+        Header(title = stringResource(R.string.player))
 
-        SettingsEntryGroupText(title = stringResource(R.string.player))
+        SettingsEntryGroupText(title = stringResource(R.string.quick_pics_and_tips))
+
+        SettingsDescription(text = stringResource(R.string.is_min_list_time_for_tips_or_quick_pics))
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.min_listening_time),
+            selectedValue = exoPlayerMinTimeForEvent,
+            onValueSelected = { exoPlayerMinTimeForEvent = it }
+        )
+
+        SettingsEntryGroupText(title = "PREFERENCES")
 
         SwitchSettingEntry(
             title = stringResource(R.string.persistent_queue),
@@ -99,9 +115,9 @@ fun PlayerSettings() {
             }
         )
 
-        SettingsGroupSpacer()
+        //SettingsGroupSpacer()
 
-        SettingsEntryGroupText(title = stringResource(R.string.audio))
+        //SettingsEntryGroupText(title = stringResource(R.string.audio))
 
         SwitchSettingEntry(
             title = stringResource(R.string.skip_silence),
@@ -138,5 +154,6 @@ fun PlayerSettings() {
                 }
             }
         )
+        SettingsGroupSpacer()
     }
 }

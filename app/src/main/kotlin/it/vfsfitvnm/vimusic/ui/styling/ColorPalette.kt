@@ -19,7 +19,8 @@ data class ColorPalette(
     val accent: Color,
     val onAccent: Color,
     val red: Color = Color(0xffbf4040),
-    val blue: Color = Color(0xff4472cf),
+    //val blue: Color = Color(0xff4472cf),
+    val blue: Color = Color(0xff2c6e49),
     val text: Color,
     val textSecondary: Color,
     val textDisabled: Color,
@@ -56,7 +57,8 @@ val DefaultDarkColorPalette = ColorPalette(
     text = Color(0xffe1e1e2),
     textSecondary = Color(0xffa3a4a6),
     textDisabled = Color(0xff6f6f73),
-    accent = Color(0xff5055c0),
+    //accent = Color(0xff5055c0),
+    accent = Color(0xff2c6e49),
     onAccent = Color.White,
     isDark = true
 )
@@ -68,7 +70,8 @@ val DefaultLightColorPalette = ColorPalette(
     text = Color(0xff212121),
     textSecondary = Color(0xff656566),
     textDisabled = Color(0xff9d9d9d),
-    accent = Color(0xff5055c0),
+    accent = Color(0xff2c6e49),
+    //accent = Color(0xff5055c0),
     onAccent = Color.White,
     isDark = false
 )

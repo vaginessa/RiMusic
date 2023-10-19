@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,10 +36,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.size.Dimension
+import androidx.core.net.toUri
+import androidx.media3.common.util.Log
+import androidx.media3.exoplayer.offline.Download
+import androidx.media3.exoplayer.offline.DownloadRequest
+import androidx.media3.exoplayer.offline.DownloadService
 import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
@@ -52,11 +56,11 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.service.LocalDownloadService
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
-import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
 import it.vfsfitvnm.vimusic.ui.items.AlbumItem
@@ -75,7 +79,6 @@ import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.isLandscape
-import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -126,6 +129,8 @@ fun QuickPicks(
         .padding(horizontal = 16.dp)
         .padding(top = 24.dp, bottom = 8.dp)
         .padding(endPaddingValues)
+
+    val context = LocalContext.current
 
     BoxWithConstraints {
         val quickPicksLazyGridItemWidthFactor = if (isLandscape && maxWidth * 0.475f >= 320.dp) {
@@ -204,6 +209,32 @@ fun QuickPicks(
                                                         query {
                                                             Database.clearEventsFor(song.id)
                                                         }
+                                                    },
+                                                    onDownload = {
+                                                        Log.d("downloadEvent","Download started from Quick Picks?")
+                                                        val contentUri = "https://www.youtube.com/watch?v=${song.asMediaItem.mediaId}".toUri()
+                                                        val downloadRequest = DownloadRequest.Builder(song.asMediaItem.mediaId, contentUri).build()
+
+                                                        DownloadService.sendAddDownload(
+                                                            context,
+                                                            LocalDownloadService::class.java,
+                                                            downloadRequest,
+                                                            /* foreground= */ false
+                                                        )
+
+                                                        DownloadService.sendSetStopReason(
+                                                            context,
+                                                            LocalDownloadService::class.java,
+                                                            song.asMediaItem.mediaId,
+                                                            Download.STOP_REASON_NONE,
+                                                            /* foreground= */ false
+                                                        )
+
+                                                        DownloadService.start(
+                                                            context,
+                                                            LocalDownloadService::class.java
+                                                        )
+
                                                     }
                                                 )
                                             }

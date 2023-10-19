@@ -16,7 +16,7 @@ import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.preferences
 import java.util.concurrent.Executor
 
-class LocalDownloadService: DownloadService(10) {
+class LocalDownloadService: DownloadService(FOREGROUND_NOTIFICATION_ID_NONE) {
     override fun getDownloadManager(): DownloadManager {
         // Note: This should be a singleton in your app.
         val databaseProvider = StandaloneDatabaseProvider(this)

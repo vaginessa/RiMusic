@@ -19,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.compose.persist.persistList
@@ -32,6 +33,7 @@ import it.vfsfitvnm.vimusic.models.SongWithContentLength
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
@@ -101,6 +103,11 @@ fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                 ) {
+                    HeaderInfo(
+                        title = "${songs.size}",
+                        icon = painterResource(R.drawable.musical_notes),
+                        spacer = 0
+                    )
                     SecondaryTextButton(
                         text = stringResource(R.string.enqueue),
                         enabled = songs.isNotEmpty(),

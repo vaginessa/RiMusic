@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.compose.persist.persistList
@@ -39,6 +40,7 @@ import it.vfsfitvnm.vimusic.models.Artist
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.items.ArtistItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -96,6 +98,15 @@ fun HomeArtistList(
                 span = { GridItemSpan(maxLineSpan) }
             ) {
                 Header(title = stringResource(R.string.artists)) {
+                    HeaderInfo(
+                        title = "${items.size}",
+                        icon = painterResource(R.drawable.person),
+                        spacer = 0
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .weight(1f)
+                    )
                     HeaderIconButton(
                         icon = R.drawable.text,
                         color = if (sortBy == ArtistSortBy.Name) colorPalette.text else colorPalette.textDisabled,

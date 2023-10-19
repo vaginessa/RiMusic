@@ -235,7 +235,7 @@ fun SettingsEntryGroupText(
 
     BasicText(
         text = title.uppercase(),
-        style = typography.xxs.semiBold.copy(colorPalette.accent),
+        style = typography.xs.semiBold.copy(colorPalette.accent),
         modifier = modifier
             .padding(start = 16.dp)
             .padding(horizontal = 16.dp)

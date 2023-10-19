@@ -154,6 +154,7 @@ fun LocalPlaylistSongs(
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                 ) {
+
                     SecondaryTextButton(
                         text = stringResource(R.string.enqueue),
                         enabled = playlistWithSongs?.songs?.isNotEmpty() == true,

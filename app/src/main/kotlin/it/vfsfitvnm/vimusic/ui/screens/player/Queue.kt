@@ -1,6 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.player
 
-import android.graphics.drawable.Icon
+
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.AnimatedVisibility
@@ -16,7 +16,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Arrangement
+
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -24,11 +24,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
+
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
+
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -51,14 +51,19 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
+
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
+import androidx.media3.common.util.Log
+import androidx.media3.exoplayer.offline.Download
+import androidx.media3.exoplayer.offline.DownloadRequest
+import androidx.media3.exoplayer.offline.DownloadService
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.compose.reordering.ReorderingLazyColumn
 import it.vfsfitvnm.compose.reordering.animateItemPlacement
@@ -67,24 +72,21 @@ import it.vfsfitvnm.compose.reordering.rememberReorderingState
 import it.vfsfitvnm.compose.reordering.reorder
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.service.LocalDownloadService
 import it.vfsfitvnm.vimusic.ui.components.BottomSheet
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.MusicBars
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
-import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.QueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.items.SongItemPlaceholder
-import it.vfsfitvnm.vimusic.ui.screens.albumRoute
-import it.vfsfitvnm.vimusic.ui.screens.quickpicksRoute
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.DisposableListener
-import it.vfsfitvnm.vimusic.utils.forceSeekToNext
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.queueLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -93,7 +95,7 @@ import it.vfsfitvnm.vimusic.utils.shuffleQueue
 import it.vfsfitvnm.vimusic.utils.smoothScrollToTop
 import it.vfsfitvnm.vimusic.utils.windows
 import kotlinx.coroutines.launch
-import it.vfsfitvnm.vimusic.ui.components.themed.Header
+
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
@@ -109,6 +111,8 @@ fun Queue(
 
     val horizontalBottomPaddingValues = windowInsets
         .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom).asPaddingValues()
+
+    val context = LocalContext.current
 
     BottomSheet(
         state = layoutState,
@@ -274,7 +278,33 @@ fun Queue(
                                             QueuedMediaItemMenu(
                                                 mediaItem = window.mediaItem,
                                                 indexInQueue = if (isPlayingThisMediaItem) null else window.firstPeriodIndex,
-                                                onDismiss = menuState::hide
+                                                onDismiss = menuState::hide,
+                                                onDownload = {
+                                                    Log.d("downloadEvent","Download started from Queue?")
+                                                    val contentUri = "https://www.youtube.com/watch?v=${window.mediaItem.mediaId}".toUri()
+                                                    val downloadRequest = DownloadRequest.Builder(window.mediaItem.mediaId, contentUri).build()
+
+                                                    DownloadService.sendAddDownload(
+                                                        context,
+                                                        LocalDownloadService::class.java,
+                                                        downloadRequest,
+                                                        /* foreground= */ false
+                                                    )
+
+                                                    DownloadService.sendSetStopReason(
+                                                        context,
+                                                        LocalDownloadService::class.java,
+                                                        window.mediaItem.mediaId,
+                                                        Download.STOP_REASON_NONE,
+                                                        /* foreground= */ false
+                                                    )
+
+                                                    DownloadService.start(
+                                                        context,
+                                                        LocalDownloadService::class.java
+                                                    )
+
+                                                }
                                             )
                                         }
                                     },

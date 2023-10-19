@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.compose.persist.persist
@@ -35,6 +36,7 @@ import it.vfsfitvnm.vimusic.models.Album
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.items.AlbumItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -85,6 +87,15 @@ fun HomeAlbums(
                 contentType = 0
             ) {
                 Header(title = stringResource(R.string.albums)) {
+                    HeaderInfo(
+                        title = "${items.size}",
+                        icon = painterResource(R.drawable.disc),
+                        spacer = 0
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .weight(1f)
+                    )
                     HeaderIconButton(
                         icon = R.drawable.calendar,
                         color = if (sortBy == AlbumSortBy.Year) colorPalette.text else colorPalette.textDisabled,

@@ -157,4 +157,7 @@
     <string name="error_an_unknown_playback_error_has_occurred">An unknown playback error has occurred</string>
     <string name="tips">Tips</string>
     <string name="next_playing">Next playing...</string>
+    <string name="quick_pics_and_tips">Quick Pics and Tips</string>
+    <string name="is_min_list_time_for_tips_or_quick_pics">It\'s the minimum listening time, to include the song as a possible Tips or Quick Pics</string>
+    <string name="min_listening_time">Min listening time</string>
 </resources>

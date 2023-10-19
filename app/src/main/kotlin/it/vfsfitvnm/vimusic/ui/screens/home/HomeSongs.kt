@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -44,6 +45,7 @@ import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -104,6 +106,15 @@ fun HomeSongs(
                 contentType = 0
             ) {
                 Header(title = stringResource(R.string.songs)) {
+                    HeaderInfo(
+                        title = "${items.size}",
+                        icon = painterResource(R.drawable.musical_notes),
+                        spacer = 0
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .weight(1f)
+                    )
                     HeaderIconButton(
                         icon = R.drawable.trending,
                         color = if (sortBy == SongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
@@ -136,6 +147,8 @@ fun HomeSongs(
                     )
                 }
             }
+
+
 
             itemsIndexed(
                 items = items,

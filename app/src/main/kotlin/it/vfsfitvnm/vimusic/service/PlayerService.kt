@@ -25,9 +25,6 @@ import android.media.audiofx.LoudnessEnhancer
 import android.media.session.MediaSession
 import android.media.session.PlaybackState
 import android.net.Uri
-import android.os.Environment
-import android.os.Environment.getExternalStorageDirectory
-import android.os.Environment.getExternalStorageState
 import android.os.Handler
 import android.text.format.DateUtils
 import androidx.compose.runtime.getValue
@@ -42,10 +39,8 @@ import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
-import androidx.media3.common.PlaybackParameters
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
-import androidx.media3.common.util.Log
 import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultHttpDataSource
@@ -80,6 +75,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.MainActivity
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
+import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
 import it.vfsfitvnm.vimusic.models.Event
 import it.vfsfitvnm.vimusic.models.QueuedMediaItem
 import it.vfsfitvnm.vimusic.query
@@ -90,8 +86,8 @@ import it.vfsfitvnm.vimusic.utils.YouTubeRadio
 import it.vfsfitvnm.vimusic.utils.activityPendingIntent
 import it.vfsfitvnm.vimusic.utils.broadCastPendingIntent
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
-import it.vfsfitvnm.vimusic.utils.exoPlayerAlternateCacheLocationKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
+import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
 import it.vfsfitvnm.vimusic.utils.findNextMediaItemById
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
@@ -125,7 +121,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.runBlocking
 import java.io.File
-import java.util.concurrent.Executor
 
 @Suppress("DEPRECATION")
 class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListener.Callback,
@@ -367,7 +362,14 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             //Log.d("MediaEvent", "incremented total play time")
         }
 
-        if (totalPlayTimeMs > 10000) {
+
+        val minTimeForEvent = when (val minTime =
+            preferences.getEnum(exoPlayerMinTimeForEventKey, ExoPlayerMinTimeForEvent.`20s`)) {
+            ExoPlayerMinTimeForEvent.`20s` -> minTime
+            else -> minTime
+        }
+
+        if (totalPlayTimeMs > minTimeForEvent.ms ) {
             query {
                 try {
                     Database.insert(
