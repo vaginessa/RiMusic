@@ -503,7 +503,7 @@ fun MediaItemMenu(
                         }
                     )
                 }
-
+/*
                 onDownload?.let { onDownload ->
                     MenuEntry(
                         icon = R.drawable.download,
@@ -514,7 +514,7 @@ fun MediaItemMenu(
                         }
                     )
                 }
-
+*/
                 onGoToEqualizer?.let { onGoToEqualizer ->
                     MenuEntry(
                         icon = R.drawable.equalizer,

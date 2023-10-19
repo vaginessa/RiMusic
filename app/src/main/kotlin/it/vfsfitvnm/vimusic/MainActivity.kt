@@ -7,7 +7,9 @@ import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -141,7 +143,12 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
     @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val splashScreen = installSplashScreen()
+
+        var splashScreenStays = true
+        val delayTime = 800L
+
+        installSplashScreen().setKeepOnScreenCondition { splashScreenStays }
+        Handler(Looper.getMainLooper()).postDelayed({ splashScreenStays = false }, delayTime)
 
         @Suppress("DEPRECATION", "UNCHECKED_CAST")
         persistMap = lastCustomNonConfigurationInstance as? PersistMap ?: PersistMap()
