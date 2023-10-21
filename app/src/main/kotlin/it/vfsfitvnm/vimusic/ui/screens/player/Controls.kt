@@ -174,7 +174,7 @@ fun Controls(
         ) {
 
 
-                artistIds?.forEach {
+                artistIds?.distinct()?.forEach {
                         IconButton(
                             icon = R.drawable.person,
                             color = if (it == "") colorPalette.textDisabled else colorPalette.text,
