@@ -16,21 +16,23 @@ data class ColorPalette(
     val background0: Color,
     val background1: Color,
     val background2: Color,
+    val background3: Color,
     val accent: Color,
     val onAccent: Color,
     val red: Color = Color(0xffbf4040),
-    //val blue: Color = Color(0xff4472cf),
-    val blue: Color = Color(0xff2c6e49),
+    val blue: Color = Color(0xff4472cf),
     val text: Color,
     val textSecondary: Color,
     val textDisabled: Color,
-    val isDark: Boolean
+    val isDark: Boolean,
+    val iconButtonPlayer: Color,
 ) {
     companion object : Saver<ColorPalette, List<Any>> {
         override fun restore(value: List<Any>) = when (val accent = value[0] as Int) {
             0 -> DefaultDarkColorPalette
             1 -> DefaultLightColorPalette
             2 -> PureBlackColorPalette
+            3 -> ModernBlackColorPalette
             else -> dynamicColorPaletteOf(
                 FloatArray(3).apply { ColorUtils.colorToHSL(accent, this) },
                 value[1] as Boolean
@@ -43,6 +45,7 @@ data class ColorPalette(
                     value === DefaultDarkColorPalette -> 0
                     value === DefaultLightColorPalette -> 1
                     value === PureBlackColorPalette -> 2
+                    value === ModernBlackColorPalette -> 3
                     else -> value.accent.toArgb()
                 },
                 value.isDark
@@ -50,15 +53,18 @@ data class ColorPalette(
     }
 }
 
+
+
 val DefaultDarkColorPalette = ColorPalette(
     background0 = Color(0xff16171d),
     background1 = Color(0xff1f2029),
     background2 = Color(0xff2b2d3b),
+    background3 = Color(0xff495057),
     text = Color(0xffe1e1e2),
     textSecondary = Color(0xffa3a4a6),
     textDisabled = Color(0xff6f6f73),
-    //accent = Color(0xff5055c0),
-    accent = Color(0xFF2c6e49),
+    iconButtonPlayer = Color(0xffe1e1e2),
+    accent = Color(0xFF2b9348),
     onAccent = Color.White,
     isDark = true
 )
@@ -67,11 +73,12 @@ val DefaultLightColorPalette = ColorPalette(
     background0 = Color(0xfffdfdfe),
     background1 = Color(0xfff8f8fc),
     background2 = Color(0xffeaeaf5),
+    background3 = Color(0xffeaeafd),
     text = Color(0xff212121),
     textSecondary = Color(0xff656566),
     textDisabled = Color(0xff9d9d9d),
-    accent = Color(0xff2c6e49),
-    //accent = Color(0xff5055c0),
+    iconButtonPlayer = Color(0xff212121),
+    accent = Color(0xFF2b9348),
     onAccent = Color.White,
     isDark = false
 )
@@ -79,8 +86,16 @@ val DefaultLightColorPalette = ColorPalette(
 val PureBlackColorPalette = DefaultDarkColorPalette.copy(
     background0 = Color.Black,
     background1 = Color.Black,
-    background2 = Color.Black
+    background2 = Color.Black,
 )
+
+val ModernBlackColorPalette = DefaultDarkColorPalette.copy(
+    background0 = Color.Black,
+    background1 = Color.Black,
+    background2 = Color.Black,
+    background3 = DefaultDarkColorPalette.accent
+)
+
 
 fun colorPaletteOf(
     colorPaletteName: ColorPaletteName,
@@ -97,6 +112,7 @@ fun colorPaletteOf(
             }
         }
         ColorPaletteName.PureBlack -> PureBlackColorPalette
+        ColorPaletteName.ModerBlack -> ModernBlackColorPalette
     }
 }
 

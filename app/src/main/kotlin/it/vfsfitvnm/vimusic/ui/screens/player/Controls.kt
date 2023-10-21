@@ -47,10 +47,12 @@ import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.SeekBar
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.collapsedPlayerProgressBar
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
@@ -170,6 +172,27 @@ fun Controls(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
+
+
+                artistIds?.forEach {
+                        IconButton(
+                            icon = R.drawable.person,
+                            color = if (it == "") colorPalette.textDisabled else colorPalette.text,
+                            enabled = it != "",
+                            onClick = {
+                                onGoToArtist(it)
+                            },
+                            modifier = Modifier
+                                .size(20.dp)
+
+                        )
+                    Spacer(
+                        modifier = Modifier
+                            .width(6.dp)
+                    )
+                }
+
+/*
             IconButton(
                 icon = R.drawable.person,
                 color = if (artistIds?.size == 0) colorPalette.textDisabled else colorPalette.text,
@@ -180,15 +203,15 @@ fun Controls(
                 modifier = Modifier
                     .size(24.dp)
             )
-
+*/
             Spacer(
                 modifier = Modifier
-                    .width(8.dp)
+                    .width(4.dp)
             )
 
             BasicText(
                 text = AnnotatedString(artist ?: ""),
-                style = typography.m.medium,
+                style = typography.xs.medium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
 
@@ -277,7 +300,7 @@ fun Controls(
                 scrubbingPosition?.let(binder.player::seekTo)
                 scrubbingPosition = null
             },
-            color = colorPalette.text,
+            color = colorPalette.collapsedPlayerProgressBar,
             backgroundColor = colorPalette.background2,
             shape = RoundedCornerShape(8.dp)
         )
@@ -346,7 +369,7 @@ fun Controls(
 
             IconButton(
                 icon = R.drawable.play_skip_back,
-                color = colorPalette.text,
+                color = colorPalette.iconButtonPlayer,
                 onClick = binder.player::forceSeekToPrevious,
                 modifier = Modifier
                     .weight(1f)
@@ -371,13 +394,13 @@ fun Controls(
                             binder.player.play()
                         }
                     }
-                    .background(colorPalette.background2)
+                    .background(colorPalette.background3)
                     .size(64.dp)
             ) {
                 Image(
                     painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(colorPalette.text),
+                    colorFilter = ColorFilter.tint(colorPalette.iconButtonPlayer),
                     modifier = Modifier
                         .align(Alignment.Center)
                         .size(28.dp)
@@ -391,7 +414,7 @@ fun Controls(
 
             IconButton(
                 icon = R.drawable.play_skip_forward,
-                color = colorPalette.text,
+                color = colorPalette.iconButtonPlayer,
                 onClick = binder.player::forceSeekToNext,
                 modifier = Modifier
                     .weight(1f)
@@ -400,7 +423,7 @@ fun Controls(
 
             IconButton(
                 icon = R.drawable.infinite,
-                color = if (trackLoopEnabled) colorPalette.text else colorPalette.textDisabled,
+                color = if (trackLoopEnabled) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
                 onClick = { trackLoopEnabled = !trackLoopEnabled },
                 modifier = Modifier
                     .weight(1f)

@@ -6,10 +6,16 @@ import android.media.audiofx.AudioEffect
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +33,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 
 import androidx.compose.runtime.Composable
@@ -42,9 +49,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
@@ -109,6 +118,14 @@ fun Player(
     var shouldBePlaying by remember {
         mutableStateOf(binder.player.shouldBePlaying)
     }
+
+    val shouldBePlayingTransition = updateTransition(shouldBePlaying, label = "shouldBePlaying")
+
+    val playPauseRoundness by shouldBePlayingTransition.animateDp(
+        transitionSpec = { tween(durationMillis = 100, easing = LinearEasing) },
+        label = "playPauseRoundness",
+        targetValueByState = { if (it) 24.dp else 12.dp }
+    )
 
     /*
     val state = remember {
@@ -303,16 +320,42 @@ fun Player(
                 ) {
                     IconButton(
                         icon = R.drawable.play_skip_back,
-                        color = colorPalette.text,
+                        color = colorPalette.iconButtonPlayer,
                         onClick = binder.player::forceSeekToPrevious,
                         modifier = Modifier
                             .padding(horizontal = 2.dp, vertical = 8.dp)
                             .size(18.dp)
                     )
 
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(playPauseRoundness))
+                            .clickable {
+                                if (shouldBePlaying) {
+                                    binder.player.pause()
+                                } else {
+                                    if (binder.player.playbackState == Player.STATE_IDLE) {
+                                        binder.player.prepare()
+                                    }
+                                    binder.player.play()
+                                }
+                            }
+                            .background(colorPalette.background3)
+                            .size(32.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(colorPalette.iconButtonPlayer),
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(18.dp)
+                        )
+                    }
+/*
                     IconButton(
                         icon = if (shouldBePlaying) R.drawable.pause else R.drawable.play,
-                        color = colorPalette.text,
+                        color = colorPalette.iconButtonPlayer,
                         onClick = {
                             if (shouldBePlaying) {
                                 binder.player.pause()
@@ -327,10 +370,10 @@ fun Player(
                             .padding(horizontal = 2.dp, vertical = 8.dp)
                             .size(18.dp)
                     )
-
+*/
                     IconButton(
                         icon = R.drawable.play_skip_forward,
-                        color = colorPalette.text,
+                        color = colorPalette.iconButtonPlayer,
                         onClick = binder.player::forceSeekToNext,
                         modifier = Modifier
                             .padding(horizontal = 2.dp, vertical = 8.dp)
@@ -439,7 +482,7 @@ fun Player(
 
                 controlsContent(
                     modifier = Modifier
-                        .padding(vertical = 24.dp)
+                        .padding(vertical = 4.dp)
                         .fillMaxWidth()
                         .weight(1f)
                 )

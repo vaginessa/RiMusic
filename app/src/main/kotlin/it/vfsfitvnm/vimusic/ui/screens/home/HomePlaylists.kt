@@ -185,7 +185,7 @@ fun HomePlaylists(
             item(key = "offline") {
                 PlaylistItem(
                     icon = R.drawable.airplane,
-                    colorTint = colorPalette.blue,
+                    colorTint = colorPalette.accent,
                     name = stringResource(R.string.offline),
                     songCount = null,
                     thumbnailSizeDp = thumbnailSizeDp,
