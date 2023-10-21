@@ -180,7 +180,7 @@ inline val ColorPalette.shimmer: Color
     }
 
 inline val ColorPalette.primaryButton: Color
-    get() = if (this === PureBlackColorPalette) {
+    get() = if (this === PureBlackColorPalette || this === ModernBlackColorPalette) {
         Color(0xFF272727)
     } else {
         background2

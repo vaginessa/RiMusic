@@ -85,6 +85,7 @@ import it.vfsfitvnm.vimusic.ui.items.SongItemPlaceholder
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
+import it.vfsfitvnm.vimusic.ui.styling.primaryButton
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.DisposableListener
 import it.vfsfitvnm.vimusic.utils.medium
@@ -420,7 +421,7 @@ fun Queue(
                     modifier = Modifier
                         .clip(RoundedCornerShape(16.dp))
                         .clickable { queueLoopEnabled = !queueLoopEnabled }
-                        .background(colorPalette.background1)
+                        .background(colorPalette.primaryButton)
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                         .align(Alignment.CenterEnd)
                         .animateContentSize()

@@ -134,6 +134,12 @@ fun Controls(
             overflow = TextOverflow.Ellipsis
         )
 
+        Spacer(
+            modifier = Modifier
+                .height(5.dp)
+        )
+
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
@@ -156,7 +162,7 @@ fun Controls(
 
             BasicText(
                 text = AnnotatedString(title ?: ""),
-                style = typography.m.medium,
+                style = typography.xs.medium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -183,7 +189,7 @@ fun Controls(
                                 onGoToArtist(it)
                             },
                             modifier = Modifier
-                                .size(20.dp)
+                                .size(24.dp)
 
                         )
                     Spacer(
@@ -192,18 +198,6 @@ fun Controls(
                     )
                 }
 
-/*
-            IconButton(
-                icon = R.drawable.person,
-                color = if (artistIds?.size == 0) colorPalette.textDisabled else colorPalette.text,
-                enabled = if (artistIds?.size == 0) false else true,
-                onClick = {
-                        onGoToArtist(artistIds?.get(0).toString())
-                },
-                modifier = Modifier
-                    .size(24.dp)
-            )
-*/
             Spacer(
                 modifier = Modifier
                     .width(4.dp)
@@ -233,6 +227,10 @@ fun Controls(
                 style = typography.xxs.secondary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
+            )
+            Spacer(
+                modifier = Modifier
+                    .height(5.dp)
             )
         }
 

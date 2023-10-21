@@ -21,10 +21,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.collapsedPlayerProgressBar
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -164,15 +167,18 @@ fun HeaderInfo (
     Image(
         painter = icon,
         contentDescription = null,
-        colorFilter = ColorFilter.tint(colorPalette.text),
+        colorFilter = ColorFilter.tint(colorPalette.shimmer),
         modifier = Modifier
             .size(14.dp)
     )
     BasicText(
         text = title,
-        style = typography.xxs.semiBold,
+        style = TextStyle(
+            color = colorPalette.shimmer,
+            fontStyle = typography.xxs.semiBold.fontStyle
+        ),
         maxLines = 1,
-        overflow = TextOverflow.Ellipsis
+        overflow = TextOverflow.Ellipsis,
     )
 
     Spacer(

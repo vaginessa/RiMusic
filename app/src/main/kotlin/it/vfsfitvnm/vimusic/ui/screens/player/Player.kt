@@ -352,25 +352,7 @@ fun Player(
                                 .size(18.dp)
                         )
                     }
-/*
-                    IconButton(
-                        icon = if (shouldBePlaying) R.drawable.pause else R.drawable.play,
-                        color = colorPalette.iconButtonPlayer,
-                        onClick = {
-                            if (shouldBePlaying) {
-                                binder.player.pause()
-                            } else {
-                                if (binder.player.playbackState == Player.STATE_IDLE) {
-                                    binder.player.prepare()
-                                }
-                                binder.player.play()
-                            }
-                        },
-                        modifier = Modifier
-                            .padding(horizontal = 2.dp, vertical = 8.dp)
-                            .size(18.dp)
-                    )
-*/
+
                     IconButton(
                         icon = R.drawable.play_skip_forward,
                         color = colorPalette.iconButtonPlayer,
@@ -476,7 +458,7 @@ fun Player(
                 ) {
                     thumbnailContent(
                         modifier = Modifier
-                            .padding(horizontal = 10.dp, vertical = 8.dp)
+                            .padding(horizontal = 10.dp, vertical = 16.dp)
                     )
                 }
 
