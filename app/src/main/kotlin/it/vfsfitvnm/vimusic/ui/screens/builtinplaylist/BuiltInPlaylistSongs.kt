@@ -86,13 +86,18 @@ fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
 
     var songs by persistList<Song>("${builtInPlaylist.name}/songs")
 
-    LaunchedEffect(Unit) {
+    var sortBy by rememberPreference(songSortByKey, SongSortBy.DateAdded)
+    var sortOrder by rememberPreference(songSortOrderKey, SortOrder.Descending)
+
+
+    LaunchedEffect(Unit,sortBy, sortOrder) {
         when (builtInPlaylist) {
             BuiltInPlaylist.Favorites -> Database
                 .favorites()
 
             BuiltInPlaylist.Offline -> Database
-                .songsWithContentLength()
+                //.songsWithContentLength()
+                .songsOffline(sortBy, sortOrder)
                 .flowOn(Dispatchers.IO)
                 .map { songs ->
                     songs.filter { song ->
@@ -108,9 +113,6 @@ fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
 
     val thumbnailSizeDp = Dimensions.thumbnails.song
     val thumbnailSize = thumbnailSizeDp.px
-
-    var sortBy by rememberPreference(songSortByKey, SongSortBy.DateAdded)
-    var sortOrder by rememberPreference(songSortOrderKey, SortOrder.Descending)
 
     val sortOrderIconRotation by animateFloatAsState(
         targetValue = if (sortOrder == SortOrder.Ascending) 0f else 180f,
@@ -160,38 +162,43 @@ fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
                             .weight(1f)
                     )
 
-                    // TODO limit buttons visibility to offline
-                        HeaderIconButton(
-                            icon = R.drawable.trending,
-                            color = if (sortBy == SongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
-                            onClick = { sortBy = SongSortBy.PlayTime }
-                        )
+                    when (builtInPlaylist) {
+                        BuiltInPlaylist.Offline -> {
 
-                        HeaderIconButton(
-                            icon = R.drawable.text,
-                            color = if (sortBy == SongSortBy.Title) colorPalette.text else colorPalette.textDisabled,
-                            onClick = { sortBy = SongSortBy.Title }
-                        )
+                            HeaderIconButton(
+                                icon = R.drawable.trending,
+                                color = if (sortBy == SongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
+                                onClick = { sortBy = SongSortBy.PlayTime }
+                            )
 
-                        HeaderIconButton(
-                            icon = R.drawable.time,
-                            color = if (sortBy == SongSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
-                            onClick = { sortBy = SongSortBy.DateAdded }
-                        )
+                            HeaderIconButton(
+                                icon = R.drawable.text,
+                                color = if (sortBy == SongSortBy.Title) colorPalette.text else colorPalette.textDisabled,
+                                onClick = { sortBy = SongSortBy.Title }
+                            )
 
-                        Spacer(
-                            modifier = Modifier
-                                .width(2.dp)
-                        )
+                            HeaderIconButton(
+                                icon = R.drawable.time,
+                                color = if (sortBy == SongSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
+                                onClick = { sortBy = SongSortBy.DateAdded }
+                            )
 
-                        HeaderIconButton(
-                            icon = R.drawable.arrow_up,
-                            color = colorPalette.text,
-                            onClick = { sortOrder = !sortOrder },
-                            modifier = Modifier
-                                .graphicsLayer { rotationZ = sortOrderIconRotation }
-                        )
+                            Spacer(
+                                modifier = Modifier
+                                    .width(2.dp)
+                            )
 
+                            HeaderIconButton(
+                                icon = R.drawable.arrow_up,
+                                color = colorPalette.text,
+                                onClick = { sortOrder = !sortOrder },
+                                modifier = Modifier
+                                    .graphicsLayer { rotationZ = sortOrderIconRotation }
+                            )
+                        }
+
+                        else -> {}
+                    }
                 }
             }
 
