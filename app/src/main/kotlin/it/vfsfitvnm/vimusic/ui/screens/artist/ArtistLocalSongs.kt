@@ -87,15 +87,7 @@ fun ArtistLocalSongs(
                                 enabled = !songs.isNullOrEmpty(),
                                 onClick = { binder?.player?.enqueue(songs!!.map(Song::asMediaItem)) }
                             )
-/*
-                            SecondaryTextButton(
-                                text = stringResource(R.string.enqueue),
-                                enabled = !songs.isNullOrEmpty(),
-                                onClick = {
-                                    binder?.player?.enqueue(songs!!.map(Song::asMediaItem))
-                                }
-                            )
- */
+
                         }
 
                         thumbnailContent()

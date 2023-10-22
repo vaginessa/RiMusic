@@ -137,17 +137,7 @@ fun PlaylistSongList(
                     }
                 )
 
-/*
-                SecondaryTextButton(
-                    text = stringResource(R.string.enqueue),
-                    enabled = playlistPage?.songsPage?.items?.isNotEmpty() == true,
-                    onClick = {
-                        playlistPage?.songsPage?.items?.map(Innertube.SongItem::asMediaItem)?.let { mediaItems ->
-                            binder?.player?.enqueue(mediaItems)
-                        }
-                    }
-                )
-*/
+
                 Spacer(
                     modifier = Modifier
                         .weight(1f)

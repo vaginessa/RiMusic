@@ -154,15 +154,7 @@ fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
                             binder?.player?.enqueue(songs.map(Song::asMediaItem))
                         }
                     )
-/*
-                    SecondaryTextButton(
-                        text = stringResource(R.string.enqueue),
-                        enabled = songs.isNotEmpty(),
-                        onClick = {
-                            binder?.player?.enqueue(songs.map(Song::asMediaItem))
-                        }
-                    )
-*/
+
                     Spacer(
                         modifier = Modifier
                             .weight(1f)

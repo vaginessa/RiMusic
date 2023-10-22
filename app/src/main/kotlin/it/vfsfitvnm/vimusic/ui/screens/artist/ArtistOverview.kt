@@ -117,15 +117,7 @@ fun ArtistOverview(
                                     binder?.playRadio(endpoint)
                                 }
                             )
-/*
-                            SecondaryTextButton(
-                                text = stringResource(R.string.shuffle),
-                                onClick = {
-                                    binder?.stopRadio()
-                                    binder?.playRadio(endpoint)
-                                }
-                            )
-*/
+
                         }
                     }
                 }

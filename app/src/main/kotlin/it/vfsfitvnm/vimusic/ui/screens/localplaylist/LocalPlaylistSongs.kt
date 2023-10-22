@@ -166,19 +166,7 @@ fun LocalPlaylistSongs(
                                 }
                         }
                     )
-/*
-                    SecondaryTextButton(
-                        text = stringResource(R.string.enqueue),
-                        enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
-                        onClick = {
-                            playlistWithSongs?.songs
-                                ?.map(Song::asMediaItem)
-                                ?.let { mediaItems ->
-                                    binder?.player?.enqueue(mediaItems)
-                                }
-                        }
-                    )
-*/
+
                     Spacer(
                         modifier = Modifier
                             .weight(1f)

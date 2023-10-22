@@ -134,12 +134,7 @@ fun HomePlaylists(
                         enabled = true,
                         onClick = { isCreatingANewPlaylist = true }
                     )
-/*
-                    SecondaryTextButton(
-                        text = stringResource(R.string.new_playlist),
-                        onClick = { isCreatingANewPlaylist = true }
-                    )
-*/
+
                     Spacer(
                         modifier = Modifier
                             .weight(1f)
