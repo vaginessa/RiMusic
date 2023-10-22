@@ -51,6 +51,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.InPlaylistMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.Menu
 import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
+import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.items.SongItem
@@ -154,7 +155,18 @@ fun LocalPlaylistSongs(
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                 ) {
-
+                    SecondaryButton(
+                        iconId = R.drawable.addqueue,
+                        enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
+                        onClick = {
+                            playlistWithSongs?.songs
+                                ?.map(Song::asMediaItem)
+                                ?.let { mediaItems ->
+                                    binder?.player?.enqueue(mediaItems)
+                                }
+                        }
+                    )
+/*
                     SecondaryTextButton(
                         text = stringResource(R.string.enqueue),
                         enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
@@ -166,7 +178,7 @@ fun LocalPlaylistSongs(
                                 }
                         }
                     )
-
+*/
                     Spacer(
                         modifier = Modifier
                             .weight(1f)

@@ -100,7 +100,9 @@ dependencies {
 
     implementation("androidx.core:core-splashscreen:1.0.0-beta02")
 
-    //implementation("androidx.compose.foundation:foundation:1.6.0-alpha01")
+    //implementation("androidx.compose.foundation:foundation:1.4.0")
+    // Fix Duplicate class
+    //implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 
     coreLibraryDesugaring(libs.desugaring)
 }

@@ -27,6 +27,10 @@
         <!-- Required for animated icons. -->
         <item name="windowSplashScreenAnimationDuration">1000</item>
 
+
+        <!-- Ready to future version
+        <item name="android:windowSplashScreenBrandingImage">@drawable/heart</item>-->
+
         <!-- Set the theme of the Activity that directly follows your splash
         screen. This is required. -->
         <item name="postSplashScreenTheme">@style/Theme.ViMusic</item>

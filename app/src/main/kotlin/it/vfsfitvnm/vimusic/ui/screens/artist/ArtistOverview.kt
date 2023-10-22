@@ -34,12 +34,14 @@ import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
 import it.vfsfitvnm.vimusic.ui.items.AlbumItem
@@ -52,6 +54,7 @@ import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.align
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.color
+import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -106,6 +109,15 @@ fun ArtistOverview(
                 ) {
                     headerContent {
                         youtubeArtistPage?.shuffleEndpoint?.let { endpoint ->
+                            SecondaryButton(
+                                iconId = R.drawable.shuffle,
+                                enabled = true,
+                                onClick = {
+                                    binder?.stopRadio()
+                                    binder?.playRadio(endpoint)
+                                }
+                            )
+/*
                             SecondaryTextButton(
                                 text = stringResource(R.string.shuffle),
                                 onClick = {
@@ -113,6 +125,7 @@ fun ArtistOverview(
                                     binder?.playRadio(endpoint)
                                 }
                             )
+*/
                         }
                     }
                 }

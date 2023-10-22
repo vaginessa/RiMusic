@@ -46,6 +46,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderPlaceholder
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.adaptiveThumbnailContent
@@ -125,6 +126,18 @@ fun PlaylistSongList(
             )
         } else {
             Header(title = playlistPage?.title ?: "Unknown") {
+
+                SecondaryButton(
+                    iconId = R.drawable.shuffle,
+                    enabled = playlistPage?.songsPage?.items?.isNotEmpty() == true,
+                    onClick = {
+                        playlistPage?.songsPage?.items?.map(Innertube.SongItem::asMediaItem)?.let { mediaItems ->
+                            binder?.player?.enqueue(mediaItems)
+                        }
+                    }
+                )
+
+/*
                 SecondaryTextButton(
                     text = stringResource(R.string.enqueue),
                     enabled = playlistPage?.songsPage?.items?.isNotEmpty() == true,
@@ -134,7 +147,7 @@ fun PlaylistSongList(
                         }
                     }
                 )
-
+*/
                 Spacer(
                     modifier = Modifier
                         .weight(1f)

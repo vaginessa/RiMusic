@@ -31,6 +31,7 @@ import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.items.SongItemPlaceholder
@@ -81,6 +82,12 @@ fun ArtistLocalSongs(
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         headerContent {
+                            SecondaryButton(
+                                iconId = R.drawable.addqueue,
+                                enabled = !songs.isNullOrEmpty(),
+                                onClick = { binder?.player?.enqueue(songs!!.map(Song::asMediaItem)) }
+                            )
+/*
                             SecondaryTextButton(
                                 text = stringResource(R.string.enqueue),
                                 enabled = !songs.isNullOrEmpty(),
@@ -88,6 +95,7 @@ fun ArtistLocalSongs(
                                     binder?.player?.enqueue(songs!!.map(Song::asMediaItem))
                                 }
                             )
+ */
                         }
 
                         thumbnailContent()

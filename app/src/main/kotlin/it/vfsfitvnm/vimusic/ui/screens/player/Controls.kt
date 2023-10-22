@@ -7,12 +7,14 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+//import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,6 +37,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.C
@@ -48,6 +51,7 @@ import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.SeekBar
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
+import it.vfsfitvnm.vimusic.ui.components.themed.ScrollText
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -65,6 +69,23 @@ import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import kotlinx.coroutines.flow.distinctUntilChanged
 import okio.utf8Size
+/*
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun MarqueeEffect(
+    text: String
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.CenterStart
+    ) {
+        BasicText(
+            modifier = Modifier.basicMarquee(),
+            text = text
+        )
+    }
+}
+*/
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -157,14 +178,16 @@ fun Controls(
 
             Spacer(
                 modifier = Modifier
-                    .width(8.dp)
+                    .width(8.dp)                    
             )
 
-            BasicText(
-                text = AnnotatedString(title ?: ""),
-                style = typography.xs.medium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+            ScrollText(
+                text = title ?: "",
+                style = TextStyle(
+                    color = colorPalette.text,
+                    fontStyle = typography.l.bold.fontStyle,
+                    fontSize = typography.l.fontSize
+                )
             )
 
         }
@@ -203,12 +226,13 @@ fun Controls(
                     .width(4.dp)
             )
 
-            BasicText(
-                text = AnnotatedString(artist ?: ""),
-                style = typography.xs.medium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-
+            ScrollText(
+                text = artist ?: "",
+                style = TextStyle(
+                    color = colorPalette.text,
+                    fontStyle = typography.l.bold.fontStyle,
+                    fontSize = typography.l.fontSize
+                )
             )
 
         }
@@ -299,7 +323,7 @@ fun Controls(
                 scrubbingPosition = null
             },
             color = colorPalette.collapsedPlayerProgressBar,
-            backgroundColor = colorPalette.background2,
+            backgroundColor = colorPalette.textSecondary,
             shape = RoundedCornerShape(8.dp)
         )
 

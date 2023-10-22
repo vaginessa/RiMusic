@@ -41,17 +41,21 @@ import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
+import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
+import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.playlistSortByKey
 import it.vfsfitvnm.vimusic.utils.playlistSortOrderKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -125,11 +129,17 @@ fun HomePlaylists(
                         icon = painterResource(R.drawable.playlist),
                         spacer = 0
                     )
+                    SecondaryButton(
+                        iconId = R.drawable.add,
+                        enabled = true,
+                        onClick = { isCreatingANewPlaylist = true }
+                    )
+/*
                     SecondaryTextButton(
                         text = stringResource(R.string.new_playlist),
                         onClick = { isCreatingANewPlaylist = true }
                     )
-
+*/
                     Spacer(
                         modifier = Modifier
                             .weight(1f)
