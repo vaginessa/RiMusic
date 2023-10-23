@@ -54,9 +54,10 @@
 * Italian, native language, thank to me [@fast4x](https://github.com/fast4x)
 * German, native language, thank to [@siggi1984](https://github.com/siggi1984)
 * Russian, native language, thank to [@siggi1984](https://github.com/siggi1984)
-* French, non native language, contribute to improve
-* Spanish, non native language, contribute to improve
-
+* French, native language, thank to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
+* Czech, native language, thank to [@ikanakova](https://github.com/ikanakova)
+* Spanish, native language, thank to [@DanielSevillano](https://github.com/DanielSevillano)
+* Turkish, non native language, contribute to improve
 * contribute for any other language
 
 
