@@ -61,6 +61,53 @@ interface Database {
     companion object : Database by DatabaseInitializer.Instance.database
 
     @Transaction
+    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY totalPlayTimeMs")
+    @RewriteQueriesToDropUnusedColumns
+    fun songsFavoritesByPlayTimeAsc(): Flow<List<Song>>
+
+    @Transaction
+    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY totalPlayTimeMs DESC")
+    @RewriteQueriesToDropUnusedColumns
+    fun songsFavoritesByPlayTimeDesc(): Flow<List<Song>>
+
+    @Transaction
+    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY title")
+    @RewriteQueriesToDropUnusedColumns
+    fun songsFavoritesByTitleAsc(): Flow<List<Song>>
+
+    @Transaction
+    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY title DESC")
+    @RewriteQueriesToDropUnusedColumns
+    fun songsFavoritesByTitleDesc(): Flow<List<Song>>
+
+    @Transaction
+    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY ROWID")
+    @RewriteQueriesToDropUnusedColumns
+    fun songsFavoritesByRowIdAsc(): Flow<List<Song>>
+
+    @Transaction
+    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY ROWID DESC")
+    @RewriteQueriesToDropUnusedColumns
+    fun songsFavoritesByRowIdDesc(): Flow<List<Song>>
+
+    fun songsFavorites(sortBy: SongSortBy, sortOrder: SortOrder): Flow<List<Song>> {
+        return when (sortBy) {
+            SongSortBy.PlayTime -> when (sortOrder) {
+                SortOrder.Ascending -> songsFavoritesByPlayTimeAsc()
+                SortOrder.Descending -> songsFavoritesByPlayTimeDesc()
+            }
+            SongSortBy.Title -> when (sortOrder) {
+                SortOrder.Ascending -> songsFavoritesByTitleAsc()
+                SortOrder.Descending -> songsFavoritesByTitleDesc()
+            }
+            SongSortBy.DateAdded -> when (sortOrder) {
+                SortOrder.Ascending -> songsFavoritesByRowIdAsc()
+                SortOrder.Descending -> songsFavoritesByRowIdDesc()
+            }
+        }
+    }
+
+    @Transaction
     @Query("SELECT Song.*, contentLength FROM Song JOIN Format ON id = songId WHERE contentLength IS NOT NULL AND totalPlayTimeMs > 0 ORDER BY totalPlayTimeMs")
     fun songsOfflineByPlayTimeAsc(): Flow<List<SongWithContentLength>>
 

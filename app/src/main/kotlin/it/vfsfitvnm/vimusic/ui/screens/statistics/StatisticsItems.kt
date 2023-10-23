@@ -1,4 +1,4 @@
-package it.vfsfitvnm.vimusic.ui.screens.builtinplaylist
+package it.vfsfitvnm.vimusic.ui.screens.statistics
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -47,6 +47,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
+import it.vfsfitvnm.vimusic.enums.StatisticsType
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongWithContentLength
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
@@ -79,19 +80,20 @@ import kotlinx.coroutines.flow.map
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
-fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
+fun StatisticsItems(statisticsType: StatisticsType) {
     val (colorPalette) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
     val menuState = LocalMenuState.current
 
-    var songs by persistList<Song>("${builtInPlaylist.name}/songs")
+    var songs by persistList<Song>("${statisticsType.name}/songs")
 
     var sortBy by rememberPreference(songSortByKey, SongSortBy.DateAdded)
     var sortOrder by rememberPreference(songSortOrderKey, SortOrder.Descending)
 
 
     LaunchedEffect(Unit, sortBy, sortOrder) {
-        when (builtInPlaylist) {
+  /*
+        when (statisticsType) {
             BuiltInPlaylist.Favorites -> Database
                 .songsFavorites(sortBy, sortOrder)
 
@@ -107,7 +109,7 @@ fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
                 }
         }.collect { songs = it }
 
-
+*/
     }
 
     val thumbnailSizeDp = Dimensions.thumbnails.song
@@ -136,9 +138,13 @@ fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
                 contentType = 0
             ) {
                 Header(
-                    title = when (builtInPlaylist) {
-                        BuiltInPlaylist.Favorites -> stringResource(R.string.favorites)
-                        BuiltInPlaylist.Offline -> stringResource(R.string.offline)
+                    title = when (statisticsType) {
+                        StatisticsType.OneWeek -> "One week"
+                        StatisticsType.OneMonth -> "One month"
+                        StatisticsType.ThreeMonths -> "Three months"
+                        StatisticsType.OneYear -> "One year"
+                        StatisticsType.All -> "All"
+
                     },
                     modifier = Modifier
                         .padding(bottom = 8.dp)
@@ -208,6 +214,7 @@ fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
                         .combinedClickable(
                             onLongClick = {
                                 menuState.display {
+                                  /*
                                     when (builtInPlaylist) {
                                         BuiltInPlaylist.Favorites -> NonQueuedMediaItemMenu(
                                             mediaItem = song.asMediaItem,
@@ -219,6 +226,7 @@ fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
                                             onDismiss = menuState::hide
                                         )
                                     }
+                                    */
                                 }
                             },
                             onClick = {

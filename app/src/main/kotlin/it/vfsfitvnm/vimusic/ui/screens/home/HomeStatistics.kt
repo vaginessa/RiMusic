@@ -43,6 +43,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
+import it.vfsfitvnm.vimusic.enums.StatisticsType
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
@@ -70,7 +71,8 @@ import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-fun HomePlaylists(
+fun HomeStatistics(
+    onStatisticsType: (StatisticsType) -> Unit,
     onBuiltInPlaylist: (BuiltInPlaylist) -> Unit,
     onPlaylistClick: (Playlist) -> Unit,
     onSearchClick: () -> Unit,
@@ -130,7 +132,7 @@ fun HomePlaylists(
                 .background(colorPalette.background0)
         ) {
             item(key = "header", contentType = 0, span = { GridItemSpan(maxLineSpan) }) {
-                Header(title = stringResource(R.string.playlists)) {
+                Header(title = "Statistics") {
                     HeaderInfo(
                         title = "${items.size}",
                         icon = painterResource(R.drawable.playlist),
@@ -180,33 +182,33 @@ fun HomePlaylists(
                 }
             }
 
-            item(key = "favorites") {
+            item(key = "oneweek") {
                 PlaylistItem(
-                    icon = R.drawable.heart,
+                    icon = R.drawable.query_stats,
                     colorTint = colorPalette.favoritesIcon,
-                    name = stringResource(R.string.favorites),
+                    name = "One week",
                     songCount = null,
                     thumbnailSizeDp = thumbnailSizeDp,
                     alternative = true,
                     modifier = Modifier
                         .clip(thumbnailShape)
-                        .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Favorites) })
+                        .clickable(onClick = { onStatisticsType(StatisticsType.OneWeek) })
                         .animateItemPlacement()
 
                 )
             }
 
-            item(key = "offline") {
+            item(key = "onemonth") {
                 PlaylistItem(
-                    icon = R.drawable.airplane,
+                    icon = R.drawable.query_stats,
                     colorTint = colorPalette.favoritesIcon,
-                    name = stringResource(R.string.offline),
+                    name = "One month",
                     songCount = null,
                     thumbnailSizeDp = thumbnailSizeDp,
                     alternative = true,
                     modifier = Modifier
                         .clip(thumbnailShape)
-                        .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Offline) })
+                        .clickable(onClick = { onStatisticsType(StatisticsType.OneMonth)  })
                         .animateItemPlacement()
                 )
             }
