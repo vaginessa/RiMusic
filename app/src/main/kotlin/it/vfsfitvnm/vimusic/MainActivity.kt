@@ -77,6 +77,7 @@ import it.vfsfitvnm.innertube.requests.playlistPage
 import it.vfsfitvnm.innertube.requests.song
 import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
+import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.service.LocalDownloadService
 import it.vfsfitvnm.vimusic.service.PlayerService
@@ -104,6 +105,7 @@ import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid8
+import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -170,7 +172,8 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
                     val colorPaletteMode = getEnum(colorPaletteModeKey, ColorPaletteMode.System)
                     val thumbnailRoundness =
                         getEnum(thumbnailRoundnessKey, ThumbnailRoundness.Heavy)
-
+                    val playerThumbnailSize =
+                        getEnum(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
                     val useSystemFont = getBoolean(useSystemFontKey, false)
                     val applyFontPadding = getBoolean(applyFontPaddingKey, false)
 
@@ -183,7 +186,8 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
                         Appearance(
                             colorPalette = colorPalette,
                             typography = typographyOf(colorPalette.text, useSystemFont, applyFontPadding),
-                            thumbnailShape = thumbnailRoundness.shape()
+                            thumbnailShape = thumbnailRoundness.shape(),
+                            playerthumbnailSize = playerThumbnailSize.size
                         )
                     )
                 }

@@ -61,6 +61,11 @@ interface Database {
     companion object : Database by DatabaseInitializer.Instance.database
 
     @Transaction
+    @Query("SELECT Song.* FROM Event JOIN Song ON Song.id = songId WHERE timestamp BETWEEN :from AND :to GROUP BY songId  ORDER BY totalPlayTimeMs DESC LIMIT :limit")
+    @RewriteQueriesToDropUnusedColumns
+    fun songsMostPlayedByPeriod(from: Long,to: Long, limit:Int): Flow<List<Song>>
+
+    @Transaction
     @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY totalPlayTimeMs")
     @RewriteQueriesToDropUnusedColumns
     fun songsFavoritesByPlayTimeAsc(): Flow<List<Song>>

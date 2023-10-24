@@ -11,6 +11,7 @@ data class Appearance(
     val colorPalette: ColorPalette,
     val typography: Typography,
     val thumbnailShape: Shape,
+    val playerthumbnailSize: Int
 ) {
     companion object : Saver<Appearance, List<Any>> {
         @Suppress("UNCHECKED_CAST")
@@ -18,7 +19,8 @@ data class Appearance(
             return Appearance(
                 colorPalette = ColorPalette.restore(value[0] as List<Any>),
                 typography = Typography.restore(value[1] as List<Any>),
-                thumbnailShape = RoundedCornerShape((value[2] as Int).dp)
+                thumbnailShape = RoundedCornerShape((value[2] as Int).dp),
+                playerthumbnailSize = value[3] as Int
             )
         }
 
@@ -27,11 +29,18 @@ data class Appearance(
                 with (ColorPalette.Companion) { save(value.colorPalette) },
                 with (Typography.Companion) { save(value.typography) },
                 when (value.thumbnailShape) {
-                    RoundedCornerShape(2.dp) -> 2
-                    RoundedCornerShape(4.dp) -> 4
-                    RoundedCornerShape(8.dp) -> 8
+                    RoundedCornerShape(2.dp) -> 4
+                    RoundedCornerShape(4.dp) -> 8
+                    RoundedCornerShape(8.dp) -> 16
+                    else -> 0
+                },
+                when (value.playerthumbnailSize) {
+                    10 -> 10
+                    45 -> 45
+                    80 -> 80
                     else -> 0
                 }
+
             )
     }
 }

@@ -6,7 +6,7 @@
 
 ---
 ## Features
-- **Multilingual support**, English, Italian, German, Russian, French and Spanish contribute for other language are welcome
+- **Multilingual support**, English, Italian, German, Russian, French, Spanish, CZech and Turkish, contribute for other language are welcome
 - Play song from YouTube Music 
 - Cache songs offline playback
 - Background playback
@@ -20,7 +20,7 @@
 - Reorder songs in playlist or queue
 - Clear queue
 - Fetch, display and edit songs lyrics or synchronized lyrics
-- Light/Dark/Dynamic themes
+- Light, Dark, Dynamic, ModernBack themes
 - Sleep timer
 - Audio normalization
 - Audio Skip silence

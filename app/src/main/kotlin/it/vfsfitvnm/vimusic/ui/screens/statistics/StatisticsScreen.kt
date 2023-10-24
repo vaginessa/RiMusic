@@ -26,8 +26,9 @@ fun StatisticsScreen(
             StatisticsType.OneWeek -> 0
             StatisticsType.OneMonth -> 1
             StatisticsType.ThreeMonths -> 2
-            StatisticsType.OneYear -> 3
-            StatisticsType.All -> 4
+            StatisticsType.SixMonth -> 3
+            StatisticsType.OneYear -> 4
+            StatisticsType.All -> 5
 
         })
     }
@@ -47,8 +48,9 @@ fun StatisticsScreen(
                     Item(0, "One week", R.drawable.query_stats)
                     Item(1, "One month", R.drawable.query_stats)
                     Item(2, "Three months", R.drawable.query_stats)
-                    Item(3, "One year", R.drawable.query_stats)
-                    Item(4, "All", R.drawable.query_stats)
+                    Item(3, "Six months", R.drawable.query_stats)
+                    Item(4, "One year", R.drawable.query_stats)
+                    Item(5, "All", R.drawable.query_stats)
                 }
             ) { currentTabIndex ->
                 saveableStateHolder.SaveableStateProvider(key = currentTabIndex) {
@@ -56,8 +58,9 @@ fun StatisticsScreen(
                         0 -> StatisticsItems(statisticsType = StatisticsType.OneWeek)
                         1 -> StatisticsItems(statisticsType = StatisticsType.OneMonth)
                         2 -> StatisticsItems(statisticsType = StatisticsType.ThreeMonths)
-                        3 -> StatisticsItems(statisticsType = StatisticsType.OneYear)
-                        4 -> StatisticsItems(statisticsType = StatisticsType.All)
+                        3 -> StatisticsItems(statisticsType = StatisticsType.SixMonth)
+                        4 -> StatisticsItems(statisticsType = StatisticsType.OneYear)
+                        5 -> StatisticsItems(statisticsType = StatisticsType.All)
                     }
                 }
             }

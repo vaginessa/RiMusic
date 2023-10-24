@@ -133,6 +133,7 @@ fun HomeStatistics(
         ) {
             item(key = "header", contentType = 0, span = { GridItemSpan(maxLineSpan) }) {
                 Header(title = "Statistics") {
+
                     HeaderInfo(
                         title = "${items.size}",
                         icon = painterResource(R.drawable.playlist),
@@ -180,6 +181,7 @@ fun HomeStatistics(
                             .graphicsLayer { rotationZ = sortOrderIconRotation }
                     )
                 }
+
             }
 
             item(key = "oneweek") {

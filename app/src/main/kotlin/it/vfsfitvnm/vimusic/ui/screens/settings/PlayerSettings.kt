@@ -25,12 +25,15 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
+import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
+import it.vfsfitvnm.vimusic.utils.getI18String
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
+import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.resumePlaybackWhenDeviceConnectedKey
 import it.vfsfitvnm.vimusic.utils.skipSilenceKey
@@ -58,6 +61,8 @@ fun PlayerSettings() {
         ExoPlayerMinTimeForEvent.`20s`
     )
 
+    var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
+
     val activityResultLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
 
@@ -73,6 +78,18 @@ fun PlayerSettings() {
             )
     ) {
         Header(title = stringResource(R.string.player))
+
+        SettingsEntryGroupText(title = stringResource(R.string.player_thumbnail_size))
+
+        SettingsDescription(
+            text = stringResource(R.string.current_size_name) + "${getI18String(playerThumbnailSize.name)} \n${stringResource(R.string.restarting_rimusic_is_required)}"
+        )
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.size_name),
+            selectedValue = playerThumbnailSize,
+            onValueSelected = { playerThumbnailSize = it }
+        )
 
         SettingsEntryGroupText(title = stringResource(R.string.quick_pics_and_tips))
 

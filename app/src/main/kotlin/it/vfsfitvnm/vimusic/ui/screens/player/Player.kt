@@ -55,6 +55,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
@@ -64,6 +65,7 @@ import it.vfsfitvnm.compose.routing.OnGlobalRoute
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.BottomSheet
@@ -88,6 +90,9 @@ import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.service.LocalDownloadService
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
+import it.vfsfitvnm.vimusic.utils.persistentQueueKey
+import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
+import it.vfsfitvnm.vimusic.utils.rememberPreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.math.absoluteValue
@@ -105,7 +110,9 @@ fun Player(
 
     val menuState = LocalMenuState.current
 
-    val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
+    //var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
+
+    val (colorPalette, typography, thumbnailShape, playerThumbnailSize) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
     val downloadbinder = LocalDownloadService()
 
@@ -126,6 +133,8 @@ fun Player(
         label = "playPauseRoundness",
         targetValueByState = { if (it) 24.dp else 12.dp }
     )
+
+
 
     /*
     val state = remember {
@@ -204,6 +213,7 @@ fun Player(
                 artistsInfo = Database.songArtistInfo(mediaItem.mediaId)
 
         }
+
     }
 
 
@@ -319,12 +329,12 @@ fun Player(
                         .height(Dimensions.collapsedPlayer)
                 ) {
                     IconButton(
-                        icon = R.drawable.play_skip_back,
+                        icon = R.drawable.play_skip_previous,
                         color = colorPalette.iconButtonPlayer,
                         onClick = binder.player::forceSeekToPrevious,
                         modifier = Modifier
                             .padding(horizontal = 2.dp, vertical = 8.dp)
-                            .size(18.dp)
+                            .size(28.dp)
                     )
 
                     Box(
@@ -344,22 +354,22 @@ fun Player(
                             .size(32.dp)
                     ) {
                         Image(
-                            painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
+                            painter = painterResource(if (shouldBePlaying) R.drawable.play_pause else R.drawable.play_arrow),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(colorPalette.iconButtonPlayer),
                             modifier = Modifier
                                 .align(Alignment.Center)
-                                .size(18.dp)
+                                .size(28.dp)
                         )
                     }
 
                     IconButton(
-                        icon = R.drawable.play_skip_forward,
+                        icon = R.drawable.play_skip_next,
                         color = colorPalette.iconButtonPlayer,
                         onClick = binder.player::forceSeekToNext,
                         modifier = Modifier
                             .padding(horizontal = 2.dp, vertical = 8.dp)
-                            .size(18.dp)
+                            .size(28.dp)
                     )
                 }
 
@@ -400,7 +410,7 @@ fun Player(
                 onShowStatsForNerds = { isShowingStatsForNerds = it },
                 modifier = modifier
                     .nestedScroll(layoutState.preUpPostDownNestedScrollConnection)
-                    .border(BorderStroke(1.dp, colorPalette.textDisabled))
+                    //.border(BorderStroke(1.dp, colorPalette.textDisabled))
             )
         }
 
@@ -458,7 +468,11 @@ fun Player(
                 ) {
                     thumbnailContent(
                         modifier = Modifier
-                            .padding(horizontal = 10.dp, vertical = 16.dp)
+                            .padding(
+                                horizontal = playerThumbnailSize.dp,
+                                vertical = 20.dp
+                            )
+                            .clip(thumbnailShape)
                     )
                 }
 

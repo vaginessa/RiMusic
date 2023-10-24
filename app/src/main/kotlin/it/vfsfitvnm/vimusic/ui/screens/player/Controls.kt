@@ -390,12 +390,12 @@ fun Controls(
             )
 
             IconButton(
-                icon = R.drawable.play_skip_back,
+                icon = R.drawable.play_skip_previous,
                 color = colorPalette.iconButtonPlayer,
                 onClick = binder.player::forceSeekToPrevious,
                 modifier = Modifier
                     .weight(1f)
-                    .size(24.dp)
+                    .size(34.dp)
             )
 
             Spacer(
@@ -420,12 +420,12 @@ fun Controls(
                     .size(64.dp)
             ) {
                 Image(
-                    painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
+                    painter = painterResource(if (shouldBePlaying) R.drawable.play_pause else R.drawable.play_arrow),
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(colorPalette.iconButtonPlayer),
                     modifier = Modifier
                         .align(Alignment.Center)
-                        .size(28.dp)
+                        .size(34.dp)
                 )
             }
 
@@ -435,12 +435,12 @@ fun Controls(
             )
 
             IconButton(
-                icon = R.drawable.play_skip_forward,
+                icon = R.drawable.play_skip_next,
                 color = colorPalette.iconButtonPlayer,
                 onClick = binder.player::forceSeekToNext,
                 modifier = Modifier
                     .weight(1f)
-                    .size(24.dp)
+                    .size(34.dp)
             )
 
             IconButton(

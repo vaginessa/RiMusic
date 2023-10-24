@@ -160,4 +160,15 @@
   <string name="quick_pics_and_tips">Rychlý výběr a Tipy</string>
   <string name="is_min_list_time_for_tips_or_quick_pics">To je minimální doba poslechu, aby bylo možné skladbu zařadit mezi možné Tipy nebo Rychlý výběr</string>
   <string name="min_listening_time">Minimální doba poslechu</string>
+    <string name="player_thumbnail_size">Thumbnail Size</string>
+  <string name="restarting_rimusic_is_required">Restarting is required</string>
+  <string name="size_name">Size</string>
+    <string name="current_size_name">"Current size "</string>
+  <string name="current_shape_name">Current shape</string>
+    <string name="i18_small">Small</string>
+  <string name="i18_medium">Medium</string>
+  <string name="i18_big">Big</string>
+  <string name="i18_none">None</string>
+  <string name="i18_light">Light</string>
+  <string name="i18_heavy">Heavy</string>
 </resources>

@@ -17,13 +17,14 @@ enum class ThumbnailRoundness {
     fun shape(): Shape {
         return when (this) {
             None -> RectangleShape
-            Light -> RoundedCornerShape(2.dp)
-            Medium -> RoundedCornerShape(4.dp)
-            Heavy -> RoundedCornerShape(8.dp)
+            Light -> RoundedCornerShape(4.dp)
+            Medium -> RoundedCornerShape(8.dp)
+            Heavy -> RoundedCornerShape(16.dp)
         }
     }
 
-    fun ShapeName(): String {
+    /*
+    fun shapeName(): String {
         return when (this) {
             None -> "None"
             Light -> "Light"
@@ -31,4 +32,5 @@ enum class ThumbnailRoundness {
             Heavy -> "Heavy"
         }
     }
+     */
 }
