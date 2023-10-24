@@ -733,7 +733,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             .setOnlyAlertOnce(true)
             .setShowWhen(false)
             .setSmallIcon(player.playerError?.let { R.drawable.alert_circle }
-                ?: R.drawable.baseline_play_arrow_24)
+                ?: R.drawable.app_icon)
             .setOngoing(false)
             .setContentIntent(activityPendingIntent<MainActivity>(
                 flags = PendingIntent.FLAG_UPDATE_CURRENT
@@ -964,7 +964,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                     .setAutoCancel(true)
                     .setOnlyAlertOnce(true)
                     .setShowWhen(true)
-                    .setSmallIcon(R.drawable.baseline_play_arrow_24)
+                    .setSmallIcon(R.drawable.app_icon)
                     .build()
 
                 notificationManager?.notify(SleepTimerNotificationId, notification)

@@ -146,7 +146,7 @@
             android:resource="@xml/automotive_app_desc"/>
 
         <meta-data android:name="com.google.android.gms.car.notification.SmallIcon"
-            android:resource="@drawable/baseline_play_arrow_24" />
+            android:resource="@drawable/app_icon" />
 
     </application>
 </manifest>
