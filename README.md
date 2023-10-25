@@ -1,6 +1,5 @@
 <div align="center">
-    <img src="./app/src/main/ic_launcher-playstore.png" width="128" height="128" style="display: block; margin: 0 auto"/>
-    <h1>RiMusic</h1>
+    <img src="./app_logo.png" width="300" height="100" style="display: block; margin: 0 auto"/>    
     <p>A <b>multilingual</b> Android application for streaming music from YouTube Music</p>
 </div>
 
@@ -85,8 +84,7 @@ You can dowload it from [**releases page**](https://github.com/fast4x/RiMusic/re
 - [**ViMusic**](https://github.com/vfsfitvnm/ViMusic): ViMusic
 - [**YouTube-Internal-Clients**](https://github.com/zerodytrash/YouTube-Internal-Clients): A python script that discovers hidden YouTube API clients. Just a research project.
 - [**ionicons**](https://github.com/ionic-team/ionicons): Premium hand-crafted icons built by Ionic, for Ionic apps and web apps everywhere.
-
-<a href="https://www.flaticon.com/authors/ilham-fitrotul-hayat" title="music icons">App icon based on icon created by Ilham Fitrotul Hayat - Flaticon</a>
+- [**ionicons**](https://www.flaticon.com/authors/ilham-fitrotul-hayat) App icon based on icon created by Ilham Fitrotul Hayat - Flaticon
 
 ## Disclaimer
 This project and its contents are not affiliated with, funded, authorized, endorsed by, or in any way associated with YouTube, Google LLC or any of its affiliates and subsidiaries.
