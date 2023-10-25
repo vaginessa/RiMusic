@@ -67,7 +67,7 @@
     <string name="colors">COLORI</string>
     <string name="theme">Tema</string>
     <string name="theme_mode">Modalità tema</string>
-    <string name="shapes">FORME</string>
+    <string name="shapes">MINIATURE</string>
     <string name="thumbnail_roundness">Miniature arrotondate</string>
     <string name="text">TESTO</string>
     <string name="use_system_font">Usa font di sistema</string>
@@ -164,7 +164,7 @@
     <string name="restarting_rimusic_is_required">E\' richiesto il riavvio</string>
     <string name="size_name">Grandezza</string>
     <string name="current_size_name">Grandezza attuale</string>
-    <string name="current_shape_name">Forma attuale</string>
+    <string name="current_shape_name">Arotondamento attuale</string>
     <string name="i18_small">Piccolo</string>
     <string name="i18_medium">Medio</string>
     <string name="i18_big">Grande</string>

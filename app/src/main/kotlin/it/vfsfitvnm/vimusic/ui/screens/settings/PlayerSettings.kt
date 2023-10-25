@@ -82,7 +82,7 @@ fun PlayerSettings() {
         SettingsEntryGroupText(title = stringResource(R.string.player_thumbnail_size))
 
         SettingsDescription(
-            text = stringResource(R.string.current_size_name) + "${getI18String(playerThumbnailSize.name)} \n${stringResource(R.string.restarting_rimusic_is_required)}"
+            text = stringResource(R.string.current_size_name) + " ${getI18String(playerThumbnailSize.name)} \n${stringResource(R.string.restarting_rimusic_is_required)}"
         )
 
         EnumValueSelectorSettingsEntry(

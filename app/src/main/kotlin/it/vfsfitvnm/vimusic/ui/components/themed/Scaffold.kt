@@ -35,6 +35,7 @@ fun Scaffold(
             .background(colorPalette.background0)
             .fillMaxSize()
     ) {
+
         NavigationRail(
             topIconButtonId = topIconButtonId,
             onTopIconButtonClick = onTopIconButtonClick,

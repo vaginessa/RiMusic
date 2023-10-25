@@ -30,7 +30,7 @@
         android:name=".MainApplication"
         android:allowBackup="true"
         android:banner="@mipmap/ic_banner"
-        android:configChanges="colorMode|density|fontScale|keyboard|keyboardHidden|layoutDirection|locale|mcc|mnc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|touchscreen|uiMode"
+        android:configChanges="colorMode|density|fontScale|keyboard|keyboardHidden|mcc|mnc|navigation|touchscreen|uiMode"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="${appName}"
