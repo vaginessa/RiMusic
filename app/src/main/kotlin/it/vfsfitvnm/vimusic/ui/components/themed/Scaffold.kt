@@ -47,8 +47,8 @@ fun Scaffold(
             targetState = tabIndex,
             transitionSpec = {
                 val slideDirection = when (targetState > initialState) {
-                    true -> AnimatedContentScope.SlideDirection.Up
-                    false -> AnimatedContentScope.SlideDirection.Down
+                    true -> AnimatedContentScope.SlideDirection.Right
+                    false -> AnimatedContentScope.SlideDirection.Left
                 }
 
                 val animationSpec = spring(

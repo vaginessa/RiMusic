@@ -187,7 +187,8 @@ fun Controls(
                     color = colorPalette.text,
                     fontStyle = typography.l.bold.fontStyle,
                     fontSize = typography.l.fontSize
-                )
+                ),
+                onClick = { onGoToAlbum(albumId) }
             )
 
         }
@@ -232,7 +233,8 @@ fun Controls(
                     color = colorPalette.text,
                     fontStyle = typography.l.bold.fontStyle,
                     fontSize = typography.l.fontSize
-                )
+                ),
+                onClick = { onGoToArtist(artistIds?.get(0).toString()) }
             )
 
         }

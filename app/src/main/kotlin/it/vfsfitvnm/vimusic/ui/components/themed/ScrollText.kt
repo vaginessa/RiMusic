@@ -66,7 +66,8 @@ import kotlinx.coroutines.delay
 @Composable
 fun ScrollText (
     text: String,
-    style: TextStyle
+    style: TextStyle,
+    onClick: () -> Unit
 ) {
     //val (colorPalette, typography) = LocalAppearance.current
     val scrollState = rememberScrollState()
@@ -87,6 +88,7 @@ fun ScrollText (
         overflow = TextOverflow.Ellipsis,
         maxLines = 1,
         modifier = Modifier.horizontalScroll(scrollState, true)
+            .clickable { onClick() }
     )
 
 }
