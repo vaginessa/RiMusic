@@ -120,6 +120,7 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
             Scaffold(
                 topIconButtonId = R.drawable.equalizer,
                 onTopIconButtonClick = { settingsRoute() },
+                //onTopIconButtonClick = { searchRoute("") },
                 tabIndex = tabIndex,
                 onTabChanged = onTabChanged,
                 tabColumnContent = { Item ->
@@ -160,14 +161,14 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
                             onAlbumClick = { albumRoute(it.id) },
                             onSearchClick = { searchRoute("") }
                         )
-                        /*
+/*
                         5 -> HomeStatistics(
                             onStatisticsType = { statisticsTypeRoute(it)},
                             onBuiltInPlaylist = { builtInPlaylistRoute(it) },
                             onPlaylistClick = { localPlaylistRoute(it.id) },
                             onSearchClick = { searchRoute("") }
                         )
-                        */
+*/
                         //6 -> settingsRoute()
                     }
                 }
