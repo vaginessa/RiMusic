@@ -5,7 +5,7 @@
 
 ---
 ## Features
-- **Multilingual support**, English, Italian, German, Russian, French, Spanish, CZech and Turkish, contribute for other language are welcome
+- **Multilingual support**, English, Italian, German, Russian, French, Spanish, Czech and Turkish, contribute for other language are welcome
 - Play song from YouTube Music 
 - Cache songs offline playback
 - Background playback
