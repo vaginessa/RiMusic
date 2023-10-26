@@ -200,7 +200,7 @@ fun PlaylistItem(
         Box(
             modifier = centeredModifier
                 .clip(thumbnailShape)
-                .background(color = colorPalette.background1)
+                .background(color = colorPalette.background4)
                 .requiredSize(thumbnailSizeDp)
         ) {
             thumbnailContent(

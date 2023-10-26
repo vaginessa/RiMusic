@@ -83,7 +83,7 @@ fun ArtistLocalSongs(
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         headerContent {
                             SecondaryButton(
-                                iconId = R.drawable.addqueue,
+                                iconId = R.drawable.enqueue_new,
                                 enabled = !songs.isNullOrEmpty(),
                                 onClick = { binder?.player?.enqueue(songs!!.map(Song::asMediaItem)) }
                             )

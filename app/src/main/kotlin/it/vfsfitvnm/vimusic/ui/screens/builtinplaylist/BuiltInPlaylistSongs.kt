@@ -149,7 +149,7 @@ fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
                         spacer = 0
                     )
                     SecondaryButton(
-                        iconId = R.drawable.addqueue,
+                        iconId = R.drawable.enqueue_new,
                         enabled = songs.isNotEmpty(),
                         onClick = {
                             binder?.player?.enqueue(songs.map(Song::asMediaItem))

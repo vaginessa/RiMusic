@@ -39,7 +39,7 @@ fun SecondaryButton(
             colorFilter = ColorFilter.tint(colorPalette.text),
             modifier = Modifier
                 .align(Alignment.Center)
-                .size(18.dp)
+                .size(24.dp)
         )
     }
 }

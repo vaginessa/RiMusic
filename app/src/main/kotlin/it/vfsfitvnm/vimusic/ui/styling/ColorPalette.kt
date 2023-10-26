@@ -17,6 +17,7 @@ data class ColorPalette(
     val background1: Color,
     val background2: Color,
     val background3: Color,
+    val background4: Color,
     val accent: Color,
     val onAccent: Color,
     val red: Color = Color(0xffbf4040),
@@ -60,6 +61,7 @@ val DefaultDarkColorPalette = ColorPalette(
     background1 = Color(0xff1f2029),
     background2 = Color(0xff2b2d3b),
     background3 = Color(0xff495057),
+    background4 = Color(0xff333333),
     text = Color(0xffe1e1e2),
     textSecondary = Color(0xffa3a4a6),
     textDisabled = Color(0xff6f6f73),
@@ -74,6 +76,7 @@ val DefaultLightColorPalette = ColorPalette(
     background1 = Color(0xfff8f8fc),
     background2 = Color(0xffeaeaf5),
     background3 = Color(0xffeaeafd),
+    background4 = Color(0xffeaeafd),
     text = Color(0xff212121),
     textSecondary = Color(0xff656566),
     textDisabled = Color(0xff9d9d9d),
@@ -87,13 +90,15 @@ val PureBlackColorPalette = DefaultDarkColorPalette.copy(
     background0 = Color.Black,
     background1 = Color.Black,
     background2 = Color.Black,
+
 )
 
 val ModernBlackColorPalette = DefaultDarkColorPalette.copy(
     background0 = Color.Black,
     background1 = Color.Black,
     background2 = Color.Black,
-    background3 = DefaultDarkColorPalette.accent
+    background3 = DefaultDarkColorPalette.accent,
+
 )
 
 

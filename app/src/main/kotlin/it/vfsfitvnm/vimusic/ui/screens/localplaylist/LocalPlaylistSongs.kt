@@ -156,7 +156,7 @@ fun LocalPlaylistSongs(
                         .padding(bottom = 8.dp)
                 ) {
                     SecondaryButton(
-                        iconId = R.drawable.addqueue,
+                        iconId = R.drawable.enqueue_new,
                         enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
                         onClick = {
                             playlistWithSongs?.songs
