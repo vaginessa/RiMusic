@@ -131,7 +131,7 @@
     <string name="confirm">Confirmer</string>
     <string name="show">Afficher</string>
     <string name="unsynchronized_lyrics">Les paroles non synchronisées</string>
-    <string name="synchronized_lyrics">les paroles synchronisées</string>
+    <string name="synchronized_lyrics">Les paroles synchronisées</string>
     <string name="provided_by">Fournies par</string>
     <string name="cleanup">NETTOYAGE</string>
     <string name="delete_playback_events">Supprimer %1$s événements de la lecture</string>
@@ -163,7 +163,7 @@
     <string name="player_thumbnail_size">Taille de la pochette d'album</string>
     <string name="restarting_rimusic_is_required">Un redémarrage est requis pour pouvoir l'appliquer</string>
     <string name="size_name">Taille</string>
-    <string name="current_size_name">"Taille actuelle"</string>
+    <string name="current_size_name">"Taille de la pochette d'album actuelle"</string>
     <string name="current_shape_name">Arrondissement des coins actuel</string>
     <string name="i18_small">Petit</string>
     <string name="i18_medium">Moyen</string>
