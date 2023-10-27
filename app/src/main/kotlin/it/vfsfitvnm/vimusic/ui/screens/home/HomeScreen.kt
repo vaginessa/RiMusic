@@ -129,7 +129,7 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
                     Item(2, stringResource(R.string.playlists), R.drawable.playlist)
                     Item(3, stringResource(R.string.artists), R.drawable.person)
                     Item(4, stringResource(R.string.albums), R.drawable.disc)
-                    Item(5, "Statistics", R.drawable.query_stats)
+                    //Item(5, "Statistics", R.drawable.query_stats)
                     //Item(6, "Settings", R.drawable.equalizer)
                 }
             ) { currentTabIndex ->
@@ -161,14 +161,14 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
                             onAlbumClick = { albumRoute(it.id) },
                             onSearchClick = { searchRoute("") }
                         )
-
+/*
                         5 -> HomeStatistics(
                             onStatisticsType = { statisticsTypeRoute(it)},
                             onBuiltInPlaylist = { builtInPlaylistRoute(it) },
                             onPlaylistClick = { localPlaylistRoute(it.id) },
                             onSearchClick = { searchRoute("") }
                         )
-
+*/
                         //6 -> settingsRoute()
                     }
                 }
