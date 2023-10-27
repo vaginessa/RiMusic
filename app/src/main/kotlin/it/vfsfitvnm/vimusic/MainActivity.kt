@@ -100,6 +100,7 @@ import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
+import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.intent
@@ -172,8 +173,6 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
                     val colorPaletteMode = getEnum(colorPaletteModeKey, ColorPaletteMode.System)
                     val thumbnailRoundness =
                         getEnum(thumbnailRoundnessKey, ThumbnailRoundness.Heavy)
-                    val playerThumbnailSize =
-                        getEnum(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
                     val useSystemFont = getBoolean(useSystemFontKey, false)
                     val applyFontPadding = getBoolean(applyFontPaddingKey, false)
 
@@ -186,8 +185,7 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
                         Appearance(
                             colorPalette = colorPalette,
                             typography = typographyOf(colorPalette.text, useSystemFont, applyFontPadding),
-                            thumbnailShape = thumbnailRoundness.shape(),
-                            playerthumbnailSize = playerThumbnailSize.size
+                            thumbnailShape = thumbnailRoundness.shape()
                         )
                     )
                 }
@@ -236,6 +234,11 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
                 val listener =
                     SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
                         when (key) {
+
+                            effectRotationKey, playerThumbnailSizeKey -> {
+                                this@MainActivity.recreate()
+                            }
+
                             colorPaletteNameKey, colorPaletteModeKey -> {
                                 val colorPaletteName =
                                     sharedPreferences.getEnum(

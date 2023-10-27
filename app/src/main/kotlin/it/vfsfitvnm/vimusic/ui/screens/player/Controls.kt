@@ -8,14 +8,12 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-//import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,7 +21,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,7 +40,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.C
-import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
@@ -52,42 +48,23 @@ import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.SeekBar
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
-import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
 import it.vfsfitvnm.vimusic.ui.components.themed.ScrollText
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
-import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.collapsedPlayerProgressBar
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.utils.bold
+import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
-import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import kotlinx.coroutines.flow.distinctUntilChanged
-import okio.utf8Size
-/*
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-private fun MarqueeEffect(
-    text: String
-) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.CenterStart
-    ) {
-        BasicText(
-            modifier = Modifier.basicMarquee(),
-            text = text
-        )
-    }
-}
-*/
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -134,6 +111,8 @@ fun Controls(
         targetValue = if (isRotated) 360F else 0f,
         animationSpec = tween(durationMillis = 200)
     )
+
+    var effectRotationEnabled by rememberPreference(effectRotationKey, true)
 
     LaunchedEffect(mediaId) {
         Database.likedAt(mediaId).distinctUntilChanged().collect { likedAt = it }
@@ -392,7 +371,7 @@ fun Controls(
                                 }
                         }
                     }
-                    isRotated = !isRotated
+                    if (effectRotationEnabled) isRotated = !isRotated
                 },
                 modifier = Modifier
                     .rotate(rotationAngle)
@@ -405,7 +384,7 @@ fun Controls(
                 color = colorPalette.iconButtonPlayer,
                 onClick = {
                             binder.player.forceSeekToPrevious()
-                            isRotated = !isRotated
+                            if (effectRotationEnabled) isRotated = !isRotated
                           },
                 modifier = Modifier
                     .rotate(rotationAngle)
@@ -430,7 +409,7 @@ fun Controls(
                             }
                             binder.player.play()
                         }
-                        isRotated = !isRotated
+                        if (effectRotationEnabled) isRotated = !isRotated
                     }
                     .background(colorPalette.background3)
                     .size(64.dp)
@@ -456,7 +435,7 @@ fun Controls(
                 color = colorPalette.iconButtonPlayer,
                 onClick = {
                             binder.player.forceSeekToNext()
-                            isRotated = !isRotated
+                            if (effectRotationEnabled) isRotated = !isRotated
                           },
                 modifier = Modifier
                     .rotate(rotationAngle)
@@ -469,7 +448,7 @@ fun Controls(
                 color = if (trackLoopEnabled) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
                 onClick = {
                             trackLoopEnabled = !trackLoopEnabled
-                            isRotated = !isRotated
+                            if (effectRotationEnabled) isRotated = !isRotated
                           },
                 modifier = Modifier
                     .rotate(rotationAngle)

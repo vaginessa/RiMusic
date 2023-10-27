@@ -171,4 +171,7 @@
     <string name="i18_none">Hiçbiri</string>
     <string name="i18_light">Işıkt</string>
     <string name="i18_heavy">Ağır</string>
+    <string name="effects">Effects</string>
+    <string name="player_rotating_buttons">Rotating buttons</string>
+    <string name="player_enable_rotation_buttons">Enable rotation of buttons when clicked</string>
 </resources>

@@ -3,6 +3,7 @@ package it.vfsfitvnm.vimusic.ui.screens.player
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.media.audiofx.AudioEffect
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -91,9 +92,11 @@ import it.vfsfitvnm.vimusic.utils.shouldBePlaying
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.service.LocalDownloadService
+import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
+import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -112,9 +115,11 @@ fun Player(
 
     val menuState = LocalMenuState.current
 
-    //var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
+    var effectRotationEnabled by rememberPreference(effectRotationKey, true)
 
-    val (colorPalette, typography, thumbnailShape, playerThumbnailSize) = LocalAppearance.current
+    var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
+
+    val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
     val downloadbinder = LocalDownloadService()
 
@@ -141,30 +146,6 @@ fun Player(
         targetValue = if (isRotated) 360F else 0f,
         animationSpec = tween(durationMillis = 200)
     )
-
-    /*
-    val state = remember {
-        AnchoredDraggableState(
-            // 2
-            initialValue = DragAnchors.Start,
-            // 3
-            positionalThreshold = { distance: Float -> distance * 0.5f },
-            // 4
-            velocityThreshold = { with(density) { 100.dp.toPx() } },
-            // 5
-            animationSpec = tween(),
-        ).apply {
-            // 6
-            updateAnchors(
-                // 7
-                DraggableAnchors {
-                    DragAnchors.Start at 0f
-                    DragAnchors.End at 400f
-                }
-            )
-        }
-    }
-    */
 
     binder.player.DisposableListener {
         object : Player.Listener {
@@ -217,7 +198,6 @@ fun Player(
                 albumInfo = Database.songAlbumInfo(mediaItem.mediaId)
             //if (artistsInfo == null)
                 artistsInfo = Database.songArtistInfo(mediaItem.mediaId)
-
         }
 
     }
@@ -339,7 +319,7 @@ fun Player(
                         color = colorPalette.iconButtonPlayer,
                         onClick = {
                                     binder.player.forceSeekToPrevious()
-                                    isRotated = !isRotated
+                                    if (effectRotationEnabled) isRotated = !isRotated
                                   },
                         modifier = Modifier
                             .rotate(rotationAngle)
@@ -359,10 +339,10 @@ fun Player(
                                     }
                                     binder.player.play()
                                 }
-                                isRotated = !isRotated
+                                if (effectRotationEnabled) isRotated = !isRotated
                             }
                             .background(colorPalette.background3)
-                            .size(32.dp)
+                            .size(36.dp)
                     ) {
                         Image(
                             painter = painterResource(if (shouldBePlaying) R.drawable.play_pause else R.drawable.play_arrow),
@@ -371,7 +351,7 @@ fun Player(
                             modifier = Modifier
                                 .rotate(rotationAngle)
                                 .align(Alignment.Center)
-                                .size(28.dp)
+                                .size(24.dp)
                         )
                     }
 
@@ -380,7 +360,7 @@ fun Player(
                         color = colorPalette.iconButtonPlayer,
                         onClick = {
                                     binder.player.forceSeekToNext()
-                                    isRotated = !isRotated
+                                    if (effectRotationEnabled) isRotated = !isRotated
                                   },
                         modifier = Modifier
                             .rotate(rotationAngle)
@@ -484,11 +464,12 @@ fun Player(
                 ) {
                     thumbnailContent(
                         modifier = Modifier
+                            .clip(thumbnailShape)
                             .padding(
-                                horizontal = playerThumbnailSize.dp,
+                                horizontal = playerThumbnailSize.size.dp,
                                 vertical = 20.dp
                             )
-                            .clip(thumbnailShape)
+
                     )
                 }
 
