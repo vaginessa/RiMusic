@@ -755,6 +755,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                 if (player.shouldBePlaying) pauseIntent else playIntent
             )
             .addAction(R.drawable.play_skip_forward, "Skip forward", nextIntent)
+            //.addAction(R.drawable.enqueue_new, "Skip forward", nextIntent)
 
         bitmapProvider.load(mediaMetadata.artworkUri) { bitmap ->
             maybeShowSongCoverInLockScreen()

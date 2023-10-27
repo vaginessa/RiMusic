@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.BorderStroke
@@ -48,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -134,7 +136,11 @@ fun Player(
         targetValueByState = { if (it) 24.dp else 12.dp }
     )
 
-
+    var isRotated by rememberSaveable { mutableStateOf(false) }
+    val rotationAngle by animateFloatAsState(
+        targetValue = if (isRotated) 360F else 0f,
+        animationSpec = tween(durationMillis = 200)
+    )
 
     /*
     val state = remember {
@@ -331,8 +337,12 @@ fun Player(
                     IconButton(
                         icon = R.drawable.play_skip_previous,
                         color = colorPalette.iconButtonPlayer,
-                        onClick = binder.player::forceSeekToPrevious,
+                        onClick = {
+                                    binder.player.forceSeekToPrevious()
+                                    isRotated = !isRotated
+                                  },
                         modifier = Modifier
+                            .rotate(rotationAngle)
                             .padding(horizontal = 2.dp, vertical = 8.dp)
                             .size(28.dp)
                     )
@@ -349,6 +359,7 @@ fun Player(
                                     }
                                     binder.player.play()
                                 }
+                                isRotated = !isRotated
                             }
                             .background(colorPalette.background3)
                             .size(32.dp)
@@ -358,6 +369,7 @@ fun Player(
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(colorPalette.iconButtonPlayer),
                             modifier = Modifier
+                                .rotate(rotationAngle)
                                 .align(Alignment.Center)
                                 .size(28.dp)
                         )
@@ -366,8 +378,12 @@ fun Player(
                     IconButton(
                         icon = R.drawable.play_skip_next,
                         color = colorPalette.iconButtonPlayer,
-                        onClick = binder.player::forceSeekToNext,
+                        onClick = {
+                                    binder.player.forceSeekToNext()
+                                    isRotated = !isRotated
+                                  },
                         modifier = Modifier
+                            .rotate(rotationAngle)
                             .padding(horizontal = 2.dp, vertical = 8.dp)
                             .size(28.dp)
                     )
