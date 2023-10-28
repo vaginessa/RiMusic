@@ -154,9 +154,9 @@ fun Controls(
            IconButton(
                 icon = R.drawable.disc,
                 color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
-                enabled = if (albumId == null) false else true,
+                enabled = albumId != null,
                 onClick = {
-                        onGoToAlbum(albumId)
+                        if (albumId != null) onGoToAlbum(albumId)
                 },
                 modifier = Modifier
                     .size(24.dp)
@@ -170,11 +170,11 @@ fun Controls(
             ScrollText(
                 text = title ?: "",
                 style = TextStyle(
-                    color = colorPalette.text,
+                    color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
                     fontStyle = typography.l.bold.fontStyle,
                     fontSize = typography.l.fontSize
                 ),
-                onClick = { onGoToAlbum(albumId) }
+                onClick = { if (albumId != null) onGoToAlbum(albumId) }
             )
 
         }
@@ -216,11 +216,11 @@ fun Controls(
             ScrollText(
                 text = artist ?: "",
                 style = TextStyle(
-                    color = colorPalette.text,
+                    color = if (artistIds?.isEmpty() == true ) colorPalette.textDisabled else colorPalette.text,
                     fontStyle = typography.l.bold.fontStyle,
                     fontSize = typography.l.fontSize
                 ),
-                onClick = { onGoToArtist(artistIds?.get(0).toString()) }
+                onClick = { if (artistIds?.isEmpty() == false ) onGoToArtist(artistIds?.get(0).toString()) }
             )
 
         }

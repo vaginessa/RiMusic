@@ -29,6 +29,7 @@ import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
+import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
 import it.vfsfitvnm.vimusic.utils.getI18String
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
@@ -62,6 +63,7 @@ fun PlayerSettings() {
     )
 
     var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
+    var effectRotationEnabled by rememberPreference(effectRotationKey, true)
 
     val activityResultLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
@@ -79,28 +81,32 @@ fun PlayerSettings() {
     ) {
         Header(title = stringResource(R.string.player))
 
-        SettingsEntryGroupText(title = stringResource(R.string.player_thumbnail_size))
+        SettingsEntryGroupText(title = stringResource(R.string.effects))
 
-        SettingsDescription(
-            text = stringResource(R.string.current_size_name) + " ${getI18String(playerThumbnailSize.name)} \n${stringResource(R.string.restarting_rimusic_is_required)}"
+        SwitchSettingEntry(
+            title = stringResource(R.string.player_rotating_buttons),
+            text = stringResource(R.string.player_enable_rotation_buttons),
+            isChecked = effectRotationEnabled,
+            onCheckedChange = { effectRotationEnabled = it }
         )
 
-        EnumValueSelectorSettingsEntry(
-            title = stringResource(R.string.size_name),
-            selectedValue = playerThumbnailSize,
-            onValueSelected = { playerThumbnailSize = it }
-        )
 
-        SettingsEntryGroupText(title = stringResource(R.string.quick_pics_and_tips))
+//        SettingsEntryGroupText(title = stringResource(R.string.quick_pics_and_tips))
 
-        SettingsDescription(text = stringResource(R.string.is_min_list_time_for_tips_or_quick_pics))
+        SettingsEntryGroupText(title = "PREFERENCES")
+
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.min_listening_time),
             selectedValue = exoPlayerMinTimeForEvent,
             onValueSelected = { exoPlayerMinTimeForEvent = it }
         )
+        SettingsDescription(text = stringResource(R.string.is_min_list_time_for_tips_or_quick_pics))
 
-        SettingsEntryGroupText(title = "PREFERENCES")
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.player_thumbnail_size),
+            selectedValue = playerThumbnailSize,
+            onValueSelected = { playerThumbnailSize = it }
+        )
 
         SwitchSettingEntry(
             title = stringResource(R.string.persistent_queue),

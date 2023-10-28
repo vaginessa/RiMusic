@@ -342,7 +342,7 @@ fun Player(
                                 if (effectRotationEnabled) isRotated = !isRotated
                             }
                             .background(colorPalette.background3)
-                            .size(36.dp)
+                            .size(42.dp)
                     ) {
                         Image(
                             painter = painterResource(if (shouldBePlaying) R.drawable.play_pause else R.drawable.play_arrow),
