@@ -156,7 +156,7 @@
         <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">Die zurückgegebene Video-ID stimmt nicht mit der angeforderten überein</string>
         <string name="error_an_unknown_playback_error_has_occurred">Es ist ein unbekannter Wiedergabefehler aufgetreten</string>
     <string name="tips">Tips</string>
-    <string name="next_playing">Wird al nächstes gespielt...</string>
+    <string name="next_playing">Wird als nächstes gespielt...</string>
     <string name="quick_pics_and_tips">Schnellauswahl und Tipps</string>
         <string name="is_min_list_time_for_tips_or_quick_pics">Minimale Hördauer, um den Song als mögliche Tipps oder Schnellauswahl aufzunehmen</string>
         <string name="min_listening_time">Minimale Hördauer</string>
