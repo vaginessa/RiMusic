@@ -1,10 +1,11 @@
 package it.vfsfitvnm.vimusic.enums
 
 enum class StatisticsType {
+    Today,
     OneWeek,
     OneMonth,
     ThreeMonths,
-    SixMonth,
+    SixMonths,
     OneYear,
     All
 }

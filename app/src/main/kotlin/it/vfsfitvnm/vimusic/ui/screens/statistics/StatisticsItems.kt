@@ -71,6 +71,7 @@ fun StatisticsItems(statisticsType: StatisticsType) {
 
     val now: Long = System.currentTimeMillis()
     val dateTime = LocalDateTime.now()
+    val today = dateTime.minusDays(1).toEpochSecond(ZoneOffset.UTC)
     val lastWeek = dateTime.minusDays(7).toEpochSecond(ZoneOffset.UTC)
     val lastMonth = dateTime.minusDays(30).toEpochSecond(ZoneOffset.UTC)
     val last3Month = dateTime.minusDays(90).toEpochSecond(ZoneOffset.UTC)
@@ -92,20 +93,36 @@ fun StatisticsItems(statisticsType: StatisticsType) {
 */
 
     LaunchedEffect(Unit, sortBy, sortOrder) {
-
+/*
         when (statisticsType) {
-            StatisticsType.OneWeek -> Database
-                .songsMostPlayedByPeriod(lastWeek,now,2)
-            StatisticsType.OneMonth -> Database
-                .songsMostPlayedByPeriod(lastMonth,now,2)
-            StatisticsType.ThreeMonths -> Database
-                .songsMostPlayedByPeriod(last3Month,now,2)
-            StatisticsType.SixMonth -> Database
-                .songsMostPlayedByPeriod(last6Month,now,2)
-            StatisticsType.OneYear -> Database
-                .songsMostPlayedByPeriod(lastYear,now,2)
-            StatisticsType.All -> Database
-                .songsMostPlayedByPeriod(lastYear*20,now,2)
+            StatisticsType.Today -> {
+                Database
+                    .songsMostPlayedByPeriod(today,now,2)
+            }
+            StatisticsType.OneWeek -> {
+                Database
+                    .songsMostPlayedByPeriod(lastWeek,now,2)
+            }
+            StatisticsType.OneMonth -> {
+                Database
+                    .songsMostPlayedByPeriod(lastMonth,now,2)
+            }
+            StatisticsType.ThreeMonths -> {
+                Database
+                    .songsMostPlayedByPeriod(last3Month,now,2)
+            }
+            StatisticsType.SixMonths -> {
+                Database
+                    .songsMostPlayedByPeriod(last6Month,now,2)
+            }
+            StatisticsType.OneYear -> {
+                Database
+                    .songsMostPlayedByPeriod(lastYear,now,2)
+            }
+            StatisticsType.All -> {
+                Database
+                    .songsMostPlayedByPeriod(lastYear*20,now,2)
+            }
 
         /*
             BuiltInPlaylist.Offline -> Database
@@ -122,7 +139,7 @@ fun StatisticsItems(statisticsType: StatisticsType) {
         }.collect { songs = it }
 
 
-
+*/
     }
 
     val thumbnailSizeDp = Dimensions.thumbnails.song
@@ -152,10 +169,11 @@ fun StatisticsItems(statisticsType: StatisticsType) {
             ) {
                 Header(
                     title = when (statisticsType) {
+                        StatisticsType.Today -> "Today"
                         StatisticsType.OneWeek -> "One week"
                         StatisticsType.OneMonth -> "One month"
                         StatisticsType.ThreeMonths -> "Three months"
-                        StatisticsType.SixMonth -> "Six months"
+                        StatisticsType.SixMonths -> "Six months"
                         StatisticsType.OneYear -> "One year"
                         StatisticsType.All -> "All"
                     },

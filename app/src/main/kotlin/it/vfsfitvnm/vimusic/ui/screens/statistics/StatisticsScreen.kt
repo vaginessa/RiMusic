@@ -23,12 +23,13 @@ fun StatisticsScreen(
 
     val (tabIndex, onTabIndexChanged) = rememberSaveable {
         mutableStateOf(when (statisticsType) {
-            StatisticsType.OneWeek -> 0
-            StatisticsType.OneMonth -> 1
-            StatisticsType.ThreeMonths -> 2
-            StatisticsType.SixMonth -> 3
-            StatisticsType.OneYear -> 4
-            StatisticsType.All -> 5
+            StatisticsType.Today -> 0
+            StatisticsType.OneWeek -> 1
+            StatisticsType.OneMonth -> 2
+            StatisticsType.ThreeMonths -> 3
+            StatisticsType.SixMonths -> 4
+            StatisticsType.OneYear -> 5
+            StatisticsType.All -> 6
 
         })
     }
@@ -45,22 +46,24 @@ fun StatisticsScreen(
                 tabIndex = tabIndex,
                 onTabChanged = onTabIndexChanged,
                 tabColumnContent = { Item ->
-                    Item(0, "One week", R.drawable.query_stats)
-                    Item(1, "One month", R.drawable.query_stats)
-                    Item(2, "Three months", R.drawable.query_stats)
-                    Item(3, "Six months", R.drawable.query_stats)
-                    Item(4, "One year", R.drawable.query_stats)
-                    Item(5, "All", R.drawable.query_stats)
+                    Item(0, "Today", R.drawable.query_stats)
+                    Item(1, "1 week", R.drawable.query_stats)
+                    Item(2, "1 month", R.drawable.query_stats)
+                    Item(3, "3 months", R.drawable.query_stats)
+                    Item(4, "6 months", R.drawable.query_stats)
+                    Item(5, "1 year", R.drawable.query_stats)
+                    Item(6, "All", R.drawable.query_stats)
                 }
             ) { currentTabIndex ->
                 saveableStateHolder.SaveableStateProvider(key = currentTabIndex) {
                     when (currentTabIndex) {
-                        0 -> StatisticsItems(statisticsType = StatisticsType.OneWeek)
-                        1 -> StatisticsItems(statisticsType = StatisticsType.OneMonth)
-                        2 -> StatisticsItems(statisticsType = StatisticsType.ThreeMonths)
-                        3 -> StatisticsItems(statisticsType = StatisticsType.SixMonth)
-                        4 -> StatisticsItems(statisticsType = StatisticsType.OneYear)
-                        5 -> StatisticsItems(statisticsType = StatisticsType.All)
+                        0 -> StatisticsPage(statisticsType = StatisticsType.Today)
+                        1 -> StatisticsPage(statisticsType = StatisticsType.OneWeek)
+                        2 -> StatisticsPage(statisticsType = StatisticsType.OneMonth)
+                        3 -> StatisticsPage(statisticsType = StatisticsType.ThreeMonths)
+                        4 -> StatisticsPage(statisticsType = StatisticsType.SixMonths)
+                        5 -> StatisticsPage(statisticsType = StatisticsType.OneYear)
+                        6 -> StatisticsPage(statisticsType = StatisticsType.All)
                     }
                 }
             }

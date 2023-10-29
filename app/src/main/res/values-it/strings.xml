@@ -174,4 +174,16 @@
     <string name="effects">Effetti</string>
     <string name="player_rotating_buttons">Rotazione pulsanti</string>
     <string name="player_enable_rotation_buttons">Abilita la rotazione dei pulsanti</string>
+    <string name="statistics">Statistics</string>
+    <string name="today">Today</string>
+    <string name="_1_week">1 Week</string>
+    <string name="_1_month">1 Month</string>
+    <string name="_3_month">3 month</string>
+    <string name="_6_month">6 Month</string>
+    <string name="_1_year">1 Year</string>
+    <string name="all">All</string>
+    <string name="most_played_songs">Most played songs</string>
+    <string name="most_listened_artists">Most listened artists</string>
+    <string name="most_albums_listened">Most albums listened</string>
+    <string name="most_played_playlists">Most played playlists</string>
 </resources>

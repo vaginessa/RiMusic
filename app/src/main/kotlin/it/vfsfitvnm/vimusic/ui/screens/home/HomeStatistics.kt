@@ -50,6 +50,7 @@ import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
+import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
@@ -105,12 +106,12 @@ fun HomeStatistics(
     LaunchedEffect(sortBy, sortOrder) {
         Database.playlistPreviews(sortBy, sortOrder).collect { items = it }
     }
-
+/*
     val sortOrderIconRotation by animateFloatAsState(
         targetValue = if (sortOrder == SortOrder.Ascending) 0f else 180f,
         animationSpec = tween(durationMillis = 400, easing = LinearEasing)
     )
-
+*/
     val thumbnailSizeDp = 108.dp
     val thumbnailSizePx = thumbnailSizeDp.px
 
@@ -132,63 +133,32 @@ fun HomeStatistics(
                 .background(colorPalette.background0)
         ) {
             item(key = "header", contentType = 0, span = { GridItemSpan(maxLineSpan) }) {
-                Header(title = "Statistics") {
-
-                    HeaderInfo(
-                        title = "${items.size}",
-                        icon = painterResource(R.drawable.playlist),
-                        spacer = 0
-                    )
-                    SecondaryButton(
-                        iconId = R.drawable.add,
-                        enabled = true,
-                        onClick = { isCreatingANewPlaylist = true }
-                    )
-
-                    Spacer(
-                        modifier = Modifier
-                            .weight(1f)
-                    )
-
-                    HeaderIconButton(
-                        icon = R.drawable.medical,
-                        color = if (sortBy == PlaylistSortBy.SongCount) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { sortBy = PlaylistSortBy.SongCount }
-                    )
-
-                    HeaderIconButton(
-                        icon = R.drawable.text,
-                        color = if (sortBy == PlaylistSortBy.Name) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { sortBy = PlaylistSortBy.Name }
-                    )
-
-                    HeaderIconButton(
-                        icon = R.drawable.time,
-                        color = if (sortBy == PlaylistSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { sortBy = PlaylistSortBy.DateAdded }
-                    )
-
-                    Spacer(
-                        modifier = Modifier
-                            .width(2.dp)
-                    )
-
-                    HeaderIconButton(
-                        icon = R.drawable.arrow_up,
-                        color = colorPalette.text,
-                        onClick = { sortOrder = !sortOrder },
-                        modifier = Modifier
-                            .graphicsLayer { rotationZ = sortOrderIconRotation }
-                    )
+                HalfHeader (title = stringResource(R.string.statistics)) {
                 }
 
+            }
+
+            item(key = "today") {
+                PlaylistItem(
+                    icon = R.drawable.query_stats,
+                    colorTint = colorPalette.favoritesIcon,
+                    name = stringResource(R.string.today),
+                    songCount = null,
+                    thumbnailSizeDp = thumbnailSizeDp,
+                    alternative = true,
+                    modifier = Modifier
+                        .clip(thumbnailShape)
+                        .clickable(onClick = { onStatisticsType(StatisticsType.Today) })
+                        .animateItemPlacement()
+
+                )
             }
 
             item(key = "oneweek") {
                 PlaylistItem(
                     icon = R.drawable.query_stats,
                     colorTint = colorPalette.favoritesIcon,
-                    name = "One week",
+                    name = stringResource(R.string._1_week),
                     songCount = null,
                     thumbnailSizeDp = thumbnailSizeDp,
                     alternative = true,
@@ -204,28 +174,77 @@ fun HomeStatistics(
                 PlaylistItem(
                     icon = R.drawable.query_stats,
                     colorTint = colorPalette.favoritesIcon,
-                    name = "One month",
+                    name = stringResource(R.string._1_month),
                     songCount = null,
                     thumbnailSizeDp = thumbnailSizeDp,
                     alternative = true,
                     modifier = Modifier
                         .clip(thumbnailShape)
-                        .clickable(onClick = { onStatisticsType(StatisticsType.OneMonth)  })
+                        .clickable(onClick = { onStatisticsType(StatisticsType.OneMonth) })
                         .animateItemPlacement()
                 )
             }
 
-            items(items = items, key = { it.playlist.id }) { playlistPreview ->
+            item(key = "threemonths") {
                 PlaylistItem(
-                    playlist = playlistPreview,
+                    icon = R.drawable.query_stats,
+                    colorTint = colorPalette.favoritesIcon,
+                    name = stringResource(R.string._3_month),
+                    songCount = null,
                     thumbnailSizeDp = thumbnailSizeDp,
-                    thumbnailSizePx = thumbnailSizePx,
                     alternative = true,
                     modifier = Modifier
-                        .clickable(onClick = { onPlaylistClick(playlistPreview.playlist) })
+                        .clip(thumbnailShape)
+                        .clickable(onClick = { onStatisticsType(StatisticsType.ThreeMonths) })
                         .animateItemPlacement()
                 )
             }
+
+            item(key = "sixmonths") {
+                PlaylistItem(
+                    icon = R.drawable.query_stats,
+                    colorTint = colorPalette.favoritesIcon,
+                    name = stringResource(R.string._6_month),
+                    songCount = null,
+                    thumbnailSizeDp = thumbnailSizeDp,
+                    alternative = true,
+                    modifier = Modifier
+                        .clip(thumbnailShape)
+                        .clickable(onClick = { onStatisticsType(StatisticsType.SixMonths) })
+                        .animateItemPlacement()
+                )
+            }
+
+            item(key = "oneyear") {
+                PlaylistItem(
+                    icon = R.drawable.query_stats,
+                    colorTint = colorPalette.favoritesIcon,
+                    name = stringResource(R.string._1_year),
+                    songCount = null,
+                    thumbnailSizeDp = thumbnailSizeDp,
+                    alternative = true,
+                    modifier = Modifier
+                        .clip(thumbnailShape)
+                        .clickable(onClick = { onStatisticsType(StatisticsType.OneYear) })
+                        .animateItemPlacement()
+                )
+            }
+
+            item(key = "all") {
+                PlaylistItem(
+                    icon = R.drawable.query_stats,
+                    colorTint = colorPalette.favoritesIcon,
+                    name = stringResource(R.string.all),
+                    songCount = null,
+                    thumbnailSizeDp = thumbnailSizeDp,
+                    alternative = true,
+                    modifier = Modifier
+                        .clip(thumbnailShape)
+                        .clickable(onClick = { onStatisticsType(StatisticsType.All) })
+                        .animateItemPlacement()
+                )
+            }
+
         }
 
         FloatingActionsContainerWithScrollToTop(
