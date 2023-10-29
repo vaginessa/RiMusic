@@ -220,6 +220,7 @@ fun HomePlaylists(
                     modifier = Modifier
                         .clickable(onClick = { onPlaylistClick(playlistPreview.playlist) })
                         .animateItemPlacement()
+                        .fillMaxSize()
                 )
             }
         }

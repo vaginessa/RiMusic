@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.ui.res.stringResource
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.routing.RouteHandler
 import it.vfsfitvnm.vimusic.R
@@ -46,13 +47,13 @@ fun StatisticsScreen(
                 tabIndex = tabIndex,
                 onTabChanged = onTabIndexChanged,
                 tabColumnContent = { Item ->
-                    Item(0, "Today", R.drawable.query_stats)
-                    Item(1, "1 week", R.drawable.query_stats)
-                    Item(2, "1 month", R.drawable.query_stats)
-                    Item(3, "3 months", R.drawable.query_stats)
-                    Item(4, "6 months", R.drawable.query_stats)
-                    Item(5, "1 year", R.drawable.query_stats)
-                    Item(6, "All", R.drawable.query_stats)
+                    Item(0, stringResource(R.string.today), R.drawable.query_stats)
+                    Item(1, stringResource(R.string._1_week), R.drawable.query_stats)
+                    Item(2, stringResource(R.string._1_month), R.drawable.query_stats)
+                    Item(3, stringResource(R.string._3_month), R.drawable.query_stats)
+                    Item(4, stringResource(R.string._6_month), R.drawable.query_stats)
+                    Item(5, stringResource(R.string._1_year), R.drawable.query_stats)
+                    Item(6, stringResource(R.string.all), R.drawable.query_stats)
                 }
             ) { currentTabIndex ->
                 saveableStateHolder.SaveableStateProvider(key = currentTabIndex) {

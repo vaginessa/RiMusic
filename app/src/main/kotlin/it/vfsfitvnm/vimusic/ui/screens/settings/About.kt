@@ -82,5 +82,13 @@ fun About() {
                 uriHandler.openUri("https://github.com/fast4x/RiMusic/issues/new?assignees=&labels=feature_request&template=feature_request.yaml")
             }
         )
+
+        SettingsGroupSpacer()
+
+        SettingsEntryGroupText(title = "CONTRIBUTORS")
+
+        SettingsDescription(text = "In alphabetical order: \n" +
+        "DanielSevillano \n" + "ikanacova \n" + "NEVARLeVrai \n" + "siggi1984 \n" + "OrangeZXZ"
+        )
     }
 }

@@ -225,6 +225,8 @@ fun PlaylistItem(
 
         ItemInfoContainer(
             horizontalAlignment = if (alternative && channelName == null) Alignment.CenterHorizontally else Alignment.Start,
+            modifier = Modifier
+                .fillMaxSize()
         ) {
             BasicText(
                 text = name ?: "",

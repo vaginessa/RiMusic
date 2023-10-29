@@ -48,11 +48,11 @@ fun PlayerSettings() {
     val (colorPalette) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
 
-    var persistentQueue by rememberPreference(persistentQueueKey, false)
-    var closebackgroundPlayer by rememberPreference(closebackgroundPlayerKey, false)
+    var persistentQueue by rememberPreference(persistentQueueKey, true)
+    var closebackgroundPlayer by rememberPreference(closebackgroundPlayerKey, true)
     var resumePlaybackWhenDeviceConnected by rememberPreference(
         resumePlaybackWhenDeviceConnectedKey,
-        false
+        true
     )
     var skipSilence by rememberPreference(skipSilenceKey, false)
     var volumeNormalization by rememberPreference(volumeNormalizationKey, false)
