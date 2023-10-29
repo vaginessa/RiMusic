@@ -1,7 +1,7 @@
 <div align="center">
     <img src="./app/src/main/ic_launcher-playstore.png" width="128" height="128" style="display: block; margin: 0 auto"/>
     <h1>RiMusic</h1>
-    <p>A <b>multilingual</b> Android application for streaming music from YouTube Music</p>
+    <p>A <b>multilingual</b> Android application  for streaming music from YouTube Music</p>
 </div>
 
 ---
