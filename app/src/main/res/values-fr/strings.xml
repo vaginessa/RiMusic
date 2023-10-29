@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="cancel">Annuler</string>
-    <string name="done">Effectué</string>
+    <string name="done">Effectuer</string>
     <string name="hidesong">Voulez-vous vraiment cacher cette chanson ? Son temps de lecture et son cache seront effacés.\nCette action est irréversible.</string>
     <string name="new_playlist">Nouvelle playlist</string>
-    <string name="start_radio">Écoute la radio</string>
+    <string name="start_radio">Écouter la radio</string>
     <string name="equalizer">Égaliseur</string>
     <string name="stop_sleep_timer">Désactiver la minuterie de mise en veille ?</string>
     <string name="set_sleep_timer">Minuterie d\'arrêt</string>
@@ -52,11 +52,11 @@
     <string name="size">Taille</string>
     <string name="cached">En cache</string>
     <string name="loudness">Volume</string>
-    <string name="clear">Effacé</string>
+    <string name="clear">Effacer</string>
     <string name="error">Une erreur est survenue.</string>
     <string name="enter_a_name">Rechercher</string>
     <string name="online">En ligne</string>
-    <string name="no_results_found">Aucun résultat trouvé. Veuillez essayer une autre recherche ou une autre catégorie</string>
+    <string name="no_results_found">Aucun résultat trouvé.\nVeuillez essayer une autre recherche ou une autre catégorie</string>
     <string name="videos">Vidéos</string>
     <string name="featured">En vedette</string>
     <string name="view_the_source_code">Afficher le code source</string>
@@ -71,14 +71,14 @@
     <string name="thumbnail_roundness">Aspect</string>
     <string name="text">TEXTE</string>
     <string name="use_system_font">Utiliser la police du système</string>
-    <string name="use_font_by_the_system">Utilisez la police appliquée par le système</string>
+    <string name="use_font_by_the_system">Utiliser la police appliquée par le système</string>
     <string name="apply_font_padding">Appliquer un remplissage</string>
     <string name="add_spacing_around_texts">Ajouter un espace autour des textes</string>
     <string name="lockscreen">ÉCRAN DE VERROUILLAGE</string>
     <string name="show_song_cover">Afficher la pochette d\'album</string>
     <string name="use_song_cover_on_lockscreen">Afficher la pochette d\'album sur le fond d\'écran de l\'écran de vérrouillage</string>
     <string name="cache">Cache</string>
-    <string name="cache_cleared">Lorsque le cache manque d\'espace, les ressources les moins récemment consultées sont effacées</string>
+    <string name="cache_cleared">Lorsque le cache manque d\'espace, les ressources en cache les moins récemment consultées seront effacées</string>
     <string name="image_cache">CACHE D\'IMAGE</string>
     <string name="max_size">Taille max</string>
     <string name="song_cache">CACHE DES CHANSONS</string>
@@ -102,11 +102,11 @@
     <string name="neither_save_new_searched_query">Ne pas enregistrer de nouvelles recherches ainsi que l’historique</string>
     <string name="clear_search_history">Effacer l’historique de recherche</string>
     <string name="history_is_empty">L’historique est vide</string>
-    <string name="service_lifetime">Service de maintenance</string>
+    <string name="service_lifetime">Service supplémentaire d\'optimisation</string>
     <string name="battery_optimizations_applied">Si des optimisations de la batterie sont appliquées, la notification de lecture peut soudainement disparaître en cas de pause.</string>
     <string name="is_android12">Depuis Android 12, la désactivation des optimisations de la batterie est nécessaire pour que l’option \"Service protégé\" prenne effet.</string>
     <string name="ignore_battery_optimizations">Ignorer les optimisations de la batterie</string>
-    <string name="already_unrestricted">Déjà sans restriction</string>
+    <string name="already_unrestricted">Déjà sans aucune restriction</string>
     <string name="disable_background_restrictions">Désactiver les restrictions en arrière-plan</string>
     <string name="invincible_service">Service protégé</string>
     <string name="turning_off_battery_optimizations_is_not_enough">Quand \"désactiver les optimisations de la batterie\" ne suffit pas</string>
@@ -143,7 +143,7 @@
     <string name="custom_cache_from_android_10_may_not_be_available">À partir d\'Android 10, cette fonctionnalité peut ne plus être disponible</string>
     <string name="reset_cache_location_folder">RÉINITIALISER LE CACHE</string>
     <string name="used">"utilisé"</string>
-    <string name="now_playing">Entrain de jouer...</string>
+    <string name="now_playing">Entrain de lire...</string>
     <string name="close_background_player">Effacer le lecteur en arrière plan</string>
     <string name="when_app_swipe_out_from_task_manager">Lorsque vous faites glisser en dehors du gestionnaire des applications récentes)</string>
     <string name="opening_url">est entrain de charger...</string>
@@ -154,14 +154,14 @@
     <string name="error_the_original_video_source_of_this_song_has_been_deleted">La source vidéo originale de cette chanson a été supprimée</string>
     <string name="error_this_song_cannot_be_played_due_to_server_restrictions">Cette chanson ne peut pas être lue en raison de restrictions du serveur</string>
     <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">L\'identifiant vidéo retourné ne correspond pas à celui demandé</string>
-    <string name="error_an_unknown_playback_error_has_occurred">Une erreur de lecture inconnue s\'est produite</string>
+    <string name="error_an_unknown_playback_error_has_occurred">Une erreur de lecture inconnue s\'est produite, si le problème persiste signalé le problème</string>
     <string name="tips">Recommandations</string>
     <string name="next_playing">Prochaine en lecture...</string>
     <string name="quick_pics_and_tips">Sélection rapide et recommandations</string>
     <string name="is_min_list_time_for_tips_or_quick_pics">C\'est la durée d\'écoute minimale pour inclure la chanson comme une suggestion possible pour la sélection rapide et les recommandations</string>
     <string name="min_listening_time">Durée d\'écoute minimale</string>
     <string name="player_thumbnail_size">Taille de la pochette d\'album</string>
-    <string name="restarting_rimusic_is_required">Un redémarrage est requis pour pouvoir l\'appliquer</string>
+    <string name="restarting_rimusic_is_required">Un redémarrage est requis pour pouvoir l\'appliquer !</string>
     <string name="size_name">Taille</string>
     <string name="current_size_name">"Taille de la pochette d\'album actuelle"</string>
     <string name="current_shape_name">Arrondissement des coins actuel</string>
@@ -174,16 +174,4 @@
     <string name="effects">Effects</string>
     <string name="player_rotating_buttons">Rotating buttons</string>
     <string name="player_enable_rotation_buttons">Enable rotation of buttons when clicked</string>
-    <string name="statistics">Statistics</string>
-    <string name="today">Today</string>
-    <string name="_1_week">1 Week</string>
-    <string name="_1_month">1 Month</string>
-    <string name="_3_month">3 month</string>
-    <string name="_6_month">6 Month</string>
-    <string name="_1_year">1 Year</string>
-    <string name="all">All</string>
-    <string name="most_played_songs">Most played songs</string>
-    <string name="most_listened_artists">Most listened artists</string>
-    <string name="most_albums_listened">Most albums listened</string>
-    <string name="most_played_playlists">Most played playlists</string>
 </resources>
