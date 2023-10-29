@@ -171,7 +171,7 @@
   <string name="i18_none">None</string>
   <string name="i18_light">Light</string>
   <string name="i18_heavy">Heavy</string>
-    <string name="effects">Effects</string>
-    <string name="player_rotating_buttons">Rotating buttons</string>
-    <string name="player_enable_rotation_buttons">Enable rotation of buttons when clicked</string>
+  <string name="effects">Effects</string>
+  <string name="player_rotating_buttons">Rotating buttons</string>
+  <string name="player_enable_rotation_buttons">Enable rotation of buttons when clicked</string>
 </resources>
