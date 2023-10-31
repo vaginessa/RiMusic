@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    android.buildFeatures.buildConfig=true
     compileSdk = 33
 
     defaultConfig {
@@ -13,6 +14,7 @@ android {
         targetSdk = 33
         versionCode = 6
         versionName = "0.6.7"
+        buildConfigField("String", "VERSION_NAME", "\"$versionName\"")
     }
 
     splits {

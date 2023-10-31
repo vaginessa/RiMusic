@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import it.vfsfitvnm.vimusic.BuildConfig
 //import it.vfsfitvnm.vimusic.BuildConfig
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
@@ -47,7 +48,7 @@ fun About() {
     ) {
         Header(title = stringResource(R.string.about)) {
             BasicText(
-                text =  "RiMusic ", //v${BuildConfig.VERSION_NAME} by fast4x",
+                text =  "RiMusic v${BuildConfig.VERSION_NAME} by fast4x",
                 style = typography.s.secondary
             )
         }
