@@ -26,7 +26,7 @@ dependencyResolutionManagement {
 
             library("compose-shimmer", "com.valentinilk.shimmer", "compose-shimmer").version("1.0.3")
 
-            library("compose-activity", "androidx.activity", "activity-compose").version("1.7.0-alpha01")
+            library("compose-activity", "androidx.activity", "activity-compose").version("1.6.1")
 
             library("compose-coil", "io.coil-kt", "coil-compose").version("2.2.2")
 

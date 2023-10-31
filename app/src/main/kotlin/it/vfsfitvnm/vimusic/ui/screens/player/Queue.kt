@@ -99,6 +99,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@androidx.media3.common.util.UnstableApi
 @Composable
 fun Queue(
     backgroundColorProvider: () -> Color,
@@ -220,7 +221,6 @@ fun Queue(
                         key = { it.uid.hashCode() }
                     ) { window ->
                         val isPlayingThisMediaItem = mediaItemIndex == window.firstPeriodIndex
-
                         SongItem(
                             song = window.mediaItem,
                             thumbnailSizePx = thumbnailSizePx,
@@ -306,6 +306,7 @@ fun Queue(
                                                     )
 
                                                 }
+
                                             )
                                         }
                                     },

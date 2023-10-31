@@ -210,6 +210,7 @@ fun QuickPicks(
                                                             Database.clearEventsFor(song.id)
                                                         }
                                                     },
+                                                    /*
                                                     onDownload = {
                                                         Log.d("downloadEvent","Download started from Quick Picks?")
                                                         val contentUri = "https://www.youtube.com/watch?v=${song.asMediaItem.mediaId}".toUri()
@@ -236,6 +237,7 @@ fun QuickPicks(
                                                         )
 
                                                     }
+                                                    */
                                                 )
                                             }
                                         },
@@ -269,7 +271,35 @@ fun QuickPicks(
                                         menuState.display {
                                             NonQueuedMediaItemMenu(
                                                 onDismiss = menuState::hide,
-                                                mediaItem = song.asMediaItem
+                                                mediaItem = song.asMediaItem,
+                                                /*
+                                                onDownload = {
+                                                    Log.d("downloadEvent","Download started from Quick Picks?")
+                                                    val contentUri = "https://www.youtube.com/watch?v=${song.asMediaItem.mediaId}".toUri()
+                                                    val downloadRequest = DownloadRequest.Builder(song.asMediaItem.mediaId, contentUri).build()
+
+                                                    DownloadService.sendAddDownload(
+                                                        context,
+                                                        LocalDownloadService::class.java,
+                                                        downloadRequest,
+                                                        /* foreground= */ false
+                                                    )
+
+                                                    DownloadService.sendSetStopReason(
+                                                        context,
+                                                        LocalDownloadService::class.java,
+                                                        song.asMediaItem.mediaId,
+                                                        Download.STOP_REASON_NONE,
+                                                        /* foreground= */ false
+                                                    )
+
+                                                    DownloadService.start(
+                                                        context,
+                                                        LocalDownloadService::class.java
+                                                    )
+
+                                                }
+                                                */
                                             )
                                         }
                                     },

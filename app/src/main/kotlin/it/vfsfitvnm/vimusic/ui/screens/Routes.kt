@@ -56,7 +56,9 @@ inline fun RouteHandlerScope.globalRoutes() {
         )
     }
 
+
     quickpicksRoute { browseId ->
 
     }
+
 }

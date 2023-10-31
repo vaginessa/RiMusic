@@ -1,11 +1,18 @@
 package it.vfsfitvnm.vimusic.ui.screens.home
 
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentCompositionLocalContext
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.core.graphics.component1
+import androidx.core.graphics.component2
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.routing.RouteHandler
 import it.vfsfitvnm.compose.routing.defaultStacking
@@ -16,6 +23,8 @@ import it.vfsfitvnm.compose.routing.isUnknown
 import it.vfsfitvnm.compose.routing.isUnstacking
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.ColorPaletteName
+import it.vfsfitvnm.vimusic.enums.NavigationTab
 import it.vfsfitvnm.vimusic.enums.StatisticsType
 import it.vfsfitvnm.vimusic.models.SearchQuery
 import it.vfsfitvnm.vimusic.query
@@ -36,7 +45,10 @@ import it.vfsfitvnm.vimusic.ui.screens.searchresult.SearchResultScreen
 import it.vfsfitvnm.vimusic.ui.screens.settings.SettingsScreen
 import it.vfsfitvnm.vimusic.ui.screens.settingsRoute
 import it.vfsfitvnm.vimusic.ui.screens.statisticsTypeRoute
+import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
+import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.homeScreenTabIndexKey
+import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -45,7 +57,11 @@ import it.vfsfitvnm.vimusic.utils.rememberPreference
 @ExperimentalAnimationApi
 @Composable
 fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
+
     val saveableStateHolder = rememberSaveableStateHolder()
+
+    //var setDefaultTab = remember { mutableStateOf(true) }
+    //val context = LocalContext.current
 
     PersistMapCleanup("home/")
 
@@ -112,10 +128,37 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
         }
 
         host {
-            val (tabIndex, onTabChanged) = rememberPreference(
+
+            var (tabIndex, onTabChanged) = rememberPreference(
                 homeScreenTabIndexKey,
                 defaultValue = 0
             )
+
+
+
+
+
+/*
+            var (navTabIndex) = rememberPreference(
+                indexNavigationTabKey,
+                NavigationTab.Default
+            )
+*/
+
+
+            //setDefaultTab.value = navTabIndex.index < 100
+
+            //countCall.value = countCall.value.inc()
+            //Log.d("routeHome","DefaultTab ${setDefaultTab.value} tabIndex ${tabIndex} navTabIndex ${navTabIndex.index}")
+/*
+            if (setDefaultTab.value == true) {
+                Log.d("routeHomeIfCheck","setHome ${setDefaultTab} tabIndex ${tabIndex} navTabIndex ${navTabIndex.index}")
+                tabIndex = navTabIndex.index
+                setDefaultTab.value = false
+            }
+*/
+
+
 
             Scaffold(
                 topIconButtonId = R.drawable.equalizer,

@@ -23,16 +23,19 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
+import it.vfsfitvnm.vimusic.enums.Languages
+import it.vfsfitvnm.vimusic.enums.NavigationTab
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
-import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.getI18String
+import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid13
 import it.vfsfitvnm.vimusic.utils.isShowingThumbnailInLockscreenKey
+import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.useSystemFontKey
@@ -42,6 +45,7 @@ import it.vfsfitvnm.vimusic.utils.useSystemFontKey
 fun AppearanceSettings() {
     val (colorPalette) = LocalAppearance.current
 
+    var languageApp  by rememberPreference(languageAppKey, Languages.English)
     var colorPaletteName by rememberPreference(colorPaletteNameKey, ColorPaletteName.PureBlack)
     var colorPaletteMode by rememberPreference(colorPaletteModeKey, ColorPaletteMode.System)
     var thumbnailRoundness by rememberPreference(
@@ -53,6 +57,10 @@ fun AppearanceSettings() {
     var isShowingThumbnailInLockscreen by rememberPreference(
         isShowingThumbnailInLockscreenKey,
         false
+    )
+    var navTabIndex by rememberPreference(
+        indexNavigationTabKey,
+        NavigationTab.Default
     )
 
     Column(
@@ -67,6 +75,27 @@ fun AppearanceSettings() {
             )
     ) {
         Header(title = stringResource(R.string.appearance))
+
+        SettingsEntryGroupText(title = stringResource(R.string.languages))
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.app_language),
+            selectedValue = languageApp,
+            onValueSelected = { languageApp = it }
+        )
+
+
+
+        /*
+        SettingsEntryGroupText(title = "Home")
+
+        EnumValueSelectorSettingsEntry(
+            title = "Tab",
+            selectedValue = navTabIndex,
+            onValueSelected = { navTabIndex = it }
+        )
+        */
+
 
         SettingsEntryGroupText(title = stringResource(R.string.colors))
 

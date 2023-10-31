@@ -12,7 +12,7 @@ android {
         minSdk = 21
         targetSdk = 33
         versionCode = 6
-        versionName = "0.6.6"
+        versionName = "0.6.7"
     }
 
     splits {
@@ -61,6 +61,11 @@ android {
         freeCompilerArgs += "-Xcontext-receivers"
         jvmTarget = "1.8"
     }
+
+    androidResources {
+        generateLocaleConfig = true
+    }
+
 }
 
 kapt {
@@ -99,6 +104,15 @@ dependencies {
     implementation(projects.kugou)
 
     implementation("androidx.core:core-splashscreen:1.0.0-beta02")
+
+    
+        val appcompat_version = "1.6.1"
+
+        implementation("androidx.appcompat:appcompat:$appcompat_version")
+        // For loading and tinting drawables on older versions of the platform
+        implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
+
+
 
     //implementation("androidx.compose.foundation:foundation:1.4.0")
     // Fix Duplicate class

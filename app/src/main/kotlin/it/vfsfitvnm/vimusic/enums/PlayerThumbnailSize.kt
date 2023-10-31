@@ -12,13 +12,4 @@ enum class PlayerThumbnailSize {
             `Big` -> 10
         }
 
-/*
-    val sizename: String
-        get() = when (this) {
-            `Small` -> "Small"
-            `Medium` -> "Medium"
-            `Big` -> "Big"
-        }
- */
-
 }

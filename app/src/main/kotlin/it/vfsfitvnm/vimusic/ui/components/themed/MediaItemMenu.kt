@@ -79,6 +79,7 @@ import kotlinx.coroutines.withContext
 
 
 @ExperimentalAnimationApi
+@androidx.media3.common.util.UnstableApi
 @Composable
 fun InHistoryMediaItemMenu(
     onDismiss: () -> Unit,

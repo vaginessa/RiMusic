@@ -11,6 +11,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.edit
 
+const val languageAppKey = "languageApp"
+const val indexNavigationTabKey = "indexNavigationTab"
 const val effectRotationKey = "effectRotation"
 const val playerThumbnailSizeKey = "playerThumbnailSize"
 const val colorPaletteNameKey = "colorPaletteName"
@@ -44,6 +46,7 @@ const val homeScreenTabIndexKey = "homeScreenTabIndex"
 const val searchResultScreenTabIndexKey = "searchResultScreenTabIndex"
 const val artistScreenTabIndexKey = "artistScreenTabIndex"
 const val pauseSearchHistoryKey = "pauseSearchHistory"
+
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,

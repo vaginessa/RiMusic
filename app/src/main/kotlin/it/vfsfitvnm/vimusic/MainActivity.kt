@@ -1,19 +1,25 @@
 package it.vfsfitvnm.vimusic
 
+import android.app.AppComponentFactory
+import android.app.LocaleConfig
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import android.icu.text.LocaleDisplayNames
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -57,11 +63,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.coerceIn
 import androidx.compose.ui.unit.dp
+import androidx.core.app.AppOpsManagerCompat
 import androidx.core.net.toUri
+import androidx.core.os.LocaleListCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
@@ -77,7 +87,9 @@ import it.vfsfitvnm.innertube.requests.playlistPage
 import it.vfsfitvnm.innertube.requests.song
 import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
+import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
+import it.vfsfitvnm.vimusic.enums.StatisticsType
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.service.LocalDownloadService
 import it.vfsfitvnm.vimusic.service.PlayerService
@@ -87,9 +99,17 @@ import it.vfsfitvnm.vimusic.ui.components.rememberBottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
+import it.vfsfitvnm.vimusic.ui.screens.builtInPlaylistRoute
+import it.vfsfitvnm.vimusic.ui.screens.home.HomePlaylists
 import it.vfsfitvnm.vimusic.ui.screens.home.HomeScreen
+import it.vfsfitvnm.vimusic.ui.screens.localPlaylistRoute
 import it.vfsfitvnm.vimusic.ui.screens.player.Player
+import it.vfsfitvnm.vimusic.ui.screens.playlist.PlaylistScreen
 import it.vfsfitvnm.vimusic.ui.screens.playlistRoute
+import it.vfsfitvnm.vimusic.ui.screens.searchRoute
+import it.vfsfitvnm.vimusic.ui.screens.statistics.StatisticsPage
+import it.vfsfitvnm.vimusic.ui.screens.statistics.StatisticsScreen
+import it.vfsfitvnm.vimusic.ui.screens.statisticsTypeRoute
 import it.vfsfitvnm.vimusic.ui.styling.Appearance
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -103,9 +123,11 @@ import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getEnum
+import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid8
+import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.secondary
@@ -120,7 +142,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class MainActivity : ComponentActivity(), PersistMapOwner {
+
+class MainActivity : AppCompatActivity(), PersistMapOwner {
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -143,9 +166,24 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
         bindService(intent<PlayerService>(), serviceConnection, Context.BIND_AUTO_CREATE)
     }
 
+
+
     @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+/*
+AppCompatDelegate
+
+        val locale = Locale("it")
+        val applicationRes = applicationContext.resources
+        val conf = applicationRes.configuration
+        val dm: DisplayMetrics = applicationRes.displayMetrics
+        conf.setLocale(locale)
+        conf.setLayoutDirection(locale)
+ */
+
 
         var splashScreenStays = true
         val delayTime = 800L
@@ -168,6 +206,9 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
                 isSystemInDarkTheme,
                 stateSaver = Appearance.Companion
             ) {
+
+
+
                 with(preferences) {
                     val colorPaletteName = getEnum(colorPaletteNameKey, ColorPaletteName.PureBlack)
                     val colorPaletteMode = getEnum(colorPaletteModeKey, ColorPaletteMode.System)
@@ -234,6 +275,16 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
                 val listener =
                     SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
                         when (key) {
+
+                            languageAppKey -> {
+                                val lang = sharedPreferences.getEnum(
+                                    languageAppKey,
+                                    Languages.English
+                                )
+
+                                val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(lang.code)
+                                AppCompatDelegate.setApplicationLocales(appLocale)
+                            }
 
                             effectRotationKey, playerThumbnailSizeKey -> {
                                 this@MainActivity.recreate()
@@ -380,6 +431,7 @@ class MainActivity : ComponentActivity(), PersistMapOwner {
                     LocalPlayerAwareWindowInsets provides playerAwareWindowInsets,
                     LocalLayoutDirection provides LayoutDirection.Ltr
                 ) {
+
                     HomeScreen(
                         onPlaylistUrl = { url ->
                             onNewIntent(Intent.parseUri(url, 0))
