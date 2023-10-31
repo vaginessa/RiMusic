@@ -57,7 +57,7 @@
 * Czech, native language, thank to [@ikanakova](https://github.com/ikanakova)
 * Spanish, native language, thank to [@DanielSevillano](https://github.com/DanielSevillano)
 * Turkish, non native language, contribute to improve
-* contribute for any other language
+* contribute for any other language - see [Contributor's Guide: Adding Translations](https://github.com/fast4x/RiMusic/wiki/Contributor's-Guide:-Adding-Translations)
 
 
 ## Installation
