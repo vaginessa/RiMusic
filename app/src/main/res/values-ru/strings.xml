@@ -186,4 +186,6 @@
     <string name="most_listened_artists">Most listened artists</string>
     <string name="most_albums_listened">Most albums listened</string>
     <string name="most_played_playlists">Most played playlists</string>
+    <string name="languages">Languages</string>
+    <string name="app_language">App language</string>
 </resources>
