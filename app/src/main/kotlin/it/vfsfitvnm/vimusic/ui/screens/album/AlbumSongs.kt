@@ -28,10 +28,12 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
@@ -87,11 +89,26 @@ fun AlbumSongs(
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         headerContent {
-                            SecondaryButton(
-                                iconId = R.drawable.enqueue_new,
+                            HeaderIconButton(
+                                icon = R.drawable.enqueue_new,
                                 enabled = songs.isNotEmpty(),
+                                color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
                                 onClick = { binder?.player?.enqueue(songs.map(Song::asMediaItem)) }
                             )
+                            HeaderIconButton(
+                                icon = R.drawable.shuffle,
+                                enabled = songs.isNotEmpty(),
+                                color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
+                                onClick = {
+                                    if (songs.isNotEmpty()) {
+                                        binder?.stopRadio()
+                                        binder?.player?.forcePlayFromBeginning(
+                                            songs.shuffled().map(Song::asMediaItem)
+                                        )
+                                    }
+                                }
+                            )
+
 
                         }
 
@@ -155,7 +172,7 @@ fun AlbumSongs(
                     }
                 }
             }
-
+/*
             FloatingActionsContainerWithScrollToTop(
                 lazyListState = lazyListState,
                 iconId = R.drawable.shuffle,
@@ -168,6 +185,8 @@ fun AlbumSongs(
                     }
                 }
             )
+
+ */
         }
     }
 }

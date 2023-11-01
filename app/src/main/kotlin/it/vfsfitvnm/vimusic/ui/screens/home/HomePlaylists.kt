@@ -136,15 +136,16 @@ fun HomePlaylists(
                         icon = painterResource(R.drawable.playlist),
                         spacer = 0
                     )
-                    SecondaryButton(
-                        iconId = R.drawable.add,
-                        enabled = true,
-                        onClick = { isCreatingANewPlaylist = true }
-                    )
 
                     Spacer(
                         modifier = Modifier
                             .weight(1f)
+                    )
+
+                    HeaderIconButton(
+                        icon = R.drawable.add,
+                        color = colorPalette.text,
+                        onClick = { isCreatingANewPlaylist = true }
                     )
 
                     HeaderIconButton(

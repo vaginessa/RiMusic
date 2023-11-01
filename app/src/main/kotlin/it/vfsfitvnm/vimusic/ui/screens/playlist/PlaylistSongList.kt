@@ -34,6 +34,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
 import it.vfsfitvnm.vimusic.query
@@ -127,20 +128,20 @@ fun PlaylistSongList(
         } else {
             Header(title = playlistPage?.title ?: "Unknown") {
 
-                SecondaryButton(
-                    iconId = R.drawable.shuffle,
+                Spacer(
+                    modifier = Modifier
+                        .weight(1f)
+                )
+
+                HeaderIconButton(
+                    icon = R.drawable.shuffle,
                     enabled = playlistPage?.songsPage?.items?.isNotEmpty() == true,
+                    color =  if (playlistPage?.songsPage?.items?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
                     onClick = {
                         playlistPage?.songsPage?.items?.map(Innertube.SongItem::asMediaItem)?.let { mediaItems ->
                             binder?.player?.enqueue(mediaItems)
                         }
                     }
-                )
-
-
-                Spacer(
-                    modifier = Modifier
-                        .weight(1f)
                 )
 
                 HeaderIconButton(
@@ -230,7 +231,7 @@ fun PlaylistSongList(
                     }
                 }
             }
-
+/*
             FloatingActionsContainerWithScrollToTop(
                 lazyListState = lazyListState,
                 iconId = R.drawable.shuffle,
@@ -245,6 +246,8 @@ fun PlaylistSongList(
                     }
                 }
             )
+
+ */
         }
     }
 }

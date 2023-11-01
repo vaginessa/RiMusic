@@ -38,6 +38,7 @@ import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
@@ -109,15 +110,26 @@ fun ArtistOverview(
                 ) {
                     headerContent {
                         youtubeArtistPage?.shuffleEndpoint?.let { endpoint ->
-                            SecondaryButton(
-                                iconId = R.drawable.shuffle,
+                            HeaderIconButton(
+                                icon = R.drawable.shuffle,
                                 enabled = true,
+                                color = colorPalette.text,
                                 onClick = {
                                     binder?.stopRadio()
                                     binder?.playRadio(endpoint)
                                 }
                             )
-
+                        }
+                        youtubeArtistPage?.radioEndpoint?.let { endpoint ->
+                            HeaderIconButton(
+                                icon = R.drawable.radio,
+                                enabled = true,
+                                color = colorPalette.text,
+                                onClick = {
+                                    binder?.stopRadio()
+                                    binder?.playRadio(endpoint)
+                                }
+                            )
                         }
                     }
                 }
@@ -342,7 +354,7 @@ fun ArtistOverview(
                     }
                 }
             }
-
+/*
             youtubeArtistPage?.radioEndpoint?.let { endpoint ->
                 FloatingActionsContainerWithScrollToTop(
                     scrollState = scrollState,
@@ -353,6 +365,8 @@ fun ArtistOverview(
                     }
                 )
             }
+
+ */
         }
     }
 }

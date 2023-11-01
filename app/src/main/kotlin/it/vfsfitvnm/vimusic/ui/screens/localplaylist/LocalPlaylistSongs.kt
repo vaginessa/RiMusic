@@ -159,9 +159,16 @@ fun LocalPlaylistSongs(
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                 ) {
-                    SecondaryButton(
-                        iconId = R.drawable.enqueue_new,
+
+                    Spacer(
+                        modifier = Modifier
+                            .weight(1f)
+                    )
+
+                    HeaderIconButton(
+                        icon = R.drawable.enqueue_new,
                         enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
+                        color = if (playlistWithSongs?.songs?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
                         onClick = {
                             playlistWithSongs?.songs
                                 ?.map(Song::asMediaItem)
@@ -171,20 +178,17 @@ fun LocalPlaylistSongs(
                         }
                     )
 
-                    Spacer(
-                        modifier = Modifier
-                            .weight(1f)
-                    )
-
                     HeaderIconButton(
                         icon = if (isReorderDisabled) R.drawable.locked else R.drawable.unlocked,
-                        color = colorPalette.text,
+                        enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
+                        color = if (playlistWithSongs?.songs?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
                         onClick = { isReorderDisabled = !isReorderDisabled }
                     )
 
                     HeaderIconButton(
                         icon = R.drawable.ellipsis_horizontal,
-                        color = colorPalette.text,
+                        color = if (playlistWithSongs?.songs?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
+                        enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
                         onClick = {
                             menuState.display {
                                 Menu {

@@ -372,7 +372,7 @@ fun Queue(
                         }
                     }
                 }
-
+/*
                 FloatingActionsContainerWithScrollToTop(
                     lazyListState = reorderingState.lazyListState,
                     iconId = R.drawable.shuffle,
@@ -386,6 +386,8 @@ fun Queue(
                         }
                     }
                 )
+
+ */
             }
 
 
@@ -439,6 +441,23 @@ fun Queue(
                         .padding(horizontal = 8.dp, vertical = 22.dp)
                         .size(18.dp)
                     )
+
+                IconButton(
+                    icon = R.drawable.shuffle,
+                    color = colorPalette.text,
+                    enabled = !reorderingState.isDragging,
+                    modifier = Modifier
+                        //.align(Alignment.CenterStart)
+                        .padding(horizontal = 8.dp, vertical = 22.dp)
+                        .size(18.dp),
+                    onClick = {
+                        reorderingState.coroutineScope.launch {
+                            reorderingState.lazyListState.smoothScrollToTop()
+                        }.invokeOnCompletion {
+                            player.shuffleQueue()
+                        }
+                    }
+                )
             }
 
                 BasicText(

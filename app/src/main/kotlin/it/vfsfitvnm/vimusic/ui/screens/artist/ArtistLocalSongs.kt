@@ -25,10 +25,12 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
@@ -82,12 +84,27 @@ fun ArtistLocalSongs(
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         headerContent {
-                            SecondaryButton(
-                                iconId = R.drawable.enqueue_new,
+                            HeaderIconButton(
+                                icon = R.drawable.enqueue_new,
                                 enabled = !songs.isNullOrEmpty(),
+                                color = if (!songs.isNullOrEmpty()) colorPalette.text else colorPalette.textDisabled,
                                 onClick = { binder?.player?.enqueue(songs!!.map(Song::asMediaItem)) }
                             )
-
+                            HeaderIconButton(
+                                icon = R.drawable.shuffle,
+                                enabled = !songs.isNullOrEmpty(),
+                                color = if (!songs.isNullOrEmpty()) colorPalette.text else colorPalette.textDisabled,
+                                onClick = {
+                                    songs?.let { songs ->
+                                        if (songs.isNotEmpty()) {
+                                            binder?.stopRadio()
+                                            binder?.player?.forcePlayFromBeginning(
+                                                songs.shuffled().map(Song::asMediaItem)
+                                            )
+                                        }
+                                    }
+                                }
+                            )
                         }
 
                         thumbnailContent()
@@ -131,7 +148,7 @@ fun ArtistLocalSongs(
                     }
                 }
             }
-
+/*
             FloatingActionsContainerWithScrollToTop(
                 lazyListState = lazyListState,
                 iconId = R.drawable.shuffle,
@@ -146,6 +163,8 @@ fun ArtistLocalSongs(
                     }
                 }
             )
+
+ */
         }
     }
 }

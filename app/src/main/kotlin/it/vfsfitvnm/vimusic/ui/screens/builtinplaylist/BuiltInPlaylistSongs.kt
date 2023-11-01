@@ -148,20 +148,23 @@ fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
                         icon = painterResource(R.drawable.musical_notes),
                         spacer = 0
                     )
-                    SecondaryButton(
-                        iconId = R.drawable.enqueue_new,
-                        enabled = songs.isNotEmpty(),
-                        onClick = {
-                            binder?.player?.enqueue(songs.map(Song::asMediaItem))
-                        }
-                    )
 
                     Spacer(
                         modifier = Modifier
                             .weight(1f)
                     )
 
-                            HeaderIconButton(
+                    HeaderIconButton(
+                        icon = R.drawable.enqueue_new,
+                        enabled = songs.isNotEmpty(),
+                        color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
+                        onClick = {
+                            binder?.player?.enqueue(songs.map(Song::asMediaItem))
+                        }
+                    )
+
+
+                    HeaderIconButton(
                                 icon = R.drawable.trending,
                                 color = if (sortBy == SongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
                                 onClick = { sortBy = SongSortBy.PlayTime }
