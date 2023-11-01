@@ -250,6 +250,13 @@ fun Player(
                     .fillMaxSize()
                     .padding(horizontalBottomPaddingValues)
                     .drawBehind {
+                        drawLine(
+                            color = colorPalette.textDisabled,
+                            start = Offset(x = 0f, y = 1.dp.toPx()),
+                            end = Offset(x = size.maxDimension, y = 1.dp.toPx()),
+                            strokeWidth = 2.dp.toPx()
+                        )
+
                         val progress =
                             positionAndDuration.first.toFloat() / positionAndDuration.second.absoluteValue
 
@@ -259,8 +266,15 @@ fun Player(
                             end = Offset(x = size.width * progress, y = 1.dp.toPx()),
                             strokeWidth = 2.dp.toPx()
                         )
+
+                        drawCircle(
+                            color = colorPalette.collapsedPlayerProgressBar,
+                            radius = 3.dp.toPx(),
+                            center = Offset(x = size.width * progress, y = 1.dp.toPx())
+                        )
                     }
             ) {
+
                 Spacer(
                     modifier = Modifier
                         .width(2.dp)
@@ -562,3 +576,5 @@ private fun PlayerMenu(
         onDismiss = onDismiss
     )
 }
+
+

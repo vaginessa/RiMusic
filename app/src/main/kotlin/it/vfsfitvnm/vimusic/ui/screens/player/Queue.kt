@@ -16,14 +16,18 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.layout.Arrangement
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,6 +37,7 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,6 +47,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,6 +60,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -78,6 +85,7 @@ import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.MusicBars
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.QueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.items.SongItem
@@ -198,6 +206,10 @@ fun Queue(
 
         val musicBarsTransition = updateTransition(targetState = mediaItemIndex, label = "")
 
+        var isReorderDisabled by rememberSaveable {
+            mutableStateOf(false)
+        }
+
 
         Column {
             Box(
@@ -259,18 +271,20 @@ fun Queue(
                                 }
                             },
                             trailingContent = {
-                                IconButton(
-                                    icon = R.drawable.reorder,
-                                    color = colorPalette.textDisabled,
-                                    indication = rippleIndication,
-                                    onClick = {},
-                                    modifier = Modifier
-                                        .reorder(
-                                            reorderingState = reorderingState,
-                                            index = window.firstPeriodIndex
-                                        )
-                                        .size(18.dp)
-                                )
+                                if (!isReorderDisabled) {
+                                    IconButton(
+                                        icon = R.drawable.reorder,
+                                        color = colorPalette.textDisabled,
+                                        //indication = rippleIndication,
+                                        onClick = {},
+                                        modifier = Modifier
+                                            .reorder(
+                                                reorderingState = reorderingState,
+                                                index = window.firstPeriodIndex
+                                            )
+                                            .size(18.dp)
+                                    )
+                                }
                             },
                             modifier = Modifier
                                 .combinedClickable(
@@ -281,9 +295,18 @@ fun Queue(
                                                 indexInQueue = if (isPlayingThisMediaItem) null else window.firstPeriodIndex,
                                                 onDismiss = menuState::hide,
                                                 onDownload = {
-                                                    Log.d("downloadEvent","Download started from Queue?")
-                                                    val contentUri = "https://www.youtube.com/watch?v=${window.mediaItem.mediaId}".toUri()
-                                                    val downloadRequest = DownloadRequest.Builder(window.mediaItem.mediaId, contentUri).build()
+                                                    Log.d(
+                                                        "downloadEvent",
+                                                        "Download started from Queue?"
+                                                    )
+                                                    val contentUri =
+                                                        "https://www.youtube.com/watch?v=${window.mediaItem.mediaId}".toUri()
+                                                    val downloadRequest = DownloadRequest
+                                                        .Builder(
+                                                            window.mediaItem.mediaId,
+                                                            contentUri
+                                                        )
+                                                        .build()
 
                                                     DownloadService.sendAddDownload(
                                                         context,
@@ -385,6 +408,11 @@ fun Queue(
                         //.padding(all = 10.dp)
                 )
 
+            Row(
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically,
+            ){
+
                 IconButton(
                     icon = R.drawable.trash,
                     color = colorPalette.text,
@@ -396,10 +424,22 @@ fun Queue(
 
                     },
                     modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(horizontal = 4.dp, vertical = 8.dp)
+                        //.align(Alignment.CenterStart)
+                        .padding(horizontal = 4.dp, vertical = 22.dp)
                         .size(18.dp)
                 )
+
+
+                IconButton(
+                    icon = if (isReorderDisabled) R.drawable.locked else R.drawable.unlocked,
+                    color = colorPalette.text,
+                    onClick = { isReorderDisabled = !isReorderDisabled },
+                    modifier = Modifier
+                        //.align(Alignment.CenterStart)
+                        .padding(horizontal = 8.dp, vertical = 22.dp)
+                        .size(18.dp)
+                    )
+            }
 
                 BasicText(
                     text = "${binder.player.mediaItemCount} " + stringResource(R.string.songs) + " " + stringResource(R.string.on_queue),
