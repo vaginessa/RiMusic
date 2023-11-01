@@ -26,6 +26,7 @@ import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.NavigationTab
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
+import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
@@ -74,7 +75,7 @@ fun AppearanceSettings() {
                     .asPaddingValues()
             )
     ) {
-        Header(title = stringResource(R.string.appearance))
+        HalfHeader(title = stringResource(R.string.appearance))
 
         SettingsEntryGroupText(title = stringResource(R.string.languages))
 

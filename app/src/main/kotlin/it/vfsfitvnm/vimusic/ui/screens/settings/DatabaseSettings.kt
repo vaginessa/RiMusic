@@ -29,6 +29,7 @@ import it.vfsfitvnm.vimusic.internal
 import it.vfsfitvnm.vimusic.path
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.PlayerService
+import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.intent
@@ -97,7 +98,7 @@ fun DatabaseSettings() {
                     .asPaddingValues()
             )
     ) {
-        Header(title = stringResource(R.string.database))
+        HalfHeader(title = stringResource(R.string.database))
 
         SettingsEntryGroupText(title = stringResource(R.string.cleanup))
 

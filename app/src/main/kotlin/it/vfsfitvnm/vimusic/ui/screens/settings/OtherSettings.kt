@@ -34,6 +34,7 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.PlayerMediaBrowserService
+import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid12
@@ -100,7 +101,7 @@ fun OtherSettings() {
                     .asPaddingValues()
             )
     ) {
-        Header(title = stringResource(R.string.other))
+        HalfHeader(title = stringResource(R.string.other))
 
         SettingsEntryGroupText(title = stringResource(R.string.android_auto))
 

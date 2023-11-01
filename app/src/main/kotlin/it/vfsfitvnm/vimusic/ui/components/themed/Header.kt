@@ -46,7 +46,7 @@ fun Header(
         titleContent = {
             BasicText(
                 text = title,
-                style = typography.l.medium,
+                style = typography.xxl.medium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -62,20 +62,21 @@ fun Header(
     actionsContent: @Composable RowScope.() -> Unit,
 ) {
     Box(
-        contentAlignment = Alignment.CenterEnd,
+        contentAlignment = Alignment.TopCenter,
         modifier = modifier
-            .padding(horizontal = 16.dp)
-            .height(Dimensions.headerHeight)
+            .padding(horizontal = 16.dp, vertical = 16.dp)
+            //.height(Dimensions.headerHeight)
+            .height(Dimensions.mediumheaderHeight)
             .fillMaxWidth()
     ) {
         titleContent()
 
         Row(
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .heightIn(min = 48.dp),
+                .align(Alignment.BottomEnd),
+                //.heightIn(min = 30.dp),
             content = actionsContent,
         )
     }
@@ -122,7 +123,7 @@ fun HalfHeader(
         titleContent = {
             BasicText(
                 text = title,
-                style = typography.l.medium,
+                style = typography.xxl.medium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -138,7 +139,7 @@ fun HalfHeader(
     actionsContent: @Composable RowScope.() -> Unit,
 ) {
     Box(
-        contentAlignment = Alignment.CenterEnd,
+        contentAlignment = Alignment.Center,
         modifier = modifier
             .padding(horizontal = 8.dp)
             .height(Dimensions.halfheaderHeight)
@@ -151,7 +152,7 @@ fun HalfHeader(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .heightIn(min = 48.dp),
+                .heightIn(min = 30.dp),
             content = actionsContent,
         )
     }

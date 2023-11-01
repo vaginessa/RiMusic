@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
@@ -18,10 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.vimusic.BuildConfig
 //import it.vfsfitvnm.vimusic.BuildConfig
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.secondary
@@ -46,12 +49,15 @@ fun About() {
                     .asPaddingValues()
             )
     ) {
-        Header(title = stringResource(R.string.about)) {
-            BasicText(
-                text =  "RiMusic v${BuildConfig.VERSION_NAME} by fast4x",
-                style = typography.s.secondary
-            )
-        }
+        HalfHeader(title = stringResource(R.string.about))
+        BasicText(
+            text =  "RiMusic v${BuildConfig.VERSION_NAME} by fast4x",
+            style = typography.s.secondary,
+            modifier = Modifier
+                //.padding(top = 60.dp)
+        )
+
+        SettingsGroupSpacer()
 
         SettingsEntryGroupText(title = "SOCIAL")
 

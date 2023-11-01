@@ -26,6 +26,7 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
+import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
@@ -79,7 +80,7 @@ fun PlayerSettings() {
                     .asPaddingValues()
             )
     ) {
-        Header(title = stringResource(R.string.player))
+        HalfHeader(title = stringResource(R.string.player))
 
         SettingsEntryGroupText(title = stringResource(R.string.effects))
 
