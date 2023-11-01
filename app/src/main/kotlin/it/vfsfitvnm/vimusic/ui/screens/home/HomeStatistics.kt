@@ -11,12 +11,14 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -133,7 +135,21 @@ fun HomeStatistics(
                 .background(colorPalette.background0)
         ) {
             item(key = "header", contentType = 0, span = { GridItemSpan(maxLineSpan) }) {
-                HalfHeader (title = stringResource(R.string.statistics)) {
+
+                Row (
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxSize()
+                ){
+
+                    HalfHeader(title = stringResource(R.string.statistics))
+
+                    SecondaryButton(
+                        iconId = R.drawable.search,
+                        enabled = true,
+                        onClick = onSearchClick
+                    )
                 }
 
             }
@@ -246,11 +262,13 @@ fun HomeStatistics(
             }
 
         }
-
+/*
         FloatingActionsContainerWithScrollToTop(
             lazyGridState = lazyGridState,
             iconId = R.drawable.search,
             onClick = onSearchClick
         )
+
+ */
     }
 }

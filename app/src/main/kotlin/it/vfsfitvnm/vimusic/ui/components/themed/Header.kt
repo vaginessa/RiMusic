@@ -143,7 +143,7 @@ fun HalfHeader(
         modifier = modifier
             .padding(horizontal = 8.dp)
             .height(Dimensions.halfheaderHeight)
-            .fillMaxWidth()
+            //.fillMaxWidth()
     ) {
         titleContent()
 

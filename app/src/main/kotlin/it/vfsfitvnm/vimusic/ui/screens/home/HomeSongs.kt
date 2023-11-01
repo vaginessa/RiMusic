@@ -7,7 +7,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -43,10 +46,12 @@ import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
+import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -65,7 +70,7 @@ import it.vfsfitvnm.vimusic.utils.songSortOrderKey
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
-fun HomeSongs(
+fun  HomeSongs(
     onSearchClick: () -> Unit
 ) {
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
@@ -105,46 +110,71 @@ fun HomeSongs(
                 key = "header",
                 contentType = 0
             ) {
-                Header(title = stringResource(R.string.songs)) {
+
+                Row (
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxSize()
+                ){
+
+                    HalfHeader(title = stringResource(R.string.songs))
+
+                    SecondaryButton(
+                        iconId = R.drawable.search,
+                        enabled = true,
+                        onClick = onSearchClick
+                    )
+                }
+
+                Row (
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
                     HeaderInfo(
                         title = "${items.size}",
                         icon = painterResource(R.drawable.musical_notes),
                         spacer = 0
                     )
+
                     Spacer(
                         modifier = Modifier
                             .weight(1f)
                     )
-                    HeaderIconButton(
-                        icon = R.drawable.trending,
-                        color = if (sortBy == SongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { sortBy = SongSortBy.PlayTime }
-                    )
 
-                    HeaderIconButton(
-                        icon = R.drawable.text,
-                        color = if (sortBy == SongSortBy.Title) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { sortBy = SongSortBy.Title }
-                    )
+                        HeaderIconButton(
+                            icon = R.drawable.trending,
+                            color = if (sortBy == SongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
+                            onClick = { sortBy = SongSortBy.PlayTime }
+                        )
 
-                    HeaderIconButton(
-                        icon = R.drawable.time,
-                        color = if (sortBy == SongSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { sortBy = SongSortBy.DateAdded }
-                    )
+                        HeaderIconButton(
+                            icon = R.drawable.text,
+                            color = if (sortBy == SongSortBy.Title) colorPalette.text else colorPalette.textDisabled,
+                            onClick = { sortBy = SongSortBy.Title }
+                        )
 
-                    Spacer(
-                        modifier = Modifier
-                            .width(2.dp)
-                    )
+                        HeaderIconButton(
+                            icon = R.drawable.time,
+                            color = if (sortBy == SongSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
+                            onClick = { sortBy = SongSortBy.DateAdded }
+                        )
 
-                    HeaderIconButton(
-                        icon = R.drawable.arrow_up,
-                        color = colorPalette.text,
-                        onClick = { sortOrder = !sortOrder },
-                        modifier = Modifier
-                            .graphicsLayer { rotationZ = sortOrderIconRotation }
-                    )
+                        Spacer(
+                            modifier = Modifier
+                                .width(2.dp)
+                        )
+
+                        HeaderIconButton(
+                            icon = R.drawable.arrow_up,
+                            color = colorPalette.text,
+                            onClick = { sortOrder = !sortOrder },
+                            modifier = Modifier
+                                .graphicsLayer { rotationZ = sortOrderIconRotation }
+                        )
+
                 }
             }
 
@@ -198,11 +228,13 @@ fun HomeSongs(
                 )
             }
         }
-
+/*
         FloatingActionsContainerWithScrollToTop(
             lazyListState = lazyListState,
             iconId = R.drawable.search,
             onClick = onSearchClick
         )
+
+ */
     }
 }
