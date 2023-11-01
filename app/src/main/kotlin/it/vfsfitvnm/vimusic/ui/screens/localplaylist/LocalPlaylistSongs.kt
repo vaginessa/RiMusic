@@ -132,6 +132,10 @@ fun LocalPlaylistSongs(
         )
     }
 
+    var isReorderDisabled by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     val thumbnailSizeDp = Dimensions.thumbnails.song
     val thumbnailSizePx = thumbnailSizeDp.px
 
@@ -170,6 +174,12 @@ fun LocalPlaylistSongs(
                     Spacer(
                         modifier = Modifier
                             .weight(1f)
+                    )
+
+                    HeaderIconButton(
+                        icon = if (isReorderDisabled) R.drawable.locked else R.drawable.unlocked,
+                        color = colorPalette.text,
+                        onClick = { isReorderDisabled = !isReorderDisabled }
                     )
 
                     HeaderIconButton(
@@ -244,15 +254,17 @@ fun LocalPlaylistSongs(
                     thumbnailSizePx = thumbnailSizePx,
                     thumbnailSizeDp = thumbnailSizeDp,
                     trailingContent = {
-                        IconButton(
-                            icon = R.drawable.reorder,
-                            color = colorPalette.textDisabled,
-                            indication = rippleIndication,
-                            onClick = {},
-                            modifier = Modifier
-                                .reorder(reorderingState = reorderingState, index = index)
-                                .size(18.dp)
-                        )
+                        if (!isReorderDisabled) {
+                            IconButton(
+                                icon = R.drawable.reorder,
+                                color = colorPalette.textDisabled,
+                                indication = rippleIndication,
+                                onClick = {},
+                                modifier = Modifier
+                                    .reorder(reorderingState = reorderingState, index = index)
+                                    .size(18.dp)
+                            )
+                        }
                     },
                     modifier = Modifier
                         .combinedClickable(
