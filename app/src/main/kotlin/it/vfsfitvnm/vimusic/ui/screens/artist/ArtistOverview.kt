@@ -244,7 +244,7 @@ fun ArtistOverview(
                                 .padding(endPaddingValues)
                         ) {
                             BasicText(
-                                text = "Singles",
+                                text = stringResource(R.string.singles),
                                 style = typography.m.semiBold,
                                 modifier = sectionTextModifier
                             )
