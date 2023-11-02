@@ -31,7 +31,7 @@ fun SecondaryButton(
             .clip(CircleShape)
             .clickable(enabled = enabled, onClick = onClick)
             .background(colorPalette.primaryButton)
-            .size(48.dp)
+            .size(36.dp)
     ) {
         Image(
             painter = painterResource(iconId),
@@ -39,7 +39,7 @@ fun SecondaryButton(
             colorFilter = ColorFilter.tint(colorPalette.text),
             modifier = Modifier
                 .align(Alignment.Center)
-                .size(24.dp)
+                .size(18.dp)
         )
     }
 }

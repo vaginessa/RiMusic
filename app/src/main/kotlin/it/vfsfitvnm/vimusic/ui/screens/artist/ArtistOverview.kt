@@ -251,7 +251,7 @@ fun ArtistOverview(
 
                             youtubeArtistPage.singlesEndpoint?.let {
                                 BasicText(
-                                    text = "View all",
+                                    text = stringResource(R.string.view_all),
                                     style = typography.xs.secondary,
                                     modifier = sectionTextModifier
                                         .clickable(onClick = onViewAllSinglesClick),

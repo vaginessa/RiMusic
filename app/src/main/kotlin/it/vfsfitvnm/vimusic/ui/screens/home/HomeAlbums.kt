@@ -40,6 +40,7 @@ import it.vfsfitvnm.vimusic.models.Album
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
 import it.vfsfitvnm.vimusic.ui.items.AlbumItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -90,21 +91,15 @@ fun HomeAlbums(
                 key = "header",
                 contentType = 0
             ) {
-                Row (
-                    horizontalArrangement = Arrangement.SpaceAround,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ){
 
-                    HalfHeader(title = stringResource(R.string.albums))
-
-                    SecondaryButton(
-                        iconId = R.drawable.search,
-                        enabled = true,
-                        onClick = onSearchClick
-                    )
-                }
+                HeaderWithIcon(
+                    title = stringResource(R.string.albums),
+                    iconId = R.drawable.search,
+                    enabled = true,
+                    showIcon = true,
+                    modifier = Modifier,
+                    onClick = onSearchClick
+                )
 
                 Row (
                     horizontalArrangement = Arrangement.spacedBy(10.dp),

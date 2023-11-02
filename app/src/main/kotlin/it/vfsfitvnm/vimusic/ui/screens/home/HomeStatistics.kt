@@ -38,6 +38,7 @@ import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
@@ -114,21 +115,14 @@ fun HomeStatistics(
         ) {
             item(key = "header", contentType = 0, span = { GridItemSpan(maxLineSpan) }) {
 
-                Row (
-                    horizontalArrangement = Arrangement.SpaceAround,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxSize()
-                ){
-
-                    HalfHeader(title = stringResource(R.string.statistics))
-
-                    SecondaryButton(
-                        iconId = R.drawable.search,
-                        enabled = true,
-                        onClick = onSearchClick
-                    )
-                }
+                HeaderWithIcon(
+                    title = stringResource(R.string.statistics),
+                    iconId = R.drawable.search,
+                    enabled = true,
+                    showIcon = true,
+                    modifier = Modifier,
+                    onClick = onSearchClick
+                )
 
             }
 

@@ -62,6 +62,7 @@ import it.vfsfitvnm.vimusic.service.DownloaderService
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
@@ -164,21 +165,15 @@ fun QuickPicks(
                         .asPaddingValues()
                 )
         ) {
-        Row (
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                .fillMaxSize()
-        ){
 
-            HalfHeader(title = stringResource(R.string.quick_picks))
-
-            SecondaryButton(
+            HeaderWithIcon(
+                title = stringResource(R.string.quick_picks),
                 iconId = R.drawable.search,
                 enabled = true,
+                showIcon = true,
+                modifier = Modifier,
                 onClick = onSearchClick
             )
-        }
 
             BasicText(
                 text = stringResource(R.string.tips),

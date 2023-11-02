@@ -50,6 +50,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
@@ -124,22 +125,16 @@ fun HomePlaylists(
                 .background(colorPalette.background0)
         ) {
             item(key = "header", contentType = 0, span = { GridItemSpan(maxLineSpan) }) {
-                Row (
-                    horizontalArrangement = Arrangement.SpaceAround,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ){
 
-                    HalfHeader(title = stringResource(R.string.playlists))
+                HeaderWithIcon(
+                    title = stringResource(R.string.playlists),
+                    iconId = R.drawable.search,
+                    enabled = true,
+                    showIcon = true,
+                    modifier = Modifier,
+                    onClick = onSearchClick
+                )
 
-                    SecondaryButton(
-                        iconId = R.drawable.search,
-                        enabled = true,
-                        onClick = onSearchClick
-                    )
-
-                }
                 Header(title = "") {
                     HeaderInfo(
                         title = "${items.size}",
@@ -235,11 +230,13 @@ fun HomePlaylists(
                 )
             }
         }
-
+/*
         FloatingActionsContainerWithScrollToTop(
             lazyGridState = lazyGridState,
             iconId = R.drawable.search,
             onClick = onSearchClick
         )
+
+ */
     }
 }

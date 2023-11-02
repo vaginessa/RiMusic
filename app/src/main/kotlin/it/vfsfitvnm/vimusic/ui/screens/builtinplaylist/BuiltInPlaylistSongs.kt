@@ -12,11 +12,14 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
@@ -56,6 +59,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScr
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
@@ -81,7 +85,10 @@ import kotlinx.coroutines.flow.map
 @ExperimentalAnimationApi
 @UnstableApi
 @Composable
-fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
+fun BuiltInPlaylistSongs(
+    builtInPlaylist: BuiltInPlaylist,
+    onSearchClick: () -> Unit
+) {
     val (colorPalette) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
     val menuState = LocalMenuState.current
@@ -137,6 +144,19 @@ fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
                 key = "header",
                 contentType = 0
             ) {
+
+                HeaderWithIcon(
+                    title = when (builtInPlaylist) {
+                        BuiltInPlaylist.Favorites -> stringResource(R.string.favorites)
+                        BuiltInPlaylist.Offline -> stringResource(R.string.offline)
+                    },
+                    iconId = R.drawable.search,
+                    enabled = true,
+                    showIcon = true,
+                    modifier = Modifier,
+                    onClick = onSearchClick
+                )
+/*
                 Header(
                     title = when (builtInPlaylist) {
                         BuiltInPlaylist.Favorites -> stringResource(R.string.favorites)
@@ -145,6 +165,13 @@ fun BuiltInPlaylistSongs(builtInPlaylist: BuiltInPlaylist) {
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                 ) {
+*/
+                Row (
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ){
                     HeaderInfo(
                         title = "${songs.size}",
                         icon = painterResource(R.drawable.musical_notes),

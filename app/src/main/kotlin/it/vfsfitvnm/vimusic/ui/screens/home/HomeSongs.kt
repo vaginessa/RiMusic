@@ -48,6 +48,7 @@ import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
 import it.vfsfitvnm.vimusic.ui.items.SongItem
@@ -110,21 +111,14 @@ fun  HomeSongs(
                 contentType = 0
             ) {
 
-                Row (
-                    horizontalArrangement = Arrangement.SpaceAround,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxSize()
-                ){
-
-                    HalfHeader(title = stringResource(R.string.songs))
-
-                    SecondaryButton(
-                        iconId = R.drawable.search,
-                        enabled = true,
-                        onClick = onSearchClick
-                    )
-                }
+                HeaderWithIcon(
+                    title = stringResource(R.string.songs),
+                    iconId = R.drawable.search,
+                    enabled = true,
+                    showIcon = true,
+                    modifier = Modifier,
+                    onClick = onSearchClick
+                )
 
                 Row (
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
