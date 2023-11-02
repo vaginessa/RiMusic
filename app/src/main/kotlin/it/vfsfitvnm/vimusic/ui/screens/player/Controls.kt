@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.player
 
+import android.util.Log
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloatAsState
@@ -41,10 +42,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.C
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.models.Format
 import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.models.SongWithContentLength
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.SeekBar
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
@@ -63,10 +67,13 @@ import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlin.math.roundToInt
 
 
-@OptIn(ExperimentalFoundationApi::class)
+@ExperimentalFoundationApi
+@UnstableApi
 @Composable
 fun Controls(
     mediaId: String,
@@ -111,12 +118,37 @@ fun Controls(
         targetValue = if (isRotated) 360F else 0f,
         animationSpec = tween(durationMillis = 200)
     )
-
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
 
     LaunchedEffect(mediaId) {
         Database.likedAt(mediaId).distinctUntilChanged().collect { likedAt = it }
     }
+
+    /*
+        var cachedBytes by remember(mediaId) {
+            mutableStateOf(binder.cache.getCachedBytes(mediaId, 0, -1))
+        }
+
+        var format by remember {
+            mutableStateOf<Format?>(null)
+        }
+        var isCached by rememberSaveable { mutableStateOf(false) }
+
+
+
+        LaunchedEffect(mediaId) {
+            Database.format(mediaId).distinctUntilChanged().collectLatest { currentFormat ->
+                format = currentFormat
+            }
+        }
+
+        format?.contentLength?.let {
+            isCached = (cachedBytes.toFloat() / it * 100).roundToInt() == 100
+
+        }
+
+        //Log.d("mediaItem", "Song downloaded? ${isCached} Song ${format?.contentLength}")
+    */
 
     val shouldBePlayingTransition = updateTransition(shouldBePlaying, label = "shouldBePlaying")
 
@@ -455,6 +487,21 @@ fun Controls(
                     .weight(1f)
                     .size(24.dp)
             )
+/*
+            IconButton(
+                icon = if (isCached) R.drawable.downloaded_square else R.drawable.download_square,
+                color = if (isCached) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
+                onClick = {
+                    trackLoopEnabled = !trackLoopEnabled
+                    if (effectRotationEnabled) isRotated = !isRotated
+                },
+                modifier = Modifier
+                    .rotate(rotationAngle)
+                    .weight(1f)
+                    .size(24.dp)
+            )
+
+ */
         }
 
         Spacer(

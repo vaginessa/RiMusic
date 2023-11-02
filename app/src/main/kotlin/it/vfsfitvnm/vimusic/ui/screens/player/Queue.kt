@@ -79,7 +79,7 @@ import it.vfsfitvnm.compose.reordering.rememberReorderingState
 import it.vfsfitvnm.compose.reordering.reorder
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
-import it.vfsfitvnm.vimusic.service.LocalDownloadService
+import it.vfsfitvnm.vimusic.service.DownloaderService
 import it.vfsfitvnm.vimusic.ui.components.BottomSheet
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
@@ -310,14 +310,14 @@ fun Queue(
 
                                                     DownloadService.sendAddDownload(
                                                         context,
-                                                        LocalDownloadService::class.java,
+                                                        DownloaderService::class.java,
                                                         downloadRequest,
                                                         /* foreground= */ false
                                                     )
 
                                                     DownloadService.sendSetStopReason(
                                                         context,
-                                                        LocalDownloadService::class.java,
+                                                        DownloaderService::class.java,
                                                         window.mediaItem.mediaId,
                                                         Download.STOP_REASON_NONE,
                                                         /* foreground= */ false
@@ -325,7 +325,7 @@ fun Queue(
 
                                                     DownloadService.start(
                                                         context,
-                                                        LocalDownloadService::class.java
+                                                        DownloaderService::class.java
                                                     )
 
                                                 }

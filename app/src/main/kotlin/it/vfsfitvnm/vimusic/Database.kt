@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE
 import android.os.Parcel
 import androidx.core.database.getFloatOrNull
 import androidx.media3.common.MediaItem
+import androidx.media3.common.util.UnstableApi
 import androidx.room.AutoMigration
 import androidx.room.Dao
 import androidx.room.Delete
@@ -133,6 +134,11 @@ interface Database {
             }
         }
     }
+
+    @Transaction
+    //@Query("SELECT Song.*, contentLength FROM Song JOIN Format ON id = songId WHERE songId = :songId and (contentLength = totalPlayTimeMs)")
+    @Query("SELECT Song.*, contentLength FROM Song JOIN Format ON id = songId WHERE songId = :songId")
+    fun songCached(songId: String): Flow<SongWithContentLength?>
 
     @Transaction
     @Query("SELECT Song.*, contentLength FROM Song JOIN Format ON id = songId WHERE contentLength IS NOT NULL AND totalPlayTimeMs > 0 ORDER BY totalPlayTimeMs")
@@ -761,6 +767,7 @@ abstract class DatabaseInitializer protected constructor() : RoomDatabase() {
 @TypeConverters
 object Converters {
     @TypeConverter
+    @UnstableApi
     fun mediaItemFromByteArray(value: ByteArray?): MediaItem? {
         return value?.let { byteArray ->
             runCatching {
@@ -776,6 +783,7 @@ object Converters {
     }
 
     @TypeConverter
+    @UnstableApi
     fun mediaItemToByteArray(mediaItem: MediaItem?): ByteArray? {
         return mediaItem?.toBundle()?.let { persistableBundle ->
             val parcel = Parcel.obtain()

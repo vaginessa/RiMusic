@@ -77,6 +77,7 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import com.valentinilk.shimmer.LocalShimmerTheme
 import com.valentinilk.shimmer.defaultShimmerTheme
 import it.vfsfitvnm.compose.persist.PersistMap
@@ -91,7 +92,7 @@ import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.StatisticsType
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
-import it.vfsfitvnm.vimusic.service.LocalDownloadService
+
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetMenu
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
@@ -116,6 +117,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.colorPaletteOf
 import it.vfsfitvnm.vimusic.ui.styling.dynamicColorPaletteOf
 import it.vfsfitvnm.vimusic.ui.styling.typographyOf
+import it.vfsfitvnm.vimusic.utils.Downloader
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
@@ -168,6 +170,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
 
 
+    @UnstableApi
     @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -582,3 +585,5 @@ AppCompatDelegate
 val LocalPlayerServiceBinder = staticCompositionLocalOf<PlayerService.Binder?> { null }
 
 val LocalPlayerAwareWindowInsets = staticCompositionLocalOf<WindowInsets> { TODO() }
+
+val LocalDownloader = staticCompositionLocalOf<Downloader> { error("No Downloader provided") }

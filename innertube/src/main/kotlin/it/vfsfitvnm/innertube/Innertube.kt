@@ -8,6 +8,7 @@ import io.ktor.client.plugins.compression.brotli
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
@@ -17,6 +18,7 @@ import it.vfsfitvnm.innertube.models.Runs
 import it.vfsfitvnm.innertube.models.Thumbnail
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import java.net.Proxy
 
 object Innertube {
     val client = HttpClient(OkHttp) {
@@ -46,6 +48,13 @@ object Innertube {
         }
     }
 
+    var proxy: Proxy? = null
+        set(value) {
+            field = value
+            client.close()
+            client
+        }
+
     internal const val browse = "/youtubei/v1/browse"
     internal const val next = "/youtubei/v1/next"
     internal const val player = "/youtubei/v1/player"
@@ -59,6 +68,9 @@ object Innertube {
 
     internal fun HttpRequestBuilder.mask(value: String = "*") =
         header("X-Goog-FieldMask", value)
+
+
+    // TODO downloader
 
     data class Info<T : NavigationEndpoint.Endpoint>(
         val name: String?,

@@ -1,18 +1,12 @@
 package it.vfsfitvnm.vimusic.ui.screens.home
 
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.currentCompositionLocalContext
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.core.graphics.component1
-import androidx.core.graphics.component2
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.routing.RouteHandler
 import it.vfsfitvnm.compose.routing.defaultStacking
@@ -23,9 +17,6 @@ import it.vfsfitvnm.compose.routing.isUnknown
 import it.vfsfitvnm.compose.routing.isUnstacking
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
-import it.vfsfitvnm.vimusic.enums.ColorPaletteName
-import it.vfsfitvnm.vimusic.enums.NavigationTab
-import it.vfsfitvnm.vimusic.enums.StatisticsType
 import it.vfsfitvnm.vimusic.models.SearchQuery
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
@@ -37,7 +28,6 @@ import it.vfsfitvnm.vimusic.ui.screens.globalRoutes
 import it.vfsfitvnm.vimusic.ui.screens.localPlaylistRoute
 import it.vfsfitvnm.vimusic.ui.screens.localplaylist.LocalPlaylistScreen
 import it.vfsfitvnm.vimusic.ui.screens.playlistRoute
-import it.vfsfitvnm.vimusic.ui.screens.quickpicksRoute
 import it.vfsfitvnm.vimusic.ui.screens.search.SearchScreen
 import it.vfsfitvnm.vimusic.ui.screens.searchResultRoute
 import it.vfsfitvnm.vimusic.ui.screens.searchRoute
@@ -45,16 +35,14 @@ import it.vfsfitvnm.vimusic.ui.screens.searchresult.SearchResultScreen
 import it.vfsfitvnm.vimusic.ui.screens.settings.SettingsScreen
 import it.vfsfitvnm.vimusic.ui.screens.settingsRoute
 import it.vfsfitvnm.vimusic.ui.screens.statisticsTypeRoute
-import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
-import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.homeScreenTabIndexKey
-import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@UnstableApi
 @Composable
 fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
 

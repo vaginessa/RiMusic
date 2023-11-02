@@ -1,20 +1,16 @@
 package it.vfsfitvnm.vimusic.ui.screens.home
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,7 +18,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -42,13 +37,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
@@ -63,13 +58,10 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
-import it.vfsfitvnm.vimusic.service.LocalDownloadService
+import it.vfsfitvnm.vimusic.service.DownloaderService
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
-import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
-import it.vfsfitvnm.vimusic.ui.components.themed.Header
-import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
@@ -95,6 +87,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@UnstableApi
 @Composable
 fun QuickPicks(
     onAlbumClick: (String) -> Unit,
@@ -230,34 +223,38 @@ fun QuickPicks(
                                                             Database.clearEventsFor(song.id)
                                                         }
                                                     },
-                                                    /*
+
                                                     onDownload = {
                                                         Log.d("downloadEvent","Download started from Quick Picks?")
                                                         val contentUri = "https://www.youtube.com/watch?v=${song.asMediaItem.mediaId}".toUri()
-                                                        val downloadRequest = DownloadRequest.Builder(song.asMediaItem.mediaId, contentUri).build()
+                                                        val downloadRequest = DownloadRequest.
+                                                        Builder(song.asMediaItem.mediaId, contentUri)
+                                                            .setCustomCacheKey(song.asMediaItem.mediaId)
+                                                            .setData(song.title.toByteArray())
+                                                            .build()
 
                                                         DownloadService.sendAddDownload(
                                                             context,
-                                                            LocalDownloadService::class.java,
+                                                            DownloaderService::class.java,
                                                             downloadRequest,
-                                                            /* foreground= */ false
+                                                             false
                                                         )
 
                                                         DownloadService.sendSetStopReason(
                                                             context,
-                                                            LocalDownloadService::class.java,
+                                                            DownloaderService::class.java,
                                                             song.asMediaItem.mediaId,
                                                             Download.STOP_REASON_NONE,
-                                                            /* foreground= */ false
+                                                            false
                                                         )
 
                                                         DownloadService.start(
                                                             context,
-                                                            LocalDownloadService::class.java
+                                                            DownloaderService::class.java
                                                         )
 
                                                     }
-                                                    */
+
                                                 )
                                             }
                                         },

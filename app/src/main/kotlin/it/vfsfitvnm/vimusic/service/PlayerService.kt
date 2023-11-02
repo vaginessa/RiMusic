@@ -41,6 +41,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultHttpDataSource
@@ -128,7 +129,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
     private lateinit var mediaSession: MediaSession
     private lateinit var cache: SimpleCache
     private lateinit var player: ExoPlayer
-    private lateinit var download: LocalDownloadService
+    private lateinit var download: DownloaderService
 
     private val stateBuilder = PlaybackState.Builder()
         .setActions(
@@ -183,7 +184,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         super.onBind(intent)
         return binder
     }
-
+@UnstableApi
     override fun onCreate() {
         super.onCreate()
 
@@ -311,7 +312,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         super.onTaskRemoved(rootIntent)
         if (isclosebackgroundPlayerEnabled == true) super.stopSelf()
     }
-
+@UnstableApi
     override fun onDestroy() {
         maybeSavePlayerQueue()
 
@@ -343,7 +344,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         }
         super.onConfigurationChanged(newConfig)
     }
-
+@UnstableApi
     override fun onPlaybackStatsReady(
         eventTime: AnalyticsListener.EventTime,
         playbackStats: PlaybackStats
@@ -386,6 +387,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         }
     }
 
+    @UnstableApi
     override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
         maybeRecoverPlaybackError()
         maybeNormalizeVolume()
@@ -479,7 +481,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             }
         }
     }
-
+@UnstableApi
     private fun maybeRestorePlayerQueue() {
         if (!isPersistentQueueEnabled) return
 
@@ -512,7 +514,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             }
         }
     }
-
+@UnstableApi
     private fun maybeNormalizeVolume() {
         if (!preferences.getBoolean(volumeNormalizationKey, false)) {
             loudnessEnhancer?.enabled = false
@@ -592,6 +594,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         }
     }
 
+    @UnstableApi
     private fun sendOpenEqualizerIntent() {
         sendBroadcast(
             Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION).apply {
@@ -602,6 +605,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         )
     }
 
+    @UnstableApi
     private fun sendCloseEqualizerIntent() {
         sendBroadcast(
             Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION).apply {
@@ -620,6 +624,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             else -> PlaybackState.STATE_NONE
         }
 
+    @UnstableApi
     override fun onEvents(player: Player, events: Player.Events) {
         if (player.duration != C.TIME_UNSET) {
             mediaSession.setMetadata(
@@ -682,6 +687,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
 
     }
 
+    @UnstableApi
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             persistentQueueKey -> isPersistentQueueEnabled =
@@ -801,6 +807,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         }
     }
 
+    @UnstableApi
     private fun createCacheDataSource(): DataSource.Factory {
         return CacheDataSource.Factory().setCache(cache).apply {
             setUpstreamDataSourceFactory(
@@ -812,6 +819,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         }
     }
 
+    @UnstableApi
     private fun createDataSourceFactory(): DataSource.Factory {
         val chunkLength = 512 * 1024L
         val ringBuffer = RingBuffer<Pair<String, Uri>?>(2) { null }
@@ -895,16 +903,19 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         }
     }
 
+    @UnstableApi
     private fun createMediaSourceFactory(): MediaSource.Factory {
         return DefaultMediaSourceFactory(createDataSourceFactory(), createExtractorsFactory())
     }
 
+    @UnstableApi
     private fun createExtractorsFactory(): ExtractorsFactory {
         return ExtractorsFactory {
             arrayOf(MatroskaExtractor(), FragmentedMp4Extractor())
         }
     }
 
+    @UnstableApi
     private fun createRendersFactory(): RenderersFactory {
         val audioSink = DefaultAudioSink.Builder()
             .setEnableFloatOutput(false)

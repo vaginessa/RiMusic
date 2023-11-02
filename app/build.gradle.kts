@@ -100,6 +100,7 @@ dependencies {
     implementation(libs.exoplayer)
 
     implementation(libs.room)
+    implementation("androidx.media3:media3-datasource-okhttp:1.1.1")
     kapt(libs.room.compiler)
 
     implementation(projects.innertube)

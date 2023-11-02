@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.player
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.media.audiofx.AudioEffect
@@ -62,6 +63,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import coil.compose.AsyncImage
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.compose.routing.OnGlobalRoute
@@ -69,6 +71,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
+import it.vfsfitvnm.vimusic.models.Format
 import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.BottomSheet
@@ -91,7 +94,7 @@ import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.shouldBePlaying
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.toast
-import it.vfsfitvnm.vimusic.service.LocalDownloadService
+import it.vfsfitvnm.vimusic.service.DownloaderService
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
@@ -99,13 +102,17 @@ import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.withContext
 import kotlin.math.absoluteValue
+import kotlin.math.roundToInt
 
 
-
+@SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@UnstableApi
 @Composable
 fun Player(
     layoutState: BottomSheetState,
@@ -121,7 +128,7 @@ fun Player(
 
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
-    val downloadbinder = LocalDownloadService()
+    val downloadbinder = DownloaderService()
 
     binder?.player ?: return
 
@@ -229,6 +236,32 @@ fun Player(
     Log.d("mediaItem_pl_albId",albumId.toString())
     Log.d("mediaItem_pl","--- END LOG ---")
     */
+
+
+
+       var cachedBytes by remember(mediaItem.mediaId) {
+           mutableStateOf(binder.cache.getCachedBytes(mediaItem.mediaId, 0, -1))
+       }
+
+       var format by remember {
+           mutableStateOf<Format?>(null)
+       }
+       var isCached by rememberSaveable { mutableStateOf(false) }
+
+
+       LaunchedEffect(mediaItem.mediaId) {
+           Database.format(mediaItem.mediaId).distinctUntilChanged().collectLatest { currentFormat ->
+               format = currentFormat
+           }
+       }
+
+       format?.contentLength?.let {
+           isCached = (cachedBytes.toFloat() / it * 100).roundToInt() == 100
+
+       }
+
+       //Log.d("mediaItem", "Song downloaded? ${isCached} Song ${format?.contentLength}")
+
 
     OnGlobalRoute {
         layoutState.collapseSoft()
@@ -507,7 +540,22 @@ fun Player(
                         .align(Alignment.BottomEnd)
                         .padding(horizontal = 8.dp)
                         .fillMaxHeight()
+
                 ) {
+                    IconButton(
+                        icon = if (isCached) R.drawable.downloaded_square else R.drawable.download_square,
+                        color = if (isCached) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
+                        onClick = { },
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp, vertical = 8.dp)
+                            .size(20.dp)
+                    )
+
+                    Spacer(
+                        modifier = Modifier
+                            .width(4.dp)
+                    )
+
                     IconButton(
                         icon = R.drawable.ellipsis_horizontal,
                         color = colorPalette.text,
@@ -525,7 +573,6 @@ fun Player(
                             .padding(horizontal = 4.dp, vertical = 8.dp)
                             .size(20.dp)
                     )
-
                     Spacer(
                         modifier = Modifier
                             .width(4.dp)
@@ -540,10 +587,11 @@ fun Player(
 }
 
 @ExperimentalAnimationApi
+@UnstableApi
 @Composable
 private fun PlayerMenu(
     binder: PlayerService.Binder,
-    downloadbinder: LocalDownloadService,
+    downloadbinder: DownloaderService,
     mediaItem: MediaItem,
     onDismiss: () -> Unit
 ) {
