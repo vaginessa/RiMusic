@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.ui.components.themed
 
 
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -114,6 +115,7 @@ fun HeaderPlaceholder(
     }
 }
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun HeaderWithIcon (
     title: String,

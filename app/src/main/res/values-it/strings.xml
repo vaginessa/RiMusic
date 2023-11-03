@@ -188,4 +188,8 @@
     <string name="most_played_playlists">Playlist più ascoltate</string>
     <string name="languages">Lingue</string>
     <string name="app_language">Lingua principale</string>
+    <string name="in_alphabetical_order">In ordine alfabetico:</string>
+    <string name="contributors">CONTRIBUTORI</string>
+    <string name="troubleshooting">TROUBLESHOOTING</string>
+    <string name="social">SOCIAL</string>
 </resources>

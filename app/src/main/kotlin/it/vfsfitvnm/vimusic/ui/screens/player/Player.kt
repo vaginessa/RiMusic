@@ -58,6 +58,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -73,6 +75,8 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.models.Format
 import it.vfsfitvnm.vimusic.models.Info
+import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.BottomSheet
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
@@ -95,12 +99,16 @@ import it.vfsfitvnm.vimusic.utils.shouldBePlaying
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.service.DownloaderService
+import it.vfsfitvnm.vimusic.ui.components.themed.ScrollText
+import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
+import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -262,6 +270,21 @@ fun Player(
 
        //Log.d("mediaItem", "Song downloaded? ${isCached} Song ${format?.contentLength}")
 
+    var nextmediaItemIndex = binder.player.nextMediaItemIndex ?: -1
+    var nextmediaItemtitle = ""
+
+
+    if (nextmediaItemIndex.toShort() > -1)
+        nextmediaItemtitle = binder.player.getMediaItemAt(nextmediaItemIndex).mediaMetadata.title.toString()
+
+    var trackLoopEnabled by rememberPreference(trackLoopEnabledKey, defaultValue = false)
+
+    var likedAt by rememberSaveable {
+        mutableStateOf<Long?>(null)
+    }
+    LaunchedEffect(mediaItem.mediaId) {
+        Database.likedAt(mediaItem.mediaId).distinctUntilChanged().collect { likedAt = it }
+    }
 
     OnGlobalRoute {
         layoutState.collapseSoft()
@@ -533,11 +556,67 @@ fun Player(
         Queue(
             layoutState = playerBottomSheetState,
             content = {
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start,
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(horizontal = 4.dp)
+                        .fillMaxHeight()
+                ) {
+                    IconButton(
+                        icon = R.drawable.playlist,
+                        color = colorPalette.text,
+                        enabled = false,
+                        onClick = {
+                            //if add future action
+                        },
+                        modifier = Modifier
+                            .size(14.dp)
+                    )
+                    IconButton(
+                        icon = R.drawable.chevron_forward,
+                        color = colorPalette.text,
+                        enabled = true,
+                        onClick = {},
+                        modifier = Modifier
+                            .size(14.dp)
+                    )
+/*
+                    Spacer(
+                        modifier = Modifier
+                            .width(4.dp)
+                    )
+
+ */
+
+                    ScrollText(
+                        text = nextmediaItemtitle ?: "",
+                        style = TextStyle(
+                            color = colorPalette.text,
+                            fontStyle = typography.xs.bold.fontStyle,
+                            fontSize = typography.xs.fontSize
+                        ),
+                        onClick = { }
+                    )
+                    /*
+                    BasicText(
+                        text = AnnotatedString(nextmediaItemtitle.toString() ?: ""),
+                        style = typography.xs.secondary,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+
+                    )
+
+                     */
+                }
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End,
                     modifier = Modifier
-                        .align(Alignment.BottomEnd)
+                        .align(Alignment.CenterEnd)
                         .padding(horizontal = 8.dp)
                         .fillMaxHeight()
 
@@ -547,10 +626,54 @@ fun Player(
                         color = if (isCached) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
                         onClick = { },
                         modifier = Modifier
-                            .padding(horizontal = 4.dp, vertical = 8.dp)
+                            .padding(horizontal = 4.dp)
+                            .size(20.dp)
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .width(4.dp)
+                    )
+
+                    IconButton(
+                        icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
+                        color = colorPalette.favoritesIcon,
+                        onClick = {
+                            val currentMediaItem = binder.player.currentMediaItem
+                            query {
+                                if (Database.like(
+                                        mediaItem.mediaId,
+                                        if (likedAt == null) System.currentTimeMillis() else null
+                                    ) == 0
+                                ) {
+                                    currentMediaItem
+                                        ?.takeIf { it.mediaId == mediaItem.mediaId }
+                                        ?.let {
+                                            Database.insert(currentMediaItem, Song::toggleLike)
+                                        }
+                                }
+                            }
+                            if (effectRotationEnabled) isRotated = !isRotated
+                        },
+                        modifier = Modifier
                             .size(20.dp)
                     )
 
+                    Spacer(
+                        modifier = Modifier
+                            .width(4.dp)
+                    )
+
+                    IconButton(
+                        icon = R.drawable.infinite,
+                        color = if (trackLoopEnabled) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
+                        onClick = {
+                            trackLoopEnabled = !trackLoopEnabled
+                            if (effectRotationEnabled) isRotated = !isRotated
+                        },
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                            .size(20.dp)
+                    )
                     Spacer(
                         modifier = Modifier
                             .width(4.dp)
@@ -570,7 +693,7 @@ fun Player(
                             }
                         },
                         modifier = Modifier
-                            .padding(horizontal = 4.dp, vertical = 8.dp)
+                            .padding(horizontal = 4.dp)
                             .size(20.dp)
                     )
                     Spacer(

@@ -100,10 +100,12 @@ fun Controls(
     val onGoToArtist = artistRoute::global
     val onGoToAlbum = albumRoute::global
 
-
+/*
     var likedAt by rememberSaveable {
         mutableStateOf<Long?>(null)
     }
+
+ */
 
 
     var nextmediaItemIndex = binder.player.nextMediaItemIndex ?: -1
@@ -120,9 +122,12 @@ fun Controls(
     )
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
 
+    /*
     LaunchedEffect(mediaId) {
         Database.likedAt(mediaId).distinctUntilChanged().collect { likedAt = it }
     }
+
+     */
 
     /*
         var cachedBytes by remember(mediaId) {
@@ -256,68 +261,70 @@ fun Controls(
             )
 
         }
+        /*
+                Spacer(
+                    modifier = Modifier
+                        .height(15.dp)
+                )
 
-        Spacer(
-            modifier = Modifier
-                .height(15.dp)
-        )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    BasicText(
+                        text = stringResource(R.string.next_playing),
+                        style = typography.xxs.secondary,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .height(5.dp)
+                    )
+                }
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            BasicText(
-                text = stringResource(R.string.next_playing),
-                style = typography.xxs.secondary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Spacer(
-                modifier = Modifier
-                    .height(5.dp)
-            )
-        }
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            IconButton(
-                icon = R.drawable.playlist,
-                color = colorPalette.text,
-                enabled = false,
-                onClick = {
-                    //if add future action
-                },
-                modifier = Modifier
-                    .size(14.dp)
-            )
-            IconButton(
-                icon = R.drawable.chevron_forward,
-                color = colorPalette.text,
-                enabled = false,
-                onClick = {
-                    //if add future action
-                },
-                modifier = Modifier
-                    .size(14.dp)
-            )
 
-            Spacer(
-                modifier = Modifier
-                    .width(8.dp)
-            )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    IconButton(
+                        icon = R.drawable.playlist,
+                        color = colorPalette.text,
+                        enabled = false,
+                        onClick = {
+                            //if add future action
+                        },
+                        modifier = Modifier
+                            .size(14.dp)
+                    )
+                    IconButton(
+                        icon = R.drawable.chevron_forward,
+                        color = colorPalette.text,
+                        enabled = false,
+                        onClick = {
+                            //if add future action
+                        },
+                        modifier = Modifier
+                            .size(14.dp)
+                    )
 
-            BasicText(
-                text = AnnotatedString(nextmediaItemtitle.toString() ?: ""),
-                style = typography.xs.secondary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                    Spacer(
+                        modifier = Modifier
+                            .width(8.dp)
+                    )
 
-            )
+                    BasicText(
+                        text = AnnotatedString(nextmediaItemtitle.toString() ?: ""),
+                        style = typography.xs.secondary,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
 
-        }
+                    )
 
+                }
+         */
         Spacer(
             modifier = Modifier
                 .height(30.dp)
@@ -385,6 +392,7 @@ fun Controls(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
+/*
             IconButton(
                 icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
                 color = colorPalette.favoritesIcon,
@@ -410,7 +418,7 @@ fun Controls(
                     .weight(1f)
                     .size(24.dp)
             )
-
+*/
             IconButton(
                 icon = R.drawable.play_skip_previous,
                 color = colorPalette.iconButtonPlayer,
@@ -474,7 +482,7 @@ fun Controls(
                     .weight(1f)
                     .size(34.dp)
             )
-
+/*
             IconButton(
                 icon = R.drawable.infinite,
                 color = if (trackLoopEnabled) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
@@ -487,6 +495,8 @@ fun Controls(
                     .weight(1f)
                     .size(24.dp)
             )
+
+ */
 /*
             IconButton(
                 icon = if (isCached) R.drawable.downloaded_square else R.drawable.download_square,

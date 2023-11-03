@@ -188,5 +188,9 @@
     <string name="most_played_playlists">Most played playlists</string>
     <string name="languages">Languages</string>
     <string name="app_language">App language</string>
+    <string name="in_alphabetical_order">In alphabetical order:</string>
+    <string name="contributors">CONTRIBUTORS</string>
+    <string name="troubleshooting">TROUBLESHOOTING</string>
+    <string name="social">SOCIAL</string>
 
 </resources>

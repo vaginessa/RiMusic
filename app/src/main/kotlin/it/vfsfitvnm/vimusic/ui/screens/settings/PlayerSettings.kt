@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
@@ -28,6 +29,7 @@ import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
@@ -43,6 +45,7 @@ import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.utils.volumeNormalizationKey
 
 @ExperimentalAnimationApi
+@UnstableApi
 @Composable
 fun PlayerSettings() {
     val context = LocalContext.current
@@ -80,7 +83,14 @@ fun PlayerSettings() {
                     .asPaddingValues()
             )
     ) {
-        HalfHeader(title = stringResource(R.string.player))
+        HeaderWithIcon(
+            title = stringResource(R.string.player),
+            iconId = R.drawable.app_icon,
+            enabled = false,
+            showIcon = true,
+            modifier = Modifier,
+            onClick = {}
+        )
 
         SettingsEntryGroupText(title = stringResource(R.string.effects))
 

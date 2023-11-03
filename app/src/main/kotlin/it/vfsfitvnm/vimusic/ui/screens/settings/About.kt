@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
@@ -26,7 +29,9 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.secondary
 
 
@@ -49,17 +54,29 @@ fun About() {
                     .asPaddingValues()
             )
     ) {
-        HalfHeader(title = stringResource(R.string.about))
-        BasicText(
-            text =  "RiMusic v${BuildConfig.VERSION_NAME} by fast4x",
-            style = typography.s.secondary,
-            modifier = Modifier
-                //.padding(top = 60.dp)
+        HeaderWithIcon(
+            title = stringResource(R.string.about),
+            iconId = R.drawable.information,
+            enabled = false,
+            showIcon = true,
+            modifier = Modifier,
+            onClick = {}
         )
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            BasicText(
+                text = "RiMusic v${BuildConfig.VERSION_NAME} by fast4x",
+                style = typography.s.secondary,
 
+                )
+        }
         SettingsGroupSpacer()
 
-        SettingsEntryGroupText(title = "SOCIAL")
+        SettingsEntryGroupText(title = stringResource(R.string.social))
 
         SettingsEntry(
             title = "GitHub",
@@ -71,7 +88,7 @@ fun About() {
 
         SettingsGroupSpacer()
 
-        SettingsEntryGroupText(title = "TROUBLESHOOTING")
+        SettingsEntryGroupText(title = stringResource(R.string.troubleshooting))
 
         SettingsEntry(
             title = stringResource(R.string.report_an_issue),
@@ -92,10 +109,16 @@ fun About() {
 
         SettingsGroupSpacer()
 
-        SettingsEntryGroupText(title = "CONTRIBUTORS")
+        SettingsEntryGroupText(title = stringResource(R.string.contributors))
+        SettingsDescription(text = stringResource(R.string.in_alphabetical_order))
 
-        SettingsDescription(text = "In alphabetical order: \n" +
-        "DanielSevillano \n" + "ikanacova \n" + "NEVARLeVrai \n" + "siggi1984 \n" + "OrangeZXZ"
+        SettingsTopDescription( text =
+                "DanielSevillano \n" +
+                "dainvincible1 \n" +
+                "ikanacova \n" +
+                "NEVARLeVrai \n" +
+                "OrangeZXZ \n" +
+                "siggi1984"
         )
     }
 }

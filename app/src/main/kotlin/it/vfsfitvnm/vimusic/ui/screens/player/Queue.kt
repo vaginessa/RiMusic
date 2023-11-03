@@ -135,11 +135,11 @@ fun Queue(
                     .padding(horizontalBottomPaddingValues)
             ) {
                 Image(
-                    painter = painterResource(R.drawable.playlist),
+                    painter = painterResource(R.drawable.chevron_up),
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(colorPalette.text),
                     modifier = Modifier
-                        .align(Alignment.Center)
+                        .align(Alignment.TopCenter)
                         .size(18.dp)
                 )
 
@@ -394,128 +394,106 @@ fun Queue(
             Box(
                 modifier = Modifier
                     .clickable(onClick = layoutState::collapseSoft)
-                    .background(colorPalette.background2)
+                    .background(colorPalette.background1)
                     .fillMaxWidth()
-                    .padding(horizontal = 12.dp)
+                    .padding(horizontal = 12.dp, vertical = 20.dp)
                     .padding(horizontalBottomPaddingValues)
-                    .height(64.dp)
+                    //.height(40)
             ) {
                 Image(
                     painter = painterResource(R.drawable.chevron_down),
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(colorPalette.text),
                     modifier = Modifier
-                        .align(Alignment.Center)
+                        .align(Alignment.TopCenter)
                         .size(18.dp)
-                        //.padding(all = 10.dp)
                 )
 
             Row(
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically,
-            ){
+                modifier = Modifier
+                    //.clip(RoundedCornerShape(16.dp))
+                    //.clickable { queueLoopEnabled = !queueLoopEnabled }
+                    //.background(colorPalette.primaryButton)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .align(Alignment.CenterStart)
+            ) {
 
                 IconButton(
                     icon = R.drawable.trash,
                     color = colorPalette.text,
                     onClick = {
-                        val mediacount = binder.player.mediaItemCount-1
+                        val mediacount = binder.player.mediaItemCount - 1
                         for (i in mediacount.downTo(0)) {
                             if (i == mediaItemIndex) null else binder.player.removeMediaItem(i)
                         }
 
                     },
                     modifier = Modifier
-                        //.align(Alignment.CenterStart)
-                        .padding(horizontal = 4.dp, vertical = 22.dp)
+                        .padding(horizontal = 4.dp)
                         .size(18.dp)
                 )
-
-
                 IconButton(
-                    icon = if (isReorderDisabled) R.drawable.locked else R.drawable.unlocked,
+                    icon = R.drawable.chevron_forward,
                     color = colorPalette.text,
-                    onClick = { isReorderDisabled = !isReorderDisabled },
+                    onClick = {},
+                    enabled = false,
                     modifier = Modifier
-                        //.align(Alignment.CenterStart)
-                        .padding(horizontal = 8.dp, vertical = 22.dp)
-                        .size(18.dp)
-                    )
-
-                IconButton(
-                    icon = R.drawable.shuffle,
-                    color = colorPalette.text,
-                    enabled = !reorderingState.isDragging,
-                    modifier = Modifier
-                        //.align(Alignment.CenterStart)
-                        .padding(horizontal = 8.dp, vertical = 22.dp)
-                        .size(18.dp),
-                    onClick = {
-                        reorderingState.coroutineScope.launch {
-                            reorderingState.lazyListState.smoothScrollToTop()
-                        }.invokeOnCompletion {
-                            player.shuffleQueue()
-                        }
-                    }
+                        .padding(horizontal = 4.dp)
+                        .size(16.dp)
                 )
+                BasicText(
+                    text = "${binder.player.mediaItemCount} " + stringResource(R.string.songs), //+ " " + stringResource(R.string.on_queue),
+                    style = typography.xxs.medium,
+                )
+
             }
 
-                BasicText(
-                    text = "${binder.player.mediaItemCount} " + stringResource(R.string.songs) + " " + stringResource(R.string.on_queue),
-                    style = typography.xxs.medium,
-                    modifier = Modifier
-                        .background(
-                            color = colorPalette.background1,
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                        .align(Alignment.BottomCenter)
-                        //.padding(all = 8.dp)
-                        //.offset(x = 25.dp)
-                        //.paddingFromBaseline(top = 50.dp)
 
-                )
+
 
 
 
                 Row(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
-                        .clickable { queueLoopEnabled = !queueLoopEnabled }
-                        .background(colorPalette.primaryButton)
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                         .align(Alignment.CenterEnd)
-                        .animateContentSize()
-                ) {
-                   /* BasicText(
-                        text = stringResource(R.string.queue_loop),
-                        style = typography.xxs.medium,
-                    )*/
-                    Image(
-                        painter = painterResource(R.drawable.infinite),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(colorPalette.text),
-                        modifier = Modifier
-                            //.align(Alignment.Center)
-                            .size(18.dp)
 
+                ) {
+
+                    IconButton(
+                        icon = if (isReorderDisabled) R.drawable.locked else R.drawable.unlocked,
+                        color = colorPalette.text,
+                        onClick = { isReorderDisabled = !isReorderDisabled },
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                            .size(18.dp)
                     )
 
-                    AnimatedContent(
-                        targetState = queueLoopEnabled,
-                        transitionSpec = {
-                            val slideDirection = if (targetState) AnimatedContentScope.SlideDirection.Up else AnimatedContentScope.SlideDirection.Down
-
-                            ContentTransform(
-                                targetContentEnter = slideIntoContainer(slideDirection) + fadeIn(),
-                                initialContentExit = slideOutOfContainer(slideDirection) + fadeOut(),
-                            )
+                    IconButton(
+                        icon = R.drawable.shuffle,
+                        color = colorPalette.text,
+                        enabled = !reorderingState.isDragging,
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                            .size(18.dp),
+                        onClick = {
+                            reorderingState.coroutineScope.launch {
+                                reorderingState.lazyListState.smoothScrollToTop()
+                            }.invokeOnCompletion {
+                                player.shuffleQueue()
+                            }
                         }
-                    ) {
-                        BasicText(
-                            text = if (it) " on" else " off",
-                            style = typography.xxs.medium,
-                        )
-                    }
+                    )
+
+                    IconButton(
+                        icon = R.drawable.infinite,
+                        color = if (queueLoopEnabled) colorPalette.text else colorPalette.textDisabled,
+                        onClick = { queueLoopEnabled = !queueLoopEnabled },
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                            .size(18.dp)
+                    )
+
                 }
             }
         }

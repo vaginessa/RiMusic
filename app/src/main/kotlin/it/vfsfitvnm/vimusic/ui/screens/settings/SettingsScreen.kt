@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.routing.RouteHandler
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
@@ -36,6 +37,7 @@ import it.vfsfitvnm.vimusic.utils.semiBold
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@UnstableApi
 @Composable
 fun SettingsScreen() {
     val saveableStateHolder = rememberSaveableStateHolder()
@@ -55,10 +57,10 @@ fun SettingsScreen() {
                 onTabChanged = onTabChanged,
                 tabColumnContent = { Item ->
                     Item(0, stringResource(R.string.appearance), R.drawable.color_palette)
-                    Item(1, stringResource(R.string.player), R.drawable.play)
-                    Item(2, stringResource(R.string.cache), R.drawable.server)
+                    Item(1, stringResource(R.string.player), R.drawable.app_icon)
+                    Item(2, stringResource(R.string.cache), R.drawable.sync)
                     Item(3, stringResource(R.string.database), R.drawable.server)
-                    Item(4, stringResource(R.string.other), R.drawable.shapes)
+                    Item(4, stringResource(R.string.other), R.drawable.equalizer)
                     Item(5, stringResource(R.string.about), R.drawable.information)
                 }
             ) { currentTabIndex ->
@@ -192,6 +194,22 @@ fun SettingsEntry(
 
         trailingContent?.invoke()
     }
+}
+
+@Composable
+fun SettingsTopDescription(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    val (_, typography) = LocalAppearance.current
+
+    BasicText(
+        text = text,
+        style = typography.xs.secondary,
+        modifier = modifier
+            .padding(start = 16.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    )
 }
 
 @Composable

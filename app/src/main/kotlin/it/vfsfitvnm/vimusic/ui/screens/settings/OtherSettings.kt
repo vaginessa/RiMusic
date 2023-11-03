@@ -36,6 +36,7 @@ import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.PlayerMediaBrowserService
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid12
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
@@ -101,7 +102,14 @@ fun OtherSettings() {
                     .asPaddingValues()
             )
     ) {
-        HalfHeader(title = stringResource(R.string.other))
+        HeaderWithIcon(
+            title = stringResource(R.string.other),
+            iconId = R.drawable.equalizer,
+            enabled = false,
+            showIcon = true,
+            modifier = Modifier,
+            onClick = {}
+        )
 
         SettingsEntryGroupText(title = stringResource(R.string.android_auto))
 

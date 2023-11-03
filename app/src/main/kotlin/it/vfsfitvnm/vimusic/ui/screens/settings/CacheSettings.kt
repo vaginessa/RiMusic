@@ -38,6 +38,7 @@ import it.vfsfitvnm.vimusic.enums.CoilDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.coilDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerAlternateCacheLocationKey
@@ -91,7 +92,14 @@ fun CacheSettings() {
                     .asPaddingValues()
             )
     ) {
-        HalfHeader(title = stringResource(R.string.cache))
+        HeaderWithIcon(
+            title = stringResource(R.string.cache),
+            iconId = R.drawable.sync,
+            enabled = false,
+            showIcon = true,
+            modifier = Modifier,
+            onClick = {}
+        )
 
         SettingsDescription(text = stringResource(R.string.cache_cleared))
 

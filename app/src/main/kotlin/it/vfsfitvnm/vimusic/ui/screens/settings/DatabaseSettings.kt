@@ -31,6 +31,7 @@ import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.toast
@@ -98,7 +99,14 @@ fun DatabaseSettings() {
                     .asPaddingValues()
             )
     ) {
-        HalfHeader(title = stringResource(R.string.database))
+        HeaderWithIcon(
+            title = stringResource(R.string.database),
+            iconId = R.drawable.server,
+            enabled = false,
+            showIcon = true,
+            modifier = Modifier,
+            onClick = {}
+        )
 
         SettingsEntryGroupText(title = stringResource(R.string.cleanup))
 
