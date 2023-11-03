@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.service
 
 import android.app.Notification
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
@@ -15,8 +16,8 @@ import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.preferences
 import java.util.concurrent.Executor
-
-class LocalDownloadService: DownloadService(FOREGROUND_NOTIFICATION_ID_NONE) {
+@UnstableApi
+class DownloaderService: DownloadService(FOREGROUND_NOTIFICATION_ID_NONE) {
     override fun getDownloadManager(): DownloadManager {
         // Note: This should be a singleton in your app.
         val databaseProvider = StandaloneDatabaseProvider(this)
@@ -32,6 +33,8 @@ class LocalDownloadService: DownloadService(FOREGROUND_NOTIFICATION_ID_NONE) {
 
 // Create a factory for reading the data from the network.
         val dataSourceFactory = DefaultHttpDataSource.Factory()
+
+        
 
 // Choose an executor for downloading data. Using Runnable::run will cause each download task to
 // download data on its own thread. Passing an executor that uses multiple threads will speed up
