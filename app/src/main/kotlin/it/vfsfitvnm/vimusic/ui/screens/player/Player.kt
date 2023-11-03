@@ -564,8 +564,8 @@ fun Player(
                     modifier = Modifier
                         .align(Alignment.BottomStart)
                         .padding(horizontal = 4.dp)
-                        .fillMaxHeight()
-                        .widthIn(100.dp)
+                        .size(150.dp)
+                        .size(250.dp)
                 ) {
                     IconButton(
                         icon = R.drawable.playlist,

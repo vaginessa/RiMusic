@@ -190,20 +190,7 @@ fun StatisticsPage(
                 modifier = Modifier,
                 onClick = {}
             )
-            /*
-            HalfHeader(
-                title = when (statisticsType) {
-                    StatisticsType.Today -> stringResource(R.string.today)
-                    StatisticsType.OneWeek -> stringResource(R.string._1_week)
-                    StatisticsType.OneMonth -> stringResource(R.string._1_month)
-                    StatisticsType.ThreeMonths -> stringResource(R.string._3_month)
-                    StatisticsType.SixMonths -> stringResource(R.string._6_month)
-                    StatisticsType.OneYear -> stringResource(R.string._1_year)
-                    StatisticsType.All -> stringResource(R.string.all)
-                }
-            )
 
-             */
 
             BasicText(
                 text = stringResource(R.string.most_played_songs),
@@ -279,7 +266,11 @@ fun StatisticsPage(
                         thumbnailSizeDp = artistThumbnailSizeDp,
                         alternative = true,
                         modifier = Modifier
-                            .clickable(onClick = { onGoToArtist(artists[it].id) })
+                            .clickable(onClick = {
+                                if (artists[it].id != "") {
+                                    onGoToArtist(artists[it].id)
+                                }
+                            })
                     )
                 }
             }
@@ -301,7 +292,10 @@ fun StatisticsPage(
                         thumbnailSizeDp = albumThumbnailSizeDp,
                         alternative = true,
                         modifier = Modifier
-                            .clickable(onClick = { onGoToAlbum(albums[it].id) })
+                            .clickable(onClick = {
+                                if (albums[it].id != "" )
+                                onGoToAlbum(albums[it].id)
+                            })
                     )
                 }
             }
@@ -324,7 +318,10 @@ fun StatisticsPage(
                         thumbnailSizeDp = playlistThumbnailSizeDp,
                         alternative = true,
                         modifier = Modifier
-                            .clickable(onClick = { onGoToPlaylist(playlists[it].playlist.browseId) })
+                            .clickable(onClick = {
+                                if (playlists[it].playlist.browseId != "" )
+                                    onGoToPlaylist(playlists[it].playlist.browseId)
+                            })
                     )
                 }
             }
