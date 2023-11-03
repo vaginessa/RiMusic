@@ -130,8 +130,8 @@
     <string name="play_next">Lecture suivante</string>
     <string name="confirm">Confirmer</string>
     <string name="show">Afficher</string>
-    <string name="unsynchronized_lyrics">Les paroles non synchronisées</string>
-    <string name="synchronized_lyrics">Les paroles synchronisées</string>
+    <string name="unsynchronized_lyrics">les paroles non synchronisées</string>
+    <string name="synchronized_lyrics">les paroles synchronisées</string>
     <string name="provided_by">Fournies par</string>
     <string name="cleanup">NETTOYAGE</string>
     <string name="delete_playback_events">Supprimer %1$s événements de la lecture</string>
