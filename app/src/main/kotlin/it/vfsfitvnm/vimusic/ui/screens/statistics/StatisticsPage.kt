@@ -43,6 +43,7 @@ import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.items.AlbumItem
 import it.vfsfitvnm.vimusic.ui.items.ArtistItem
@@ -173,6 +174,23 @@ fun StatisticsPage(
                 )
         ) {
 
+            HeaderWithIcon(
+                title = when (statisticsType) {
+                    StatisticsType.Today -> stringResource(R.string.today)
+                    StatisticsType.OneWeek -> stringResource(R.string._1_week)
+                    StatisticsType.OneMonth -> stringResource(R.string._1_month)
+                    StatisticsType.ThreeMonths -> stringResource(R.string._3_month)
+                    StatisticsType.SixMonths -> stringResource(R.string._6_month)
+                    StatisticsType.OneYear -> stringResource(R.string._1_year)
+                    StatisticsType.All -> stringResource(R.string.all)
+                },
+                iconId = R.drawable.query_stats,
+                enabled = true,
+                showIcon = true,
+                modifier = Modifier,
+                onClick = {}
+            )
+            /*
             HalfHeader(
                 title = when (statisticsType) {
                     StatisticsType.Today -> stringResource(R.string.today)
@@ -184,6 +202,8 @@ fun StatisticsPage(
                     StatisticsType.All -> stringResource(R.string.all)
                 }
             )
+
+             */
 
             BasicText(
                 text = stringResource(R.string.most_played_songs),

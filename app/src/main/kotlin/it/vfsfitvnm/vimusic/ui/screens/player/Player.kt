@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 
@@ -564,6 +565,7 @@ fun Player(
                         .align(Alignment.BottomStart)
                         .padding(horizontal = 4.dp)
                         .fillMaxHeight()
+                        .widthIn(100.dp)
                 ) {
                     IconButton(
                         icon = R.drawable.playlist,
@@ -627,7 +629,7 @@ fun Player(
                         onClick = { },
                         modifier = Modifier
                             .padding(horizontal = 4.dp)
-                            .size(20.dp)
+                            .size(24.dp)
                     )
                     Spacer(
                         modifier = Modifier
@@ -655,7 +657,7 @@ fun Player(
                             if (effectRotationEnabled) isRotated = !isRotated
                         },
                         modifier = Modifier
-                            .size(20.dp)
+                            .size(24.dp)
                     )
 
                     Spacer(
@@ -672,7 +674,7 @@ fun Player(
                         },
                         modifier = Modifier
                             .padding(horizontal = 4.dp)
-                            .size(20.dp)
+                            .size(24.dp)
                     )
                     Spacer(
                         modifier = Modifier
@@ -694,7 +696,7 @@ fun Player(
                         },
                         modifier = Modifier
                             .padding(horizontal = 4.dp)
-                            .size(20.dp)
+                            .size(24.dp)
                     )
                     Spacer(
                         modifier = Modifier

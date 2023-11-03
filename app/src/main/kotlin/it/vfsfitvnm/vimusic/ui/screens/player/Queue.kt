@@ -410,11 +410,10 @@ fun Queue(
                 )
 
             Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start,
                 modifier = Modifier
-                    //.clip(RoundedCornerShape(16.dp))
-                    //.clickable { queueLoopEnabled = !queueLoopEnabled }
-                    //.background(colorPalette.primaryButton)
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .padding(horizontal = 4.dp)
                     .align(Alignment.CenterStart)
             ) {
 
@@ -430,7 +429,7 @@ fun Queue(
                     },
                     modifier = Modifier
                         .padding(horizontal = 4.dp)
-                        .size(18.dp)
+                        .size(24.dp)
                 )
                 IconButton(
                     icon = R.drawable.chevron_forward,
@@ -454,9 +453,12 @@ fun Queue(
 
 
                 Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End,
                     modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
                         .align(Alignment.CenterEnd)
+                        .padding(horizontal = 4.dp)
+                       // .fillMaxHeight()
 
                 ) {
 
@@ -466,7 +468,7 @@ fun Queue(
                         onClick = { isReorderDisabled = !isReorderDisabled },
                         modifier = Modifier
                             .padding(horizontal = 4.dp)
-                            .size(18.dp)
+                            .size(24.dp)
                     )
 
                     IconButton(
@@ -475,7 +477,7 @@ fun Queue(
                         enabled = !reorderingState.isDragging,
                         modifier = Modifier
                             .padding(horizontal = 4.dp)
-                            .size(18.dp),
+                            .size(24.dp),
                         onClick = {
                             reorderingState.coroutineScope.launch {
                                 reorderingState.lazyListState.smoothScrollToTop()
@@ -491,7 +493,7 @@ fun Queue(
                         onClick = { queueLoopEnabled = !queueLoopEnabled },
                         modifier = Modifier
                             .padding(horizontal = 4.dp)
-                            .size(18.dp)
+                            .size(24.dp)
                     )
 
                 }
