@@ -86,7 +86,7 @@
     <string name="reset_quick_picks">Réinitialiser la sélections rapides</string>
     <string name="quick_picks_are_cleared">Les sélections rapides ont été effacées avec succès</string>
     <string name="backup">SAUVEGARDE</string>
-    <string name="personal_preference">Les préférences personnelles (le thème) et le cache sont exclus de la sauvegarde.</string>
+    <string name="personal_preference">Les préférences personnelle, le thème et le cache sont exclus de la sauvegarde</string>
     <string name="backup_1">Sauvegarde</string>
     <string name="export_the_database">Exporter la base de données vers le stockage</string>
     <string name="restore">RESTAURER</string>
@@ -94,7 +94,7 @@
     <string name="import_the_database">Importer la base de données à partir du stockage</string>
     <string name="other">Autre</string>
     <string name="android_auto">ANDROID AUTO</string>
-    <string name="enable_unknown_sources">N’oubliez pas d’activer \"Sources inconnues\" dans les paramètres du développeur d’Android Auto.</string>
+    <string name="enable_unknown_sources">N’oubliez pas d’activer \"Sources inconnues\" dans les paramètres développeur d’Android Auto</string>
     <string name="android_auto_1">Android Auto</string>
     <string name="enable_android_auto_support">Activer le support pour Android Auto</string>
     <string name="search_history">HISTORIQUE DE RECHERCHES</string>
@@ -103,8 +103,8 @@
     <string name="clear_search_history">Effacer l’historique de recherche</string>
     <string name="history_is_empty">L’historique est vide</string>
     <string name="service_lifetime">Service supplémentaire d\'optimisation</string>
-    <string name="battery_optimizations_applied">Si des optimisations de la batterie sont appliquées, la notification de lecture peut soudainement disparaître en cas de pause.</string>
-    <string name="is_android12">Depuis Android 12, la désactivation des optimisations de la batterie est nécessaire pour que l’option \"Service protégé\" prenne effet.</string>
+    <string name="battery_optimizations_applied">Si des optimisations de la batterie sont appliquées, la notification de lecture peut soudainement disparaître en cas de pause</string>
+    <string name="is_android12">Depuis Android 12, la désactivation des optimisations de la batterie est nécessaire pour que l’option \"Service protégé\" prenne effet</string>
     <string name="ignore_battery_optimizations">Ignorer les optimisations de la batterie</string>
     <string name="already_unrestricted">Déjà sans aucune restriction</string>
     <string name="disable_background_restrictions">Désactiver les restrictions en arrière-plan</string>
@@ -135,7 +135,7 @@
     <string name="provided_by">Fournies par</string>
     <string name="cleanup">NETTOYAGE</string>
     <string name="delete_playback_events">Supprimer %1$s événements de la lecture</string>
-    <string name="existing_data_will_be_overwritten">Les données existantes seront écrasées.\n%1$s se fermera automatiquement après la restauration de la base de données.</string>
+    <string name="existing_data_will_be_overwritten">Les données existantes seront écrasées.\n%1$s se fermera automatiquement après la restauration de la base de données</string>
     <string name="on_queue">en file d\'attente</string>
     <string name="folder_cache">CACHE DU DOSSIERS</string>
     <string name="cache_reset_by_clicking_button">Attention en cliquant sur le bouton ci-dessous, le dossier d\'emplacement du cache sera réinitialisé au paramètre par défaut</string>
@@ -145,7 +145,7 @@
     <string name="used">"utilisé"</string>
     <string name="now_playing">Entrain de lire...</string>
     <string name="close_background_player">Effacer le lecteur en arrière plan</string>
-    <string name="when_app_swipe_out_from_task_manager">Lorsque vous faites glisser en dehors du gestionnaire des applications récentes)</string>
+    <string name="when_app_swipe_out_from_task_manager">Lorsque vous faites glisser en dehors du gestionnaire des applications récentes</string>
     <string name="opening_url">est entrain de charger...</string>
     <string name="an_error_has_occurred_while_fetching_the_lyrics">Une erreur est apparue lors de la récupération des paroles</string>
     <string name="are_not_available_for_this_song">n\'est pas disponibles pour cette chanson</string>
