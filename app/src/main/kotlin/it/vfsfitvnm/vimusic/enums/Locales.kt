@@ -2,22 +2,22 @@ package it.vfsfitvnm.vimusic.enums
 
 enum class Languages {
     English,
-    Czeck,
+    Czech,
     French,
     German,
     Italian,
     Romanian,
     Russian,
-    Spain,
+    Spanish,
     Turkish;
 
     val code: String
         get() = when (this) {
             English -> "en"
             Italian -> "it"
-            Czeck -> "cs"
+            Czech -> "cs"
             German -> "de"
-            Spain -> "es"
+            Spanish -> "es"
             French -> "fr"
             Romanian -> "ro"
             Russian -> "ru"
