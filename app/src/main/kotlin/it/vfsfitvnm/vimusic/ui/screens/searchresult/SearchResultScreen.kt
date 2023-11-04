@@ -120,6 +120,7 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
                                 itemContent = { song ->
                                     SongItem(
                                         song = song,
+                                        isDownloaded = false,
                                         thumbnailSizePx = thumbnailSizePx,
                                         thumbnailSizeDp = thumbnailSizeDp,
                                         modifier = Modifier

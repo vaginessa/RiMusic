@@ -70,6 +70,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
@@ -115,9 +116,8 @@ fun BuiltInPlaylistSongs(
                     }.map(SongWithContentLength::song)
                 }
         }.collect { songs = it }
-
-
     }
+
 
     val thumbnailSizeDp = Dimensions.thumbnails.song
     val thumbnailSize = thumbnailSizeDp.px
@@ -234,6 +234,7 @@ fun BuiltInPlaylistSongs(
             ) { index, song ->
                 SongItem(
                     song = song,
+                    isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                     thumbnailSizeDp = thumbnailSizeDp,
                     thumbnailSizePx = thumbnailSize,
                     modifier = Modifier

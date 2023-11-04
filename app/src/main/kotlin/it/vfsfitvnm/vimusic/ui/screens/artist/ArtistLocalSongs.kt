@@ -118,6 +118,7 @@ fun ArtistLocalSongs(
                     ) { index, song ->
                         SongItem(
                             song = song,
+                            isDownloaded = false,
                             thumbnailSizeDp = songThumbnailSizeDp,
                             thumbnailSizePx = songThumbnailSizePx,
                             modifier = Modifier

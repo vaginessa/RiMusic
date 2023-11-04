@@ -255,6 +255,7 @@ fun LocalPlaylistSongs(
             ) { index, song ->
                 SongItem(
                     song = song,
+                    isDownloaded = false,
                     thumbnailSizePx = thumbnailSizePx,
                     thumbnailSizeDp = thumbnailSizeDp,
                     trailingContent = {

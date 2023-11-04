@@ -188,6 +188,7 @@ fun StatisticsItems(statisticsType: StatisticsType) {
             ) { index, song ->
                 SongItem(
                     song = song,
+                    isDownloaded = false,
                     thumbnailSizeDp = thumbnailSizeDp,
                     thumbnailSizePx = thumbnailSize,
                     modifier = Modifier

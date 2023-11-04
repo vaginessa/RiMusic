@@ -25,6 +25,8 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,6 +62,7 @@ import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -85,9 +88,21 @@ fun  HomeSongs(
 
     var items by persistList<Song>("home/songs")
 
+    var filterDownloaded by remember {
+        mutableStateOf(false)
+    }
+
     LaunchedEffect(sortBy, sortOrder) {
         Database.songs(sortBy, sortOrder).collect { items = it }
     }
+
+/*
+    val itemsCount = items.size
+    if (!items.isEmpty())
+    for (i in itemsCount.downTo(0)) {
+        if (!downloadedStateMedia(items[i].asMediaItem.mediaId)) items.drop(i)
+    }
+*/
 
     val sortOrderIconRotation by animateFloatAsState(
         targetValue = if (sortOrder == SortOrder.Ascending) 0f else 180f,
@@ -179,6 +194,7 @@ fun  HomeSongs(
             ) { index, song ->
                 SongItem(
                     song = song,
+                    isDownloaded =  downloadedStateMedia(song.asMediaItem.mediaId),
                     thumbnailSizePx = thumbnailSizePx,
                     thumbnailSizeDp = thumbnailSizeDp,
                     onThumbnailContent = if (sortBy == SongSortBy.PlayTime) ({

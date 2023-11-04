@@ -124,6 +124,7 @@ fun AlbumSongs(
                 ) { index, song ->
                     SongItem(
                         title = song.title,
+                        isDownloaded = false,
                         authors = song.artistsText,
                         duration = song.durationText,
                         thumbnailSizeDp = thumbnailSizeDp,

@@ -24,15 +24,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
-import it.vfsfitvnm.vimusic.ui.styling.collapsedPlayerProgressBar
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -70,7 +66,6 @@ fun Header(
         contentAlignment = Alignment.TopCenter,
         modifier = modifier
             .padding(horizontal = 16.dp, vertical = 16.dp)
-            //.height(Dimensions.headerHeight)
             .height(Dimensions.mediumheaderHeight)
             .fillMaxWidth()
     ) {
@@ -81,7 +76,6 @@ fun Header(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
                 .align(Alignment.BottomEnd),
-                //.heightIn(min = 30.dp),
             content = actionsContent,
         )
     }
@@ -126,20 +120,25 @@ fun HeaderWithIcon (
     onClick: () -> Unit
 ){
     Row (
-        horizontalArrangement = Arrangement.SpaceAround,
+        horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxSize()
     ){
 
-        HalfHeader(title = title)
+            HalfHeader(
+                title = title,
+                modifier = Modifier
+                    .fillMaxSize(0.9f)
+            )
 
-        if (showIcon)
-        SecondaryButton(
-            iconId = iconId,
-            enabled = enabled,
-            onClick = onClick
-        )
+            if (showIcon)
+            SecondaryButton(
+                iconId = iconId,
+                enabled = enabled,
+                onClick = onClick,
+            )
+
+
+
     }
 }
 
@@ -150,6 +149,8 @@ fun HalfHeader(
     actionsContent: @Composable RowScope.() -> Unit = {},
 ) {
     val typography = LocalAppearance.current.typography
+    val colorPalette = LocalAppearance.current.colorPalette
+
 
     HalfHeader(
         modifier = modifier,
@@ -176,7 +177,6 @@ fun HalfHeader(
         modifier = modifier
             .padding(horizontal = 8.dp)
             .height(Dimensions.halfheaderHeight)
-            //.fillMaxWidth()
     ) {
         titleContent()
 

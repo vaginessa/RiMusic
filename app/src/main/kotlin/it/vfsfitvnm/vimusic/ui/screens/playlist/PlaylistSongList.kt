@@ -196,6 +196,7 @@ fun PlaylistSongList(
                 itemsIndexed(items = playlistPage?.songsPage?.items ?: emptyList()) { index, song ->
                     SongItem(
                         song = song,
+                        isDownloaded = false,
                         thumbnailSizePx = songThumbnailSizePx,
                         thumbnailSizeDp = songThumbnailSizeDp,
                         modifier = Modifier

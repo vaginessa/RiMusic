@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.statistics
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -63,6 +64,7 @@ import it.vfsfitvnm.vimusic.utils.semiBold
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
+@SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
@@ -213,6 +215,7 @@ fun StatisticsPage(
                         ) {
                         SongItem(
                             song = songs.get(it).asMediaItem,
+                            isDownloaded = false,
                             thumbnailSizeDp = thumbnailSizeDp,
                             thumbnailSizePx = thumbnailSize,
                             modifier = Modifier

@@ -237,6 +237,7 @@ fun ArtistScreen(browseId: String) {
                                 itemContent = { song ->
                                     SongItem(
                                         song = song,
+                                        isDownloaded = false,
                                         thumbnailSizeDp = thumbnailSizeDp,
                                         thumbnailSizePx = thumbnailSizePx,
                                         modifier = Modifier

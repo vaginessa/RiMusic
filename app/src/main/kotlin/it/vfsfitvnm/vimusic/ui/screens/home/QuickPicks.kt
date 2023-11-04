@@ -195,6 +195,7 @@ fun QuickPicks(
                         item {
                             SongItem(
                                 song = song,
+                                isDownloaded = false,
                                 thumbnailSizePx = songThumbnailSizePx,
                                 thumbnailSizeDp = songThumbnailSizeDp,
                                 trailingContent = {
@@ -275,6 +276,7 @@ fun QuickPicks(
                     ) { song ->
                         SongItem(
                             song = song,
+                            isDownloaded = false,
                             thumbnailSizePx = songThumbnailSizePx,
                             thumbnailSizeDp = songThumbnailSizeDp,
                             modifier = Modifier
