@@ -165,12 +165,12 @@
   <string name="size_name">Velikost</string>
   <string name="current_size_name">"Současná velikost"</string>
   <string name="current_shape_name">Současný tvar</string>
-  <string name="i18_small">Malý</string>
-  <string name="i18_medium">Střední</string>
-  <string name="i18_big">Velký</string>
-  <string name="i18_none">Žádný</string>
-  <string name="i18_light">Nevýrazný</string>
-  <string name="i18_heavy">Silný</string>
+  <string name="small">Malý</string>
+  <string name="medium">Střední</string>
+  <string name="big">Velký</string>
+  <string name="none">Žádný</string>
+  <string name="light">Nevýrazný</string>
+  <string name="heavy">Silný</string>
   <string name="effects">Efekty</string>
   <string name="player_rotating_buttons">Otáčení tlačítek</string>
   <string name="player_enable_rotation_buttons">Povolit otáčení tlačítek při kliknutí</string>
@@ -192,4 +192,17 @@
   <string name="contributors">PŘISPĚVATELÉ</string>
   <string name="troubleshooting">ODSTRAŇOVÁNÍ PROBLÉMŮ</string>
   <string name="social">SOCIÁLNÍ SÍŤ</string>
+    <string name="english">English</string>
+    <string name="italian">Italian</string>
+  <string name="czech">Czech</string>
+  <string name="german">German</string>
+  <string name="spanish">Spanish</string>
+  <string name="french">French</string>
+  <string name="romanian">Romanian</string>
+  <string name="russian">Russian</string>
+  <string name="turkish">Turkish</string>
+    <string name="dark">Dark</string>
+  <string name="system">System</string>
+    <string name="unlimited">Unlimited</string>
+    <string name="_light">Light</string>
 </resources>

@@ -26,14 +26,11 @@ import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.NavigationTab
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
-import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
-import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
-import it.vfsfitvnm.vimusic.utils.getI18String
 import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid13
 import it.vfsfitvnm.vimusic.utils.isShowingThumbnailInLockscreenKey
@@ -90,7 +87,20 @@ fun AppearanceSettings() {
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.app_language),
             selectedValue = languageApp,
-            onValueSelected = { languageApp = it }
+            onValueSelected = { languageApp = it },
+            valueText = {
+                when (it){
+                    Languages.English -> stringResource(R.string.english)
+                    Languages.Italian -> stringResource(R.string.italian)
+                    Languages.Czech -> stringResource(R.string.czech)
+                    Languages.German -> stringResource(R.string.german)
+                    Languages.Spanish -> stringResource(R.string.spanish)
+                    Languages.French -> stringResource(R.string.french)
+                    Languages.Romanian -> stringResource(R.string.romanian)
+                    Languages.Russian -> stringResource(R.string.russian)
+                    Languages.Turkish -> stringResource(R.string.turkish)
+                }
+            }
         )
 
 
@@ -111,23 +121,34 @@ fun AppearanceSettings() {
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.theme),
             selectedValue = colorPaletteName,
-            onValueSelected = { colorPaletteName = it }
+            onValueSelected = { colorPaletteName = it },
+            valueText = {
+                when (it) {
+                    ColorPaletteName.Default -> "Default"
+                    ColorPaletteName.Dynamic -> "Dynamic"
+                    ColorPaletteName.PureBlack -> "PureBlack"
+                    ColorPaletteName.ModerBlack -> "ModerBlack"
+                }
+            }
         )
 
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.theme_mode),
             selectedValue = colorPaletteMode,
             isEnabled = colorPaletteName != ColorPaletteName.PureBlack,
-            onValueSelected = { colorPaletteMode = it }
+            onValueSelected = { colorPaletteMode = it },
+            valueText = {
+                when (it) {
+                    ColorPaletteMode.Dark -> stringResource(R.string.dark)
+                    ColorPaletteMode.Light -> stringResource(R.string._light)
+                    ColorPaletteMode.System -> stringResource(R.string.system)
+                }
+            }
         )
 
         SettingsGroupSpacer()
 
         SettingsEntryGroupText(title = stringResource(R.string.shapes))
-
-        SettingsDescription(
-            text = stringResource(R.string.current_shape_name) + " ${getI18String(thumbnailRoundness.name)}"
-        )
 
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.thumbnail_roundness),
@@ -147,6 +168,14 @@ fun AppearanceSettings() {
                         )
                         .size(36.dp)
                 )
+            },
+            valueText = {
+                when (it) {
+                    ThumbnailRoundness.None -> stringResource(R.string.none)
+                    ThumbnailRoundness.Light -> stringResource(R.string.light)
+                    ThumbnailRoundness.Heavy -> stringResource(R.string.heavy)
+                    ThumbnailRoundness.Medium -> stringResource(R.string.medium)
+                }
             }
         )
 

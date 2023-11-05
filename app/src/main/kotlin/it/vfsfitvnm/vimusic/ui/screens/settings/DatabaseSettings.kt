@@ -2,7 +2,6 @@ package it.vfsfitvnm.vimusic.ui.screens.settings
 
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
-import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -29,18 +28,16 @@ import it.vfsfitvnm.vimusic.internal
 import it.vfsfitvnm.vimusic.path
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.PlayerService
-import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
-import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.toast
+import kotlinx.coroutines.flow.distinctUntilChanged
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import kotlin.system.exitProcess
-import kotlinx.coroutines.flow.distinctUntilChanged
 
 @ExperimentalAnimationApi
 @Composable

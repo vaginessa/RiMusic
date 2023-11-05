@@ -27,14 +27,13 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
-import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
-import it.vfsfitvnm.vimusic.ui.components.themed.Header
+
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
-import it.vfsfitvnm.vimusic.utils.getI18String
+
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
@@ -109,14 +108,31 @@ fun PlayerSettings() {
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.min_listening_time),
             selectedValue = exoPlayerMinTimeForEvent,
-            onValueSelected = { exoPlayerMinTimeForEvent = it }
+            onValueSelected = { exoPlayerMinTimeForEvent = it },
+            valueText = {
+                when (it) {
+                    ExoPlayerMinTimeForEvent.`10s` -> "10s"
+                    ExoPlayerMinTimeForEvent.`15s` -> "15s"
+                    ExoPlayerMinTimeForEvent.`20s` -> "20s"
+                    ExoPlayerMinTimeForEvent.`30s` -> "30s"
+                    ExoPlayerMinTimeForEvent.`40s` -> "40s"
+                    ExoPlayerMinTimeForEvent.`60s` -> "60s"
+                }
+            }
         )
         SettingsDescription(text = stringResource(R.string.is_min_list_time_for_tips_or_quick_pics))
 
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.player_thumbnail_size),
             selectedValue = playerThumbnailSize,
-            onValueSelected = { playerThumbnailSize = it }
+            onValueSelected = { playerThumbnailSize = it },
+            valueText = {
+                when (it) {
+                    PlayerThumbnailSize.Small -> stringResource(R.string.small)
+                    PlayerThumbnailSize.Medium -> stringResource(R.string.medium)
+                    PlayerThumbnailSize.Big -> stringResource(R.string.big)
+                }
+            }
         )
 
         SwitchSettingEntry(

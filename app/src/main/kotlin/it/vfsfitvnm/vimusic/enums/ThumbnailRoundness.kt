@@ -23,14 +23,4 @@ enum class ThumbnailRoundness {
         }
     }
 
-    /*
-    fun shapeName(): String {
-        return when (this) {
-            None -> "None"
-            Light -> "Light"
-            Medium -> "Medium"
-            Heavy -> "Heavy"
-        }
-    }
-     */
 }
