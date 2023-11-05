@@ -205,4 +205,5 @@
     <string name="system">System</string>
     <string name="unlimited">Unlimited</string>
     <string name="_light">Light</string>
+    <string name="downloaded">Downloaded</string>
 </resources>

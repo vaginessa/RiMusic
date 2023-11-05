@@ -29,7 +29,7 @@
 - ...
 
 ## Screenshot
-<h4>Sample screenshot in English language</h4>
+<h4>Sample screenshot</h4>
 <p align="center">
   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="15%" />
   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="15%" />
@@ -39,6 +39,7 @@
   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="15%" />
   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="15%" />
 </p>
+<|--
 <h4>Sample screenshot in Italian language</h4>
 <p align="center">  
   <img src="./fastlane/metadata/android/it-IT/images/phoneScreenshots/1.jpg" width="15%" />
@@ -49,7 +50,7 @@
   <img src="./fastlane/metadata/android/it-IT/images/phoneScreenshots/5.jpg" width="15%" />
   <img src="./fastlane/metadata/android/it-IT/images/phoneScreenshots/6.jpg" width="15%" />
 </p>
-
+-->
 ## Languages Available
 * English, initial forked from ViMusic
 * Italian, native language, thank to me [@fast4x](https://github.com/fast4x)

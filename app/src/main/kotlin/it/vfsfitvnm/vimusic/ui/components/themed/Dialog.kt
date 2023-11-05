@@ -90,6 +90,7 @@ fun TextFieldDialog(
     DefaultDialog(
         onDismiss = onDismiss,
         modifier = modifier
+
     ) {
         BasicTextField(
             value = textFieldValue,
@@ -133,6 +134,7 @@ fun TextFieldDialog(
                 .padding(all = 16.dp)
                 .weight(weight = 1f, fill = false)
                 .focusRequester(focusRequester)
+
         )
 
         Row(
@@ -228,7 +230,7 @@ inline fun DefaultDialog(
             modifier = modifier
                 .padding(all = 48.dp)
                 .background(
-                    color = colorPalette.background1,
+                    color = colorPalette.background4,
                     shape = RoundedCornerShape(8.dp)
                 )
                 .padding(horizontal = 24.dp, vertical = 16.dp),
