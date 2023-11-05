@@ -1,8 +1,10 @@
 package it.vfsfitvnm.innertube.requests
 
+
 import io.ktor.client.call.body
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.util.logging.KtorSimpleLogger
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.BrowseResponse
 import it.vfsfitvnm.innertube.models.MusicCarouselShelfRenderer
@@ -15,13 +17,12 @@ import it.vfsfitvnm.innertube.utils.from
 import it.vfsfitvnm.innertube.utils.runCatchingNonCancellable
 
 
+
 suspend fun Innertube.relatedPage(body: NextBody) = runCatchingNonCancellable {
     val nextResponse = client.post(next) {
         setBody(body)
         mask("contents.singleColumnMusicWatchNextResultsRenderer.tabbedRenderer.watchNextTabbedResultsRenderer.tabs.tabRenderer(endpoint,title)")
     }.body<NextResponse>()
-
-
 
     val browseId = nextResponse
         .contents

@@ -597,7 +597,7 @@ fun Controls(
                     if (effectRotationEnabled) isRotated = !isRotated
                 },
                 modifier = Modifier
-                    .rotate(rotationAngle)
+                    //.rotate(rotationAngle)
                     //.weight(1f)
                     .size(24.dp)
             )
@@ -623,7 +623,7 @@ fun Controls(
                     if (effectRotationEnabled) isRotated = !isRotated
                 },
                 modifier = Modifier
-                    .rotate(rotationAngle)
+                    //.rotate(rotationAngle)
                     //.weight(1f)
                     .size(24.dp)
             )
@@ -636,7 +636,7 @@ fun Controls(
                     if (effectRotationEnabled) isRotated = !isRotated
                 },
                 modifier = Modifier
-                    .rotate(rotationAngle)
+                    //.rotate(rotationAngle)
                     //.weight(1f)
                     .size(24.dp)
             )

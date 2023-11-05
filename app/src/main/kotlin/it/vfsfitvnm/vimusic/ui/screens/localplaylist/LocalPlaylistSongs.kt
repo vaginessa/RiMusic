@@ -179,6 +179,22 @@ fun LocalPlaylistSongs(
                     )
 
                     HeaderIconButton(
+                        icon = R.drawable.shuffle,
+                        enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
+                        color = if (playlistWithSongs?.songs?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
+                        onClick = {
+                            playlistWithSongs?.songs?.let { songs ->
+                                if (songs.isNotEmpty()) {
+                                    binder?.stopRadio()
+                                    binder?.player?.forcePlayFromBeginning(
+                                        songs.shuffled().map(Song::asMediaItem)
+                                    )
+                                }
+                            }
+                        }
+                    )
+
+                    HeaderIconButton(
                         icon = if (isReorderDisabled) R.drawable.locked else R.drawable.unlocked,
                         enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
                         color = if (playlistWithSongs?.songs?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
@@ -298,6 +314,7 @@ fun LocalPlaylistSongs(
             }
         }
 
+/*
         FloatingActionsContainerWithScrollToTop(
             lazyListState = lazyListState,
             iconId = R.drawable.shuffle,
@@ -313,5 +330,6 @@ fun LocalPlaylistSongs(
                 }
             }
         )
+ */
     }
 }

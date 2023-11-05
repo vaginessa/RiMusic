@@ -399,7 +399,7 @@ fun Queue(
                     .fillMaxWidth()
                     .padding(horizontal = 12.dp, vertical = 20.dp)
                     .padding(horizontalBottomPaddingValues)
-                    //.height(40)
+                    .height(60.dp)
             ) {
                 Image(
                     painter = painterResource(R.drawable.chevron_down),
@@ -449,10 +449,6 @@ fun Queue(
             }
 
 
-
-
-
-
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End,
@@ -474,7 +470,7 @@ fun Queue(
 
                     Spacer(
                         modifier = Modifier
-                            .width(8.dp)
+                            .width(12.dp)
                     )
 
                     IconButton(
@@ -495,7 +491,7 @@ fun Queue(
 
                     Spacer(
                         modifier = Modifier
-                            .width(8.dp)
+                            .width(12.dp)
                     )
 
                     IconButton(

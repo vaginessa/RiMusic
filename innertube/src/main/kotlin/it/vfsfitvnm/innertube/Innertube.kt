@@ -10,12 +10,19 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.header
+import io.ktor.client.request.headers
+import io.ktor.client.request.parameter
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
+import io.ktor.http.contentType
+import io.ktor.http.userAgent
 import io.ktor.serialization.kotlinx.json.json
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.innertube.models.Runs
 import it.vfsfitvnm.innertube.models.Thumbnail
+import it.vfsfitvnm.innertube.models.YouTubeClient
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import java.net.Proxy
@@ -54,6 +61,56 @@ object Innertube {
             client.close()
             client
         }
+
+    /*
+    private fun HttpRequestBuilder.ytClient(client: YouTubeClient, setLogin: Boolean = false) {
+        contentType(ContentType.Application.Json)
+        headers {
+            append("X-Goog-Api-Format-Version", "1")
+            append("X-YouTube-Client-Name", client.clientName)
+            append("X-YouTube-Client-Version", client.clientVersion)
+            append("x-origin", "https://music.youtube.com")
+            if (client.referer != null) {
+                append("Referer", client.referer)
+            }
+            if (setLogin) {
+                cookie?.let { cookie ->
+                    append("cookie", cookie)
+                    if ("SAPISID" !in cookieMap) return@let
+                    val currentTime = System.currentTimeMillis() / 1000
+                    val sapisidHash = sha1("$currentTime ${cookieMap["SAPISID"]} https://music.youtube.com")
+                    append("Authorization", "SAPISIDHASH ${currentTime}_${sapisidHash}")
+                }
+            }
+        }
+        userAgent(client.userAgent)
+        parameter("key", client.api_key)
+        parameter("prettyPrint", false)
+    }
+
+    suspend fun browse(
+        client: YouTubeClient,
+        browseId: String? = null,
+        params: String? = null,
+        continuation: String? = null,
+        setLogin: Boolean = false,
+    ) = client.post("browse") {
+        ytClient(client, setLogin)
+        setBody(
+            BrowseBody(
+                context = client.toContext(locale, visitorData),
+                browseId = browseId,
+                params = params
+            )
+        )
+        parameter("continuation", continuation)
+        parameter("ctoken", continuation)
+        if (continuation != null) {
+            parameter("type", "next")
+        }
+    }
+
+     */
 
     internal const val browse = "/youtubei/v1/browse"
     internal const val next = "/youtubei/v1/next"
