@@ -15,13 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import coil.compose.AsyncImage
-import com.valentinilk.shimmer.defaultShimmerTheme
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
@@ -33,7 +31,6 @@ import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
-import it.vfsfitvnm.vimusic.ui.styling.colorPaletteOf
 
 @Composable
 fun SongItem(
@@ -186,7 +183,7 @@ fun SongItem(
 
                 IconButton(
                     onClick = { /*TODO*/ },
-                    icon = if (isDownloaded == true) R.drawable.downloaded_square else R.drawable.download_square,
+                    icon = if (isDownloaded == true) R.drawable.downloaded else R.drawable.download,
                     color = Color.White,
                     modifier = Modifier
                         .size(16.dp)

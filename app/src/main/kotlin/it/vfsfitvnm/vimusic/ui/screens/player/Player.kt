@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.media.audiofx.AudioEffect
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -13,11 +12,9 @@ import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,7 +33,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 
@@ -59,10 +55,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
@@ -103,11 +97,10 @@ import it.vfsfitvnm.vimusic.service.DownloaderService
 import it.vfsfitvnm.vimusic.ui.components.themed.ScrollText
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.utils.bold
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
-import it.vfsfitvnm.vimusic.utils.persistentQueueKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
-import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import kotlinx.coroutines.Dispatchers
@@ -248,28 +241,9 @@ fun Player(
 
 
 
-       var cachedBytes by remember(mediaItem.mediaId) {
-           mutableStateOf(binder.cache.getCachedBytes(mediaItem.mediaId, 0, -1))
-       }
+    var isDownloaded by rememberSaveable { mutableStateOf(false) }
+    isDownloaded = downloadedStateMedia(mediaItem.mediaId)
 
-       var format by remember {
-           mutableStateOf<Format?>(null)
-       }
-       var isCached by rememberSaveable { mutableStateOf(false) }
-
-
-       LaunchedEffect(mediaItem.mediaId) {
-           Database.format(mediaItem.mediaId).distinctUntilChanged().collectLatest { currentFormat ->
-               format = currentFormat
-           }
-       }
-
-       format?.contentLength?.let {
-           isCached = (cachedBytes.toFloat() / it * 100).roundToInt() == 100
-
-       }
-
-       //Log.d("mediaItem", "Song downloaded? ${isCached} Song ${format?.contentLength}")
 
     var nextmediaItemIndex = binder.player.nextMediaItemIndex ?: -1
     var nextmediaItemtitle = ""
@@ -386,7 +360,7 @@ fun Player(
                         .height(Dimensions.collapsedPlayer)
                 ) {
                     IconButton(
-                        icon = R.drawable.play_skip_previous,
+                        icon = R.drawable.play_skip_back,
                         color = colorPalette.iconButtonPlayer,
                         onClick = {
                                     binder.player.forceSeekToPrevious()
@@ -416,7 +390,7 @@ fun Player(
                             .size(42.dp)
                     ) {
                         Image(
-                            painter = painterResource(if (shouldBePlaying) R.drawable.play_pause else R.drawable.play_arrow),
+                            painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(colorPalette.iconButtonPlayer),
                             modifier = Modifier
@@ -427,7 +401,7 @@ fun Player(
                     }
 
                     IconButton(
-                        icon = R.drawable.play_skip_next,
+                        icon = R.drawable.play_skip_forward,
                         color = colorPalette.iconButtonPlayer,
                         onClick = {
                                     binder.player.forceSeekToNext()
@@ -499,7 +473,7 @@ fun Player(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = containerModifier
-                    .padding(top = 32.dp)
+                    .padding(top = 20.dp)
             ) {
                 Box(
                     contentAlignment = Alignment.Center,
@@ -525,22 +499,22 @@ fun Player(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = containerModifier
-                   // .padding(top = 54.dp)
+                    //.padding(top = 10.dp)
             ) {
 
                 Box(
                     contentAlignment = Alignment.Center,
-                    //modifier = Modifier
-                        //.weight(1.25f)
+                    modifier = Modifier
+                        //.weight(0.5f)
+                        .fillMaxHeight(0.52f)
                 ) {
                     thumbnailContent(
                         modifier = Modifier
                             .clip(thumbnailShape)
                             .padding(
                                 horizontal = playerThumbnailSize.size.dp,
-                                vertical = 20.dp
+                                vertical = 4.dp
                             )
-
                     )
                 }
 
@@ -548,7 +522,6 @@ fun Player(
                     modifier = Modifier
                         .padding(vertical = 4.dp)
                         .fillMaxWidth()
-                        .weight(1f)
                 )
             }
         }
@@ -623,9 +596,10 @@ fun Player(
                         .fillMaxHeight()
 
                 ) {
+                    if (isLandscape) {
                     IconButton(
-                        icon = if (isCached) R.drawable.downloaded_square else R.drawable.download_square,
-                        color = if (isCached) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
+                        icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
+                        color = if (isDownloaded) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
                         onClick = { },
                         modifier = Modifier
                             .padding(horizontal = 4.dp)
@@ -666,7 +640,7 @@ fun Player(
                     )
 
                     IconButton(
-                        icon = R.drawable.infinite,
+                        icon = R.drawable.repeat,
                         color = if (trackLoopEnabled) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
                         onClick = {
                             trackLoopEnabled = !trackLoopEnabled
@@ -680,7 +654,7 @@ fun Player(
                         modifier = Modifier
                             .width(4.dp)
                     )
-
+                }
                     IconButton(
                         icon = R.drawable.ellipsis_horizontal,
                         color = colorPalette.text,

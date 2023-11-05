@@ -488,7 +488,7 @@ fun Queue(
                     )
 
                     IconButton(
-                        icon = R.drawable.infinite,
+                        icon = R.drawable.repeat,
                         color = if (queueLoopEnabled) colorPalette.text else colorPalette.textDisabled,
                         onClick = { queueLoopEnabled = !queueLoopEnabled },
                         modifier = Modifier

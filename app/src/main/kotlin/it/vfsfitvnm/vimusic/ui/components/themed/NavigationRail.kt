@@ -33,6 +33,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
+import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.center
@@ -44,6 +45,9 @@ import it.vfsfitvnm.vimusic.utils.semiBold
 inline fun NavigationRail(
     topIconButtonId: Int,
     noinline onTopIconButtonClick: () -> Unit,
+    topIconButton2Id: Int,
+    noinline onTopIconButton2Click: () -> Unit,
+    showButton2: Boolean,
     tabIndex: Int,
     crossinline onTabIndexChanged: (Int) -> Unit,
     content: @Composable ColumnScope.(@Composable (Int, String, Int) -> Unit) -> Unit,
@@ -77,13 +81,30 @@ inline fun NavigationRail(
                 modifier = Modifier
                     .offset(
                         x = if (isLandscape) 0.dp else Dimensions.navigationRailIconOffset,
-                        y = 48.dp
+                        y = 7.dp
                     )
                     .clip(CircleShape)
                     .clickable(onClick = onTopIconButtonClick)
                     .padding(all = 12.dp)
                     .size(22.dp)
             )
+            if (showButton2) {
+                Image(
+                    painter = painterResource(topIconButton2Id),
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(colorPalette.textSecondary),
+                    modifier = Modifier
+                        .offset(
+                            x = if (isLandscape) 0.dp else Dimensions.navigationRailIconOffset,
+                            y = 70.dp
+                        )
+                        .clip(CircleShape)
+                        .clickable(onClick = onTopIconButton2Click)
+                        .padding(all = 12.dp)
+                        .size(22.dp)
+                )
+            }
+
         }
 
         Column(

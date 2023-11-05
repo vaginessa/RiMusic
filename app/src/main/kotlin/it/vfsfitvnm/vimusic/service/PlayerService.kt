@@ -754,13 +754,13 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                     .setShowActionsInCompactView(0, 1, 2)
                     .setMediaSession(mediaSession.sessionToken)
             )
-            .addAction(R.drawable.play_skip_previous, "Skip back", prevIntent)
+            .addAction(R.drawable.play_skip_back, "Skip back", prevIntent)
             .addAction(
-                if (player.shouldBePlaying) R.drawable.play_pause else R.drawable.play_arrow,
+                if (player.shouldBePlaying) R.drawable.pause else R.drawable.play,
                 if (player.shouldBePlaying) "Pause" else "Play",
                 if (player.shouldBePlaying) pauseIntent else playIntent
             )
-            .addAction(R.drawable.play_skip_next, "Skip forward", nextIntent)
+            .addAction(R.drawable.play_skip_forward, "Skip forward", nextIntent)
 
 
         bitmapProvider.load(mediaMetadata.artworkUri) { bitmap ->

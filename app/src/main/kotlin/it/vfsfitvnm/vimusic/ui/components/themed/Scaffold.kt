@@ -22,6 +22,9 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 fun Scaffold(
     topIconButtonId: Int,
     onTopIconButtonClick: () -> Unit,
+    topIconButton2Id: Int,
+    onTopIconButton2Click: () -> Unit,
+    showButton2: Boolean,
     tabIndex: Int,
     onTabChanged: (Int) -> Unit,
     tabColumnContent: @Composable ColumnScope.(@Composable (Int, String, Int) -> Unit) -> Unit,
@@ -39,6 +42,9 @@ fun Scaffold(
         NavigationRail(
             topIconButtonId = topIconButtonId,
             onTopIconButtonClick = onTopIconButtonClick,
+            topIconButton2Id = topIconButton2Id,
+            onTopIconButton2Click = onTopIconButton2Click,
+            showButton2 = showButton2,
             tabIndex = tabIndex,
             onTabIndexChanged = onTabChanged,
             content = tabColumnContent

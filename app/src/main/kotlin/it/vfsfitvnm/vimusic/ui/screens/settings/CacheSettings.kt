@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType.Companion.Uri
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
+import androidx.media3.common.util.UnstableApi
 import coil.Coil
 import coil.annotation.ExperimentalCoilApi
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
@@ -48,6 +49,7 @@ import kotlin.coroutines.coroutineContext
 
 @OptIn(ExperimentalCoilApi::class)
 @ExperimentalAnimationApi
+@UnstableApi
 @Composable
 fun CacheSettings() {
     val context = LocalContext.current
@@ -142,7 +144,7 @@ fun CacheSettings() {
             SettingsDescription(
                 text = buildString {
                     append(Formatter.formatShortFileSize(context, diskCacheSize))
-                    append(stringResource(R.string.used))
+                    append(" ${stringResource(R.string.used)}")
                     when (val size = exoPlayerDiskCacheMaxSize) {
                         ExoPlayerDiskCacheMaxSize.Unlimited -> {}
                         else -> append(" (${diskCacheSize * 100 / size.bytes}%)")
