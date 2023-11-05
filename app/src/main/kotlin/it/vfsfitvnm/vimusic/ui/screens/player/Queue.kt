@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -471,6 +472,11 @@ fun Queue(
                             .size(24.dp)
                     )
 
+                    Spacer(
+                        modifier = Modifier
+                            .width(8.dp)
+                    )
+
                     IconButton(
                         icon = R.drawable.shuffle,
                         color = colorPalette.text,
@@ -485,6 +491,11 @@ fun Queue(
                                 player.shuffleQueue()
                             }
                         }
+                    )
+
+                    Spacer(
+                        modifier = Modifier
+                            .width(8.dp)
                     )
 
                     IconButton(

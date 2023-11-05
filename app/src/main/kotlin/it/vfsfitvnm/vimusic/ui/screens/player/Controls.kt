@@ -84,6 +84,7 @@ import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
+import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
@@ -589,6 +590,19 @@ fun Controls(
         ) {
 
             IconButton(
+                icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
+                color = if (isDownloaded) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
+                onClick = {
+                    trackLoopEnabled = !trackLoopEnabled
+                    if (effectRotationEnabled) isRotated = !isRotated
+                },
+                modifier = Modifier
+                    .rotate(rotationAngle)
+                    //.weight(1f)
+                    .size(24.dp)
+            )
+
+            IconButton(
                 icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
                 color = colorPalette.favoritesIcon,
                 onClick = {
@@ -628,34 +642,18 @@ fun Controls(
             )
 
 
-
-            IconButton(
-                icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
-                color = if (isDownloaded) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
-                onClick = {
-                    trackLoopEnabled = !trackLoopEnabled
-                    if (effectRotationEnabled) isRotated = !isRotated
-                },
-                modifier = Modifier
-                    .rotate(rotationAngle)
-                    //.weight(1f)
-                    .size(24.dp)
-            )
-/*
             IconButton(
                 icon = R.drawable.shuffle,
                 color = colorPalette.text,
                 enabled = true,
                 onClick = {
-                    binder?.stopRadio()
-                    binder?.player?.stop()
                     binder?.player?.shuffleQueue()
-                    binder?.player?.play()
+                    binder.player.forceSeekToNext()
                 },
                 modifier = Modifier
                    .size(24.dp),
             )
-*/
+
 
             IconButton(
                 icon = R.drawable.ellipsis_horizontal,

@@ -192,6 +192,20 @@ fun BuiltInPlaylistSongs(
                         }
                     )
 
+                    HeaderIconButton(
+                        icon = R.drawable.shuffle,
+                        enabled = songs.isNotEmpty(),
+                        color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
+                        onClick = {
+                            if (songs.isNotEmpty()) {
+                                binder?.stopRadio()
+                                binder?.player?.forcePlayFromBeginning(
+                                    songs.shuffled().map(Song::asMediaItem)
+                                )
+                            }
+                        }
+                    )
+
 
                     HeaderIconButton(
                                 icon = R.drawable.trending,
@@ -266,7 +280,7 @@ fun BuiltInPlaylistSongs(
                 )
             }
         }
-
+/*
         FloatingActionsContainerWithScrollToTop(
             lazyListState = lazyListState,
             iconId = R.drawable.shuffle,
@@ -279,5 +293,6 @@ fun BuiltInPlaylistSongs(
                 }
             }
         )
+ */
     }
 }

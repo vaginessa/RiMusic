@@ -102,6 +102,7 @@ import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.shuffleQueue
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -535,10 +536,9 @@ fun Player(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start,
                     modifier = Modifier
-                        .align(Alignment.BottomStart)
+                        .align(Alignment.CenterStart)
                         .padding(horizontal = 4.dp)
-                        .size(150.dp)
-                        .size(250.dp)
+
                 ) {
                     IconButton(
                         icon = R.drawable.playlist,
@@ -597,18 +597,19 @@ fun Player(
 
                 ) {
                     if (isLandscape) {
-                    IconButton(
-                        icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
-                        color = if (isDownloaded) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
-                        onClick = { },
-                        modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .size(24.dp)
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .width(4.dp)
-                    )
+
+                        IconButton(
+                            icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
+                            color = if (isDownloaded) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
+                            onClick = { },
+                            modifier = Modifier
+                                .padding(horizontal = 4.dp)
+                                .size(24.dp)
+                        )
+                        Spacer(
+                            modifier = Modifier
+                                .width(8.dp)
+                        )
 
                     IconButton(
                         icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
@@ -636,7 +637,7 @@ fun Player(
 
                     Spacer(
                         modifier = Modifier
-                            .width(4.dp)
+                            .width(8.dp)
                     )
 
                     IconButton(
@@ -652,9 +653,25 @@ fun Player(
                     )
                     Spacer(
                         modifier = Modifier
-                            .width(4.dp)
+                            .width(8.dp)
                     )
-                }
+
+                        IconButton(
+                            icon = R.drawable.shuffle,
+                            color = colorPalette.text,
+                            enabled = true,
+                            onClick = {
+                                binder?.player?.shuffleQueue()
+                                binder.player.forceSeekToNext()
+                            },
+                            modifier = Modifier
+                                .size(24.dp),
+                        )
+                        Spacer(
+                            modifier = Modifier
+                                .width(8.dp)
+                        )
+
                     IconButton(
                         icon = R.drawable.ellipsis_horizontal,
                         color = colorPalette.text,
@@ -676,6 +693,7 @@ fun Player(
                         modifier = Modifier
                             .width(4.dp)
                     )
+                    }
                 }
             },
             backgroundColorProvider = { colorPalette.background2 },
