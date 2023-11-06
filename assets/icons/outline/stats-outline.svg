@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   class="ionicon"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="pie-chart-listen-outline.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.83691406"
+     inkscape:cx="216.86814"
+     inkscape:cy="516.77946"
+     inkscape:window-width="2560"
+     inkscape:window-height="1351"
+     inkscape:window-x="1911"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <path
+     d="m 233.38256,64.567684 a 7.44,7.44 0 0 1 8.9187,7.2726 V 239.24028 a 44.7051,44.7051 0 0 0 26.412,40.7526 l 160.3971,71.7774 a 7.44,7.44 0 0 1 3.1155,10.9833 193.8306,193.8306 0 0 1 -45.0678,46.8813 191.8776,191.8776 0 0 1 -115.0968,37.9254 c -106.6617,0 -193.439986,-86.7783 -193.439986,-193.44 0,-93.4185 66.569386,-171.584992 154.761286,-189.552596 z"
+     id="path2-3"
+     style="fill:none;stroke:#000000;stroke-width:32;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1" />
+  <g
+     id="g2-4"
+     transform="matrix(0.45,0,0,0.45,250.73311,63.376661)">
+    <path
+       d="M 83,384 C 70,351 48,290.63 48,256 48,141.12 149.33,48 256,48 c 106.67,0 208,93.12 208,208 0,34.63 -23,97 -35,128"
+       fill="none"
+       stroke="currentColor"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       stroke-width="32"
+       id="path1-6" />
+    <path
+       d="m 108.39,270.13 -13.69,8 v 0 c -30.23,17.7 -31.7,72.41 -3.38,122.2 28.32,49.79 75.87,75.81 106.1,58.12 v 0 l 13.69,-8 a 16.16,16.16 0 0 0 5.78,-21.87 L 130,276 a 15.74,15.74 0 0 0 -21.61,-5.87 z m 295.22,0 13.69,8 v 0 c 30.23,17.69 31.74,72.4 3.38,122.19 -28.36,49.79 -75.87,75.81 -106.1,58.12 v 0 l -13.69,-8 a 16.16,16.16 0 0 1 -5.78,-21.87 L 382,276 a 15.74,15.74 0 0 1 21.61,-5.87 z"
+       fill="none"
+       stroke="currentColor"
+       stroke-miterlimit="10"
+       stroke-width="32"
+       id="path2-6" />
+  </g>
+</svg>
