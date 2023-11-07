@@ -128,6 +128,7 @@ fun Queue(
         state = layoutState,
         modifier = modifier,
         collapsedContent = {
+           /*
             Box(
                 modifier = Modifier
                     .drawBehind { drawRect(backgroundColorProvider()) }
@@ -145,6 +146,9 @@ fun Queue(
 
                 content()
             }
+
+            */
+            content()
         }
     ) {
         val binder = LocalPlayerServiceBinder.current
@@ -401,6 +405,7 @@ fun Queue(
                     .padding(horizontalBottomPaddingValues)
                     .height(60.dp)
             ) {
+                /*
                 Image(
                     painter = painterResource(R.drawable.chevron_down),
                     contentDescription = null,
@@ -409,6 +414,7 @@ fun Queue(
                         .align(Alignment.TopCenter)
                         .size(18.dp)
                 )
+                 */
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -472,6 +478,19 @@ fun Queue(
                         modifier = Modifier
                             .width(12.dp)
                     )
+                    IconButton(
+                        icon = R.drawable.repeat,
+                        color = if (queueLoopEnabled) colorPalette.text else colorPalette.textDisabled,
+                        onClick = { queueLoopEnabled = !queueLoopEnabled },
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                            .size(24.dp)
+                    )
+
+                    Spacer(
+                        modifier = Modifier
+                            .width(12.dp)
+                    )
 
                     IconButton(
                         icon = R.drawable.shuffle,
@@ -495,13 +514,15 @@ fun Queue(
                     )
 
                     IconButton(
-                        icon = R.drawable.repeat,
-                        color = if (queueLoopEnabled) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { queueLoopEnabled = !queueLoopEnabled },
+                        icon = R.drawable.chevron_down,
+                        color = colorPalette.text,
+                        onClick = { layoutState.collapseSoft() },
                         modifier = Modifier
                             .padding(horizontal = 4.dp)
                             .size(24.dp)
                     )
+                    
+
 
                 }
             }

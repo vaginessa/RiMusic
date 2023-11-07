@@ -148,7 +148,7 @@ fun BuiltInPlaylistSongs(
                 HeaderWithIcon(
                     title = when (builtInPlaylist) {
                         BuiltInPlaylist.Favorites -> stringResource(R.string.favorites)
-                        BuiltInPlaylist.Offline -> stringResource(R.string.offline)
+                        BuiltInPlaylist.Offline -> stringResource(R.string.downloaded)
                     },
                     iconId = R.drawable.search,
                     enabled = true,
@@ -156,16 +156,7 @@ fun BuiltInPlaylistSongs(
                     modifier = Modifier,
                     onClick = onSearchClick
                 )
-/*
-                Header(
-                    title = when (builtInPlaylist) {
-                        BuiltInPlaylist.Favorites -> stringResource(R.string.favorites)
-                        BuiltInPlaylist.Offline -> stringResource(R.string.offline)
-                    },
-                    modifier = Modifier
-                        .padding(bottom = 8.dp)
-                ) {
-*/
+
                 Row (
                         horizontalArrangement = Arrangement.spacedBy(10.dp),
                         verticalAlignment = Alignment.CenterVertically,

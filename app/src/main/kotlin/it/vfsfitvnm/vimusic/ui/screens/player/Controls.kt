@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloatAsState
@@ -30,10 +31,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
@@ -42,6 +45,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
@@ -71,7 +75,11 @@ import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.SeekBar
 import it.vfsfitvnm.vimusic.ui.components.themed.BaseMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.DefaultDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.DialogTextButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
 import it.vfsfitvnm.vimusic.ui.components.themed.ScrollText
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
@@ -89,6 +97,7 @@ import it.vfsfitvnm.vimusic.utils.forceSeekToNext
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.isLandscape
+import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.seamlessPlay
 import it.vfsfitvnm.vimusic.utils.secondary
@@ -100,6 +109,7 @@ import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.windows
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -124,9 +134,9 @@ fun Controls(
     val binder = LocalPlayerServiceBinder.current
     binder?.player ?: return
 
-    val downloadbinder = DownloaderService()
+    //val downloadbinder = DownloaderService()
 
-    var trackLoopEnabled by rememberPreference(trackLoopEnabledKey, defaultValue = false)
+    //var trackLoopEnabled by rememberPreference(trackLoopEnabledKey, defaultValue = false)
 
     var scrubbingPosition by remember(mediaId) {
         mutableStateOf<Long?>(null)
@@ -140,12 +150,14 @@ fun Controls(
         mutableStateOf<Long?>(null)
     }
 
+    /*
     var nextmediaItemIndex = binder.player.nextMediaItemIndex ?: -1
     var nextmediaItemtitle = ""
 
 
     if (nextmediaItemIndex.toShort() > -1)
         nextmediaItemtitle = binder.player.getMediaItemAt(nextmediaItemIndex).mediaMetadata.title.toString()
+    */
 
     var isRotated by rememberSaveable { mutableStateOf(false) }
     val rotationAngle by animateFloatAsState(
@@ -165,33 +177,7 @@ fun Controls(
 
     isDownloaded = downloadedStateMedia(mediaId)
 
-    val menuState = LocalMenuState.current
-
-    /*
-        var cachedBytes by remember(mediaId) {
-            mutableStateOf(binder.cache.getCachedBytes(mediaId, 0, -1))
-        }
-
-        var format by remember {
-            mutableStateOf<Format?>(null)
-        }
-        var isCached by rememberSaveable { mutableStateOf(false) }
-
-
-
-        LaunchedEffect(mediaId) {
-            Database.format(mediaId).distinctUntilChanged().collectLatest { currentFormat ->
-                format = currentFormat
-            }
-        }
-
-        format?.contentLength?.let {
-            isCached = (cachedBytes.toFloat() / it * 100).roundToInt() == 100
-
-        }
-
-        //Log.d("mediaItem", "Song downloaded? ${isCached} Song ${format?.contentLength}")
-    */
+    //val menuState = LocalMenuState.current
 
     val shouldBePlayingTransition = updateTransition(shouldBePlaying, label = "shouldBePlaying")
 
@@ -210,64 +196,86 @@ fun Controls(
 
         Spacer(
             modifier = Modifier
-                .height(20.dp)
-        )
-
-        BasicText(
-            text = stringResource(R.string.now_playing),
-            style = typography.xxs.secondary,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-
-        Spacer(
-            modifier = Modifier
-                .height(5.dp)
+                .height(30.dp)
         )
 
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth(0.9f)
+            ) {
+                IconButton(
+                    icon = R.drawable.disc,
+                    color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
+                    enabled = albumId != null,
+                    onClick = {
+                        if (albumId != null) onGoToAlbum(albumId)
+                    },
+                    modifier = Modifier
+                        .size(24.dp)
+                )
+
+                Spacer(
+                    modifier = Modifier
+                        .width(8.dp)
+                )
+
+                ScrollText(
+                    text = title ?: "",
+                    style = TextStyle(
+                        color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
+                        fontStyle = typography.l.bold.fontStyle,
+                        fontSize = typography.l.fontSize
+                    ),
+                    onClick = { if (albumId != null) onGoToAlbum(albumId) }
+                )
+            }
+
             IconButton(
-                icon = R.drawable.disc,
-                color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
-                enabled = albumId != null,
+                //icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
+                //color = colorPalette.favoritesIcon,
+                icon = R.drawable.heart,
+                color = if (likedAt == null) colorPalette.textDisabled else colorPalette.accent,
                 onClick = {
-                    if (albumId != null) onGoToAlbum(albumId)
+                    val currentMediaItem = binder.player.currentMediaItem
+                    query {
+                        if (Database.like(
+                                mediaId,
+                                if (likedAt == null) System.currentTimeMillis() else null
+                            ) == 0
+                        ) {
+                            currentMediaItem
+                                ?.takeIf { it.mediaId == mediaId }
+                                ?.let {
+                                    Database.insert(currentMediaItem, Song::toggleLike)
+                                }
+                        }
+                    }
+                    if (effectRotationEnabled) isRotated = !isRotated
                 },
                 modifier = Modifier
                     .size(24.dp)
             )
 
-            Spacer(
-                modifier = Modifier
-                    .width(8.dp)
-            )
-
-            ScrollText(
-                text = title ?: "",
-                style = TextStyle(
-                    color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
-                    fontStyle = typography.l.bold.fontStyle,
-                    fontSize = typography.l.fontSize
-                ),
-                onClick = { if (albumId != null) onGoToAlbum(albumId) }
-            )
-
         }
+
+
 
         Spacer(
             modifier = Modifier
-                .height(10.dp)
+                .height(20.dp)
         )
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-
 
             artistIds?.distinct()?.forEach {
                 IconButton(
@@ -278,7 +286,7 @@ fun Controls(
                         onGoToArtist(it)
                     },
                     modifier = Modifier
-                        .size(24.dp)
+                        .size(14.dp)
 
                 )
                 Spacer(
@@ -292,12 +300,14 @@ fun Controls(
                     .width(4.dp)
             )
 
+
+
             ScrollText(
                 text = artist ?: "",
                 style = TextStyle(
                     color = if (artistIds?.isEmpty() == true) colorPalette.textDisabled else colorPalette.text,
-                    fontStyle = typography.l.bold.fontStyle,
-                    fontSize = typography.l.fontSize
+                    fontStyle = typography.xs.bold.fontStyle,
+                    fontSize = typography.xs.fontSize
                 ),
                 onClick = {
                     if (artistIds?.isEmpty() == false) onGoToArtist(
@@ -307,77 +317,11 @@ fun Controls(
             )
 
         }
-        /*
-                Spacer(
-                    modifier = Modifier
-                        .height(15.dp)
-                )
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    BasicText(
-                        text = stringResource(R.string.next_playing),
-                        style = typography.xxs.secondary,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .height(5.dp)
-                    )
-                }
-
-
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    IconButton(
-                        icon = R.drawable.playlist,
-                        color = colorPalette.text,
-                        enabled = false,
-                        onClick = {
-                            //if add future action
-                        },
-                        modifier = Modifier
-                            .size(14.dp)
-                    )
-                    IconButton(
-                        icon = R.drawable.chevron_forward,
-                        color = colorPalette.text,
-                        enabled = false,
-                        onClick = {
-                            //if add future action
-                        },
-                        modifier = Modifier
-                            .size(14.dp)
-                    )
-
-                    Spacer(
-                        modifier = Modifier
-                            .width(8.dp)
-                    )
-
-                    BasicText(
-                        text = AnnotatedString(nextmediaItemtitle.toString() ?: ""),
-                        style = typography.xs.secondary,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-
-                    )
-
-                }
-         */
 
         Spacer(
             modifier = Modifier
                 .height(30.dp)
         )
-
-
 
 
         SeekBar(
@@ -445,53 +389,28 @@ fun Controls(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-/*
-            IconButton(
-                icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
-                color = colorPalette.favoritesIcon,
-                onClick = {
-                    val currentMediaItem = binder.player.currentMediaItem
-                    query {
-                        if (Database.like(
-                                mediaId,
-                                if (likedAt == null) System.currentTimeMillis() else null
-                            ) == 0
-                        ) {
-                            currentMediaItem
-                                ?.takeIf { it.mediaId == mediaId }
-                                ?.let {
-                                    Database.insert(currentMediaItem, Song::toggleLike)
-                                }
-                        }
-                    }
-                    if (effectRotationEnabled) isRotated = !isRotated
-                },
-                modifier = Modifier
-                    .rotate(rotationAngle)
-                    .weight(1f)
-                    .size(24.dp)
-            )
-*/
-            IconButton(
-                icon = R.drawable.play_skip_back,
-                color = colorPalette.iconButtonPlayer,
-                onClick = {
-                    binder.player.forceSeekToPrevious()
-                    if (effectRotationEnabled) isRotated = !isRotated
-                },
-                modifier = Modifier
-                    .rotate(rotationAngle)
-                    //.weight(1f)
-                    .padding(10.dp)
-                    .size(26.dp)
-            )
-            /*
-            Spacer(
-                modifier = Modifier
-                    .width(8.dp)
-            )
 
- */
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(playPauseRoundness))
+                    .background(colorPalette.background3)
+                    .width(50.dp)
+                    .height(50.dp)
+            ) {
+                IconButton(
+                    icon = R.drawable.play_skip_back,
+                    color = colorPalette.iconButtonPlayer,
+                    onClick = {
+                        binder.player.forceSeekToPrevious()
+                        if (effectRotationEnabled) isRotated = !isRotated
+                    },
+                    modifier = Modifier
+                        .rotate(rotationAngle)
+                        //.weight(1f)
+                        .padding(10.dp)
+                        .size(26.dp)
+                )
+            }
 
             Box(
                 modifier = Modifier
@@ -508,10 +427,8 @@ fun Controls(
                         if (effectRotationEnabled) isRotated = !isRotated
                     }
                     .background(colorPalette.background3)
-                    //.size(50.dp)
-                    .width(100.dp)
-                    .height(50.dp)
-                    //.weight(1f)
+                    .width(160.dp)
+                    .height(80.dp)
             ) {
                 Image(
                     painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
@@ -523,14 +440,14 @@ fun Controls(
                         .size(26.dp)
                 )
             }
-            /*
-            Spacer(
+
+            Box(
                 modifier = Modifier
-                    .width(8.dp)
-            )
-
- */
-
+                    .clip(RoundedCornerShape(playPauseRoundness))
+                    .background(colorPalette.background3)
+                    .width(50.dp)
+                    .height(50.dp)
+            ) {
             IconButton(
                 icon = R.drawable.play_skip_forward,
                 color = colorPalette.iconButtonPlayer,
@@ -540,145 +457,16 @@ fun Controls(
                 },
                 modifier = Modifier
                     .rotate(rotationAngle)
-                    //.weight(1f)
                     .padding(10.dp)
                     .size(26.dp)
             )
-            /*
-            IconButton(
-                icon = R.drawable.infinite,
-                color = if (trackLoopEnabled) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
-                onClick = {
-                            trackLoopEnabled = !trackLoopEnabled
-                            if (effectRotationEnabled) isRotated = !isRotated
-                          },
-                modifier = Modifier
-                    .rotate(rotationAngle)
-                    .weight(1f)
-                    .size(24.dp)
-            )
+            }
 
- */
-            /*
-            IconButton(
-                icon = if (isCached) R.drawable.downloaded_square else R.drawable.download_square,
-                color = if (isCached) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
-                onClick = {
-                    trackLoopEnabled = !trackLoopEnabled
-                    if (effectRotationEnabled) isRotated = !isRotated
-                },
-                modifier = Modifier
-                    .rotate(rotationAngle)
-                    .weight(1f)
-                    .size(24.dp)
-            )
-
- */
         }
 
         Spacer(
             modifier = Modifier
                 .weight(0.8f)
-        )
-
-        if (!isLandscape) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-
-            IconButton(
-                icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
-                color = if (isDownloaded) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
-                onClick = {
-                    trackLoopEnabled = !trackLoopEnabled
-                    if (effectRotationEnabled) isRotated = !isRotated
-                },
-                modifier = Modifier
-                    //.rotate(rotationAngle)
-                    //.weight(1f)
-                    .size(24.dp)
-            )
-
-            IconButton(
-                icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
-                color = colorPalette.favoritesIcon,
-                onClick = {
-                    val currentMediaItem = binder.player.currentMediaItem
-                    query {
-                        if (Database.like(
-                                mediaId,
-                                if (likedAt == null) System.currentTimeMillis() else null
-                            ) == 0
-                        ) {
-                            currentMediaItem
-                                ?.takeIf { it.mediaId == mediaId }
-                                ?.let {
-                                    Database.insert(currentMediaItem, Song::toggleLike)
-                                }
-                        }
-                    }
-                    if (effectRotationEnabled) isRotated = !isRotated
-                },
-                modifier = Modifier
-                    //.rotate(rotationAngle)
-                    //.weight(1f)
-                    .size(24.dp)
-            )
-
-            IconButton(
-                icon = R.drawable.repeat,
-                color = if (trackLoopEnabled) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
-                onClick = {
-                    trackLoopEnabled = !trackLoopEnabled
-                    if (effectRotationEnabled) isRotated = !isRotated
-                },
-                modifier = Modifier
-                    //.rotate(rotationAngle)
-                    //.weight(1f)
-                    .size(24.dp)
-            )
-
-
-            IconButton(
-                icon = R.drawable.shuffle,
-                color = colorPalette.text,
-                enabled = true,
-                onClick = {
-                    binder?.player?.shuffleQueue()
-                    binder.player.forceSeekToNext()
-                },
-                modifier = Modifier
-                   .size(24.dp),
-            )
-
-
-            IconButton(
-                icon = R.drawable.ellipsis_horizontal,
-                color = colorPalette.text,
-                onClick = {
-                    menuState.display {
-                        PlayerMenu(
-                            onDismiss = menuState::hide,
-                            mediaItem =  binder.player.currentMediaItem ?: return@display,
-                            binder = binder,
-                            downloadbinder = downloadbinder
-                        )
-                    }
-                },
-                modifier = Modifier
-                    //.padding(horizontal = 4.dp)
-                    .size(24.dp)
-            )
-
-
-        }
-    }
-        Spacer(
-            modifier = Modifier
-                .weight(0.7f)
         )
 
         }

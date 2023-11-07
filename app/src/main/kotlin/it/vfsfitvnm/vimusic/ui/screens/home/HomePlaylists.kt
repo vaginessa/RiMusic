@@ -206,7 +206,7 @@ fun HomePlaylists(
                 PlaylistItem(
                     icon = R.drawable.downloaded,
                     colorTint = colorPalette.favoritesIcon,
-                    name = stringResource(R.string.offline),
+                    name = stringResource(R.string.downloaded),
                     songCount = null,
                     thumbnailSizeDp = thumbnailSizeDp,
                     alternative = true,

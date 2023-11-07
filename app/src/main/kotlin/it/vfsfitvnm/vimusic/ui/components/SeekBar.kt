@@ -124,6 +124,7 @@ fun SeekBar(
             }
             .height(scrubberRadius)
     ) {
+
         Spacer(
             modifier = Modifier
                 .height(currentBarHeight)

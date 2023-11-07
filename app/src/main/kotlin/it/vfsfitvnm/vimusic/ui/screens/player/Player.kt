@@ -16,6 +16,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,6 +53,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -60,6 +62,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import coil.compose.AsyncImage
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
@@ -245,6 +248,7 @@ fun Player(
     var isDownloaded by rememberSaveable { mutableStateOf(false) }
     isDownloaded = downloadedStateMedia(mediaItem.mediaId)
 
+    /*
 
     var nextmediaItemIndex = binder.player.nextMediaItemIndex ?: -1
     var nextmediaItemtitle = ""
@@ -252,6 +256,7 @@ fun Player(
 
     if (nextmediaItemIndex.toShort() > -1)
         nextmediaItemtitle = binder.player.getMediaItemAt(nextmediaItemIndex).mediaMetadata.title.toString()
+    */
 
     var trackLoopEnabled by rememberPreference(trackLoopEnabledKey, defaultValue = false)
 
@@ -452,7 +457,6 @@ fun Player(
                 onShowStatsForNerds = { isShowingStatsForNerds = it },
                 modifier = modifier
                     .nestedScroll(layoutState.preUpPostDownNestedScrollConnection)
-                    //.border(BorderStroke(1.dp, colorPalette.textDisabled))
             )
         }
 
@@ -500,14 +504,83 @@ fun Player(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = containerModifier
-                    //.padding(top = 10.dp)
+                    .padding(top = 10.dp)
+                    /*
+                    .pointerInput(Unit) {
+                        detectDragGestures { change, dragAmount ->
+                            change.consume()
+
+                            val (x,y) = dragAmount
+                            when {
+                                x > 0 ->{ /* right */
+                                    Log.d("mediaItemGesture", "right")
+                                }
+                                x < 0 ->{ /* left */
+                                    Log.d("mediaItemGesture", "left")
+                                }
+                            }
+                            /*
+                            when {
+                                y > 0 -> { /* down */
+                                    Log.d("mediaItemGesture", "down")
+                                }
+                                y < 0 -> { /* up */
+                                    Log.d("mediaItemGesture", "up")
+                                }
+                            }
+                             */
+
+                           // offsetX += dragAmount.x
+                           // offsetY += dragAmount.y
+                        }
+                    }
+
+                     */
             ) {
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(30.dp)
+                ) {
+                    IconButton(
+                        icon = R.drawable.chevron_back,
+                        color = colorPalette.text,
+                        enabled = true,
+                        onClick = {
+                            layoutState.collapseSoft()
+                        },
+                        modifier = Modifier
+                            .size(24.dp)
+                    )
+
+                    IconButton(
+                        icon = R.drawable.ellipsis_vertical,
+                        color = colorPalette.text,
+                        onClick = {
+                            menuState.display {
+                                PlayerMenu(
+                                    onDismiss = menuState::hide,
+                                    mediaItem = mediaItem,
+                                    binder = binder,
+                                    downloadbinder = downloadbinder
+                                )
+                            }
+                        },
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                            .size(24.dp)
+                    )
+                }
+
 
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         //.weight(0.5f)
-                        .fillMaxHeight(0.52f)
+                        .fillMaxHeight(0.55f)
                 ) {
                     thumbnailContent(
                         modifier = Modifier
@@ -532,6 +605,8 @@ fun Player(
             layoutState = playerBottomSheetState,
             content = {
 
+                val context = LocalContext.current
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start,
@@ -540,32 +615,7 @@ fun Player(
                         .padding(horizontal = 4.dp)
 
                 ) {
-                    IconButton(
-                        icon = R.drawable.playlist,
-                        color = colorPalette.text,
-                        enabled = false,
-                        onClick = {
-                            //if add future action
-                        },
-                        modifier = Modifier
-                            .size(14.dp)
-                    )
-                    IconButton(
-                        icon = R.drawable.chevron_forward,
-                        color = colorPalette.text,
-                        enabled = true,
-                        onClick = {},
-                        modifier = Modifier
-                            .size(14.dp)
-                    )
 /*
-                    Spacer(
-                        modifier = Modifier
-                            .width(4.dp)
-                    )
-
- */
-
                     ScrollText(
                         text = nextmediaItemtitle ?: "",
                         style = TextStyle(
@@ -575,28 +625,40 @@ fun Player(
                         ),
                         onClick = { }
                     )
-                    /*
-                    BasicText(
-                        text = AnnotatedString(nextmediaItemtitle.toString() ?: ""),
-                        style = typography.xs.secondary,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
 
-                    )
+ */
 
-                     */
                 }
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End,
+                    horizontalArrangement = Arrangement.SpaceEvenly,
                     modifier = Modifier
-                        .align(Alignment.CenterEnd)
+                        .align(Alignment.Center)
                         .padding(horizontal = 8.dp)
-                        .fillMaxHeight()
+                        .fillMaxWidth()
 
                 ) {
-                    if (isLandscape) {
+
+                    IconButton(
+                        icon = R.drawable.share_social,
+                        color = colorPalette.text,
+                        enabled = true,
+                        onClick = {
+                            val sendIntent = Intent().apply {
+                                action = Intent.ACTION_SEND
+                                type = "text/plain"
+                                putExtra(
+                                    Intent.EXTRA_TEXT,
+                                    "https://music.youtube.com/watch?v=${mediaItem.mediaId}"
+                                )
+                            }
+
+                            context.startActivity(Intent.createChooser(sendIntent, null))
+                        },
+                        modifier = Modifier
+                            .size(24.dp),
+                    )
 
                         IconButton(
                             icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
@@ -606,39 +668,7 @@ fun Player(
                                 .padding(horizontal = 4.dp)
                                 .size(24.dp)
                         )
-                        Spacer(
-                            modifier = Modifier
-                                .width(8.dp)
-                        )
 
-                    IconButton(
-                        icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
-                        color = colorPalette.favoritesIcon,
-                        onClick = {
-                            val currentMediaItem = binder.player.currentMediaItem
-                            query {
-                                if (Database.like(
-                                        mediaItem.mediaId,
-                                        if (likedAt == null) System.currentTimeMillis() else null
-                                    ) == 0
-                                ) {
-                                    currentMediaItem
-                                        ?.takeIf { it.mediaId == mediaItem.mediaId }
-                                        ?.let {
-                                            Database.insert(currentMediaItem, Song::toggleLike)
-                                        }
-                                }
-                            }
-                            if (effectRotationEnabled) isRotated = !isRotated
-                        },
-                        modifier = Modifier
-                            .size(24.dp)
-                    )
-
-                    Spacer(
-                        modifier = Modifier
-                            .width(8.dp)
-                    )
 
                     IconButton(
                         icon = R.drawable.repeat,
@@ -651,10 +681,7 @@ fun Player(
                             .padding(horizontal = 4.dp)
                             .size(24.dp)
                     )
-                    Spacer(
-                        modifier = Modifier
-                            .width(8.dp)
-                    )
+
 
                         IconButton(
                             icon = R.drawable.shuffle,
@@ -667,33 +694,38 @@ fun Player(
                             modifier = Modifier
                                 .size(24.dp),
                         )
-                        Spacer(
-                            modifier = Modifier
-                                .width(8.dp)
-                        )
 
                     IconButton(
-                        icon = R.drawable.ellipsis_horizontal,
+                        icon = R.drawable.chevron_up,
                         color = colorPalette.text,
+                        enabled = true,
                         onClick = {
-                            menuState.display {
-                                PlayerMenu(
-                                    onDismiss = menuState::hide,
-                                    mediaItem = mediaItem,
-                                    binder = binder,
-                                    downloadbinder = downloadbinder
-                                )
-                            }
+                            playerBottomSheetState.expandSoft()
                         },
                         modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .size(24.dp)
+                            .size(24.dp),
                     )
-                    Spacer(
-                        modifier = Modifier
-                            .width(4.dp)
-                    )
+
+                    if (isLandscape) {
+                        IconButton(
+                            icon = R.drawable.ellipsis_horizontal,
+                            color = colorPalette.text,
+                            onClick = {
+                                menuState.display {
+                                    PlayerMenu(
+                                        onDismiss = menuState::hide,
+                                        mediaItem = mediaItem,
+                                        binder = binder,
+                                        downloadbinder = downloadbinder
+                                    )
+                                }
+                            },
+                            modifier = Modifier
+                                .padding(horizontal = 4.dp)
+                                .size(24.dp)
+                        )
                     }
+
                 }
             },
             backgroundColorProvider = { colorPalette.background2 },

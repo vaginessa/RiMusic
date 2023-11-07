@@ -135,7 +135,11 @@ fun AppearanceSettings() {
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.theme_mode),
             selectedValue = colorPaletteMode,
-            isEnabled = colorPaletteName != ColorPaletteName.PureBlack,
+            isEnabled = when (colorPaletteName) {
+                ColorPaletteName.PureBlack -> false
+                ColorPaletteName.ModerBlack -> false
+                else -> { true }
+            },
             onValueSelected = { colorPaletteMode = it },
             valueText = {
                 when (it) {
