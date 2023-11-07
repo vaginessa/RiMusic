@@ -505,7 +505,7 @@ fun Player(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = containerModifier
                     .padding(top = 10.dp)
-                    /*
+
                     .pointerInput(Unit) {
                         detectDragGestures { change, dragAmount ->
                             change.consume()
@@ -519,7 +519,7 @@ fun Player(
                                     Log.d("mediaItemGesture", "left")
                                 }
                             }
-                            /*
+
                             when {
                                 y > 0 -> { /* down */
                                     Log.d("mediaItemGesture", "down")
@@ -528,14 +528,14 @@ fun Player(
                                     Log.d("mediaItemGesture", "up")
                                 }
                             }
-                             */
+
 
                            // offsetX += dragAmount.x
                            // offsetY += dragAmount.y
                         }
                     }
 
-                     */
+
             ) {
 
                 Row(
@@ -546,7 +546,7 @@ fun Player(
                         .height(30.dp)
                 ) {
                     IconButton(
-                        icon = R.drawable.chevron_back,
+                        icon = R.drawable.chevron_down,
                         color = colorPalette.text,
                         enabled = true,
                         onClick = {
