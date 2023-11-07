@@ -17,6 +17,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -54,6 +55,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.util.VelocityTracker
+import androidx.compose.ui.input.pointer.util.addPointerInputChange
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -507,35 +510,25 @@ fun Player(
                     .padding(top = 10.dp)
 
                     .pointerInput(Unit) {
-                        detectDragGestures { change, dragAmount ->
-                            change.consume()
 
-                            val (x,y) = dragAmount
-                            when {
-                                x > 0 ->{ /* right */
-                                    Log.d("mediaItemGesture", "right")
-                                }
-                                x < 0 ->{ /* left */
-                                    Log.d("mediaItemGesture", "left")
-                                }
+                        val velocityTracker = VelocityTracker()
+                        detectHorizontalDragGestures(
+                            onHorizontalDrag = { change, dragAmount ->
+                                velocityTracker.addPointerInputChange(change)
+                            },
+
+                            onDragCancel = {
+                                velocityTracker.resetTracking()
+                            },
+                            onDragEnd = {
+                                val velocity = -velocityTracker.calculateVelocity().x
+                                velocityTracker.resetTracking()
+                                if (velocity > 0 ) binder.player.forceSeekToPrevious()
+                                else binder.player.forceSeekToNext()
                             }
 
-                            when {
-                                y > 0 -> { /* down */
-                                    Log.d("mediaItemGesture", "down")
-                                }
-                                y < 0 -> { /* up */
-                                    Log.d("mediaItemGesture", "up")
-                                }
-                            }
-
-
-                           // offsetX += dragAmount.x
-                           // offsetY += dragAmount.y
-                        }
+                        )
                     }
-
-
             ) {
 
                 Row(

@@ -77,28 +77,6 @@ fun BottomSheet(
                         state.performFling(velocity, onDismiss)
                     }
                 )
-/*
-                detectHorizontalDragGestures(
-                    onHorizontalDrag = { change, dragAmount ->
-                        velocityTracker.addPointerInputChange(change)
-                        state.dispatchRawDelta(dragAmount)
-                        Log.d("mediaItemGesture", "horizontal")
-                    },
-
-                    onDragCancel = {
-                        velocityTracker.resetTracking()
-                        state.snapTo(state.collapsedBound)
-                    },
-                    onDragEnd = {
-                        val velocity = -velocityTracker.calculateVelocity().x
-                        velocityTracker.resetTracking()
-                        state.performFling(velocity, onDismiss)
-                        Log.d("mediaItemGesture", "horizontal end")
-                    }
-
-                )
-                
- */
             }
             .fillMaxSize()
     ) {
