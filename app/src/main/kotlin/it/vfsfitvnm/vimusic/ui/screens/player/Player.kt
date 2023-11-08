@@ -16,8 +16,10 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -504,31 +506,29 @@ fun Player(
                 )
             }
         } else {
+            var offsetX by remember { mutableStateOf(0f) }
+            var deltaX by remember { mutableStateOf(0f) }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = containerModifier
                     .padding(top = 10.dp)
-
                     .pointerInput(Unit) {
-
-                        val velocityTracker = VelocityTracker()
                         detectHorizontalDragGestures(
                             onHorizontalDrag = { change, dragAmount ->
-                                velocityTracker.addPointerInputChange(change)
+                                deltaX = dragAmount
+                                //Log.d("mediaItemGesture","ondrag start offsetX${offsetX} dragAmount ${deltaX}")
                             },
 
-                            onDragCancel = {
-                                velocityTracker.resetTracking()
-                            },
                             onDragEnd = {
-                                val velocity = -velocityTracker.calculateVelocity().x
-                                velocityTracker.resetTracking()
-                                if (velocity < 0 ) binder.player.forceSeekToPrevious()
+                                if (deltaX > 0 ) binder.player.forceSeekToPrevious()
                                 else binder.player.forceSeekToNext()
+                                //Log.d("mediaItemGesture","ondrag end offsetX${offsetX} deltaX ${deltaX}")
                             }
 
                         )
                     }
+
+
             ) {
 
                 Row(
