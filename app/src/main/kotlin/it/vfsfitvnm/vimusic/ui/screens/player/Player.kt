@@ -523,7 +523,7 @@ fun Player(
                             onDragEnd = {
                                 val velocity = -velocityTracker.calculateVelocity().x
                                 velocityTracker.resetTracking()
-                                if (velocity > 0 ) binder.player.forceSeekToPrevious()
+                                if (velocity < 0 ) binder.player.forceSeekToPrevious()
                                 else binder.player.forceSeekToNext()
                             }
 

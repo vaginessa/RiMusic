@@ -115,7 +115,7 @@ dependencies {
         // For loading and tinting drawables on older versions of the platform
         implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
 
-
+    implementation("com.github.therealbush:translator:1.0.2")
 
     //implementation("androidx.compose.foundation:foundation:1.4.0")
     // Fix Duplicate class

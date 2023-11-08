@@ -47,8 +47,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.translationMatrix
 import androidx.media3.common.C
 import androidx.media3.common.MediaMetadata
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.NextBody
@@ -57,9 +60,11 @@ import it.vfsfitvnm.kugou.KuGou
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.models.Lyrics
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
+import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.Menu
 import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
@@ -72,6 +77,7 @@ import it.vfsfitvnm.vimusic.utils.SynchronizedLyrics
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.isShowingSynchronizedLyricsKey
+import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.toast
@@ -80,7 +86,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import me.bush.translator.Language
+import me.bush.translator.Translation
+import me.bush.translator.Translator
 
+@UnstableApi
 @Composable
 fun Lyrics(
     mediaId: String,
@@ -118,6 +128,26 @@ fun Lyrics(
             mutableStateOf(false)
         }
 
+        val translator = Translator()
+
+        var languageApp  by rememberPreference(languageAppKey, Languages.English)
+
+        val languageDestination = when (languageApp.code) {
+            "ru" -> Language.RUSSIAN
+            "it" -> Language.ITALIAN
+            "cs" -> Language.CZECH
+            "de" -> Language.DUTCH
+            "es" -> Language.SPANISH
+            "fr" -> Language.FRENCH
+            "ro" -> Language.ROMANIAN
+            "tr" -> Language.TURKISH
+            else -> {Language.ENGLISH}
+        }
+
+        var translateEnabled by remember {
+            mutableStateOf(false)
+        }
+
         LaunchedEffect(mediaId, isShowingSynchronizedLyrics) {
             withContext(Dispatchers.IO) {
                 Database.lyrics(mediaId).collect {
@@ -139,6 +169,7 @@ fun Lyrics(
                             title = mediaMetadata.title?.toString() ?: "",
                             duration = duration / 1000
                         )?.onSuccess { syncedLyrics ->
+                            Log.d("mediaItemLyrics", syncedLyrics?.value.toString())
                             Database.upsert(
                                 Lyrics(
                                     songId = mediaId,
@@ -154,7 +185,7 @@ fun Lyrics(
                             Database.upsert(
                                 Lyrics(
                                     songId = mediaId,
-                                    fixed = fixedLyrics ?: "",
+                                    fixed =  fixedLyrics ?: "",
                                     synced = it?.synced
                                 )
                             )
@@ -166,6 +197,7 @@ fun Lyrics(
                     }
                 }
             }
+
         }
 
         if (isEditing) {
@@ -219,7 +251,6 @@ fun Lyrics(
                     .align(Alignment.TopCenter)
             ) {
                 BasicText(
-                    //text = "An error has occurred while fetching the ${if (isShowingSynchronizedLyrics) "synchronized " else ""}lyrics",
                     text = stringResource( R.string.an_error_has_occurred_while_fetching_the_lyrics ),
                     style = typography.xs.center.medium.color(PureBlackColorPalette.text),
                     modifier = Modifier
@@ -237,7 +268,6 @@ fun Lyrics(
                     .align(Alignment.TopCenter)
             ) {
                 BasicText(
-                    //text = "${if (isShowingSynchronizedLyrics) "Synchronized l" else "L"}yrics are not available for this song",
                     text = "${if (isShowingSynchronizedLyrics) stringResource(id = R.string.synchronized_lyrics) else stringResource(id = R.string.unsynchronized_lyrics)} " +
                             " ${stringResource(R.string.are_not_available_for_this_song)}",
                     //text = stringResource(R.string.are_not_available_for_this_song)
@@ -289,7 +319,9 @@ fun Lyrics(
                     ) {
                         itemsIndexed(items = synchronizedLyrics.sentences) { index, sentence ->
                             BasicText(
-                                text = sentence.second,
+                                text = if (translateEnabled == true)
+                                    translator.translateBlocking(sentence.second, languageDestination,Language.AUTO).translatedText
+                                else sentence.second,
                                 style = typography.xs.center.medium.color(if (index == synchronizedLyrics.index) PureBlackColorPalette.text else PureBlackColorPalette.textDisabled),
                                 modifier = Modifier
                                     .padding(vertical = 4.dp, horizontal = 32.dp)
@@ -297,8 +329,11 @@ fun Lyrics(
                         }
                     }
                 } else {
+
                     BasicText(
-                        text = text,
+                        text =  if (translateEnabled == true)
+                        translator.translateBlocking(text, languageDestination,Language.AUTO).translatedText
+                        else text,
                         style = typography.xs.center.medium.color(PureBlackColorPalette.text),
                         modifier = Modifier
                             .verticalFadingEdge()
@@ -325,8 +360,18 @@ fun Lyrics(
                 }
             }
 
+            IconButton(
+                icon = R.drawable.translate,
+                color = if (translateEnabled == true ) colorPalette.text else colorPalette.textDisabled,
+                enabled = true,
+                onClick = { translateEnabled = !translateEnabled },
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .size(24.dp)
+            )
+
             Image(
-                painter = painterResource(R.drawable.ellipsis_horizontal),
+                painter = painterResource(R.drawable.ellipsis_vertical),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(DefaultDarkColorPalette.text),
                 modifier = Modifier
@@ -413,3 +458,5 @@ fun Lyrics(
         }
     }
 }
+
+
