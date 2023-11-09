@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
@@ -36,12 +37,14 @@ import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@UnstableApi
 @Composable
 fun ArtistLocalSongs(
     browseId: String,
@@ -113,7 +116,7 @@ fun ArtistLocalSongs(
                     ) { index, song ->
                         SongItem(
                             song = song,
-                            isDownloaded = false,
+                            isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                             thumbnailSizeDp = songThumbnailSizeDp,
                             thumbnailSizePx = songThumbnailSizePx,
                             modifier = Modifier

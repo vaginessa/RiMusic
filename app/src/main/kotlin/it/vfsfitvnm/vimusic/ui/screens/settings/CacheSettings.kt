@@ -159,7 +159,7 @@ fun CacheSettings() {
                 onValueSelected = { exoPlayerDiskCacheMaxSize = it },
                 valueText = {
                     when (it) {
-                        ExoPlayerDiskCacheMaxSize.Disabled -> "Disabled"
+                        ExoPlayerDiskCacheMaxSize.Disabled -> stringResource(R.string.turn_off)
                         ExoPlayerDiskCacheMaxSize.Unlimited -> stringResource(R.string.unlimited)
                         ExoPlayerDiskCacheMaxSize.`32MB` -> "32MB"
                         ExoPlayerDiskCacheMaxSize.`512MB` -> "512MB"

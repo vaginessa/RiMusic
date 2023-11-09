@@ -80,6 +80,7 @@ import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.secondary
@@ -195,7 +196,7 @@ fun QuickPicks(
                         item {
                             SongItem(
                                 song = song,
-                                isDownloaded = false,
+                                isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                                 thumbnailSizePx = songThumbnailSizePx,
                                 thumbnailSizeDp = songThumbnailSizeDp,
                                 trailingContent = {
@@ -221,10 +222,17 @@ fun QuickPicks(
                                                     },
 
                                                     onDownload = {
-                                                        Log.d("downloadEvent","Download started from Quick Picks?")
-                                                        val contentUri = "https://www.youtube.com/watch?v=${song.asMediaItem.mediaId}".toUri()
-                                                        val downloadRequest = DownloadRequest.
-                                                        Builder(song.asMediaItem.mediaId, contentUri)
+                                                        Log.d(
+                                                            "downloadEvent",
+                                                            "Download started from Quick Picks?"
+                                                        )
+                                                        val contentUri =
+                                                            "https://www.youtube.com/watch?v=${song.asMediaItem.mediaId}".toUri()
+                                                        val downloadRequest = DownloadRequest
+                                                            .Builder(
+                                                                song.asMediaItem.mediaId,
+                                                                contentUri
+                                                            )
                                                             .setCustomCacheKey(song.asMediaItem.mediaId)
                                                             .setData(song.title.toByteArray())
                                                             .build()
@@ -233,7 +241,7 @@ fun QuickPicks(
                                                             context,
                                                             DownloaderService::class.java,
                                                             downloadRequest,
-                                                             false
+                                                            false
                                                         )
 
                                                         DownloadService.sendSetStopReason(
@@ -276,7 +284,7 @@ fun QuickPicks(
                     ) { song ->
                         SongItem(
                             song = song,
-                            isDownloaded = false,
+                            isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                             thumbnailSizePx = songThumbnailSizePx,
                             thumbnailSizeDp = songThumbnailSizeDp,
                             modifier = Modifier

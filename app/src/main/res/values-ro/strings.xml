@@ -206,5 +206,6 @@
     <string name="unlimited">Unlimited</string>
     <string name="_light">Light</string>
     <string name="downloaded">Downloaded</string>
+    <string name="turn_off">Turn off</string>
 
 </resources>

@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.BrowseBody
@@ -57,6 +58,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.completed
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
@@ -67,6 +69,7 @@ import kotlinx.coroutines.withContext
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
+@UnstableApi
 @Composable
 fun LocalPlaylistSongs(
     playlistId: Long,
@@ -268,7 +271,7 @@ fun LocalPlaylistSongs(
             ) { index, song ->
                 SongItem(
                     song = song,
-                    isDownloaded = false,
+                    isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                     thumbnailSizePx = thumbnailSizePx,
                     thumbnailSizeDp = thumbnailSizeDp,
                     trailingContent = {

@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
@@ -58,6 +59,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -67,6 +69,7 @@ import java.time.ZoneOffset
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@UnstableApi
 @Composable
 fun StatisticsPage(
     statisticsType: StatisticsType
@@ -215,7 +218,7 @@ fun StatisticsPage(
                         ) {
                         SongItem(
                             song = songs.get(it).asMediaItem,
-                            isDownloaded = false,
+                            isDownloaded = downloadedStateMedia(songs.get(it).asMediaItem.mediaId),
                             thumbnailSizeDp = thumbnailSizeDp,
                             thumbnailSizePx = thumbnailSize,
                             modifier = Modifier

@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
@@ -40,6 +41,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
@@ -48,6 +50,7 @@ import it.vfsfitvnm.vimusic.utils.semiBold
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
+@UnstableApi
 @Composable
 fun AlbumSongs(
     browseId: String,
@@ -119,7 +122,7 @@ fun AlbumSongs(
                 ) { index, song ->
                     SongItem(
                         title = song.title,
-                        isDownloaded = false,
+                        isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                         authors = song.artistsText,
                         duration = song.durationText,
                         thumbnailSizeDp = thumbnailSizeDp,
