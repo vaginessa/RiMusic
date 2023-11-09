@@ -117,9 +117,6 @@ dependencies {
 
     implementation("com.github.therealbush:translator:1.0.2")
 
-    implementation("androidx.media3:media3-session:1.1.1")
-
-
     //implementation("androidx.compose.foundation:foundation:1.4.0")
     // Fix Duplicate class
     //implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
