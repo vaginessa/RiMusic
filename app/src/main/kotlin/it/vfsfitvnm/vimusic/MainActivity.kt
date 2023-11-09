@@ -123,6 +123,7 @@ import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
+import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
@@ -289,7 +290,7 @@ AppCompatDelegate
                                 AppCompatDelegate.setApplicationLocales(appLocale)
                             }
 
-                            effectRotationKey, playerThumbnailSizeKey -> {
+                            effectRotationKey, playerThumbnailSizeKey, exoPlayerDiskCacheMaxSizeKey -> {
                                 this@MainActivity.recreate()
                             }
 
