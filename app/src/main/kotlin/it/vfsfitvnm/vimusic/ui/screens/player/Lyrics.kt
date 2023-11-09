@@ -366,7 +366,8 @@ fun Lyrics(
                 enabled = true,
                 onClick = { translateEnabled = !translateEnabled },
                 modifier = Modifier
-                    .align(Alignment.BottomStart)
+                    .padding(all = 8.dp)
+                    .align(Alignment.TopEnd)
                     .size(24.dp)
             )
 
