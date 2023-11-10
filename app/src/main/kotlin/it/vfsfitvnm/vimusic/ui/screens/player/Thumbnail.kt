@@ -10,6 +10,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -30,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 import coil.compose.AsyncImage
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
@@ -48,6 +51,7 @@ import java.net.UnknownHostException
 import java.nio.channels.UnresolvedAddressException
 
 @ExperimentalAnimationApi
+@UnstableApi
 @Composable
 fun Thumbnail(
     isShowingLyrics: Boolean,
@@ -148,6 +152,7 @@ fun Thumbnail(
                             onTap = { onShowLyrics(true) },
                             onLongPress = { onShowStatsForNerds(true) }
                         )
+
                     }
                     .fillMaxSize()
             )

@@ -414,6 +414,7 @@ fun MediaItemMenu(
                     SongItem(
                         thumbnailUrl = mediaItem.mediaMetadata.artworkUri.thumbnail(thumbnailSizePx)
                             ?.toString(),
+                        isDownloaded = false,
                         title = mediaItem.mediaMetadata.title.toString(),
                         authors = mediaItem.mediaMetadata.artist.toString(),
                         duration = null,

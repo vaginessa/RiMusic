@@ -174,6 +174,9 @@ fun ArtistScreen(browseId: String) {
             Scaffold(
                 topIconButtonId = R.drawable.chevron_back,
                 onTopIconButtonClick = pop,
+                topIconButton2Id = R.drawable.chevron_back,
+                onTopIconButton2Click = pop,
+                showButton2 = false,
                 tabIndex = tabIndex,
                 onTabChanged = { tabIndex = it },
                 tabColumnContent = { Item ->
@@ -237,6 +240,7 @@ fun ArtistScreen(browseId: String) {
                                 itemContent = { song ->
                                     SongItem(
                                         song = song,
+                                        isDownloaded = false,
                                         thumbnailSizeDp = thumbnailSizeDp,
                                         thumbnailSizePx = thumbnailSizePx,
                                         modifier = Modifier

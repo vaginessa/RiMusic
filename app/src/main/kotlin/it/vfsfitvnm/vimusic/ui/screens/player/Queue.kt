@@ -16,6 +16,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.layout.Arrangement
 
@@ -24,10 +25,10 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -47,6 +48,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -57,6 +59,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -96,6 +99,9 @@ import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.primaryButton
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.DisposableListener
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
+import it.vfsfitvnm.vimusic.utils.forceSeekToNext
+import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.queueLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -128,6 +134,7 @@ fun Queue(
         state = layoutState,
         modifier = modifier,
         collapsedContent = {
+           /*
             Box(
                 modifier = Modifier
                     .drawBehind { drawRect(backgroundColorProvider()) }
@@ -145,6 +152,9 @@ fun Queue(
 
                 content()
             }
+
+            */
+            content()
         }
     ) {
         val binder = LocalPlayerServiceBinder.current
@@ -232,9 +242,12 @@ fun Queue(
                         items = windows,
                         key = { it.uid.hashCode() }
                     ) { window ->
+                        var deltaX by remember { mutableStateOf(0f) }
                         val isPlayingThisMediaItem = mediaItemIndex == window.firstPeriodIndex
+                        val currentItem by rememberUpdatedState(window)
                         SongItem(
                             song = window.mediaItem,
+                            isDownloaded = downloadedStateMedia( window.mediaItem.mediaId ),
                             thumbnailSizePx = thumbnailSizePx,
                             thumbnailSizeDp = thumbnailSizeDp,
                             onThumbnailContent = {
@@ -346,6 +359,18 @@ fun Queue(
                                         }
                                     }
                                 )
+                                .pointerInput(Unit) {
+                                    detectHorizontalDragGestures(
+                                        onHorizontalDrag = { change, dragAmount ->
+                                            deltaX = dragAmount
+                                        },
+
+                                        onDragEnd = {
+                                            player?.removeMediaItem(currentItem.firstPeriodIndex)
+                                        }
+
+                                    )
+                                }
                                 .animateItemPlacement(reorderingState = reorderingState)
                                 .draggedItem(
                                     reorderingState = reorderingState,
@@ -398,8 +423,9 @@ fun Queue(
                     .fillMaxWidth()
                     .padding(horizontal = 12.dp, vertical = 20.dp)
                     .padding(horizontalBottomPaddingValues)
-                    //.height(40)
+                    .height(60.dp)
             ) {
+                /*
                 Image(
                     painter = painterResource(R.drawable.chevron_down),
                     contentDescription = null,
@@ -408,6 +434,7 @@ fun Queue(
                         .align(Alignment.TopCenter)
                         .size(18.dp)
                 )
+                 */
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -448,10 +475,6 @@ fun Queue(
             }
 
 
-
-
-
-
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End,
@@ -471,6 +494,24 @@ fun Queue(
                             .size(24.dp)
                     )
 
+                    Spacer(
+                        modifier = Modifier
+                            .width(12.dp)
+                    )
+                    IconButton(
+                        icon = R.drawable.repeat,
+                        color = if (queueLoopEnabled) colorPalette.text else colorPalette.textDisabled,
+                        onClick = { queueLoopEnabled = !queueLoopEnabled },
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                            .size(24.dp)
+                    )
+
+                    Spacer(
+                        modifier = Modifier
+                            .width(12.dp)
+                    )
+
                     IconButton(
                         icon = R.drawable.shuffle,
                         color = colorPalette.text,
@@ -487,14 +528,21 @@ fun Queue(
                         }
                     )
 
+                    Spacer(
+                        modifier = Modifier
+                            .width(12.dp)
+                    )
+
                     IconButton(
-                        icon = R.drawable.infinite,
-                        color = if (queueLoopEnabled) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { queueLoopEnabled = !queueLoopEnabled },
+                        icon = R.drawable.chevron_down,
+                        color = colorPalette.text,
+                        onClick = { layoutState.collapseSoft() },
                         modifier = Modifier
                             .padding(horizontal = 4.dp)
                             .size(24.dp)
                     )
+                    
+
 
                 }
             }

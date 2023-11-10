@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.statistics
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
@@ -57,14 +59,17 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.semiBold
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
+@SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@UnstableApi
 @Composable
 fun StatisticsPage(
     statisticsType: StatisticsType
@@ -184,26 +189,13 @@ fun StatisticsPage(
                     StatisticsType.OneYear -> stringResource(R.string._1_year)
                     StatisticsType.All -> stringResource(R.string.all)
                 },
-                iconId = R.drawable.query_stats,
+                iconId = R.drawable.stats,
                 enabled = true,
                 showIcon = true,
                 modifier = Modifier,
                 onClick = {}
             )
-            /*
-            HalfHeader(
-                title = when (statisticsType) {
-                    StatisticsType.Today -> stringResource(R.string.today)
-                    StatisticsType.OneWeek -> stringResource(R.string._1_week)
-                    StatisticsType.OneMonth -> stringResource(R.string._1_month)
-                    StatisticsType.ThreeMonths -> stringResource(R.string._3_month)
-                    StatisticsType.SixMonths -> stringResource(R.string._6_month)
-                    StatisticsType.OneYear -> stringResource(R.string._1_year)
-                    StatisticsType.All -> stringResource(R.string.all)
-                }
-            )
 
-             */
 
             BasicText(
                 text = stringResource(R.string.most_played_songs),
@@ -226,6 +218,7 @@ fun StatisticsPage(
                         ) {
                         SongItem(
                             song = songs.get(it).asMediaItem,
+                            isDownloaded = downloadedStateMedia(songs.get(it).asMediaItem.mediaId),
                             thumbnailSizeDp = thumbnailSizeDp,
                             thumbnailSizePx = thumbnailSize,
                             modifier = Modifier
@@ -279,7 +272,11 @@ fun StatisticsPage(
                         thumbnailSizeDp = artistThumbnailSizeDp,
                         alternative = true,
                         modifier = Modifier
-                            .clickable(onClick = { onGoToArtist(artists[it].id) })
+                            .clickable(onClick = {
+                                if (artists[it].id != "") {
+                                    onGoToArtist(artists[it].id)
+                                }
+                            })
                     )
                 }
             }
@@ -301,7 +298,10 @@ fun StatisticsPage(
                         thumbnailSizeDp = albumThumbnailSizeDp,
                         alternative = true,
                         modifier = Modifier
-                            .clickable(onClick = { onGoToAlbum(albums[it].id) })
+                            .clickable(onClick = {
+                                if (albums[it].id != "" )
+                                onGoToAlbum(albums[it].id)
+                            })
                     )
                 }
             }
@@ -324,7 +324,10 @@ fun StatisticsPage(
                         thumbnailSizeDp = playlistThumbnailSizeDp,
                         alternative = true,
                         modifier = Modifier
-                            .clickable(onClick = { onGoToPlaylist(playlists[it].playlist.browseId) })
+                            .clickable(onClick = {
+                                if (playlists[it].playlist.browseId != "" )
+                                    onGoToPlaylist(playlists[it].playlist.browseId)
+                            })
                     )
                 }
             }

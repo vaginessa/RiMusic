@@ -75,11 +75,14 @@ fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
             Scaffold(
                 topIconButtonId = R.drawable.chevron_back,
                 onTopIconButtonClick = pop,
+                topIconButton2Id = R.drawable.chevron_back,
+                onTopIconButton2Click = pop,
+                showButton2 = false,
                 tabIndex = tabIndex,
                 onTabChanged = onTabIndexChanged,
                 tabColumnContent = { Item ->
                     Item(0, stringResource(R.string.favorites), R.drawable.heart)
-                    Item(1, stringResource(R.string.offline), R.drawable.airplane)
+                    Item(1, stringResource(R.string.downloaded), R.drawable.downloaded)
                 }
             ) { currentTabIndex ->
                 saveableStateHolder.SaveableStateProvider(key = currentTabIndex) {

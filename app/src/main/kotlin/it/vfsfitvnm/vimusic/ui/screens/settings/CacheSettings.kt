@@ -1,9 +1,7 @@
 package it.vfsfitvnm.vimusic.ui.screens.settings
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
-import android.provider.DocumentsContract
 import android.text.format.Formatter
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -26,9 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType.Companion.Uri
-import androidx.core.net.toUri
-import androidx.documentfile.provider.DocumentFile
+import androidx.media3.common.util.UnstableApi
 import coil.Coil
 import coil.annotation.ExperimentalCoilApi
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
@@ -36,18 +32,16 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.CoilDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
-import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
-import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.coilDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerAlternateCacheLocationKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
-import kotlin.coroutines.coroutineContext
 
 @OptIn(ExperimentalCoilApi::class)
 @ExperimentalAnimationApi
+@UnstableApi
 @Composable
 fun CacheSettings() {
     val context = LocalContext.current
@@ -124,7 +118,16 @@ fun CacheSettings() {
             EnumValueSelectorSettingsEntry(
                 title = stringResource(R.string.max_size),
                 selectedValue = coilDiskCacheMaxSize,
-                onValueSelected = { coilDiskCacheMaxSize = it }
+                onValueSelected = { coilDiskCacheMaxSize = it },
+                valueText = {
+                    when (it) {
+                        CoilDiskCacheMaxSize.`128MB` -> "128MB"
+                        CoilDiskCacheMaxSize.`256MB`-> "256MB"
+                        CoilDiskCacheMaxSize.`512MB`-> "512MB"
+                        CoilDiskCacheMaxSize.`1GB`-> "1GB"
+                        CoilDiskCacheMaxSize.`2GB` -> "2GB"
+                    }
+                }
             )
         }
 
@@ -142,7 +145,7 @@ fun CacheSettings() {
             SettingsDescription(
                 text = buildString {
                     append(Formatter.formatShortFileSize(context, diskCacheSize))
-                    append(stringResource(R.string.used))
+                    append(" ${stringResource(R.string.used)}")
                     when (val size = exoPlayerDiskCacheMaxSize) {
                         ExoPlayerDiskCacheMaxSize.Unlimited -> {}
                         else -> append(" (${diskCacheSize * 100 / size.bytes}%)")
@@ -153,7 +156,20 @@ fun CacheSettings() {
             EnumValueSelectorSettingsEntry(
                 title = stringResource(R.string.max_size),
                 selectedValue = exoPlayerDiskCacheMaxSize,
-                onValueSelected = { exoPlayerDiskCacheMaxSize = it }
+                onValueSelected = { exoPlayerDiskCacheMaxSize = it },
+                valueText = {
+                    when (it) {
+                        ExoPlayerDiskCacheMaxSize.Disabled -> stringResource(R.string.turn_off)
+                        ExoPlayerDiskCacheMaxSize.Unlimited -> stringResource(R.string.unlimited)
+                        ExoPlayerDiskCacheMaxSize.`32MB` -> "32MB"
+                        ExoPlayerDiskCacheMaxSize.`512MB` -> "512MB"
+                        ExoPlayerDiskCacheMaxSize.`1GB` -> "1GB"
+                        ExoPlayerDiskCacheMaxSize.`2GB` -> "2GB"
+                        ExoPlayerDiskCacheMaxSize.`4GB` -> "4GB"
+                        ExoPlayerDiskCacheMaxSize.`8GB` -> "8GB"
+
+                    }
+                }
             )
         }
 

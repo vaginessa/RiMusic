@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -27,14 +28,17 @@ import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.innertube.Innertube
+import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 
 @Composable
 fun SongItem(
     song: Innertube.SongItem,
     thumbnailSizePx: Int,
     thumbnailSizeDp: Dp,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isDownloaded: Boolean
 ) {
     SongItem(
         thumbnailUrl = song.thumbnail?.size(thumbnailSizePx),
@@ -43,6 +47,7 @@ fun SongItem(
         duration = song.durationText,
         thumbnailSizeDp = thumbnailSizeDp,
         modifier = modifier,
+        isDownloaded = isDownloaded
     )
 }
 
@@ -53,7 +58,8 @@ fun SongItem(
     thumbnailSizePx: Int,
     modifier: Modifier = Modifier,
     onThumbnailContent: (@Composable BoxScope.() -> Unit)? = null,
-    trailingContent: (@Composable () -> Unit)? = null
+    trailingContent: (@Composable () -> Unit)? = null,
+    isDownloaded: Boolean
 ) {
     SongItem(
         thumbnailUrl = song.mediaMetadata.artworkUri.thumbnail(thumbnailSizePx)?.toString(),
@@ -64,6 +70,7 @@ fun SongItem(
         onThumbnailContent = onThumbnailContent,
         trailingContent = trailingContent,
         modifier = modifier,
+        isDownloaded = isDownloaded
     )
 }
 
@@ -74,7 +81,8 @@ fun SongItem(
     thumbnailSizeDp: Dp,
     modifier: Modifier = Modifier,
     onThumbnailContent: (@Composable BoxScope.() -> Unit)? = null,
-    trailingContent: (@Composable () -> Unit)? = null
+    trailingContent: (@Composable () -> Unit)? = null,
+    isDownloaded: Boolean
 ) {
     SongItem(
         thumbnailUrl = song.thumbnailUrl?.thumbnail(thumbnailSizePx),
@@ -85,6 +93,7 @@ fun SongItem(
         onThumbnailContent = onThumbnailContent,
         trailingContent = trailingContent,
         modifier = modifier,
+        isDownloaded = isDownloaded
     )
 }
 
@@ -97,7 +106,8 @@ fun SongItem(
     thumbnailSizeDp: Dp,
     modifier: Modifier = Modifier,
     onThumbnailContent: (@Composable BoxScope.() -> Unit)? = null,
-    trailingContent: (@Composable () -> Unit)? = null
+    trailingContent: (@Composable () -> Unit)? = null,
+    isDownloaded: Boolean
 ) {
     SongItem(
         title = title,
@@ -117,7 +127,8 @@ fun SongItem(
             onThumbnailContent?.invoke(this)
         },
         modifier = modifier,
-        trailingContent = trailingContent
+        trailingContent = trailingContent,
+        isDownloaded = isDownloaded
     )
 }
 
@@ -130,6 +141,7 @@ fun SongItem(
     thumbnailSizeDp: Dp,
     modifier: Modifier = Modifier,
     trailingContent: @Composable (() -> Unit)? = null,
+    isDownloaded: Boolean
 ) {
     val (_, typography) = LocalAppearance.current
 
@@ -168,6 +180,16 @@ fun SongItem(
 
 
             Row(verticalAlignment = Alignment.CenterVertically) {
+
+                IconButton(
+                    onClick = { /*TODO*/ },
+                    icon = if (isDownloaded == true) R.drawable.downloaded else R.drawable.download,
+                    color = Color.White,
+                    modifier = Modifier
+                        .size(16.dp)
+                )
+                Spacer(modifier = Modifier.padding(horizontal = 2.dp))
+
                 BasicText(
                     text = authors ?: "",
                     style = typography.xs.semiBold.secondary,

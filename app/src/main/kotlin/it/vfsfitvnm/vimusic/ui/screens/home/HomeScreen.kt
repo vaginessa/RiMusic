@@ -17,6 +17,7 @@ import it.vfsfitvnm.compose.routing.isUnknown
 import it.vfsfitvnm.compose.routing.isUnstacking
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.StatisticsType
 import it.vfsfitvnm.vimusic.models.SearchQuery
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
@@ -149,9 +150,11 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
 
 
             Scaffold(
-                topIconButtonId = R.drawable.equalizer,
+                topIconButtonId = R.drawable.settings,
                 onTopIconButtonClick = { settingsRoute() },
-                //onTopIconButtonClick = { searchRoute("") },
+                topIconButton2Id = R.drawable.stats,
+                onTopIconButton2Click = { statisticsTypeRoute(StatisticsType.Today) },
+                showButton2 = true,
                 tabIndex = tabIndex,
                 onTabChanged = onTabChanged,
                 tabColumnContent = { Item ->
@@ -160,7 +163,7 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
                     Item(2, stringResource(R.string.playlists), R.drawable.playlist)
                     Item(3, stringResource(R.string.artists), R.drawable.person)
                     Item(4, stringResource(R.string.albums), R.drawable.disc)
-                    Item(5, "Statistics", R.drawable.query_stats)
+                    //Item(5, "Statistics", R.drawable.query_stats)
                     //Item(6, "Settings", R.drawable.equalizer)
                 }
             ) { currentTabIndex ->
@@ -193,12 +196,14 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
                             onSearchClick = { searchRoute("") }
                         )
 
+                        /*
                         5 -> HomeStatistics(
                             onStatisticsType = { statisticsTypeRoute(it)},
                             onBuiltInPlaylist = { builtInPlaylistRoute(it) },
                             onPlaylistClick = { localPlaylistRoute(it.id) },
                             onSearchClick = { searchRoute("") }
                         )
+                         */
 
                         //6 -> settingsRoute()
                     }

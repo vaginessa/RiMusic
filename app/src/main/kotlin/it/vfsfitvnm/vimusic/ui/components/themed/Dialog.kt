@@ -3,6 +3,7 @@ package it.vfsfitvnm.vimusic.ui.components.themed
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -89,6 +90,7 @@ fun TextFieldDialog(
     DefaultDialog(
         onDismiss = onDismiss,
         modifier = modifier
+
     ) {
         BasicTextField(
             value = textFieldValue,
@@ -132,6 +134,7 @@ fun TextFieldDialog(
                 .padding(all = 16.dp)
                 .weight(weight = 1f, fill = false)
                 .focusRequester(focusRequester)
+
         )
 
         Row(
@@ -227,7 +230,7 @@ inline fun DefaultDialog(
             modifier = modifier
                 .padding(all = 48.dp)
                 .background(
-                    color = colorPalette.background1,
+                    color = colorPalette.background4,
                     shape = RoundedCornerShape(8.dp)
                 )
                 .padding(horizontal = 24.dp, vertical = 16.dp),
@@ -244,7 +247,7 @@ inline fun <T> ValueSelectorDialog(
     values: List<T>,
     crossinline onValueSelected: (T) -> Unit,
     modifier: Modifier = Modifier,
-    crossinline valueText: (T) -> String = { it.toString() }
+    crossinline valueText: @Composable (T) -> String = { it.toString() }
 ) {
     val (colorPalette, typography) = LocalAppearance.current
 
@@ -252,8 +255,8 @@ inline fun <T> ValueSelectorDialog(
         Column(
             modifier = modifier
                 .padding(all = 48.dp)
-                .background(color = colorPalette.background1, shape = RoundedCornerShape(8.dp))
-                .padding(vertical = 16.dp),
+                .background(color = colorPalette.background4, shape = RoundedCornerShape(8.dp))
+                .padding(vertical = 16.dp)
         ) {
             BasicText(
                 text = title,

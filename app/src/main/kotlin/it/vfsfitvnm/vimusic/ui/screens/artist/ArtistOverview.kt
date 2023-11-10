@@ -164,6 +164,7 @@ fun ArtistOverview(
                         songs.forEach { song ->
                             SongItem(
                                 song = song,
+                                isDownloaded = false,
                                 thumbnailSizeDp = songThumbnailSizeDp,
                                 thumbnailSizePx = songThumbnailSizePx,
                                 modifier = Modifier

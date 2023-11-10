@@ -13,7 +13,7 @@ android {
         minSdk = 21
         targetSdk = 33
         versionCode = 6
-        versionName = "0.6.7"
+        versionName = "0.6.8"
         buildConfigField("String", "VERSION_NAME", "\"$versionName\"")
     }
 
@@ -115,7 +115,7 @@ dependencies {
         // For loading and tinting drawables on older versions of the platform
         implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
 
-
+    implementation("com.github.therealbush:translator:1.0.2")
 
     //implementation("androidx.compose.foundation:foundation:1.4.0")
     // Fix Duplicate class

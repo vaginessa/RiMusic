@@ -53,6 +53,9 @@ fun SettingsScreen() {
             Scaffold(
                 topIconButtonId = R.drawable.chevron_back,
                 onTopIconButtonClick = pop,
+                topIconButton2Id = R.drawable.chevron_back,
+                onTopIconButton2Click = pop,
+                showButton2 = false,
                 tabIndex = tabIndex,
                 onTabChanged = onTabChanged,
                 tabColumnContent = { Item ->
@@ -79,6 +82,9 @@ fun SettingsScreen() {
     }
 }
 
+
+
+
 @Composable
 inline fun <reified T : Enum<T>> EnumValueSelectorSettingsEntry(
     title: String,
@@ -86,7 +92,7 @@ inline fun <reified T : Enum<T>> EnumValueSelectorSettingsEntry(
     crossinline onValueSelected: (T) -> Unit,
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
-    crossinline valueText: (T) -> String = Enum<T>::name,
+    crossinline valueText: @Composable (T) -> String,// = Enum<T>::name,
     noinline trailingContent: (@Composable () -> Unit)? = null
 ) {
     ValueSelectorSettingsEntry(
@@ -109,7 +115,7 @@ inline fun <T> ValueSelectorSettingsEntry(
     crossinline onValueSelected: (T) -> Unit,
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
-    crossinline valueText: (T) -> String = { it.toString() },
+    crossinline valueText: @Composable (T) -> String, //= { it.toString() },
     noinline trailingContent: (@Composable () -> Unit)? = null
 ) {
     var isShowingDialog by remember {
@@ -269,3 +275,4 @@ fun SettingsGroupSpacer(
             .height(24.dp)
     )
 }
+

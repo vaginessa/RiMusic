@@ -29,7 +29,7 @@
 - ...
 
 ## Screenshot
-<h4>Sample screenshot in English language</h4>
+<h4>Sample screenshot</h4>
 <p align="center">
   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="15%" />
   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="15%" />
@@ -38,16 +38,6 @@
   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="15%" />
   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="15%" />
   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="15%" />
-</p>
-<h4>Sample screenshot in Italian language</h4>
-<p align="center">  
-  <img src="./fastlane/metadata/android/it-IT/images/phoneScreenshots/1.jpg" width="15%" />
-  <img src="./fastlane/metadata/android/it-IT/images/phoneScreenshots/2.jpg" width="15%" />
-  <img src="./fastlane/metadata/android/it-IT/images/phoneScreenshots/3.jpg" width="15%" />
-
-  <img src="./fastlane/metadata/android/it-IT/images/phoneScreenshots/4.jpg" width="15%" />
-  <img src="./fastlane/metadata/android/it-IT/images/phoneScreenshots/5.jpg" width="15%" />
-  <img src="./fastlane/metadata/android/it-IT/images/phoneScreenshots/6.jpg" width="15%" />
 </p>
 
 ## Languages Available
@@ -65,18 +55,6 @@
 
 ## Installation
 You can dowload it from [**releases page**](https://github.com/fast4x/RiMusic/releases)
-
-<!--
-[<img src="https://github.com/machiav3lli/oandbackupx/blob/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png"
-    alt="Get it on GitHub"
-    height="80">](https://github.com/vfsfitvnm/ViMusic/releases/latest)
-[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
-     alt="Get it on IzzyOnDroid"
-     height="80">](https://apt.izzysoft.de/fdroid/index/apk/it.vfsfitvnm.vimusic)
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-     alt="Get it on F-Droid"
-     height="80">](https://f-droid.org/packages/it.vfsfitvnm.vimusic/)
--->
 
 ## Contribute
 ##### Pull Requests are welcome

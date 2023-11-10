@@ -62,7 +62,7 @@ fun PlaylistItem(
                 colorFilter = ColorFilter.tint(colorTint),
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .size(24.dp)
+                    .size(34.dp)
             )
         },
         songCount = songCount,

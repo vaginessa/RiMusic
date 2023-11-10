@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
@@ -44,6 +45,7 @@ import it.vfsfitvnm.vimusic.utils.medium
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@UnstableApi
 @Composable
 fun LocalSongSearch(
     textFieldValue: TextFieldValue,
@@ -109,6 +111,7 @@ fun LocalSongSearch(
             ) { song ->
                 SongItem(
                     song = song,
+                    isDownloaded = false,
                     thumbnailSizePx = thumbnailSizePx,
                     thumbnailSizeDp = thumbnailSizeDp,
                     modifier = Modifier

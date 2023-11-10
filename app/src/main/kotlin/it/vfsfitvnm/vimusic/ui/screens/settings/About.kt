@@ -1,8 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.settings
 
-import android.app.Application
-import android.content.Context
-import android.content.pm.ApplicationInfo
+//import it.vfsfitvnm.vimusic.BuildConfig
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +11,6 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
@@ -22,18 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.vimusic.BuildConfig
-//import it.vfsfitvnm.vimusic.BuildConfig
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
-import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
-import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
-import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.secondary
-
 
 
 @ExperimentalAnimationApi

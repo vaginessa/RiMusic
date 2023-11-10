@@ -81,6 +81,9 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
             Scaffold(
                 topIconButtonId = R.drawable.chevron_back,
                 onTopIconButtonClick = pop,
+                topIconButton2Id = R.drawable.chevron_back,
+                onTopIconButton2Click = pop,
+                showButton2 = false,
                 tabIndex = tabIndex,
                 onTabChanged = onTabIndexChanges,
                 tabColumnContent = { Item ->
@@ -120,6 +123,7 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
                                 itemContent = { song ->
                                     SongItem(
                                         song = song,
+                                        isDownloaded = false,
                                         thumbnailSizePx = thumbnailSizePx,
                                         thumbnailSizeDp = thumbnailSizeDp,
                                         modifier = Modifier

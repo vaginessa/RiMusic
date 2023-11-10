@@ -165,12 +165,12 @@
     <string name="size_name">Taille</string>
     <string name="current_size_name">"Taille de la pochette d\'album actuelle"</string>
     <string name="current_shape_name">Arrondissement des coins actuel</string>
-    <string name="i18_small">Petit</string>
-    <string name="i18_medium">Moyen</string>
-    <string name="i18_big">Grand</string>
-    <string name="i18_none">Aucun</string>
-    <string name="i18_light">Légé</string>
-    <string name="i18_heavy">Énorme</string>
+    <string name="small">Petit</string>
+    <string name="medium">Moyen</string>
+    <string name="big">Grand</string>
+    <string name="none">Aucun</string>
+    <string name="light">Légé</string>
+    <string name="heavy">Énorme</string>
     <string name="effects">Effets</string>
     <string name="player_rotating_buttons">Boutons rotatifs</string>
     <string name="player_enable_rotation_buttons">Autorise la rotation des boutons lorsqu\'ils sont cliqués</string>
@@ -192,5 +192,20 @@
     <string name="contributors">CONTRIBUTEURS</string>
     <string name="troubleshooting">DÉPANNAGE</string>
     <string name="social">SOCIAL</string>
+    <string name="english">English</string>
+    <string name="italian">Italian</string>
+    <string name="czech">Czech</string>
+    <string name="german">German</string>
+    <string name="spanish">Spanish</string>
+    <string name="french">French</string>
+    <string name="romanian">Romanian</string>
+    <string name="russian">Russian</string>
+    <string name="turkish">Turkish</string>
+    <string name="dark">Dark</string>
+    <string name="system">System</string>
+    <string name="unlimited">Unlimited</string>
+    <string name="_light">Light</string>
+    <string name="downloaded">Downloaded</string>
+    <string name="turn_off">Turn off</string>
 
 </resources>

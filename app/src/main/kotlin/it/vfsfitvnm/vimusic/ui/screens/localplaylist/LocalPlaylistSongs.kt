@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.BrowseBody
@@ -44,15 +45,12 @@ import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
-import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.InPlaylistMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.Menu
 import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
-import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
-import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -60,6 +58,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.completed
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
@@ -70,6 +69,7 @@ import kotlinx.coroutines.withContext
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
+@UnstableApi
 @Composable
 fun LocalPlaylistSongs(
     playlistId: Long,
@@ -166,7 +166,7 @@ fun LocalPlaylistSongs(
                     )
 
                     HeaderIconButton(
-                        icon = R.drawable.enqueue_new,
+                        icon = R.drawable.enqueue,
                         enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
                         color = if (playlistWithSongs?.songs?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
                         onClick = {
@@ -175,6 +175,22 @@ fun LocalPlaylistSongs(
                                 ?.let { mediaItems ->
                                     binder?.player?.enqueue(mediaItems)
                                 }
+                        }
+                    )
+
+                    HeaderIconButton(
+                        icon = R.drawable.shuffle,
+                        enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
+                        color = if (playlistWithSongs?.songs?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
+                        onClick = {
+                            playlistWithSongs?.songs?.let { songs ->
+                                if (songs.isNotEmpty()) {
+                                    binder?.stopRadio()
+                                    binder?.player?.forcePlayFromBeginning(
+                                        songs.shuffled().map(Song::asMediaItem)
+                                    )
+                                }
+                            }
                         }
                     )
 
@@ -255,6 +271,7 @@ fun LocalPlaylistSongs(
             ) { index, song ->
                 SongItem(
                     song = song,
+                    isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                     thumbnailSizePx = thumbnailSizePx,
                     thumbnailSizeDp = thumbnailSizeDp,
                     trailingContent = {
@@ -297,6 +314,7 @@ fun LocalPlaylistSongs(
             }
         }
 
+/*
         FloatingActionsContainerWithScrollToTop(
             lazyListState = lazyListState,
             iconId = R.drawable.shuffle,
@@ -312,5 +330,6 @@ fun LocalPlaylistSongs(
                 }
             }
         )
+ */
     }
 }
