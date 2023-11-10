@@ -106,7 +106,7 @@ fun About() {
         SettingsTopDescription( text =
                 "DanielSevillano \n" +
                 "dainvincible1 \n" +
-                "ikanacova \n" +
+                "ikanakova \n" +
                 "NEVARLeVrai \n" +
                 "OrangeZXZ \n" +
                 "siggi1984"
