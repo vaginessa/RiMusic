@@ -27,9 +27,9 @@ data class Appearance(
                 with (ColorPalette.Companion) { save(value.colorPalette) },
                 with (Typography.Companion) { save(value.typography) },
                 when (value.thumbnailShape) {
-                    RoundedCornerShape(2.dp) -> 4
-                    RoundedCornerShape(4.dp) -> 8
-                    RoundedCornerShape(8.dp) -> 16
+                    RoundedCornerShape(4.dp) -> 4
+                    RoundedCornerShape(8.dp) -> 8
+                    RoundedCornerShape(16.dp) -> 16
                     else -> 0
                 }
 

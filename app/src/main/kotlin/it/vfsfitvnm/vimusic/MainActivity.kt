@@ -177,18 +177,6 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
         super.onCreate(savedInstanceState)
 
 
-/*
-AppCompatDelegate
-
-        val locale = Locale("it")
-        val applicationRes = applicationContext.resources
-        val conf = applicationRes.configuration
-        val dm: DisplayMetrics = applicationRes.displayMetrics
-        conf.setLocale(locale)
-        conf.setLayoutDirection(locale)
- */
-
-
         var splashScreenStays = true
         val delayTime = 800L
 
@@ -210,9 +198,6 @@ AppCompatDelegate
                 isSystemInDarkTheme,
                 stateSaver = Appearance.Companion
             ) {
-
-
-
                 with(preferences) {
                     val colorPaletteName = getEnum(colorPaletteNameKey, ColorPaletteName.PureBlack)
                     val colorPaletteMode = getEnum(colorPaletteModeKey, ColorPaletteMode.System)
@@ -234,7 +219,10 @@ AppCompatDelegate
                         )
                     )
                 }
+
             }
+
+
 
             DisposableEffect(binder, isSystemInDarkTheme) {
                 var bitmapListenerJob: Job? = null
