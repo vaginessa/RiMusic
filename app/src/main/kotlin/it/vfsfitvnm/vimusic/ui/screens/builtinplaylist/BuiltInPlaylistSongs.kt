@@ -4,8 +4,10 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,15 +22,21 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.persistList
@@ -99,6 +107,7 @@ fun BuiltInPlaylistSongs(
         }.collect { songs = it }
     }
 
+    //songs = songs.filter { it.title?.contains("mia",true) ?: false}
 
     val thumbnailSizeDp = Dimensions.thumbnails.song
     val thumbnailSize = thumbnailSizeDp.px
@@ -211,6 +220,29 @@ fun BuiltInPlaylistSongs(
                             )
 
                 }
+                /*
+                Row (
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    var value by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+                        mutableStateOf(TextFieldValue("Sasizza"))
+                    }
+                    BasicTextField(
+                        value = value,
+                        onValueChange = {
+                            // it is crucial that the update is fed back into BasicTextField in order to
+                            // see updates on the text
+                            value = it
+                        },
+                        modifier = Modifier
+                            .border(BorderStroke(1.dp,Color.White))
+                    )
+                }
+                
+                 */
             }
 
             itemsIndexed(
