@@ -4,5 +4,5 @@ enum class ColorPaletteName {
     Default,
     Dynamic,
     PureBlack,
-    ModerBlack
+    ModernBlack
 }

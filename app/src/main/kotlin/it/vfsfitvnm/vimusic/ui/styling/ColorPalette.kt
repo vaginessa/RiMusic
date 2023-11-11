@@ -117,7 +117,7 @@ fun colorPaletteOf(
             }
         }
         ColorPaletteName.PureBlack -> PureBlackColorPalette
-        ColorPaletteName.ModerBlack -> ModernBlackColorPalette
+        ColorPaletteName.ModernBlack -> ModernBlackColorPalette
     }
 }
 
