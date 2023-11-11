@@ -99,6 +99,7 @@ fun AppearanceSettings() {
                     Languages.Romanian -> stringResource(R.string.romanian)
                     Languages.Russian -> stringResource(R.string.russian)
                     Languages.Turkish -> stringResource(R.string.turkish)
+                    Languages.Polish -> stringResource(R.string.polish)
                 }
             }
         )
