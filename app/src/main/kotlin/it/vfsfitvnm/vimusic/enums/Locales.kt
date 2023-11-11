@@ -6,6 +6,7 @@ enum class Languages {
     French,
     German,
     Italian,
+    Polish,
     Romanian,
     Russian,
     Spanish,
@@ -22,6 +23,7 @@ enum class Languages {
             Romanian -> "ro"
             Russian -> "ru"
             Turkish -> "tr"
+            Polish -> "pl"
         }
 
 }

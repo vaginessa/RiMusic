@@ -201,10 +201,10 @@
     <string name="romanian">Romanian</string>
     <string name="russian">Russian</string>
     <string name="turkish">Turkish</string>
-    <string name="dark">Dark</string>
-    <string name="system">System</string>
-    <string name="unlimited">Unlimited</string>
-    <string name="_light">Light</string>
-    <string name="downloaded">Downloaded</string>
-    <string name="turn_off">Turn off</string>
+    <string name="dark">Темный</string>
+    <string name="system">Система</string>
+    <string name="unlimited">Неограниченный</string>
+    <string name="_light">Светлый</string>
+    <string name="downloaded">Загружено</string>
+    <string name="turn_off">Выключить</string>
 </resources>

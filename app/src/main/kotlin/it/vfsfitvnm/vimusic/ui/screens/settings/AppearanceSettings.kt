@@ -99,6 +99,7 @@ fun AppearanceSettings() {
                     Languages.Romanian -> stringResource(R.string.romanian)
                     Languages.Russian -> stringResource(R.string.russian)
                     Languages.Turkish -> stringResource(R.string.turkish)
+                    Languages.Polish -> stringResource(R.string.polish)
                 }
             }
         )
@@ -127,7 +128,7 @@ fun AppearanceSettings() {
                     ColorPaletteName.Default -> "Default"
                     ColorPaletteName.Dynamic -> "Dynamic"
                     ColorPaletteName.PureBlack -> "PureBlack"
-                    ColorPaletteName.ModerBlack -> "ModerBlack"
+                    ColorPaletteName.ModernBlack -> "ModernBlack"
                 }
             }
         )
@@ -137,7 +138,7 @@ fun AppearanceSettings() {
             selectedValue = colorPaletteMode,
             isEnabled = when (colorPaletteName) {
                 ColorPaletteName.PureBlack -> false
-                ColorPaletteName.ModerBlack -> false
+                ColorPaletteName.ModernBlack -> false
                 else -> { true }
             },
             onValueSelected = { colorPaletteMode = it },
