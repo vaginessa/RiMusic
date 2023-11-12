@@ -201,10 +201,13 @@
     <string name="romanian">Roumain (Română)</string>
     <string name="russian">Russe (Русский)</string>
     <string name="turkish">Turc (Türkçe)</string>
+    <string name="polish">Polish</string>
     <string name="dark">Sombre</string>
     <string name="system">Système</string>
     <string name="unlimited">Illimité</string>
     <string name="_light">Clair</string>
     <string name="downloaded">Téléchargé</string>
     <string name="turn_off">Desactivé</string>
+    <string name="download">Download</string>
+
 </resources>

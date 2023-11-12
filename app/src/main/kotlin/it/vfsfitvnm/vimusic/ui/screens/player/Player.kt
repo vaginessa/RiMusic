@@ -103,6 +103,9 @@ import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.service.DownloaderService
 import it.vfsfitvnm.vimusic.ui.components.themed.ScrollText
+import it.vfsfitvnm.vimusic.ui.screens.artistRoute
+import it.vfsfitvnm.vimusic.ui.screens.homeRoute
+import it.vfsfitvnm.vimusic.ui.screens.quickpicksRoute
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
@@ -275,6 +278,8 @@ fun Player(
     OnGlobalRoute {
         layoutState.collapseSoft()
     }
+
+    val onGoToHome = homeRoute::global
 
     BottomSheet(
         state = layoutState,
@@ -546,6 +551,19 @@ fun Player(
                             layoutState.collapseSoft()
                         },
                         modifier = Modifier
+                            .padding(horizontal = 15.dp)
+                            .size(24.dp)
+                    )
+
+                    IconButton(
+                        icon = R.drawable.app_icon,
+                        color = colorPalette.text,
+                        enabled = true,
+                        onClick = {
+                            onGoToHome()
+                        },
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
                             .size(24.dp)
                     )
 
@@ -563,7 +581,7 @@ fun Player(
                             }
                         },
                         modifier = Modifier
-                            .padding(horizontal = 4.dp)
+                            .padding(horizontal = 15.dp)
                             .size(24.dp)
                     )
                 }

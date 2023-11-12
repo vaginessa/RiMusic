@@ -101,6 +101,7 @@ dependencies {
 
     implementation(libs.room)
     implementation("androidx.media3:media3-datasource-okhttp:1.1.1")
+    implementation("androidx.media3:media3-datasource-cronet:1.1.1")
     kapt(libs.room.compiler)
 
     implementation(projects.innertube)
@@ -116,6 +117,8 @@ dependencies {
         implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
 
     implementation("com.github.therealbush:translator:1.0.2")
+    implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
+    implementation("org.chromium.net:cronet-api:113.5672.61")
 
     //implementation("androidx.compose.foundation:foundation:1.4.0")
     // Fix Duplicate class

@@ -19,6 +19,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.os.LocaleListCompat
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
@@ -40,11 +43,18 @@ import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.useSystemFontKey
 
 @ExperimentalAnimationApi
+@UnstableApi
 @Composable
 fun AppearanceSettings() {
     val (colorPalette) = LocalAppearance.current
 
     var languageApp  by rememberPreference(languageAppKey, Languages.English)
+    val systemLocale = LocaleListCompat.getDefault().get(0).toString()
+    //if (languageApp.code != systemLocale)
+        languageApp.code = systemLocale
+
+    //Log.d("LanguageSystem",systemLocale.toString() +"  "+ languageApp.name)
+
     var colorPaletteName by rememberPreference(colorPaletteNameKey, ColorPaletteName.PureBlack)
     var colorPaletteMode by rememberPreference(colorPaletteModeKey, ColorPaletteMode.System)
     var thumbnailRoundness by rememberPreference(

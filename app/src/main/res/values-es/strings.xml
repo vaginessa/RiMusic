@@ -208,5 +208,6 @@
     <string name="_light">Claro</string>
     <string name="downloaded">Descargado</string>
     <string name="turn_off">Desactivar</string>
+    <string name="download">Download</string>
 
 </resources>

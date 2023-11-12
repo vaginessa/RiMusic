@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.common.util.Util.toByteArray
 import androidx.media3.exoplayer.offline.Download
 import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
@@ -59,12 +59,11 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.DownloaderService
+import it.vfsfitvnm.vimusic.service.MyDownloadService
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
-import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
-import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
 import it.vfsfitvnm.vimusic.ui.items.AlbumItem
 import it.vfsfitvnm.vimusic.ui.items.AlbumItemPlaceholder
@@ -294,6 +293,31 @@ fun QuickPicks(
                                             NonQueuedMediaItemMenu(
                                                 onDismiss = menuState::hide,
                                                 mediaItem = song.asMediaItem,
+                                                onDownload = {
+                                                    val downloadRequest = DownloadRequest.Builder(song.asMediaItem.mediaId, song.asMediaItem.mediaId.toUri())
+                                                        .setCustomCacheKey(song.asMediaItem.mediaId)
+                                                        .setData(song.asMediaItem.mediaMetadata.title.toString().toByteArray())
+                                                        .build()
+                                                    DownloadService.sendAddDownload(
+                                                        context,
+                                                        MyDownloadService::class.java,
+                                                        downloadRequest,
+                                                        false
+                                                    )
+                                                    DownloadService.start(
+                                                        context,
+                                                        MyDownloadService::class.java
+                                                    )
+                                                },/*
+                                                onRemoveDownload = {
+                                                    DownloadService.sendRemoveDownload(
+                                                        context,
+                                                        ExoDownloadService::class.java,
+                                                        song.id,
+                                                        false
+                                                    )
+                                                }
+                                                */
                                                 /*
                                                 onDownload = {
                                                     Log.d("downloadEvent","Download started from Quick Picks?")
@@ -302,14 +326,14 @@ fun QuickPicks(
 
                                                     DownloadService.sendAddDownload(
                                                         context,
-                                                        LocalDownloadService::class.java,
+                                                        DownloaderService::class.java,
                                                         downloadRequest,
                                                         /* foreground= */ false
                                                     )
 
                                                     DownloadService.sendSetStopReason(
                                                         context,
-                                                        LocalDownloadService::class.java,
+                                                        DownloaderService::class.java,
                                                         song.asMediaItem.mediaId,
                                                         Download.STOP_REASON_NONE,
                                                         /* foreground= */ false
@@ -317,11 +341,12 @@ fun QuickPicks(
 
                                                     DownloadService.start(
                                                         context,
-                                                        LocalDownloadService::class.java
+                                                        DownloaderService::class.java
                                                     )
 
                                                 }
-                                                */
+
+                                                 */
                                             )
                                         }
                                     },
@@ -474,3 +499,5 @@ fun QuickPicks(
  */
     }
 }
+
+

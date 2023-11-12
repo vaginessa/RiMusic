@@ -1,67 +1,76 @@
 package it.vfsfitvnm.vimusic.service
 
+import android.annotation.SuppressLint
 import android.app.Notification
+import android.content.Context
+import android.util.Log
+import androidx.compose.ui.platform.LocalContext
+import androidx.media3.common.util.NotificationUtil
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.database.StandaloneDatabaseProvider
-import androidx.media3.datasource.DefaultHttpDataSource
-import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
-import androidx.media3.datasource.cache.NoOpCacheEvictor
-import androidx.media3.datasource.cache.SimpleCache
+import androidx.media3.common.util.Util
 import androidx.media3.exoplayer.offline.Download
 import androidx.media3.exoplayer.offline.DownloadManager
+import androidx.media3.exoplayer.offline.DownloadNotificationHelper
 import androidx.media3.exoplayer.offline.DownloadService
+import androidx.media3.exoplayer.scheduler.PlatformScheduler
 import androidx.media3.exoplayer.scheduler.Scheduler
-import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
-import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
-import it.vfsfitvnm.vimusic.utils.getEnum
-import it.vfsfitvnm.vimusic.utils.preferences
-import java.util.concurrent.Executor
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ApplicationContext
+import it.vfsfitvnm.vimusic.R
+import javax.inject.Inject
+
 @UnstableApi
-class DownloaderService: DownloadService(FOREGROUND_NOTIFICATION_ID_NONE) {
-    override fun getDownloadManager(): DownloadManager {
-        // Note: This should be a singleton in your app.
-        val databaseProvider = StandaloneDatabaseProvider(this)
+class DownloaderService: DownloadService(
+    NOTIFICATION_ID,
+    1000L,
+    CHANNEL_ID,
+    R.string.download,
+    0) {
 
-// A download cache should not evict media, so should use a NoopCacheEvictor.
-        val downloadDirectory = cacheDir
-        val cacheEvictor = when (val size =
-            preferences.getEnum(exoPlayerDiskCacheMaxSizeKey, ExoPlayerDiskCacheMaxSize.`2GB`)) {
-            ExoPlayerDiskCacheMaxSize.Unlimited -> NoOpCacheEvictor()
-            else -> LeastRecentlyUsedCacheEvictor(size.bytes)
+    lateinit var downloader: Downloader
+
+    override fun getDownloadManager() = downloader.downloadManager
+
+    override fun getScheduler(): Scheduler = PlatformScheduler(this, JOB_ID)
+
+    @SuppressLint("ResourceType")
+    override fun getForegroundNotification(downloads: MutableList<Download>, notMetRequirements: Int): Notification =
+        downloader.downloadNotificationHelper.buildProgressNotification(
+            this,
+            R.drawable.download,
+            null,
+            if (downloads.size == 1) Util.fromUtf8Bytes(downloads[0].request.data)
+            else resources.getQuantityString(R.string.songs, downloads.size, downloads.size),
+            downloads,
+            notMetRequirements
+        )
+
+    class TerminalStateNotificationHelper(
+        private val context: Context,
+        private val notificationHelper: DownloadNotificationHelper,
+        private var nextNotificationId: Int,
+    ) : DownloadManager.Listener {
+        override fun onDownloadChanged(
+            downloadManager: DownloadManager,
+            download: Download,
+            finalException: Exception?,
+        ) {
+            if (download.state == Download.STATE_FAILED) {
+                val notification = notificationHelper.buildDownloadFailedNotification(
+                    context,
+                    R.drawable.alert_circle,
+                    null,
+                    Util.fromUtf8Bytes(download.request.data)
+                )
+                NotificationUtil.setNotification(context, nextNotificationId++, notification)
+            }
         }
-        val downloadCache = SimpleCache(downloadDirectory, cacheEvictor, databaseProvider)
-
-// Create a factory for reading the data from the network.
-        val dataSourceFactory = DefaultHttpDataSource.Factory()
-
-        
-
-// Choose an executor for downloading data. Using Runnable::run will cause each download task to
-// download data on its own thread. Passing an executor that uses multiple threads will speed up
-// download tasks that can be split into smaller parts for parallel execution. Applications that
-// already have an executor for background downloads may wish to reuse their existing executor.
-        val downloadExecutor = Executor(Runnable::run)
-
-// Create the download manager.
-        val downloadManager =
-            DownloadManager(applicationContext, databaseProvider, downloadCache, dataSourceFactory, downloadExecutor)
-
-// Optionally, properties can be assigned to configure the download manager.
-        //downloadManager.requirements = requirements
-        downloadManager.maxParallelDownloads = 3
-
-        return downloadManager
     }
 
-    override fun getScheduler(): Scheduler? {
-        TODO("Not yet implemented")
-    }
-
-    override fun getForegroundNotification(
-        downloads: MutableList<Download>,
-        notMetRequirements: Int
-    ): Notification {
-        TODO("Not yet implemented")
+    companion object {
+        const val CHANNEL_ID = "download"
+        const val NOTIFICATION_ID = 1
+        const val JOB_ID = 1
     }
 
 }

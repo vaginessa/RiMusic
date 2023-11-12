@@ -12,7 +12,7 @@ enum class Languages {
     Spanish,
     Turkish;
 
-    val code: String
+    var code: String = "en"
         get() = when (this) {
             English -> "en"
             Italian -> "it"
@@ -25,5 +25,6 @@ enum class Languages {
             Turkish -> "tr"
             Polish -> "pl"
         }
+
 
 }
