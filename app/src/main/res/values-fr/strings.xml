@@ -192,20 +192,19 @@
     <string name="contributors">CONTRIBUTEURS ❤</string>
     <string name="troubleshooting">DÉPANNAGE</string>
     <string name="social">SOCIAL</string>
-    <string name="english">Anglais</string>
-    <string name="italian">Italien</string>
-    <string name="czech">Tchèque</string>
-    <string name="german">Allemand</string>
-    <string name="spanish">Espagnol</string>
-    <string name="french">Français</string>
-    <string name="romanian">Roumain</string>
-    <string name="russian">Russe</string>
-    <string name="turkish">Turc</string>
+    <string name="english">Anglais (English)</string>
+    <string name="italian">Italien (Italiano)</string>
+    <string name="czech">Tchèque (Čeština)</string>
+    <string name="german">Allemand (Deutsch)</string>
+    <string name="spanish">Espagnol (Español)</string>
+    <string name="french">Français (Français)</string>
+    <string name="romanian">Roumain (Română)</string>
+    <string name="russian">Russe (Русский)</string>
+    <string name="turkish">Turc (Türkçe)</string>
     <string name="dark">Sombre</string>
     <string name="system">Système</string>
     <string name="unlimited">Illimité</string>
     <string name="_light">Clair</string>
     <string name="downloaded">Téléchargé</string>
     <string name="turn_off">Desactivé</string>
-
 </resources>
