@@ -209,5 +209,6 @@
     <string name="downloaded">Descargado</string>
     <string name="turn_off">Desactivar</string>
     <string name="download">Download</string>
-
+    <string name="_default">Default</string>
+    <string name="dynamic">Dynamic</string>
 </resources>

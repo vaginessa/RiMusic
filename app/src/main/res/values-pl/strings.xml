@@ -209,4 +209,6 @@
     <string name="downloaded">Pobrane</string>
     <string name="turn_off">Wyłącz</string>
     <string name="download">Download</string>
+    <string name="_default">Default</string>
+    <string name="dynamic">Dynamic</string>
 </resources>

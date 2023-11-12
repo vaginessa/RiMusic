@@ -135,8 +135,8 @@ fun AppearanceSettings() {
             onValueSelected = { colorPaletteName = it },
             valueText = {
                 when (it) {
-                    ColorPaletteName.Default -> "Default"
-                    ColorPaletteName.Dynamic -> "Dynamic"
+                    ColorPaletteName.Default -> stringResource(R.string._default)
+                    ColorPaletteName.Dynamic -> stringResource(R.string.dynamic)
                     ColorPaletteName.PureBlack -> "PureBlack"
                     ColorPaletteName.ModernBlack -> "ModernBlack"
                 }
