@@ -390,6 +390,7 @@ fun Controls(
                 .fillMaxWidth()
         ) {
 
+            /*
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(playPauseRoundness))
@@ -397,6 +398,7 @@ fun Controls(
                     .width(50.dp)
                     .height(50.dp)
             ) {
+
                 IconButton(
                     icon = R.drawable.play_skip_back,
                     color = colorPalette.iconButtonPlayer,
@@ -411,6 +413,21 @@ fun Controls(
                         .size(26.dp)
                 )
             }
+             */
+
+            IconButton(
+                icon = R.drawable.play_skip_back,
+                color = colorPalette.iconButtonPlayer,
+                onClick = {
+                    binder.player.forceSeekToPrevious()
+                    if (effectRotationEnabled) isRotated = !isRotated
+                },
+                modifier = Modifier
+                    .rotate(rotationAngle)
+                    //.weight(1f)
+                    .padding(10.dp)
+                    .size(26.dp)
+            )
 
             Box(
                 modifier = Modifier
@@ -427,8 +444,8 @@ fun Controls(
                         if (effectRotationEnabled) isRotated = !isRotated
                     }
                     .background(colorPalette.background3)
-                    .width(160.dp)
-                    .height(80.dp)
+                    .width(100.dp)
+                    .height(60.dp)
             ) {
                 Image(
                     painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
@@ -441,6 +458,7 @@ fun Controls(
                 )
             }
 
+            /*
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(playPauseRoundness))
@@ -461,6 +479,20 @@ fun Controls(
                     .size(26.dp)
             )
             }
+
+             */
+            IconButton(
+                icon = R.drawable.play_skip_forward,
+                color = colorPalette.iconButtonPlayer,
+                onClick = {
+                    binder.player.forceSeekToNext()
+                    if (effectRotationEnabled) isRotated = !isRotated
+                },
+                modifier = Modifier
+                    .rotate(rotationAngle)
+                    .padding(10.dp)
+                    .size(26.dp)
+            )
 
         }
 

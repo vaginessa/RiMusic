@@ -29,3 +29,22 @@ data class Runs(
         val navigationEndpoint: NavigationEndpoint?,
     )
 }
+
+fun List<Runs.Run>.splitBySeparator(): List<List<Runs.Run>> {
+    val res = mutableListOf<List<Runs.Run>>()
+    var tmp = mutableListOf<Runs.Run>()
+    forEach { run ->
+        if (run.text == " • ") {
+            res.add(tmp)
+            tmp = mutableListOf()
+        } else {
+            tmp.add(run)
+        }
+    }
+    res.add(tmp)
+    return res
+}
+
+fun <T> List<T>.oddElements() = filterIndexed { index, _ ->
+    index % 2 == 0
+}

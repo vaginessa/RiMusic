@@ -19,6 +19,7 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import io.ktor.http.userAgent
 import io.ktor.serialization.kotlinx.json.json
+import it.vfsfitvnm.innertube.models.MusicNavigationButtonRenderer
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.innertube.models.Runs
 import it.vfsfitvnm.innertube.models.Thumbnail
@@ -264,6 +265,31 @@ object Innertube {
         val albums: List<AlbumItem>? = null,
         val artists: List<ArtistItem>? = null,
     )
+
+    data class DiscoverPage(
+        val newReleaseAlbums: List<AlbumItem>,
+        val moods: List<Mood.Item>
+    )
+
+    data class Mood(
+        val title: String,
+        val items: List<Item>
+    ) {
+        data class Item(
+            val title: String,
+            val stripeColor: Long,
+            val endpoint: NavigationEndpoint.Endpoint.Browse
+        )
+    }
+
+    fun MusicNavigationButtonRenderer.toMood(): Mood.Item? {
+        return Mood.Item(
+            title = buttonText.runs.firstOrNull()?.text ?: return null,
+            stripeColor = solid?.leftStripeColor ?: return null,
+            endpoint = clickCommand.browseEndpoint ?: return null
+        )
+    }
+
 
     data class ItemsPage<T : Item>(
         val items: List<T>?,

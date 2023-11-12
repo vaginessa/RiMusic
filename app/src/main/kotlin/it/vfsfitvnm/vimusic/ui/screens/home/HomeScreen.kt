@@ -19,6 +19,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.StatisticsType
 import it.vfsfitvnm.vimusic.models.SearchQuery
+import it.vfsfitvnm.vimusic.models.toUiMood
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
@@ -28,6 +29,7 @@ import it.vfsfitvnm.vimusic.ui.screens.builtinplaylist.BuiltInPlaylistScreen
 import it.vfsfitvnm.vimusic.ui.screens.globalRoutes
 import it.vfsfitvnm.vimusic.ui.screens.localPlaylistRoute
 import it.vfsfitvnm.vimusic.ui.screens.localplaylist.LocalPlaylistScreen
+import it.vfsfitvnm.vimusic.ui.screens.moodRoute
 import it.vfsfitvnm.vimusic.ui.screens.playlistRoute
 import it.vfsfitvnm.vimusic.ui.screens.search.SearchScreen
 import it.vfsfitvnm.vimusic.ui.screens.searchResultRoute
@@ -163,7 +165,7 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
                     Item(2, stringResource(R.string.playlists), R.drawable.playlist)
                     Item(3, stringResource(R.string.artists), R.drawable.person)
                     Item(4, stringResource(R.string.albums), R.drawable.disc)
-                    //Item(5, "Statistics", R.drawable.query_stats)
+                    Item(5, "Discovery", R.drawable.globe)
                     //Item(6, "Settings", R.drawable.equalizer)
                 }
             ) { currentTabIndex ->
@@ -193,6 +195,12 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
 
                         4 -> HomeAlbums(
                             onAlbumClick = { albumRoute(it.id) },
+                            onSearchClick = { searchRoute("") }
+                        )
+
+                        5 -> HomeDiscovery(
+                            onMoodClick = { mood -> moodRoute(mood.toUiMood()) },
+                            onNewReleaseAlbumClick = { albumRoute(it) },
                             onSearchClick = { searchRoute("") }
                         )
 

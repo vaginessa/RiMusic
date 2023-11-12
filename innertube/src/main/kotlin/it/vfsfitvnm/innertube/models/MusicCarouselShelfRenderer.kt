@@ -11,6 +11,7 @@ data class MusicCarouselShelfRenderer(
     data class Content(
         val musicTwoRowItemRenderer: MusicTwoRowItemRenderer?,
         val musicResponsiveListItemRenderer: MusicResponsiveListItemRenderer?,
+        val musicNavigationButtonRenderer: MusicNavigationButtonRenderer? = null
     )
 
     @Serializable

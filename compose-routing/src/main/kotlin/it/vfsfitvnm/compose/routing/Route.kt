@@ -77,3 +77,23 @@ class Route2<P0, P1>(tag: String) : Route(tag) {
         globalRouteFlow.tryEmit(this to arrayOf(p0, p1))
     }
 }
+
+@Immutable
+class Route3<P0, P1, P2>(tag: String) : Route(tag) {
+    context(RouteHandlerScope)
+    @Composable
+    operator fun invoke(content: @Composable (P0, P1, P2) -> Unit) {
+        if (this == route) {
+            content(parameters[0] as P0, parameters[1] as P1, parameters[2] as P2)
+        }
+    }
+
+    fun global(p0: P0, p1: P1, p2: P2) {
+        globalRouteFlow.tryEmit(this to arrayOf(p0, p1, p2))
+    }
+
+    suspend fun ensureGlobal(p0: P0, p1: P1, p2: P2) {
+        globalRouteFlow.subscriptionCount.filter { it > 0 }.first()
+        globalRouteFlow.emit(this to arrayOf(p0, p1, p2))
+    }
+}
