@@ -1,8 +1,10 @@
 package it.vfsfitvnm.vimusic.ui.screens.home
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Box
@@ -38,30 +40,42 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.requests.discoverPage
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
 import it.vfsfitvnm.vimusic.ui.items.AlbumItem
 import it.vfsfitvnm.vimusic.ui.items.AlbumItemPlaceholder
+import it.vfsfitvnm.vimusic.ui.items.ItemContainer
+import it.vfsfitvnm.vimusic.ui.items.ItemInfoContainer
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
 import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
 import it.vfsfitvnm.vimusic.utils.center
+import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.isLandscape
+import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
+import it.vfsfitvnm.vimusic.utils.thumbnail
+import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
@@ -85,6 +99,8 @@ fun HomeDiscovery(
 
     val thumbnailDp = Dimensions.thumbnails.album
     val thumbnailPx = thumbnailDp.px
+    val thumbnailSizeDp = 20.dp
+    val thumbnailSizePx = thumbnailSizeDp.px
 
     var discoverPage by persist<Result<Innertube.DiscoverPage>>("home/discovery")
 
@@ -104,7 +120,7 @@ fun HomeDiscovery(
             )
         }
 
-        val itemWidth = maxWidth * moodItemWidthFactor
+        //val itemWidth = maxWidth * moodItemWidthFactor
 
         Column(
             modifier = Modifier
@@ -117,38 +133,17 @@ fun HomeDiscovery(
                         .asPaddingValues()
                 )
         ) {
-            Header(title = "Discover", modifier = Modifier.padding(endPaddingValues))
+            //Header(title = "Discover", modifier = Modifier.padding(endPaddingValues))
+            HeaderWithIcon(
+                title = "Discover",
+                iconId = R.drawable.search,
+                enabled = true,
+                showIcon = true,
+                modifier = Modifier,
+                onClick = onSearchClick
+            )
             discoverPage?.getOrNull()?.let { page ->
-                if (page.moods.isNotEmpty()) {
-                    BasicText(
-                        text = "Moods and genres",
-                        style = typography.m.semiBold,
-                        modifier = sectionTextModifier
-                    )
 
-                    LazyHorizontalGrid(
-                        state = lazyGridState,
-                        rows = GridCells.Fixed(4),
-                        flingBehavior = rememberSnapFlingBehavior(snapLayoutInfoProvider),
-                        contentPadding = endPaddingValues,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height((4 * (64 + 4)).dp)
-                    ) {
-                        items(
-                            items = page.moods.sortedBy { it.title },
-                            key = { it.endpoint.params ?: it.title }
-                        ) {
-                            MoodItem(
-                                mood = it,
-                                onClick = { it.endpoint.browseId?.let { _ -> onMoodClick(it) } },
-                                modifier = Modifier
-                                    .width(itemWidth)
-                                    .padding(4.dp)
-                            )
-                        }
-                    }
-                }
 
                 if (page.newReleaseAlbums.isNotEmpty()) {
                     BasicText(
@@ -169,6 +164,48 @@ fun HomeDiscovery(
                         }
                     }
                 }
+
+                if (page.moods.isNotEmpty()) {
+                    BasicText(
+                        text = "Moods and genres",
+                        style = typography.m.semiBold,
+                        modifier = sectionTextModifier
+                    )
+
+                    LazyHorizontalGrid(
+                        state = lazyGridState,
+                        rows = GridCells.Fixed(8),
+                        flingBehavior = rememberSnapFlingBehavior(snapLayoutInfoProvider),
+                        contentPadding = endPaddingValues,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height((thumbnailSizeDp + Dimensions.itemsVerticalPadding * 8) * 8)
+                    ) {
+                        items(
+                            items = page.moods.sortedBy { it.title },
+                            key = { it.endpoint.params ?: it.title }
+                        ) {
+                            MoodItem2(
+                                title = it.title,
+                                thumbnailSizePx = thumbnailSizePx,
+                                thumbnailSizeDp = thumbnailSizeDp,
+                                onClick = { it.endpoint.browseId?.let { _ -> onMoodClick(it) } },
+                            )
+                            /*
+                            MoodItem(
+                                mood = it,
+                                onClick = { it.endpoint.browseId?.let { _ -> onMoodClick(it) } },
+                                //modifier = Modifier
+                                //    .fillMaxWidth()
+                                //    .padding(4.dp)
+
+                            )
+
+                             */
+                        }
+                    }
+                }
+
             } ?: discoverPage?.exceptionOrNull()?.let {
                 BasicText(
                     text = "An error has occurred",
@@ -178,6 +215,14 @@ fun HomeDiscovery(
                         .padding(all = 16.dp)
                 )
             } ?: ShimmerHost {
+                TextPlaceholder(modifier = sectionTextModifier)
+                Row {
+                    repeat(2) {
+                        AlbumItemPlaceholder(
+                            thumbnailSizeDp = thumbnailDp,
+                            alternative = true
+                        )
+                    }
                 TextPlaceholder(modifier = sectionTextModifier)
                 LazyHorizontalGrid(
                     state = lazyGridState,
@@ -190,28 +235,23 @@ fun HomeDiscovery(
                 ) {
                     items(16) {
                         MoodItemPlaceholder(
-                            width = itemWidth,
+                            width = 92.dp, //itemWidth,
                             modifier = Modifier.padding(4.dp)
                         )
                     }
                 }
-                TextPlaceholder(modifier = sectionTextModifier)
-                Row {
-                    repeat(2) {
-                        AlbumItemPlaceholder(
-                            thumbnailSizeDp = thumbnailDp,
-                            alternative = true
-                        )
-                    }
+
                 }
             }
         }
-
+/*
         FloatingActionsContainerWithScrollToTop(
             scrollState = scrollState,
             iconId = R.drawable.search,
             onClick = onSearchClick
         )
+
+ */
     }
 }
 
@@ -222,34 +262,27 @@ fun MoodItem(
     modifier: Modifier = Modifier
 ) {
     val (colorPalette, typography) = LocalAppearance.current
+    var thumbnailRoundness by rememberPreference(
+        thumbnailRoundnessKey,
+        ThumbnailRoundness.Heavy
+    )
 
-    val moodColor by remember { derivedStateOf { Color(mood.stripeColor) } }
-    val textColor by remember {
-        derivedStateOf {
-            if (moodColor.luminance() >= 0.5f) Color.Black else Color.White
-        }
-    }
-/*
-    ElevatedCard(
-        modifier = modifier.height(64.dp),
-        shape = thumbnailShape,
-        colors = CardDefaults.elevatedCardColors(containerColor = moodColor)
-    ) {
-
- */
         Box(
             modifier = Modifier
-                .fillMaxSize()
-                .clickable { onClick() },
+                .clickable { onClick() }
+                .background(color = colorPalette.background4, shape = thumbnailRoundness.shape())
+                //.height(40.dp)
+                .border(BorderStroke(1.dp, Color.White)),
+                //.fillMaxWidth(),
             contentAlignment = Alignment.CenterStart
         ) {
             BasicText(
                 text = mood.title,
-                style = typography.xs.semiBold.copy(color = textColor),
-                modifier = Modifier.padding(start = 24.dp)
+                style = typography.xs.semiBold,
+                //modifier = Modifier.padding(start = 4.dp)
             )
         }
-    //}
+
 }
 
 @Composable
@@ -263,4 +296,51 @@ fun MoodItemPlaceholder(
             .background(color = colorPalette.shimmer)
             .size(width, 64.dp)
     )
+}
+
+@Composable
+fun MoodItem2(
+    title: String?,
+    thumbnailSizePx: Int,
+    thumbnailSizeDp: Dp,
+    modifier: Modifier = Modifier,
+    alternative: Boolean = false,
+    onClick: () -> Unit
+) {
+    val (_, typography, thumbnailShape) = LocalAppearance.current
+
+    ItemContainer(
+        alternative = alternative,
+        thumbnailSizeDp = thumbnailSizeDp,
+        modifier = modifier
+            .clickable { onClick() }
+            .clip(thumbnailShape)
+            .fillMaxSize()
+
+    ) {
+        ItemInfoContainer (
+            modifier = modifier
+                .clip(thumbnailShape)
+                .fillMaxSize()
+        ) {
+            BasicText(
+                text = title ?: "",
+                style = typography.xs.semiBold,
+                maxLines = if (alternative) 1 else 2,
+                overflow = TextOverflow.Ellipsis,
+            )
+
+
+            BasicText(
+                text = "cippa",
+                style = typography.xxs.semiBold.secondary,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .padding(top = 4.dp)
+            )
+
+
+        }
+    }
 }

@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.compose.persist.persist
@@ -30,10 +31,12 @@ import it.vfsfitvnm.innertube.models.bodies.BrowseBody
 import it.vfsfitvnm.innertube.requests.BrowseResult
 import it.vfsfitvnm.innertube.requests.browse
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
+import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Mood
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderPlaceholder
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
 import it.vfsfitvnm.vimusic.ui.items.AlbumItem
 import it.vfsfitvnm.vimusic.ui.items.AlbumItemPlaceholder
@@ -93,7 +96,15 @@ fun MoodList(mood: Mood) {
                     contentType = 0
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Header(title = mood.name)
+                        //Header(title = mood.name)
+                        HeaderWithIcon(
+                            title = mood.name,
+                            iconId = R.drawable.globe,
+                            enabled = true,
+                            showIcon = true,
+                            modifier = Modifier,
+                            onClick = {}
+                        )
                     }
                 }
 
