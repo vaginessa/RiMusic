@@ -208,6 +208,6 @@
     <string name="_light">Clair</string>
     <string name="downloaded">Téléchargé</string>
     <string name="turn_off">Desactivé</string>
-    <string name="_default">Default</string>
-    <string name="dynamic">Dynamic</string>
+    <string name="_default">Par défaut</string>
+    <string name="dynamic">Dynamique</string>
 </resources>
