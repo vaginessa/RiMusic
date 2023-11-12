@@ -208,4 +208,6 @@
     <string name="_light">Chiaro</string>
     <string name="downloaded">Scaricati</string>
     <string name="turn_off">Disattiva</string>
+    <string name="_default">Default</string>
+    <string name="dynamic">Dynamic</string>
 </resources>

@@ -201,11 +201,13 @@
   <string name="romanian">Rumunština (Română)</string>
   <string name="russian">Ruština (Русский)</string>
   <string name="turkish">Turečtina (Türkçe)</string>
-  <string name="polish">Polish</string>
+  <string name="polish">Polština (Polski)</string>
   <string name="dark">Tmavý</string>
   <string name="system">Podle systému</string>
   <string name="unlimited">Neomezený</string>
   <string name="_light">Světlý</string>
   <string name="downloaded">Stažený</string>
   <string name="turn_off">Vypnout</string>
+  <string name="_default">Výchozí</string>
+  <string name="dynamic">Dynamický</string>
 </resources>
