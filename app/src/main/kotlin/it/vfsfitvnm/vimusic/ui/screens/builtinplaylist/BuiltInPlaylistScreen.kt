@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.media3.common.util.UnstableApi
@@ -27,6 +28,7 @@ import it.vfsfitvnm.vimusic.utils.preferences
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@ExperimentalComposeUiApi
 @UnstableApi
 @Composable
 fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {

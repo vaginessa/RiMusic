@@ -4,6 +4,8 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.res.stringResource
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.routing.RouteHandler
@@ -13,7 +15,9 @@ import it.vfsfitvnm.vimusic.models.Mood
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
 import it.vfsfitvnm.vimusic.ui.screens.globalRoutes
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
+@ExperimentalFoundationApi
+@ExperimentalComposeUiApi
+@ExperimentalAnimationApi
 @UnstableApi
 @Composable
 fun MoodScreen(mood: Mood) {
@@ -34,7 +38,7 @@ fun MoodScreen(mood: Mood) {
                 tabIndex = 0,
                 onTabChanged = { },
                 tabColumnContent = { item ->
-                    item(0, "Mood", R.drawable.disc)
+                    item(0, stringResource(R.string.mood), R.drawable.disc)
                 }
             ) { currentTabIndex ->
                 saveableStateHolder.SaveableStateProvider(key = currentTabIndex) {

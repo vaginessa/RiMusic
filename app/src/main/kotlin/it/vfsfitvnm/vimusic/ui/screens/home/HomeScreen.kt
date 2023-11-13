@@ -4,6 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.media3.common.util.UnstableApi
@@ -45,6 +46,7 @@ import it.vfsfitvnm.vimusic.utils.rememberPreference
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@ExperimentalComposeUiApi
 @UnstableApi
 @Composable
 fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
@@ -165,7 +167,7 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
                     Item(2, stringResource(R.string.playlists), R.drawable.playlist)
                     Item(3, stringResource(R.string.artists), R.drawable.person)
                     Item(4, stringResource(R.string.albums), R.drawable.disc)
-                    Item(5, "Discovery", R.drawable.globe)
+                    Item(5, stringResource(R.string.discovery), R.drawable.globe)
                     //Item(6, "Settings", R.drawable.equalizer)
                 }
             ) { currentTabIndex ->

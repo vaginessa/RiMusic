@@ -7,11 +7,13 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.persist.persistMap
 import it.vfsfitvnm.innertube.Innertube
@@ -49,6 +51,8 @@ import it.vfsfitvnm.vimusic.utils.searchResultScreenTabIndexKey
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@ExperimentalComposeUiApi
+@UnstableApi
 @Composable
 fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
     val context = LocalContext.current
@@ -279,8 +283,10 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
                         }
 
                         4, 5 -> {
-                            val thumbnailSizeDp = 108.dp
+                            val thumbnailSizeDp = Dimensions.thumbnails.playlist
                             val thumbnailSizePx = thumbnailSizeDp.px
+                            //val thumbnailSizeDp = 108.dp
+                            //val thumbnailSizePx = thumbnailSizeDp.px
 
                             ItemsPage(
                                 tag = "searchResults/$query/${if (tabIndex == 4) "playlists" else "featured"}",

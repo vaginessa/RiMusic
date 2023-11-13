@@ -63,55 +63,8 @@ object Innertube {
             client
         }
 
-    /*
-    private fun HttpRequestBuilder.ytClient(client: YouTubeClient, setLogin: Boolean = false) {
-        contentType(ContentType.Application.Json)
-        headers {
-            append("X-Goog-Api-Format-Version", "1")
-            append("X-YouTube-Client-Name", client.clientName)
-            append("X-YouTube-Client-Version", client.clientVersion)
-            append("x-origin", "https://music.youtube.com")
-            if (client.referer != null) {
-                append("Referer", client.referer)
-            }
-            if (setLogin) {
-                cookie?.let { cookie ->
-                    append("cookie", cookie)
-                    if ("SAPISID" !in cookieMap) return@let
-                    val currentTime = System.currentTimeMillis() / 1000
-                    val sapisidHash = sha1("$currentTime ${cookieMap["SAPISID"]} https://music.youtube.com")
-                    append("Authorization", "SAPISIDHASH ${currentTime}_${sapisidHash}")
-                }
-            }
-        }
-        userAgent(client.userAgent)
-        parameter("key", client.api_key)
-        parameter("prettyPrint", false)
-    }
 
-    suspend fun browse(
-        client: YouTubeClient,
-        browseId: String? = null,
-        params: String? = null,
-        continuation: String? = null,
-        setLogin: Boolean = false,
-    ) = client.post("browse") {
-        ytClient(client, setLogin)
-        setBody(
-            BrowseBody(
-                context = client.toContext(locale, visitorData),
-                browseId = browseId,
-                params = params
-            )
-        )
-        parameter("continuation", continuation)
-        parameter("ctoken", continuation)
-        if (continuation != null) {
-            parameter("type", "next")
-        }
-    }
-
-     */
+    var localeHl = "en"
 
     internal const val browse = "/youtubei/v1/browse"
     internal const val next = "/youtubei/v1/next"
@@ -127,8 +80,6 @@ object Innertube {
     internal fun HttpRequestBuilder.mask(value: String = "*") =
         header("X-Goog-FieldMask", value)
 
-
-    // TODO downloader
 
     data class Info<T : NavigationEndpoint.Endpoint>(
         val name: String?,
@@ -292,7 +243,7 @@ object Innertube {
 
 
     data class ItemsPage<T : Item>(
-        val items: List<T>?,
+        var items: List<T>?,
         val continuation: String?
     )
 }

@@ -41,6 +41,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import androidx.core.os.LocaleListCompat
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.common.util.Util.toByteArray
@@ -84,7 +85,9 @@ import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.withContext
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -106,13 +109,17 @@ fun QuickPicks(
     var relatedPageResult by persist<Result<Innertube.RelatedPage?>?>(tag = "home/relatedPageResult")
 
     LaunchedEffect(Unit) {
+
         Database.trending().distinctUntilChanged().collect { song ->
+
            if ((song == null && relatedPageResult == null) || trending?.id != song?.id) {
                 relatedPageResult =
                     Innertube.relatedPage(NextBody(videoId = (song?.id ?: "HZnNt9nnEhw")))
             }
+
             trending = song
         }
+
     }
 
     val songThumbnailSizeDp = Dimensions.thumbnails.song

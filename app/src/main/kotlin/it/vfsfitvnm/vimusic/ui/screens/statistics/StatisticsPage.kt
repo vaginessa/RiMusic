@@ -326,7 +326,12 @@ fun StatisticsPage(
                         modifier = Modifier
                             .clickable(onClick = {
                                 if (playlists[it].playlist.browseId != "" )
-                                    onGoToPlaylist(playlists[it].playlist.browseId)
+                                    //onGoToPlaylist(playlists[it].playlist.browseId)
+                                    onGoToPlaylist(
+                                        playlists[it].playlist.browseId,
+                                        null
+                                    )
+
                             })
                     )
                 }

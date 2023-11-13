@@ -2,6 +2,7 @@
 
 package it.vfsfitvnm.compose.routing
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.saveable.SaverScope
@@ -75,6 +76,11 @@ class Route2<P0, P1>(tag: String) : Route(tag) {
 
     fun global(p0: P0, p1: P1) {
         globalRouteFlow.tryEmit(this to arrayOf(p0, p1))
+    }
+
+    suspend fun ensureGlobal(p0: P0, p1: P1) {
+        globalRouteFlow.subscriptionCount.filter { it > 0 }.first()
+        globalRouteFlow.emit(this to arrayOf(p0, p1))
     }
 }
 

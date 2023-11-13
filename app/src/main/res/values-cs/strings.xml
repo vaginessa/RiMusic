@@ -211,4 +211,11 @@
   <string name="download">Download</string>
   <string name="_default">Výchozí</string>
   <string name="dynamic">Dynamický</string>
+    <string name="discovery">Discovery</string>
+  <string name="mood">Mood</string>
+    <string name="new_albums">New albums</string>
+  <string name="moods_and_genres">Moods and genres</string>
+    <string name="search_queries">" search queries"</string>
+    <string name="not_find_battery_optimization_settings">Couldn\'t find battery optimization settings, please whitelist manually</string>
+    <string name="search">Search...</string>
 </resources>

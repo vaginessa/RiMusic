@@ -1,30 +1,55 @@
 package it.vfsfitvnm.vimusic.ui.screens.playlist
 
 import android.content.Intent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.compose.persist.persist
@@ -64,30 +89,62 @@ import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.isLandscape
+import it.vfsfitvnm.vimusic.utils.secondary
+import it.vfsfitvnm.vimusic.utils.semiBold
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.math.max
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@ExperimentalComposeUiApi
 @UnstableApi
 @Composable
 fun PlaylistSongList(
     browseId: String,
+    params: String?,
+    maxDepth: Int?
 ) {
-    val (colorPalette) = LocalAppearance.current
+    val (colorPalette, typography) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
     val context = LocalContext.current
     val menuState = LocalMenuState.current
 
     var playlistPage by persist<Innertube.PlaylistOrAlbumPage?>("playlist/$browseId/playlistPage")
 
-    LaunchedEffect(Unit) {
-        if (playlistPage != null && playlistPage?.songsPage?.continuation == null) return@LaunchedEffect
+    var filter: String? by rememberSaveable { mutableStateOf(null) }
+    val localMaxDepth = 500
 
+    LaunchedEffect(Unit, filter) {
+        //if (playlistPage != null && playlistPage?.songsPage?.continuation == null) return@LaunchedEffect
+
+        playlistPage = withContext(Dispatchers.IO) {
+            Innertube.playlistPage(BrowseBody(browseId = browseId, params = params))
+                ?.completed(localMaxDepth)?.getOrNull()
+        }
+            /*
+                playlistPage = withContext(Dispatchers.IO) {
+                    Innertube.playlistPage(BrowseBody(browseId = browseId, params = params))
+                        ?.completed(maxDepth = maxDepth ?: Int.MAX_VALUE)?.getOrNull()
+                }
+
+         */
+    /*
         playlistPage = withContext(Dispatchers.IO) {
             Innertube.playlistPage(BrowseBody(browseId = browseId))?.completed()?.getOrNull()
         }
+ */
     }
+
+    var filterCharSequence: CharSequence
+    filterCharSequence = filter.toString()
+    //Log.d("mediaItemFilter", "<${filter}>  <${filterCharSequence}>")
+    if (!filter.isNullOrBlank())
+        playlistPage?.songsPage?.items =
+        playlistPage?.songsPage?.items?.filter {songItem ->
+                songItem.asMediaItem.mediaMetadata.title?.contains(filterCharSequence,true) ?: false
+                        || songItem.asMediaItem.mediaMetadata.artist?.contains(filterCharSequence,true) ?: false
+            }
 
     val songThumbnailSizeDp = Dimensions.thumbnails.song
     val songThumbnailSizePx = songThumbnailSizeDp.px
@@ -130,6 +187,83 @@ fun PlaylistSongList(
             )
         } else {
             Header(title = playlistPage?.title ?: "Unknown") {
+
+                /*        */
+                Row (
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.Bottom,
+                    modifier = Modifier
+                        //.requiredHeight(30.dp)
+                        .padding(all = 10.dp)
+                        .fillMaxHeight()
+                ) {
+                    var searching by rememberSaveable { mutableStateOf(false) }
+
+                    if (searching) {
+                        val focusRequester = remember { FocusRequester() }
+                        val focusManager = LocalFocusManager.current
+                        val keyboardController = LocalSoftwareKeyboardController.current
+
+                        LaunchedEffect(searching) {
+                            focusRequester.requestFocus()
+                        }
+
+                        BasicTextField(
+                            value = filter ?: "",
+                            onValueChange = { filter = it },
+                            textStyle = typography.xs.semiBold,
+                            singleLine = true,
+                            maxLines = 1,
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(onDone = {
+                                if (filter.isNullOrBlank()) filter = ""
+                                focusManager.clearFocus()
+                            }),
+                            cursorBrush = SolidColor(colorPalette.text),
+                            decorationBox = { innerTextField ->
+                                Box(
+                                    contentAlignment = Alignment.CenterStart,
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    androidx.compose.animation.AnimatedVisibility(
+                                        visible = filter?.isEmpty() ?: true,
+                                        enter = fadeIn(tween(100)),
+                                        exit = fadeOut(tween(100)),
+                                    ) {
+                                        BasicText(
+                                            text = stringResource(R.string.search),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                            style = typography.xs.semiBold.secondary.copy(color = colorPalette.textDisabled)
+                                        )
+                                    }
+
+                                    innerTextField()
+                                }
+                            },
+                            modifier = Modifier
+                                .focusRequester(focusRequester)
+                                .onFocusChanged {
+                                    if (!it.hasFocus) {
+                                        keyboardController?.hide()
+                                        if (filter?.isBlank() == true) {
+                                            filter = null
+                                            searching = false
+                                        }
+                                    }
+                                }
+                        )
+                    } else {
+                        HeaderIconButton(
+                            onClick = { searching = true },
+                            icon = R.drawable.search_circle,
+                            color = colorPalette.text,
+                            iconSize = 24.dp
+                        )
+                    }
+                }
+                /*        */
+
 
                 Spacer(
                     modifier = Modifier

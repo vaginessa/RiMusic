@@ -47,6 +47,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -120,6 +121,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
+
 class MainActivity : AppCompatActivity(), PersistMapOwner {
 
     var downloadUtil = DownloadUtil
@@ -149,6 +151,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
     @UnstableApi
     @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
+    @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -165,6 +168,10 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val launchedFromNotification = intent?.extras?.getBoolean("expandPlayerBottomSheet") == true
+
+        //Log.d("mediaItemLang",LocaleListCompat.getDefault().get(0).toString())
+        //Innertube.localeHl = LocaleListCompat.getDefault().get(0).toString()
+        //Log.d("mediaItemLang",LocaleListCompat.getDefault().get(0).toString()+" > "+Innertube.localeHl)
 
         setContent {
             val coroutineScope = rememberCoroutineScope()
@@ -249,6 +256,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                                     languageAppKey,
                                     Languages.English
                                 )
+
+                                //Innertube.localeHl = lang.code
 
                                 val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(lang.code)
                                 AppCompatDelegate.setApplicationLocales(appLocale)
@@ -389,7 +398,6 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                 }
 
 
-                
                 CompositionLocalProvider(
                     LocalAppearance provides appearance,
                     LocalIndication provides rememberRipple(bounded = true),
@@ -400,6 +408,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                     LocalLayoutDirection provides LayoutDirection.Ltr,
                     LocalDownloader provides downloadUtil
                 ) {
+
+
 
                     HomeScreen(
                         onPlaylistUrl = { url ->
@@ -459,7 +469,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
         onNewIntent(intent)
     }
-
+@UnstableApi
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
@@ -475,6 +485,10 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 */
 
         val uri = intent.getStringExtra("android.intent.extra.TEXT")?.toUri() ?: return
+        //val uri = intent?.data ?: return
+
+        //intent.data = null
+        //this.intent = null
 
         Toast.makeText(this, "${"RiMusic "}${getString(R.string.opening_url)}", Toast.LENGTH_LONG).show()
 
@@ -490,7 +504,9 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             }
                         }
                     } else {
-                        playlistRoute.ensureGlobal(browseId)
+                        //playlistRoute.ensureGlobal(browseId)
+                        //playlistRoute.ensureGlobal(browseId, uri.getQueryParameter("params"))
+                        playlistRoute.ensureGlobal(browseId,null)
                     }
                 }
 

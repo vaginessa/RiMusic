@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -23,7 +24,8 @@ fun HeaderIconButton(
     color: Color,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    indication: Indication? = null
+    indication: Indication? = null,
+    iconSize: Dp? = 18.dp
 ) {
     IconButton(
         icon = icon,
@@ -33,7 +35,7 @@ fun HeaderIconButton(
         indication = indication,
         modifier = modifier
             .padding(all = 4.dp)
-            .size(18.dp)
+            .size(iconSize ?: 18.dp)
     )
 }
 

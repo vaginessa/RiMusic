@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.os.LocaleListCompat
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.innertube.Innertube
@@ -45,7 +46,6 @@ import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
 import it.vfsfitvnm.vimusic.ui.screens.playlistRoute
-import it.vfsfitvnm.vimusic.ui.screens.playlistRoute1
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
@@ -96,7 +96,6 @@ fun MoodList(mood: Mood) {
                     contentType = 0
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        //Header(title = mood.name)
                         HeaderWithIcon(
                             title = mood.name,
                             iconId = R.drawable.globe,
@@ -156,10 +155,10 @@ fun MoodList(mood: Mood) {
                                         alternative = true,
                                         modifier = Modifier.clickable {
                                             childItem.info?.endpoint?.browseId?.let {
-                                                playlistRoute1.global(
+                                                playlistRoute.global(
                                                     it,
-                                                    null,
-                                                    1
+                                                    null
+
                                                 )
                                             }
                                         }
@@ -174,7 +173,7 @@ fun MoodList(mood: Mood) {
             }
         } ?: moodPage?.exceptionOrNull()?.let {
             BasicText(
-                text = "An error has occurred",
+                text = stringResource(R.string.an_error_has_occurred),
                 style = typography.s.secondary.center,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)

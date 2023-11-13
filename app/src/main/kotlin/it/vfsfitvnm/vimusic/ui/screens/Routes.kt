@@ -4,9 +4,12 @@ import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.routing.Route0
 import it.vfsfitvnm.compose.routing.Route1
+import it.vfsfitvnm.compose.routing.Route2
 import it.vfsfitvnm.compose.routing.Route3
 import it.vfsfitvnm.compose.routing.RouteHandlerScope
 import it.vfsfitvnm.innertube.Innertube
@@ -27,18 +30,20 @@ val artistRoute = Route1<String?>("artistRoute")
 val builtInPlaylistRoute = Route1<BuiltInPlaylist>("builtInPlaylistRoute")
 val statisticsTypeRoute = Route1<StatisticsType>("statisticsTypeRoute")
 val localPlaylistRoute = Route1<Long?>("localPlaylistRoute")
-val playlistRoute = Route1<String?>("playlistRoute")
 val searchResultRoute = Route1<String>("searchResultRoute")
 val searchRoute = Route1<String>("searchRoute")
 val settingsRoute = Route0("settingsRoute")
 val homeRoute = Route0("homeRoute")
 val moodRoute = Route1<Mood>("moodRoute")
-val playlistRoute1 = Route3<String?, String?, Int?>("playlistRoute")
+//val playlistRoute = Route1<String?>("playlistRoute")
+//val playlistRoute = Route3<String?, String?, Int?>("playlistRoute")
+val playlistRoute = Route2<String?, String?>("playlistRoute")
 
 @SuppressLint("ComposableNaming")
 @Suppress("NOTHING_TO_INLINE")
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
+@ExperimentalComposeUiApi
 @UnstableApi
 @Composable
 inline fun RouteHandlerScope.globalRoutes() {
@@ -54,9 +59,17 @@ inline fun RouteHandlerScope.globalRoutes() {
         )
     }
 
+/*
     playlistRoute { browseId ->
         PlaylistScreen(
-            browseId = browseId ?: error("browseId cannot be null")
+        )
+    }
+ */
+    playlistRoute { browseId, params ->
+        PlaylistScreen(
+            browseId = browseId ?: error("browseId cannot be null"),
+            params = params,
+            //maxDepth = maxDepth
         )
     }
 
@@ -66,9 +79,12 @@ inline fun RouteHandlerScope.globalRoutes() {
         )
     }
 
+
     homeRoute {
         HomeScreen(onPlaylistUrl = {pop})
     }
+
+
 
     moodRoute { mood ->
         MoodScreen(mood = mood)

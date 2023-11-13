@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -44,6 +46,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -135,7 +138,7 @@ fun HomeDiscovery(
         ) {
             //Header(title = "Discover", modifier = Modifier.padding(endPaddingValues))
             HeaderWithIcon(
-                title = "Discover",
+                title = stringResource(R.string.discovery),
                 iconId = R.drawable.search,
                 enabled = true,
                 showIcon = true,
@@ -147,7 +150,7 @@ fun HomeDiscovery(
 
                 if (page.newReleaseAlbums.isNotEmpty()) {
                     BasicText(
-                        text = "New released albums",
+                        text = stringResource(R.string.new_albums),
                         style = typography.m.semiBold,
                         modifier = sectionTextModifier
                     )
@@ -167,7 +170,7 @@ fun HomeDiscovery(
 
                 if (page.moods.isNotEmpty()) {
                     BasicText(
-                        text = "Moods and genres",
+                        text = stringResource(R.string.moods_and_genres),
                         style = typography.m.semiBold,
                         modifier = sectionTextModifier
                     )
@@ -179,36 +182,24 @@ fun HomeDiscovery(
                         contentPadding = endPaddingValues,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height((thumbnailSizeDp + Dimensions.itemsVerticalPadding * 8) * 8)
+                            //.height((thumbnailSizeDp + Dimensions.itemsVerticalPadding * 8) * 8)
+                            .height(Dimensions.itemsVerticalPadding * 8 * 8)
                     ) {
                         items(
                             items = page.moods.sortedBy { it.title },
                             key = { it.endpoint.params ?: it.title }
                         ) {
-                            MoodItem2(
-                                title = it.title,
-                                thumbnailSizePx = thumbnailSizePx,
-                                thumbnailSizeDp = thumbnailSizeDp,
-                                onClick = { it.endpoint.browseId?.let { _ -> onMoodClick(it) } },
-                            )
-                            /*
                             MoodItem(
                                 mood = it,
                                 onClick = { it.endpoint.browseId?.let { _ -> onMoodClick(it) } },
-                                //modifier = Modifier
-                                //    .fillMaxWidth()
-                                //    .padding(4.dp)
-
                             )
-
-                             */
                         }
                     }
                 }
 
             } ?: discoverPage?.exceptionOrNull()?.let {
                 BasicText(
-                    text = "An error has occurred",
+                    text = stringResource(R.string.an_error_has_occurred),
                     style = typography.s.secondary.center,
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
@@ -267,23 +258,33 @@ fun MoodItem(
         ThumbnailRoundness.Heavy
     )
 
+    Column (
+        verticalArrangement = Arrangement.SpaceAround,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp)
+            .clip(thumbnailRoundness.shape())
+            .clickable { onClick() }
+
+    ) {
         Box(
             modifier = Modifier
-                .clickable { onClick() }
+                .requiredWidth(200.dp)
                 .background(color = colorPalette.background4, shape = thumbnailRoundness.shape())
-                //.height(40.dp)
-                .border(BorderStroke(1.dp, Color.White)),
-                //.fillMaxWidth(),
-            contentAlignment = Alignment.CenterStart
-        ) {
-            BasicText(
-                text = mood.title,
-                style = typography.xs.semiBold,
-                //modifier = Modifier.padding(start = 4.dp)
-            )
-        }
+                .fillMaxWidth(0.9f)
+                .padding(all = 10.dp)
+        ){
+        BasicText(
+            text = mood.title,
+            style = typography.xs.semiBold,
+            modifier = Modifier.padding(start = 4.dp),
+            maxLines = 1,
 
-}
+        )
+        }
+    }
+    }
 
 @Composable
 fun MoodItemPlaceholder(
@@ -296,51 +297,4 @@ fun MoodItemPlaceholder(
             .background(color = colorPalette.shimmer)
             .size(width, 64.dp)
     )
-}
-
-@Composable
-fun MoodItem2(
-    title: String?,
-    thumbnailSizePx: Int,
-    thumbnailSizeDp: Dp,
-    modifier: Modifier = Modifier,
-    alternative: Boolean = false,
-    onClick: () -> Unit
-) {
-    val (_, typography, thumbnailShape) = LocalAppearance.current
-
-    ItemContainer(
-        alternative = alternative,
-        thumbnailSizeDp = thumbnailSizeDp,
-        modifier = modifier
-            .clickable { onClick() }
-            .clip(thumbnailShape)
-            .fillMaxSize()
-
-    ) {
-        ItemInfoContainer (
-            modifier = modifier
-                .clip(thumbnailShape)
-                .fillMaxSize()
-        ) {
-            BasicText(
-                text = title ?: "",
-                style = typography.xs.semiBold,
-                maxLines = if (alternative) 1 else 2,
-                overflow = TextOverflow.Ellipsis,
-            )
-
-
-            BasicText(
-                text = "cippa",
-                style = typography.xxs.semiBold.secondary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .padding(top = 4.dp)
-            )
-
-
-        }
-    }
 }

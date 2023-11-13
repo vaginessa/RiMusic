@@ -32,4 +32,10 @@ class RouteHandlerScope(
         parameters[1] = p1
         invoke(p0)
     }
+
+    operator fun <P0, P1, P2> Route.invoke(p0: P0, p1: P1, p2: P2) {
+        parameters[2] = p2
+        invoke(p0, p1)
+    }
+
 }

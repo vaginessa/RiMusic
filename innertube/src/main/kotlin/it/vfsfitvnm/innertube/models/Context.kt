@@ -1,5 +1,6 @@
 package it.vfsfitvnm.innertube.models
 
+import it.vfsfitvnm.innertube.Innertube
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,7 +13,8 @@ data class Context(
         val clientName: String,
         val clientVersion: String,
         val platform: String,
-        val hl: String = "en",
+        //val hl: String = "en",
+        val hl: String = Innertube.localeHl,
         val visitorData: String = "CgtEUlRINDFjdm1YayjX1pSaBg%3D%3D",
         val androidSdkVersion: Int? = null,
         val userAgent: String? = null

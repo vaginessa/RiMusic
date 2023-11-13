@@ -7,6 +7,7 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.ContinuationBody
 import it.vfsfitvnm.innertube.requests.playlistPage
@@ -14,6 +15,7 @@ import it.vfsfitvnm.innertube.utils.plus
 import it.vfsfitvnm.vimusic.models.Song
 
 val Innertube.SongItem.asMediaItem: MediaItem
+    @UnstableApi
     get() = MediaItem.Builder()
         .setMediaId(key)
         .setUri(key)
@@ -37,6 +39,7 @@ val Innertube.SongItem.asMediaItem: MediaItem
         .build()
 
 val Innertube.VideoItem.asMediaItem: MediaItem
+    @UnstableApi
     get() = MediaItem.Builder()
         .setMediaId(key)
         .setUri(key)
@@ -60,6 +63,7 @@ val Innertube.VideoItem.asMediaItem: MediaItem
         .build()
 
 val Song.asMediaItem: MediaItem
+    @UnstableApi
     get() = MediaItem.Builder()
         .setMediaMetadata(
             MediaMetadata.Builder()
@@ -92,6 +96,26 @@ fun Uri?.thumbnail(size: Int): Uri? {
 
 fun formatAsDuration(millis: Long) = DateUtils.formatElapsedTime(millis / 1000).removePrefix("0")
 
+suspend fun Result<Innertube.PlaylistOrAlbumPage>.completed(maxDepth: Int = Int.MAX_VALUE): Result<Innertube.PlaylistOrAlbumPage>? {
+    var playlistPage = getOrNull() ?: return null
+
+    var depth = 0
+    while (playlistPage.songsPage?.continuation != null && depth++ < maxDepth) {
+        val continuation = playlistPage.songsPage?.continuation!!
+        val otherPlaylistPageResult =
+            Innertube.playlistPage(ContinuationBody(continuation = continuation)) ?: break
+
+        if (otherPlaylistPageResult.isFailure) break
+
+        otherPlaylistPageResult.getOrNull()?.let { otherSongsPage ->
+            playlistPage = playlistPage.copy(songsPage = playlistPage.songsPage + otherSongsPage)
+        }
+    }
+
+    return Result.success(playlistPage)
+}
+
+/*
 suspend fun Result<Innertube.PlaylistOrAlbumPage>.completed(): Result<Innertube.PlaylistOrAlbumPage>? {
     var playlistPage = getOrNull() ?: return null
 
@@ -108,6 +132,7 @@ suspend fun Result<Innertube.PlaylistOrAlbumPage>.completed(): Result<Innertube.
 
     return Result.success(playlistPage)
 }
+ */
 
 inline val isAtLeastAndroid6
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M

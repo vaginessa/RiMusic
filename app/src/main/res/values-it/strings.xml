@@ -210,5 +210,12 @@
     <string name="turn_off">Disattiva</string>
     <string name="download">Download</string>
     <string name="_default">Default</string>
-    <string name="dynamic">Dynamic</string>
+    <string name="dynamic">Dinamico</string>
+    <string name="discovery">Scopri</string>
+    <string name="mood">Mood</string>
+    <string name="new_albums">Nuovi album</string>
+    <string name="moods_and_genres">Moods and generi</string>
+    <string name="search_queries">" ricerche"</string>
+    <string name="not_find_battery_optimization_settings">Couldn\'t find battery optimization settings, please whitelist manually</string>
+    <string name="search">Search...</string>
 </resources>

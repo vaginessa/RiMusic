@@ -134,7 +134,7 @@ fun OtherSettings() {
         SettingsEntry(
             title = stringResource(R.string.clear_search_history),
             text = if (queriesCount > 0) {
-                "Delete $queriesCount search queries"
+            "${stringResource(R.string.delete)} " + queriesCount + stringResource(R.string.search_queries)
             } else {
                 stringResource(R.string.history_is_empty)
             },
@@ -151,6 +151,8 @@ fun OtherSettings() {
         if (isAtLeastAndroid12) {
             SettingsDescription(text = stringResource(R.string.is_android12))
         }
+
+        val msgNoBatteryOptim = stringResource(R.string.not_find_battery_optimization_settings)
 
         SettingsEntry(
             title = stringResource(R.string.ignore_battery_optimizations),
@@ -175,7 +177,7 @@ fun OtherSettings() {
                             Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
                         )
                     } catch (e: ActivityNotFoundException) {
-                        context.toast("Couldn't find battery optimization settings, please whitelist ViMusic manually")
+                        context.toast("$msgNoBatteryOptim RiMusic")
                     }
                 }
             }
