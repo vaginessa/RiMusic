@@ -141,6 +141,7 @@ fun Lyrics(
             "fr" -> Language.FRENCH
             "ro" -> Language.ROMANIAN
             "tr" -> Language.TURKISH
+            "pl" -> Language.POLISH
             else -> {Language.ENGLISH}
         }
 
