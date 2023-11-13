@@ -103,7 +103,7 @@ fun PlayerSettings() {
 
 //        SettingsEntryGroupText(title = stringResource(R.string.quick_pics_and_tips))
 
-        SettingsEntryGroupText(title = "PREFERENCES")
+        SettingsEntryGroupText(title = stringResource(R.string.preferences))
 
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.min_listening_time),

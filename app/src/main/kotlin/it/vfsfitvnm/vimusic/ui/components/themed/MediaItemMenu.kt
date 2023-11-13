@@ -545,8 +545,8 @@ fun MediaItemMenu(
                         if (sleepTimerMillisLeft != null) {
                             ConfirmationDialog(
                                 text = stringResource(R.string.stop_sleep_timer),
-                                cancelText = "No",
-                                confirmText = "Stop",
+                                cancelText = stringResource(R.string.no),
+                                confirmText = stringResource(R.string.stop),
                                 onDismiss = { isShowingSleepTimerDialog = false },
                                 onConfirm = {
                                     binder?.cancelSleepTimer()

@@ -210,4 +210,7 @@
     <string name="turn_off">Выключить</string>
     <string name="_default">Default</string>
     <string name="dynamic">Dynamic</string>
+    <string name="no">No</string>
+    <string name="stop">Stop</string>
+    <string name="preferences">PREFERENCES</string>
 </resources>
