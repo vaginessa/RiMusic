@@ -1,4 +1,4 @@
-package it.vfsfitvnm.vimusic.ui.screens.builtinplaylist
+package it.vfsfitvnm.vimusic.ui.screens.ondevice
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -20,7 +20,6 @@ import it.vfsfitvnm.vimusic.models.SearchQuery
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
 import it.vfsfitvnm.vimusic.ui.screens.globalRoutes
-import it.vfsfitvnm.vimusic.ui.screens.ondevice.DeviceListSongs
 import it.vfsfitvnm.vimusic.ui.screens.search.SearchScreen
 import it.vfsfitvnm.vimusic.ui.screens.searchResultRoute
 import it.vfsfitvnm.vimusic.ui.screens.searchRoute
@@ -33,17 +32,16 @@ import it.vfsfitvnm.vimusic.utils.preferences
 @ExperimentalComposeUiApi
 @UnstableApi
 @Composable
-fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
+fun DeviceListSongsScreen(deviceLists: DeviceLists) {
     val saveableStateHolder = rememberSaveableStateHolder()
 
     val (tabIndex, onTabIndexChanged) = rememberSaveable {
-        mutableStateOf(when (builtInPlaylist) {
-            BuiltInPlaylist.Favorites -> 0
-            BuiltInPlaylist.Offline -> 1
+        mutableStateOf(when (deviceLists) {
+            DeviceLists.LocalSongs -> 0
         })
     }
 
-    PersistMapCleanup(tagPrefix = "${builtInPlaylist.name}/")
+    PersistMapCleanup(tagPrefix = "${deviceLists.name}/")
 
     RouteHandler(listenToGlobalEmitter = true) {
         globalRoutes()
@@ -85,23 +83,13 @@ fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
                 tabIndex = tabIndex,
                 onTabChanged = onTabIndexChanged,
                 tabColumnContent = { Item ->
-                    Item(0, stringResource(R.string.favorites), R.drawable.heart)
-                    Item(1, stringResource(R.string.downloaded), R.drawable.downloaded)
-                    Item(2, "On device", R.drawable.musical_notes)
+                    Item(0, "On Device", R.drawable.musical_notes)
                 }
             ) { currentTabIndex ->
                 saveableStateHolder.SaveableStateProvider(key = currentTabIndex) {
                     when (currentTabIndex) {
-                        0 -> BuiltInPlaylistSongs(
-                            builtInPlaylist = BuiltInPlaylist.Favorites,
-                            onSearchClick = { searchRoute("") }
-                        )
-                        1 -> BuiltInPlaylistSongs(
-                            builtInPlaylist = BuiltInPlaylist.Offline,
-                            onSearchClick = { searchRoute("") }
-                        )
-                        2 -> DeviceListSongs(
-                            deviceLists = DeviceLists.LocalSongs,
+                        0 -> DeviceListSongs(
+                            deviceLists = deviceLists,
                             onSearchClick = { searchRoute("") }
                         )
 

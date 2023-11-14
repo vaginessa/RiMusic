@@ -28,6 +28,7 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,6 +57,7 @@ import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
@@ -72,6 +74,7 @@ import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.thumbnail
+import it.vfsfitvnm.vimusic.utils.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
@@ -281,6 +284,8 @@ fun MediaItemMenu(
     val (colorPalette) = LocalAppearance.current
     val density = LocalDensity.current
 
+    val isLocal by remember { derivedStateOf { mediaItem.isLocal } }
+
     var isViewingPlaylists by remember {
         mutableStateOf(false)
     }
@@ -443,6 +448,7 @@ fun MediaItemMenu(
                                 .size(18.dp)
                         )
 
+                        /*
                         IconButton(
                             icon = R.drawable.share_social,
                             color = colorPalette.text,
@@ -451,6 +457,16 @@ fun MediaItemMenu(
                                 .padding(all = 4.dp)
                                 .size(17.dp)
                         )
+                         */
+                        if (!isLocal) IconButton(
+                            icon = R.drawable.share_social,
+                            color = colorPalette.text,
+                            onClick = onShare,
+                            modifier = Modifier
+                                .padding(all = 4.dp)
+                                .size(17.dp)
+                            )
+
                     }
                 }
 
@@ -473,7 +489,19 @@ fun MediaItemMenu(
                         .height(8.dp)
                 )
 
+                /*
                 onStartRadio?.let { onStartRadio ->
+                    MenuEntry(
+                        icon = R.drawable.radio,
+                        text = stringResource(R.string.start_radio),
+                        onClick = {
+                            onDismiss()
+                            onStartRadio()
+                        }
+                    )
+                }
+                 */
+                if (!isLocal) onStartRadio?.let { onStartRadio ->
                     MenuEntry(
                         icon = R.drawable.radio,
                         text = stringResource(R.string.start_radio),
@@ -688,7 +716,7 @@ fun MediaItemMenu(
                         }
                     )
                 }
-
+                /*
                 onGoToAlbum?.let { onGoToAlbum ->
                     albumInfo?.let { (albumId) ->
                         MenuEntry(
@@ -701,8 +729,22 @@ fun MediaItemMenu(
                         )
                     }
                 }
+                 */
 
-                onGoToArtist?.let { onGoToArtist ->
+                if (!isLocal) onGoToAlbum?.let { onGoToAlbum ->
+                    albumInfo?.let { (albumId) ->
+                        MenuEntry(
+                            icon = R.drawable.disc,
+                            text = stringResource(R.string.go_to_album),
+                            onClick = {
+                                onDismiss()
+                                onGoToAlbum(albumId)
+                            }
+                        )
+                    }
+                }
+
+                if (!isLocal) onGoToArtist?.let { onGoToArtist ->
                     artistsInfo?.forEach { (authorId, authorName) ->
                         MenuEntry(
                             icon = R.drawable.person,
@@ -714,6 +756,28 @@ fun MediaItemMenu(
                         )
                     }
                 }
+/*
+                if (!isLocal) MenuEntry(
+                    icon = R.drawable.play,
+                    text = "Watch on YouTube",
+                    onClick = {
+                        onDismiss()
+                        playerServiceBinder?.player?.pause()
+                        uriHandler.openUri("https://youtube.com/watch?v=${mediaItem.mediaId}")
+                    }
+                )
+
+                if (!isLocal) MenuEntry(
+                    icon = R.drawable.musical_notes,
+                    text = "Open in YouTube Music",
+                    onClick = {
+                        onDismiss()
+                        playerServiceBinder?.player?.pause()
+                        if (!launchYouTubeMusic(context, "watch?v=${mediaItem.mediaId}"))
+                            context.toast("YouTube Music is not installed on your device!")
+                    }
+                )
+ */
 
                 onRemoveFromQueue?.let { onRemoveFromQueue ->
                     MenuEntry(
@@ -737,7 +801,7 @@ fun MediaItemMenu(
                     )
                 }
 
-                onHideFromDatabase?.let { onHideFromDatabase ->
+                if (!isLocal) onHideFromDatabase?.let { onHideFromDatabase ->
                     MenuEntry(
                         icon = R.drawable.trash,
                         text = stringResource(R.string.hide),
@@ -745,7 +809,7 @@ fun MediaItemMenu(
                     )
                 }
 
-                onRemoveFromQuickPicks?.let {
+                if (!isLocal) onRemoveFromQuickPicks?.let {
                     MenuEntry(
                         icon = R.drawable.trash,
                         text = stringResource(R.string.hide_from_quick_picks),

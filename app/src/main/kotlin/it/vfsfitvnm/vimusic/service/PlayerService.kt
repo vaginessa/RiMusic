@@ -27,6 +27,7 @@ import android.media.session.PlaybackState
 import android.net.Uri
 import android.os.Handler
 import android.text.format.DateUtils
+import androidx.annotation.OptIn
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -44,6 +45,8 @@ import androidx.media3.common.Timeline
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.DataSource
+import androidx.media3.datasource.DataSpec
+import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.ResolvingDataSource
 import androidx.media3.datasource.cache.Cache
@@ -79,7 +82,9 @@ import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
 import it.vfsfitvnm.vimusic.models.Event
 import it.vfsfitvnm.vimusic.models.QueuedMediaItem
+import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.utils.ConditionalCacheDataSourceFactory
 import it.vfsfitvnm.vimusic.utils.InvincibleService
 import it.vfsfitvnm.vimusic.utils.RingBuffer
 import it.vfsfitvnm.vimusic.utils.TimerJob
@@ -122,6 +127,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.runBlocking
 import java.io.File
+
+const val LOCAL_KEY_PREFIX = "local:"
+
+@get:OptIn(UnstableApi::class)
+val DataSpec.isLocal get() = key?.startsWith(LOCAL_KEY_PREFIX) == true
+
+val MediaItem.isLocal get() = mediaId.startsWith(LOCAL_KEY_PREFIX)
+val Song.isLocal get() = id.startsWith(LOCAL_KEY_PREFIX)
 
 @Suppress("DEPRECATION")
 class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListener.Callback,
@@ -810,6 +823,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         }
     }
 
+    /*
     @UnstableApi
     private fun createCacheDataSource(): DataSource.Factory {
         return CacheDataSource.Factory().setCache(cache).apply {
@@ -821,7 +835,21 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             )
         }
     }
+     */
 
+    @UnstableApi
+    private fun createCacheDataSource() = ConditionalCacheDataSourceFactory(
+        cacheDataSourceFactory = CacheDataSource.Factory().setCache(cache),
+        upstreamDataSourceFactory = DefaultDataSource.Factory(
+            applicationContext,
+            DefaultHttpDataSource.Factory()
+                .setConnectTimeoutMs(16000)
+                .setReadTimeoutMs(8000)
+                .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
+        )
+    ) { !it.isLocal }
+
+    /*
     @UnstableApi
     private fun createDataSourceFactory(): DataSource.Factory {
         val chunkLength = 512 * 1024L
@@ -901,6 +929,84 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                             PlaybackException.ERROR_CODE_REMOTE_ERROR
                         )
                     }
+                }
+            }
+        }
+    }
+    */
+@UnstableApi
+private fun createDataSourceFactory(): DataSource.Factory {
+        val chunkLength = 512 * 1024L
+        val ringBuffer = RingBuffer<Pair<String, Uri>?>(2) { null }
+
+        return ResolvingDataSource.Factory(createCacheDataSource()) { dataSpec ->
+            val videoId = dataSpec.key ?: error("A key must be set")
+
+            when {
+                dataSpec.isLocal ||
+                        cache.isCached(videoId, dataSpec.position, chunkLength) -> dataSpec
+
+                videoId == ringBuffer.getOrNull(0)?.first ->
+                    dataSpec.withUri(ringBuffer.getOrNull(0)!!.second)
+
+                videoId == ringBuffer.getOrNull(1)?.first ->
+                    dataSpec.withUri(ringBuffer.getOrNull(1)!!.second)
+
+                else -> {
+                    val body = runBlocking(Dispatchers.IO) {
+                        Innertube.player(PlayerBody(videoId = videoId))
+                    }?.getOrThrow()
+
+                    if (body?.videoDetails?.videoId != videoId) throw VideoIdMismatchException()
+
+                    val url = when (val status = body.playabilityStatus?.status) {
+                        "OK" -> body.streamingData?.highestQualityFormat?.let { format ->
+                            val mediaItem = runBlocking(Dispatchers.Main) {
+                                player.findNextMediaItemById(videoId)
+                            }
+
+                            if (mediaItem?.mediaMetadata?.extras?.getString("durationText") == null)
+                                format.approxDurationMs?.div(1000)
+                                    ?.let(DateUtils::formatElapsedTime)?.removePrefix("0")
+                                    ?.let { durationText ->
+                                        mediaItem?.mediaMetadata?.extras?.putString(
+                                            "durationText",
+                                            durationText
+                                        )
+                                        Database.updateDurationText(videoId, durationText)
+                                    }
+
+                            query {
+                                mediaItem?.let(Database::insert)
+
+                                Database.insert(
+                                    it.vfsfitvnm.vimusic.models.Format(
+                                        songId = videoId,
+                                        itag = format.itag,
+                                        mimeType = format.mimeType,
+                                        bitrate = format.bitrate,
+                                        loudnessDb = body.playerConfig?.audioConfig?.normalizedLoudnessDb,
+                                        contentLength = format.contentLength,
+                                        lastModified = format.lastModified
+                                    )
+                                )
+                            }
+
+                            format.url
+                        } ?: throw PlayableFormatNotFoundException()
+
+                        "UNPLAYABLE" -> throw UnplayableException()
+                        "LOGIN_REQUIRED" -> throw LoginRequiredException()
+
+                        else -> throw PlaybackException(
+                            status,
+                            null,
+                            PlaybackException.ERROR_CODE_REMOTE_ERROR
+                        )
+                    }
+
+                    ringBuffer.append(videoId to url.toUri())
+                    dataSpec.withUri(url.toUri()).subrange(dataSpec.uriPositionOffset, chunkLength)
                 }
             }
         }

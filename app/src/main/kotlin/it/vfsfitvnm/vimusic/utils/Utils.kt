@@ -1,7 +1,9 @@
 package it.vfsfitvnm.vimusic.utils
 
+import android.content.ContentUris
 import android.net.Uri
 import android.os.Build
+import android.provider.MediaStore
 import android.text.format.DateUtils
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -13,6 +15,8 @@ import it.vfsfitvnm.innertube.models.bodies.ContinuationBody
 import it.vfsfitvnm.innertube.requests.playlistPage
 import it.vfsfitvnm.innertube.utils.plus
 import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.service.LOCAL_KEY_PREFIX
+import it.vfsfitvnm.vimusic.service.isLocal
 
 val Innertube.SongItem.asMediaItem: MediaItem
     @UnstableApi
@@ -61,7 +65,7 @@ val Innertube.VideoItem.asMediaItem: MediaItem
                 .build()
         )
         .build()
-
+/*
 val Song.asMediaItem: MediaItem
     @UnstableApi
     get() = MediaItem.Builder()
@@ -79,6 +83,33 @@ val Song.asMediaItem: MediaItem
         )
         .setMediaId(id)
         .setUri(id)
+        .setCustomCacheKey(id)
+        .build()
+
+*/
+
+val Song.asMediaItem: MediaItem
+    @UnstableApi
+    get() = MediaItem.Builder()
+        .setMediaMetadata(
+            MediaMetadata.Builder()
+                .setTitle(title)
+                .setArtist(artistsText)
+                .setArtworkUri(thumbnailUrl?.toUri())
+                .setExtras(
+                    bundleOf(
+                        "durationText" to durationText
+                    )
+                )
+                .build()
+        )
+        .setMediaId(id)
+        .setUri(
+            if (isLocal) ContentUris.withAppendedId(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                id.substringAfter(LOCAL_KEY_PREFIX).toLong()
+            ) else id.toUri()
+        )
         .setCustomCacheKey(id)
         .build()
 
@@ -140,6 +171,11 @@ inline val isAtLeastAndroid6
 inline val isAtLeastAndroid8
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
+inline val isAtLeastAndroid10
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+
+inline val isAtLeastAndroid11
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
 inline val isAtLeastAndroid12
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 

@@ -27,6 +27,7 @@ import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
 import it.vfsfitvnm.vimusic.ui.screens.builtInPlaylistRoute
 import it.vfsfitvnm.vimusic.ui.screens.builtinplaylist.BuiltInPlaylistScreen
+import it.vfsfitvnm.vimusic.ui.screens.deviceListSongRoute
 import it.vfsfitvnm.vimusic.ui.screens.globalRoutes
 import it.vfsfitvnm.vimusic.ui.screens.localPlaylistRoute
 import it.vfsfitvnm.vimusic.ui.screens.localplaylist.LocalPlaylistScreen
@@ -164,9 +165,9 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
                 tabColumnContent = { Item ->
                     Item(0, stringResource(R.string.quick_picks), R.drawable.sparkles)
                     Item(1, stringResource(R.string.songs), R.drawable.musical_notes)
-                    Item(2, stringResource(R.string.playlists), R.drawable.playlist)
-                    Item(3, stringResource(R.string.artists), R.drawable.person)
-                    Item(4, stringResource(R.string.albums), R.drawable.disc)
+                    Item(2, stringResource(R.string.artists), R.drawable.person)
+                    Item(3, stringResource(R.string.albums), R.drawable.disc)
+                    Item(4, stringResource(R.string.library), R.drawable.library)
                     Item(5, stringResource(R.string.discovery), R.drawable.globe)
                     //Item(6, "Settings", R.drawable.equalizer)
                 }
@@ -184,20 +185,21 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
                             onSearchClick = { searchRoute("") }
                         )
 
-                        2 -> HomePlaylists(
-                            onBuiltInPlaylist = { builtInPlaylistRoute(it) },
-                            onPlaylistClick = { localPlaylistRoute(it.id) },
-                            onSearchClick = { searchRoute("") }
-                        )
-
-                        3 -> HomeArtistList(
+                        2 -> HomeArtistList(
                             onArtistClick = { artistRoute(it.id) },
                             onSearchClick = { searchRoute("") }
                         )
 
-                        4 -> HomeAlbums(
+                        3 -> HomeAlbums(
                             onAlbumClick = { albumRoute(it.id) },
                             onSearchClick = { searchRoute("") }
+                        )
+
+                        4 -> HomePlaylists(
+                            onBuiltInPlaylist = { builtInPlaylistRoute(it) },
+                            onPlaylistClick = { localPlaylistRoute(it.id) },
+                            onSearchClick = { searchRoute("") },
+                            onDeviceListSongsClick = { deviceListSongRoute("") }
                         )
 
                         5 -> HomeDiscovery(

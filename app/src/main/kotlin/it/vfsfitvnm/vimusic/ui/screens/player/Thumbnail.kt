@@ -41,6 +41,7 @@ import it.vfsfitvnm.vimusic.service.LoginRequiredException
 import it.vfsfitvnm.vimusic.service.PlayableFormatNotFoundException
 import it.vfsfitvnm.vimusic.service.UnplayableException
 import it.vfsfitvnm.vimusic.service.VideoIdMismatchException
+import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
@@ -85,6 +86,8 @@ fun Thumbnail(
     val videoidmismatcherror =
         stringResource(R.string.error_the_returned_video_id_doesn_t_match_the_requested_one)
     val unknownplaybackerror = stringResource(R.string.error_an_unknown_playback_error_has_occurred)
+
+    val islocalMusic = "Problems in local playback or file no longer exists"
 
 
     player.DisposableListener {
@@ -157,7 +160,7 @@ fun Thumbnail(
                     .fillMaxSize()
             )
 
-            Lyrics(
+            if (!currentWindow.mediaItem.isLocal) Lyrics(
                 mediaId = currentWindow.mediaItem.mediaId,
                 isDisplayed = isShowingLyrics && error == null,
                 onDismiss = { onShowLyrics(false) },
@@ -176,6 +179,7 @@ fun Thumbnail(
             PlaybackError(
                 isDisplayed = error != null,
                 messageProvider = {
+                    if (currentWindow.mediaItem.isLocal) islocalMusic else
                     when (error?.cause?.cause) {
                         is UnresolvedAddressException, is UnknownHostException -> networkerror
                         is PlayableFormatNotFoundException -> notfindplayableaudioformaterror

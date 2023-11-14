@@ -16,12 +16,14 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -61,6 +63,7 @@ import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.playlistSortByKey
 import it.vfsfitvnm.vimusic.utils.playlistSortOrderKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.semiBold
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
@@ -68,9 +71,11 @@ import it.vfsfitvnm.vimusic.utils.rememberPreference
 fun HomePlaylists(
     onBuiltInPlaylist: (BuiltInPlaylist) -> Unit,
     onPlaylistClick: (Playlist) -> Unit,
+    onDeviceListSongsClick: () -> Unit,
     onSearchClick: () -> Unit,
 ) {
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
+    val windowInsets = LocalPlayerAwareWindowInsets.current
 
     var isCreatingANewPlaylist by rememberSaveable {
         mutableStateOf(false)
@@ -107,6 +112,13 @@ fun HomePlaylists(
     val thumbnailSizeDp = 108.dp
     val thumbnailSizePx = thumbnailSizeDp.px
 
+    val endPaddingValues = windowInsets.only(WindowInsetsSides.End).asPaddingValues()
+
+    val sectionTextModifier = Modifier
+        .padding(horizontal = 16.dp)
+        .padding(top = 24.dp, bottom = 8.dp)
+        .padding(endPaddingValues)
+
     val lazyGridState = rememberLazyGridState()
 
     Box {
@@ -127,7 +139,7 @@ fun HomePlaylists(
             item(key = "header", contentType = 0, span = { GridItemSpan(maxLineSpan) }) {
 
                 HeaderWithIcon(
-                    title = stringResource(R.string.playlists),
+                    title = stringResource(R.string.library),
                     iconId = R.drawable.search,
                     enabled = true,
                     showIcon = true,
@@ -217,6 +229,33 @@ fun HomePlaylists(
                 )
             }
 
+            item(key = "ondevice") {
+                PlaylistItem(
+                    icon = R.drawable.musical_notes,
+                    colorTint = colorPalette.favoritesIcon,
+                    name = "On device",
+                    songCount = null,
+                    thumbnailSizeDp = thumbnailSizeDp,
+                    alternative = true,
+                    modifier = Modifier
+                        .clip(thumbnailShape)
+                        .clickable(onClick = { onDeviceListSongsClick() })
+                        .animateItemPlacement()
+                )
+            }
+
+            /*    */
+
+            item(key = "headerplaylist", contentType = 0, span = { GridItemSpan(maxLineSpan) }) {
+                BasicText(
+                    text = stringResource(R.string.playlists),
+                    style = typography.m.semiBold,
+                    modifier = sectionTextModifier
+                )
+            }
+
+            /*    */
+
             items(items = items, key = { it.playlist.id }) { playlistPreview ->
                 PlaylistItem(
                     playlist = playlistPreview,
@@ -229,6 +268,7 @@ fun HomePlaylists(
                         .fillMaxSize()
                 )
             }
+
         }
 /*
         FloatingActionsContainerWithScrollToTop(

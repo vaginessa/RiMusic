@@ -109,7 +109,7 @@ fun QuickPicks(
     var relatedPageResult by persist<Result<Innertube.RelatedPage?>?>(tag = "home/relatedPageResult")
 
     LaunchedEffect(Unit) {
-
+/*
         Database.trending().distinctUntilChanged().collect { song ->
 
            if ((song == null && relatedPageResult == null) || trending?.id != song?.id) {
@@ -117,6 +117,14 @@ fun QuickPicks(
                     Innertube.relatedPage(NextBody(videoId = (song?.id ?: "HZnNt9nnEhw")))
             }
 
+            trending = song
+        }
+ */
+        Database.trending().distinctUntilChanged().collect { songs ->
+            val song = songs.firstOrNull()
+            if (relatedPageResult == null || trending?.id != song?.id) {
+                relatedPageResult = Innertube.relatedPage(NextBody(videoId = (song?.id ?: "HZnNt9nnEhw")))
+            }
             trending = song
         }
 

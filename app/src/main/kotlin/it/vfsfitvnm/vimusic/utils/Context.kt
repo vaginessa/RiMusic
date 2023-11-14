@@ -5,8 +5,10 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.PowerManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 
 inline fun <reified T> Context.intent(): Intent =
@@ -38,3 +40,8 @@ val Context.isIgnoringBatteryOptimizations: Boolean
     }
 
 fun Context.toast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
+fun Context.hasPermission(permission: String) = ContextCompat.checkSelfPermission(
+    applicationContext,
+    permission
+) == PackageManager.PERMISSION_GRANTED
