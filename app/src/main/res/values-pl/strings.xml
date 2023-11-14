@@ -113,7 +113,7 @@
     <string name="player_audio"><![CDATA[Player & Audio]]></string>
     <string name="player">Odtwarzacz</string>
     <string name="persistent_queue">Stała kolejka</string>
-    <string name="save_and_restore_playing_songs">Zapisz i przywróć odtwarzane utwory</string>
+    <string name="save_and_restore_playing_songs">Zapisuj i przywracaj odtwarzane utwory</string>
     <string name="resume_playback">Wznów odtwarzanie</string>
     <string name="when_device_is_connected">Kiedy urządzenie przewodowe lub urządzenie bluetooth zostaje podłączone</string>
     <string name="audio">DŹWIĘK</string>
@@ -138,7 +138,7 @@
     <string name="existing_data_will_be_overwritten">Istniejące dane zostaną nadpisane.\n%1$s zostanie automatycznie zamknięte po przywróceniu bazy danych.</string>
     <string name="on_queue">w kolejce</string>
     <string name="folder_cache">FOLDER</string>
-    <string name="cache_reset_by_clicking_button">Po wciśnięciu tego przycisku, lokalizacja folderu pamięci podtęcznej zostanie zresetowana.</string>
+    <string name="cache_reset_by_clicking_button">Po wciśnięciu tego przycisku, lokalizacja folderu pamięci podręcznej zostanie zresetowana.</string>
     <string name="cache_location_folder">Lokalizacja folderu</string>
     <string name="custom_cache_from_android_10_may_not_be_available">W systemie Android 10 lub nowszym ta funkcja może nie być dostępna</string>
     <string name="reset_cache_location_folder">ZRESETUJ LOKALIZACJĘ FOLDERU PAMIĘCI PODRĘCZNEJ</string>
@@ -209,8 +209,6 @@
     <string name="downloaded">Pobrane</string>
     <string name="turn_off">Wyłącz</string>
     <string name="download">Download</string>
-    <string name="_default">Default</string>
-    <string name="dynamic">Dynamic</string>
     <string name="discovery">Discovery</string>
     <string name="mood">Mood</string>
     <string name="new_albums">New albums</string>
@@ -218,4 +216,9 @@
     <string name="search_queries">" search queries"</string>
     <string name="not_find_battery_optimization_settings">Couldn\'t find battery optimization settings, please whitelist manually</string>
     <string name="search">Search...</string>
+    <string name="_default">Domyślny</string>
+    <string name="dynamic">Dynamiczny</string>
+    <string name="no">Anuluj</string>
+    <string name="stop">Zatrzymaj</string>
+    <string name="preferences">PREFERENCJE</string>
 </resources>

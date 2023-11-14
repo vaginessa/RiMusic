@@ -50,7 +50,7 @@
         <string name="itag">Itag</string>
         <string name="bitrate">Bitrate</string>
         <string name="size">Größe</string>
-        <string name="cached">Zwischenspeicher</string>
+        <string name="cached">Song-Zwischenspeicher</string>
         <string name="loudness">Lautstärke</string>
         <string name="clear">Löschen</string>
         <string name="error">Es ist ein Fehler aufgetreten.</string>
@@ -218,4 +218,7 @@
     <string name="search_queries">" search queries"</string>
     <string name="not_find_battery_optimization_settings">Couldn\'t find battery optimization settings, please whitelist manually</string>
     <string name="search">Search...</string>
+    <string name="no">No</string>
+    <string name="stop">Stop</string>
+    <string name="preferences">PREFERENCES</string>
 </resources>
