@@ -50,7 +50,7 @@
         <string name="itag">Itag</string>
         <string name="bitrate">Bitrate</string>
         <string name="size">Größe</string>
-        <string name="cached">Zwischenspeicher</string>
+        <string name="cached">Song-Zwischenspeicher</string>
         <string name="loudness">Lautstärke</string>
         <string name="clear">Löschen</string>
         <string name="error">Es ist ein Fehler aufgetreten.</string>
