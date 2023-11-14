@@ -2,7 +2,7 @@
 <resources>
     <string name="cancel">Anulează</string>
     <string name="done">Terminat</string>
-    <string name="hidesong">Vrei cu adevărat să ascunzi această piesă? Timpul de redare și memoria cache vor fi șterse.\nAceastă acțiune este ireversibilă.</string>
+    <string name="hidesong">Vrei cu adevărat să ascunzi această piesă? Timpul de redare și memoria cache vor fi șterse!\nAceastă acțiune este ireversibilă!</string>
     <string name="new_playlist">Listă de redare nouă</string>
     <string name="start_radio">Pornește radioul</string>
     <string name="equalizer">Egalizator</string>
@@ -53,14 +53,14 @@
     <string name="cached">În memoria cache</string>
     <string name="loudness">Intensitate</string>
     <string name="clear">Șterge</string>
-    <string name="error">A apărut o eroare.</string>
+    <string name="error">A apărut o eroare!</string>
     <string name="enter_a_name">Introdu un nume</string>
     <string name="online">Online</string>
     <string name="no_results_found">Niciun rezultat găsit. Vă rugăm să încearcă o altă cautare sau categorie</string>
     <string name="videos">Videoclipuri</string>
     <string name="featured">Recomandate</string>
     <string name="view_the_source_code">Vizualizează codul sursă</string>
-    <string name="report_an_issue">Raportează o problemă</string>
+    <string name="report_an_issue">Zine o problemă</string>
     <string name="you_will_be_redirected_to_github">Vei fi redirecționat către GitHub</string>
     <string name="request_a_feature_or_suggest_an_idea">Solicită o funcție sau sugerează o idee</string>
     <string name="appearance">Aspect</string>
