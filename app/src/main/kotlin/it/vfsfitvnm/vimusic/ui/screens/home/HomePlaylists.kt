@@ -233,7 +233,7 @@ fun HomePlaylists(
                 PlaylistItem(
                     icon = R.drawable.musical_notes,
                     colorTint = colorPalette.favoritesIcon,
-                    name = "On device",
+                    name = stringResource(R.string.on_device),
                     songCount = null,
                     thumbnailSizeDp = thumbnailSizeDp,
                     alternative = true,

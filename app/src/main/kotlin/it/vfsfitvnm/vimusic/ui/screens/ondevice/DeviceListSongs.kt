@@ -129,8 +129,8 @@ fun DeviceListSongs(
     val binder = LocalPlayerServiceBinder.current
     val menuState = LocalMenuState.current
 
-    //var songs by persistList<Song>("${builtInPlaylist.name}/songs")
-    var songs by persistList<Song>("songs") // temporary
+    var songs by persistList<Song>("${deviceLists.name}/songs")
+    //var songs by persistList<Song>("songs") // temporary
 
     var sortBy by rememberPreference(songSortByKey, SongSortBy.DateAdded)
     var sortOrder by rememberPreference(songSortOrderKey, SortOrder.Descending)
@@ -221,7 +221,7 @@ fun DeviceListSongs(
             ) {
 
                 HeaderWithIcon(
-                    title = "On device",
+                    title = stringResource(R.string.on_device),
                     iconId = R.drawable.search,
                     enabled = true,
                     showIcon = true,
@@ -455,12 +455,12 @@ fun DeviceListSongs(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             BasicText(
-                text = "Permission declined, please grant media permissions in the settings of your device.",
+                text = stringResource(R.string.permission_declined_please_grant_media_permissions_in_the_settings_of_your_device),
                 modifier = Modifier.fillMaxWidth(0.5f),
                 style = typography.s
             )
             SecondaryTextButton(
-                text = "Open settings",
+                text = stringResource(R.string.open_settings),
                 onClick = {
                     context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                         setData(Uri.fromParts("package", context.packageName, null))
@@ -498,7 +498,7 @@ fun Context.musicFilesAsFlow(): StateFlow<List<Song>> = flow {
             val sortOrder = "${MediaStore.Audio.Media.DISPLAY_NAME} ASC"
             val albumUriBase = Uri.parse("content://media/external/audio/albumart")
 
-            MediaStore.Audio.Media._ID
+
             contentResolver.query(collection, projection, null, null, sortOrder)
                 ?.use { cursor ->
                     val idIdx = cursor.getColumnIndex(MediaStore.Audio.Media._ID)

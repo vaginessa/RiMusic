@@ -38,6 +38,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.service.LoginRequiredException
+import it.vfsfitvnm.vimusic.service.PlayableFormatNonSupported
 import it.vfsfitvnm.vimusic.service.PlayableFormatNotFoundException
 import it.vfsfitvnm.vimusic.service.UnplayableException
 import it.vfsfitvnm.vimusic.service.VideoIdMismatchException
@@ -88,6 +89,8 @@ fun Thumbnail(
     val unknownplaybackerror = stringResource(R.string.error_an_unknown_playback_error_has_occurred)
 
     val islocalMusic = "Problems in local playback or file no longer exists"
+
+    val formatUnsupported = "This file seems to have an unsupported format"
 
 
     player.DisposableListener {
@@ -179,13 +182,16 @@ fun Thumbnail(
             PlaybackError(
                 isDisplayed = error != null,
                 messageProvider = {
-                    if (currentWindow.mediaItem.isLocal) islocalMusic else
+                   //if (currentWindow.mediaItem.isLocal) islocalMusic else
+                    //FOR DEBUG IN PROD
+                    if (currentWindow.mediaItem.isLocal) error?.errorCodeName.toString() else
                     when (error?.cause?.cause) {
                         is UnresolvedAddressException, is UnknownHostException -> networkerror
                         is PlayableFormatNotFoundException -> notfindplayableaudioformaterror
                         is UnplayableException -> originalvideodeletederror
                         is LoginRequiredException -> songnotplayabledueserverrestrictionerror
                         is VideoIdMismatchException -> videoidmismatcherror
+                        is PlayableFormatNonSupported -> formatUnsupported
 
                         /*
                         is UnresolvedAddressException, is UnknownHostException -> "A network error has occurred"

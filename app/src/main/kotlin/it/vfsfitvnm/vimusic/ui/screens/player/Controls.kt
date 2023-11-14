@@ -6,13 +6,19 @@ import android.media.audiofx.AudioEffect
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -37,10 +43,12 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -69,11 +77,13 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Format
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongWithContentLength
+import it.vfsfitvnm.vimusic.models.ui.UiMedia
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.DownloaderService
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.SeekBar
+import it.vfsfitvnm.vimusic.ui.components.SeekBarWaved
 import it.vfsfitvnm.vimusic.ui.components.themed.BaseMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.DefaultDialog
@@ -96,6 +106,7 @@ import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
+import it.vfsfitvnm.vimusic.utils.isCompositionLaunched
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -119,6 +130,7 @@ import kotlin.math.roundToInt
 @UnstableApi
 @Composable
 fun Controls(
+    media: UiMedia,
     mediaId: String,
     title: String?,
     artist: String?,
@@ -165,6 +177,25 @@ fun Controls(
         animationSpec = tween(durationMillis = 200)
     )
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
+
+    val scope = rememberCoroutineScope()
+    val animatedPosition = remember { Animatable(position.toFloat()) }
+    var isSeeking by remember { mutableStateOf(false) }
+
+
+    val compositionLaunched = isCompositionLaunched()
+    LaunchedEffect(mediaId) {
+        if (compositionLaunched) animatedPosition.animateTo(0f)
+    }
+    LaunchedEffect(position) {
+        if (!isSeeking && !animatedPosition.isRunning)
+            animatedPosition.animateTo(position.toFloat(), tween(
+                durationMillis = 1000,
+                easing = LinearEasing
+            ))
+    }
+    val durationVisible by remember(isSeeking) { derivedStateOf { isSeeking } }
+
 
 
     LaunchedEffect(mediaId) {
@@ -323,7 +354,7 @@ fun Controls(
                 .height(30.dp)
         )
 
-
+/*
         SeekBar(
             value = scrubbingPosition ?: position,
             minimumValue = 0,
@@ -346,6 +377,50 @@ fun Controls(
             backgroundColor = colorPalette.textSecondary,
             shape = RoundedCornerShape(8.dp)
         )
+
+ */
+
+
+            SeekBarWaved(
+                position = { animatedPosition.value },
+                range = 0f..media.duration.toFloat(),
+                onSeekStarted = {
+                    isSeeking = true
+                    scope.launch {
+                        animatedPosition.animateTo(it)
+                    }
+                },
+                onSeek = { delta ->
+                    if (media.duration != C.TIME_UNSET) {
+                        isSeeking = true
+                        scope.launch {
+                            animatedPosition.snapTo(
+                                animatedPosition.value.plus(delta)
+                                    .coerceIn(0f, media.duration.toFloat())
+                            )
+                        }
+                    }
+                },
+                onSeekFinished = {
+                    isSeeking = false
+                    animatedPosition.let {
+                        binder.player.seekTo(it.targetValue.toLong())
+                    }
+                },
+                color = colorPalette.collapsedPlayerProgressBar,
+                isActive = binder.player.isPlaying,
+                backgroundColor = colorPalette.textSecondary,
+                shape = RoundedCornerShape(8.dp)
+            )
+            AnimatedVisibility(
+                durationVisible,
+                enter = fadeIn() + expandVertically { -it },
+                exit = fadeOut() + shrinkVertically { -it }) {
+                Column {
+                    Spacer(Modifier.height(8.dp))
+                    Duration(animatedPosition.value, media.duration)
+                }
+            }
 
 
         Spacer(
@@ -543,4 +618,33 @@ private fun PlayerMenu(
         onShowSleepTimer = {},
         onDismiss = onDismiss
     )
+}
+
+@Composable
+private fun Duration(
+    position: Float,
+    duration: Long,
+) {
+    val typography = LocalAppearance.current.typography
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        BasicText(
+            text = formatAsDuration(position.toLong()),
+            style = typography.xxs.semiBold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+
+        if (duration != C.TIME_UNSET) {
+            BasicText(
+                text = formatAsDuration(duration),
+                style = typography.xxs.semiBold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+    }
 }

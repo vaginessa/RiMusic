@@ -41,6 +41,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -71,6 +72,7 @@ import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
+import it.vfsfitvnm.vimusic.utils.launchYouTubeMusic
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.thumbnail
@@ -283,6 +285,10 @@ fun MediaItemMenu(
 ) {
     val (colorPalette) = LocalAppearance.current
     val density = LocalDensity.current
+
+    val binder = LocalPlayerServiceBinder.current
+    val uriHandler = LocalUriHandler.current
+    val context = LocalContext.current
 
     val isLocal by remember { derivedStateOf { mediaItem.isLocal } }
 
@@ -533,7 +539,7 @@ fun MediaItemMenu(
                         }
                     )
                 }
-
+/*
                 onDownload?.let { onDownload ->
                     MenuEntry(
                         icon = R.drawable.download,
@@ -544,6 +550,7 @@ fun MediaItemMenu(
                         }
                     )
                 }
+ */
 
                 onGoToEqualizer?.let { onGoToEqualizer ->
                     MenuEntry(
@@ -756,28 +763,29 @@ fun MediaItemMenu(
                         )
                     }
                 }
-/*
+
                 if (!isLocal) MenuEntry(
                     icon = R.drawable.play,
-                    text = "Watch on YouTube",
+                    text = stringResource(R.string.listen_on_youtube),
                     onClick = {
                         onDismiss()
-                        playerServiceBinder?.player?.pause()
+                        binder?.player?.pause()
                         uriHandler.openUri("https://youtube.com/watch?v=${mediaItem.mediaId}")
                     }
                 )
 
+                val ytNonInstalled = stringResource(R.string.it_seems_that_youtube_music_is_not_installed)
                 if (!isLocal) MenuEntry(
                     icon = R.drawable.musical_notes,
-                    text = "Open in YouTube Music",
+                    text = stringResource(R.string.listen_on_youtube_music),
                     onClick = {
                         onDismiss()
-                        playerServiceBinder?.player?.pause()
+                        binder?.player?.pause()
                         if (!launchYouTubeMusic(context, "watch?v=${mediaItem.mediaId}"))
-                            context.toast("YouTube Music is not installed on your device!")
+                            context.toast(ytNonInstalled)
                     }
                 )
- */
+
 
                 onRemoveFromQueue?.let { onRemoveFromQueue ->
                     MenuEntry(

@@ -79,6 +79,7 @@ import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.models.Format
 import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.models.ui.toUiMedia
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.BottomSheet
@@ -472,6 +473,7 @@ fun Player(
 
         val controlsContent: @Composable (modifier: Modifier) -> Unit = { modifier ->
             Controls(
+                media = mediaItem.toUiMedia(positionAndDuration.second),
                 mediaId = mediaItem.mediaId,
                 title = mediaItem.mediaMetadata.title?.toString(),
                 artist = mediaItem.mediaMetadata.artist?.toString(),

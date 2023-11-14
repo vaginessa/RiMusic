@@ -83,7 +83,7 @@ fun DeviceListSongsScreen(deviceLists: DeviceLists) {
                 tabIndex = tabIndex,
                 onTabChanged = onTabIndexChanged,
                 tabColumnContent = { Item ->
-                    Item(0, "On Device", R.drawable.musical_notes)
+                    Item(0, stringResource(R.string.on_device), R.drawable.musical_notes)
                 }
             ) { currentTabIndex ->
                 saveableStateHolder.SaveableStateProvider(key = currentTabIndex) {

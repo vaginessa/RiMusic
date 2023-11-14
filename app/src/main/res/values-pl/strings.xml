@@ -209,6 +209,8 @@
     <string name="downloaded">Pobrane</string>
     <string name="turn_off">Wyłącz</string>
     <string name="download">Download</string>
+    <string name="_default">Default</string>
+    <string name="dynamic">Dynamic</string>
     <string name="discovery">Discovery</string>
     <string name="mood">Mood</string>
     <string name="new_albums">New albums</string>
@@ -216,8 +218,12 @@
     <string name="search_queries">" search queries"</string>
     <string name="not_find_battery_optimization_settings">Couldn\'t find battery optimization settings, please whitelist manually</string>
     <string name="search">Search...</string>
-    <string name="_default">Domyślny</string>
-    <string name="dynamic">Dynamiczny</string>
+    <string name="it_seems_that_youtube_music_is_not_installed">It seems that YouTube Music is not installed!</string>
+    <string name="listen_on_youtube">Listen on YouTube</string>
+    <string name="listen_on_youtube_music">Listen on YouTube Music</string>
+    <string name="on_device">On device</string>
+    <string name="open_settings">Open settings</string>
+    <string name="permission_declined_please_grant_media_permissions_in_the_settings_of_your_device">Permission declined, please grant media permissions in the settings of your device.</string>
     <string name="no">Anuluj</string>
     <string name="stop">Zatrzymaj</string>
     <string name="preferences">PREFERENCJE</string>

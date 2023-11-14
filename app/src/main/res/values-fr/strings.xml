@@ -221,4 +221,10 @@
     <string name="search_queries">" search queries"</string>
     <string name="not_find_battery_optimization_settings">Couldn\'t find battery optimization settings, please whitelist manually</string>
     <string name="search">Search...</string>
+    <string name="it_seems_that_youtube_music_is_not_installed">It seems that YouTube Music is not installed!</string>
+    <string name="listen_on_youtube">Listen on YouTube</string>
+    <string name="listen_on_youtube_music">Listen on YouTube Music</string>
+    <string name="on_device">On device</string>
+    <string name="open_settings">Open settings</string>
+    <string name="permission_declined_please_grant_media_permissions_in_the_settings_of_your_device">Permission declined, please grant media permissions in the settings of your device.</string>
 </resources>
