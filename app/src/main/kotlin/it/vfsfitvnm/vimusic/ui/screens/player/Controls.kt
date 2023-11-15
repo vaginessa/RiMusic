@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.player
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.media.audiofx.AudioEffect
@@ -117,6 +118,7 @@ import it.vfsfitvnm.vimusic.utils.shuffleQueue
 import it.vfsfitvnm.vimusic.utils.smoothScrollToTop
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
+import it.vfsfitvnm.vimusic.utils.wavedPlayerTimelineKey
 import it.vfsfitvnm.vimusic.utils.windows
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -125,6 +127,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 
+@SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @UnstableApi
@@ -177,6 +180,7 @@ fun Controls(
         animationSpec = tween(durationMillis = 200)
     )
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
+    var wavedPlayerTimelineEnabled by rememberPreference(wavedPlayerTimelineKey, false)
 
     val scope = rememberCoroutineScope()
     val animatedPosition = remember { Animatable(position.toFloat()) }
@@ -354,7 +358,7 @@ fun Controls(
                 .height(30.dp)
         )
 
-/*
+        if (!wavedPlayerTimelineEnabled)
         SeekBar(
             value = scrubbingPosition ?: position,
             minimumValue = 0,
@@ -378,9 +382,9 @@ fun Controls(
             shape = RoundedCornerShape(8.dp)
         )
 
- */
 
 
+        if (wavedPlayerTimelineEnabled)
             SeekBarWaved(
                 position = { animatedPosition.value },
                 range = 0f..media.duration.toFloat(),

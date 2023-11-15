@@ -11,6 +11,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.edit
 
+const val wavedPlayerTimelineKey = "wavedPlayerTimeline"
 const val languageAppKey = "languageApp"
 const val indexNavigationTabKey = "indexNavigationTab"
 const val effectRotationKey = "effectRotation"

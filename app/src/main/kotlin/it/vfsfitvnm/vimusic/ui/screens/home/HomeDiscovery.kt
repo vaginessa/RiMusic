@@ -128,6 +128,15 @@ fun HomeDiscovery(
             )
         }
 
+        val snapLayoutInfoProviderAlbums = remember(lazyGridState) {
+            SnapLayoutInfoProvider(
+                lazyGridState = lazyGridState,
+                positionInLayout = { layoutSize, itemSize ->
+                    layoutSize * moodItemWidthFactor / 2f - itemSize / 2f
+                }
+            )
+        }
+
         //val itemWidth = maxWidth * moodItemWidthFactor
 
         Column(
@@ -171,6 +180,7 @@ fun HomeDiscovery(
                             )
                         }
                     }
+
                 }
 
                 if (page.moods.isNotEmpty()) {

@@ -42,6 +42,7 @@ import it.vfsfitvnm.vimusic.utils.resumePlaybackWhenDeviceConnectedKey
 import it.vfsfitvnm.vimusic.utils.skipSilenceKey
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.utils.volumeNormalizationKey
+import it.vfsfitvnm.vimusic.utils.wavedPlayerTimelineKey
 
 @ExperimentalAnimationApi
 @UnstableApi
@@ -67,6 +68,7 @@ fun PlayerSettings() {
 
     var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
+    var wavedPLayerTimelineEnabled by rememberPreference(wavedPlayerTimelineKey, false)
 
     val activityResultLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
@@ -100,6 +102,12 @@ fun PlayerSettings() {
             onCheckedChange = { effectRotationEnabled = it }
         )
 
+        SwitchSettingEntry(
+            title = "Wavy timeline",
+            text = "Enabke the wavy timeline",
+            isChecked = wavedPLayerTimelineEnabled,
+            onCheckedChange = { wavedPLayerTimelineEnabled = it }
+        )
 
 //        SettingsEntryGroupText(title = stringResource(R.string.quick_pics_and_tips))
 
