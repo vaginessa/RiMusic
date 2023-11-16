@@ -169,6 +169,7 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
                     Item(3, stringResource(R.string.albums), R.drawable.disc)
                     Item(4, stringResource(R.string.library), R.drawable.library)
                     Item(5, stringResource(R.string.discovery), R.drawable.globe)
+                    Item(6, "Equalizer", R.drawable.musical_notes)
                     //Item(6, "Settings", R.drawable.equalizer)
                 }
             ) { currentTabIndex ->
@@ -207,7 +208,9 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
                             onNewReleaseAlbumClick = { albumRoute(it) },
                             onSearchClick = { searchRoute("") }
                         )
+                        6 -> HomeEqualizer(
 
+                        )
                         /*
                         5 -> HomeStatistics(
                             onStatisticsType = { statisticsTypeRoute(it)},

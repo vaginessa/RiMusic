@@ -16,10 +16,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -57,17 +54,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.input.pointer.util.VelocityTracker
-import androidx.compose.ui.input.pointer.util.addPointerInputChange
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import coil.compose.AsyncImage
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
@@ -76,11 +69,8 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
-import it.vfsfitvnm.vimusic.models.Format
 import it.vfsfitvnm.vimusic.models.Info
-import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.ui.toUiMedia
-import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.BottomSheet
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
@@ -103,12 +93,7 @@ import it.vfsfitvnm.vimusic.utils.shouldBePlaying
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.service.DownloaderService
-import it.vfsfitvnm.vimusic.ui.components.themed.ScrollText
-import it.vfsfitvnm.vimusic.ui.screens.artistRoute
 import it.vfsfitvnm.vimusic.ui.screens.homeRoute
-import it.vfsfitvnm.vimusic.ui.screens.quickpicksRoute
-import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
-import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
@@ -117,11 +102,9 @@ import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.shuffleQueue
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.withContext
 import kotlin.math.absoluteValue
-import kotlin.math.roundToInt
 
 
 @SuppressLint("SuspiciousIndentation")
@@ -446,6 +429,10 @@ fun Player(
             mutableStateOf(false)
         }
 
+        var isShowingEqualizer by rememberSaveable {
+            mutableStateOf(false)
+        }
+
         val playerBottomSheetState = rememberBottomSheetState(
             64.dp + horizontalBottomPaddingValues.calculateBottomPadding(),
             layoutState.expandedBound
@@ -466,6 +453,8 @@ fun Player(
                 onShowLyrics = { isShowingLyrics = it },
                 isShowingStatsForNerds = isShowingStatsForNerds,
                 onShowStatsForNerds = { isShowingStatsForNerds = it },
+                isShowingEqualizer = isShowingEqualizer,
+                onShowEqualizer = { isShowingEqualizer = it },
                 modifier = modifier
                     .nestedScroll(layoutState.preUpPostDownNestedScrollConnection)
             )
@@ -652,7 +641,7 @@ fun Player(
                         .fillMaxWidth()
 
                 ) {
-
+/*
                     IconButton(
                         icon = R.drawable.share_social,
                         color = colorPalette.text,
@@ -672,6 +661,8 @@ fun Player(
                         modifier = Modifier
                             .size(24.dp),
                     )
+
+ */
 
                         IconButton(
                             icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
@@ -707,6 +698,28 @@ fun Player(
                             modifier = Modifier
                                 .size(24.dp),
                         )
+
+                    IconButton(
+                        icon = R.drawable.song_lyrics,
+                        color = if (isShowingLyrics) colorPalette.text else colorPalette.textDisabled,
+                        enabled = true,
+                        onClick = {
+                            isShowingLyrics = !isShowingLyrics
+                        },
+                        modifier = Modifier
+                            .size(24.dp),
+                    )
+
+                    IconButton(
+                        icon = R.drawable.sound_effect,
+                        color = if (isShowingEqualizer) colorPalette.text else colorPalette.textDisabled,
+                        enabled = true,
+                        onClick = {
+                            isShowingEqualizer = !isShowingEqualizer
+                        },
+                        modifier = Modifier
+                            .size(24.dp)
+                    )
 
                     IconButton(
                         icon = R.drawable.chevron_up,
