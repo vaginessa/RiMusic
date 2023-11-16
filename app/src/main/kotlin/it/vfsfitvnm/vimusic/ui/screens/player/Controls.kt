@@ -4,12 +4,10 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.media.audiofx.AudioEffect
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDp
@@ -20,49 +18,38 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.neverEqualPolicy
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -70,61 +57,39 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
-import it.vfsfitvnm.compose.reordering.rememberReorderingState
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
-import it.vfsfitvnm.vimusic.models.Format
 import it.vfsfitvnm.vimusic.models.Song
-import it.vfsfitvnm.vimusic.models.SongWithContentLength
 import it.vfsfitvnm.vimusic.models.ui.UiMedia
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.DownloaderService
 import it.vfsfitvnm.vimusic.service.PlayerService
-import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
+import it.vfsfitvnm.vimusic.ui.components.Visualizer
 import it.vfsfitvnm.vimusic.ui.components.SeekBar
 import it.vfsfitvnm.vimusic.ui.components.SeekBarWaved
 import it.vfsfitvnm.vimusic.ui.components.themed.BaseMediaItemMenu
-import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
-import it.vfsfitvnm.vimusic.ui.components.themed.DefaultDialog
-import it.vfsfitvnm.vimusic.ui.components.themed.DialogTextButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
-import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
 import it.vfsfitvnm.vimusic.ui.components.themed.ScrollText
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
-import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.collapsedPlayerProgressBar
-import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
-import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
-import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
-import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.isCompositionLaunched
-import it.vfsfitvnm.vimusic.utils.isLandscape
-import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.seamlessPlay
-import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
-import it.vfsfitvnm.vimusic.utils.shuffleQueue
-import it.vfsfitvnm.vimusic.utils.smoothScrollToTop
 import it.vfsfitvnm.vimusic.utils.toast
-import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.wavedPlayerTimelineKey
-import it.vfsfitvnm.vimusic.utils.windows
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import kotlin.math.roundToInt
 
 
 @SuppressLint("SuspiciousIndentation")
@@ -572,6 +537,9 @@ fun Controls(
                     .padding(10.dp)
                     .size(26.dp)
             )
+
+
+         //   Visualizer(type = "")
 
         }
 

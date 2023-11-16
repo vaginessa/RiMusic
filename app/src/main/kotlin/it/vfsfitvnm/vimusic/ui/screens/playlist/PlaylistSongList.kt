@@ -271,7 +271,7 @@ fun PlaylistSongList(
                 )
 
                 HeaderIconButton(
-                    icon = R.drawable.shuffle,
+                    icon = R.drawable.enqueue,
                     enabled = playlistPage?.songsPage?.items?.isNotEmpty() == true,
                     color =  if (playlistPage?.songsPage?.items?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
                     onClick = {
