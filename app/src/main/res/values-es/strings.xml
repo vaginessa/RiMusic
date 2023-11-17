@@ -192,16 +192,16 @@
     <string name="contributors">COLABORADORES</string>
     <string name="troubleshooting">RESOLUCIÓN DE PROBLEMAS</string>
     <string name="social">SOCIAL</string>
-    <string name="english">Inglés</string>
+    <string name="english">Inglés (English)</string>
     <string name="italian">Italiano</string>
-    <string name="czech">Checo</string>
-    <string name="german">Alemán</string>
+    <string name="czech">Checo (Čeština)</string>
+    <string name="german">Alemán (Deutsch)</string>
     <string name="spanish">Español</string>
-    <string name="french">Francés</string>
-    <string name="romanian">Rumano</string>
-    <string name="russian">Ruso</string>
-    <string name="turkish">Turco</string>
-    <string name="polish">Polish</string>
+    <string name="french">Francés (Français)</string>
+    <string name="romanian">Rumano (Română)</string>
+    <string name="russian">Ruso (Русский)</string>
+    <string name="turkish">Turco (Türkçe)</string>
+    <string name="polish">Polish (Polski)</string>
     <string name="dark">Oscuro</string>
     <string name="system">Sistema</string>
     <string name="unlimited">Ilimitado</string>
@@ -209,8 +209,6 @@
     <string name="downloaded">Descargado</string>
     <string name="turn_off">Desactivar</string>
     <string name="download">Download</string>
-    <string name="_default">Default</string>
-    <string name="dynamic">Dynamic</string>
     <string name="discovery">Discovery</string>
     <string name="mood">Mood</string>
     <string name="new_albums">New albums</string>
@@ -224,7 +222,9 @@
     <string name="on_device">On device</string>
     <string name="open_settings">Open settings</string>
     <string name="permission_declined_please_grant_media_permissions_in_the_settings_of_your_device">Permission declined, please grant media permissions in the settings of your device.</string>
+    <string name="_default">Por defecto</string>
+    <string name="dynamic">Dinámico</string>
     <string name="no">No</string>
-    <string name="stop">Stop</string>
-    <string name="preferences">PREFERENCES</string>
+    <string name="stop">Detener</string>
+    <string name="preferences">PREFERENCIAS</string>
 </resources>
