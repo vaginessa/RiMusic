@@ -104,7 +104,7 @@ fun PlayerSettings() {
 
         SwitchSettingEntry(
             title = "Wavy timeline",
-            text = "Enabke the wavy timeline",
+            text = stringResource(R.string.player_enable_wavy_timeline),
             isChecked = wavedPLayerTimelineEnabled,
             onCheckedChange = { wavedPLayerTimelineEnabled = it }
         )
