@@ -13,7 +13,7 @@
         <string name="remove_from_queue">Aus der Warteschlange entfernen</string>
         <string name="remove_from_playlist">Aus der Wiedergabeliste entfernen</string>
         <string name="hide">Löschen</string>
-        <string name="hide_from_quick_picks">Löschen von \"Erkunden\"</string>
+        <string name="hide_from_quick_picks">Löschen von \"Startseite\"</string>
         <string name="related_albums">Ähnliche Alben</string>
         <string name="similar_artists">Ähnliche Künstler</string>
         <string name="playlists_you_might_like">Wiedergabelisten, die dir gefallen könnten</string>
@@ -24,7 +24,7 @@
         <string name="playlists">Wiedergabelisten</string>
         <string name="favorites">Favoriten</string>
         <string name="offline">Offline</string>
-        <string name="quick_picks">Erkunden</string>
+        <string name="quick_picks">Startseite</string>
         <string name="songs">Songs</string>
         <string name="other_versions">Alternative Versionen</string>
         <string name="album_no_alternative_version">Dieses Album hat keine alternative Version</string>
