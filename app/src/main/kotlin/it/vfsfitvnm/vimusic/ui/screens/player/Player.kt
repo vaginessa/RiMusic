@@ -666,7 +666,7 @@ fun Player(
 
                         IconButton(
                             icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
-                            color = if (isDownloaded) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
+                            color = if (isDownloaded) colorPalette.text else colorPalette.textDisabled,
                             onClick = { },
                             modifier = Modifier
                                 .padding(horizontal = 4.dp)
@@ -676,7 +676,7 @@ fun Player(
 
                     IconButton(
                         icon = R.drawable.repeat,
-                        color = if (trackLoopEnabled) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
+                        color = if (trackLoopEnabled) colorPalette.text else colorPalette.textDisabled,
                         onClick = {
                             trackLoopEnabled = !trackLoopEnabled
                             if (effectRotationEnabled) isRotated = !isRotated
@@ -704,6 +704,7 @@ fun Player(
                         color = if (isShowingLyrics) colorPalette.text else colorPalette.textDisabled,
                         enabled = true,
                         onClick = {
+                            if (isShowingEqualizer) isShowingEqualizer = !isShowingEqualizer
                             isShowingLyrics = !isShowingLyrics
                         },
                         modifier = Modifier
@@ -715,6 +716,7 @@ fun Player(
                         color = if (isShowingEqualizer) colorPalette.text else colorPalette.textDisabled,
                         enabled = true,
                         onClick = {
+                            if (isShowingLyrics) isShowingLyrics = !isShowingLyrics
                             isShowingEqualizer = !isShowingEqualizer
                         },
                         modifier = Modifier

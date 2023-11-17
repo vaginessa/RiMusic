@@ -57,7 +57,10 @@ import it.vfsfitvnm.vimusic.utils.semiBold
 
 @UnstableApi
 @Composable
-fun Equalizer() {
+fun Equalizer(
+    showInPage: Boolean? = true,
+    showType: Int? = 0
+) {
 
     val permission  = Manifest.permission.RECORD_AUDIO
     val permission1 =  Manifest.permission.MODIFY_AUDIO_SETTINGS
@@ -80,7 +83,17 @@ fun Equalizer() {
         val visualizerData = remember { mutableStateOf(VisualizerData()) }
         val (isPlaying, setPlaying) = remember { mutableStateOf(false) }
 
-        Content(isPlaying, setPlaying, visualizerData)
+        if (showInPage == true)
+            Content(
+                //isPlaying,
+                //setPlaying,
+                visualizerData
+             )
+        else
+                ContentType(
+                showType,
+                visualizerData
+            )
 
 
     } else {
@@ -139,8 +152,8 @@ fun Equalizer() {
 @UnstableApi
 @Composable
 fun Content(
-    isPlaying: Boolean,
-    setPlaying: (Boolean) -> Unit,
+    //isPlaying: Boolean,
+    //setPlaying: (Boolean) -> Unit,
     visualizerData: MutableState<VisualizerData>
 ) {
 
@@ -202,8 +215,9 @@ fun Content(
                 CircularStackedBarEqualizer(
                     Modifier
                         .fillMaxWidth()
-                        .aspectRatio(1f)
-                        .background(Color(0xff111111)),
+                        //.height(300.dp)
+                        .aspectRatio(1f),
+                       // .background(Color(0xff111111)),
                     data = visualizerData.value,
                     barCount = 48,
                     maxStackCount = 16
@@ -302,3 +316,138 @@ fun Content(
             }
     }
 }
+
+@UnstableApi
+@Composable
+fun ContentType(
+    showType: Int?,
+    visualizerData: MutableState<VisualizerData>
+) {
+
+    //val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
+    val binder = LocalPlayerServiceBinder.current
+
+    //VisualizerComputer.setupPermissions()
+    val audioComputer = VisualizerComputer()
+
+    binder?.player?.audioSessionId?.let {
+        audioComputer.start(audioSessionId = it, onData = { data ->
+            visualizerData.value = data
+        })
+    }
+
+        val someColors =
+            listOf(Color.Blue, Color.Green, Color.Yellow, Color.Magenta, Color.Red, Color.Cyan)
+
+
+        if (showType == 0)
+                FancyTubularStackedBarEqualizer(
+                    Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
+                        .padding(all = 2.dp),
+                    data = visualizerData.value,
+                    barCount = 48,
+                    maxStackCount = 16,
+                )
+
+
+    if (showType == 1)
+                CircularStackedBarEqualizer(
+                    Modifier
+                        .fillMaxWidth()
+                        //.height(300.dp)
+                        .aspectRatio(1f),
+                    // .background(Color(0xff111111)),
+                    data = visualizerData.value,
+                    barCount = 32,
+                    maxStackCount = 12
+                )
+
+
+    if (showType == 2)
+                StackedBarEqualizer(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(300.dp)
+                        .padding(vertical = 4.dp)
+                        .background(Color(0x50000000)),
+                    data = visualizerData.value,
+                    barCount = 64
+                )
+
+
+    if (showType == 3)
+                FullBarEqualizer(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
+                        .padding(vertical = 4.dp)
+                        .background(Color(0x50000000)),
+                    barModifier = { i, m -> m.background(someColors[i % someColors.size]) },
+                    data = visualizerData.value,
+                    barCount = 64
+                )
+
+
+    if (showType == 4)
+                OneSidedPathEqualizer(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
+                        .padding(vertical = 4.dp)
+                        .background(Color(0x60000000)),
+                    data = visualizerData.value,
+                    segmentCount = 32,
+                    fillBrush = Brush.linearGradient(
+                        start = Offset.Zero,
+                        end = Offset.Infinite,
+                        colors = listOf(
+                            Color.Red,
+                            Color.Yellow,
+                            Color.Green,
+                            Color.Cyan,
+                            Color.Blue,
+                            Color.Magenta,
+                        ).repeat(3)
+                    )
+                )
+
+
+    if (showType == 5)
+                DoubleSidedPathEqualizer(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
+                        .padding(vertical = 4.dp)
+                        .background(Color(0x70000000)),
+                    data = visualizerData.value,
+                    segmentCount = 128,
+                    fillBrush = Brush.linearGradient(
+                        start = Offset.Zero,
+                        end = Offset(0f, Float.POSITIVE_INFINITY),
+                        colors = listOf(Color.White, Color.Red, Color.White)
+                    )
+                )
+
+
+    if (showType == 6)
+    DoubleSidedCircularPathEqualizer(
+                    Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
+                        .padding(vertical = 4.dp),
+                        //.background(Color(0xE0000000)),
+                    data = visualizerData.value,
+                    segmentCount = 128,
+                    fillBrush = Brush.radialGradient(
+                        listOf(
+                            Color.Red,
+                            Color.Red,
+                            Color.Yellow,
+                            Color.Green
+                        )
+                    )
+                )
+
+    }

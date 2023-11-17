@@ -7,6 +7,8 @@ import android.content.pm.PackageManager
 import android.media.audiofx.Visualizer
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 
 class VisualizerComputer {
 
@@ -39,6 +41,7 @@ class VisualizerComputer {
                 fft: ByteArray,
                 samplingRate: Int
             ) {
+                //Check
                 //Timber.e("FFT - samplingRate=$samplingRate, waveform=${fft.joinToString()} thread=" + Thread.currentThread())
                 //onData(VisualizerData(bytes = process(fft), resolution = resolution))
             }
@@ -47,20 +50,22 @@ class VisualizerComputer {
             var start: Long? = null
             var lastDataTimestamp: Long? = null
 
+            @UnstableApi
             override fun onWaveFormDataCapture(
                 visualizer: Visualizer,
                 waveform: ByteArray,
                 samplingRate: Int
             ) {
                 val now = System.currentTimeMillis()
-                /*
+                //Check
+
                 if (start == null) start = now
                 captureCounter++
                 if (captureCounter % 100 == 0) Log.e(
                     "COUNTER",
                     "Captured $captureCounter (${captureCounter / ((now - start!!) / 1000.0)} capture/sec)"
                 )
-                */
+
                 //Timber.e("Wave - samplingRate=$samplingRate, waveform=${waveform.joinToString()} thread=" + Thread.currentThread())
                 val durationSinceLastData = lastDataTimestamp?.let { now - it } ?: 0
                 if (lastDataTimestamp == null || durationSinceLastData > SAMPLING_INTERVAL) {
@@ -82,8 +87,8 @@ class VisualizerComputer {
         visualizer = Visualizer(audioSessionId).apply {
             enabled = false // All configuration have to be done in a disabled state
             captureSize = CAPTURE_SIZE
-            //scalingMode = Visualizer.SCALING_MODE_NORMALIZED
-            //measurementMode = Visualizer.MEASUREMENT_MODE_NONE
+            //scalingMode = Visualizer.SCALING_MODE_NORMALIZED //Check
+            //measurementMode = Visualizer.MEASUREMENT_MODE_NONE // Check
             setDataCaptureListener(
                 visualizerCallback(onData),
                 Visualizer.getMaxCaptureRate(),

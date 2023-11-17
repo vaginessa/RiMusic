@@ -56,15 +56,18 @@ fun ShowEqualizer(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val (colorPalette, typography) = LocalAppearance.current
-    val context = LocalContext.current
-    val binder = LocalPlayerServiceBinder.current ?: return
+    //val (colorPalette, typography) = LocalAppearance.current
+    //val context = LocalContext.current
+    //val binder = LocalPlayerServiceBinder.current ?: return
 
     AnimatedVisibility(
         visible = isDisplayed,
         enter = fadeIn(),
         exit = fadeOut(),
     ) {
-        Equalizer()
+        Equalizer(
+            showInPage = false,
+            showType = 1
+        )
     }
 }

@@ -157,7 +157,7 @@ fun Thumbnail(
                 modifier = Modifier
                     .pointerInput(Unit) {
                         detectTapGestures(
-                            onTap = { onShowLyrics(true) },
+                            //onTap = { onShowLyrics(true) },
                             onLongPress = { onShowStatsForNerds(true) }
                         )
 
