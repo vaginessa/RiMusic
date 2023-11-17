@@ -455,7 +455,7 @@ fun DeviceListSongs(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             BasicText(
-                text = stringResource(R.string.permission_declined_please_grant_media_permissions_in_the_settings_of_your_device),
+                text = stringResource(R.string.permission_declined_grant_media_permissions),
                 modifier = Modifier.fillMaxWidth(0.5f),
                 style = typography.s
             )
