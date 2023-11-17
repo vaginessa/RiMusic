@@ -763,7 +763,7 @@ fun MediaItemMenu(
                         )
                     }
                 }
-
+/*
                 if (!isLocal) MenuEntry(
                     icon = R.drawable.play,
                     text = stringResource(R.string.listen_on_youtube),
@@ -785,6 +785,8 @@ fun MediaItemMenu(
                             context.toast(ytNonInstalled)
                     }
                 )
+
+ */
 
 
                 onRemoveFromQueue?.let { onRemoveFromQueue ->
