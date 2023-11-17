@@ -13,13 +13,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import coil.compose.AsyncImage
+import it.vfsfitvnm.innertube.Innertube
+import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
@@ -27,10 +30,6 @@ import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.thumbnail
-import it.vfsfitvnm.innertube.Innertube
-import it.vfsfitvnm.vimusic.R
-import it.vfsfitvnm.vimusic.models.Song
-import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 
 @Composable
 fun SongItem(
@@ -143,7 +142,7 @@ fun SongItem(
     trailingContent: @Composable (() -> Unit)? = null,
     isDownloaded: Boolean
 ) {
-    val (_, typography) = LocalAppearance.current
+    val (colorPalette, typography) = LocalAppearance.current
 
     ItemContainer(
         alternative = false,
@@ -182,9 +181,9 @@ fun SongItem(
             Row(verticalAlignment = Alignment.CenterVertically) {
 
                 IconButton(
-                    onClick = { /*TODO*/ },
-                    icon = if (isDownloaded == true) R.drawable.downloaded else R.drawable.download,
-                    color = Color.White,
+                    onClick = { },
+                    icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
+                    color = if (isDownloaded) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
                     modifier = Modifier
                         .size(16.dp)
                 )
