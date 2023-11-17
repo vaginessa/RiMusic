@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.equalizer
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -317,6 +318,7 @@ fun Content(
     }
 }
 
+@SuppressLint("SuspiciousIndentation")
 @UnstableApi
 @Composable
 fun ContentType(
@@ -360,8 +362,8 @@ fun ContentType(
                         .aspectRatio(1f),
                     // .background(Color(0xff111111)),
                     data = visualizerData.value,
-                    barCount = 32,
-                    maxStackCount = 12
+                    barCount = 48,
+                    maxStackCount = 16
                 )
 
 
