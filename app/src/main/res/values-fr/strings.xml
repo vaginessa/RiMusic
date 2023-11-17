@@ -48,7 +48,7 @@
     <string name="queue_loop">"Lecture continue"</string>
     <string name="id">📡 Id</string>
     <string name="itag">🔗 Itag</string>
-    <string name="bitrate">🔢'Débit</string>
+    <string name="bitrate">🔢 Débit</string>
     <string name="size">🗃 Taille</string>
     <string name="cached">📂 En cache</string>
     <string name="loudness">🔊 Volume</string>
@@ -224,6 +224,6 @@
     <string name="on_device">📲 Sur l\'appareil</string>
     <string name="open_settings">Ouvrir les paramètres</string>
     <string name="permission_declined_grant_media_permissions">Autorisation refusée, veuillez accorder les autorisations multimédias dans les paramètres de votre appareil</string>
-    <string name="wavy_timeline">Wavy timeline</string>    
-    <string name="enable_wavy_timeline">Enable the wavy timeline</string>
+    <string name="wavy_timeline">Barre de navigation ondulée</string>    
+    <string name="enable_wavy_timeline">Active la barre de navigation ondulée</string>
 </resources>
