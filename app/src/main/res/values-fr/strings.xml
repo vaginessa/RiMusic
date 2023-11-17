@@ -224,5 +224,6 @@
     <string name="on_device">📲 Sur l\'appareil</string>
     <string name="open_settings">Ouvrir les paramètres</string>
     <string name="permission_declined_grant_media_permissions">Autorisation refusée, veuillez accorder les autorisations multimédias dans les paramètres de votre appareil</string>
+    <string name="wavy_timeline">Wavy timeline</string>    
     <string name="enable_wavy_timeline">Enable the wavy timeline</string>
 </resources>
