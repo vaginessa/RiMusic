@@ -183,7 +183,7 @@ fun SongItem(
                 IconButton(
                     onClick = { },
                     icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
-                    color = if (isDownloaded) colorPalette.iconButtonPlayer else colorPalette.textDisabled,
+                    color = if (isDownloaded) colorPalette.text else colorPalette.textDisabled,
                     modifier = Modifier
                         .size(16.dp)
                 )
