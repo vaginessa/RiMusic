@@ -7,6 +7,7 @@
 - **Multilingual support:** English, Italian, German, Russian, French, Spanish, Czech, Turkish and Romanian. Contributions for other languages are welcome
 - Change your favorite language from settings
 - Listening statistics
+- Audio visualizer on player
 - Play song from YouTube Music
 - Cache songs offline playback
 - Background playback with stop while app swipe out from task manager
