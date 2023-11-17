@@ -109,6 +109,7 @@ fun About() {
                 "ikanakova \n" +
                 "NEVARLeVrai \n" +
                 "OrangeZXZ \n" +
+                "roklc \n" +
                 "siggi1984"
         )
     }
