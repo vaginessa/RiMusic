@@ -13,7 +13,7 @@
         <string name="remove_from_queue">Aus der Warteschlange entfernen</string>
         <string name="remove_from_playlist">Aus der Wiedergabeliste entfernen</string>
         <string name="hide">Löschen</string>
-        <string name="hide_from_quick_picks">Löschen von \"Startseite\"</string>
+        <string name="hide_from_quick_picks">Löschen von \"Tips\"</string>
         <string name="related_albums">Ähnliche Alben</string>
         <string name="similar_artists">Ähnliche Künstler</string>
         <string name="playlists_you_might_like">Wiedergabelisten, die dir gefallen könnten</string>
@@ -77,7 +77,7 @@
         <string name="lockscreen">Sperbildschirm</string>
         <string name="show_song_cover">Songcover anzeigen</string>
         <string name="use_song_cover_on_lockscreen">Songcover auf dem Sperrbildschirm verwenden</string>
-        <string name="cache">Zwischenspeicher</string>
+        <string name="cache">Offline-Songs</string>
         <string name="cache_cleared">Wenn der Zwischenspeicher keinen Speicherplatz mehr hat, werden die Ressourcen, auf die am längsten nicht zugegriffen wurde, gelöscht</string>
         <string name="image_cache">Bild Zwischenspeicher</string>
         <string name="max_size">Max. Größe</string>
