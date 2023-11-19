@@ -153,7 +153,6 @@
     <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">El identificador del vídeo no se corresponde con el que se solicitó</string>
     <string name="error_an_unknown_playback_error_has_occurred">Ha ocurrido un error de reproducción desconocido</string>
     <string name="tips">Recomendaciones</string>
-    <string name="next_playing">A continuación…</string>
     <string name="quick_pics_and_tips">Selecciones rápidas y recomendaciones</string>
     <string name="is_min_list_time_for_tips_or_quick_pics">Es el tiempo de reproducción mínimo para incluir la canción como una posible recomendación o selección rápida</string>
     <string name="min_listening_time">Tiempo de reproducción mínimo</string>
