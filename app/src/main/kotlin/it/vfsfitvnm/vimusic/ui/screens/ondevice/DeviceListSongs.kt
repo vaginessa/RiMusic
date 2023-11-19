@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -387,6 +388,16 @@ fun DeviceListSongs(
                 contentType = { _, song -> song },
             ) { index, song ->
 
+
+                Log.d("mediaItemUri",
+                ContentUris.withAppendedId(
+                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                        song.id.substringAfter(LOCAL_KEY_PREFIX).toLong()
+                ).path.toString()
+                )
+
+
+
                 SongItem(
                     song = song,
                     isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
@@ -414,6 +425,7 @@ fun DeviceListSongs(
 
                              */
                             onClick = {
+
                                 binder?.stopRadio()
                                 binder?.player?.forcePlayAtIndex(
                                     songs.map(Song::asMediaItem),

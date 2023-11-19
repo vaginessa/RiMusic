@@ -359,8 +359,8 @@ fun ContentType(
                     Modifier
                         .fillMaxWidth()
                         //.height(300.dp)
-                        .aspectRatio(1f),
-                    // .background(Color(0xff111111)),
+                        .aspectRatio(1f)
+                        .background(Color(0xff111111)),
                     data = visualizerData.value,
                     barCount = 48,
                     maxStackCount = 16
@@ -438,8 +438,8 @@ fun ContentType(
                     Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
-                        .padding(vertical = 4.dp),
-                        //.background(Color(0xE0000000)),
+                        .padding(vertical = 4.dp)
+                        .background(Color(0xE0000000)),
                     data = visualizerData.value,
                     segmentCount = 128,
                     fillBrush = Brush.radialGradient(
