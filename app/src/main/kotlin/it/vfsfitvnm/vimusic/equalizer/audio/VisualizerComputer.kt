@@ -61,10 +61,13 @@ class VisualizerComputer {
 
                 if (start == null) start = now
                 captureCounter++
+                /*
                 if (captureCounter % 100 == 0) Log.e(
                     "COUNTER",
                     "Captured $captureCounter (${captureCounter / ((now - start!!) / 1000.0)} capture/sec)"
                 )
+
+                 */
 
                 //Timber.e("Wave - samplingRate=$samplingRate, waveform=${waveform.joinToString()} thread=" + Thread.currentThread())
                 val durationSinceLastData = lastDataTimestamp?.let { now - it } ?: 0
@@ -87,8 +90,8 @@ class VisualizerComputer {
         visualizer = Visualizer(audioSessionId).apply {
             enabled = false // All configuration have to be done in a disabled state
             captureSize = CAPTURE_SIZE
-            //scalingMode = Visualizer.SCALING_MODE_NORMALIZED //Check
-            //measurementMode = Visualizer.MEASUREMENT_MODE_NONE // Check
+            scalingMode = Visualizer.SCALING_MODE_NORMALIZED //Check
+            measurementMode = Visualizer.MEASUREMENT_MODE_NONE // Check
             setDataCaptureListener(
                 visualizerCallback(onData),
                 Visualizer.getMaxCaptureRate(),

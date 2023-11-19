@@ -2,18 +2,19 @@ package it.vfsfitvnm.vimusic.equalizer
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import androidx.activity.compose.LocalActivityResultRegistryOwner
+import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -66,7 +67,7 @@ fun Equalizer(
     val permission  = Manifest.permission.RECORD_AUDIO
     val permission1 =  Manifest.permission.MODIFY_AUDIO_SETTINGS
     val context: Context = LocalContext.current
-    val (colorPalette, typography) = LocalAppearance.current
+    val (_,typography) = LocalAppearance.current
 
     var hasPermission by remember(isCompositionLaunched()) {
         mutableStateOf(context.applicationContext.hasPermission(permission))
@@ -79,10 +80,15 @@ fun Equalizer(
         onResult = { hasPermission = it }
     )
 
+    val launcher1 = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { hasPermission1 = it }
+    )
+
     if (hasPermission && hasPermission1) {
 
         val visualizerData = remember { mutableStateOf(VisualizerData()) }
-        val (isPlaying, setPlaying) = remember { mutableStateOf(false) }
+        //val (isPlaying, setPlaying) = remember { mutableStateOf(false) }
 
         if (showInPage == true)
             Content(
@@ -122,7 +128,7 @@ fun Equalizer(
             }
         }
         if (!hasPermission1) {
-            LaunchedEffect(Unit) { launcher.launch(permission1) }
+            LaunchedEffect(Unit) { launcher1.launch(permission1) }
 
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -158,7 +164,7 @@ fun Content(
     visualizerData: MutableState<VisualizerData>
 ) {
 
-    val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
+    //val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
 
     //VisualizerComputer.setupPermissions()
@@ -329,10 +335,13 @@ fun ContentType(
     //val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
 
-    //VisualizerComputer.setupPermissions()
+//    VisualizerComputer.setupPermissions()
     val audioComputer = VisualizerComputer()
 
+    //Log.d("mediaItem","audiosession")
+
     binder?.player?.audioSessionId?.let {
+
         audioComputer.start(audioSessionId = it, onData = { data ->
             visualizerData.value = data
         })

@@ -39,6 +39,7 @@ import androidx.compose.foundation.text.BasicText
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
@@ -69,6 +70,9 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
+import it.vfsfitvnm.vimusic.equalizer.Equalizer
+import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerComputer
+import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerData
 import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.models.ui.toUiMedia
 import it.vfsfitvnm.vimusic.service.PlayerService
@@ -107,7 +111,7 @@ import kotlinx.coroutines.withContext
 import kotlin.math.absoluteValue
 
 
-@SuppressLint("SuspiciousIndentation")
+@SuppressLint("SuspiciousIndentation", "RememberReturnType")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @UnstableApi
@@ -207,6 +211,16 @@ fun Player(
 
     }
 
+    val audioComputer = VisualizerComputer()
+    val visualizerData = remember { mutableStateOf(VisualizerData()) }
+
+    LaunchedEffect(binder.player.audioSessionId) {
+        binder?.player?.audioSessionId?.let {
+            audioComputer.start(audioSessionId = it, onData = { data ->
+                visualizerData.value = data
+            })
+        }
+    }
 
 
     val ExistIdsExtras = mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.size.toString()

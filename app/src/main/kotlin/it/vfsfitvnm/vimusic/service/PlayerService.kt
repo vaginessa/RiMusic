@@ -704,21 +704,29 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
     }
 
     @UnstableApi
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            persistentQueueKey -> isPersistentQueueEnabled =
-                sharedPreferences.getBoolean(key, isPersistentQueueEnabled)
+            persistentQueueKey -> if (sharedPreferences != null) {
+                isPersistentQueueEnabled =
+                    sharedPreferences.getBoolean(key, isPersistentQueueEnabled)
+            }
 
             volumeNormalizationKey -> maybeNormalizeVolume()
 
             resumePlaybackWhenDeviceConnectedKey -> maybeResumePlaybackWhenDeviceConnected()
 
-            isInvincibilityEnabledKey -> isInvincibilityEnabled =
-                sharedPreferences.getBoolean(key, isInvincibilityEnabled)
+            isInvincibilityEnabledKey -> if (sharedPreferences != null) {
+                isInvincibilityEnabled =
+                    sharedPreferences.getBoolean(key, isInvincibilityEnabled)
+            }
 
-            skipSilenceKey -> player.skipSilenceEnabled = sharedPreferences.getBoolean(key, false)
+            skipSilenceKey -> if (sharedPreferences != null) {
+                player.skipSilenceEnabled = sharedPreferences.getBoolean(key, false)
+            }
             isShowingThumbnailInLockscreenKey -> {
-                isShowingThumbnailInLockscreen = sharedPreferences.getBoolean(key, true)
+                if (sharedPreferences != null) {
+                    isShowingThumbnailInLockscreen = sharedPreferences.getBoolean(key, true)
+                }
                 maybeShowSongCoverInLockScreen()
             }
 

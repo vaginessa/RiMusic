@@ -78,6 +78,7 @@ import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
+import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerComputer
 import it.vfsfitvnm.vimusic.service.DownloadUtil
 
 import it.vfsfitvnm.vimusic.service.PlayerService
@@ -464,6 +465,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
                     onDispose { player.removeListener(listener) }
                 }
+
+                //VisualizerComputer.setupPermissions(this@MainActivity)
             }
         }
 
