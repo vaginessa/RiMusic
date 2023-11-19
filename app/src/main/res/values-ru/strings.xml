@@ -23,7 +23,6 @@
     <string name="enter_the_playlist_name">Введите название плейлиста</string>
     <string name="playlists">Плейлисты</string>
     <string name="favorites">Любимые</string>
-    <string name="offline">Сохранённые</string>
     <string name="quick_picks">Обзор</string>
     <string name="songs">Песни</string>
     <string name="other_versions">Другие версии</string>
@@ -127,7 +126,6 @@
     <string name="sleep_timer">Таймер сна</string>
     <string name="left">%1$s другие</string>
     <string name="set">Разместить</string>
-    <string name="play_next">Следующая песня</string>
     <string name="confirm">Подтверждение</string>
     <string name="show">Показать</string>
     <string name="unsynchronized_lyrics">несинхронизированные тексты</string>
@@ -143,7 +141,6 @@
     <string name="custom_cache_from_android_10_may_not_be_available">Начиная с Android 10, эта функция может быть недоступна</string>
     <string name="reset_cache_location_folder">СБРОС ПАПКИ РАСПОЛОЖЕНИЯ КЭША</string>
     <string name="used">" используется"</string>
-    <string name="now_playing">Сейчас играет...</string>
     <string name="close_background_player">Закрыть фоновый плеер</string>
     <string name="when_app_swipe_out_from_task_manager">Когда приложение вылетает из диспетчера задач</string>
     <string name="opening_url">загружается...</string>
@@ -156,7 +153,6 @@
     <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">Возвращенный идентификатор видео не совпадает с запрошенным</string>
     <string name="error_an_unknown_playback_error_has_occurred">Произошла неизвестная ошибка воспроизведения</string>
     <string name="tips">Советы</string>
-    <string name="next_playing">Далее...</string>
     <string name="quick_pics_and_tips">Обзор и советы</string>
     <string name="is_min_list_time_for_tips_or_quick_pics">Это минимальное время прослушивания, чтобы включить песню в список возможных советов или обзора</string>
     <string name="min_listening_time">Мин. время прослушивания</string>
