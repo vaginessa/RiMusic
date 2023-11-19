@@ -23,7 +23,6 @@
     <string name="enter_the_playlist_name">Introduce el nombre de la lista de reproducción</string>
     <string name="playlists">Listas de reproducción</string>
     <string name="favorites">Favoritos</string>
-    <string name="offline">Sin conexión</string>
     <string name="quick_picks">Selecciones rápidas</string>
     <string name="songs">Canciones</string>
     <string name="other_versions">Otras versiones</string>
@@ -127,7 +126,6 @@
     <string name="sleep_timer">Temporizador apagado</string>
     <string name="left">%1$s restantes</string>
     <string name="set">Establecer</string>
-    <string name="play_next">Reproducir a continuación</string>
     <string name="confirm">Confirmar</string>
     <string name="show">Mostrar</string>
     <string name="unsynchronized_lyrics">la letra no sincronizada</string>
@@ -143,7 +141,6 @@
     <string name="custom_cache_from_android_10_may_not_be_available">Es posible que esta función no esté disponible a partir de Android 10</string>
     <string name="reset_cache_location_folder">RESTABLECER CACHÉ</string>
     <string name="used">" usado"</string>
-    <string name="now_playing">Reproduciendo…</string>
     <string name="close_background_player">Cerrar el reproductor en segundo plano</string>
     <string name="when_app_swipe_out_from_task_manager">Cuando se cierra la aplicación desde el administrador de tareas</string>
     <string name="opening_url">está cargando…</string>
