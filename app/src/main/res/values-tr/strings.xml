@@ -23,7 +23,6 @@
     <string name="enter_the_playlist_name">Çalma listesi adını girin</string>
     <string name="playlists">Çalma listeleri</string>
     <string name="favorites">Favoriler</string>
-    <string name="offline">Çevrimdışı</string>
     <string name="quick_picks">Kısayollar</string>
     <string name="songs">Şarkılar</string>
     <string name="other_versions">Diğer sürümler</string>
@@ -127,7 +126,6 @@
     <string name="sleep_timer">Uyku zamanlayıcısı</string>
     <string name="left">%1$s left</string>
     <string name="set">Ayarlamak</string>
-    <string name="play_next">Sonrakini çal</string>
     <string name="confirm">Onaylamak</string>
     <string name="show">Görüş</string>
     <string name="unsynchronized_lyrics">senkronize edilmemiş lyrics</string>
@@ -143,7 +141,6 @@
     <string name="custom_cache_from_android_10_may_not_be_available">Android 10\'dan itibaren bu özellik kullanılamayabilir</string>
     <string name="reset_cache_location_folder">ÖNBELLEK KONUM KLASÖRÜNÜ SIFIRLAYIN</string>
     <string name="used">" kullanılmış"</string>
-    <string name="now_playing">Şimdi oynuyor...</string>
     <string name="close_background_player">Arka plan oynatıcısını kapat</string>
     <string name="when_app_swipe_out_from_task_manager">Uygulama görev yöneticisinden dışarı kaydırıldığında</string>
     <string name="opening_url">yükleniyor...</string>
@@ -156,7 +153,6 @@
     <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">Döndürülen video kimliği, istenen video kimliğiyle eşleşmiyor</string>
     <string name="error_an_unknown_playback_error_has_occurred">Bilinmeyen bir oynatma hatası oluştu</string>
     <string name="tips">İpuçları</string>
-    <string name="next_playing">Sonraki oyun...</string>
     <string name="quick_pics_and_tips">Kısayollar and İpuçları</string>
     <string name="is_min_list_time_for_tips_or_quick_pics">Şarkıyı mümkün olduğunca dahil etmek için minimum dinleme süresi İpuçları or Kısayollar</string>
     <string name="min_listening_time">Min dinleme süresi</string>

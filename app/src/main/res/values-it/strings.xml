@@ -23,7 +23,6 @@
     <string name="enter_the_playlist_name">Inserisci il nome della playlist</string>
     <string name="playlists">Playlist</string>
     <string name="favorites">Preferiti</string>
-    <string name="offline">Offline</string>
     <string name="quick_picks">Scelte rapide</string>
     <string name="songs">Brani</string>
     <string name="other_versions">Altre versioni</string>
@@ -127,7 +126,6 @@
     <string name="sleep_timer">Timer spegnimento</string>
     <string name="left">%1$s rimanenti</string>
     <string name="set">Imposta</string>
-    <string name="play_next">Riproduci successivo</string>
     <string name="confirm">Conferma</string>
     <string name="show">Mostra</string>
     <string name="unsynchronized_lyrics">lyrics non sincronizzate</string>
@@ -143,7 +141,6 @@
     <string name="custom_cache_from_android_10_may_not_be_available">A partire da Android 10, questa funzionalità potrebbe non essere disponibile</string>
     <string name="reset_cache_location_folder">RESET CARTELLA CACHE</string>
     <string name="used">" usato"</string>
-    <string name="now_playing">In riproduzione...</string>
     <string name="close_background_player">Chiudi lettore in background</string>
     <string name="when_app_swipe_out_from_task_manager">Quando l\'app viene rimossa dal task manager</string>
     <string name="opening_url">sta caricando...</string>
@@ -156,7 +153,6 @@
     <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">The returned video id doesn\'t match the requested one</string>
     <string name="error_an_unknown_playback_error_has_occurred">An unknown playback error has occurred</string>
     <string name="tips">Suggerimenti</string>
-    <string name="next_playing">Successiva...</string>
     <string name="quick_pics_and_tips">Scelte rapide e Suggerimenti</string>
     <string name="is_min_list_time_for_tips_or_quick_pics">È il tempo minimo di ascolto, per includere la canzone come eventuali Suggerimenti e Scelte rapide</string>
     <string name="min_listening_time">Tempo minimo di ascolto</string>
