@@ -225,4 +225,5 @@
         <string name="permission_declined_grant_media_permissions">Berechtigung abgelehnt, bitte erteilen Sie die Medienberechtigung in den Einstellungen Ihres Geräts.</string>
         <string name="wavy_timeline">Gewellte Zeitachse</string>
         <string name="enable_wavy_timeline">Aktivieren Sie die gewellte Zeitleiste</string>
+    <string name="play_next">Play next</string>
 </resources>
