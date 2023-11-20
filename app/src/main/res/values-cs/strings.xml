@@ -23,7 +23,6 @@
     <string name="enter_the_playlist_name">Zadejte název playlistu</string>
     <string name="playlists">Playlisty</string>
     <string name="favorites">Oblíbené</string>
-    <string name="offline">Offline</string>
     <string name="quick_picks">Rychlý výběr</string>
     <string name="songs">Skladby</string>
     <string name="other_versions">Další verze</string>
@@ -127,7 +126,6 @@
     <string name="sleep_timer">Časovač spánku</string>
     <string name="left">%1$s zbývá</string>
     <string name="set">Nastavit</string>
-    <string name="play_next">Přehrát jako další</string>
     <string name="confirm">Potvrdit</string>
     <string name="show">Zobrazit</string>
     <string name="unsynchronized_lyrics">nesynchronizovaný písňový text</string>
@@ -143,7 +141,6 @@
     <string name="custom_cache_from_android_10_may_not_be_available">Od Androidu 10 tato funkce nemusí být k dispozici.</string>
     <string name="reset_cache_location_folder">OBNOVENÍ UMÍSTĚNÍ SLOŽKY MEZIPAMĚTI</string>
     <string name="used">" použitý"</string>
-    <string name="now_playing">Právě hraje...</string>
     <string name="close_background_player">Zavřít přehrávač na pozadí</string>
     <string name="when_app_swipe_out_from_task_manager">Když aplikaci vysunete ze správce úloh</string>
     <string name="opening_url">se načítá...</string>
@@ -156,7 +153,6 @@
     <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">Vrácené id videa neodpovídá požadovanému id videa</string>
     <string name="error_an_unknown_playback_error_has_occurred">Došlo k neznámé chybě při přehrávání</string>
     <string name="tips">Tipy</string>
-    <string name="next_playing">Další přehrávání...</string>
     <string name="quick_pics_and_tips">Rychlý výběr a Tipy</string>
     <string name="is_min_list_time_for_tips_or_quick_pics">To je minimální doba poslechu, aby bylo možné skladbu zařadit mezi možné Tipy nebo Rychlý výběr</string>
     <string name="min_listening_time">Minimální doba poslechu</string>

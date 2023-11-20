@@ -23,7 +23,6 @@
     <string name="enter_the_playlist_name">Entrez le nom de la playlist</string>
     <string name="playlists">🔀 Playlists</string>
     <string name="favorites">❤ Favoris</string>
-    <string name="offline">✈ Hors ligne</string>
     <string name="quick_picks">Sélections rapides</string>
     <string name="songs">Chansons</string>
     <string name="other_versions">Autres versions</string>
@@ -67,7 +66,7 @@
     <string name="colors">💚 COULEURS</string>
     <string name="theme">Thème</string>
     <string name="theme_mode">Thème Système</string>
-    <string name="shapes">🅰 Arrondissement des coins</string>
+    <string name="shapes">🛑 Arrondissement des coins</string>
     <string name="thumbnail_roundness">Aspect</string>
     <string name="text">🆎 TEXTE</string>
     <string name="use_system_font">Utiliser la police du système</string>
@@ -163,10 +162,10 @@
     <string name="current_size_name">"Taille de la pochette d\'album actuelle"</string>
     <string name="current_shape_name">⚫ Arrondissement des coins actuel</string>
     <string name="small">◾ Petit</string>
-    <string name="medium">◼ Moyen</string>
+    <string name="medium">◼️ Moyen</string>
     <string name="big">⬛ Grand</string>
     <string name="none">🙅‍♂️ Aucun</string>
-    <string name="light">◼ Légé</string>
+    <string name="light">◾ Légé</string>
     <string name="heavy">⬛ Énorme</string>
     <string name="effects">🌟EFFETS</string>
     <string name="player_rotating_buttons">Boutons rotatifs</string>
@@ -183,7 +182,7 @@
     <string name="most_listened_artists">👤 Artistes les plus écoutés</string>
     <string name="most_albums_listened">💿 Albums les plus écoutés</string>
     <string name="most_played_playlists">🔀 Playlists les plus écoutées</string>
-    <string name="languages">🏳 Langues</string>
+    <string name="languages">🇪🇺 Langues</string>
     <string name="app_language">Langues de l\'application</string>
     <string name="in_alphabetical_order">Dans l\'ordre alphabétique :</string>
     <string name="contributors">❤ CONTRIBUTEURS</string>
@@ -200,13 +199,13 @@
     <string name="turkish">Turc (Türkçe)</string>
     <string name="polish">Polonais (Polski)</string>
     <string name="dark">⚫ Sombre</string>
-    <string name="system">⚙ Système</string>
+    <string name="system">⚙️ Système</string>
     <string name="unlimited">Illimité</string>
     <string name="_light">⚪ Clair</string>
-    <string name="downloaded">⬇ Téléchargé</string>
+    <string name="downloaded">✈️ Musiques Hors-ligne</string>
     <string name="turn_off">Desactivé</string>
-    <string name="download">Télécharger</string>
-    <string name="_default">⚙ Par défaut</string>
+    <string name="download">⬇️ Télécharger</string>
+    <string name="_default">⚙️ Par défaut</string>
     <string name="dynamic">🎶 Dynamique</string>
     <string name="no">Non</string>
     <string name="stop">Stop</string>
