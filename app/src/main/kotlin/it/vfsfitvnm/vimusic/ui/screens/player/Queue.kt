@@ -233,6 +233,9 @@ fun Queue(
                         SongItem(
                             song = window.mediaItem,
                             isDownloaded = downloadedStateMedia( window.mediaItem.mediaId ),
+                            onDownloadClick = {
+                                //TODO onDownloadClick
+                            },
                             thumbnailSizePx = thumbnailSizePx,
                             thumbnailSizeDp = thumbnailSizeDp,
                             onThumbnailContent = {

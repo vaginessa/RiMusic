@@ -1,10 +1,13 @@
 package it.vfsfitvnm.vimusic.utils
 
 
+import android.annotation.SuppressLint
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 
 
 val Player.currentWindow: Timeline.Window?
@@ -44,15 +47,18 @@ fun Player.forcePlay(mediaItem: MediaItem) {
     playWhenReady = true
     prepare()
 }
-
+@SuppressLint("Range")
+@UnstableApi
 fun Player.forcePlayAtIndex(mediaItems: List<MediaItem>, mediaItemIndex: Int) {
     if (mediaItems.isEmpty()) return
+
+    //Log.d("mediaItem-forcePlayAtIndex",mediaItemIndex.toString())
 
     setMediaItems(mediaItems, mediaItemIndex, C.TIME_UNSET)
     playWhenReady = true
     prepare()
 }
-
+@UnstableApi
 fun Player.forcePlayFromBeginning(mediaItems: List<MediaItem>) =
     forcePlayAtIndex(mediaItems, 0)
 
@@ -83,7 +89,7 @@ fun Player.enqueue(mediaItem: MediaItem) {
         addMediaItem(mediaItemCount, mediaItem)
     }
 }
-
+@UnstableApi
 fun Player.enqueue(mediaItems: List<MediaItem>) {
     if (playbackState == Player.STATE_IDLE || playbackState == Player.STATE_ENDED) {
         forcePlayFromBeginning(mediaItems)

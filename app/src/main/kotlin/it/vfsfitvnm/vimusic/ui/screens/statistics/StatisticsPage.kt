@@ -219,6 +219,9 @@ fun StatisticsPage(
                         SongItem(
                             song = songs.get(it).asMediaItem,
                             isDownloaded = downloadedStateMedia(songs.get(it).asMediaItem.mediaId),
+                            onDownloadClick = {
+                                //TODO onDownloadClick
+                            },
                             thumbnailSizeDp = thumbnailSizeDp,
                             thumbnailSizePx = thumbnailSize,
                             modifier = Modifier

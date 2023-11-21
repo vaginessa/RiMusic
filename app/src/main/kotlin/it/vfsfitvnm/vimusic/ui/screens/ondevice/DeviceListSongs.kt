@@ -388,19 +388,22 @@ fun DeviceListSongs(
                 contentType = { _, song -> song },
             ) { index, song ->
 
-
+/*
                 Log.d("mediaItemUri",
                 ContentUris.withAppendedId(
                         MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                         song.id.substringAfter(LOCAL_KEY_PREFIX).toLong()
-                ).path.toString()
+                ).toString()
                 )
 
-
+*/
 
                 SongItem(
                     song = song,
                     isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                    onDownloadClick = {
+                        //TODO onDownloadClick
+                    },
                     thumbnailSizeDp = thumbnailSizeDp,
                     thumbnailSizePx = thumbnailSize,
 

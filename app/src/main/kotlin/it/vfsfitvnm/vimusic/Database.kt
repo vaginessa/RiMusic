@@ -560,6 +560,9 @@ interface Database {
     @Upsert
     fun upsert(artist: Artist)
 
+    @Upsert
+    fun upsert(format: Format)
+
     @Delete
     fun delete(searchQuery: SearchQuery)
 

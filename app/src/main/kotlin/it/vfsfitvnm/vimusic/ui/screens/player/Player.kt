@@ -211,18 +211,22 @@ fun Player(
 
     }
 
-    val audioComputer = VisualizerComputer()
-    val visualizerData = remember { mutableStateOf(VisualizerData()) }
+    /*
+        val audioComputer = VisualizerComputer()
+        val visualizerData = remember { mutableStateOf(VisualizerData()) }
 
-    LaunchedEffect(binder.player.audioSessionId) {
-        binder?.player?.audioSessionId?.let {
-            audioComputer.start(audioSessionId = it, onData = { data ->
-                visualizerData.value = data
-            })
+        LaunchedEffect(Unit) {
+            while(true) {
+                binder?.player?.audioSessionId?.let {
+                    audioComputer.start(audioSessionId = it, onData = { data ->
+                        visualizerData.value = data
+                    })
+                }
+                delay(5000)
+            }
         }
-    }
 
-
+     */
     val ExistIdsExtras = mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.size.toString()
     val ExistAlbumIdExtras = mediaItem.mediaMetadata.extras?.getString("albumId")?.toString()
 

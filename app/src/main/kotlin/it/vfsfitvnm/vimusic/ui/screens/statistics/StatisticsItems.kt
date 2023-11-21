@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
@@ -48,7 +49,7 @@ import it.vfsfitvnm.vimusic.utils.songSortOrderKey
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
-
+@UnstableApi
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
@@ -189,6 +190,9 @@ fun StatisticsItems(statisticsType: StatisticsType) {
                 SongItem(
                     song = song,
                     isDownloaded = false,
+                    onDownloadClick = {
+                        //TODO onDownloadClick
+                    },
                     thumbnailSizeDp = thumbnailSizeDp,
                     thumbnailSizePx = thumbnailSize,
                     modifier = Modifier

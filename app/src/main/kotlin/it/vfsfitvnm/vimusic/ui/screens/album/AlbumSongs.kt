@@ -123,6 +123,9 @@ fun AlbumSongs(
                     SongItem(
                         title = song.title,
                         isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                        onDownloadClick = {
+                            //TODO onDownloadClick
+                        },
                         authors = song.artistsText,
                         duration = song.durationText,
                         thumbnailSizeDp = thumbnailSizeDp,

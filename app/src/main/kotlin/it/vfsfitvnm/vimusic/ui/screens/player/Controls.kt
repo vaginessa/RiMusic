@@ -62,6 +62,8 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.equalizer.Equalizer
+import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerComputer
+import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerData
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.ui.UiMedia
 import it.vfsfitvnm.vimusic.query
@@ -88,6 +90,7 @@ import it.vfsfitvnm.vimusic.utils.seamlessPlay
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.utils.wavedPlayerTimelineKey
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
@@ -186,6 +189,23 @@ fun Controls(
         label = "playPauseRoundness",
         targetValueByState = { if (it) 32.dp else 16.dp }
     )
+
+    val audioComputer = VisualizerComputer()
+    val visualizerData = remember { mutableStateOf(VisualizerData()) }
+
+    LaunchedEffect(Unit) {
+        while(true) {
+            binder?.player?.audioSessionId?.let {
+                audioComputer.start(audioSessionId = it, onData = { data ->
+                    visualizerData.value = data
+                })
+            }
+            delay(15000)
+        }
+    }
+
+
+
 
     Column(
         horizontalAlignment = Alignment.Start,
@@ -322,6 +342,7 @@ fun Controls(
             modifier = Modifier
                 .height(30.dp)
         )
+
 
         if (!wavedPlayerTimelineEnabled)
         SeekBar(

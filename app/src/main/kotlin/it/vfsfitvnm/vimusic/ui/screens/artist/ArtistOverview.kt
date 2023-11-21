@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
@@ -59,7 +60,7 @@ import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
-
+@UnstableApi
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
@@ -165,6 +166,9 @@ fun ArtistOverview(
                             SongItem(
                                 song = song,
                                 isDownloaded = false,
+                                onDownloadClick = {
+                                    //TODO onDownloadClick
+                                },
                                 thumbnailSizeDp = songThumbnailSizeDp,
                                 thumbnailSizePx = songThumbnailSizePx,
                                 modifier = Modifier

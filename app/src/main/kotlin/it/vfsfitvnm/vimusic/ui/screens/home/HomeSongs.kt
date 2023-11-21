@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -52,15 +53,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
+import androidx.media3.exoplayer.offline.DownloadRequest
+import androidx.media3.exoplayer.offline.DownloadService
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.service.MyDownloadService
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
@@ -74,6 +82,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.InitDownloader
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
@@ -111,8 +120,34 @@ fun  HomeSongs(
 
     var filter: String? by rememberSaveable { mutableStateOf(null) }
 
+    val downloader = LocalDownloader.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
+    }
+
+    val context = LocalContext.current
+
+    //InitDownloader()
+
     LaunchedEffect(sortBy, sortOrder, filter) {
         Database.songs(sortBy, sortOrder).collect { items = it }
+        val songs = items?.map { it.id }
+        downloader.downloads.collect { downloads ->
+            if (songs != null) {
+                downloadState =
+                    if (songs.all { downloads[it]?.state == Download.STATE_COMPLETED })
+                        Download.STATE_COMPLETED
+                    else if (songs.all {
+                            downloads[it]?.state == Download.STATE_QUEUED
+                                    || downloads[it]?.state == Download.STATE_DOWNLOADING
+                                    || downloads[it]?.state == Download.STATE_COMPLETED
+                        })
+                        Download.STATE_DOWNLOADING
+                    else
+                        Download.STATE_STOPPED
+            }
+        }
+
     }
 
     var filterCharSequence: CharSequence
@@ -300,6 +335,45 @@ fun  HomeSongs(
                 SongItem(
                     song = song,
                     isDownloaded =  downloadedStateMedia(song.asMediaItem.mediaId),
+                    onDownloadClick = {
+                                        Log.d("downloadMediaClick","Download Clicked")
+
+                                        if (downloadState == Download.STATE_COMPLETED)
+                                            DownloadService.sendRemoveDownload(
+                                                context,
+                                                MyDownloadService::class.java,
+                                                song.id,
+                                                false
+                                            )
+
+                                        if (downloadState == Download.STATE_DOWNLOADING) {
+                                            DownloadService.sendRemoveDownload(
+                                                context,
+                                                MyDownloadService::class.java,
+                                                song.id,
+                                                false
+                                            )
+                                        } else {
+                                            val contentUri =
+                                                "https://www.youtube.com/watch?v=${song.asMediaItem.mediaId}".toUri()
+                                            val downloadRequest = DownloadRequest
+                                                .Builder(
+                                                    song.asMediaItem.mediaId,
+                                                    contentUri
+                                                )
+                                                .setCustomCacheKey(song.asMediaItem.mediaId)
+                                                .setData(song.title.toByteArray())
+                                                .build()
+
+                                            DownloadService.sendAddDownload(
+                                                context,
+                                                MyDownloadService::class.java,
+                                                downloadRequest,
+                                                false
+                                            )
+                                        }
+
+                    },
                     thumbnailSizePx = thumbnailSizePx,
                     thumbnailSizeDp = thumbnailSizeDp,
                     onThumbnailContent = if (sortBy == SongSortBy.PlayTime) ({

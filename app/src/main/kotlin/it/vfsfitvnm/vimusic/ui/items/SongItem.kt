@@ -37,7 +37,8 @@ fun SongItem(
     thumbnailSizePx: Int,
     thumbnailSizeDp: Dp,
     modifier: Modifier = Modifier,
-    isDownloaded: Boolean
+    isDownloaded: Boolean,
+    onDownloadClick: () -> Unit
 ) {
     SongItem(
         thumbnailUrl = song.thumbnail?.size(thumbnailSizePx),
@@ -46,7 +47,8 @@ fun SongItem(
         duration = song.durationText,
         thumbnailSizeDp = thumbnailSizeDp,
         modifier = modifier,
-        isDownloaded = isDownloaded
+        isDownloaded = isDownloaded,
+        onDownloadClick = onDownloadClick
     )
 }
 
@@ -58,7 +60,8 @@ fun SongItem(
     modifier: Modifier = Modifier,
     onThumbnailContent: (@Composable BoxScope.() -> Unit)? = null,
     trailingContent: (@Composable () -> Unit)? = null,
-    isDownloaded: Boolean
+    isDownloaded: Boolean,
+    onDownloadClick: () -> Unit
 ) {
     SongItem(
         thumbnailUrl = song.mediaMetadata.artworkUri.thumbnail(thumbnailSizePx)?.toString(),
@@ -69,7 +72,8 @@ fun SongItem(
         onThumbnailContent = onThumbnailContent,
         trailingContent = trailingContent,
         modifier = modifier,
-        isDownloaded = isDownloaded
+        isDownloaded = isDownloaded,
+        onDownloadClick = onDownloadClick
     )
 }
 
@@ -81,7 +85,8 @@ fun SongItem(
     modifier: Modifier = Modifier,
     onThumbnailContent: (@Composable BoxScope.() -> Unit)? = null,
     trailingContent: (@Composable () -> Unit)? = null,
-    isDownloaded: Boolean
+    isDownloaded: Boolean,
+    onDownloadClick: () -> Unit
 ) {
     SongItem(
         thumbnailUrl = song.thumbnailUrl?.thumbnail(thumbnailSizePx),
@@ -92,7 +97,8 @@ fun SongItem(
         onThumbnailContent = onThumbnailContent,
         trailingContent = trailingContent,
         modifier = modifier,
-        isDownloaded = isDownloaded
+        isDownloaded = isDownloaded,
+        onDownloadClick = onDownloadClick
     )
 }
 
@@ -106,7 +112,8 @@ fun SongItem(
     modifier: Modifier = Modifier,
     onThumbnailContent: (@Composable BoxScope.() -> Unit)? = null,
     trailingContent: (@Composable () -> Unit)? = null,
-    isDownloaded: Boolean
+    isDownloaded: Boolean,
+    onDownloadClick: () -> Unit
 ) {
     SongItem(
         title = title,
@@ -127,7 +134,8 @@ fun SongItem(
         },
         modifier = modifier,
         trailingContent = trailingContent,
-        isDownloaded = isDownloaded
+        isDownloaded = isDownloaded,
+        onDownloadClick = onDownloadClick
     )
 }
 
@@ -140,7 +148,8 @@ fun SongItem(
     thumbnailSizeDp: Dp,
     modifier: Modifier = Modifier,
     trailingContent: @Composable (() -> Unit)? = null,
-    isDownloaded: Boolean
+    isDownloaded: Boolean,
+    onDownloadClick: () -> Unit
 ) {
     val (colorPalette, typography) = LocalAppearance.current
 
@@ -181,7 +190,7 @@ fun SongItem(
             Row(verticalAlignment = Alignment.CenterVertically) {
 
                 IconButton(
-                    onClick = { },
+                    onClick = onDownloadClick,
                     icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
                     color = if (isDownloaded) colorPalette.text else colorPalette.textDisabled,
                     modifier = Modifier

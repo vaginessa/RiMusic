@@ -1,8 +1,10 @@
 package it.vfsfitvnm.vimusic.service
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
@@ -28,9 +30,14 @@ import it.vfsfitvnm.innertube.requests.player
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Format
+import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.utils.RingBuffer
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.runBlocking
 import org.chromium.net.CronetEngine
 import java.io.File
@@ -50,6 +57,44 @@ object DownloadUtil {
     private lateinit var downloadDirectory: File
     private lateinit var downloadManager: DownloadManager
     //private lateinit var downloadTracker: DownloadTracker
+
+
+
+    var downloads = MutableStateFlow<Map<String, Download>>(emptyMap())
+
+    fun getDownload(songId: String): Flow<Download?> {
+        return downloads.map { it[songId] }
+
+    }
+
+    @SuppressLint("LongLogTag")
+    @Synchronized
+    fun getDownloads() {
+        val result = mutableMapOf<String, Download>()
+        val cursor = downloadManager.downloadIndex.getDownloads()
+        while (cursor.moveToNext()) {
+            result[cursor.download.request.id] = cursor.download
+        }
+        downloads.value = result
+
+        Log.d("downloadMedia-onDownloadChanged",downloads.value.keys.toString())
+        /*
+        downloadManager.addListener(
+            object : DownloadManager.Listener {
+                override fun onDownloadChanged(downloadManager: DownloadManager, download: Download, finalException: Exception?) {
+                    downloads.update { map ->
+                        map.toMutableMap().apply {
+                            set(download.request.id, download)
+                        }
+                    }
+                }
+            }
+        )
+        */
+    }
+
+
+
 
     @Synchronized
     fun getResolvingDataSourceFactory (context: Context): ResolvingDataSource.Factory {
@@ -79,7 +124,7 @@ object DownloadUtil {
                                     val mediaItem = runBlocking(Dispatchers.Main) {
                                         Innertube.player(PlayerBody(videoId = videoId))
                                     }
-                                    /*
+/*
                                         if (mediaItem?.mediaMetadata?.extras?.getString("durationText") == null) {
                                             format.approxDurationMs?.div(1000)
                                                 ?.let(DateUtils::formatElapsedTime)?.removePrefix("0")
@@ -92,12 +137,16 @@ object DownloadUtil {
                                                 }
                                         }
 
-                                     */
+ */
 
+
+
+
+/*
                                     query {
                                         //mediaItem?.let(Database::insert)
 
-                                        Database.insert(
+                                        Database.upsert(
                                             Format(
                                                 songId = videoId,
                                                 itag = format.itag,
@@ -110,7 +159,7 @@ object DownloadUtil {
                                         )
                                     }
 
-
+ */
 
                                     format.url
                                 } ?: throw PlayableFormatNotFoundException()
@@ -207,6 +256,8 @@ object DownloadUtil {
 
  */
 
+
+
     fun getDownloadString(context: Context, @Download.State downloadState: Int): String {
         return when (downloadState) {
             /*
@@ -253,11 +304,13 @@ object DownloadUtil {
                 getDatabaseProvider(context),
                 getDownloadCache(context),
                 //getHttpDataSourceFactory(context),
+                //getReadOnlyDataSourceFactory(context),
                 getResolvingDataSourceFactory(context),
                 Executors.newFixedThreadPool(6)
             ).apply {
                 maxParallelDownloads = 2
             }
+
             //downloadTracker =
             //    DownloadTracker(context, getHttpDataSourceFactory(context), downloadManager)
         }
@@ -274,8 +327,10 @@ object DownloadUtil {
     fun getDownloadDirectory(context: Context): File {
         if(!DownloadUtil::downloadDirectory.isInitialized) {
             downloadDirectory = context.getExternalFilesDir(null) ?: context.filesDir
+            Log.d("downloadMedia", downloadDirectory.path)
         }
         return downloadDirectory
     }
+
 
 }

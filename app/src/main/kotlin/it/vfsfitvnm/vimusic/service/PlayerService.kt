@@ -42,7 +42,9 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.database.DatabaseProvider
 import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DataSpec
@@ -54,6 +56,7 @@ import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
 import androidx.media3.datasource.cache.NoOpCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
+import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.RenderersFactory
 import androidx.media3.exoplayer.analytics.AnalyticsListener
@@ -71,6 +74,8 @@ import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.extractor.ExtractorsFactory
 import androidx.media3.extractor.mkv.MatroskaExtractor
 import androidx.media3.extractor.mp4.FragmentedMp4Extractor
+import dagger.Provides
+import dagger.hilt.android.qualifiers.ApplicationContext
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.innertube.models.bodies.PlayerBody
@@ -126,7 +131,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
 import java.io.File
+import javax.inject.Inject
+import javax.inject.Qualifier
+import javax.inject.Singleton
 
 const val LOCAL_KEY_PREFIX = "local:"
 
@@ -136,13 +145,17 @@ val DataSpec.isLocal get() = key?.startsWith(LOCAL_KEY_PREFIX) == true
 val MediaItem.isLocal get() = mediaId.startsWith(LOCAL_KEY_PREFIX)
 val Song.isLocal get() = id.startsWith(LOCAL_KEY_PREFIX)
 
+@UnstableApi
 @Suppress("DEPRECATION")
 class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListener.Callback,
     SharedPreferences.OnSharedPreferenceChangeListener {
     private lateinit var mediaSession: MediaSession
     private lateinit var cache: SimpleCache
     private lateinit var player: ExoPlayer
-    private lateinit var download: DownloaderService
+    //private lateinit var download: MyDownloadService
+
+    private lateinit var downloadCache: SimpleCache
+
 
     private val stateBuilder = PlaybackState.Builder()
         .setActions(
@@ -197,6 +210,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         super.onBind(intent)
         return binder
     }
+    @SuppressLint("Range")
     @UnstableApi
     override fun onCreate() {
         super.onCreate()
@@ -225,6 +239,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         }
 
         var directory = cacheDir
+        val downloadDirectory = getExternalFilesDir(null) ?: filesDir
         var cacheDirName = "rimusic_cache"
         val cacheSize = preferences.getEnum(exoPlayerDiskCacheMaxSizeKey,ExoPlayerDiskCacheMaxSize.`2GB`)
         if ( cacheSize == ExoPlayerDiskCacheMaxSize.Disabled) cacheDirName = "rimusic_no_cache"
@@ -268,6 +283,10 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
 
 
         cache = SimpleCache(directory, cacheEvictor, StandaloneDatabaseProvider(this))
+
+        downloadCache = SimpleCache(downloadDirectory, cacheEvictor, StandaloneDatabaseProvider(this))
+
+        Log.d("downloadMedia-PlayerService",downloadDirectory.path)
 
 
         player = ExoPlayer.Builder(this, createRendersFactory(), createMediaSourceFactory())
@@ -365,6 +384,9 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         eventTime: AnalyticsListener.EventTime,
         playbackStats: PlaybackStats
     ) {
+
+
+
         val mediaItem =
             eventTime.timeline.getWindow(eventTime.windowIndex, Timeline.Window()).mediaItem
 
@@ -694,13 +716,13 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             }
         }
     }
-
+@UnstableApi
     override fun onIsPlayingChanged(isPlaying: Boolean) {
         super.onIsPlayingChanged(isPlaying)
         //val totalPlayTimeMs = player.totalBufferedDuration.toString()
         //Log.d("mediaEvent","isPlaying "+isPlaying.toString() + " buffered duration "+totalPlayTimeMs)
         // TODO future implementation
-
+        //Log.d("mediaEvent","isPlaying "+isPlaying.toString() + " buffered duration "+totalPlayTimeMs+" audioSession "+player.audioSessionId.toString())
     }
 
     @UnstableApi
@@ -844,7 +866,27 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         }
     }
      */
+    @UnstableApi
+    private fun createCacheDataSource(): CacheDataSource.Factory =
+        CacheDataSource.Factory()
+            .setCache(downloadCache)
+            .setUpstreamDataSourceFactory(
+                CacheDataSource.Factory()
+                    .setCache(cache)
+                    .setUpstreamDataSourceFactory(
+                        DefaultDataSource.Factory(
+                            this,
+                            DefaultHttpDataSource.Factory()
+                                .setConnectTimeoutMs(16000)
+                                .setReadTimeoutMs(8000)
+                                .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
+                        )
+                    )
+            )
+            .setCacheWriteDataSinkFactory(null)
+            .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
 
+    /*
     @UnstableApi
     private fun createCacheDataSource() = ConditionalCacheDataSourceFactory(
         cacheDataSourceFactory = CacheDataSource.Factory().setCache(cache),
@@ -856,6 +898,8 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                 .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
         )
     ) { !it.isLocal }
+
+     */
 
     /*
     @UnstableApi
@@ -948,11 +992,15 @@ private fun createDataSourceFactory(): DataSource.Factory {
         val ringBuffer = RingBuffer<Pair<String, Uri>?>(2) { null }
 
         return ResolvingDataSource.Factory(createCacheDataSource()) { dataSpec ->
-            val videoId = dataSpec.key ?: error("A key must be set")
+            var videoId = dataSpec.key ?: error("A key must be set")
+
+            //if(dataSpec.isLocal) videoId = videoId.removePrefix("local:")
+            //Log.d("mediaItem","dataSpec isLocal ${dataSpec.isLocal} key ${videoId} all ${dataSpec.toString()}")
 
             when {
-                dataSpec.isLocal ||
-                        cache.isCached(videoId, dataSpec.position, chunkLength) -> dataSpec
+                        dataSpec.isLocal ||
+                        cache.isCached(videoId, dataSpec.position, chunkLength) ||
+                        downloadCache.isCached(videoId, dataSpec.position, chunkLength) -> dataSpec
 
                 videoId == ringBuffer.getOrNull(0)?.first ->
                     dataSpec.withUri(ringBuffer.getOrNull(0)!!.second)
@@ -1107,13 +1155,13 @@ private fun createDataSourceFactory(): DataSource.Factory {
             timerJob?.cancel()
             timerJob = null
         }
-
+        @UnstableApi
         fun setupRadio(endpoint: NavigationEndpoint.Endpoint.Watch?) =
             startRadio(endpoint = endpoint, justAdd = true)
-
+        @UnstableApi
         fun playRadio(endpoint: NavigationEndpoint.Endpoint.Watch?) =
             startRadio(endpoint = endpoint, justAdd = false)
-
+        @UnstableApi
         private fun startRadio(endpoint: NavigationEndpoint.Endpoint.Watch?, justAdd: Boolean) {
             radioJob?.cancel()
             radio = null
@@ -1198,6 +1246,6 @@ private fun createDataSourceFactory(): DataSource.Factory {
         const val SleepTimerNotificationChannelId = "sleep_timer_channel_id"
     }
 
-
-
 }
+
+

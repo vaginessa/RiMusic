@@ -5,18 +5,25 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.text.format.DateUtils
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.DownloadRequest
+import androidx.media3.exoplayer.offline.DownloadService
+import dagger.hilt.android.qualifiers.ApplicationContext
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.ContinuationBody
 import it.vfsfitvnm.innertube.requests.playlistPage
 import it.vfsfitvnm.innertube.utils.plus
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.service.LOCAL_KEY_PREFIX
+import it.vfsfitvnm.vimusic.service.MyDownloadService
 import it.vfsfitvnm.vimusic.service.isLocal
+
 
 val Innertube.SongItem.asMediaItem: MediaItem
     @UnstableApi
@@ -181,3 +188,4 @@ inline val isAtLeastAndroid12
 
 inline val isAtLeastAndroid13
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+

@@ -340,6 +340,9 @@ fun BuiltInPlaylistSongs(
                 SongItem(
                     song = song,
                     isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                    onDownloadClick = {
+                        //TODO onDownloadClick
+                    },
                     thumbnailSizeDp = thumbnailSizeDp,
                     thumbnailSizePx = thumbnailSize,
                     modifier = Modifier

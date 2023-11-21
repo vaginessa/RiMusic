@@ -245,6 +245,9 @@ fun ArtistScreen(browseId: String) {
                                     SongItem(
                                         song = song,
                                         isDownloaded = false,
+                                        onDownloadClick = {
+                                            //TODO onDownloadClick
+                                        },
                                         thumbnailSizeDp = thumbnailSizeDp,
                                         thumbnailSizePx = thumbnailSizePx,
                                         modifier = Modifier

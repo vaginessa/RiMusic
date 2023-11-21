@@ -128,6 +128,9 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
                                     SongItem(
                                         song = song,
                                         isDownloaded = false,
+                                        onDownloadClick = {
+                                            //TODO onDownloadClick
+                                        },
                                         thumbnailSizePx = thumbnailSizePx,
                                         thumbnailSizeDp = thumbnailSizeDp,
                                         modifier = Modifier

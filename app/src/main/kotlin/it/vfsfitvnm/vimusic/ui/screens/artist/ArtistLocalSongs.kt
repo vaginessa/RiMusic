@@ -117,6 +117,9 @@ fun ArtistLocalSongs(
                         SongItem(
                             song = song,
                             isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                            onDownloadClick = {
+                                              //TODO onDownloadClick
+                            },
                             thumbnailSizeDp = songThumbnailSizeDp,
                             thumbnailSizePx = songThumbnailSizePx,
                             modifier = Modifier

@@ -1,7 +1,9 @@
 package it.vfsfitvnm.vimusic.service
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.content.Context
+import android.util.Log
 import androidx.media3.common.util.NotificationUtil
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.common.util.Util
@@ -12,6 +14,7 @@ import androidx.media3.exoplayer.offline.DownloadService
 import androidx.media3.exoplayer.scheduler.PlatformScheduler
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.service.DownloadUtil.DOWNLOAD_NOTIFICATION_CHANNEL_ID
+import kotlinx.coroutines.flow.update
 
 private const val JOB_ID = 8888
 private const val FOREGROUND_NOTIFICATION_ID = 8989
@@ -79,6 +82,19 @@ class MyDownloadService : DownloadService(
         override fun onDownloadChanged(
             downloadManager: DownloadManager,
             download: Download,
+            finalException: Exception?) {
+            DownloadUtil.getDownloads()
+            DownloadUtil.downloads.update { map ->
+                map.toMutableMap().apply {
+                    set(download.request.id, download)
+                }
+            }
+        }
+
+/*
+        override fun onDownloadChanged(
+            downloadManager: DownloadManager,
+            download: Download,
             finalException: Exception?
         ) {
             val notification: Notification = when (download.state) {
@@ -101,7 +117,10 @@ class MyDownloadService : DownloadService(
                 else -> return
             }
             NotificationUtil.setNotification(context, nextNotificationId++, notification)
+
+
         }
+        */
 
     }
 

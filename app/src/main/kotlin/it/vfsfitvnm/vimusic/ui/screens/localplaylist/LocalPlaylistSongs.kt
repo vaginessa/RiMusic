@@ -385,6 +385,9 @@ fun LocalPlaylistSongs(
                 SongItem(
                     song = song,
                     isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                    onDownloadClick = {
+                        //TODO onDownloadClick
+                    },
                     thumbnailSizePx = thumbnailSizePx,
                     thumbnailSizeDp = thumbnailSizeDp,
                     trailingContent = {

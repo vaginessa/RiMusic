@@ -47,6 +47,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
@@ -119,7 +121,7 @@ fun InHistoryMediaItemMenu(
         modifier = modifier
     )
 }
-
+@UnstableApi
 @ExperimentalAnimationApi
 @Composable
 fun InPlaylistMediaItemMenu(
@@ -141,7 +143,7 @@ fun InPlaylistMediaItemMenu(
         modifier = modifier
     )
 }
-
+@UnstableApi
 @ExperimentalAnimationApi
 @Composable
 fun NonQueuedMediaItemMenu(
@@ -177,7 +179,7 @@ fun NonQueuedMediaItemMenu(
         modifier = modifier
     )
 }
-
+@UnstableApi
 @ExperimentalAnimationApi
 @Composable
 fun QueuedMediaItemMenu(
@@ -200,6 +202,7 @@ fun QueuedMediaItemMenu(
     )
 }
 
+@UnstableApi
 @ExperimentalAnimationApi
 @Composable
 fun BaseMediaItemMenu(
@@ -261,7 +264,7 @@ fun BaseMediaItemMenu(
         modifier = modifier
     )
 }
-
+@UnstableApi
 @ExperimentalAnimationApi
 @Composable
 fun MediaItemMenu(
@@ -426,6 +429,9 @@ fun MediaItemMenu(
                         thumbnailUrl = mediaItem.mediaMetadata.artworkUri.thumbnail(thumbnailSizePx)
                             ?.toString(),
                         isDownloaded = false,
+                        onDownloadClick = {
+                            Log.d("downloadMediaItem","Download Clicked")
+                        },
                         title = mediaItem.mediaMetadata.title.toString(),
                         authors = mediaItem.mediaMetadata.artist.toString(),
                         duration = null,
@@ -539,7 +545,7 @@ fun MediaItemMenu(
                         }
                     )
                 }
-/*
+
                 onDownload?.let { onDownload ->
                     MenuEntry(
                         icon = R.drawable.download,
@@ -550,7 +556,7 @@ fun MediaItemMenu(
                         }
                     )
                 }
- */
+
 
                 onGoToEqualizer?.let { onGoToEqualizer ->
                     MenuEntry(

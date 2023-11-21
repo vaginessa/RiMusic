@@ -335,6 +335,9 @@ fun PlaylistSongList(
                     SongItem(
                         song = song,
                         isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                        onDownloadClick = {
+                            //TODO onDownloadClick
+                        },
                         thumbnailSizePx = songThumbnailSizePx,
                         thumbnailSizeDp = songThumbnailSizeDp,
                         modifier = Modifier

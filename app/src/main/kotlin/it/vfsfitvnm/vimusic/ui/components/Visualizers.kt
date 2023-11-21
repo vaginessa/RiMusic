@@ -92,7 +92,7 @@ fun Visualizer (
 
             
 
-            Log.d("mediaItemVisualizer",visualizer.enabled.toString() + " "+ lineVisualizer.visibility.toString())
+            //Log.d("mediaItemVisualizer",visualizer.enabled.toString() + " "+ lineVisualizer.visibility.toString())
         }
 
 
