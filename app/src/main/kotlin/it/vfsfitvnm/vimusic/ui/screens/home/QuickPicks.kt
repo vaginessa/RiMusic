@@ -78,6 +78,7 @@ import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItemPlaceholder
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.items.SongItemPlaceholder
+import it.vfsfitvnm.vimusic.ui.screens.player.Player
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
@@ -86,6 +87,7 @@ import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlay
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.secondary
@@ -115,7 +117,6 @@ fun QuickPicks(
 
     var relatedPageResult by persist<Result<Innertube.RelatedPage?>?>(tag = "home/relatedPageResult")
 
-    val downloader = LocalDownloader.current
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
@@ -223,12 +224,14 @@ fun QuickPicks(
                     trending?.let { song ->
                         item {
 
-                            downloadState = downloader.getDownload(song.id).let { id -> downloadState }
+                            downloadState = getDownloadState(song.asMediaItem.mediaId)
+                            val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
 
                             SongItem(
                                 song = song,
-                                isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                                isDownloaded = isDownloaded,
                                 onDownloadClick = {
+                                    binder?.cache?.removeResource(song.asMediaItem.mediaId)
                                     query {
                                         Database.insert(
                                             Song(
@@ -245,8 +248,9 @@ fun QuickPicks(
                                         context = context,
                                         songId = song.id,
                                         songTitle = song.title,
-                                        downloadState = downloadState
+                                        downloadState = isDownloaded
                                     )
+
                                 },
                                 downloadState = downloadState,
                                 thumbnailSizePx = songThumbnailSizePx,
@@ -274,6 +278,7 @@ fun QuickPicks(
                                                     },
 
                                                     onDownload = {
+                                                        binder?.cache?.removeResource(song.asMediaItem.mediaId)
                                                         query {
                                                             Database.insert(
                                                                 Song(
@@ -289,47 +294,8 @@ fun QuickPicks(
                                                             context = context,
                                                             songId = song.id,
                                                             songTitle = song.title,
-                                                            downloadState = downloadState
+                                                            downloadState = isDownloaded
                                                         )
-                                                        /*
-                                                        Log.d(
-                                                            "downloadEvent",
-                                                            "Download started from Quick Picks?"
-                                                        )
-                                                        val contentUri =
-                                                            "https://www.youtube.com/watch?v=${song.asMediaItem.mediaId}".toUri()
-                                                        val downloadRequest = DownloadRequest
-                                                            .Builder(
-                                                                song.asMediaItem.mediaId,
-                                                                contentUri
-                                                            )
-                                                            .setCustomCacheKey(song.asMediaItem.mediaId)
-                                                            .setData(song.title.toByteArray())
-                                                            .build()
-
-                                                        DownloadService.sendAddDownload(
-                                                            context,
-                                                            MyDownloadService::class.java,
-                                                            downloadRequest,
-                                                            false
-                                                        )
-/*
-                                                        DownloadService.sendSetStopReason(
-                                                            context,
-                                                            DownloaderService::class.java,
-                                                            song.asMediaItem.mediaId,
-                                                            Download.STOP_REASON_NONE,
-                                                            false
-                                                        )
- */
-                                                        DownloadService.start(
-                                                            context,
-                                                            MyDownloadService::class.java
-                                                        )
-
- */
-
-
                                                     }
 
                                                 )
@@ -356,12 +322,14 @@ fun QuickPicks(
                         key = Innertube.SongItem::key
                     ) { song ->
 
-                        downloadState = downloader.getDownload(song.asMediaItem.mediaId).let { id -> downloadState }
+                        downloadState = getDownloadState(song.asMediaItem.mediaId)
+                        val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
 
                         SongItem(
                             song = song,
-                            isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                            isDownloaded = isDownloaded,
                             onDownloadClick = {
+                                binder?.cache?.removeResource(song.asMediaItem.mediaId)
                                 query {
                                     Database.insert(
                                         Song(
@@ -377,8 +345,9 @@ fun QuickPicks(
                                     context = context,
                                     songId = song.asMediaItem.mediaId,
                                     songTitle = song.asMediaItem.mediaMetadata.title.toString(),
-                                    downloadState = downloadState
+                                    downloadState = isDownloaded
                                 )
+
                             },
                             downloadState = downloadState,
                             thumbnailSizePx = songThumbnailSizePx,
@@ -391,6 +360,7 @@ fun QuickPicks(
                                                 onDismiss = menuState::hide,
                                                 mediaItem = song.asMediaItem,
                                                 onDownload = {
+                                                    binder?.cache?.removeResource(song.asMediaItem.mediaId)
                                                     query {
                                                         Database.insert(
                                                             Song(
@@ -406,11 +376,11 @@ fun QuickPicks(
                                                         context = context,
                                                         songId = song.asMediaItem.mediaId,
                                                         songTitle = song.asMediaItem.mediaMetadata.title.toString(),
-                                                        downloadState = downloadState
+                                                        downloadState = isDownloaded
                                                     )
                                                 },
 
-                                            )
+                                                )
                                         }
                                     },
                                     onClick = {

@@ -48,6 +48,7 @@ import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.songSortByKey
 import it.vfsfitvnm.vimusic.utils.songSortOrderKey
@@ -195,7 +196,7 @@ fun StatisticsItems(statisticsType: StatisticsType) {
                 key = { _, song -> song.id },
                 contentType = { _, song -> song },
             ) { index, song ->
-                downloadState = downloader.getDownload(song.asMediaItem.mediaId).let { id -> downloadState }
+                downloadState = getDownloadState(song.asMediaItem.mediaId)
                 SongItem(
                     song = song,
                     isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),

@@ -104,6 +104,7 @@ import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -281,11 +282,10 @@ fun Player(
         Database.likedAt(mediaItem.mediaId).distinctUntilChanged().collect { likedAt = it }
     }
 
-    val downloader = LocalDownloader.current
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
-    downloadState = downloader.getDownload(mediaItem.mediaId).let { id -> downloadState }
+    downloadState = getDownloadState(mediaItem.mediaId)
 
 
     OnGlobalRoute {
@@ -701,7 +701,7 @@ fun Player(
                                     context = context,
                                     songId = mediaItem.mediaId,
                                     songTitle = mediaItem.mediaMetadata.title.toString(),
-                                    downloadState = downloadState
+                                    downloadState = isDownloaded
                                 )
                             },
                             modifier = Modifier

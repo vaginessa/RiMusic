@@ -90,6 +90,7 @@ import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.hasPermission
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid10
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid13
@@ -404,7 +405,7 @@ fun DeviceListSongs(
                 )
 
 */
-                downloadState = downloader.getDownload(song.id).let { id -> downloadState }
+                downloadState = getDownloadState(song.asMediaItem.mediaId)
 
                 SongItem(
                     song = song,

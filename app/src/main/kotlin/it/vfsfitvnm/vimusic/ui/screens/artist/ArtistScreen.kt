@@ -61,6 +61,7 @@ import it.vfsfitvnm.vimusic.utils.artistScreenTabIndexKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlay
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import kotlinx.coroutines.Dispatchers
@@ -85,7 +86,6 @@ fun ArtistScreen(browseId: String) {
 
     var artistPage by persist<Innertube.ArtistPage?>("artist/$browseId/artistPage")
 
-    val downloader = LocalDownloader.current
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
@@ -256,10 +256,13 @@ fun ArtistScreen(browseId: String) {
                                     })
                                 },
                                 itemContent = { song ->
+                                    downloadState = getDownloadState(song.asMediaItem.mediaId)
+                                    val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
                                     SongItem(
                                         song = song,
-                                        isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                                        isDownloaded = isDownloaded,
                                         onDownloadClick = {
+                                            binder?.cache?.removeResource(song.asMediaItem.mediaId)
                                             query {
                                                 Database.insert(
                                                     Song(
@@ -275,7 +278,7 @@ fun ArtistScreen(browseId: String) {
                                                 context = context,
                                                 songId = song.asMediaItem.mediaId,
                                                 songTitle = song.asMediaItem.mediaMetadata.title.toString(),
-                                                downloadState = downloadState
+                                                downloadState = isDownloaded
                                             )
                                         },
                                         downloadState = downloadState,

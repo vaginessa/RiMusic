@@ -69,6 +69,7 @@ import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlay
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -182,11 +183,13 @@ fun ArtistOverview(
                         }
 
                         songs.forEach { song ->
-                            downloadState = downloader.getDownload(song.asMediaItem.mediaId).let { id -> downloadState }
+                            downloadState = getDownloadState(song.asMediaItem.mediaId)
+                            val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
                             SongItem(
                                 song = song,
-                                isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                                isDownloaded = isDownloaded,
                                 onDownloadClick = {
+                                    binder?.cache?.removeResource(song.asMediaItem.mediaId)
                                     query {
                                             Database.insert(
                                                 Song(
@@ -203,7 +206,7 @@ fun ArtistOverview(
                                         context = context,
                                         songId = song.asMediaItem.mediaId,
                                         songTitle = song.asMediaItem.mediaMetadata.title.toString(),
-                                        downloadState = downloadState
+                                        downloadState = isDownloaded
                                     )
                                 },
                                 downloadState = downloadState,

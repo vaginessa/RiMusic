@@ -212,22 +212,6 @@ fun SongItem(
                         .size(16.dp)
                 )
 
-/*
-                DownloadIconButton(
-                    onClick = onDownloadClick,
-                    icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
-                    color = if (isDownloaded) colorPalette.text else colorPalette.textDisabled,
-                    modifier = Modifier
-                        .size(16.dp)
-                ){
-                    CircularProgressIndicator(
-                        strokeWidth = 2.dp,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-
- */
-
                 Spacer(modifier = Modifier.padding(horizontal = 2.dp))
 
                 BasicText(
@@ -308,6 +292,7 @@ fun SongItem(
 
                 //Log.d("downloadState",downloadState.toString())
 
+
                 if ((downloadState == Download.STATE_DOWNLOADING
                             || downloadState == Download.STATE_QUEUED
                             || downloadState == Download.STATE_RESTARTING
@@ -315,7 +300,10 @@ fun SongItem(
                     && !isDownloaded) {
                     CircularProgressIndicator(
                         strokeWidth = 2.dp,
-                        modifier = Modifier.size(16.dp)
+                        color = colorPalette.text,
+                        modifier = Modifier
+                            .size(16.dp)
+
                     )
                 } else {
                    IconButton(
@@ -326,17 +314,6 @@ fun SongItem(
                             .size(16.dp)
                     )
                 }
-
-
-/*
-                                {
-                                    CircularProgressIndicator(
-                                        strokeWidth = 2.dp,
-                                        modifier = Modifier.size(24.dp)
-                                    )
-                                }
-
- */
 
                 Spacer(modifier = Modifier.padding(horizontal = 2.dp))
 

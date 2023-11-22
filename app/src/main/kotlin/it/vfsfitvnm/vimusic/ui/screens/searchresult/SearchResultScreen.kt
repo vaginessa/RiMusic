@@ -53,6 +53,7 @@ import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlay
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.searchResultScreenTabIndexKey
 
@@ -137,7 +138,7 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
                                 emptyItemsText = emptyItemsText,
                                 headerContent = headerContent,
                                 itemContent = { song ->
-                                    downloadState = downloader.getDownload(song.asMediaItem.mediaId).let { id -> downloadState }
+                                    downloadState = getDownloadState(song.asMediaItem.mediaId)
                                     SongItem(
                                         song = song,
                                         isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),

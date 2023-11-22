@@ -92,6 +92,7 @@ import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.DisposableListener
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.queueLoopEnabledKey
@@ -240,16 +241,18 @@ fun Queue(
                         var deltaX by remember { mutableStateOf(0f) }
                         val isPlayingThisMediaItem = mediaItemIndex == window.firstPeriodIndex
                         val currentItem by rememberUpdatedState(window)
-                        downloadState = downloader.getDownload(window.mediaItem.mediaId).let { id -> downloadState }
+                        downloadState = getDownloadState(window.mediaItem.mediaId)
+                        val isDownloaded = downloadedStateMedia(window.mediaItem.mediaId)
                         SongItem(
                             song = window.mediaItem,
-                            isDownloaded = downloadedStateMedia( window.mediaItem.mediaId ),
+                            isDownloaded = isDownloaded,
                             onDownloadClick = {
+                                binder?.cache?.removeResource(window.mediaItem.mediaId)
                                 manageDownload(
                                     context = context,
                                     songId = window.mediaItem.mediaId,
                                     songTitle = window.mediaItem.mediaMetadata.title.toString(),
-                                    downloadState = downloadState
+                                    downloadState = isDownloaded
                                 )
                             },
                             downloadState = downloadState,
@@ -317,7 +320,7 @@ fun Queue(
                                                         context = context,
                                                         songId = window.mediaItem.mediaId,
                                                         songTitle = window.mediaItem.mediaMetadata.title.toString(),
-                                                        downloadState = downloadState
+                                                        downloadState = isDownloaded
                                                     )
                                                 }
 

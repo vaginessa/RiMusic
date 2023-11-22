@@ -46,6 +46,7 @@ import it.vfsfitvnm.vimusic.utils.align
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlay
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.medium
 
 @ExperimentalFoundationApi
@@ -74,7 +75,6 @@ fun LocalSongSearch(
 
     val lazyListState = rememberLazyListState()
 
-    val downloader = LocalDownloader.current
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
@@ -119,7 +119,7 @@ fun LocalSongSearch(
                 items = items,
                 key = Song::id,
             ) { song ->
-                downloadState = downloader.getDownload(song.id).let { id -> downloadState }
+                downloadState = getDownloadState(song.asMediaItem.mediaId)
                 SongItem(
                     song = song,
                     isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),

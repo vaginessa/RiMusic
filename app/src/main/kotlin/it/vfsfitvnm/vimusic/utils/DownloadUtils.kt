@@ -25,9 +25,11 @@ import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.models.Format
 import it.vfsfitvnm.vimusic.service.MyDownloadService
+import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.service.VideoIdMismatchException
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.withContext
 
 @UnstableApi
 @Composable
@@ -102,43 +104,45 @@ fun downloadedStateMedia ( mediaId: String ): Boolean {
 }
 
 @UnstableApi
-
 fun manageDownload (
     context: android.content.Context,
     songId: String,
     songTitle: String,
-    downloadState: Int
+    downloadState: Boolean = false
 ) {
-
-    when (downloadState) {
-        Download.STATE_COMPLETED, Download.STATE_DOWNLOADING ->  DownloadService.sendRemoveDownload(
+    if (downloadState)
+        DownloadService.sendRemoveDownload(
             context,
             MyDownloadService::class.java,
             songId,
             false
         )
-        else -> {
-            val contentUri =
-                "https://www.youtube.com/watch?v=${songId}".toUri()
-            val downloadRequest = DownloadRequest
-                .Builder(
-                    songId,
-                    contentUri
-                )
-                .setCustomCacheKey(songId)
-                .setData(songTitle.toByteArray())
-                .build()
-
-            DownloadService.sendAddDownload(
-                context,
-                MyDownloadService::class.java,
-                downloadRequest,
-                false
+     else {
+        val contentUri =
+            "https://www.youtube.com/watch?v=${songId}".toUri()
+        val downloadRequest = DownloadRequest
+            .Builder(
+                songId,
+                contentUri
             )
-        }
+            .setCustomCacheKey(songId)
+            .setData(songTitle.toByteArray())
+            .build()
+
+        DownloadService.sendAddDownload(
+            context,
+            MyDownloadService::class.java,
+            downloadRequest,
+            false
+        )
     }
 
-
 }
-
+@UnstableApi
+@Composable
+fun getDownloadState(mediaId: String): Int {
+    val downloader = LocalDownloader.current
+    return downloader.getDownload(mediaId).collectAsState(initial = null).value?.state
+        ?: 3
+}
 

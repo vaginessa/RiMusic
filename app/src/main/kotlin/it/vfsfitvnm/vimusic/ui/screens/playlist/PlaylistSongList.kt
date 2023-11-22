@@ -91,6 +91,7 @@ import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.secondary
@@ -285,6 +286,7 @@ fun PlaylistSongList(
                     onClick = {
                         if (playlistPage?.songsPage?.items?.isNotEmpty() == true)
                             playlistPage?.songsPage?.items?.forEach {
+                                binder?.cache?.removeResource(it.asMediaItem.mediaId)
                                 query {
                                     Database.insert(
                                         Song(
@@ -300,7 +302,7 @@ fun PlaylistSongList(
                                     context = context,
                                     songId = it.asMediaItem.mediaId,
                                     songTitle = it.asMediaItem.mediaMetadata.title.toString(),
-                                    downloadState = downloadState
+                                    downloadState = false
                                 )
                             }
                     }
@@ -367,11 +369,13 @@ fun PlaylistSongList(
                 }
 
                 itemsIndexed(items = playlistPage?.songsPage?.items ?: emptyList()) { index, song ->
-                    downloadState = downloader.getDownload(song.asMediaItem.mediaId).let { id -> downloadState }
+                    downloadState = getDownloadState(song.asMediaItem.mediaId)
+                    val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
                     SongItem(
                         song = song,
-                        isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                        isDownloaded = isDownloaded,
                         onDownloadClick = {
+                            binder?.cache?.removeResource(song.asMediaItem.mediaId)
                             query {
                                 Database.insert(
                                     Song(
@@ -387,7 +391,7 @@ fun PlaylistSongList(
                                 context = context,
                                 songId = song.asMediaItem.mediaId,
                                 songTitle = song.asMediaItem.mediaMetadata.title.toString(),
-                                downloadState = downloadState
+                                downloadState = isDownloaded
                             )
                         },
                         downloadState = downloadState,

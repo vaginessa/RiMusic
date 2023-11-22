@@ -47,6 +47,7 @@ import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
 
 @ExperimentalFoundationApi
@@ -64,7 +65,6 @@ fun ArtistLocalSongs(
 
     var songs by persist<List<Song>?>("artist/$browseId/localSongs")
 
-    val downloader = LocalDownloader.current
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
@@ -73,7 +73,7 @@ fun ArtistLocalSongs(
 
     LaunchedEffect(Unit) {
         Database.artistSongs(browseId).collect { songs = it }
-
+/*
         val items = songs?.map { it.id }
         downloader.downloads.collect { downloads ->
             if (items != null) {
@@ -90,6 +90,8 @@ fun ArtistLocalSongs(
                         Download.STATE_STOPPED
             }
         }
+
+ */
 
     }
 
@@ -146,10 +148,13 @@ fun ArtistLocalSongs(
                         items = songs,
                         key = { _, song -> song.id }
                     ) { index, song ->
+                        downloadState = getDownloadState(song.asMediaItem.mediaId)
+                        val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
                         SongItem(
                             song = song,
-                            isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                            isDownloaded = isDownloaded,
                             onDownloadClick = {
+                                binder?.cache?.removeResource(song.asMediaItem.mediaId)
                                 query {
                                     Database.insert(
                                         Song(
@@ -165,7 +170,7 @@ fun ArtistLocalSongs(
                                     context = context,
                                     songId = song.id,
                                     songTitle = song.title,
-                                    downloadState = downloadState
+                                    downloadState = isDownloaded
                                 )
                             },
                             downloadState = downloadState,

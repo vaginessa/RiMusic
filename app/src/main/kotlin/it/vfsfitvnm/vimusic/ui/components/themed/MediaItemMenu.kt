@@ -77,6 +77,7 @@ import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.launchYouTubeMusic
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -328,11 +329,10 @@ fun MediaItemMenu(
         mutableStateOf<Long?>(null)
     }
 
-    val downloader = LocalDownloader.current
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
-    downloadState = downloader.getDownload(mediaItem.mediaId).let { id -> downloadState }
+    downloadState = getDownloadState(mediaItem.mediaId)
 
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {

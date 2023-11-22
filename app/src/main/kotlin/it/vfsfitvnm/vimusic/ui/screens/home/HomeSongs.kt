@@ -89,6 +89,7 @@ import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
@@ -122,7 +123,6 @@ fun  HomeSongs(
 
     var filter: String? by rememberSaveable { mutableStateOf(null) }
 
-    val downloader = LocalDownloader.current
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
@@ -133,6 +133,7 @@ fun  HomeSongs(
 
     LaunchedEffect(sortBy, sortOrder, filter) {
         Database.songs(sortBy, sortOrder).collect { items = it }
+        /*
         val songs = items?.map { it.id }
         downloader.downloads.collect { downloads ->
             if (songs != null) {
@@ -149,6 +150,8 @@ fun  HomeSongs(
                         Download.STATE_STOPPED
             }
         }
+
+         */
 
     }
 
@@ -334,10 +337,13 @@ fun  HomeSongs(
                 items = items,
                 key = { _, song -> song.id }
             ) { index, song ->
+                downloadState = getDownloadState(song.asMediaItem.mediaId)
+                val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
                 SongItem(
                     song = song,
-                    isDownloaded =  downloadedStateMedia(song.asMediaItem.mediaId),
+                    isDownloaded =  isDownloaded,
                     onDownloadClick = {
+                        binder?.cache?.removeResource(song.asMediaItem.mediaId)
                         query {
                             Database.insert(
                                 Song(
@@ -353,7 +359,7 @@ fun  HomeSongs(
                             context = context,
                             songId = song.id,
                             songTitle = song.title,
-                            downloadState = downloadState
+                            downloadState = isDownloaded
                         )
                     },
                     downloadState = downloadState,
