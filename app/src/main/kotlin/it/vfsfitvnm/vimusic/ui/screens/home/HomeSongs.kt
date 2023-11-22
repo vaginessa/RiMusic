@@ -68,6 +68,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.MyDownloadService
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
@@ -337,6 +338,17 @@ fun  HomeSongs(
                     song = song,
                     isDownloaded =  downloadedStateMedia(song.asMediaItem.mediaId),
                     onDownloadClick = {
+                        query {
+                            Database.insert(
+                                Song(
+                                    id = song.asMediaItem.mediaId,
+                                    title = song.asMediaItem.mediaMetadata.title.toString(),
+                                    artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
+                                    thumbnailUrl = song.thumbnailUrl,
+                                    durationText = null
+                                )
+                            )
+                        }
                         manageDownload(
                             context = context,
                             songId = song.id,

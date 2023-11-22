@@ -65,6 +65,7 @@ import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.isLandscape
+import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.semiBold
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -227,7 +228,12 @@ fun StatisticsPage(
                             song = songs.get(it).asMediaItem,
                             isDownloaded = downloadedStateMedia(songs.get(it).asMediaItem.mediaId),
                             onDownloadClick = {
-                                //TODO onDownloadClick
+                                manageDownload(
+                                    context = context,
+                                    songId = songs.get(it).asMediaItem.mediaId,
+                                    songTitle = songs.get(it).asMediaItem.mediaMetadata.title.toString(),
+                                    downloadState = downloadState
+                                )
                             },
                             downloadState = downloadState,
                             thumbnailSizeDp = thumbnailSizeDp,

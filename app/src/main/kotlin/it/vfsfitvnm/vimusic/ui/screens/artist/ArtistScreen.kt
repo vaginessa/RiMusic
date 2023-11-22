@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import com.valentinilk.shimmer.shimmer
@@ -37,6 +38,7 @@ import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Artist
+import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
@@ -254,11 +256,21 @@ fun ArtistScreen(browseId: String) {
                                     })
                                 },
                                 itemContent = { song ->
-                                    downloadState = downloader.getDownload(song.asMediaItem.mediaId).let { id -> downloadState }
                                     SongItem(
                                         song = song,
                                         isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                                         onDownloadClick = {
+                                            query {
+                                                Database.insert(
+                                                    Song(
+                                                        id = song.asMediaItem.mediaId,
+                                                        title = song.asMediaItem.mediaMetadata.title.toString(),
+                                                        artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
+                                                        thumbnailUrl = song.thumbnail?.url,
+                                                        durationText = null
+                                                    )
+                                                )
+                                            }
                                             manageDownload(
                                                 context = context,
                                                 songId = song.asMediaItem.mediaId,

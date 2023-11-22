@@ -229,6 +229,18 @@ fun QuickPicks(
                                 song = song,
                                 isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                                 onDownloadClick = {
+                                    query {
+                                        Database.insert(
+                                            Song(
+                                                id = song.asMediaItem.mediaId,
+                                                title = song.asMediaItem.mediaMetadata.title.toString(),
+                                                artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
+                                                thumbnailUrl = song.thumbnailUrl,
+                                                durationText = null
+                                            )
+                                        )
+                                    }
+
                                     manageDownload(
                                         context = context,
                                         songId = song.id,
@@ -262,6 +274,17 @@ fun QuickPicks(
                                                     },
 
                                                     onDownload = {
+                                                        query {
+                                                            Database.insert(
+                                                                Song(
+                                                                    id = song.asMediaItem.mediaId,
+                                                                    title = song.asMediaItem.mediaMetadata.title.toString(),
+                                                                    artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
+                                                                    thumbnailUrl = song.thumbnailUrl,
+                                                                    durationText = null
+                                                                )
+                                                            )
+                                                        }
                                                         manageDownload(
                                                             context = context,
                                                             songId = song.id,
@@ -339,6 +362,17 @@ fun QuickPicks(
                             song = song,
                             isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                             onDownloadClick = {
+                                query {
+                                    Database.insert(
+                                        Song(
+                                            id = song.asMediaItem.mediaId,
+                                            title = song.asMediaItem.mediaMetadata.title.toString(),
+                                            artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
+                                            thumbnailUrl = song.thumbnail?.url,
+                                            durationText = null
+                                        )
+                                    )
+                                }
                                 manageDownload(
                                     context = context,
                                     songId = song.asMediaItem.mediaId,
@@ -357,68 +391,25 @@ fun QuickPicks(
                                                 onDismiss = menuState::hide,
                                                 mediaItem = song.asMediaItem,
                                                 onDownload = {
-                                                    val downloadRequest = DownloadRequest
-                                                        .Builder(
-                                                            song.asMediaItem.mediaId,
-                                                            song.asMediaItem.mediaId.toUri()
+                                                    query {
+                                                        Database.insert(
+                                                            Song(
+                                                                id = song.asMediaItem.mediaId,
+                                                                title = song.asMediaItem.mediaMetadata.title.toString(),
+                                                                artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
+                                                                thumbnailUrl = song.thumbnail?.url,
+                                                                durationText = null
+                                                            )
                                                         )
-                                                        .setCustomCacheKey(song.asMediaItem.mediaId)
-                                                        .setData(
-                                                            song.asMediaItem.mediaMetadata.title
-                                                                .toString()
-                                                                .toByteArray()
-                                                        )
-                                                        .build()
-                                                    DownloadService.sendAddDownload(
-                                                        context,
-                                                        MyDownloadService::class.java,
-                                                        downloadRequest,
-                                                        false
-                                                    )
-                                                    DownloadService.start(
-                                                        context,
-                                                        MyDownloadService::class.java
+                                                    }
+                                                    manageDownload(
+                                                        context = context,
+                                                        songId = song.asMediaItem.mediaId,
+                                                        songTitle = song.asMediaItem.mediaMetadata.title.toString(),
+                                                        downloadState = downloadState
                                                     )
                                                 },
-                                                /*
-                                                onRemoveDownload = {
-                                                    DownloadService.sendRemoveDownload(
-                                                        context,
-                                                        ExoDownloadService::class.java,
-                                                        song.id,
-                                                        false
-                                                    )
-                                                }
-                                                */
-                                                /*
-                                                onDownload = {
-                                                    Log.d("downloadEvent","Download started from Quick Picks?")
-                                                    val contentUri = "https://www.youtube.com/watch?v=${song.asMediaItem.mediaId}".toUri()
-                                                    val downloadRequest = DownloadRequest.Builder(song.asMediaItem.mediaId, contentUri).build()
 
-                                                    DownloadService.sendAddDownload(
-                                                        context,
-                                                        DownloaderService::class.java,
-                                                        downloadRequest,
-                                                        /* foreground= */ false
-                                                    )
-
-                                                    DownloadService.sendSetStopReason(
-                                                        context,
-                                                        DownloaderService::class.java,
-                                                        song.asMediaItem.mediaId,
-                                                        Download.STOP_REASON_NONE,
-                                                        /* foreground= */ false
-                                                    )
-
-                                                    DownloadService.start(
-                                                        context,
-                                                        DownloaderService::class.java
-                                                    )
-
-                                                }
-
-                                                 */
                                             )
                                         }
                                     },

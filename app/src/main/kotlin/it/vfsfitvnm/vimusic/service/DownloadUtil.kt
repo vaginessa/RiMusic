@@ -78,7 +78,7 @@ object DownloadUtil {
         }
         downloads.value = result
 
-        Log.d("downloadMedia-onDownloadChanged",downloads.value.keys.toString())
+        //Log.d("downloadMedia-onDownloadChanged",downloads.value.keys.toString())
         /*
         downloadManager.addListener(
             object : DownloadManager.Listener {
@@ -97,6 +97,7 @@ object DownloadUtil {
 
 
 
+    @SuppressLint("SuspiciousIndentation")
     @Synchronized
     fun getResolvingDataSourceFactory (context: Context): ResolvingDataSource.Factory {
         val cache = getDownloadCache(context)
@@ -146,8 +147,9 @@ object DownloadUtil {
 
 
 
-/*
+
                                     query {
+                                        if (Database.songExist(videoId) == 1)
                                         Database.insert(
                                             Format(
                                                 songId = videoId,
@@ -161,7 +163,7 @@ object DownloadUtil {
                                         )
                                     }
 
- */
+
 
 
 
@@ -331,7 +333,7 @@ object DownloadUtil {
     fun getDownloadDirectory(context: Context): File {
         if(!DownloadUtil::downloadDirectory.isInitialized) {
             downloadDirectory = context.getExternalFilesDir(null) ?: context.filesDir
-            Log.d("downloadMedia", downloadDirectory.path)
+            //Log.d("downloadMedia", downloadDirectory.path)
         }
         return downloadDirectory
     }

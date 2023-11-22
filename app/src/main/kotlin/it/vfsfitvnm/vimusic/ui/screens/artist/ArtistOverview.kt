@@ -187,10 +187,7 @@ fun ArtistOverview(
                                 song = song,
                                 isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                                 onDownloadClick = {
-
-                                    Log.d("downloadMedia","sono qui")
                                     query {
-                                        //try {
                                             Database.insert(
                                                 Song(
                                                     id = song.asMediaItem.mediaId,
@@ -200,8 +197,6 @@ fun ArtistOverview(
                                                     durationText = null
                                                 )
                                             )
-                                        //} catch (_: SQLException) {
-                                        //}
                                     }
 
                                     manageDownload(

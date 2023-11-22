@@ -286,7 +286,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
 
         downloadCache = SimpleCache(downloadDirectory, cacheEvictor, StandaloneDatabaseProvider(this))
 
-        Log.d("downloadMedia-PlayerService",downloadDirectory.path)
+        //Log.d("downloadMedia-PlayerService",downloadDirectory.path)
 
 
         player = ExoPlayer.Builder(this, createRendersFactory(), createMediaSourceFactory())

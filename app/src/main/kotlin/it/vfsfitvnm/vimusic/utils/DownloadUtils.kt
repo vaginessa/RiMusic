@@ -96,42 +96,34 @@ fun manageDownload (
     downloadState: Int
 ) {
 
-
-
-    if (downloadState == Download.STATE_COMPLETED)
-        DownloadService.sendRemoveDownload(
+    when (downloadState) {
+        Download.STATE_COMPLETED, Download.STATE_DOWNLOADING ->  DownloadService.sendRemoveDownload(
             context,
             MyDownloadService::class.java,
             songId,
             false
         )
+        else -> {
+            val contentUri =
+                "https://www.youtube.com/watch?v=${songId}".toUri()
+            val downloadRequest = DownloadRequest
+                .Builder(
+                    songId,
+                    contentUri
+                )
+                .setCustomCacheKey(songId)
+                .setData(songTitle.toByteArray())
+                .build()
 
-    if (downloadState == Download.STATE_DOWNLOADING) {
-        DownloadService.sendRemoveDownload(
-            context,
-            MyDownloadService::class.java,
-            songId,
-            false
-        )
-    } else {
-        val contentUri =
-            "https://www.youtube.com/watch?v=${songId}".toUri()
-        val downloadRequest = DownloadRequest
-            .Builder(
-                songId,
-                contentUri
+            DownloadService.sendAddDownload(
+                context,
+                MyDownloadService::class.java,
+                downloadRequest,
+                false
             )
-            .setCustomCacheKey(songId)
-            .setData(songTitle.toByteArray())
-            .build()
-
-        DownloadService.sendAddDownload(
-            context,
-            MyDownloadService::class.java,
-            downloadRequest,
-            false
-        )
+        }
     }
+
 
 }
 

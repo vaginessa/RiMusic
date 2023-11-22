@@ -64,6 +64,7 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.models.Playlist
+import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.transaction
@@ -91,6 +92,7 @@ import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.isLandscape
+import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import kotlinx.coroutines.Dispatchers
@@ -278,6 +280,33 @@ fun PlaylistSongList(
                 )
 
                 HeaderIconButton(
+                    icon = R.drawable.download,
+                    color = colorPalette.text,
+                    onClick = {
+                        if (playlistPage?.songsPage?.items?.isNotEmpty() == true)
+                            playlistPage?.songsPage?.items?.forEach {
+                                query {
+                                    Database.insert(
+                                        Song(
+                                            id = it.asMediaItem.mediaId,
+                                            title = it.asMediaItem.mediaMetadata.title.toString(),
+                                            artistsText = it.asMediaItem.mediaMetadata.artist.toString(),
+                                            thumbnailUrl = it.thumbnail?.url,
+                                            durationText = null
+                                        )
+                                    )
+                                }
+                                manageDownload(
+                                    context = context,
+                                    songId = it.asMediaItem.mediaId,
+                                    songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                    downloadState = downloadState
+                                )
+                            }
+                    }
+                )
+
+                HeaderIconButton(
                     icon = R.drawable.enqueue,
                     enabled = playlistPage?.songsPage?.items?.isNotEmpty() == true,
                     color =  if (playlistPage?.songsPage?.items?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
@@ -343,7 +372,23 @@ fun PlaylistSongList(
                         song = song,
                         isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                         onDownloadClick = {
-                            //TODO onDownloadClick
+                            query {
+                                Database.insert(
+                                    Song(
+                                        id = song.asMediaItem.mediaId,
+                                        title = song.asMediaItem.mediaMetadata.title.toString(),
+                                        artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
+                                        thumbnailUrl = song.thumbnail?.url,
+                                        durationText = null
+                                    )
+                                )
+                            }
+                            manageDownload(
+                                context = context,
+                                songId = song.asMediaItem.mediaId,
+                                songTitle = song.asMediaItem.mediaMetadata.title.toString(),
+                                downloadState = downloadState
+                            )
                         },
                         downloadState = downloadState,
                         thumbnailSizePx = songThumbnailSizePx,
