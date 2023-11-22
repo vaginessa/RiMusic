@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.artist
 
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -23,19 +24,28 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
+import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
@@ -56,8 +66,10 @@ import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.align
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.color
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlay
+import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 @UnstableApi
@@ -90,6 +102,13 @@ fun ArtistOverview(
         .padding(top = 24.dp, bottom = 8.dp)
 
     val scrollState = rememberScrollState()
+
+    val downloader = LocalDownloader.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
+    }
+
+    val context = LocalContext.current
 
     LayoutWithAdaptiveThumbnail(thumbnailContent = thumbnailContent) {
         Box {
@@ -163,12 +182,36 @@ fun ArtistOverview(
                         }
 
                         songs.forEach { song ->
+                            downloadState = downloader.getDownload(song.asMediaItem.mediaId).let { id -> downloadState }
                             SongItem(
                                 song = song,
-                                isDownloaded = false,
+                                isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                                 onDownloadClick = {
-                                    //TODO onDownloadClick
+
+                                    Log.d("downloadMedia","sono qui")
+                                    query {
+                                        //try {
+                                            Database.insert(
+                                                Song(
+                                                    id = song.asMediaItem.mediaId,
+                                                    title = song.asMediaItem.mediaMetadata.title.toString(),
+                                                    artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
+                                                    thumbnailUrl = song.thumbnail?.url,
+                                                    durationText = null
+                                                )
+                                            )
+                                        //} catch (_: SQLException) {
+                                        //}
+                                    }
+
+                                    manageDownload(
+                                        context = context,
+                                        songId = song.asMediaItem.mediaId,
+                                        songTitle = song.asMediaItem.mediaMetadata.title.toString(),
+                                        downloadState = downloadState
+                                    )
                                 },
+                                downloadState = downloadState,
                                 thumbnailSizeDp = songThumbnailSizeDp,
                                 thumbnailSizePx = songThumbnailSizePx,
                                 modifier = Modifier

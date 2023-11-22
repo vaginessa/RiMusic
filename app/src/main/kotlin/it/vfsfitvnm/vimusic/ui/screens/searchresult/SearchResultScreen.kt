@@ -6,7 +6,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -14,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.persist.persistMap
 import it.vfsfitvnm.innertube.Innertube
@@ -22,6 +27,7 @@ import it.vfsfitvnm.innertube.models.bodies.SearchBody
 import it.vfsfitvnm.innertube.requests.searchPage
 import it.vfsfitvnm.innertube.utils.from
 import it.vfsfitvnm.compose.routing.RouteHandler
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
@@ -45,6 +51,7 @@ import it.vfsfitvnm.vimusic.ui.screens.playlistRoute
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.searchResultScreenTabIndexKey
@@ -58,6 +65,11 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
     val context = LocalContext.current
     val saveableStateHolder = rememberSaveableStateHolder()
     val (tabIndex, onTabIndexChanges) = rememberPreference(searchResultScreenTabIndexKey, 0)
+
+    val downloader = LocalDownloader.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
+    }
 
     PersistMapCleanup(tagPrefix = "searchResults/$query/")
 
@@ -125,12 +137,14 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
                                 emptyItemsText = emptyItemsText,
                                 headerContent = headerContent,
                                 itemContent = { song ->
+                                    downloadState = downloader.getDownload(song.asMediaItem.mediaId).let { id -> downloadState }
                                     SongItem(
                                         song = song,
-                                        isDownloaded = false,
+                                        isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                                         onDownloadClick = {
                                             //TODO onDownloadClick
                                         },
+                                        downloadState = downloadState,
                                         thumbnailSizePx = thumbnailSizePx,
                                         thumbnailSizeDp = thumbnailSizeDp,
                                         modifier = Modifier

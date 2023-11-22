@@ -32,6 +32,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Format
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.utils.RingBuffer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -124,6 +125,9 @@ object DownloadUtil {
                                     val mediaItem = runBlocking(Dispatchers.Main) {
                                         Innertube.player(PlayerBody(videoId = videoId))
                                     }
+                                    //Log.d("downloadMedia",mediaItem.toString())
+
+                                    //TODO insert song into database
 /*
                                         if (mediaItem?.mediaMetadata?.extras?.getString("durationText") == null) {
                                             format.approxDurationMs?.div(1000)
@@ -144,9 +148,7 @@ object DownloadUtil {
 
 /*
                                     query {
-                                        //mediaItem?.let(Database::insert)
-
-                                        Database.upsert(
+                                        Database.insert(
                                             Format(
                                                 songId = videoId,
                                                 itag = format.itag,
@@ -160,6 +162,8 @@ object DownloadUtil {
                                     }
 
  */
+
+
 
                                     format.url
                                 } ?: throw PlayableFormatNotFoundException()

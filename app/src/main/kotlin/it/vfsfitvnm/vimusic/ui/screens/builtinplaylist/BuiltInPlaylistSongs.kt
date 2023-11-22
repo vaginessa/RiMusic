@@ -58,8 +58,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
@@ -112,6 +114,12 @@ fun BuiltInPlaylistSongs(
     var sortOrder by rememberPreference(songSortOrderKey, SortOrder.Descending)
 
     var filter: String? by rememberSaveable { mutableStateOf(null) }
+
+    val downloader = LocalDownloader.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
+    }
+
 
     LaunchedEffect(Unit, sortBy, sortOrder, filter) {
         when (builtInPlaylist) {
@@ -336,13 +344,14 @@ fun BuiltInPlaylistSongs(
                 key = { _, song -> song.id },
                 contentType = { _, song -> song },
             ) { index, song ->
-
+                downloadState = downloader.getDownload(song.id).let { id -> downloadState }
                 SongItem(
                     song = song,
                     isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                     onDownloadClick = {
                         //TODO onDownloadClick
                     },
+                    downloadState = downloadState,
                     thumbnailSizeDp = thumbnailSizeDp,
                     thumbnailSizePx = thumbnailSize,
                     modifier = Modifier

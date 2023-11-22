@@ -51,12 +51,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.BrowseBody
 import it.vfsfitvnm.innertube.requests.playlistPage
 import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
@@ -151,6 +153,11 @@ fun PlaylistSongList(
 
     var isImportingPlaylist by rememberSaveable {
         mutableStateOf(false)
+    }
+
+    val downloader = LocalDownloader.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
     }
 
     if (isImportingPlaylist) {
@@ -331,13 +338,14 @@ fun PlaylistSongList(
                 }
 
                 itemsIndexed(items = playlistPage?.songsPage?.items ?: emptyList()) { index, song ->
-
+                    downloadState = downloader.getDownload(song.asMediaItem.mediaId).let { id -> downloadState }
                     SongItem(
                         song = song,
                         isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                         onDownloadClick = {
                             //TODO onDownloadClick
                         },
+                        downloadState = downloadState,
                         thumbnailSizePx = songThumbnailSizePx,
                         thumbnailSizeDp = songThumbnailSizeDp,
                         modifier = Modifier

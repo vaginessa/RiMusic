@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.items
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +20,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import coil.compose.AsyncImage
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.vimusic.R
@@ -30,7 +34,7 @@ import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.thumbnail
-
+@UnstableApi
 @Composable
 fun SongItem(
     song: Innertube.SongItem,
@@ -38,7 +42,8 @@ fun SongItem(
     thumbnailSizeDp: Dp,
     modifier: Modifier = Modifier,
     isDownloaded: Boolean,
-    onDownloadClick: () -> Unit
+    onDownloadClick: () -> Unit,
+    downloadState: Int
 ) {
     SongItem(
         thumbnailUrl = song.thumbnail?.size(thumbnailSizePx),
@@ -48,10 +53,12 @@ fun SongItem(
         thumbnailSizeDp = thumbnailSizeDp,
         modifier = modifier,
         isDownloaded = isDownloaded,
-        onDownloadClick = onDownloadClick
+        onDownloadClick = onDownloadClick,
+        downloadState = downloadState
     )
 }
 
+@UnstableApi
 @Composable
 fun SongItem(
     song: MediaItem,
@@ -61,7 +68,8 @@ fun SongItem(
     onThumbnailContent: (@Composable BoxScope.() -> Unit)? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     isDownloaded: Boolean,
-    onDownloadClick: () -> Unit
+    onDownloadClick: () -> Unit,
+    downloadState: Int
 ) {
     SongItem(
         thumbnailUrl = song.mediaMetadata.artworkUri.thumbnail(thumbnailSizePx)?.toString(),
@@ -73,10 +81,12 @@ fun SongItem(
         trailingContent = trailingContent,
         modifier = modifier,
         isDownloaded = isDownloaded,
-        onDownloadClick = onDownloadClick
+        onDownloadClick = onDownloadClick,
+        downloadState = downloadState
     )
 }
 
+@UnstableApi
 @Composable
 fun SongItem(
     song: Song,
@@ -86,7 +96,8 @@ fun SongItem(
     onThumbnailContent: (@Composable BoxScope.() -> Unit)? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     isDownloaded: Boolean,
-    onDownloadClick: () -> Unit
+    onDownloadClick: () -> Unit,
+    downloadState: Int
 ) {
     SongItem(
         thumbnailUrl = song.thumbnailUrl?.thumbnail(thumbnailSizePx),
@@ -98,10 +109,12 @@ fun SongItem(
         trailingContent = trailingContent,
         modifier = modifier,
         isDownloaded = isDownloaded,
-        onDownloadClick = onDownloadClick
+        onDownloadClick = onDownloadClick,
+        downloadState = downloadState
     )
 }
 
+@UnstableApi
 @Composable
 fun SongItem(
     thumbnailUrl: String?,
@@ -113,7 +126,8 @@ fun SongItem(
     onThumbnailContent: (@Composable BoxScope.() -> Unit)? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     isDownloaded: Boolean,
-    onDownloadClick: () -> Unit
+    onDownloadClick: () -> Unit,
+    downloadState: Int
 ) {
     SongItem(
         title = title,
@@ -135,7 +149,8 @@ fun SongItem(
         modifier = modifier,
         trailingContent = trailingContent,
         isDownloaded = isDownloaded,
-        onDownloadClick = onDownloadClick
+        onDownloadClick = onDownloadClick,
+        downloadState = downloadState
     )
 }
 
@@ -196,6 +211,23 @@ fun SongItem(
                     modifier = Modifier
                         .size(16.dp)
                 )
+
+/*
+                DownloadIconButton(
+                    onClick = onDownloadClick,
+                    icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
+                    color = if (isDownloaded) colorPalette.text else colorPalette.textDisabled,
+                    modifier = Modifier
+                        .size(16.dp)
+                ){
+                    CircularProgressIndicator(
+                        strokeWidth = 2.dp,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+
+ */
+
                 Spacer(modifier = Modifier.padding(horizontal = 2.dp))
 
                 BasicText(
@@ -221,6 +253,117 @@ fun SongItem(
         }
     }
 }
+
+@UnstableApi
+@Composable
+fun SongItem(
+    thumbnailContent: @Composable BoxScope.() -> Unit,
+    title: String?,
+    authors: String?,
+    duration: String?,
+    thumbnailSizeDp: Dp,
+    modifier: Modifier = Modifier,
+    trailingContent: @Composable (() -> Unit)? = null,
+    isDownloaded: Boolean,
+    onDownloadClick: () -> Unit,
+    downloadState: Int
+) {
+    val (colorPalette, typography) = LocalAppearance.current
+
+    ItemContainer(
+        alternative = false,
+        thumbnailSizeDp = thumbnailSizeDp,
+        modifier = modifier
+    ) {
+        Box(
+            modifier = Modifier
+                .size(thumbnailSizeDp)
+        ) {
+            thumbnailContent()
+        }
+
+        ItemInfoContainer {
+            trailingContent?.let {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    BasicText(
+                        text = title ?: "",
+                        style = typography.xs.semiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .weight(1f)
+                    )
+
+                    it()
+                }
+            } ?: BasicText(
+                text = title ?: "",
+                style = typography.xs.semiBold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+
+                Log.d("downloadState",downloadState.toString())
+
+                if ((downloadState == Download.STATE_DOWNLOADING
+                            || downloadState == Download.STATE_QUEUED
+                            || downloadState == Download.STATE_RESTARTING
+                        )
+                    && !isDownloaded) {
+                    CircularProgressIndicator(
+                        strokeWidth = 2.dp,
+                        modifier = Modifier.size(16.dp)
+                    )
+                } else {
+                   IconButton(
+                        onClick = onDownloadClick,
+                        icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
+                        color = if (isDownloaded) colorPalette.text else colorPalette.textDisabled,
+                        modifier = Modifier
+                            .size(16.dp)
+                    )
+                }
+
+
+/*
+                                {
+                                    CircularProgressIndicator(
+                                        strokeWidth = 2.dp,
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                }
+
+ */
+
+                Spacer(modifier = Modifier.padding(horizontal = 2.dp))
+
+                BasicText(
+                    text = authors ?: "",
+                    style = typography.xs.semiBold.secondary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip,
+                    modifier = Modifier
+                        .weight(1f)
+                )
+
+                duration?.let {
+                    BasicText(
+                        text = duration,
+                        style = typography.xxs.secondary.medium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
 
 @Composable
 fun SongItemPlaceholder(

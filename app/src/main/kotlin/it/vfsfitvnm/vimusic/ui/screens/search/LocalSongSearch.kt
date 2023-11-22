@@ -16,6 +16,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
@@ -23,9 +25,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.models.Song
@@ -40,6 +44,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.align
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.medium
 
@@ -68,6 +73,11 @@ fun LocalSongSearch(
     val thumbnailSizePx = thumbnailSizeDp.px
 
     val lazyListState = rememberLazyListState()
+
+    val downloader = LocalDownloader.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
+    }
 
     Box {
         LazyColumn(
@@ -109,12 +119,14 @@ fun LocalSongSearch(
                 items = items,
                 key = Song::id,
             ) { song ->
+                downloadState = downloader.getDownload(song.id).let { id -> downloadState }
                 SongItem(
                     song = song,
-                    isDownloaded = false,
+                    isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                     onDownloadClick = {
                         //TODO onDownloadClick
                     },
+                    downloadState = downloadState,
                     thumbnailSizePx = thumbnailSizePx,
                     thumbnailSizeDp = thumbnailSizeDp,
                     modifier = Modifier

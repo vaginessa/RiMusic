@@ -63,8 +63,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
@@ -147,6 +149,11 @@ fun DeviceListSongs(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { hasPermission = it }
     )
+
+    val downloader = LocalDownloader.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
+    }
 
     LaunchedEffect(hasPermission,filter) {
         context.musicFilesAsFlow().collect { songs = it }
@@ -397,6 +404,7 @@ fun DeviceListSongs(
                 )
 
 */
+                downloadState = downloader.getDownload(song.id).let { id -> downloadState }
 
                 SongItem(
                     song = song,
@@ -404,6 +412,7 @@ fun DeviceListSongs(
                     onDownloadClick = {
                         //TODO onDownloadClick
                     },
+                    downloadState = downloadState,
                     thumbnailSizeDp = thumbnailSizeDp,
                     thumbnailSizePx = thumbnailSize,
 

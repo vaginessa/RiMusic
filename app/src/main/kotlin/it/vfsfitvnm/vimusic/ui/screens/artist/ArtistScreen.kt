@@ -10,6 +10,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -19,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.persist.persist
@@ -30,6 +33,7 @@ import it.vfsfitvnm.innertube.requests.itemsPage
 import it.vfsfitvnm.innertube.utils.from
 import it.vfsfitvnm.compose.routing.RouteHandler
 import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Artist
@@ -53,7 +57,9 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.artistScreenTabIndexKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlay
+import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
@@ -76,6 +82,12 @@ fun ArtistScreen(browseId: String) {
     var artist by persist<Artist?>("artist/$browseId/artist")
 
     var artistPage by persist<Innertube.ArtistPage?>("artist/$browseId/artistPage")
+
+    val downloader = LocalDownloader.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
+    }
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         Database
@@ -242,12 +254,19 @@ fun ArtistScreen(browseId: String) {
                                     })
                                 },
                                 itemContent = { song ->
+                                    downloadState = downloader.getDownload(song.asMediaItem.mediaId).let { id -> downloadState }
                                     SongItem(
                                         song = song,
-                                        isDownloaded = false,
+                                        isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                                         onDownloadClick = {
-                                            //TODO onDownloadClick
+                                            manageDownload(
+                                                context = context,
+                                                songId = song.asMediaItem.mediaId,
+                                                songTitle = song.asMediaItem.mediaMetadata.title.toString(),
+                                                downloadState = downloadState
+                                            )
                                         },
+                                        downloadState = downloadState,
                                         thumbnailSizeDp = thumbnailSizeDp,
                                         thumbnailSizePx = thumbnailSizePx,
                                         modifier = Modifier

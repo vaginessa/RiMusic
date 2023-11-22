@@ -122,6 +122,8 @@ dependencies {
 
     implementation("io.github.gautamchibde:audiovisualizer:2.2.7")
 
+    implementation("androidx.compose.material:material:1.1.0")
+
     //implementation("androidx.compose.foundation:foundation:1.4.0")
     // Fix Duplicate class
     //implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))

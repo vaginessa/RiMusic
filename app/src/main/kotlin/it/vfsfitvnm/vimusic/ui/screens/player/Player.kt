@@ -63,10 +63,12 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import coil.compose.AsyncImage
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.compose.routing.OnGlobalRoute
 import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
@@ -98,9 +100,11 @@ import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.service.DownloaderService
 import it.vfsfitvnm.vimusic.ui.screens.homeRoute
+import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
+import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.shuffleQueue
@@ -276,6 +280,13 @@ fun Player(
     LaunchedEffect(mediaItem.mediaId) {
         Database.likedAt(mediaItem.mediaId).distinctUntilChanged().collect { likedAt = it }
     }
+
+    val downloader = LocalDownloader.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
+    }
+    downloadState = downloader.getDownload(mediaItem.mediaId).let { id -> downloadState }
+
 
     OnGlobalRoute {
         layoutState.collapseSoft()
@@ -685,7 +696,14 @@ fun Player(
                         IconButton(
                             icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
                             color = if (isDownloaded) colorPalette.text else colorPalette.textDisabled,
-                            onClick = { },
+                            onClick = {
+                                manageDownload(
+                                    context = context,
+                                    songId = mediaItem.mediaId,
+                                    songTitle = mediaItem.mediaMetadata.title.toString(),
+                                    downloadState = downloadState
+                                )
+                            },
                             modifier = Modifier
                                 .padding(horizontal = 4.dp)
                                 .size(24.dp)

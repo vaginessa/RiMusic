@@ -26,6 +26,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -33,8 +34,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
@@ -147,7 +150,10 @@ fun StatisticsPage(
         Database.playlistsMostPlayedByPeriod(from, now, 6).collect { playlists = it }
     }
 
-
+    val downloader = LocalDownloader.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
+    }
 
     BoxWithConstraints {
         val quickPicksLazyGridItemWidthFactor = if (isLandscape && maxWidth * 0.475f >= 320.dp) {
@@ -216,12 +222,14 @@ fun StatisticsPage(
                     items(
                         count = songs.count(),
                         ) {
+                        downloadState = downloader.getDownload(songs.get(it).asMediaItem.mediaId).let { id -> downloadState }
                         SongItem(
                             song = songs.get(it).asMediaItem,
                             isDownloaded = downloadedStateMedia(songs.get(it).asMediaItem.mediaId),
                             onDownloadClick = {
                                 //TODO onDownloadClick
                             },
+                            downloadState = downloadState,
                             thumbnailSizeDp = thumbnailSizeDp,
                             thumbnailSizePx = thumbnailSize,
                             modifier = Modifier

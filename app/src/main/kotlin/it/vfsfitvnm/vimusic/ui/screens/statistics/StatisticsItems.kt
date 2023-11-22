@@ -19,12 +19,16 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persistList
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
@@ -41,6 +45,7 @@ import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -146,7 +151,10 @@ fun StatisticsItems(statisticsType: StatisticsType) {
 
     val lazyListState = rememberLazyListState()
 
-
+    val downloader = LocalDownloader.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
+    }
 
     Box {
         LazyColumn(
@@ -187,12 +195,14 @@ fun StatisticsItems(statisticsType: StatisticsType) {
                 key = { _, song -> song.id },
                 contentType = { _, song -> song },
             ) { index, song ->
+                downloadState = downloader.getDownload(song.asMediaItem.mediaId).let { id -> downloadState }
                 SongItem(
                     song = song,
-                    isDownloaded = false,
+                    isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                     onDownloadClick = {
                         //TODO onDownloadClick
                     },
+                    downloadState = downloadState,
                     thumbnailSizeDp = thumbnailSizeDp,
                     thumbnailSizePx = thumbnailSize,
                     modifier = Modifier

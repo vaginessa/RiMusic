@@ -30,7 +30,9 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -54,6 +56,7 @@ import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.innertube.models.bodies.NextBody
 import it.vfsfitvnm.innertube.requests.relatedPage
 import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
@@ -84,10 +87,13 @@ import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.isLandscape
+import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 @ExperimentalFoundationApi
@@ -108,6 +114,13 @@ fun QuickPicks(
     var trending by persist<Song?>("home/trending")
 
     var relatedPageResult by persist<Result<Innertube.RelatedPage?>?>(tag = "home/relatedPageResult")
+
+    val downloader = LocalDownloader.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
+    }
+
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
 /*
@@ -150,7 +163,7 @@ fun QuickPicks(
         .padding(top = 24.dp, bottom = 8.dp)
         .padding(endPaddingValues)
 
-    val context = LocalContext.current
+
 
     BoxWithConstraints {
         val quickPicksLazyGridItemWidthFactor = if (isLandscape && maxWidth * 0.475f >= 320.dp) {
@@ -209,12 +222,21 @@ fun QuickPicks(
                 ) {
                     trending?.let { song ->
                         item {
+
+                            downloadState = downloader.getDownload(song.id).let { id -> downloadState }
+
                             SongItem(
                                 song = song,
                                 isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                                 onDownloadClick = {
-                                    //TODO onDownloadClick
+                                    manageDownload(
+                                        context = context,
+                                        songId = song.id,
+                                        songTitle = song.title,
+                                        downloadState = downloadState
+                                    )
                                 },
+                                downloadState = downloadState,
                                 thumbnailSizePx = songThumbnailSizePx,
                                 thumbnailSizeDp = songThumbnailSizeDp,
                                 trailingContent = {
@@ -240,6 +262,13 @@ fun QuickPicks(
                                                     },
 
                                                     onDownload = {
+                                                        manageDownload(
+                                                            context = context,
+                                                            songId = song.id,
+                                                            songTitle = song.title,
+                                                            downloadState = downloadState
+                                                        )
+                                                        /*
                                                         Log.d(
                                                             "downloadEvent",
                                                             "Download started from Quick Picks?"
@@ -275,6 +304,7 @@ fun QuickPicks(
                                                             MyDownloadService::class.java
                                                         )
 
+ */
 
 
                                                     }
@@ -302,12 +332,21 @@ fun QuickPicks(
                             ?: emptyList(),
                         key = Innertube.SongItem::key
                     ) { song ->
+
+                        downloadState = downloader.getDownload(song.asMediaItem.mediaId).let { id -> downloadState }
+
                         SongItem(
                             song = song,
                             isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                             onDownloadClick = {
-                                //TODO onDownloadClick
+                                manageDownload(
+                                    context = context,
+                                    songId = song.asMediaItem.mediaId,
+                                    songTitle = song.asMediaItem.mediaMetadata.title.toString(),
+                                    downloadState = downloadState
+                                )
                             },
+                            downloadState = downloadState,
                             thumbnailSizePx = songThumbnailSizePx,
                             thumbnailSizeDp = songThumbnailSizeDp,
                             modifier = Modifier
@@ -318,9 +357,17 @@ fun QuickPicks(
                                                 onDismiss = menuState::hide,
                                                 mediaItem = song.asMediaItem,
                                                 onDownload = {
-                                                    val downloadRequest = DownloadRequest.Builder(song.asMediaItem.mediaId, song.asMediaItem.mediaId.toUri())
+                                                    val downloadRequest = DownloadRequest
+                                                        .Builder(
+                                                            song.asMediaItem.mediaId,
+                                                            song.asMediaItem.mediaId.toUri()
+                                                        )
                                                         .setCustomCacheKey(song.asMediaItem.mediaId)
-                                                        .setData(song.asMediaItem.mediaMetadata.title.toString().toByteArray())
+                                                        .setData(
+                                                            song.asMediaItem.mediaMetadata.title
+                                                                .toString()
+                                                                .toByteArray()
+                                                        )
                                                         .build()
                                                     DownloadService.sendAddDownload(
                                                         context,
@@ -332,7 +379,8 @@ fun QuickPicks(
                                                         context,
                                                         MyDownloadService::class.java
                                                     )
-                                                },/*
+                                                },
+                                                /*
                                                 onRemoveDownload = {
                                                     DownloadService.sendRemoveDownload(
                                                         context,

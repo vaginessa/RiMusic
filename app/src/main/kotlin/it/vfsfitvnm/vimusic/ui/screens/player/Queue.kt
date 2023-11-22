@@ -70,6 +70,7 @@ import it.vfsfitvnm.compose.reordering.animateItemPlacement
 import it.vfsfitvnm.compose.reordering.draggedItem
 import it.vfsfitvnm.compose.reordering.rememberReorderingState
 import it.vfsfitvnm.compose.reordering.reorder
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.service.DownloaderService
@@ -87,6 +88,7 @@ import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.DisposableListener
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
+import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.queueLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -205,6 +207,10 @@ fun Queue(
             mutableStateOf(false)
         }
 
+        val downloader = LocalDownloader.current
+        var downloadState by remember {
+            mutableStateOf(Download.STATE_STOPPED)
+        }
 
         Column {
             Box(
@@ -230,12 +236,19 @@ fun Queue(
                         var deltaX by remember { mutableStateOf(0f) }
                         val isPlayingThisMediaItem = mediaItemIndex == window.firstPeriodIndex
                         val currentItem by rememberUpdatedState(window)
+                        downloadState = downloader.getDownload(window.mediaItem.mediaId).let { id -> downloadState }
                         SongItem(
                             song = window.mediaItem,
                             isDownloaded = downloadedStateMedia( window.mediaItem.mediaId ),
                             onDownloadClick = {
-                                //TODO onDownloadClick
+                                manageDownload(
+                                    context = context,
+                                    songId = window.mediaItem.mediaId,
+                                    songTitle = window.mediaItem.mediaMetadata.title.toString(),
+                                    downloadState = downloadState
+                                )
                             },
+                            downloadState = downloadState,
                             thumbnailSizePx = thumbnailSizePx,
                             thumbnailSizeDp = thumbnailSizeDp,
                             onThumbnailContent = {
@@ -296,39 +309,12 @@ fun Queue(
                                                 indexInQueue = if (isPlayingThisMediaItem) null else window.firstPeriodIndex,
                                                 onDismiss = menuState::hide,
                                                 onDownload = {
-                                                    Log.d(
-                                                        "downloadEvent",
-                                                        "Download started from Queue?"
+                                                    manageDownload(
+                                                        context = context,
+                                                        songId = window.mediaItem.mediaId,
+                                                        songTitle = window.mediaItem.mediaMetadata.title.toString(),
+                                                        downloadState = downloadState
                                                     )
-                                                    val contentUri =
-                                                        "https://www.youtube.com/watch?v=${window.mediaItem.mediaId}".toUri()
-                                                    val downloadRequest = DownloadRequest
-                                                        .Builder(
-                                                            window.mediaItem.mediaId,
-                                                            contentUri
-                                                        )
-                                                        .build()
-
-                                                    DownloadService.sendAddDownload(
-                                                        context,
-                                                        DownloaderService::class.java,
-                                                        downloadRequest,
-                                                        /* foreground= */ false
-                                                    )
-
-                                                    DownloadService.sendSetStopReason(
-                                                        context,
-                                                        DownloaderService::class.java,
-                                                        window.mediaItem.mediaId,
-                                                        Download.STOP_REASON_NONE,
-                                                        /* foreground= */ false
-                                                    )
-
-                                                    DownloadService.start(
-                                                        context,
-                                                        DownloaderService::class.java
-                                                    )
-
                                                 }
 
                                             )

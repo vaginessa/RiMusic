@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.utils
 
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -7,12 +8,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+
 import androidx.compose.ui.platform.LocalContext
+
 import androidx.core.net.toUri
+import androidx.media3.common.util.Consumer
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
+import it.vfsfitvnm.innertube.models.Context
+
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
@@ -80,3 +86,53 @@ fun downloadedStateMedia ( mediaId: String ): Boolean {
     return isDownloaded
 
 }
+
+@UnstableApi
+
+fun manageDownload (
+    context: android.content.Context,
+    songId: String,
+    songTitle: String,
+    downloadState: Int
+) {
+
+
+
+    if (downloadState == Download.STATE_COMPLETED)
+        DownloadService.sendRemoveDownload(
+            context,
+            MyDownloadService::class.java,
+            songId,
+            false
+        )
+
+    if (downloadState == Download.STATE_DOWNLOADING) {
+        DownloadService.sendRemoveDownload(
+            context,
+            MyDownloadService::class.java,
+            songId,
+            false
+        )
+    } else {
+        val contentUri =
+            "https://www.youtube.com/watch?v=${songId}".toUri()
+        val downloadRequest = DownloadRequest
+            .Builder(
+                songId,
+                contentUri
+            )
+            .setCustomCacheKey(songId)
+            .setData(songTitle.toByteArray())
+            .build()
+
+        DownloadService.sendAddDownload(
+            context,
+            MyDownloadService::class.java,
+            downloadRequest,
+            false
+        )
+    }
+
+}
+
+

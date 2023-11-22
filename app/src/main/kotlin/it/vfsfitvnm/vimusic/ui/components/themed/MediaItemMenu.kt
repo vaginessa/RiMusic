@@ -49,8 +49,10 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
@@ -71,6 +73,7 @@ import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.addNext
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
@@ -325,6 +328,12 @@ fun MediaItemMenu(
         mutableStateOf<Long?>(null)
     }
 
+    val downloader = LocalDownloader.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
+    }
+    downloadState = downloader.getDownload(mediaItem.mediaId).let { id -> downloadState }
+
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
             if (albumInfo == null) albumInfo = Database.songAlbumInfo(mediaItem.mediaId)
@@ -428,10 +437,11 @@ fun MediaItemMenu(
                     SongItem(
                         thumbnailUrl = mediaItem.mediaMetadata.artworkUri.thumbnail(thumbnailSizePx)
                             ?.toString(),
-                        isDownloaded = false,
+                        isDownloaded = downloadedStateMedia(mediaItem.mediaId),
                         onDownloadClick = {
-                            Log.d("downloadMediaItem","Download Clicked")
+                            // TODO onclickdownload
                         },
+                        downloadState = downloadState,
                         title = mediaItem.mediaMetadata.title.toString(),
                         authors = mediaItem.mediaMetadata.artist.toString(),
                         duration = null,

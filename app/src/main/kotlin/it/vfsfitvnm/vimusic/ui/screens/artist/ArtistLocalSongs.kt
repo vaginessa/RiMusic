@@ -16,12 +16,17 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
@@ -41,6 +46,7 @@ import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
+import it.vfsfitvnm.vimusic.utils.manageDownload
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -57,8 +63,33 @@ fun ArtistLocalSongs(
 
     var songs by persist<List<Song>?>("artist/$browseId/localSongs")
 
+    val downloader = LocalDownloader.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
+    }
+
+    val context = LocalContext.current
+
     LaunchedEffect(Unit) {
         Database.artistSongs(browseId).collect { songs = it }
+
+        val items = songs?.map { it.id }
+        downloader.downloads.collect { downloads ->
+            if (items != null) {
+                downloadState =
+                    if (items.all { downloads[it]?.state == Download.STATE_COMPLETED })
+                        Download.STATE_COMPLETED
+                    else if (items.all {
+                            downloads[it]?.state == Download.STATE_QUEUED
+                                    || downloads[it]?.state == Download.STATE_DOWNLOADING
+                                    || downloads[it]?.state == Download.STATE_COMPLETED
+                        })
+                        Download.STATE_DOWNLOADING
+                    else
+                        Download.STATE_STOPPED
+            }
+        }
+
     }
 
     val songThumbnailSizeDp = Dimensions.thumbnails.song
@@ -118,8 +149,14 @@ fun ArtistLocalSongs(
                             song = song,
                             isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
                             onDownloadClick = {
-                                              //TODO onDownloadClick
+                                manageDownload(
+                                    context = context,
+                                    songId = song.id,
+                                    songTitle = song.title,
+                                    downloadState = downloadState
+                                )
                             },
+                            downloadState = downloadState,
                             thumbnailSizeDp = songThumbnailSizeDp,
                             thumbnailSizePx = songThumbnailSizePx,
                             modifier = Modifier

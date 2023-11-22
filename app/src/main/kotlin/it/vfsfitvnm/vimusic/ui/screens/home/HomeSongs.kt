@@ -88,6 +88,7 @@ import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
+import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -336,44 +337,14 @@ fun  HomeSongs(
                     song = song,
                     isDownloaded =  downloadedStateMedia(song.asMediaItem.mediaId),
                     onDownloadClick = {
-                                        Log.d("downloadMediaClick","Download Clicked")
-
-                                        if (downloadState == Download.STATE_COMPLETED)
-                                            DownloadService.sendRemoveDownload(
-                                                context,
-                                                MyDownloadService::class.java,
-                                                song.id,
-                                                false
-                                            )
-
-                                        if (downloadState == Download.STATE_DOWNLOADING) {
-                                            DownloadService.sendRemoveDownload(
-                                                context,
-                                                MyDownloadService::class.java,
-                                                song.id,
-                                                false
-                                            )
-                                        } else {
-                                            val contentUri =
-                                                "https://www.youtube.com/watch?v=${song.asMediaItem.mediaId}".toUri()
-                                            val downloadRequest = DownloadRequest
-                                                .Builder(
-                                                    song.asMediaItem.mediaId,
-                                                    contentUri
-                                                )
-                                                .setCustomCacheKey(song.asMediaItem.mediaId)
-                                                .setData(song.title.toByteArray())
-                                                .build()
-
-                                            DownloadService.sendAddDownload(
-                                                context,
-                                                MyDownloadService::class.java,
-                                                downloadRequest,
-                                                false
-                                            )
-                                        }
-
+                        manageDownload(
+                            context = context,
+                            songId = song.id,
+                            songTitle = song.title,
+                            downloadState = downloadState
+                        )
                     },
+                    downloadState = downloadState,
                     thumbnailSizePx = thumbnailSizePx,
                     thumbnailSizeDp = thumbnailSizeDp,
                     onThumbnailContent = if (sortBy == SongSortBy.PlayTime) ({
