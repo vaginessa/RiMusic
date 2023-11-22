@@ -225,5 +225,5 @@
     <string name="permission_declined_grant_media_permissions">Oprávnění bylo zamítnuto, udělte prosím oprávnění k médiím v nastavení zařízení.</string>
     <string name="wavy_timeline">Zvlněná časová osa</string>    
    <string name="enable_wavy_timeline">Povolit zvlněnou časovou osu</string>
-    <string name="play_next">Play next</string>
+    <string name="play_next">Přehrát další</string>
 </resources>
