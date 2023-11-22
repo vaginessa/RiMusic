@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.utils
 
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -24,6 +25,7 @@ import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.models.Format
 import it.vfsfitvnm.vimusic.service.MyDownloadService
+import it.vfsfitvnm.vimusic.service.VideoIdMismatchException
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 
@@ -31,24 +33,36 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 @Composable
 fun InitDownloader () {
     val context = LocalContext.current
-    val contentUri =
-        "fakeId".toUri()
-    //"https://www.youtube.com/watch?v=fakeId".toUri()
+
+    //val idVideo="initVideoId"
+    val idVideo="8n4S1-ctsZw"
+    //val contentUri = "https://$idVideo".toUri()
+    val contentUri = "https://www.youtube.com/watch?v=8n4S1-ctsZw".toUri()
+
+    //val idVideo="8n4S1-ctsZw"
+    //val contentUri = "https://www.youtube.com/watch?v=$idVideo".toUri()
+
     val downloadRequest = DownloadRequest
         .Builder(
-            "fakeId",
+            idVideo,
             contentUri
         )
-        .setCustomCacheKey("fakeId")
-        .setData("fakeId".toByteArray())
+        .setCustomCacheKey(idVideo)
+        .setData(idVideo.toByteArray())
         .build()
 
-    DownloadService.sendAddDownload(
-        context,
-        MyDownloadService::class.java,
-        downloadRequest,
-        false
-    )
+
+    runCatching {
+            DownloadService.sendAddDownload(
+                context,
+                MyDownloadService::class.java,
+                downloadRequest,
+                false
+            )
+        }.onFailure {
+        Log.d("downloadInit","Downloader initialized $it" )
+    }
+
 }
 
 
