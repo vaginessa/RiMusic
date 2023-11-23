@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.ui.components.themed
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
@@ -269,6 +270,7 @@ fun BaseMediaItemMenu(
         modifier = modifier
     )
 }
+@SuppressLint("SuspiciousIndentation")
 @UnstableApi
 @ExperimentalAnimationApi
 @Composable
@@ -576,6 +578,7 @@ fun MediaItemMenu(
                     )
                 }
 
+                if (!isDownloaded)
                 onDownload?.let { onDownload ->
                     MenuEntry(
                         icon = R.drawable.download,
