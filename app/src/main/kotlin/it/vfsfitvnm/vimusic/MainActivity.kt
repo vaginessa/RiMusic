@@ -68,6 +68,7 @@ import androidx.media3.common.util.UnstableApi
 import com.valentinilk.shimmer.LocalShimmerTheme
 import com.valentinilk.shimmer.defaultShimmerTheme
 import dagger.hilt.android.AndroidEntryPoint
+import io.ktor.utils.io.errors.IOException
 import it.vfsfitvnm.compose.persist.PersistMap
 import it.vfsfitvnm.compose.persist.PersistMapOwner
 import it.vfsfitvnm.innertube.Innertube
@@ -97,6 +98,7 @@ import it.vfsfitvnm.vimusic.ui.styling.colorPaletteOf
 import it.vfsfitvnm.vimusic.ui.styling.dynamicColorPaletteOf
 import it.vfsfitvnm.vimusic.ui.styling.typographyOf
 import it.vfsfitvnm.vimusic.utils.InitDownloader
+import it.vfsfitvnm.vimusic.utils.OkHttpRequest
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
@@ -119,6 +121,12 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Response
+import org.json.JSONException
+import org.json.JSONObject
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -126,6 +134,10 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), PersistMapOwner {
 
     var downloadUtil = DownloadUtil
+
+    var client = OkHttpClient()
+    var request = OkHttpRequest(client)
+
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -162,6 +174,35 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
         installSplashScreen().setKeepOnScreenCondition { splashScreenStays }
         Handler(Looper.getMainLooper()).postDelayed({ splashScreenStays = false }, delayTime)
+
+
+        val url = ""
+
+        /*  */
+        request.GET(url, object: Callback {
+            override fun onResponse(call: Call, response: Response) {
+                val responseData = response.body?.string()
+                runOnUiThread{
+                    try {
+                        var json = JSONObject(responseData)
+                        println("Request Successful!!")
+                        println(json)
+                        val responseObject = json.getJSONObject("response")
+                        val docs = json.getJSONArray("docs")
+                        this@MainActivity
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call, e: java.io.IOException) {
+                println("Request Failure.")
+            }
+        })
+        /*  */
+
+
 
         @Suppress("DEPRECATION", "UNCHECKED_CAST")
         persistMap = lastCustomNonConfigurationInstance as? PersistMap ?: PersistMap()
