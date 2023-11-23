@@ -1,9 +1,14 @@
 package it.vfsfitvnm.vimusic.ui.screens.home
 
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -16,6 +21,7 @@ import it.vfsfitvnm.compose.routing.defaultUnstacking
 import it.vfsfitvnm.compose.routing.isStacking
 import it.vfsfitvnm.compose.routing.isUnknown
 import it.vfsfitvnm.compose.routing.isUnstacking
+import it.vfsfitvnm.vimusic.BuildConfig
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.StatisticsType
@@ -44,18 +50,24 @@ import it.vfsfitvnm.vimusic.utils.homeScreenTabIndexKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.versionAppKey
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @UnstableApi
 @Composable
-fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
+fun HomeScreen(
+    onPlaylistUrl: (String) -> Unit
+) {
 
     val saveableStateHolder = rememberSaveableStateHolder()
-
     //var setDefaultTab = remember { mutableStateOf(true) }
     //val context = LocalContext.current
+
+    val newVersion by rememberPreference(versionAppKey, "0.0.0")
+    Log.d("updatedVersion","new version "+newVersion)
+
 
     PersistMapCleanup("home/")
 
@@ -128,6 +140,7 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
                 defaultValue = 0
             )
 
+            var newVersion by rememberPreference(versionAppKey, "0.0.0")
 
 
 
@@ -152,10 +165,11 @@ fun HomeScreen(onPlaylistUrl: (String) -> Unit) {
             }
 */
 
+            //Log.d("updatedversion","newVersion $newVersion version ${BuildConfig.VERSION_NAME}")
 
 
             Scaffold(
-                topIconButtonId = R.drawable.settings,
+                topIconButtonId =  R.drawable.settings,
                 onTopIconButtonClick = { settingsRoute() },
                 topIconButton2Id = R.drawable.stats,
                 onTopIconButton2Click = { statisticsTypeRoute(StatisticsType.Today) },

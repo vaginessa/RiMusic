@@ -68,7 +68,6 @@ import androidx.media3.common.util.UnstableApi
 import com.valentinilk.shimmer.LocalShimmerTheme
 import com.valentinilk.shimmer.defaultShimmerTheme
 import dagger.hilt.android.AndroidEntryPoint
-import io.ktor.utils.io.errors.IOException
 import it.vfsfitvnm.compose.persist.PersistMap
 import it.vfsfitvnm.compose.persist.PersistMapOwner
 import it.vfsfitvnm.innertube.Innertube
@@ -79,7 +78,6 @@ import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
-import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerComputer
 import it.vfsfitvnm.vimusic.service.DownloadUtil
 
 import it.vfsfitvnm.vimusic.service.PlayerService
@@ -99,6 +97,7 @@ import it.vfsfitvnm.vimusic.ui.styling.dynamicColorPaletteOf
 import it.vfsfitvnm.vimusic.ui.styling.typographyOf
 import it.vfsfitvnm.vimusic.utils.InitDownloader
 import it.vfsfitvnm.vimusic.utils.OkHttpRequest
+import it.vfsfitvnm.vimusic.utils.ShowUpdatedVersion
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
@@ -111,10 +110,13 @@ import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid8
 import it.vfsfitvnm.vimusic.utils.languageAppKey
+import it.vfsfitvnm.vimusic.utils.persistentQueueKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.preferences
+import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.useSystemFontKey
+import it.vfsfitvnm.vimusic.utils.versionAppKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.filterNotNull
@@ -126,8 +128,6 @@ import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import org.json.JSONException
-import org.json.JSONObject
-import javax.inject.Inject
 
 @AndroidEntryPoint
 
@@ -137,6 +137,9 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
     var client = OkHttpClient()
     var request = OkHttpRequest(client)
+
+
+
 
 
     private val serviceConnection = object : ServiceConnection {
@@ -176,33 +179,6 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
         Handler(Looper.getMainLooper()).postDelayed({ splashScreenStays = false }, delayTime)
 
 
-        val url = ""
-
-        /*  */
-        request.GET(url, object: Callback {
-            override fun onResponse(call: Call, response: Response) {
-                val responseData = response.body?.string()
-                runOnUiThread{
-                    try {
-                        var json = JSONObject(responseData)
-                        println("Request Successful!!")
-                        println(json)
-                        val responseObject = json.getJSONObject("response")
-                        val docs = json.getJSONArray("docs")
-                        this@MainActivity
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call, e: java.io.IOException) {
-                println("Request Failure.")
-            }
-        })
-        /*  */
-
-
 
         @Suppress("DEPRECATION", "UNCHECKED_CAST")
         persistMap = lastCustomNonConfigurationInstance as? PersistMap ?: PersistMap()
@@ -216,6 +192,46 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
         //Log.d("mediaItemLang",LocaleListCompat.getDefault().get(0).toString()+" > "+Innertube.localeHl)
 
         setContent {
+
+            val url = "https://raw.githubusercontent.com/fast4x/RiMusic/master/updatedVersion/updatedVersion.ver"
+            var newVersion by rememberPreference(versionAppKey, "0.0.0")
+            /*  */
+            request.GET(url, object: Callback {
+                override fun onResponse(call: Call, response: Response) {
+                    val responseData = response.body?.string()
+                    runOnUiThread{
+                        try {
+                            newVersion = responseData.let { it.toString() }
+                            Log.d("UpdatedVersion activity",newVersion)
+                            // if get json
+                            //var json = responseData?.let { JSONObject(it) }
+                            //println("Request Successful!!")
+                            //println(json)
+                            //val responseObject = json?.getJSONObject("response")
+                            //val docs = json?.getJSONArray("updatedVersion")
+                            //    if (json != null) {
+                            //        Log.d("UpdatedVersion",json.getString("updatedVersion"))
+                            //    }
+
+
+
+                            this@MainActivity
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call, e: java.io.IOException) {
+                    Log.d("UpdatedVersion","Check failure")
+                }
+            })
+            /*  */
+
+
+
+
+
             val coroutineScope = rememberCoroutineScope()
             val isSystemInDarkTheme = isSystemInDarkTheme()
 
@@ -509,6 +525,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
                 //VisualizerComputer.setupPermissions(this@MainActivity)
                 InitDownloader()
+
             }
         }
 
@@ -614,3 +631,6 @@ val LocalPlayerServiceBinder = staticCompositionLocalOf<PlayerService.Binder?> {
 val LocalPlayerAwareWindowInsets = staticCompositionLocalOf<WindowInsets> { TODO() }
 
 val LocalDownloader = staticCompositionLocalOf<DownloadUtil> { error("No Downloader provided") }
+
+
+
