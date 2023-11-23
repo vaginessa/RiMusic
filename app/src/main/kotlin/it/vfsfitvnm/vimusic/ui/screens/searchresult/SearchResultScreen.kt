@@ -27,9 +27,12 @@ import it.vfsfitvnm.innertube.models.bodies.SearchBody
 import it.vfsfitvnm.innertube.requests.searchPage
 import it.vfsfitvnm.innertube.utils.from
 import it.vfsfitvnm.compose.routing.RouteHandler
+import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
@@ -54,6 +57,7 @@ import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getDownloadState
+import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.searchResultScreenTabIndexKey
 
@@ -67,7 +71,6 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
     val saveableStateHolder = rememberSaveableStateHolder()
     val (tabIndex, onTabIndexChanges) = rememberPreference(searchResultScreenTabIndexKey, 0)
 
-    val downloader = LocalDownloader.current
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
@@ -139,11 +142,29 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
                                 headerContent = headerContent,
                                 itemContent = { song ->
                                     downloadState = getDownloadState(song.asMediaItem.mediaId)
+                                    val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
                                     SongItem(
                                         song = song,
-                                        isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                                        isDownloaded = isDownloaded,
                                         onDownloadClick = {
-                                            //TODO onDownloadClick
+                                            binder?.cache?.removeResource(song.asMediaItem.mediaId)
+                                            query {
+                                                Database.insert(
+                                                    Song(
+                                                        id = song.asMediaItem.mediaId,
+                                                        title = song.asMediaItem.mediaMetadata.title.toString(),
+                                                        artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
+                                                        thumbnailUrl = song.thumbnail?.url,
+                                                        durationText = null
+                                                    )
+                                                )
+                                            }
+                                            manageDownload(
+                                                context = context,
+                                                songId = song.asMediaItem.mediaId,
+                                                songTitle = song.asMediaItem.mediaMetadata.title.toString(),
+                                                downloadState = isDownloaded
+                                            )
                                         },
                                         downloadState = downloadState,
                                         thumbnailSizePx = thumbnailSizePx,

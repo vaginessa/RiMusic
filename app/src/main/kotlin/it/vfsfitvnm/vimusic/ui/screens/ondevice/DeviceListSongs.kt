@@ -151,11 +151,6 @@ fun DeviceListSongs(
         onResult = { hasPermission = it }
     )
 
-    val downloader = LocalDownloader.current
-    var downloadState by remember {
-        mutableStateOf(Download.STATE_STOPPED)
-    }
-
     LaunchedEffect(hasPermission,filter) {
         context.musicFilesAsFlow().collect { songs = it }
     }
@@ -405,15 +400,15 @@ fun DeviceListSongs(
                 )
 
 */
-                downloadState = getDownloadState(song.asMediaItem.mediaId)
+
 
                 SongItem(
                     song = song,
-                    isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                    isDownloaded = true,
                     onDownloadClick = {
-                        //TODO onDownloadClick
+                        // not necessary
                     },
-                    downloadState = downloadState,
+                    downloadState = Download.STATE_COMPLETED,
                     thumbnailSizeDp = thumbnailSizeDp,
                     thumbnailSizePx = thumbnailSize,
 

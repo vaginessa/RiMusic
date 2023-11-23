@@ -18,17 +18,22 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
@@ -45,7 +50,9 @@ import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
+import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.semiBold
 
 @ExperimentalAnimationApi
@@ -70,6 +77,11 @@ fun AlbumSongs(
     val thumbnailSizeDp = Dimensions.thumbnails.song
 
     val lazyListState = rememberLazyListState()
+
+    val context = LocalContext.current
+    var downloadState by remember {
+        mutableStateOf(Download.STATE_STOPPED)
+    }
 
     LayoutWithAdaptiveThumbnail(thumbnailContent = thumbnailContent) {
         Box {
@@ -120,11 +132,31 @@ fun AlbumSongs(
                     items = songs,
                     key = { _, song -> song.id }
                 ) { index, song ->
+                    downloadState = getDownloadState(song.asMediaItem.mediaId)
+                    val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
                     SongItem(
                         title = song.title,
-                        isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                        isDownloaded = isDownloaded,
+                        downloadState = downloadState,
                         onDownloadClick = {
-                            //TODO onDownloadClick
+                            binder?.cache?.removeResource(song.asMediaItem.mediaId)
+                            query {
+                                Database.insert(
+                                    Song(
+                                        id = song.asMediaItem.mediaId,
+                                        title = song.asMediaItem.mediaMetadata.title.toString(),
+                                        artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
+                                        thumbnailUrl = song.thumbnailUrl,
+                                        durationText = null
+                                    )
+                                )
+                            }
+                            manageDownload(
+                                context = context,
+                                songId = song.asMediaItem.mediaId,
+                                songTitle = song.asMediaItem.mediaMetadata.title.toString(),
+                                downloadState = isDownloaded
+                            )
                         },
                         authors = song.artistsText,
                         duration = song.durationText,

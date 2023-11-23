@@ -57,7 +57,6 @@ object DownloadUtil {
     private lateinit var downloadNotificationHelper: DownloadNotificationHelper
     private lateinit var downloadDirectory: File
     private lateinit var downloadManager: DownloadManager
-    //private lateinit var downloadTracker: DownloadTracker
 
 
 
@@ -78,20 +77,6 @@ object DownloadUtil {
         }
         downloads.value = result
 
-        //Log.d("downloadMedia-onDownloadChanged",downloads.value.keys.toString())
-        /*
-        downloadManager.addListener(
-            object : DownloadManager.Listener {
-                override fun onDownloadChanged(downloadManager: DownloadManager, download: Download, finalException: Exception?) {
-                    downloads.update { map ->
-                        map.toMutableMap().apply {
-                            set(download.request.id, download)
-                        }
-                    }
-                }
-            }
-        )
-        */
     }
 
 
@@ -127,27 +112,6 @@ object DownloadUtil {
                                     val mediaItem = runBlocking(Dispatchers.Main) {
                                         Innertube.player(PlayerBody(videoId = videoId))
                                     }
-                                    //Log.d("downloadMedia",mediaItem.toString())
-
-                                    //TODO insert song into database
-/*
-                                        if (mediaItem?.mediaMetadata?.extras?.getString("durationText") == null) {
-                                            format.approxDurationMs?.div(1000)
-                                                ?.let(DateUtils::formatElapsedTime)?.removePrefix("0")
-                                                ?.let { durationText ->
-                                                    mediaItem?.mediaMetadata?.extras?.putString(
-                                                        "durationText",
-                                                        durationText
-                                                    )
-                                                    Database.updateDurationText(videoId, durationText)
-                                                }
-                                        }
-
- */
-
-
-
-
 
                                     query {
                                         if (Database.songExist(videoId) == 1)
@@ -163,10 +127,6 @@ object DownloadUtil {
                                             )
                                         )
                                     }
-
-
-
-
 
                                     format.url
                                 } ?: throw PlayableFormatNotFoundException()

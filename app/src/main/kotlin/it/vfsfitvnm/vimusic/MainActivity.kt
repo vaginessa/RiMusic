@@ -96,7 +96,6 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.colorPaletteOf
 import it.vfsfitvnm.vimusic.ui.styling.dynamicColorPaletteOf
 import it.vfsfitvnm.vimusic.ui.styling.typographyOf
-import it.vfsfitvnm.vimusic.service.Downloader
 import it.vfsfitvnm.vimusic.utils.InitDownloader
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem

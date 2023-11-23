@@ -79,6 +79,7 @@ import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.launchYouTubeMusic
+import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.thumbnail
@@ -332,7 +333,9 @@ fun MediaItemMenu(
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
+
     downloadState = getDownloadState(mediaItem.mediaId)
+    val isDownloaded = downloadedStateMedia(mediaItem.mediaId)
 
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
@@ -437,9 +440,26 @@ fun MediaItemMenu(
                     SongItem(
                         thumbnailUrl = mediaItem.mediaMetadata.artworkUri.thumbnail(thumbnailSizePx)
                             ?.toString(),
-                        isDownloaded = downloadedStateMedia(mediaItem.mediaId),
+                        isDownloaded = isDownloaded,
                         onDownloadClick = {
-                            // TODO onclickdownload
+                            binder?.cache?.removeResource(mediaItem.mediaId)
+                            query {
+                                Database.insert(
+                                    Song(
+                                        id = mediaItem.mediaId,
+                                        title = mediaItem.mediaMetadata.title.toString(),
+                                        artistsText = mediaItem.mediaMetadata.artist.toString(),
+                                        thumbnailUrl = mediaItem.mediaMetadata.artworkUri.thumbnail(thumbnailSizePx).toString(),
+                                        durationText = null
+                                    )
+                                )
+                            }
+                            manageDownload(
+                                context = context,
+                                songId = mediaItem.mediaId,
+                                songTitle = mediaItem.mediaMetadata.title.toString(),
+                                downloadState = isDownloaded
+                            )
                         },
                         downloadState = downloadState,
                         title = mediaItem.mediaMetadata.title.toString(),
@@ -559,7 +579,7 @@ fun MediaItemMenu(
                 onDownload?.let { onDownload ->
                     MenuEntry(
                         icon = R.drawable.download,
-                        text = "Download",
+                        text = stringResource(R.string.download),
                         onClick = {
                             onDismiss()
                             onDownload()

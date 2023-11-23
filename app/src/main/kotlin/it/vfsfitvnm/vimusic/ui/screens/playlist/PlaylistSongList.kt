@@ -158,7 +158,6 @@ fun PlaylistSongList(
         mutableStateOf(false)
     }
 
-    val downloader = LocalDownloader.current
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
@@ -281,9 +280,10 @@ fun PlaylistSongList(
                 )
 
                 HeaderIconButton(
-                    icon = R.drawable.download,
+                    icon = R.drawable.database_download,
                     color = colorPalette.text,
                     onClick = {
+                        downloadState = Download.STATE_DOWNLOADING
                         if (playlistPage?.songsPage?.items?.isNotEmpty() == true)
                             playlistPage?.songsPage?.items?.forEach {
                                 binder?.cache?.removeResource(it.asMediaItem.mediaId)
@@ -303,6 +303,24 @@ fun PlaylistSongList(
                                     songId = it.asMediaItem.mediaId,
                                     songTitle = it.asMediaItem.mediaMetadata.title.toString(),
                                     downloadState = false
+                                )
+                            }
+                    }
+                )
+
+                HeaderIconButton(
+                    icon = R.drawable.database_remove,
+                    color = colorPalette.text,
+                    onClick = {
+                        downloadState = Download.STATE_DOWNLOADING
+                        if (playlistPage?.songsPage?.items?.isNotEmpty() == true)
+                            playlistPage?.songsPage?.items?.forEach {
+                                binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                manageDownload(
+                                    context = context,
+                                    songId = it.asMediaItem.mediaId,
+                                    songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                    downloadState = true
                                 )
                             }
                     }

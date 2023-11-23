@@ -62,9 +62,6 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
-import it.vfsfitvnm.vimusic.service.DownloadUtil
-import it.vfsfitvnm.vimusic.service.DownloaderService
-import it.vfsfitvnm.vimusic.service.MyDownloadService
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon

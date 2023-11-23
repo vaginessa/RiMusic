@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -33,6 +34,7 @@ import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
@@ -47,6 +49,7 @@ import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getDownloadState
+import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.medium
 
 @ExperimentalFoundationApi
@@ -78,6 +81,7 @@ fun LocalSongSearch(
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
+    val context = LocalContext.current
 
     Box {
         LazyColumn(
@@ -120,11 +124,29 @@ fun LocalSongSearch(
                 key = Song::id,
             ) { song ->
                 downloadState = getDownloadState(song.asMediaItem.mediaId)
+                val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
                 SongItem(
                     song = song,
-                    isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                    isDownloaded = isDownloaded,
                     onDownloadClick = {
-                        //TODO onDownloadClick
+                        binder?.cache?.removeResource(song.asMediaItem.mediaId)
+                        query {
+                            Database.insert(
+                                Song(
+                                    id = song.asMediaItem.mediaId,
+                                    title = song.asMediaItem.mediaMetadata.title.toString(),
+                                    artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
+                                    thumbnailUrl = song.thumbnailUrl,
+                                    durationText = null
+                                )
+                            )
+                        }
+                        manageDownload(
+                            context = context,
+                            songId = song.asMediaItem.mediaId,
+                            songTitle = song.asMediaItem.mediaMetadata.title.toString(),
+                            downloadState = isDownloaded
+                        )
                     },
                     downloadState = downloadState,
                     thumbnailSizePx = thumbnailSizePx,

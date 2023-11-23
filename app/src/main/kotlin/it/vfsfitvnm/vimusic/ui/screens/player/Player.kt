@@ -83,6 +83,7 @@ import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.rememberBottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.themed.BaseMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.DownloadStateIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -98,9 +99,9 @@ import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.shouldBePlaying
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.toast
-import it.vfsfitvnm.vimusic.service.DownloaderService
+
 import it.vfsfitvnm.vimusic.ui.screens.homeRoute
-import it.vfsfitvnm.vimusic.utils.asMediaItem
+
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
@@ -135,7 +136,6 @@ fun Player(
 
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
-    val downloadbinder = DownloaderService()
 
     binder?.player ?: return
 
@@ -545,7 +545,7 @@ fun Player(
                             },
 
                             onDragEnd = {
-                                if (deltaX > 0 ) binder.player.forceSeekToPrevious()
+                                if (deltaX > 0) binder.player.forceSeekToPrevious()
                                 else binder.player.forceSeekToNext()
                                 //Log.d("mediaItemGesture","ondrag end offsetX${offsetX} deltaX ${deltaX}")
                             }
@@ -595,8 +595,7 @@ fun Player(
                                 PlayerMenu(
                                     onDismiss = menuState::hide,
                                     mediaItem = mediaItem,
-                                    binder = binder,
-                                    downloadbinder = downloadbinder
+                                    binder = binder
                                 )
                             }
                         },
@@ -693,9 +692,10 @@ fun Player(
 
  */
 
-                        IconButton(
+                        DownloadStateIconButton(
                             icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
                             color = if (isDownloaded) colorPalette.text else colorPalette.textDisabled,
+                            downloadState = downloadState,
                             onClick = {
                                 manageDownload(
                                     context = context,
@@ -779,8 +779,8 @@ fun Player(
                                     PlayerMenu(
                                         onDismiss = menuState::hide,
                                         mediaItem = mediaItem,
-                                        binder = binder,
-                                        downloadbinder = downloadbinder
+                                        binder = binder
+
                                     )
                                 }
                             },
@@ -804,7 +804,6 @@ fun Player(
 @Composable
 private fun PlayerMenu(
     binder: PlayerService.Binder,
-    downloadbinder: DownloaderService,
     mediaItem: MediaItem,
     onDismiss: () -> Unit
 ) {

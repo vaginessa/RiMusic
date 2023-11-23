@@ -76,7 +76,6 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
-import it.vfsfitvnm.vimusic.service.DownloaderService
 import it.vfsfitvnm.vimusic.ui.components.BottomSheet
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState

@@ -69,7 +69,6 @@ import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerData
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.ui.UiMedia
 import it.vfsfitvnm.vimusic.query
-import it.vfsfitvnm.vimusic.service.DownloaderService
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.SeekBar
 import it.vfsfitvnm.vimusic.ui.components.SeekBarWaved
@@ -118,8 +117,6 @@ fun Controls(
 
     val binder = LocalPlayerServiceBinder.current
     binder?.player ?: return
-
-    //val downloadbinder = DownloaderService()
 
     //var trackLoopEnabled by rememberPreference(trackLoopEnabledKey, defaultValue = false)
 
@@ -581,7 +578,6 @@ fun Controls(
 @Composable
 private fun PlayerMenu(
     binder: PlayerService.Binder,
-    downloadbinder: DownloaderService,
     mediaItem: MediaItem,
     onDismiss: () -> Unit
 ) {

@@ -49,6 +49,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -70,6 +71,7 @@ import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongWithContentLength
+import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
@@ -86,6 +88,7 @@ import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.getDownloadState
+import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -116,7 +119,6 @@ fun BuiltInPlaylistSongs(
 
     var filter: String? by rememberSaveable { mutableStateOf(null) }
 
-    val downloader = LocalDownloader.current
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
@@ -160,7 +162,7 @@ fun BuiltInPlaylistSongs(
 
     val lazyListState = rememberLazyListState()
 
-
+    val context = LocalContext.current
 
     Box {
         LazyColumn(
@@ -346,11 +348,29 @@ fun BuiltInPlaylistSongs(
                 contentType = { _, song -> song },
             ) { index, song ->
                 downloadState = getDownloadState(song.asMediaItem.mediaId)
+                val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
                 SongItem(
                     song = song,
-                    isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId),
+                    isDownloaded = isDownloaded,
                     onDownloadClick = {
-                        //TODO onDownloadClick
+                        binder?.cache?.removeResource(song.asMediaItem.mediaId)
+                        query {
+                            Database.insert(
+                                Song(
+                                    id = song.asMediaItem.mediaId,
+                                    title = song.asMediaItem.mediaMetadata.title.toString(),
+                                    artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
+                                    thumbnailUrl = song.thumbnailUrl,
+                                    durationText = null
+                                )
+                            )
+                        }
+                        manageDownload(
+                            context = context,
+                            songId = song.asMediaItem.mediaId,
+                            songTitle = song.asMediaItem.mediaMetadata.title.toString(),
+                            downloadState = isDownloaded
+                        )
                     },
                     downloadState = downloadState,
                     thumbnailSizeDp = thumbnailSizeDp,
