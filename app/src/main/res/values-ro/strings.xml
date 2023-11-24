@@ -226,4 +226,6 @@
     <string name="wavy_timeline">Bară de progres ondulată</string>
     <string name="enable_wavy_timeline">Utilizează bară de progres ondulată</string>
     <string name="play_next">Ascultă după</string>
+    <string name="toggle_lyrics">Toggle lyrics</string>
+    <string name="by_tapping_on_the_thumbnail">By tapping on the thumbnail</string>
 </resources>
