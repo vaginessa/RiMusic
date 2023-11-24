@@ -39,7 +39,7 @@ fun HeaderIconButton(
         enabled = enabled,
         indication = indication,
         modifier = modifier
-            .padding(all = 4.dp)
+            .padding(all = 2.dp)
             .size(iconSize ?: 18.dp)
     )
 }

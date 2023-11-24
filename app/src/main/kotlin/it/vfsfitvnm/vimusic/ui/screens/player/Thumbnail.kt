@@ -193,6 +193,7 @@ fun Thumbnail(
                 onDismiss = { onShowEqualizer(false) }
             )
 
+
             PlaybackError(
                 isDisplayed = error != null,
                 messageProvider = {

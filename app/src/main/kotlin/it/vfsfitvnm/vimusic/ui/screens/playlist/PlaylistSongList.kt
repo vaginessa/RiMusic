@@ -305,7 +305,8 @@ fun PlaylistSongList(
                                     downloadState = false
                                 )
                             }
-                    }
+                    },
+                    iconSize = 12.dp
                 )
 
                 HeaderIconButton(
@@ -323,7 +324,8 @@ fun PlaylistSongList(
                                     downloadState = true
                                 )
                             }
-                    }
+                    },
+                    iconSize = 12.dp
                 )
 
                 HeaderIconButton(

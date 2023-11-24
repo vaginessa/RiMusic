@@ -64,28 +64,36 @@ fun Equalizer(
     showType: Int? = 0
 ) {
 
-    val permission  = Manifest.permission.RECORD_AUDIO
-    val permission1 =  Manifest.permission.MODIFY_AUDIO_SETTINGS
+    //val permission  = Manifest.permission.RECORD_AUDIO
+    //val permission1 =  Manifest.permission.MODIFY_AUDIO_SETTINGS
     val context: Context = LocalContext.current
     val (_,typography) = LocalAppearance.current
-
+/*
     var hasPermission by remember(isCompositionLaunched()) {
         mutableStateOf(context.applicationContext.hasPermission(permission))
     }
+
     var hasPermission1 by remember(isCompositionLaunched()) {
         mutableStateOf(context.applicationContext.hasPermission(permission1))
     }
+
+
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { hasPermission = it }
     )
 
+ */
+/*
     val launcher1 = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { hasPermission1 = it }
     )
 
-    if (hasPermission && hasPermission1) {
+ */
+
+//    if (hasPermission && hasPermission1) {
+    //if (hasPermission) {
 
         val visualizerData = remember { mutableStateOf(VisualizerData()) }
         //val (isPlaying, setPlaying) = remember { mutableStateOf(false) }
@@ -102,7 +110,7 @@ fun Equalizer(
                 visualizerData
             )
 
-
+/*
     } else {
         if (!hasPermission) {
             LaunchedEffect(Unit) { launcher.launch(permission) }
@@ -127,6 +135,7 @@ fun Equalizer(
                 )
             }
         }
+        /*
         if (!hasPermission1) {
             LaunchedEffect(Unit) { launcher1.launch(permission1) }
 
@@ -150,10 +159,11 @@ fun Equalizer(
                 )
             }
         }
+         */
 
 
     }
-
+*/
 }
 
 @UnstableApi
@@ -167,7 +177,7 @@ fun Content(
     //val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
 
-    //VisualizerComputer.setupPermissions()
+    VisualizerComputer.setupPermissions( LocalContext.current as Activity )
     val audioComputer = VisualizerComputer()
 
     binder?.player?.audioSessionId?.let {
@@ -335,7 +345,7 @@ fun ContentType(
     //val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
 
-//    VisualizerComputer.setupPermissions()
+    VisualizerComputer.setupPermissions( LocalContext.current as Activity )
     val audioComputer = VisualizerComputer()
 
     //Log.d("mediaItem","audiosession")

@@ -209,6 +209,43 @@ fun BuiltInPlaylistSongs(
                         modifier = Modifier
                             .weight(1f)
                     )
+                if (builtInPlaylist == BuiltInPlaylist.Favorites) {
+                    HeaderIconButton(
+                        icon = R.drawable.database_download,
+                        color = colorPalette.text,
+                        onClick = {
+                            downloadState = Download.STATE_DOWNLOADING
+                            if (songs.isNotEmpty() == true)
+                                songs.forEach {
+                                    binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                    manageDownload(
+                                        context = context,
+                                        songId = it.asMediaItem.mediaId,
+                                        songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                        downloadState = false
+                                    )
+                                }
+                        }
+                    )
+
+                    HeaderIconButton(
+                        icon = R.drawable.database_remove,
+                        color = colorPalette.text,
+                        onClick = {
+                            downloadState = Download.STATE_DOWNLOADING
+                            if (songs.isNotEmpty() == true)
+                                songs.forEach {
+                                    binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                    manageDownload(
+                                        context = context,
+                                        songId = it.asMediaItem.mediaId,
+                                        songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                        downloadState = true
+                                    )
+                                }
+                        }
+                    )
+                }
 
                     HeaderIconButton(
                         icon = R.drawable.enqueue,

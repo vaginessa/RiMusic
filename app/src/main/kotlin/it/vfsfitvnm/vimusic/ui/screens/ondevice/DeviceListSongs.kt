@@ -2,9 +2,11 @@ package it.vfsfitvnm.vimusic.ui.screens.ondevice
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.Settings
@@ -62,6 +64,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persistList
@@ -100,6 +104,7 @@ import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.songSortByKey
 import it.vfsfitvnm.vimusic.utils.songSortOrderKey
+import it.vfsfitvnm.vimusic.utils.toast
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -115,10 +120,6 @@ import kotlinx.coroutines.isActive
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
-
-private val permission = if (isAtLeastAndroid13) Manifest.permission.READ_MEDIA_AUDIO
-else Manifest.permission.READ_EXTERNAL_STORAGE
-
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -131,10 +132,9 @@ fun DeviceListSongs(
 ) {
     val (colorPalette,typography) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
-    val menuState = LocalMenuState.current
+
 
     var songs by persistList<Song>("${deviceLists.name}/songs")
-    //var songs by persistList<Song>("songs") // temporary
 
     var sortBy by rememberPreference(songSortByKey, SongSortBy.DateAdded)
     var sortOrder by rememberPreference(songSortOrderKey, SortOrder.Descending)
@@ -143,44 +143,10 @@ fun DeviceListSongs(
 
     val context = LocalContext.current
 
-    var hasPermission by remember(isCompositionLaunched()) {
-        mutableStateOf(context.applicationContext.hasPermission(permission))
-    }
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = { hasPermission = it }
-    )
-
-    LaunchedEffect(hasPermission,filter) {
+    LaunchedEffect(filter) {
         context.musicFilesAsFlow().collect { songs = it }
     }
 
-
-
-
-    /*
-        LaunchedEffect(Unit, sortBy, sortOrder, filter) {
-
-            when (builtInPlaylist) {
-                BuiltInPlaylist.Favorites -> Database
-                    .songsFavorites(sortBy, sortOrder)
-
-                BuiltInPlaylist.Offline -> Database
-                    .songsOffline(sortBy, sortOrder)
-                    .flowOn(Dispatchers.IO)
-                    .map { songs ->
-                        songs.filter { song ->
-                            song.contentLength?.let {
-                                binder?.cache?.isCached(song.song.id, 0, song.contentLength)
-                            } ?: false
-                        }.map(SongWithContentLength::song)
-                    }
-            }.collect { songs = it }
-
-
-    }
-
-     */
 
     var filterCharSequence: CharSequence
     filterCharSequence = filter.toString()
@@ -203,12 +169,21 @@ fun DeviceListSongs(
     val lazyListState = rememberLazyListState()
 
 
-    /*     */
-
-    if (hasPermission) {
-        /* --------  */
-
-
+    val activity = LocalContext.current as Activity
+    //VisualizerComputer.setupPermissions( LocalContext.current as Activity)
+    if (ContextCompat.checkSelfPermission(
+            activity,
+            if (isAtLeastAndroid13) Manifest.permission.READ_MEDIA_AUDIO
+            else Manifest.permission.READ_EXTERNAL_STORAGE
+        ) != PackageManager.PERMISSION_GRANTED
+    ) {
+        LocalContext.current.toast("On device require read media permission, grant please.")
+        ActivityCompat.requestPermissions(
+            activity,
+            arrayOf(if (isAtLeastAndroid13) Manifest.permission.READ_MEDIA_AUDIO
+            else Manifest.permission.READ_EXTERNAL_STORAGE), 41
+        )
+    } else {
 
     Box {
         LazyColumn(
@@ -464,33 +439,7 @@ fun DeviceListSongs(
     }
 
 
-
-        /* --------  */
-    } else {
-        LaunchedEffect(Unit) { launcher.launch(permission) }
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterVertically),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            BasicText(
-                text = stringResource(R.string.permission_declined_grant_media_permissions),
-                modifier = Modifier.fillMaxWidth(0.5f),
-                style = typography.s
-            )
-            SecondaryTextButton(
-                text = stringResource(R.string.open_settings),
-                onClick = {
-                    context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                        setData(Uri.fromParts("package", context.packageName, null))
-                    })
-                }
-            )
-        }
     }
-
-    /*     */
 
 
 

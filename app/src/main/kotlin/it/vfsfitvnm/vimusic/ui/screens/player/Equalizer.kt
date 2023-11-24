@@ -1,5 +1,8 @@
 package it.vfsfitvnm.vimusic.ui.screens.player
 
+import android.Manifest
+import android.app.Activity
+import android.content.pm.PackageManager
 import android.text.format.Formatter
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -26,6 +29,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.cache.Cache
 import androidx.media3.datasource.cache.CacheSpan
@@ -36,12 +41,14 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.equalizer.Equalizer
+import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerComputer
 import it.vfsfitvnm.vimusic.models.Format
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.medium
+import it.vfsfitvnm.vimusic.utils.toast
 import kotlin.math.roundToInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -60,14 +67,31 @@ fun ShowEqualizer(
     //val context = LocalContext.current
     //val binder = LocalPlayerServiceBinder.current ?: return
 
-    AnimatedVisibility(
-        visible = isDisplayed,
-        enter = fadeIn(),
-        exit = fadeOut(),
+    val activity = LocalContext.current as Activity
+    //VisualizerComputer.setupPermissions( LocalContext.current as Activity)
+    if (ContextCompat.checkSelfPermission(
+            activity,
+            Manifest.permission.RECORD_AUDIO
+        ) != PackageManager.PERMISSION_GRANTED
     ) {
-        Equalizer(
-            showInPage = false,
-            showType = 1
+        LocalContext.current.toast(stringResource(R.string.require_mic_permission))
+        ActivityCompat.requestPermissions(
+            activity,
+            arrayOf(Manifest.permission.RECORD_AUDIO), 42
         )
+    } else {
+        AnimatedVisibility(
+            visible = isDisplayed,
+            enter = fadeIn(),
+            exit = fadeOut(),
+        ) {
+            Equalizer(
+                showInPage = false,
+                showType = 1
+            )
+        }
+
     }
+
+
 }
