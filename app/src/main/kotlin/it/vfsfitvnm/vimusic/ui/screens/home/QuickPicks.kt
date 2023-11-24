@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.home
 
+import android.app.Activity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -36,6 +37,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
@@ -79,6 +81,7 @@ import it.vfsfitvnm.vimusic.ui.screens.player.Player
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.ShowUpdatedVersion
 import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
@@ -87,6 +90,7 @@ import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
+import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import kotlinx.coroutines.Dispatchers
@@ -94,9 +98,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import java.io.File
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@ExperimentalComposeUiApi
 @UnstableApi
 @Composable
 fun QuickPicks(
@@ -207,6 +213,8 @@ fun QuickPicks(
                 style = typography.m.semiBold,
                 modifier = sectionTextModifier
             )
+
+
 
             relatedPageResult?.getOrNull()?.let { related ->
                 LazyHorizontalGrid(

@@ -61,22 +61,24 @@ fun SettingsScreen() {
                 tabIndex = tabIndex,
                 onTabChanged = onTabChanged,
                 tabColumnContent = { Item ->
-                    Item(0, stringResource(R.string.appearance), R.drawable.color_palette)
-                    Item(1, stringResource(R.string.player), R.drawable.app_icon)
-                    Item(2, stringResource(R.string.cache), R.drawable.sync)
-                    Item(3, stringResource(R.string.database), R.drawable.server)
-                    Item(4, stringResource(R.string.other), R.drawable.equalizer)
-                    Item(5, stringResource(R.string.about), R.drawable.information)
+                    Item(0, stringResource(R.string.about), R.drawable.information)
+                    Item(1, stringResource(R.string.appearance), R.drawable.color_palette)
+                    Item(2, stringResource(R.string.player), R.drawable.app_icon)
+                    Item(3, stringResource(R.string.cache), R.drawable.sync)
+                    Item(4, stringResource(R.string.database), R.drawable.server)
+                    Item(5, stringResource(R.string.other), R.drawable.equalizer)
+
                 }
             ) { currentTabIndex ->
                 saveableStateHolder.SaveableStateProvider(currentTabIndex) {
                     when (currentTabIndex) {
-                        0 -> AppearanceSettings()
-                        1 -> PlayerSettings()
-                        2 -> CacheSettings()
-                        3 -> DatabaseSettings()
-                        4 -> OtherSettings()
-                        5 -> About()
+                        0 -> About()
+                        1 -> AppearanceSettings()
+                        2 -> PlayerSettings()
+                        3 -> CacheSettings()
+                        4 -> DatabaseSettings()
+                        5 -> OtherSettings()
+
                     }
                 }
             }

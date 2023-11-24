@@ -19,10 +19,12 @@ import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.ContinuationBody
 import it.vfsfitvnm.innertube.requests.playlistPage
 import it.vfsfitvnm.innertube.utils.plus
+import it.vfsfitvnm.vimusic.BuildConfig
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.service.LOCAL_KEY_PREFIX
 import it.vfsfitvnm.vimusic.service.MyDownloadService
 import it.vfsfitvnm.vimusic.service.isLocal
+import java.io.File
 
 
 val Innertube.SongItem.asMediaItem: MediaItem
@@ -151,6 +153,12 @@ suspend fun Result<Innertube.PlaylistOrAlbumPage>.completed(maxDepth: Int = Int.
     }
 
     return Result.success(playlistPage)
+}
+
+@Composable
+fun isAvailableUpdate(): String {
+    val file = File(LocalContext.current.filesDir, "RiMusicUpdatedVersion.ver")
+    return if (file.readText() == BuildConfig.VERSION_NAME || file.readText() == "") "" else file.readText()
 }
 
 /*

@@ -51,6 +51,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
@@ -128,6 +129,7 @@ import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import org.json.JSONException
+import java.io.File
 
 @AndroidEntryPoint
 
@@ -194,15 +196,18 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
         setContent {
 
             val url = "https://raw.githubusercontent.com/fast4x/RiMusic/master/updatedVersion/updatedVersion.ver"
-            var newVersion by rememberPreference(versionAppKey, "0.0.0")
+            var newVersion = ""
             /*  */
             request.GET(url, object: Callback {
                 override fun onResponse(call: Call, response: Response) {
                     val responseData = response.body?.string()
                     runOnUiThread{
                         try {
-                            newVersion = responseData.let { it.toString() }
-                            Log.d("UpdatedVersion activity",newVersion)
+                            //newVersion = responseData.let { it.toString() }
+                            //Log.d("UpdatedVersion activity",newVersion)
+                            //val file = getFilesDir() //shows as unresolved reference
+                            val file = File(filesDir, "RiMusicUpdatedVersion.ver")
+                            file.writeText(newVersion)
                             // if get json
                             //var json = responseData?.let { JSONObject(it) }
                             //println("Request Successful!!")
@@ -226,6 +231,9 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                     Log.d("UpdatedVersion","Check failure")
                 }
             })
+
+
+
             /*  */
 
 

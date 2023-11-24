@@ -47,10 +47,12 @@ import it.vfsfitvnm.vimusic.ui.screens.settings.SettingsScreen
 import it.vfsfitvnm.vimusic.ui.screens.settingsRoute
 import it.vfsfitvnm.vimusic.ui.screens.statisticsTypeRoute
 import it.vfsfitvnm.vimusic.utils.homeScreenTabIndexKey
+import it.vfsfitvnm.vimusic.utils.isAvailableUpdate
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.versionAppKey
+import java.io.File
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -61,13 +63,11 @@ fun HomeScreen(
     onPlaylistUrl: (String) -> Unit
 ) {
 
+    val newVersion = isAvailableUpdate()
+
     val saveableStateHolder = rememberSaveableStateHolder()
     //var setDefaultTab = remember { mutableStateOf(true) }
     //val context = LocalContext.current
-
-    val newVersion by rememberPreference(versionAppKey, "0.0.0")
-    Log.d("updatedVersion","new version "+newVersion)
-
 
     PersistMapCleanup("home/")
 
@@ -140,11 +140,6 @@ fun HomeScreen(
                 defaultValue = 0
             )
 
-            var newVersion by rememberPreference(versionAppKey, "0.0.0")
-
-
-
-
 /*
             var (navTabIndex) = rememberPreference(
                 indexNavigationTabKey,
@@ -169,7 +164,7 @@ fun HomeScreen(
 
 
             Scaffold(
-                topIconButtonId =  R.drawable.settings,
+                topIconButtonId = if (newVersion == "") R.drawable.settings else R.drawable.direct_download,
                 onTopIconButtonClick = { settingsRoute() },
                 topIconButton2Id = R.drawable.stats,
                 onTopIconButton2Click = { statisticsTypeRoute(StatisticsType.Today) },
