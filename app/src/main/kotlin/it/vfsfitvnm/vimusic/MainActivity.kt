@@ -196,14 +196,13 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
         setContent {
 
             val url = "https://raw.githubusercontent.com/fast4x/RiMusic/master/updatedVersion/updatedVersion.ver"
-            var newVersion = ""
             /*  */
             request.GET(url, object: Callback {
                 override fun onResponse(call: Call, response: Response) {
                     val responseData = response.body?.string()
                     runOnUiThread{
                         try {
-                            //newVersion = responseData.let { it.toString() }
+                            val newVersion = responseData.let { it.toString() }
                             //Log.d("UpdatedVersion activity",newVersion)
                             //val file = getFilesDir() //shows as unresolved reference
                             val file = File(filesDir, "RiMusicUpdatedVersion.ver")
@@ -225,14 +224,13 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             e.printStackTrace()
                         }
                     }
+
                 }
 
                 override fun onFailure(call: Call, e: java.io.IOException) {
                     Log.d("UpdatedVersion","Check failure")
                 }
             })
-
-
 
             /*  */
 

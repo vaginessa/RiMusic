@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.text.format.DateUtils
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
@@ -158,7 +159,10 @@ suspend fun Result<Innertube.PlaylistOrAlbumPage>.completed(maxDepth: Int = Int.
 @Composable
 fun isAvailableUpdate(): String {
     val file = File(LocalContext.current.filesDir, "RiMusicUpdatedVersion.ver")
-    return if (file.readText() == BuildConfig.VERSION_NAME || file.readText() == "") "" else file.readText()
+    val newVersion = file.readText().substring(0,file.readText().length-1)
+    //Log.d("updatedVersion","${file.readText().length.toString()} ${file.readText().substring(0,file.readText().length-1)}")
+    //Log.d("updatedVersion","${file.readText().length} ${newVersion.length}")
+    return if (newVersion == BuildConfig.VERSION_NAME || newVersion == "") "" else newVersion
 }
 
 /*

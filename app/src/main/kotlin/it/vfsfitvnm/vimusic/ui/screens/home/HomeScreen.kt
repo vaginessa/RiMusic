@@ -63,7 +63,7 @@ fun HomeScreen(
     onPlaylistUrl: (String) -> Unit
 ) {
 
-    val newVersion = isAvailableUpdate()
+    var newVersion = ""
 
     val saveableStateHolder = rememberSaveableStateHolder()
     //var setDefaultTab = remember { mutableStateOf(true) }
@@ -234,4 +234,7 @@ fun HomeScreen(
             }
         }
     }
+
+    newVersion =  isAvailableUpdate()
+
 }

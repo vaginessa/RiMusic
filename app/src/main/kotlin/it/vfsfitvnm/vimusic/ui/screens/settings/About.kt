@@ -53,6 +53,7 @@ fun About() {
     )
 
     val newVersion = isAvailableUpdate()
+    //val newVersion = ""
 
     Column(
         modifier = Modifier
@@ -92,7 +93,8 @@ fun About() {
                 title = "New version $newVersion",
                 text = "Click here to open page",
                 onClick = {
-                    uriHandler.openUri("https://github.com/fast4x/RiMusic/releases/tag/v$newVersion")
+                    uriHandler.openUri("https://github.com/fast4x/RiMusic/releases")
+                    //uriHandler.openUri("https://github.com/fast4x/RiMusic/releases/tag/v0.6.9")
                 },
                 trailingContent = {
                     Image(

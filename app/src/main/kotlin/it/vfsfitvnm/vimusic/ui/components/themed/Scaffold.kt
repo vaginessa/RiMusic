@@ -71,3 +71,58 @@ fun Scaffold(
         )
     }
 }
+
+@ExperimentalAnimationApi
+@Composable
+fun Scaffold3(
+    topIconButtonId: Int,
+    onTopIconButtonClick: () -> Unit,
+    topIconButton2Id: Int,
+    onTopIconButton2Click: () -> Unit,
+    showButton2: Boolean,
+    tabIndex: Int,
+    onTabChanged: (Int) -> Unit,
+    tabColumnContent: @Composable ColumnScope.(@Composable (Int, String, Int) -> Unit) -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable AnimatedVisibilityScope.(Int) -> Unit
+) {
+    val (colorPalette) = LocalAppearance.current
+
+    Row(
+        modifier = modifier
+            .background(colorPalette.background0)
+            .fillMaxSize()
+    ) {
+
+        NavigationRail(
+            topIconButtonId = topIconButtonId,
+            onTopIconButtonClick = onTopIconButtonClick,
+            topIconButton2Id = topIconButton2Id,
+            onTopIconButton2Click = onTopIconButton2Click,
+            showButton2 = showButton2,
+            tabIndex = tabIndex,
+            onTabIndexChanged = onTabChanged,
+            content = tabColumnContent
+        )
+
+        AnimatedContent(
+            targetState = tabIndex,
+            transitionSpec = {
+                val slideDirection = when (targetState > initialState) {
+                    true -> AnimatedContentScope.SlideDirection.Right
+                    false -> AnimatedContentScope.SlideDirection.Left
+                }
+
+                val animationSpec = spring(
+                    dampingRatio = 0.9f,
+                    stiffness = Spring.StiffnessLow,
+                    visibilityThreshold = IntOffset.VisibilityThreshold
+                )
+
+                slideIntoContainer(slideDirection, animationSpec) with
+                        slideOutOfContainer(slideDirection, animationSpec)
+            },
+            content = content
+        )
+    }
+}
