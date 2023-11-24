@@ -80,6 +80,10 @@ fun Scaffold3(
     topIconButton2Id: Int,
     onTopIconButton2Click: () -> Unit,
     showButton2: Boolean,
+    topIconButton3Id: Int,
+    onTopIconButton3Click: () -> Unit,
+    showButton3: Boolean,
+
     tabIndex: Int,
     onTabChanged: (Int) -> Unit,
     tabColumnContent: @Composable ColumnScope.(@Composable (Int, String, Int) -> Unit) -> Unit,
@@ -94,12 +98,15 @@ fun Scaffold3(
             .fillMaxSize()
     ) {
 
-        NavigationRail(
+        NavigationRail3(
             topIconButtonId = topIconButtonId,
             onTopIconButtonClick = onTopIconButtonClick,
             topIconButton2Id = topIconButton2Id,
             onTopIconButton2Click = onTopIconButton2Click,
             showButton2 = showButton2,
+            topIconButton3Id = topIconButton3Id,
+            onTopIconButton3Click = onTopIconButton3Click,
+            showButton3 = showButton3,
             tabIndex = tabIndex,
             onTabIndexChanged = onTabChanged,
             content = tabColumnContent

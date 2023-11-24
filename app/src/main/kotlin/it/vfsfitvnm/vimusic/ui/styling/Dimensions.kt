@@ -14,6 +14,7 @@ object Dimensions {
     val navigationRailWidthLandscape = 128.dp
     val navigationRailIconOffset = 6.dp
     val headerHeight = 140.dp
+    val headerHeight3 = 160.dp
     val halfheaderHeight = 60.dp
     val mediumheaderHeight = 80.dp
 
