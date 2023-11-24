@@ -49,7 +49,7 @@
     <string name="itag">Itag</string>
     <string name="bitrate">Bitrate</string>
     <string name="size">Grandezza</string>
-    <string name="cached">Scaricato</string>
+    <string name="cached">In cache</string>
     <string name="loudness">Volume</string>
     <string name="clear">Pulisci</string>
     <string name="error">C\'è stato un errore.</string>
