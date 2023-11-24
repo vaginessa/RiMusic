@@ -126,6 +126,8 @@ fun BuiltInPlaylistSongs(
 
     LaunchedEffect(Unit, sortBy, sortOrder, filter) {
         when (builtInPlaylist) {
+            BuiltInPlaylist.Downloaded -> Database.fakeSongsList()
+
             BuiltInPlaylist.Favorites -> Database
                 .songsFavorites(sortBy, sortOrder)
 
@@ -181,7 +183,8 @@ fun BuiltInPlaylistSongs(
                 HeaderWithIcon(
                     title = when (builtInPlaylist) {
                         BuiltInPlaylist.Favorites -> stringResource(R.string.favorites)
-                        BuiltInPlaylist.Offline -> stringResource(R.string.downloaded)
+                        BuiltInPlaylist.Downloaded -> stringResource(R.string.downloaded)
+                        BuiltInPlaylist.Offline -> stringResource(R.string.cached)
                     },
                     iconId = R.drawable.search,
                     enabled = true,
@@ -190,12 +193,12 @@ fun BuiltInPlaylistSongs(
                     onClick = onSearchClick
                 )
 
-                Row (
-                        horizontalArrangement = Arrangement.spacedBy(10.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    ){
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
                     HeaderInfo(
                         title = "${songs.size}",
                         icon = painterResource(R.drawable.musical_notes),
@@ -232,40 +235,40 @@ fun BuiltInPlaylistSongs(
 
 
                     HeaderIconButton(
-                                icon = R.drawable.trending,
-                                color = if (sortBy == SongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
-                                onClick = { sortBy = SongSortBy.PlayTime }
-                            )
+                        icon = R.drawable.trending,
+                        color = if (sortBy == SongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
+                        onClick = { sortBy = SongSortBy.PlayTime }
+                    )
 
-                            HeaderIconButton(
-                                icon = R.drawable.text,
-                                color = if (sortBy == SongSortBy.Title) colorPalette.text else colorPalette.textDisabled,
-                                onClick = { sortBy = SongSortBy.Title }
-                            )
+                    HeaderIconButton(
+                        icon = R.drawable.text,
+                        color = if (sortBy == SongSortBy.Title) colorPalette.text else colorPalette.textDisabled,
+                        onClick = { sortBy = SongSortBy.Title }
+                    )
 
-                            HeaderIconButton(
-                                icon = R.drawable.time,
-                                color = if (sortBy == SongSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
-                                onClick = { sortBy = SongSortBy.DateAdded }
-                            )
+                    HeaderIconButton(
+                        icon = R.drawable.time,
+                        color = if (sortBy == SongSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
+                        onClick = { sortBy = SongSortBy.DateAdded }
+                    )
 
-                            Spacer(
-                                modifier = Modifier
-                                    .width(2.dp)
-                            )
+                    Spacer(
+                        modifier = Modifier
+                            .width(2.dp)
+                    )
 
-                            HeaderIconButton(
-                                icon = R.drawable.arrow_up,
-                                color = colorPalette.text,
-                                onClick = { sortOrder = !sortOrder },
-                                modifier = Modifier
-                                    .graphicsLayer { rotationZ = sortOrderIconRotation }
-                            )
+                    HeaderIconButton(
+                        icon = R.drawable.arrow_up,
+                        color = colorPalette.text,
+                        onClick = { sortOrder = !sortOrder },
+                        modifier = Modifier
+                            .graphicsLayer { rotationZ = sortOrderIconRotation }
+                    )
 
                 }
 
                 /*        */
-                Row (
+                Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.Bottom,
                     modifier = Modifier
@@ -342,6 +345,20 @@ fun BuiltInPlaylistSongs(
 
             }
 
+            if (builtInPlaylist == BuiltInPlaylist.Downloaded)
+            item(
+                key = "warning",
+                contentType = 0
+            ) {
+                BasicText(
+                    text = "Please be patient, I’m working on it.",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = typography.m.semiBold.secondary.copy(color = colorPalette.textDisabled)
+                )
+            }
+
+
             itemsIndexed(
                 items = songs,
                 key = { _, song -> song.id },
@@ -380,7 +397,7 @@ fun BuiltInPlaylistSongs(
                             onLongClick = {
                                 menuState.display {
                                     when (builtInPlaylist) {
-                                        BuiltInPlaylist.Favorites -> NonQueuedMediaItemMenu(
+                                        BuiltInPlaylist.Favorites, BuiltInPlaylist.Downloaded -> NonQueuedMediaItemMenu(
                                             mediaItem = song.asMediaItem,
                                             onDismiss = menuState::hide
                                         )
@@ -403,6 +420,8 @@ fun BuiltInPlaylistSongs(
                         .animateItemPlacement()
                 )
             }
+
+            }
         }
 /*
         FloatingActionsContainerWithScrollToTop(
@@ -418,5 +437,5 @@ fun BuiltInPlaylistSongs(
             }
         )
  */
-    }
+
 }

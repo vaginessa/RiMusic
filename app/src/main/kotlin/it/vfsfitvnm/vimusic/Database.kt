@@ -62,6 +62,12 @@ import kotlinx.coroutines.flow.Flow
 interface Database {
     companion object : Database by DatabaseInitializer.Instance.database
 
+
+    @Transaction
+    @Query("SELECT * FROM Song WHERE ROWID='wooowww' ")
+    @RewriteQueriesToDropUnusedColumns
+    fun fakeSongsList(): Flow<List<Song>>
+
     @Transaction
     @Query("SELECT Playlist.*, (SELECT COUNT(*) FROM SongPlaylistMap WHERE playlistId = Playlist.id) as songCount " +
             "FROM Song JOIN SongPlaylistMap ON Song.id = SongPlaylistMap.songId " +
@@ -118,6 +124,7 @@ interface Database {
     @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY ROWID DESC")
     @RewriteQueriesToDropUnusedColumns
     fun songsFavoritesByRowIdDesc(): Flow<List<Song>>
+
 
     fun songsFavorites(sortBy: SongSortBy, sortOrder: SortOrder): Flow<List<Song>> {
         return when (sortBy) {

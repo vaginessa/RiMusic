@@ -39,7 +39,8 @@ fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
     val (tabIndex, onTabIndexChanged) = rememberSaveable {
         mutableStateOf(when (builtInPlaylist) {
             BuiltInPlaylist.Favorites -> 0
-            BuiltInPlaylist.Offline -> 1
+            BuiltInPlaylist.Downloaded -> 1
+            BuiltInPlaylist.Offline -> 2
         })
     }
 
@@ -87,7 +88,8 @@ fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
                 tabColumnContent = { Item ->
                     Item(0, stringResource(R.string.favorites), R.drawable.heart)
                     Item(1, stringResource(R.string.downloaded), R.drawable.downloaded)
-                    Item(2, "On device", R.drawable.musical_notes)
+                    Item(2, stringResource(R.string.cached), R.drawable.sync)
+                    Item(3, stringResource(R.string.on_device), R.drawable.musical_notes)
                 }
             ) { currentTabIndex ->
                 saveableStateHolder.SaveableStateProvider(key = currentTabIndex) {
@@ -97,10 +99,15 @@ fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
                             onSearchClick = { searchRoute("") }
                         )
                         1 -> BuiltInPlaylistSongs(
+                            builtInPlaylist = BuiltInPlaylist.Downloaded,
+                            onSearchClick = { searchRoute("") }
+                        )
+
+                        2 -> BuiltInPlaylistSongs(
                             builtInPlaylist = BuiltInPlaylist.Offline,
                             onSearchClick = { searchRoute("") }
                         )
-                        2 -> DeviceListSongs(
+                        3 -> DeviceListSongs(
                             deviceLists = DeviceLists.LocalSongs,
                             onSearchClick = { searchRoute("") }
                         )

@@ -216,6 +216,21 @@ fun HomePlaylists(
 
             item(key = "offline") {
                 PlaylistItem(
+                    icon = R.drawable.sync,
+                    colorTint = colorPalette.favoritesIcon,
+                    name = stringResource(R.string.cached),
+                    songCount = null,
+                    thumbnailSizeDp = thumbnailSizeDp,
+                    alternative = true,
+                    modifier = Modifier
+                        .clip(thumbnailShape)
+                        .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Offline) })
+                        .animateItemPlacement()
+                )
+            }
+
+            item(key = "downloaded") {
+                PlaylistItem(
                     icon = R.drawable.downloaded,
                     colorTint = colorPalette.favoritesIcon,
                     name = stringResource(R.string.downloaded),
@@ -224,7 +239,7 @@ fun HomePlaylists(
                     alternative = true,
                     modifier = Modifier
                         .clip(thumbnailShape)
-                        .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Offline) })
+                        .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Downloaded) })
                         .animateItemPlacement()
                 )
             }
