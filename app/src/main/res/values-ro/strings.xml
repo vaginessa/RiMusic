@@ -128,8 +128,8 @@
     <string name="set">Setează</string>
     <string name="confirm">Confirma</string>
     <string name="show">Arată</string>
-    <string name="unsynchronized_lyrics">Versuri nesincronizate</string>
-    <string name="synchronized_lyrics">Versuri sincronizate</string>
+    <string name="unsynchronized_lyrics">versuri nesincronizate</string>
+    <string name="synchronized_lyrics">versuri sincronizate</string>
     <string name="provided_by">Furnizat de</string>
     <string name="cleanup">CURĂȚENIE</string>
     <string name="delete_playback_events">Ștergeți %1$s evenimente de redare</string>
@@ -210,7 +210,7 @@
     <string name="discovery">Descoperiri</string>
     <string name="mood">Stare</string>
     <string name="new_albums">Albumuri noi</string>
-    <string name="moods_and_genres">Stări și Genuri</string>
+    <string name="moods_and_genres">Stare și Genuri</string>
     <string name="search_queries">" căutare"</string>
     <string name="not_find_battery_optimization_settings">Nu s-au putut găsi setările de optimizare al bateriei, vă rugăm să adăugați manual în lista albă</string>
     <string name="search">Caută...</string>
@@ -225,5 +225,5 @@
     <string name="permission_declined_grant_media_permissions">Permisiune refuzată, vă rugăm să acordați permisiunile media în setările dispozitivului dvs.</string>
     <string name="wavy_timeline">Bară de progres ondulată</string>
     <string name="enable_wavy_timeline">Utilizează bară de progres ondulată</string>
-    <string name="play_next">Joacă după</string>
+    <string name="play_next">Ascultă după</string>
 </resources>
