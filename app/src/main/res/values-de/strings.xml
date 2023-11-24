@@ -226,4 +226,6 @@
         <string name="wavy_timeline">Gewellte Zeitachse</string>
         <string name="enable_wavy_timeline">Aktivieren Sie die gewellte Zeitleiste</string>
     <string name="play_next">Play next</string>
+        <string name="toggle_lyrics">Toggle lyrics</string>
+        <string name="by_tapping_on_the_thumbnail">By tapping on the thumbnail</string>
 </resources>

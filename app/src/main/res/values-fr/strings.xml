@@ -226,4 +226,6 @@
     <string name="wavy_timeline">Barre de navigation ondulée</string>    
     <string name="enable_wavy_timeline">Active la barre de navigation ondulée</string>
     <string name="play_next">Musique suivante</string>
+    <string name="toggle_lyrics">Toggle lyrics</string>
+    <string name="by_tapping_on_the_thumbnail">By tapping on the thumbnail</string>
 </resources>

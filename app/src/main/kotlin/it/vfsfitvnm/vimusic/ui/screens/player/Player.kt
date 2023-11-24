@@ -98,6 +98,7 @@ import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.shouldBePlaying
 import it.vfsfitvnm.vimusic.utils.thumbnail
+import it.vfsfitvnm.vimusic.utils.thumbnailTapEnabledKey
 import it.vfsfitvnm.vimusic.utils.toast
 
 import it.vfsfitvnm.vimusic.ui.screens.homeRoute
@@ -462,6 +463,8 @@ fun Player(
             mutableStateOf(false)
         }
 
+        var thumbnailTapEnabled by rememberPreference(thumbnailTapEnabledKey, false)
+
         val playerBottomSheetState = rememberBottomSheetState(
             64.dp + horizontalBottomPaddingValues.calculateBottomPadding(),
             layoutState.expandedBound
@@ -478,6 +481,7 @@ fun Player(
 
         val thumbnailContent: @Composable (modifier: Modifier) -> Unit = { modifier ->
             Thumbnail(
+                thumbnailTapEnabledKey = thumbnailTapEnabled,
                 isShowingLyrics = isShowingLyrics,
                 onShowLyrics = { isShowingLyrics = it },
                 isShowingStatsForNerds = isShowingStatsForNerds,

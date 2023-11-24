@@ -40,6 +40,7 @@ import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.resumePlaybackWhenDeviceConnectedKey
 import it.vfsfitvnm.vimusic.utils.skipSilenceKey
+import it.vfsfitvnm.vimusic.utils.thumbnailTapEnabledKey
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.utils.volumeNormalizationKey
 import it.vfsfitvnm.vimusic.utils.wavedPlayerTimelineKey
@@ -69,6 +70,7 @@ fun PlayerSettings() {
     var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
     var wavedPLayerTimelineEnabled by rememberPreference(wavedPlayerTimelineKey, false)
+    var thumbnailTapEnabled by rememberPreference(thumbnailTapEnabledKey, false)
 
     val activityResultLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
@@ -193,6 +195,13 @@ fun PlayerSettings() {
             onCheckedChange = {
                 volumeNormalization = it
             }
+        )
+
+        SwitchSettingEntry(
+            title = stringResource(R.string.toggle_lyrics),
+            text = stringResource(R.string.by_tapping_on_the_thumbnail),
+            isChecked = thumbnailTapEnabled,
+            onCheckedChange = { thumbnailTapEnabled = it }
         )
 
         SettingsEntry(

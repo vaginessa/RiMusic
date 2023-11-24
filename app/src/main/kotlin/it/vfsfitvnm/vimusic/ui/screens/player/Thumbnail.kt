@@ -56,6 +56,7 @@ import java.nio.channels.UnresolvedAddressException
 @UnstableApi
 @Composable
 fun Thumbnail(
+    thumbnailTapEnabledKey: Boolean,
     isShowingLyrics: Boolean,
     onShowLyrics: (Boolean) -> Unit,
     isShowingStatsForNerds: Boolean,
@@ -157,9 +158,15 @@ fun Thumbnail(
                 modifier = Modifier
                     .pointerInput(Unit) {
                         detectTapGestures(
-                            //onTap = { onShowLyrics(true) },
-                            onLongPress = { onShowStatsForNerds(true) }
-                        )
+                                onLongPress = { onShowStatsForNerds(true) },
+                                onTap = if(thumbnailTapEnabledKey) {
+                                    {
+                                        onShowLyrics(true)
+                                        onShowEqualizer(false)
+                                    }
+                                }
+                                else null
+                            )
 
                     }
                     .fillMaxSize()
@@ -168,7 +175,7 @@ fun Thumbnail(
             if (!currentWindow.mediaItem.isLocal) Lyrics(
                 mediaId = currentWindow.mediaItem.mediaId,
                 isDisplayed = isShowingLyrics && error == null,
-                onDismiss = { onShowLyrics(false) },
+                onDismiss = { if(thumbnailTapEnabledKey) {onShowLyrics(false)} else null},
                 ensureSongInserted = { Database.insert(currentWindow.mediaItem) },
                 size = thumbnailSizeDp,
                 mediaMetadataProvider = currentWindow.mediaItem::mediaMetadata,
