@@ -5,14 +5,15 @@
 
 ## ✨ Features
 - **Multilingual support:** English, Italian, German, Russian, French, Spanish, Czech, Turkish and Romanian. Contributions for other languages are welcome
+- Play song from YouTube Music- 
 - Change your favorite language from settings
-- Listening statistics
-- Audio visualizer on player
-- Play song from YouTube Music
-- Cache songs offline playback
+- Auto cache songs for offline playback
+- Download songs or entire playlist for offline playback (not cache) 
 - Background playback with stop while app swipe out from task manager
 - Minimized player optimizations
-- Share menu support for YouTube and YouTube Music links  
+- Listening statistics
+- Audio visualizer on player
+- News, mood and musical genres
 - Search for songs, albums, artists and playlists
 - Bookmark artists and albums
 - Import playlists
@@ -20,12 +21,14 @@
 - Reorder songs in playlist or queue
 - Persistent queue
 - Clear queue
+- Share menu support for YouTube and YouTube Music links
 - Fetch, display and edit songs lyrics or synchronized lyrics
 - Light, Dark, Dynamic and ModernBack themes
 - Sleep timer
 - Audio normalization
 - Audio skip silence
 - Android Auto support
+- Check for Updates
 
 ## 📷 Screenshots
 <div align="center">
