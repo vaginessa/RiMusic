@@ -227,6 +227,6 @@
     <string name="enable_wavy_timeline">Active la barre de navigation ondulée</string>
     <string name="play_next">Musique suivante</string>
     <string name="toggle_lyrics">Afficher les paroles</string>
-    <string name="by_tapping_on_the_thumbnail">En appuyant sur la pochette d'album</string>
-    <string name="require_mic_permission">🎙 Le visualiser nécessite l'autorisation du micro</string>
+    <string name="by_tapping_on_the_thumbnail">En appuyant sur la pochette d\'album</string>
+    <string name="require_mic_permission">🎙 Le visualiser nécessite l\'autorisation du micro</string>
 </resources>
