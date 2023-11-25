@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.media.audiofx.AudioEffect
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -124,6 +125,8 @@ fun Player(
     modifier: Modifier = Modifier,
 ) {
     //val context = LocalContext.current
+
+    Log.d("player"," chiamato player...")
 
     val menuState = LocalMenuState.current
 

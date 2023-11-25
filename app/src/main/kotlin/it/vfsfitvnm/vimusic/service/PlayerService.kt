@@ -152,7 +152,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
     private lateinit var mediaSession: MediaSession
     private lateinit var cache: SimpleCache
     private lateinit var player: ExoPlayer
-    //private lateinit var download: MyDownloadService
+
 
     private lateinit var downloadCache: SimpleCache
 
@@ -286,7 +286,8 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
 
         downloadCache = SimpleCache(downloadDirectory, cacheEvictor, StandaloneDatabaseProvider(this))
 
-        //Log.d("downloadMedia-PlayerService",downloadDirectory.path)
+        //Log.d("downloadMedia-PlayerService",directory.path)
+        //Log.d("downloadMedia-DownloadService",downloadDirectory.path)
 
 
         player = ExoPlayer.Builder(this, createRendersFactory(), createMediaSourceFactory())
@@ -362,6 +363,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         mediaSession.isActive = false
         mediaSession.release()
         cache.release()
+        downloadCache.release()
 
         loudnessEnhancer?.release()
 

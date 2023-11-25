@@ -51,7 +51,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
@@ -80,7 +79,7 @@ import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.service.DownloadUtil
-
+import it.vfsfitvnm.vimusic.service.MyDownloadService
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetMenu
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
@@ -98,7 +97,6 @@ import it.vfsfitvnm.vimusic.ui.styling.dynamicColorPaletteOf
 import it.vfsfitvnm.vimusic.ui.styling.typographyOf
 import it.vfsfitvnm.vimusic.utils.InitDownloader
 import it.vfsfitvnm.vimusic.utils.OkHttpRequest
-import it.vfsfitvnm.vimusic.utils.ShowUpdatedVersion
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
@@ -111,13 +109,10 @@ import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid8
 import it.vfsfitvnm.vimusic.utils.languageAppKey
-import it.vfsfitvnm.vimusic.utils.persistentQueueKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.preferences
-import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.useSystemFontKey
-import it.vfsfitvnm.vimusic.utils.versionAppKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.filterNotNull
@@ -130,6 +125,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import org.json.JSONException
 import java.io.File
+
 
 @AndroidEntryPoint
 
@@ -173,13 +169,11 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         var splashScreenStays = true
         val delayTime = 800L
 
         installSplashScreen().setKeepOnScreenCondition { splashScreenStays }
         Handler(Looper.getMainLooper()).postDelayed({ splashScreenStays = false }, delayTime)
-
 
 
         @Suppress("DEPRECATION", "UNCHECKED_CAST")
@@ -598,6 +592,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
         }
     }
 
+    @Deprecated("Deprecated in Java", ReplaceWith("persistMap"))
     override fun onRetainCustomNonConfigurationInstance() = persistMap
 
     override fun onStop() {
@@ -605,11 +600,16 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
         super.onStop()
     }
 
+    @UnstableApi
     override fun onDestroy() {
         super.onDestroy()
+        //stopService(Intent(this, MyDownloadService::class.java))
+        //stopService(Intent(this, PlayerService::class.java))
+        //Log.d("rimusic debug","onDestroy")
         if (!isChangingConfigurations) {
             persistMap.clear()
         }
+
     }
 
     private fun setSystemBarAppearance(isDark: Boolean) {
