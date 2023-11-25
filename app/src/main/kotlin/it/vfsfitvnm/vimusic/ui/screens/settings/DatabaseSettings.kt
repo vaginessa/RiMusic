@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.ui.screens.settings
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,12 +22,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.internal
 import it.vfsfitvnm.vimusic.path
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.service.MyDownloadService
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -38,7 +42,7 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import kotlin.system.exitProcess
-
+@UnstableApi
 @ExperimentalAnimationApi
 @Composable
 fun DatabaseSettings() {
@@ -79,8 +83,9 @@ fun DatabaseSettings() {
                             inputStream.copyTo(outputStream)
                         }
                     }
-
                 context.stopService(context.intent<PlayerService>())
+                context.stopService(context.intent<MyDownloadService>())
+
                 exitProcess(0)
             }
         }
