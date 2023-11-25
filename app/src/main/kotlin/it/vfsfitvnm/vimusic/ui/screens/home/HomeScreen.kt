@@ -38,6 +38,7 @@ import it.vfsfitvnm.vimusic.ui.screens.globalRoutes
 import it.vfsfitvnm.vimusic.ui.screens.localPlaylistRoute
 import it.vfsfitvnm.vimusic.ui.screens.localplaylist.LocalPlaylistScreen
 import it.vfsfitvnm.vimusic.ui.screens.moodRoute
+import it.vfsfitvnm.vimusic.ui.screens.playlist.PlaylistScreen
 import it.vfsfitvnm.vimusic.ui.screens.playlistRoute
 import it.vfsfitvnm.vimusic.ui.screens.search.SearchScreen
 import it.vfsfitvnm.vimusic.ui.screens.searchResultRoute
@@ -102,6 +103,13 @@ fun HomeScreen(
         builtInPlaylistRoute { builtInPlaylist ->
             BuiltInPlaylistScreen(
                 builtInPlaylist = builtInPlaylist
+            )
+        }
+
+        playlistRoute { browseId, params ->
+            PlaylistScreen(
+                browseId = browseId ?: "",
+                params = params
             )
         }
 
