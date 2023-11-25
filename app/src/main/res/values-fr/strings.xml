@@ -51,7 +51,7 @@
     <string name="size">🗃 Taille</string>
     <string name="cached">📂 En cache</string>
     <string name="loudness">🔊 Volume</string>
-    <string name="clear">Effacer</string>
+    <string name="clear">✏ Effacer</string>
     <string name="error">❌ Une erreur est survenue</string>
     <string name="enter_a_name">🔎 Rechercher</string>
     <string name="online">🌐 En ligne</string>
@@ -62,7 +62,7 @@
     <string name="report_an_issue">Signaler un problème</string>
     <string name="you_will_be_redirected_to_github">Vous allez être redirigé vers GitHub</string>
     <string name="request_a_feature_or_suggest_an_idea">Demander une fonctionnalité\nou suggérer une idée</string>
-    <string name="appearance">Apparence</string>
+    <string name="appearance">🎨 Apparence</string>
     <string name="colors">💚 COULEURS</string>
     <string name="theme">Thème</string>
     <string name="theme_mode">Thème Système</string>
