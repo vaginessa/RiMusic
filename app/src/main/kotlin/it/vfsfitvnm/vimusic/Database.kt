@@ -191,40 +191,40 @@ interface Database {
 
 
     @Transaction
-    //@Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY ROWID ASC")
-    @Query("SELECT * FROM Song ORDER BY ROWID ASC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY ROWID ASC")
+    //@Query("SELECT * FROM Song ORDER BY ROWID ASC")
     @RewriteQueriesToDropUnusedColumns
     fun songsByRowIdAsc(): Flow<List<Song>>
 
     @Transaction
-//    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY ROWID DESC")
-    @Query("SELECT * FROM Song ORDER BY ROWID DESC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY ROWID DESC")
+    //@Query("SELECT * FROM Song ORDER BY ROWID DESC")
     @RewriteQueriesToDropUnusedColumns
     fun songsByRowIdDesc(): Flow<List<Song>>
 
     @Transaction
-    //@Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY title ASC")
-    @Query("SELECT * FROM Song ORDER BY title ASC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY title ASC")
+    //@Query("SELECT * FROM Song ORDER BY title ASC")
     @RewriteQueriesToDropUnusedColumns
     fun songsByTitleAsc(): Flow<List<Song>>
 
     @Transaction
-//    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY title DESC")
-    @Query("SELECT * FROM Song ORDER BY title DESC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY title DESC")
+    //@Query("SELECT * FROM Song ORDER BY title DESC")
     @RewriteQueriesToDropUnusedColumns
     fun songsByTitleDesc(): Flow<List<Song>>
 
     @Transaction
 //    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY totalPlayTimeMs ASC")
-    //@Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY totalPlayTimeMs ASC")
-    @Query("SELECT * FROM Song WHERE id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY totalPlayTimeMs ASC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY totalPlayTimeMs ASC")
+    //@Query("SELECT * FROM Song WHERE id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY totalPlayTimeMs ASC")
     @RewriteQueriesToDropUnusedColumns
     fun songsByPlayTimeAsc(): Flow<List<Song>>
 
     @Transaction
 //    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY totalPlayTimeMs DESC")
-    //@Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY totalPlayTimeMs DESC")
-    @Query("SELECT * FROM Song WHERE id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY totalPlayTimeMs DESC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY totalPlayTimeMs DESC")
+    //@Query("SELECT * FROM Song WHERE id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY totalPlayTimeMs DESC")
     @RewriteQueriesToDropUnusedColumns
     fun songsByPlayTimeDesc(): Flow<List<Song>>
 

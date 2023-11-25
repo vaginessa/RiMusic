@@ -606,11 +606,10 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
     }
 
     override fun onDestroy() {
+        super.onDestroy()
         if (!isChangingConfigurations) {
             persistMap.clear()
         }
-
-        super.onDestroy()
     }
 
     private fun setSystemBarAppearance(isDark: Boolean) {
