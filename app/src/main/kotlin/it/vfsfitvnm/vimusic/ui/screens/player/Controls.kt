@@ -79,6 +79,7 @@ import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.collapsedPlayerProgressBar
+import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
@@ -258,9 +259,10 @@ fun Controls(
 
             IconButton(
                 //icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
-                //color = colorPalette.favoritesIcon,
-                icon = R.drawable.heart,
-                color = if (likedAt == null) colorPalette.textDisabled else colorPalette.accent,
+                color = colorPalette.favoritesIcon,
+                //icon = R.drawable.heart,
+                icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
+                //color = if (likedAt == null) colorPalette.textDisabled else colorPalette.accent,
                 onClick = {
                     val currentMediaItem = binder.player.currentMediaItem
                     query {
