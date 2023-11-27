@@ -280,7 +280,7 @@ fun PlaylistSongList(
                 )
 
                 HeaderIconButton(
-                    icon = R.drawable.database_download,
+                    icon = R.drawable.downloaded,
                     color = colorPalette.text,
                     onClick = {
                         downloadState = Download.STATE_DOWNLOADING
@@ -305,12 +305,11 @@ fun PlaylistSongList(
                                     downloadState = false
                                 )
                             }
-                    },
-                    iconSize = 12.dp
+                    }
                 )
 
                 HeaderIconButton(
-                    icon = R.drawable.database_remove,
+                    icon = R.drawable.download,
                     color = colorPalette.text,
                     onClick = {
                         downloadState = Download.STATE_DOWNLOADING
@@ -324,8 +323,7 @@ fun PlaylistSongList(
                                     downloadState = true
                                 )
                             }
-                    },
-                    iconSize = 12.dp
+                    }
                 )
 
                 HeaderIconButton(

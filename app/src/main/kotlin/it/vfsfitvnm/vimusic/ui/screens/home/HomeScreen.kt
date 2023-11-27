@@ -185,7 +185,7 @@ fun HomeScreen(
                     Item(2, stringResource(R.string.artists), R.drawable.person)
                     Item(3, stringResource(R.string.albums), R.drawable.disc)
                     Item(4, stringResource(R.string.library), R.drawable.library)
-                    Item(5, stringResource(R.string.discovery), R.drawable.globe)
+                    Item(5, stringResource(R.string.discovery), R.drawable.megaphone)
                     //Item(6, "Equalizer", R.drawable.musical_notes)
                     //Item(6, "Settings", R.drawable.equalizer)
                 }

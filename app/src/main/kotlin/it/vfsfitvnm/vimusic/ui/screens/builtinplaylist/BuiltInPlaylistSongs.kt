@@ -211,7 +211,7 @@ fun BuiltInPlaylistSongs(
                     )
                 if (builtInPlaylist == BuiltInPlaylist.Favorites) {
                     HeaderIconButton(
-                        icon = R.drawable.database_download,
+                        icon = R.drawable.downloaded,
                         color = colorPalette.text,
                         onClick = {
                             downloadState = Download.STATE_DOWNLOADING
@@ -229,7 +229,7 @@ fun BuiltInPlaylistSongs(
                     )
 
                     HeaderIconButton(
-                        icon = R.drawable.database_remove,
+                        icon = R.drawable.download,
                         color = colorPalette.text,
                         onClick = {
                             downloadState = Download.STATE_DOWNLOADING
