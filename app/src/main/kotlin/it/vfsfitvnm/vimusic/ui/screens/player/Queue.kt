@@ -403,7 +403,7 @@ fun Queue(
                     .fillMaxWidth()
                     .padding(horizontal = 12.dp, vertical = 20.dp)
                     .padding(horizontalBottomPaddingValues)
-                    .height(60.dp)
+                    .height(30.dp)
             ) {
                 /*
                 Image(
@@ -422,6 +422,7 @@ fun Queue(
                 modifier = Modifier
                     .padding(horizontal = 4.dp)
                     .align(Alignment.CenterStart)
+
             ) {
 
                 IconButton(
