@@ -382,49 +382,10 @@ inline fun SelectorDialog(
                             .padding(vertical = 12.dp, horizontal = 24.dp)
                             .fillMaxWidth()
                     ) {
-/*
-                        if (selectedValue == value) {
-                            Canvas(
-                                modifier = Modifier
-                                    .size(18.dp)
-                                    .background(
-                                        color = colorPalette.accent,
-                                        shape = CircleShape
-                                    )
-                            ) {
-                                drawCircle(
-                                    color = colorPalette.onAccent,
-                                    radius = 4.dp.toPx(),
-                                    center = size.center,
-                                    shadow = Shadow(
-                                        color = Color.Black.copy(alpha = 0.4f),
-                                        blurRadius = 4.dp.toPx(),
-                                        offset = Offset(x = 0f, y = 1.dp.toPx())
-                                    )
-                                )
-                            }
-                        } else {
-                            Spacer(
-                                modifier = Modifier
-                                    .size(18.dp)
-                                    .border(
-                                        width = 1.dp,
-                                        color = colorPalette.textDisabled,
-                                        shape = CircleShape
-                                    )
-                            )
-                        }
-*/
-
-
-
                             BasicText(
                                 text = value.name ?: "Not selectable",
                                 style = typography.xs.medium
                             )
-
-
-
                     }
                 }
             }

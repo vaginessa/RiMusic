@@ -125,8 +125,6 @@ fun Player(
 ) {
     //val context = LocalContext.current
 
-    //Log.d("player"," chiamato player...")
-
     val menuState = LocalMenuState.current
 
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
