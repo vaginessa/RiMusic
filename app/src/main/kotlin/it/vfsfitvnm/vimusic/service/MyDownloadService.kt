@@ -83,12 +83,12 @@ class MyDownloadService : DownloadService(
             downloadManager: DownloadManager,
             download: Download,
             finalException: Exception?) {
-            DownloadUtil.getDownloads()
             DownloadUtil.downloads.update { map ->
                 map.toMutableMap().apply {
                     set(download.request.id, download)
                 }
             }
+            DownloadUtil.getDownloads()
         }
 
 /*

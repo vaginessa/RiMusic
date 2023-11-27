@@ -62,6 +62,10 @@ import kotlinx.coroutines.flow.Flow
 interface Database {
     companion object : Database by DatabaseInitializer.Instance.database
 
+    @Transaction
+    @Query("SELECT * FROM Song WHERE id in (:idsList) ")
+    @RewriteQueriesToDropUnusedColumns
+    fun getSongsList(idsList: List<String>): Flow<List<Song>>
 
     @Transaction
     @Query("SELECT * FROM Song WHERE ROWID='wooowww' ")
@@ -805,6 +809,17 @@ abstract class DatabaseInitializer protected constructor() : RoomDatabase() {
 
 @TypeConverters
 object Converters {
+
+    @TypeConverter
+    fun fromString(stringListString: String): List<String> {
+        return stringListString.split(",").map { it }
+    }
+
+    @TypeConverter
+    fun toString(stringList: List<String>): String {
+        return stringList.joinToString(separator = ",")
+    }
+
     @TypeConverter
     @UnstableApi
     fun mediaItemFromByteArray(value: ByteArray?): MediaItem? {

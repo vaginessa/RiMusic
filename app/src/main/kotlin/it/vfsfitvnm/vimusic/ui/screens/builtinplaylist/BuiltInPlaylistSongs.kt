@@ -1,7 +1,7 @@
 package it.vfsfitvnm.vimusic.ui.screens.builtinplaylist
 
 import android.annotation.SuppressLint
-import android.util.Log
+
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -58,6 +58,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persistList
@@ -72,6 +73,7 @@ import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongWithContentLength
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.service.DownloadUtil
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
@@ -97,8 +99,10 @@ import it.vfsfitvnm.vimusic.utils.songSortOrderKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toCollection
+import kotlinx.coroutines.flow.toList
 
-@SuppressLint("SuspiciousIndentation")
+@SuppressLint("SuspiciousIndentation", "StateFlowValueCalledInComposition")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
@@ -123,10 +127,12 @@ fun BuiltInPlaylistSongs(
         mutableStateOf(Download.STATE_STOPPED)
     }
 
-
-    LaunchedEffect(Unit, sortBy, sortOrder, filter) {
+     LaunchedEffect(Unit, sortBy, sortOrder, filter) {
         when (builtInPlaylist) {
-            BuiltInPlaylist.Downloaded -> Database.fakeSongsList()
+            BuiltInPlaylist.Downloaded -> {
+                DownloadUtil.getDownloads()
+                DownloadUtil.downloads.value?.keys?.toList()?.let { Database.getSongsList(it) }
+            }
 
             BuiltInPlaylist.Favorites -> Database
                 .songsFavorites(sortBy, sortOrder)
@@ -141,7 +147,7 @@ fun BuiltInPlaylistSongs(
                         } ?: false
                     }.map(SongWithContentLength::song)
                 }
-        }.collect { songs = it }
+        }?.collect { songs = it }
     }
 
     var filterCharSequence: CharSequence
@@ -227,7 +233,8 @@ fun BuiltInPlaylistSongs(
                                 }
                         }
                     )
-
+                }
+                    if (builtInPlaylist == BuiltInPlaylist.Favorites || builtInPlaylist == BuiltInPlaylist.Downloaded) {
                     HeaderIconButton(
                         icon = R.drawable.download,
                         color = colorPalette.text,
@@ -382,6 +389,7 @@ fun BuiltInPlaylistSongs(
 
             }
 
+            /*
             if (builtInPlaylist == BuiltInPlaylist.Downloaded)
             item(
                 key = "warning",
@@ -394,6 +402,7 @@ fun BuiltInPlaylistSongs(
                     style = typography.m.semiBold.secondary.copy(color = colorPalette.textDisabled)
                 )
             }
+             */
 
 
             itemsIndexed(

@@ -1117,6 +1117,9 @@ private fun createDataSourceFactory(): DataSource.Factory {
         val cache: Cache
             get() = this@PlayerService.cache
 
+        val downloadCache: Cache
+            get() = this@PlayerService.downloadCache
+
         val mediaSession
             get() = this@PlayerService.mediaSession
 
