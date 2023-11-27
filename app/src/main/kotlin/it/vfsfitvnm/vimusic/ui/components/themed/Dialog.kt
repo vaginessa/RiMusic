@@ -51,6 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.drawCircle
@@ -319,6 +320,111 @@ inline fun <T> ValueSelectorDialog(
                             text = valueText(value),
                             style = typography.xs.medium
                         )
+                    }
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(end = 24.dp)
+            ) {
+                DialogTextButton(
+                    text = stringResource(R.string.cancel),
+                    onClick = onDismiss,
+                    modifier = Modifier
+                )
+            }
+        }
+    }
+}
+
+@Composable
+inline fun SelectorDialog(
+    noinline onDismiss: () -> Unit,
+    title: String,
+    values: List<Info>?,
+    crossinline onValueSelected: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val (colorPalette, typography) = LocalAppearance.current
+
+    Dialog(onDismissRequest = onDismiss) {
+        Column(
+            modifier = modifier
+                .padding(all = 48.dp)
+                .background(color = colorPalette.background4, shape = RoundedCornerShape(8.dp))
+                .padding(vertical = 16.dp)
+        ) {
+            BasicText(
+                text = title,
+                style = typography.s.semiBold,
+                modifier = Modifier
+                    .padding(vertical = 8.dp, horizontal = 24.dp)
+            )
+
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+            ) {
+
+                values?.distinct()?.forEach { value ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier
+                            .clickable(
+                                onClick = {
+                                    onDismiss()
+                                    onValueSelected(value.id)
+                                }
+                            )
+                            .padding(vertical = 12.dp, horizontal = 24.dp)
+                            .fillMaxWidth()
+                    ) {
+/*
+                        if (selectedValue == value) {
+                            Canvas(
+                                modifier = Modifier
+                                    .size(18.dp)
+                                    .background(
+                                        color = colorPalette.accent,
+                                        shape = CircleShape
+                                    )
+                            ) {
+                                drawCircle(
+                                    color = colorPalette.onAccent,
+                                    radius = 4.dp.toPx(),
+                                    center = size.center,
+                                    shadow = Shadow(
+                                        color = Color.Black.copy(alpha = 0.4f),
+                                        blurRadius = 4.dp.toPx(),
+                                        offset = Offset(x = 0f, y = 1.dp.toPx())
+                                    )
+                                )
+                            }
+                        } else {
+                            Spacer(
+                                modifier = Modifier
+                                    .size(18.dp)
+                                    .border(
+                                        width = 1.dp,
+                                        color = colorPalette.textDisabled,
+                                        shape = CircleShape
+                                    )
+                            )
+                        }
+*/
+
+
+
+                            BasicText(
+                                text = value.name ?: "Not selectable",
+                                style = typography.xs.medium
+                            )
+
+
+
                     }
                 }
             }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.media.audiofx.AudioEffect
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -57,15 +58,13 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
-import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
-import it.vfsfitvnm.vimusic.equalizer.Equalizer
 import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerComputer
 import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerData
+import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.ui.UiMedia
 import it.vfsfitvnm.vimusic.query
@@ -75,6 +74,7 @@ import it.vfsfitvnm.vimusic.ui.components.SeekBarWaved
 import it.vfsfitvnm.vimusic.ui.components.themed.BaseMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.ScrollText
+import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -107,7 +107,7 @@ fun Controls(
     mediaId: String,
     title: String?,
     artist: String?,
-    artistIds: ArrayList<String>?,
+    artistIds: List<Info>?,
     albumId: String?,
     shouldBePlaying: Boolean,
     position: Long,
@@ -192,6 +192,8 @@ fun Controls(
 
     val audioComputer = VisualizerComputer()
     val visualizerData = remember { mutableStateOf(VisualizerData()) }
+
+    var showSelectDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         while(true) {
@@ -298,13 +300,39 @@ fun Controls(
             modifier = Modifier.fillMaxWidth()
         ) {
 
+            var artistSelected by remember { mutableStateOf("") } //artistIds?.get(0)?.id
+
+
+            if (showSelectDialog)
+                SelectorDialog(
+                    title = "Artists",
+                    onDismiss = { showSelectDialog = false},
+                    values = artistIds,
+                    onValueSelected = {
+                        onGoToArtist(it)
+                        showSelectDialog = false
+                    }
+                )
+
+
+
+            IconButton(
+                icon = R.drawable.artists,
+                color = if (artistIds?.isEmpty() == true) colorPalette.textDisabled else colorPalette.text,
+                onClick = { showSelectDialog = true },
+                modifier = Modifier
+                    .size(20.dp)
+                    .padding(start = 6.dp)
+            )
+/*
             artistIds?.distinct()?.forEach {
                 IconButton(
                     icon = R.drawable.person,
-                    color = if (it == "") colorPalette.textDisabled else colorPalette.text,
-                    enabled = it != "",
+                    color = if (it.id == "") colorPalette.textDisabled else colorPalette.text,
+                    enabled = it.id != "",
                     onClick = {
-                        onGoToArtist(it)
+                        //onGoToArtist(it)
+                              showSelectDialog = true
                     },
                     modifier = Modifier
                         .size(14.dp)
@@ -315,10 +343,10 @@ fun Controls(
                         .width(6.dp)
                 )
             }
-
+*/
             Spacer(
                 modifier = Modifier
-                    .width(4.dp)
+                    .width(10.dp)
             )
 
 
@@ -331,9 +359,12 @@ fun Controls(
                     fontSize = typography.xs.fontSize
                 ),
                 onClick = {
+                    showSelectDialog = true
+                    /*
                     if (artistIds?.isEmpty() == false) onGoToArtist(
                         artistIds?.get(0).toString()
                     )
+                     */
                 }
             )
 

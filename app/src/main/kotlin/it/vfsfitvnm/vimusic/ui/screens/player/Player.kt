@@ -40,7 +40,6 @@ import androidx.compose.foundation.text.BasicText
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
@@ -126,7 +125,7 @@ fun Player(
 ) {
     //val context = LocalContext.current
 
-    Log.d("player"," chiamato player...")
+    //Log.d("player"," chiamato player...")
 
     val menuState = LocalMenuState.current
 
@@ -240,7 +239,13 @@ fun Player(
     var albumTitle = albumInfo?.name
 
     var artistIds = arrayListOf<String>()
+    var artistNames = arrayListOf<String>()
+    var artistsList = listOf<String>()
+
     artistsInfo?.forEach { (id) -> artistIds = arrayListOf(id) }
+    if (ExistIdsExtras.equals(0).not()) mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.toCollection(artistIds)
+
+    artistsInfo?.forEach { (name) -> artistNames = arrayListOf(name) }
     if (ExistIdsExtras.equals(0).not()) mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.toCollection(artistIds)
 
     /*
@@ -498,7 +503,7 @@ fun Player(
                 mediaId = mediaItem.mediaId,
                 title = mediaItem.mediaMetadata.title?.toString(),
                 artist = mediaItem.mediaMetadata.artist?.toString(),
-                artistIds = artistIds,
+                artistIds = artistsInfo,
                 albumId = albumId,
                 shouldBePlaying = shouldBePlaying,
                 position = positionAndDuration.first,
