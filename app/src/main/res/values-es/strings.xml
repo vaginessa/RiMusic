@@ -225,7 +225,7 @@
     <string name="permission_declined_grant_media_permissions">Permiso denegado. Por favor, concede el permiso de archivos multimedia en los ajustes de tu dispositivo.</string>
     <string name="wavy_timeline">Línea de progreso ondulada</string>
     <string name="enable_wavy_timeline">Activa la línea de progreso ondulada</string>
-    <string name="play_next"Reproducir a continuación</string>
+    <string name="play_next">Reproducir a continuación</string>
     <string name="toggle_lyrics">Mostrar la letra</string>
     <string name="by_tapping_on_the_thumbnail">Al pulsar en la miniatura</string>
     <string name="require_mic_permission">El efecto de visualizador requiere el permiso de micrófono. Por favor, concédelo.</string>
