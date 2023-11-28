@@ -229,4 +229,12 @@
     <string name="toggle_lyrics">Przełączaj napisy</string>
     <string name="by_tapping_on_the_thumbnail">Dotykając miniatury</string>
     <string name="require_mic_permission">Efekty wizualizatora wymagają uprawnienia do mikrofonu, włącz je w ustawieniach.</string>
+    <string name="vt_fancy">Fancy</string>
+    <string name="vt_circular">Circular</string>
+    <string name="vt_disabled">Disabled</string>
+    <string name="vt_stacked">Stacked</string>
+    <string name="vt_one_side">One side</string>
+    <string name="vt_double_side">Double side</string>
+    <string name="vt_double_side_circular">Double side circular</string>
+    <string name="vt_full">Full</string>
 </resources>

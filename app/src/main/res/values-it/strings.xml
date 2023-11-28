@@ -229,4 +229,12 @@
     <string name="toggle_lyrics">Toggle lyrics</string>
     <string name="by_tapping_on_the_thumbnail">By tapping on the thumbnail</string>
     <string name="require_mic_permission">Visualizer effect require mic permission, grant please.</string>
+    <string name="vt_fancy">Fantasia</string>
+    <string name="vt_circular">Circolare</string>
+    <string name="vt_disabled">Disabilitato</string>
+    <string name="vt_stacked">Mosaico</string>
+    <string name="vt_one_side">Onde</string>
+    <string name="vt_double_side">Audio frequenza</string>
+    <string name="vt_double_side_circular">Onde circolari</string>
+    <string name="vt_full">Barre</string>
 </resources>

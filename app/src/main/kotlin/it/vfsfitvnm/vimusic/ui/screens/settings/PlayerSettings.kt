@@ -100,6 +100,37 @@ fun PlayerSettings() {
 
         SettingsEntryGroupText(title = stringResource(R.string.effects))
 
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.player_thumbnail_size),
+            selectedValue = playerThumbnailSize,
+            onValueSelected = { playerThumbnailSize = it },
+            valueText = {
+                when (it) {
+                    PlayerThumbnailSize.Small -> stringResource(R.string.small)
+                    PlayerThumbnailSize.Medium -> stringResource(R.string.medium)
+                    PlayerThumbnailSize.Big -> stringResource(R.string.big)
+                }
+            }
+        )
+
+        EnumValueSelectorSettingsEntry(
+            title = "Visualizer",
+            selectedValue = playerVisualizerType,
+            onValueSelected = { playerVisualizerType = it },
+            valueText = {
+                when (it) {
+                    PlayerVisualizerType.Fancy -> stringResource(R.string.vt_fancy)
+                    PlayerVisualizerType.Circular -> stringResource(R.string.vt_circular)
+                    PlayerVisualizerType.Disabled -> stringResource(R.string.vt_disabled)
+                    PlayerVisualizerType.Stacked -> stringResource(R.string.vt_stacked)
+                    PlayerVisualizerType.Oneside -> stringResource(R.string.vt_one_side)
+                    PlayerVisualizerType.Doubleside -> stringResource(R.string.vt_double_side)
+                    PlayerVisualizerType.DoublesideCircular -> stringResource(R.string.vt_double_side_circular)
+                    PlayerVisualizerType.Full -> stringResource(R.string.vt_full)
+                }
+            }
+        )
+
         SwitchSettingEntry(
             title = stringResource(R.string.player_rotating_buttons),
             text = stringResource(R.string.player_enable_rotation_buttons),
@@ -112,24 +143,6 @@ fun PlayerSettings() {
             text = stringResource(R.string.enable_wavy_timeline),
             isChecked = wavedPLayerTimelineEnabled,
             onCheckedChange = { wavedPLayerTimelineEnabled = it }
-        )
-
-        EnumValueSelectorSettingsEntry(
-            title = "Visualizer",
-            selectedValue = playerVisualizerType,
-            onValueSelected = { playerVisualizerType = it },
-            valueText = {
-                when (it) {
-                    PlayerVisualizerType.Fancy -> "Fancy"
-                    PlayerVisualizerType.Circular -> "Circular"
-                    PlayerVisualizerType.Disabled -> "Disabled"
-                    PlayerVisualizerType.Stacked -> "Stacked"
-                    PlayerVisualizerType.Oneside -> "One side"
-                    PlayerVisualizerType.Doubleside -> "Double side"
-                    PlayerVisualizerType.DoublesideCircular -> "Double side circular"
-                    PlayerVisualizerType.Full -> "Full"
-                }
-            }
         )
 
 //        SettingsEntryGroupText(title = stringResource(R.string.quick_pics_and_tips))
@@ -152,19 +165,6 @@ fun PlayerSettings() {
             }
         )
         SettingsDescription(text = stringResource(R.string.is_min_list_time_for_tips_or_quick_pics))
-
-        EnumValueSelectorSettingsEntry(
-            title = stringResource(R.string.player_thumbnail_size),
-            selectedValue = playerThumbnailSize,
-            onValueSelected = { playerThumbnailSize = it },
-            valueText = {
-                when (it) {
-                    PlayerThumbnailSize.Small -> stringResource(R.string.small)
-                    PlayerThumbnailSize.Medium -> stringResource(R.string.medium)
-                    PlayerThumbnailSize.Big -> stringResource(R.string.big)
-                }
-            }
-        )
 
         SwitchSettingEntry(
             title = stringResource(R.string.persistent_queue),

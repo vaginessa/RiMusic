@@ -284,7 +284,8 @@ fun ContentType(
                 StackedBarEqualizer(
                     Modifier
                         .fillMaxWidth()
-                        .height(300.dp)
+                        //.height(300.dp)
+                        .aspectRatio(1f)
                         .padding(vertical = 4.dp)
                         .background(colorPalette.overlay),
                     data = visualizerData.value,
@@ -297,6 +298,7 @@ fun ContentType(
                     Modifier
                         .fillMaxWidth()
                         .height(300.dp)
+                        .aspectRatio(1f)
                         .padding(vertical = 4.dp)
                         .background(colorPalette.overlay),
                     barModifier = { i, m -> m.background(someColors[i % someColors.size]) },
@@ -310,6 +312,7 @@ fun ContentType(
                     Modifier
                         .fillMaxWidth()
                         .height(300.dp)
+                        .aspectRatio(1f)
                         .padding(vertical = 4.dp)
                         .background(colorPalette.overlay),
                     data = visualizerData.value,
@@ -334,6 +337,7 @@ fun ContentType(
                     Modifier
                         .fillMaxWidth()
                         .height(300.dp)
+                        .aspectRatio(1f)
                         .padding(vertical = 4.dp)
                         .background(colorPalette.overlay),
                     data = visualizerData.value,

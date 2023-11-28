@@ -229,4 +229,12 @@
     <string name="toggle_lyrics">Afficher les paroles</string>
     <string name="by_tapping_on_the_thumbnail">En appuyant sur la pochette d\'album</string>
     <string name="require_mic_permission">🎙 Le visualiser nécessite l\'autorisation du micro</string>
+    <string name="vt_fancy">Fancy</string>
+    <string name="vt_circular">Circular</string>
+    <string name="vt_disabled">Disabled</string>
+    <string name="vt_stacked">Stacked</string>
+    <string name="vt_one_side">One side</string>
+    <string name="vt_double_side">Double side</string>
+    <string name="vt_double_side_circular">Double side circular</string>
+    <string name="vt_full">Full</string>
 </resources>
