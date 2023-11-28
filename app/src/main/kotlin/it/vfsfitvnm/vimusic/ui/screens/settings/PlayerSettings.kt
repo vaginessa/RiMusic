@@ -27,6 +27,7 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
+import it.vfsfitvnm.vimusic.enums.PlayerVisualizerType
 
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -37,6 +38,7 @@ import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
+import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.resumePlaybackWhenDeviceConnectedKey
 import it.vfsfitvnm.vimusic.utils.skipSilenceKey
@@ -71,6 +73,7 @@ fun PlayerSettings() {
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
     var wavedPLayerTimelineEnabled by rememberPreference(wavedPlayerTimelineKey, false)
     var thumbnailTapEnabled by rememberPreference(thumbnailTapEnabledKey, false)
+    var playerVisualizerType by rememberPreference(playerVisualizerTypeKey, PlayerVisualizerType.Disabled)
 
     val activityResultLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
@@ -109,6 +112,24 @@ fun PlayerSettings() {
             text = stringResource(R.string.enable_wavy_timeline),
             isChecked = wavedPLayerTimelineEnabled,
             onCheckedChange = { wavedPLayerTimelineEnabled = it }
+        )
+
+        EnumValueSelectorSettingsEntry(
+            title = "Visualizer",
+            selectedValue = playerVisualizerType,
+            onValueSelected = { playerVisualizerType = it },
+            valueText = {
+                when (it) {
+                    PlayerVisualizerType.Fancy -> "Fancy"
+                    PlayerVisualizerType.Circular -> "Circular"
+                    PlayerVisualizerType.Disabled -> "Disabled"
+                    PlayerVisualizerType.Stacked -> "Stacked"
+                    PlayerVisualizerType.Oneside -> "One side"
+                    PlayerVisualizerType.Doubleside -> "Double side"
+                    PlayerVisualizerType.DoublesideCircular -> "Double side circular"
+                    PlayerVisualizerType.Full -> "Full"
+                }
+            }
         )
 
 //        SettingsEntryGroupText(title = stringResource(R.string.quick_pics_and_tips))

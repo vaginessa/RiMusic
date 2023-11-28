@@ -192,7 +192,7 @@ inline val ColorPalette.primaryButton: Color
     }
 
 inline val ColorPalette.overlay: Color
-    get() = PureBlackColorPalette.background0.copy(alpha = 0.75f)
+    get() = PureBlackColorPalette.background0.copy(alpha = 0.5f)
 
 inline val ColorPalette.onOverlay: Color
     get() = PureBlackColorPalette.text

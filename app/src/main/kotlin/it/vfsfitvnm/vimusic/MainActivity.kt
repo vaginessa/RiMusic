@@ -110,6 +110,7 @@ import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid8
 import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
+import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.useSystemFontKey
@@ -321,7 +322,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                                 AppCompatDelegate.setApplicationLocales(appLocale)
                             }
 
-                            effectRotationKey, playerThumbnailSizeKey, exoPlayerDiskCacheMaxSizeKey -> {
+                            effectRotationKey, playerThumbnailSizeKey, exoPlayerDiskCacheMaxSizeKey,
+                            playerVisualizerTypeKey -> {
                                 this@MainActivity.recreate()
                             }
 

@@ -93,5 +93,5 @@ import it.vfsfitvnm.vimusic.utils.songSortOrderKey
 @Composable
 fun  HomeEqualizer(
 ) {
-    Equalizer()
+    //Equalizer()
 }

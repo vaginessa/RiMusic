@@ -71,6 +71,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
+import it.vfsfitvnm.vimusic.enums.PlayerVisualizerType
 import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.models.ui.toUiMedia
 import it.vfsfitvnm.vimusic.service.PlayerService
@@ -105,6 +106,7 @@ import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
+import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.shuffleQueue
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
@@ -157,6 +159,8 @@ fun Player(
         targetValue = if (isRotated) 360F else 0f,
         animationSpec = tween(durationMillis = 200)
     )
+
+    var playerVisualizerType by rememberPreference(playerVisualizerTypeKey, PlayerVisualizerType.Disabled)
 
     binder.player.DisposableListener {
         object : Player.Listener {
@@ -753,6 +757,7 @@ fun Player(
                             .size(24.dp),
                     )
 
+                    if (playerVisualizerType != PlayerVisualizerType.Disabled)
                     IconButton(
                         icon = R.drawable.sound_effect,
                         color = if (isShowingEqualizer) colorPalette.text else colorPalette.textDisabled,
@@ -764,6 +769,8 @@ fun Player(
                         modifier = Modifier
                             .size(24.dp)
                     )
+
+
 
                     IconButton(
                         icon = R.drawable.chevron_up,

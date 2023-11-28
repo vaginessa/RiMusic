@@ -93,6 +93,7 @@ fun FancyTubularStackedBarEqualizer(
                 defaultHeight = viewportHeight.dp,
                 viewportWidth = viewportWidth,
                 viewportHeight = viewportHeight,
+                autoMirror = false
             ) { vw, vh ->
                 rings.forEach { it() }
             }

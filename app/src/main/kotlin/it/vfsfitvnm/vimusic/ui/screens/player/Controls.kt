@@ -191,10 +191,11 @@ fun Controls(
         targetValueByState = { if (it) 32.dp else 16.dp }
     )
 
+    var showSelectDialog by remember { mutableStateOf(false) }
+
+/*
     val audioComputer = VisualizerComputer()
     val visualizerData = remember { mutableStateOf(VisualizerData()) }
-
-    var showSelectDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         while(true) {
@@ -207,7 +208,7 @@ fun Controls(
         }
     }
 
-
+*/
 
 
     Column(

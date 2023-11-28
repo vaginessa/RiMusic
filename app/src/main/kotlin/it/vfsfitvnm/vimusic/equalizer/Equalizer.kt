@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.PlayerVisualizerType
 import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerComputer
 import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerData
 import it.vfsfitvnm.vimusic.equalizer.ui.CircularStackedBarEqualizer
@@ -53,50 +54,20 @@ import it.vfsfitvnm.vimusic.equalizer.ui.ext.repeat
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.onOverlay
+import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.utils.hasPermission
 import it.vfsfitvnm.vimusic.utils.isCompositionLaunched
+import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.semiBold
 
 @UnstableApi
 @Composable
 fun Equalizer(
     showInPage: Boolean? = true,
-    showType: Int? = 0
+    playerVisualizerType: PlayerVisualizerType = PlayerVisualizerType.Disabled
 ) {
-
-    //val permission  = Manifest.permission.RECORD_AUDIO
-    //val permission1 =  Manifest.permission.MODIFY_AUDIO_SETTINGS
-    val context: Context = LocalContext.current
-    val (_,typography) = LocalAppearance.current
-/*
-    var hasPermission by remember(isCompositionLaunched()) {
-        mutableStateOf(context.applicationContext.hasPermission(permission))
-    }
-
-    var hasPermission1 by remember(isCompositionLaunched()) {
-        mutableStateOf(context.applicationContext.hasPermission(permission1))
-    }
-
-
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = { hasPermission = it }
-    )
-
- */
-/*
-    val launcher1 = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = { hasPermission1 = it }
-    )
-
- */
-
-//    if (hasPermission && hasPermission1) {
-    //if (hasPermission) {
-
         val visualizerData = remember { mutableStateOf(VisualizerData()) }
-        //val (isPlaying, setPlaying) = remember { mutableStateOf(false) }
 
         if (showInPage == true)
             Content(
@@ -106,75 +77,18 @@ fun Equalizer(
              )
         else
                 ContentType(
-                showType,
+                playerVisualizerType,
                 visualizerData
             )
 
-/*
-    } else {
-        if (!hasPermission) {
-            LaunchedEffect(Unit) { launcher.launch(permission) }
-
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                BasicText(
-                    text = stringResource(R.string.permission_declined_grant_media_permissions),
-                    modifier = Modifier.fillMaxWidth(0.5f),
-                    style = typography.s
-                )
-                SecondaryTextButton(
-                    text = stringResource(R.string.open_settings),
-                    onClick = {
-                        context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                            setData(Uri.fromParts("package", context.packageName, null))
-                        })
-                    }
-                )
-            }
-        }
-        /*
-        if (!hasPermission1) {
-            LaunchedEffect(Unit) { launcher1.launch(permission1) }
-
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                BasicText(
-                    text = stringResource(R.string.permission_declined_grant_media_permissions),
-                    modifier = Modifier.fillMaxWidth(0.5f),
-                    style = typography.s
-                )
-                SecondaryTextButton(
-                    text = stringResource(R.string.open_settings),
-                    onClick = {
-                        context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                            setData(Uri.fromParts("package", context.packageName, null))
-                        })
-                    }
-                )
-            }
-        }
-         */
-
-
-    }
-*/
 }
 
 @UnstableApi
 @Composable
 fun Content(
-    //isPlaying: Boolean,
-    //setPlaying: (Boolean) -> Unit,
     visualizerData: MutableState<VisualizerData>
 ) {
 
-    //val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
 
     VisualizerComputer.setupPermissions( LocalContext.current as Activity )
@@ -190,24 +104,6 @@ fun Content(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        /*
-        item {
-            BasicText(
-                text = if (isPlaying) "stop" else "play",
-                style = typography.xxs.semiBold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            IconButton(
-                onClick = {setPlaying(!isPlaying)},
-                icon = R.drawable.play,
-                color = colorPalette.accent,
-                modifier = Modifier
-                    .padding(2.dp),
-            )
-        }
-
-         */
 
         val someColors =
             listOf(Color.Blue, Color.Green, Color.Yellow, Color.Magenta, Color.Red, Color.Cyan)
@@ -338,17 +234,15 @@ fun Content(
 @UnstableApi
 @Composable
 fun ContentType(
-    showType: Int?,
+    visualizerType: PlayerVisualizerType,
     visualizerData: MutableState<VisualizerData>
 ) {
 
-    //val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
+    val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
 
     VisualizerComputer.setupPermissions( LocalContext.current as Activity )
     val audioComputer = VisualizerComputer()
-
-    //Log.d("mediaItem","audiosession")
 
     binder?.player?.audioSessionId?.let {
 
@@ -361,63 +255,63 @@ fun ContentType(
             listOf(Color.Blue, Color.Green, Color.Yellow, Color.Magenta, Color.Red, Color.Cyan)
 
 
-        if (showType == 0)
+        if (visualizerType == PlayerVisualizerType.Fancy)
                 FancyTubularStackedBarEqualizer(
                     Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
-                        .padding(all = 2.dp),
+                        .padding(all = 2.dp)
+                        .background(colorPalette.overlay),
                     data = visualizerData.value,
                     barCount = 48,
                     maxStackCount = 16,
                 )
 
-
-    if (showType == 1)
+    if (visualizerType == PlayerVisualizerType.Circular)
                 CircularStackedBarEqualizer(
                     Modifier
                         .fillMaxWidth()
                         //.height(300.dp)
                         .aspectRatio(1f)
-                        .background(Color(0xff111111)),
+                        .background(colorPalette.overlay),
                     data = visualizerData.value,
                     barCount = 48,
                     maxStackCount = 16
                 )
 
 
-    if (showType == 2)
+    if (visualizerType == PlayerVisualizerType.Stacked)
                 StackedBarEqualizer(
                     Modifier
                         .fillMaxWidth()
                         .height(300.dp)
                         .padding(vertical = 4.dp)
-                        .background(Color(0x50000000)),
+                        .background(colorPalette.overlay),
                     data = visualizerData.value,
                     barCount = 64
                 )
 
 
-    if (showType == 3)
+    if (visualizerType == PlayerVisualizerType.Full)
                 FullBarEqualizer(
                     Modifier
                         .fillMaxWidth()
-                        .height(100.dp)
+                        .height(300.dp)
                         .padding(vertical = 4.dp)
-                        .background(Color(0x50000000)),
+                        .background(colorPalette.overlay),
                     barModifier = { i, m -> m.background(someColors[i % someColors.size]) },
                     data = visualizerData.value,
                     barCount = 64
                 )
 
 
-    if (showType == 4)
+    if (visualizerType == PlayerVisualizerType.Oneside)
                 OneSidedPathEqualizer(
                     Modifier
                         .fillMaxWidth()
-                        .height(100.dp)
+                        .height(300.dp)
                         .padding(vertical = 4.dp)
-                        .background(Color(0x60000000)),
+                        .background(colorPalette.overlay),
                     data = visualizerData.value,
                     segmentCount = 32,
                     fillBrush = Brush.linearGradient(
@@ -435,13 +329,13 @@ fun ContentType(
                 )
 
 
-    if (showType == 5)
+    if (visualizerType == PlayerVisualizerType.Doubleside)
                 DoubleSidedPathEqualizer(
                     Modifier
                         .fillMaxWidth()
-                        .height(100.dp)
+                        .height(300.dp)
                         .padding(vertical = 4.dp)
-                        .background(Color(0x70000000)),
+                        .background(colorPalette.overlay),
                     data = visualizerData.value,
                     segmentCount = 128,
                     fillBrush = Brush.linearGradient(
@@ -452,13 +346,13 @@ fun ContentType(
                 )
 
 
-    if (showType == 6)
+    if (visualizerType == PlayerVisualizerType.DoublesideCircular)
     DoubleSidedCircularPathEqualizer(
                     Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
                         .padding(vertical = 4.dp)
-                        .background(Color(0xE0000000)),
+                        .background(colorPalette.overlay),
                     data = visualizerData.value,
                     segmentCount = 128,
                     fillBrush = Brush.radialGradient(
