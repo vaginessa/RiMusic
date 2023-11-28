@@ -165,11 +165,13 @@ fun StatsForNerds(
                         text = stringResource(R.string.size),
                         style = typography.xs.medium.color(colorPalette.onOverlay)
                     )
+
                     BasicText(
                         text = if (cachedBytes > downloadCachedBytes) stringResource(R.string.cached)
                         else stringResource( R.string.downloaded ),
                         style = typography.xs.medium.color(colorPalette.onOverlay)
                     )
+
                     BasicText(
                         text = stringResource(R.string.loudness),
                         style = typography.xs.medium.color(colorPalette.onOverlay)
