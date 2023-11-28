@@ -31,6 +31,7 @@ import androidx.annotation.OptIn
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.startForegroundService
 import androidx.core.content.getSystemService
@@ -284,11 +285,13 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
 
         cache = SimpleCache(directory, cacheEvictor, StandaloneDatabaseProvider(this))
 
-        downloadCache = SimpleCache(downloadDirectory, cacheEvictor, StandaloneDatabaseProvider(this))
+        //downloadCache = SimpleCache(downloadDirectory, cacheEvictor, StandaloneDatabaseProvider(this))
+
+        downloadCache = DownloadUtil.getDownloadSimpleCache(applicationContext) as SimpleCache
 
         //Log.d("downloadMedia-PlayerService",directory.path)
         //Log.d("downloadMedia-DownloadService",downloadDirectory.path)
-
+        //Log.d("downloadMedia-DownloadService",downloadCache.toString())
 
         player = ExoPlayer.Builder(this, createRendersFactory(), createMediaSourceFactory())
             .setHandleAudioBecomingNoisy(true)
@@ -888,6 +891,8 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             .setCacheWriteDataSinkFactory(null)
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
 
+
+
     /*
     @UnstableApi
     private fun createCacheDataSource() = ConditionalCacheDataSourceFactory(
@@ -998,6 +1003,10 @@ private fun createDataSourceFactory(): DataSource.Factory {
 
             //if(dataSpec.isLocal) videoId = videoId.removePrefix("local:")
             //Log.d("mediaItem","dataSpec isLocal ${dataSpec.isLocal} key ${videoId} all ${dataSpec.toString()}")
+
+            //Log.d("mediaItem","dataSpec " + dataSpec.toString())
+            //Log.d("downloadMedia", downloadCache.isCached(videoId, dataSpec.position, chunkLength).toString())
+            //Log.d("downloadMedia", downloadCache.getCachedBytes(videoId, 0, -1).toString())
 
             when {
                         dataSpec.isLocal ||

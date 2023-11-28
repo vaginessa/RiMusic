@@ -1,6 +1,8 @@
 package it.vfsfitvnm.vimusic.ui.screens.player
 
+import android.annotation.SuppressLint
 import android.text.format.Formatter
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -47,6 +49,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.withContext
+@SuppressLint("LongLogTag")
 @UnstableApi
 @Composable
 fun StatsForNerds(
@@ -66,6 +69,10 @@ fun StatsForNerds(
     ) {
         var cachedBytes by remember(mediaId) {
             mutableStateOf(binder.cache.getCachedBytes(mediaId, 0, -1))
+        }
+
+        var downloadCachedBytes by remember(mediaId) {
+            mutableStateOf(binder.downloadCache.getCachedBytes(mediaId, 0, -1))
         }
 
         var format by remember {
@@ -159,7 +166,8 @@ fun StatsForNerds(
                         style = typography.xs.medium.color(colorPalette.onOverlay)
                     )
                     BasicText(
-                        text = stringResource(R.string.cached),
+                        text = if (cachedBytes > downloadCachedBytes) stringResource(R.string.cached)
+                        else stringResource( R.string.downloaded ),
                         style = typography.xs.medium.color(colorPalette.onOverlay)
                     )
                     BasicText(
@@ -192,10 +200,14 @@ fun StatsForNerds(
                     )
                     BasicText(
                         text = buildString {
+                            if (cachedBytes > downloadCachedBytes)
                             append(Formatter.formatShortFileSize(context, cachedBytes))
+                            else append(Formatter.formatShortFileSize(context, downloadCachedBytes))
 
                             format?.contentLength?.let {
+                                if (cachedBytes > downloadCachedBytes)
                                 append(" (${(cachedBytes.toFloat() / it * 100).roundToInt()}%)")
+                                else append(" (${(downloadCachedBytes.toFloat() / it * 100).roundToInt()}%)")
                             }
                         },
                         maxLines = 1,

@@ -88,9 +88,9 @@ object DownloadUtil {
         val cache = getDownloadCache(context)
         val dataSourceFactory = ResolvingDataSource.Factory(createCacheDataSource(context)) { dataSpec ->
             val videoId = dataSpec.key ?: error("A key must be set")
-            val chunkLength = 512 * 1024L
+            //val chunkLength = 1024 * 1024L
+            val chunkLength = 10000 * 1024L
             val ringBuffer = RingBuffer<Pair<String, Uri>?>(2) { null }
-
 
             if (cache.isCached(videoId, dataSpec.position, chunkLength)) {
                 dataSpec
@@ -251,6 +251,20 @@ object DownloadUtil {
 
     @Synchronized
     private fun getDownloadCache(context: Context): Cache {
+        if(!DownloadUtil::downloadCache.isInitialized) {
+            val downloadContentDirectory =
+                File(getDownloadDirectory(context), DOWNLOAD_CONTENT_DIRECTORY)
+            downloadCache = SimpleCache(
+                downloadContentDirectory,
+                NoOpCacheEvictor(),
+                getDatabaseProvider(context)
+            )
+        }
+        return downloadCache
+    }
+
+    @Synchronized
+    fun getDownloadSimpleCache(context: Context): Cache {
         if(!DownloadUtil::downloadCache.isInitialized) {
             val downloadContentDirectory =
                 File(getDownloadDirectory(context), DOWNLOAD_CONTENT_DIRECTORY)
