@@ -231,8 +231,7 @@ fun HomePlaylists(
 
                 )
             }
-
-            if(!exoPlayerDiskCacheMaxSize.name.equals("Disabled"))
+            if(exoPlayerDiskCacheMaxSize != ExoPlayerDiskCacheMaxSize.Disabled)
             item(key = "offline") {
                 PlaylistItem(
                     icon = R.drawable.sync,
@@ -248,7 +247,7 @@ fun HomePlaylists(
                 )
             }
 
-            if(!exoPlayerDiskDownloadCacheMaxSize.name.equals("Disabled"))
+            if(exoPlayerDiskDownloadCacheMaxSize != ExoPlayerDiskDownloadCacheMaxSize.Disabled)
             item(key = "downloaded") {
                 PlaylistItem(
                     icon = R.drawable.downloaded,

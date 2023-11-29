@@ -12,7 +12,7 @@ enum class ExoPlayerDiskDownloadCacheMaxSize {
 
     val bytes: Long
         get() = when (this) {
-            Disabled -> 1
+            Disabled -> 16
             `32MB` -> 32
             `512MB` -> 512
             `1GB` -> 1024

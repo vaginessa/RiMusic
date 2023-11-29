@@ -110,9 +110,9 @@ fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
                 onTabChanged = onTabIndexChanged,
                 tabColumnContent = { Item ->
                     Item(0, stringResource(R.string.favorites), R.drawable.heart)
-                    if(!exoPlayerDiskDownloadCacheMaxSize.name.equals("Disabled"))
+                    if(exoPlayerDiskDownloadCacheMaxSize != ExoPlayerDiskDownloadCacheMaxSize.Disabled)
                     Item(1, stringResource(R.string.downloaded), R.drawable.downloaded)
-                    if(!exoPlayerDiskCacheMaxSize.name.equals("Disabled"))
+                    if(exoPlayerDiskCacheMaxSize != ExoPlayerDiskCacheMaxSize.Disabled)
                     Item(2, stringResource(R.string.cached), R.drawable.sync)
                     Item(3, stringResource(R.string.on_device), R.drawable.musical_notes)
                 }

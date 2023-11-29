@@ -138,7 +138,7 @@ SwitchSettingEntry(
 
 
         EnumValueSelectorSettingsEntry(
-            title = "Visualizer",
+            title = stringResource(R.string.visualizer),
             selectedValue = playerVisualizerType,
             onValueSelected = { playerVisualizerType = it },
             valueText = {
@@ -154,6 +154,7 @@ SwitchSettingEntry(
                 }
             }
         )
+        ImportantSettingsDescription(text = stringResource(R.string.visualizer_require_mic_permission))
 
         SwitchSettingEntry(
             title = stringResource(R.string.player_rotating_buttons),

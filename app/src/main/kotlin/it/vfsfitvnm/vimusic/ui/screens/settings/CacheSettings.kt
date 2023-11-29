@@ -149,6 +149,7 @@ fun CacheSettings() {
 
             SettingsEntryGroupText(title = stringResource(R.string.song_cache_by_player))
 
+            if(exoPlayerDiskCacheMaxSize != ExoPlayerDiskCacheMaxSize.Disabled)
             SettingsDescription(
                 text = buildString {
                     append(Formatter.formatShortFileSize(context, diskCacheSize))
@@ -191,6 +192,7 @@ fun CacheSettings() {
 
             SettingsEntryGroupText(title = stringResource(R.string.song_cache_by_download))
 
+            if(exoPlayerDiskDownloadCacheMaxSize != ExoPlayerDiskDownloadCacheMaxSize.Disabled)
             SettingsDescription(
                 text = buildString {
                     append(Formatter.formatShortFileSize(context, diskDownloadCacheSize))

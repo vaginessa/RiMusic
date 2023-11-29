@@ -322,7 +322,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                                 AppCompatDelegate.setApplicationLocales(appLocale)
                             }
 
-                            effectRotationKey, playerThumbnailSizeKey, exoPlayerDiskCacheMaxSizeKey,
+                            effectRotationKey, playerThumbnailSizeKey,
+                            //exoPlayerDiskCacheMaxSizeKey,
                             playerVisualizerTypeKey -> {
                                 this@MainActivity.recreate()
                             }
