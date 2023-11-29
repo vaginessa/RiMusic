@@ -46,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
@@ -83,8 +84,12 @@ import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.onOverlay
+import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.center
+import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
@@ -112,7 +117,7 @@ fun BuiltInPlaylistSongs(
     builtInPlaylist: BuiltInPlaylist,
     onSearchClick: () -> Unit
 ) {
-    val (colorPalette,typography) = LocalAppearance.current
+    val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
     val menuState = LocalMenuState.current
 
@@ -438,6 +443,24 @@ fun BuiltInPlaylistSongs(
                     downloadState = downloadState,
                     thumbnailSizeDp = thumbnailSizeDp,
                     thumbnailSizePx = thumbnailSize,
+                    onThumbnailContent = if (sortBy == SongSortBy.PlayTime) ({
+                        BasicText(
+                            text = song.formattedTotalPlayTime,
+                            style = typography.xxs.semiBold.center.color(colorPalette.onOverlay),
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    brush = Brush.verticalGradient(
+                                        colors = listOf(Color.Transparent, colorPalette.overlay)
+                                    ),
+                                    shape = thumbnailShape
+                                )
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                                .align(Alignment.BottomCenter)
+                        )
+                    }) else null,
                     modifier = Modifier
                         .combinedClickable(
                             onLongClick = {

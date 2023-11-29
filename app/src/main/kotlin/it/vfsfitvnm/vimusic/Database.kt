@@ -372,6 +372,31 @@ interface Database {
     fun playlistWithSongs(id: Long): Flow<PlaylistWithSongs?>
 
     @Transaction
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.totalPlayTimeMs")
+    fun SongsPlaylistByPlayTimeAsc(id: Long): Flow<List<Song>>
+
+    @Transaction
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.totalPlayTimeMs DESC")
+    fun SongsPlaylistByPlayTimeDesc(id: Long): Flow<List<Song>>
+
+    fun SongsPlaylist(id: Long,sortBy: SongSortBy, sortOrder: SortOrder): Flow<List<Song>> {
+        return when (sortBy) {
+            SongSortBy.PlayTime -> when (sortOrder) {
+                SortOrder.Ascending -> SongsPlaylistByPlayTimeAsc(id)
+                SortOrder.Descending -> SongsPlaylistByPlayTimeDesc(id)
+            }
+            SongSortBy.Title -> when (sortOrder) {
+                SortOrder.Ascending -> songsByTitleAsc()
+                SortOrder.Descending -> songsByTitleDesc()
+            }
+            SongSortBy.DateAdded -> when (sortOrder) {
+                SortOrder.Ascending -> songsByRowIdAsc()
+                SortOrder.Descending -> songsByRowIdDesc()
+            }
+        }
+    }
+
+    @Transaction
     @Query("SELECT id, name, (SELECT COUNT(*) FROM SongPlaylistMap WHERE playlistId = id) as songCount FROM Playlist ORDER BY name ASC")
     fun playlistPreviewsByNameAsc(): Flow<List<PlaylistPreview>>
 

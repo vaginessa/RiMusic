@@ -239,4 +239,6 @@
     <string name="vt_full">Full</string>
     <string name="new_albums_of_your_artists">New albums of your artists</string>
     <string name="timeline">Timeline</string>
+    <string name="song_cache_by_player">SONG CACHE (by Player)</string>
+    <string name="song_cache_by_download">SONG CACHE (by Download)</string>
 </resources>

@@ -32,11 +32,13 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.CoilDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
+import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskDownloadCacheMaxSize
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.coilDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerAlternateCacheLocationKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
+import it.vfsfitvnm.vimusic.utils.exoPlayerDiskDownloadCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 
 @OptIn(ExperimentalCoilApi::class)
@@ -55,6 +57,11 @@ fun CacheSettings() {
     var exoPlayerDiskCacheMaxSize by rememberPreference(
         exoPlayerDiskCacheMaxSizeKey,
         ExoPlayerDiskCacheMaxSize.`2GB`
+    )
+
+    var exoPlayerDiskDownloadCacheMaxSize by rememberPreference(
+        exoPlayerDiskDownloadCacheMaxSizeKey,
+        ExoPlayerDiskDownloadCacheMaxSize.`2GB`
     )
 
     var exoPlayerAlternateCacheLocation by rememberPreference(
@@ -140,7 +147,7 @@ fun CacheSettings() {
 
             SettingsGroupSpacer()
 
-            SettingsEntryGroupText(title = stringResource(R.string.song_cache))
+            SettingsEntryGroupText(title = stringResource(R.string.song_cache_by_player))
 
             SettingsDescription(
                 text = buildString {
@@ -172,6 +179,49 @@ fun CacheSettings() {
                 }
             )
         }
+
+        binder?.downloadCache?.let { downloadCache ->
+            val diskDownloadCacheSize by remember {
+                derivedStateOf {
+                    downloadCache.cacheSpace
+                }
+            }
+
+            SettingsGroupSpacer()
+
+            SettingsEntryGroupText(title = stringResource(R.string.song_cache_by_download))
+
+            SettingsDescription(
+                text = buildString {
+                    append(Formatter.formatShortFileSize(context, diskDownloadCacheSize))
+                    append(" ${stringResource(R.string.used)}")
+                    when (val size = exoPlayerDiskDownloadCacheMaxSize) {
+                        ExoPlayerDiskDownloadCacheMaxSize.Unlimited -> {}
+                        else -> append(" (${diskDownloadCacheSize * 100 / size.bytes}%)")
+                    }
+                }
+            )
+
+            EnumValueSelectorSettingsEntry(
+                title = stringResource(R.string.max_size),
+                selectedValue = exoPlayerDiskDownloadCacheMaxSize,
+                onValueSelected = { exoPlayerDiskDownloadCacheMaxSize = it },
+                valueText = {
+                    when (it) {
+                        ExoPlayerDiskDownloadCacheMaxSize.Disabled -> stringResource(R.string.turn_off)
+                        ExoPlayerDiskDownloadCacheMaxSize.Unlimited -> stringResource(R.string.unlimited)
+                        ExoPlayerDiskDownloadCacheMaxSize.`32MB` -> "32MB"
+                        ExoPlayerDiskDownloadCacheMaxSize.`512MB` -> "512MB"
+                        ExoPlayerDiskDownloadCacheMaxSize.`1GB` -> "1GB"
+                        ExoPlayerDiskDownloadCacheMaxSize.`2GB` -> "2GB"
+                        ExoPlayerDiskDownloadCacheMaxSize.`4GB` -> "4GB"
+                        ExoPlayerDiskDownloadCacheMaxSize.`8GB` -> "8GB"
+
+                    }
+                }
+            )
+        }
+
 
         SettingsGroupSpacer()
 

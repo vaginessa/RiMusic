@@ -1,11 +1,15 @@
 package it.vfsfitvnm.vimusic.ui.screens.builtinplaylist
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -15,7 +19,10 @@ import it.vfsfitvnm.compose.routing.RouteHandler
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
+import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.DeviceLists
+import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
+import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskDownloadCacheMaxSize
 import it.vfsfitvnm.vimusic.models.SearchQuery
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
@@ -25,9 +32,15 @@ import it.vfsfitvnm.vimusic.ui.screens.search.SearchScreen
 import it.vfsfitvnm.vimusic.ui.screens.searchResultRoute
 import it.vfsfitvnm.vimusic.ui.screens.searchRoute
 import it.vfsfitvnm.vimusic.ui.screens.searchresult.SearchResultScreen
+import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
+import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
+import it.vfsfitvnm.vimusic.utils.exoPlayerDiskDownloadCacheMaxSizeKey
+import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.preferences
+import it.vfsfitvnm.vimusic.utils.rememberPreference
 
+@SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
@@ -43,6 +56,16 @@ fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
             BuiltInPlaylist.Offline -> 2
         })
     }
+
+    var exoPlayerDiskCacheMaxSize by rememberPreference(
+        exoPlayerDiskCacheMaxSizeKey,
+        ExoPlayerDiskCacheMaxSize.`2GB`
+    )
+
+    var exoPlayerDiskDownloadCacheMaxSize by rememberPreference(
+        exoPlayerDiskDownloadCacheMaxSizeKey,
+        ExoPlayerDiskDownloadCacheMaxSize.`2GB`
+    )
 
     PersistMapCleanup(tagPrefix = "${builtInPlaylist.name}/")
 
@@ -87,7 +110,9 @@ fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
                 onTabChanged = onTabIndexChanged,
                 tabColumnContent = { Item ->
                     Item(0, stringResource(R.string.favorites), R.drawable.heart)
+                    if(!exoPlayerDiskDownloadCacheMaxSize.name.equals("Disabled"))
                     Item(1, stringResource(R.string.downloaded), R.drawable.downloaded)
+                    if(!exoPlayerDiskCacheMaxSize.name.equals("Disabled"))
                     Item(2, stringResource(R.string.cached), R.drawable.sync)
                     Item(3, stringResource(R.string.on_device), R.drawable.musical_notes)
                 }

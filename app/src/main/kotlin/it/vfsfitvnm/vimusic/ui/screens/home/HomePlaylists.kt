@@ -1,5 +1,7 @@
 package it.vfsfitvnm.vimusic.ui.screens.home
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -42,6 +44,8 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
+import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
+import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskDownloadCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.models.Playlist
@@ -60,11 +64,14 @@ import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
+import it.vfsfitvnm.vimusic.utils.exoPlayerDiskDownloadCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.playlistSortByKey
 import it.vfsfitvnm.vimusic.utils.playlistSortOrderKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
 
+@SuppressLint("SuspiciousIndentation")
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
@@ -80,6 +87,17 @@ fun HomePlaylists(
     var isCreatingANewPlaylist by rememberSaveable {
         mutableStateOf(false)
     }
+
+
+    var exoPlayerDiskCacheMaxSize by rememberPreference(
+        exoPlayerDiskCacheMaxSizeKey,
+        ExoPlayerDiskCacheMaxSize.`2GB`
+    )
+
+    var exoPlayerDiskDownloadCacheMaxSize by rememberPreference(
+        exoPlayerDiskDownloadCacheMaxSizeKey,
+        ExoPlayerDiskDownloadCacheMaxSize.`2GB`
+    )
 
     if (isCreatingANewPlaylist) {
         TextFieldDialog(
@@ -214,6 +232,7 @@ fun HomePlaylists(
                 )
             }
 
+            if(!exoPlayerDiskCacheMaxSize.name.equals("Disabled"))
             item(key = "offline") {
                 PlaylistItem(
                     icon = R.drawable.sync,
@@ -229,6 +248,7 @@ fun HomePlaylists(
                 )
             }
 
+            if(!exoPlayerDiskDownloadCacheMaxSize.name.equals("Disabled"))
             item(key = "downloaded") {
                 PlaylistItem(
                     icon = R.drawable.downloaded,
