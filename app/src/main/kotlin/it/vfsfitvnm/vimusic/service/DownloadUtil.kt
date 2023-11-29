@@ -308,6 +308,10 @@ object DownloadUtil {
     fun getDownloadDirectory(context: Context): File {
         if(!DownloadUtil::downloadDirectory.isInitialized) {
             downloadDirectory = context.getExternalFilesDir(null) ?: context.filesDir
+            downloadDirectory.resolve(DOWNLOAD_CONTENT_DIRECTORY).also { directory ->
+                if (directory.exists()) return@also
+                directory.mkdir()
+            }
             //Log.d("downloadMedia", downloadDirectory.path)
         }
         return downloadDirectory
