@@ -193,24 +193,6 @@ fun Controls(
 
     var showSelectDialog by remember { mutableStateOf(false) }
 
-/*
-    val audioComputer = VisualizerComputer()
-    val visualizerData = remember { mutableStateOf(VisualizerData()) }
-
-    LaunchedEffect(Unit) {
-        while(true) {
-            binder?.player?.audioSessionId?.let {
-                audioComputer.start(audioSessionId = it, onData = { data ->
-                    visualizerData.value = data
-                })
-            }
-            delay(15000)
-        }
-    }
-
-*/
-
-
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = modifier
@@ -361,6 +343,7 @@ fun Controls(
                     fontSize = typography.xs.fontSize
                 ),
                 onClick = {
+                    if (artistIds?.isNotEmpty() == true)
                     showSelectDialog = true
                     /*
                     if (artistIds?.isEmpty() == false) onGoToArtist(
