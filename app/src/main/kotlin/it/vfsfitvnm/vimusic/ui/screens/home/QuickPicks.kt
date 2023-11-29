@@ -405,7 +405,6 @@ fun QuickPicks(
                     }
                 }
 
-                Log.d("mediaItemNewAlbums",discoverPageAlbums.toString())
                 discoverPageAlbums?.getOrNull()?.let { page ->
 
                     if ( page.newReleaseAlbums.isNotEmpty() && preferitesArtists.isNotEmpty() ) {

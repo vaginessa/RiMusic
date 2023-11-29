@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.ui.screens.statistics
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -28,14 +29,21 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
+import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.compose.persist.persistList
+import it.vfsfitvnm.innertube.Innertube
+import it.vfsfitvnm.innertube.models.bodies.BrowseBody
+import it.vfsfitvnm.innertube.requests.albumPage
+import it.vfsfitvnm.innertube.requests.artistPage
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
@@ -46,6 +54,7 @@ import it.vfsfitvnm.vimusic.models.Album
 import it.vfsfitvnm.vimusic.models.Artist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.models.SongAlbumMap
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
@@ -61,13 +70,22 @@ import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
+import it.vfsfitvnm.vimusic.utils.UpdateYoutubeAlbum
+import it.vfsfitvnm.vimusic.utils.UpdateYoutubeArtist
+import it.vfsfitvnm.vimusic.utils.artistScreenTabIndexKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
+import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -117,6 +135,8 @@ fun StatisticsPage(
     var albums by persistList<Album>("statistics/albums")
     var playlists by persistList<PlaylistPreview>("statistics/playlists")
 
+
+
     val now: Long = System.currentTimeMillis()
     //val now: Long = System.currentTimeMillis() / 1000
     val dateTime = LocalDateTime.now()
@@ -152,7 +172,7 @@ fun StatisticsPage(
         Database.playlistsMostPlayedByPeriod(from, now, 6).collect { playlists = it }
     }
 
-    val downloader = LocalDownloader.current
+
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
@@ -286,6 +306,10 @@ fun StatisticsPage(
                 items(
                     count = artists.count()
                 ) {
+
+                    if(artists[it].thumbnailUrl.toString() == "null")
+                        UpdateYoutubeArtist(artists[it].id)
+
                     ArtistItem(
                         artist = artists[it],
                         thumbnailSizePx = artistThumbnailSizePx,
@@ -312,6 +336,10 @@ fun StatisticsPage(
                 items(
                     count = albums.count()
                 ) {
+
+                    if(albums[it].thumbnailUrl.toString() == "null")
+                        UpdateYoutubeAlbum(albums[it].id)
+
                     AlbumItem(
                         album = albums[it],
                         thumbnailSizePx = albumThumbnailSizePx,
