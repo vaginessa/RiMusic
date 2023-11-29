@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -38,6 +39,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlin.math.PI
+import kotlin.math.acos
+import kotlin.math.cos
 import kotlin.math.sin
 
 @Composable
@@ -208,6 +211,19 @@ private fun wavePath(size: Size, progress: Float): Path {
         var currentX = 0f
         while (currentX < size.width) {
             lineTo(currentX, yFromX(currentX))
+            currentX += 1
+        }
+    }
+}
+private fun wavePath2(size: Size, progress: Float): Path {
+    fun yFromX(x: Float) = (x / 150f + progress * 2 * PI.toFloat() + 1) * size.height / 2
+    return Path().apply {
+        moveTo(0f, yFromX(0f))
+        var currentX = 0f
+        while (currentX < size.width) {
+            lineTo(currentX, yFromX(currentX))
+            //lineTo(currentX, yFromX(currentX * PI.toFloat()))
+            //lineTo(currentX, yFromX(currentX * PI.toFloat() * 2))
             currentX += 1
         }
     }

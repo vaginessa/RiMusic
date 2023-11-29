@@ -63,6 +63,7 @@ import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
 import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerComputer
 import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerData
 import it.vfsfitvnm.vimusic.models.Info
@@ -88,6 +89,7 @@ import it.vfsfitvnm.vimusic.utils.forceSeekToNext
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.isCompositionLaunched
+import it.vfsfitvnm.vimusic.utils.playerTimelineTypeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.seamlessPlay
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -149,7 +151,8 @@ fun Controls(
         animationSpec = tween(durationMillis = 200)
     )
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
-    var wavedPlayerTimelineEnabled by rememberPreference(wavedPlayerTimelineKey, false)
+    //var wavedPlayerTimelineEnabled by rememberPreference(wavedPlayerTimelineKey, false)
+    var playerTimelineType by rememberPreference(playerTimelineTypeKey, PlayerTimelineType.Default)
 
     val scope = rememberCoroutineScope()
     val animatedPosition = remember { Animatable(position.toFloat()) }
@@ -361,7 +364,7 @@ fun Controls(
         )
 
 
-        if (!wavedPlayerTimelineEnabled)
+        if (playerTimelineType == PlayerTimelineType.Default)
         SeekBar(
             value = scrubbingPosition ?: position,
             minimumValue = 0,
@@ -387,7 +390,7 @@ fun Controls(
 
 
 
-        if (wavedPlayerTimelineEnabled)
+        if (playerTimelineType == PlayerTimelineType.Wavy)
             SeekBarWaved(
                 position = { animatedPosition.value },
                 range = 0f..media.duration.toFloat(),

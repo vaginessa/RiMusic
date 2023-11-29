@@ -52,8 +52,7 @@ import it.vfsfitvnm.vimusic.utils.isAvailableUpdate
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
-import it.vfsfitvnm.vimusic.utils.versionAppKey
-import java.io.File
+
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi

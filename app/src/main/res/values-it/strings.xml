@@ -156,7 +156,7 @@
     <string name="quick_pics_and_tips">Scelte rapide e Suggerimenti</string>
     <string name="is_min_list_time_for_tips_or_quick_pics">È il tempo minimo di ascolto, per includere la canzone come eventuali Suggerimenti e Scelte rapide</string>
     <string name="min_listening_time">Tempo minimo di ascolto</string>
-    <string name="player_thumbnail_size">Grandezza anteprima</string>
+    <string name="player_thumbnail_size">Anteprima</string>
     <string name="restarting_rimusic_is_required">E\' richiesto il riavvio</string>
     <string name="size_name">Livello</string>
     <string name="current_size_name">Grandezza attuale</string>
@@ -216,19 +216,19 @@
     <string name="search">Cerca...</string>
     <string name="no">No</string>
     <string name="stop">Stop</string>
-    <string name="preferences">PREFERENCES</string>
+    <string name="preferences">PREFERENZE</string>
     <string name="it_seems_that_youtube_music_is_not_installed">Sembra che Youtube Music non sia installato</string>
     <string name="listen_on_youtube">Ascolta su YouTube</string>
     <string name="listen_on_youtube_music">Ascolta su YouTube Music</string>
     <string name="on_device">Sul dispositivo</string>
     <string name="open_settings">Apri impostazioni</string>
-    <string name="permission_declined_grant_media_permissions">Permission declined, please grant media permissions in the settings of your device.</string>
-    <string name="wavy_timeline">Wavy timeline</string>    
-    <string name="enable_wavy_timeline">Enable the wavy timeline</string>
+    <string name="permission_declined_grant_media_permissions">Permessi non accettati, per favore oncedi i permessi dalle impostazioni del tuo dispositivo.</string>
+    <string name="wavy_timeline">Ondulata</string>
+    <string name="enable_wavy_timeline">Attiva timeline ondulata</string>
     <string name="play_next">Successivo</string>
-    <string name="toggle_lyrics">Toggle lyrics</string>
-    <string name="by_tapping_on_the_thumbnail">By tapping on the thumbnail</string>
-    <string name="require_mic_permission">Visualizer effect require mic permission, grant please.</string>
+    <string name="toggle_lyrics">Abilita lyrics al tocco</string>
+    <string name="by_tapping_on_the_thumbnail">Toccando l\'anteprima</string>
+    <string name="require_mic_permission">L\'effetto Visualizer richiede i permessi del microfono, concedili per favore.</string>
     <string name="vt_fancy">Fantasia</string>
     <string name="vt_circular">Circolare</string>
     <string name="vt_disabled">Disabilitato</string>
@@ -237,5 +237,6 @@
     <string name="vt_double_side">Audio frequenza</string>
     <string name="vt_double_side_circular">Onde circolari</string>
     <string name="vt_full">Barre</string>
-    <string name="new_albums_of_your_artists">New albums of your artists</string>
+    <string name="new_albums_of_your_artists">Nuovi album dei tuoi artisti</string>
+    <string name="timeline">Timeline</string>
 </resources>
