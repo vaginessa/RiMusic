@@ -303,7 +303,7 @@ fun Controls(
             IconButton(
                 icon = R.drawable.artists,
                 color = if (artistIds?.isEmpty() == true) colorPalette.textDisabled else colorPalette.text,
-                onClick = { showSelectDialog = true },
+                onClick = { if (artistIds?.isNotEmpty() == true) showSelectDialog = true },
                 modifier = Modifier
                     .size(20.dp)
                     .padding(start = 6.dp)
