@@ -33,6 +33,22 @@ suspend fun Innertube.discoverPage() = runCatchingNonCancellable {
     )
 }
 
+suspend fun Innertube.discoverPageNewAlbums() = runCatchingNonCancellable {
+    val response = client.post(browse) {
+        setBody(BrowseBody(browseId = "FEmusic_explore"))
+        mask("contents")
+    }.body<BrowseResponse>()
+
+    Innertube.DiscoverPageAlbums(
+        newReleaseAlbums = response.contents?.singleColumnBrowseResultsRenderer?.tabs
+            ?.firstOrNull()?.tabRenderer?.content?.sectionListRenderer?.contents?.find {
+                it.musicCarouselShelfRenderer?.header?.musicCarouselShelfBasicHeaderRenderer
+                    ?.moreContentButton?.buttonRenderer?.navigationEndpoint?.browseEndpoint?.browseId == "FEmusic_new_releases_albums"
+            }?.musicCarouselShelfRenderer?.contents?.mapNotNull { it.musicTwoRowItemRenderer?.toNewReleaseAlbumPage() }
+            .orEmpty()
+    )
+}
+
 fun MusicTwoRowItemRenderer.toNewReleaseAlbumPage() = Innertube.AlbumItem(
     info = Innertube.Info(
         name = title?.text,

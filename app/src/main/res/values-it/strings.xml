@@ -237,4 +237,5 @@
     <string name="vt_double_side">Audio frequenza</string>
     <string name="vt_double_side_circular">Onde circolari</string>
     <string name="vt_full">Barre</string>
+    <string name="new_albums_of_your_artists">New albums of your artists</string>
 </resources>

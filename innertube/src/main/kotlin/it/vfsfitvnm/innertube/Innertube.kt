@@ -222,6 +222,11 @@ object Innertube {
         val moods: List<Mood.Item>
     )
 
+    data class DiscoverPageAlbums(
+        val newReleaseAlbums: List<AlbumItem>
+
+    )
+
     data class Mood(
         val title: String,
         val items: List<Item>

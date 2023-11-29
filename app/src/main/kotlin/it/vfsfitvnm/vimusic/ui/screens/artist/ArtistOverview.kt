@@ -104,7 +104,6 @@ fun ArtistOverview(
 
     val scrollState = rememberScrollState()
 
-    val downloader = LocalDownloader.current
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }

@@ -53,15 +53,19 @@ import androidx.media3.exoplayer.offline.Download
 import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
 import it.vfsfitvnm.compose.persist.persist
+import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.innertube.models.bodies.NextBody
+import it.vfsfitvnm.innertube.requests.discoverPage
+import it.vfsfitvnm.innertube.requests.discoverPageNewAlbums
 import it.vfsfitvnm.innertube.requests.relatedPage
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.models.Artist
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
@@ -120,6 +124,10 @@ fun QuickPicks(
 
     var relatedPageResult by persist<Result<Innertube.RelatedPage?>?>(tag = "home/relatedPageResult")
 
+    var discoverPageAlbums by persist<Result<Innertube.DiscoverPageAlbums>>("home/discoveryAlbums")
+
+    var preferitesArtists by persistList<Artist>("home/artists")
+
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
@@ -127,17 +135,6 @@ fun QuickPicks(
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-/*
-        Database.trending().distinctUntilChanged().collect { song ->
-
-           if ((song == null && relatedPageResult == null) || trending?.id != song?.id) {
-                relatedPageResult =
-                    Innertube.relatedPage(NextBody(videoId = (song?.id ?: "HZnNt9nnEhw")))
-            }
-
-            trending = song
-        }
- */
         Database.trending().distinctUntilChanged().collect { songs ->
             val song = songs.firstOrNull()
             if (relatedPageResult == null || trending?.id != song?.id) {
@@ -145,8 +142,15 @@ fun QuickPicks(
             }
             trending = song
         }
-
     }
+
+    LaunchedEffect(Unit) {
+        discoverPageAlbums = Innertube.discoverPageNewAlbums()
+    }
+    LaunchedEffect(Unit) {
+        Database.preferitesArtistsByName().collect { preferitesArtists = it }
+    }
+
 
     val songThumbnailSizeDp = Dimensions.thumbnails.song
     val songThumbnailSizePx = songThumbnailSizeDp.px
@@ -213,8 +217,6 @@ fun QuickPicks(
                 style = typography.m.semiBold,
                 modifier = sectionTextModifier
             )
-
-
 
             relatedPageResult?.getOrNull()?.let { related ->
                 LazyHorizontalGrid(
@@ -402,6 +404,38 @@ fun QuickPicks(
                         )
                     }
                 }
+
+                Log.d("mediaItemNewAlbums",discoverPageAlbums.toString())
+                discoverPageAlbums?.getOrNull()?.let { page ->
+
+                    if ( page.newReleaseAlbums.isNotEmpty() && preferitesArtists.isNotEmpty() ) {
+                        BasicText(
+                            text = stringResource(R.string.new_albums_of_your_artists),
+                            style = typography.m.semiBold,
+                            modifier = sectionTextModifier
+                        )
+
+                        LazyRow(contentPadding = endPaddingValues) {
+                            items(items = page.newReleaseAlbums, key = { it.key }) {
+                                preferitesArtists.forEach { artist ->
+                                    if (artist.name == it.authors?.first()?.name)
+                                        AlbumItem(
+                                            album = it,
+                                            thumbnailSizePx = albumThumbnailSizePx,
+                                            thumbnailSizeDp = albumThumbnailSizeDp,
+                                            alternative = true,
+                                            modifier = Modifier.clickable(onClick = {
+                                                onAlbumClick( it.key )
+                                            })
+                                        )
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+
 
                 related.albums?.let { albums ->
                     BasicText(

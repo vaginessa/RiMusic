@@ -237,4 +237,5 @@
         <string name="vt_double_side">Double side</string>
         <string name="vt_double_side_circular">Double side circular</string>
         <string name="vt_full">Full</string>
+    <string name="new_albums_of_your_artists">New albums of your artists</string>
 </resources>

@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.home
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -51,14 +52,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.Download
 import coil.compose.AsyncImage
 import it.vfsfitvnm.compose.persist.persist
+import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.requests.discoverPage
+import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.ArtistSortBy
 import it.vfsfitvnm.vimusic.enums.Languages
+import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
+import it.vfsfitvnm.vimusic.models.Artist
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
@@ -73,6 +82,8 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
 import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
+import it.vfsfitvnm.vimusic.utils.artistSortByKey
+import it.vfsfitvnm.vimusic.utils.artistSortOrderKey
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.isLandscape
@@ -82,9 +93,14 @@ import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.bush.translator.Language
 import me.bush.translator.Translator
 
+@UnstableApi
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun HomeDiscovery(
@@ -92,6 +108,8 @@ fun HomeDiscovery(
     onNewReleaseAlbumClick: (String) -> Unit,
     onSearchClick: () -> Unit
 ) {
+    val coroutineScope = CoroutineScope(Dispatchers.IO)
+
     val (colorPalette, typography) = LocalAppearance.current
     val windowInsets = LocalPlayerAwareWindowInsets.current
 
@@ -112,9 +130,17 @@ fun HomeDiscovery(
 
     var discoverPage by persist<Result<Innertube.DiscoverPage>>("home/discovery")
 
+    var preferitesArtists by persistList<Artist>("home/artists")
+
     LaunchedEffect(key1 = Unit) {
         discoverPage = Innertube.discoverPage()
     }
+    LaunchedEffect(Unit) {
+        Database.preferitesArtistsByName().collect { preferitesArtists = it }
+    }
+
+
+    //Log.d("mediaItemArtists",preferitesArtists.toString())
 
     BoxWithConstraints {
         val moodItemWidthFactor = if (isLandscape && maxWidth * 0.475f >= 320.dp) 0.475f else 0.9f
@@ -161,6 +187,34 @@ fun HomeDiscovery(
             )
             discoverPage?.getOrNull()?.let { page ->
 
+                 if ( page.newReleaseAlbums.isNotEmpty() && preferitesArtists.isNotEmpty() ) {
+                    BasicText(
+                        text = stringResource(R.string.new_albums_of_your_artists),
+                        style = typography.m.semiBold,
+                        modifier = sectionTextModifier
+                    )
+
+                    LazyRow(contentPadding = endPaddingValues) {
+                        items(items = page.newReleaseAlbums, key = { it.key }) {
+                              preferitesArtists.forEach { artist ->
+                                    if (artist.name == it.authors?.first()?.name)
+                                        AlbumItem(
+                                            album = it,
+                                            thumbnailSizePx = thumbnailPx,
+                                            thumbnailSizeDp = thumbnailDp,
+                                            alternative = true,
+                                            modifier = Modifier.clickable(onClick = {
+                                                onNewReleaseAlbumClick(
+                                                    it.key
+                                                )
+                                            })
+                                        )
+                                }
+
+                        }
+                    }
+
+                }
 
                 if (page.newReleaseAlbums.isNotEmpty()) {
                     BasicText(
