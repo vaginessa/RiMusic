@@ -68,6 +68,8 @@ val Innertube.VideoItem.asMediaItem: MediaItem
                         "durationText" to durationText,
                         "artistNames" to authors?.filter { it.endpoint != null }?.mapNotNull { it.name } ,
                         "artistIds" to authors?.mapNotNull { it.endpoint?.browseId },
+                        "isOfficialMusicVideo" to isOfficialMusicVideo,
+                        "isUserGeneratedContent" to isUserGeneratedContent
                        // "artistNames" to if (isOfficialMusicVideo) authors?.filter { it.endpoint != null }?.mapNotNull { it.name } else null,
                        // "artistIds" to if (isOfficialMusicVideo) authors?.mapNotNull { it.endpoint?.browseId } else null,
                     )

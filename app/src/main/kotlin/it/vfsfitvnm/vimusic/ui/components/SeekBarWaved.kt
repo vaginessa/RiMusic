@@ -198,7 +198,9 @@ private fun SeekBarContent(
             drawPath(
                 wavePath(size.copy(height = size.height * 2), progress),
                 color,
-                style = Stroke(width = 5f)
+                style = Stroke(width = 15f)
+                //style = Stroke(width = 10f)
+                //style = Stroke(width = 5f)
             )
         }
     }
@@ -211,6 +213,9 @@ private fun wavePath(size: Size, progress: Float): Path {
         var currentX = 0f
         while (currentX < size.width) {
             lineTo(currentX, yFromX(currentX))
+            lineTo(currentX-5, yFromX(currentX)-5)
+           // lineTo(yFromX(currentX),0f)
+            //lineTo(0f, yFromX(currentX)-50f)
             currentX += 1
         }
     }
