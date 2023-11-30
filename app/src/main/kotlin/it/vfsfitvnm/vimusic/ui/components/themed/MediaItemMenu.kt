@@ -802,6 +802,26 @@ fun MediaItemMenu(
                         )
                     }
                 }
+
+                if (!isLocal) MenuEntry(
+                    icon = R.drawable.play,
+                    text = "Listen on Piped",
+                    onClick = {
+                        onDismiss()
+                        binder?.player?.pause()
+                        uriHandler.openUri("https://piped.kavin.rocks/watch?v=${mediaItem.mediaId}&playerAutoPlay=true&minimizeDescription=true")
+                    }
+                )
+                if (!isLocal) MenuEntry(
+                    icon = R.drawable.play,
+                    text = "Listen on Invidious",
+                    onClick = {
+                        onDismiss()
+                        binder?.player?.pause()
+                        uriHandler.openUri("https://yewtu.be/watch?v=${mediaItem.mediaId}&autoplay=1")
+                    }
+                )
+
 /*
                 if (!isLocal) MenuEntry(
                     icon = R.drawable.play,
