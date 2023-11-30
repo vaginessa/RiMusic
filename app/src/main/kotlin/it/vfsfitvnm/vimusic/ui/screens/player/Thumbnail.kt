@@ -89,7 +89,8 @@ fun Thumbnail(
         stringResource(R.string.error_this_song_cannot_be_played_due_to_server_restrictions)
     val videoidmismatcherror =
         stringResource(R.string.error_the_returned_video_id_doesn_t_match_the_requested_one)
-    val unknownplaybackerror = stringResource(R.string.error_an_unknown_playback_error_has_occurred)
+    val unknownplaybackerror = stringResource(R.string.error_an_unknown_playback_error_has_occurred) + " " +
+            stringResource(R.string.restart_app_please)
 
     val islocalMusic = "Problems in local playback or file no longer exists"
 
@@ -158,15 +159,14 @@ fun Thumbnail(
                 modifier = Modifier
                     .pointerInput(Unit) {
                         detectTapGestures(
-                                onLongPress = { onShowStatsForNerds(true) },
-                                onTap = if(thumbnailTapEnabledKey) {
-                                    {
-                                        onShowLyrics(true)
-                                        onShowEqualizer(false)
-                                    }
+                            onLongPress = { onShowStatsForNerds(true) },
+                            onTap = if (thumbnailTapEnabledKey) {
+                                {
+                                    onShowLyrics(true)
+                                    onShowEqualizer(false)
                                 }
-                                else null
-                            )
+                            } else null
+                        )
 
                     }
                     .fillMaxSize()

@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.ui.screens.player
 
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
@@ -96,12 +97,14 @@ import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.queueLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.reorderInQueueEnabledKey
 import it.vfsfitvnm.vimusic.utils.shouldBePlaying
 import it.vfsfitvnm.vimusic.utils.shuffleQueue
 import it.vfsfitvnm.vimusic.utils.smoothScrollToTop
 import it.vfsfitvnm.vimusic.utils.windows
 import kotlinx.coroutines.launch
 
+@SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @androidx.media3.common.util.UnstableApi
@@ -207,11 +210,13 @@ fun Queue(
 
         val musicBarsTransition = updateTransition(targetState = mediaItemIndex, label = "")
 
+        /*
         var isReorderDisabled by rememberSaveable {
             mutableStateOf(false)
         }
+         */
+        var isReorderDisabled by rememberPreference(reorderInQueueEnabledKey, defaultValue = true)
 
-        val downloader = LocalDownloader.current
         var downloadState by remember {
             mutableStateOf(Download.STATE_STOPPED)
         }
@@ -340,16 +345,19 @@ fun Queue(
                                     }
                                 )
                                 .pointerInput(Unit) {
-                                    detectHorizontalDragGestures(
-                                        onHorizontalDrag = { change, dragAmount ->
-                                            deltaX = dragAmount
-                                        },
 
-                                        onDragEnd = {
-                                            player?.removeMediaItem(currentItem.firstPeriodIndex)
-                                        }
+                                        detectHorizontalDragGestures(
+                                            onHorizontalDrag = { change, dragAmount ->
+                                                deltaX = dragAmount
+                                            },
 
-                                    )
+                                            onDragEnd = {
+                                                if (!isReorderDisabled)
+                                                player?.removeMediaItem(currentItem.firstPeriodIndex)
+                                            }
+
+                                        )
+
                                 }
                                 .animateItemPlacement(reorderingState = reorderingState)
                                 .draggedItem(

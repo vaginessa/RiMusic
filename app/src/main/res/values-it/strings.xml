@@ -243,4 +243,5 @@
     <string name="song_cache_by_download">CACHE BRANI (Download)</string>
     <string name="visualizer">Visualizer</string>
     <string name="visualizer_require_mic_permission">Visualizer RICHIEDE ACCESSO AL MICROFONO</string>
+    <string name="restart_app_please">Restart app please.</string>
 </resources>
