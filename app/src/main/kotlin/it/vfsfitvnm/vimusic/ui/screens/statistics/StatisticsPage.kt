@@ -217,7 +217,7 @@ fun StatisticsPage(
                     StatisticsType.OneYear -> stringResource(R.string._1_year)
                     StatisticsType.All -> stringResource(R.string.all)
                 },
-                iconId = R.drawable.stats,
+                iconId = R.drawable.stats_chart,
                 enabled = true,
                 showIcon = true,
                 modifier = Modifier,
