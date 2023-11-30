@@ -226,7 +226,7 @@
     <string name="wavy_timeline">Zvlněná časová osa</string>    
    <string name="enable_wavy_timeline">Povolit zvlněnou časovou osu</string>
     <string name="play_next">Přehrát další</string>
-    <string name="toggle_lyrics">Toggle lyrics</string>
-    <string name="by_tapping_on_the_thumbnail">By tapping on the thumbnail</string>
-    <string name="require_mic_permission">Visualizer effect require mic permission, grant please.</string>
+    <string name="toggle_lyrics">Zobrazit písňové texty</string>
+    <string name="by_tapping_on_the_thumbnail">Klepnutím na miniaturu</string>
+    <string name="require_mic_permission">Vizualizační efekt vyžaduje povolení mikrofonu, udělte ho, prosím.</string>
 </resources>
