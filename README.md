@@ -29,6 +29,7 @@
 - Audio normalization
 - Audio skip silence
 - Android Auto support
+- Android TV support
 - Check for Updates
 
 ## 📷 Screenshots
