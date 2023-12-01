@@ -51,6 +51,7 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
+import com.google.mlkit.nl.translate.TranslateLanguage
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.NextBody
@@ -78,6 +79,7 @@ import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.isShowingSynchronizedLyricsKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.medium
+import it.vfsfitvnm.vimusic.utils.mlkit.Translate
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.utils.verticalFadingEdge
@@ -85,8 +87,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
-import me.bush.translator.Language
-import me.bush.translator.Translator
+
 
 @UnstableApi
 @Composable
@@ -126,26 +127,26 @@ fun Lyrics(
             mutableStateOf(false)
         }
 
-        val translator = Translator()
-
         var languageApp  by rememberPreference(languageAppKey, Languages.English)
 
         val languageDestination = when (languageApp.code) {
-            "ru" -> Language.RUSSIAN
-            "it" -> Language.ITALIAN
-            "cs" -> Language.CZECH
-            "de" -> Language.DUTCH
-            "es" -> Language.SPANISH
-            "fr" -> Language.FRENCH
-            "ro" -> Language.ROMANIAN
-            "tr" -> Language.TURKISH
-            "pl" -> Language.POLISH
-            else -> {Language.ENGLISH}
+            "ru" -> TranslateLanguage.RUSSIAN
+            "it" -> TranslateLanguage.ITALIAN
+            "cs" -> TranslateLanguage.CZECH
+            "de" -> TranslateLanguage.DUTCH
+            "es" -> TranslateLanguage.SPANISH
+            "fr" -> TranslateLanguage.FRENCH
+            "ro" -> TranslateLanguage.ROMANIAN
+            "tr" -> TranslateLanguage.TURKISH
+            "pl" -> TranslateLanguage.POLISH
+            else -> { TranslateLanguage.ENGLISH }
         }
 
         var translateEnabled by remember {
             mutableStateOf(false)
         }
+
+
 
         LaunchedEffect(mediaId, isShowingSynchronizedLyrics) {
             withContext(Dispatchers.IO) {
@@ -168,7 +169,6 @@ fun Lyrics(
                             title = mediaMetadata.title?.toString() ?: "",
                             duration = duration / 1000
                         )?.onSuccess { syncedLyrics ->
-                            Log.d("mediaItemLyrics", syncedLyrics?.value.toString())
                             Database.upsert(
                                 Lyrics(
                                     songId = mediaId,
@@ -198,6 +198,7 @@ fun Lyrics(
             }
 
         }
+
 
         if (isEditing) {
             TextFieldDialog(
@@ -317,9 +318,10 @@ fun Lyrics(
                             .verticalFadingEdge()
                     ) {
                         itemsIndexed(items = synchronizedLyrics.sentences) { index, sentence ->
+
                             BasicText(
                                 text = if (translateEnabled == true)
-                                    translator.translateBlocking(sentence.second, languageDestination,Language.AUTO).translatedText
+                                    Translate(sentence.second, languageDestination)
                                 else sentence.second,
                                 style = typography.xs.center.medium.color(if (index == synchronizedLyrics.index) PureBlackColorPalette.text else PureBlackColorPalette.textDisabled),
                                 modifier = Modifier
@@ -331,7 +333,7 @@ fun Lyrics(
 
                     BasicText(
                         text =  if (translateEnabled == true)
-                        translator.translateBlocking(text, languageDestination,Language.AUTO).translatedText
+                            Translate(text, languageDestination)
                         else text,
                         style = typography.xs.center.medium.color(PureBlackColorPalette.text),
                         modifier = Modifier

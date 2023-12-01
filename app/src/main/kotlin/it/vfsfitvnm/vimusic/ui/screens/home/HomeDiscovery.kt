@@ -95,10 +95,8 @@ import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import me.bush.translator.Language
-import me.bush.translator.Translator
+
+
 
 @UnstableApi
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)

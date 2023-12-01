@@ -110,13 +110,15 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.0-beta02")
 
     
-        val appcompat_version = "1.6.1"
+    val appcompat_version = "1.6.1"
 
-        implementation("androidx.appcompat:appcompat:$appcompat_version")
-        // For loading and tinting drawables on older versions of the platform
-        implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
+    implementation("androidx.appcompat:appcompat:$appcompat_version")
+    // For loading and tinting drawables on older versions of the platform
+    implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
 
-    implementation("com.github.therealbush:translator:1.0.2")
+    implementation("com.google.mlkit:translate:17.0.2")
+    implementation("com.google.mlkit:language-id:17.0.4")
+
     implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
     implementation("org.chromium.net:cronet-api:113.5672.61")
 
