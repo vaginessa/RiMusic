@@ -12,8 +12,9 @@
 - Background playback with stop while app swipe out from task manager
 - Minimized player optimizations
 - Listening statistics
-- Audio visualizer on player
+- Audio visualizer on player with many type of effects
 - News, mood and musical genres
+- New albums from preferites artists
 - Search for songs, albums, artists and playlists
 - Bookmark artists and albums
 - Import playlists
@@ -22,7 +23,7 @@
 - Persistent queue
 - Clear queue
 - Share menu support for YouTube and YouTube Music links
-- Fetch, display and edit songs lyrics or synchronized lyrics
+- Fetch, display, edit and translate songs lyrics or synchronized lyrics
 - Light, Dark, Dynamic and ModernBack themes
 - Sleep timer
 - Audio normalization
