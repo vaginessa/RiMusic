@@ -38,6 +38,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import org.json.JSONException
 import java.io.File
+import java.util.Timer
+import kotlin.concurrent.timerTask
 
 
 val Innertube.SongItem.asMediaItem: MediaItem
@@ -182,6 +184,32 @@ fun isAvailableUpdate(): String {
     return if (newVersion == BuildConfig.VERSION_NAME || newVersion == "") "" else newVersion
 
 }
+
+@Composable
+fun checkInternetConnectionWithTimer(): Boolean {
+    var checkInternetConnection by remember {
+        mutableStateOf(false)
+    }
+    var checkIt by remember {
+        mutableStateOf(false)
+    }
+
+    val funtimer = Timer()
+    funtimer.scheduleAtFixedRate(
+        timerTask()
+        {
+            checkIt = true
+        }, 20000, 20000
+    )
+
+    if (checkIt) {
+        checkInternetConnection = CheckInternetConnection()
+        Log.d("CheckInternetDelayed", checkInternetConnection.toString())
+        //checkIt = false
+    }
+    return checkInternetConnection
+}
+
 @Composable
 fun CheckInternetConnection(): Boolean {
     var client = OkHttpClient()
@@ -198,7 +226,7 @@ fun CheckInternetConnection(): Boolean {
             val responseData = response.body?.string()
              coroutineScope.launch{
                 try {
-                     check = responseData.let { it.toString() }
+                     responseData.let { check = it.toString() }
                     //Log.d("CheckInternet",check.substring(0,5))
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -212,6 +240,7 @@ fun CheckInternetConnection(): Boolean {
         }
     })
 
+    //Log.d("CheckInternetRet",check)
     return if (check.length>0) true else false
 
 }

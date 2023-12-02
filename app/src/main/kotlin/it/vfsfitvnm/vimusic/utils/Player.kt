@@ -2,6 +2,7 @@ package it.vfsfitvnm.vimusic.utils
 
 
 import android.annotation.SuppressLint
+import androidx.compose.runtime.Composable
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player

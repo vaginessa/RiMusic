@@ -114,6 +114,7 @@ fun Thumbnail(
 
             override fun onPlayerError(playbackException: PlaybackException) {
                 error = playbackException
+                binder.stopRadio()
                 context.stopService(context.intent<PlayerService>())
                 context.stopService(context.intent<MyDownloadService>())
             }

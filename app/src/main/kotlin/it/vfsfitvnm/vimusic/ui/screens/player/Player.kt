@@ -99,6 +99,8 @@ import it.vfsfitvnm.vimusic.utils.thumbnailTapEnabledKey
 import it.vfsfitvnm.vimusic.utils.toast
 
 import it.vfsfitvnm.vimusic.ui.screens.homeRoute
+import it.vfsfitvnm.vimusic.utils.CheckInternetConnection
+import it.vfsfitvnm.vimusic.utils.checkInternetConnectionWithTimer
 
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
@@ -113,6 +115,8 @@ import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.withContext
+import java.util.Timer
+import kotlin.concurrent.timerTask
 import kotlin.math.absoluteValue
 
 
@@ -126,8 +130,8 @@ fun Player(
     modifier: Modifier = Modifier,
 ) {
     //val context = LocalContext.current
-
     val menuState = LocalMenuState.current
+
 
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
 
@@ -573,17 +577,18 @@ fun Player(
                         .fillMaxWidth()
                         .height(30.dp)
                 ) {
-                    IconButton(
-                        icon = R.drawable.chevron_down,
-                        color = colorPalette.text,
-                        enabled = true,
-                        onClick = {
-                            layoutState.collapseSoft()
-                        },
-                        modifier = Modifier
-                            .padding(horizontal = 15.dp)
-                            .size(24.dp)
-                    )
+
+                        IconButton(
+                            icon = R.drawable.chevron_down,
+                            color = colorPalette.text,
+                            enabled = true,
+                            onClick = {
+                                layoutState.collapseSoft()
+                            },
+                            modifier = Modifier
+                                .padding(horizontal = 15.dp)
+                                .size(24.dp)
+                        )
 
                     IconButton(
                         icon = R.drawable.app_icon,
@@ -613,6 +618,7 @@ fun Player(
                             .padding(horizontal = 15.dp)
                             .size(24.dp)
                     )
+
                 }
 
 
@@ -810,6 +816,7 @@ fun Player(
                 .align(Alignment.BottomCenter)
         )
     }
+
 }
 
 @ExperimentalAnimationApi
