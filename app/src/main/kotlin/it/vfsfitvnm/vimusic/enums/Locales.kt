@@ -4,10 +4,12 @@ enum class Languages {
     English,
     Czech,
     French,
+    FrenchEmo,
     German,
     Italian,
     Polish,
     Romanian,
+    RomanianEmo,
     Russian,
     Spanish,
     Turkish;
@@ -20,7 +22,9 @@ enum class Languages {
             German -> "de"
             Spanish -> "es"
             French -> "fr"
+            FrenchEmo -> "fr-FR"
             Romanian -> "ro"
+            RomanianEmo -> "ro-RO"
             Russian -> "ru"
             Turkish -> "tr"
             Polish -> "pl"

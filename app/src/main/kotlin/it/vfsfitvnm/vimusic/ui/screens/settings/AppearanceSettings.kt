@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
@@ -29,12 +30,15 @@ import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.NavigationTab
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
+import it.vfsfitvnm.vimusic.service.MyDownloadService
+import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
 import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
+import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid13
 import it.vfsfitvnm.vimusic.utils.isShowingThumbnailInLockscreenKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
@@ -47,7 +51,7 @@ import it.vfsfitvnm.vimusic.utils.useSystemFontKey
 @Composable
 fun AppearanceSettings() {
     val (colorPalette) = LocalAppearance.current
-
+    val context = LocalContext.current
     var languageApp  by rememberPreference(languageAppKey, Languages.English)
     val systemLocale = LocaleListCompat.getDefault().get(0).toString()
     //if (languageApp.code != systemLocale)
@@ -97,7 +101,7 @@ fun AppearanceSettings() {
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.app_language),
             selectedValue = languageApp,
-            onValueSelected = { languageApp = it },
+            onValueSelected = {languageApp = it },
             valueText = {
                 when (it){
                     Languages.English -> stringResource(R.string.english)
@@ -106,7 +110,9 @@ fun AppearanceSettings() {
                     Languages.German -> stringResource(R.string.german)
                     Languages.Spanish -> stringResource(R.string.spanish)
                     Languages.French -> stringResource(R.string.french)
+                    Languages.FrenchEmo -> "French Emoticons (Français)"
                     Languages.Romanian -> stringResource(R.string.romanian)
+                    Languages.RomanianEmo -> "Romanian Emoticons (Română)"
                     Languages.Russian -> stringResource(R.string.russian)
                     Languages.Turkish -> stringResource(R.string.turkish)
                     Languages.Polish -> stringResource(R.string.polish)
