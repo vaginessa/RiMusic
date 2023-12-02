@@ -5,7 +5,7 @@
 
 ## ✨ Features
 - **Multilingual support:** English, Italian, German, Russian, French, Spanish, Czech, Turkish and Romanian. Contributions for other languages are welcome
-- Play song from YouTube Music- 
+- Play song from YouTube Music
 - Change your favorite language from settings
 - Auto cache songs for offline playback
 - Download songs or entire playlist for offline playback (not cache) 

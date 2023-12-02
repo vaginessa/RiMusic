@@ -871,6 +871,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         }
     }
      */
+/*
     @UnstableApi
     private fun createCacheDataSource(): CacheDataSource.Factory =
         CacheDataSource.Factory()
@@ -890,23 +891,28 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             )
             .setCacheWriteDataSinkFactory(null)
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
+*/
 
 
-
-    /*
     @UnstableApi
     private fun createCacheDataSource() = ConditionalCacheDataSourceFactory(
-        cacheDataSourceFactory = CacheDataSource.Factory().setCache(cache),
-        upstreamDataSourceFactory = DefaultDataSource.Factory(
-            applicationContext,
-            DefaultHttpDataSource.Factory()
-                .setConnectTimeoutMs(16000)
-                .setReadTimeoutMs(8000)
-                .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
-        )
+        cacheDataSourceFactory = CacheDataSource.Factory().setCache(downloadCache)
+            .setCacheWriteDataSinkFactory(null)
+            .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR),
+        upstreamDataSourceFactory = CacheDataSource.Factory()
+            .setCache(cache)
+            .setUpstreamDataSourceFactory(
+                DefaultDataSource.Factory(
+                    this,
+                    DefaultHttpDataSource.Factory()
+                        .setConnectTimeoutMs(16000)
+                        .setReadTimeoutMs(8000)
+                        .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
+                )
+            )
     ) { !it.isLocal }
 
-     */
+
 
     /*
     @UnstableApi
@@ -1008,6 +1014,9 @@ private fun createDataSourceFactory(): DataSource.Factory {
             //Log.d("downloadMedia", downloadCache.isCached(videoId, dataSpec.position, chunkLength).toString())
             //Log.d("downloadMedia", downloadCache.getCachedBytes(videoId, 0, -1).toString())
 
+            //Log.d("mediaItemDatasource","dataSpec ${dataSpec.toString()} islocal ${dataSpec.isLocal}")
+            //Log.d("mediaItemDatasource","dataSpecUri ${dataSpec.uri}")
+
             when {
                         dataSpec.isLocal ||
                         cache.isCached(videoId, dataSpec.position, chunkLength) ||
@@ -1023,6 +1032,8 @@ private fun createDataSourceFactory(): DataSource.Factory {
                     val body = runBlocking(Dispatchers.IO) {
                         Innertube.player(PlayerBody(videoId = videoId))
                     }?.getOrThrow()
+
+                    //Log.d("mediaItemDatasource","bodyVideoId ${body?.videoDetails?.videoId} videoId $videoId")
 
                     if (body?.videoDetails?.videoId != videoId) throw VideoIdMismatchException()
 
