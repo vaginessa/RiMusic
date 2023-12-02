@@ -99,6 +99,7 @@ import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.reorderInQueueEnabledKey
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.songSortByKey
@@ -193,9 +194,12 @@ fun LocalPlaylistSongs(
         )
     }
 
+    /*
     var isReorderDisabled by rememberSaveable {
         mutableStateOf(false)
     }
+    */
+    var isReorderDisabled by rememberPreference(reorderInQueueEnabledKey, defaultValue = true)
 
     val thumbnailSizeDp = Dimensions.thumbnails.song
     val thumbnailSizePx = thumbnailSizeDp.px
