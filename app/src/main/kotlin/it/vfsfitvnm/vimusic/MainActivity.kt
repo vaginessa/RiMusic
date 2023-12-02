@@ -79,7 +79,6 @@ import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.service.DownloadUtil
-import it.vfsfitvnm.vimusic.service.MyDownloadService
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetMenu
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
@@ -95,6 +94,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.colorPaletteOf
 import it.vfsfitvnm.vimusic.ui.styling.dynamicColorPaletteOf
 import it.vfsfitvnm.vimusic.ui.styling.typographyOf
+import it.vfsfitvnm.vimusic.utils.CheckInternetConnection
 import it.vfsfitvnm.vimusic.utils.InitDownloader
 import it.vfsfitvnm.vimusic.utils.OkHttpRequest
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
@@ -102,7 +102,6 @@ import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
-import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.intent
@@ -136,9 +135,6 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
     var client = OkHttpClient()
     var request = OkHttpRequest(client)
-
-
-
 
 
     private val serviceConnection = object : ServiceConnection {
@@ -198,22 +194,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                     runOnUiThread{
                         try {
                             val newVersion = responseData.let { it.toString() }
-                            //Log.d("UpdatedVersion activity",newVersion)
-                            //val file = getFilesDir() //shows as unresolved reference
                             val file = File(filesDir, "RiMusicUpdatedVersion.ver")
                             file.writeText(newVersion)
-                            // if get json
-                            //var json = responseData?.let { JSONObject(it) }
-                            //println("Request Successful!!")
-                            //println(json)
-                            //val responseObject = json?.getJSONObject("response")
-                            //val docs = json?.getJSONArray("updatedVersion")
-                            //    if (json != null) {
-                            //        Log.d("UpdatedVersion",json.getString("updatedVersion"))
-                            //    }
-
-
-
                             this@MainActivity
                         } catch (e: JSONException) {
                             e.printStackTrace()
@@ -226,11 +208,6 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                     Log.d("UpdatedVersion","Check failure")
                 }
             })
-
-            /*  */
-
-
-
 
 
             val coroutineScope = rememberCoroutineScope()
@@ -528,11 +505,11 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
                 //VisualizerComputer.setupPermissions(this@MainActivity)
                 InitDownloader()
-
             }
         }
 
         onNewIntent(intent)
+
     }
 @UnstableApi
     override fun onNewIntent(intent: Intent) {

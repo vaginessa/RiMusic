@@ -7,6 +7,10 @@ import android.provider.MediaStore
 import android.text.format.DateUtils
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -25,6 +29,14 @@ import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.service.LOCAL_KEY_PREFIX
 import it.vfsfitvnm.vimusic.service.MyDownloadService
 import it.vfsfitvnm.vimusic.service.isLocal
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Response
+import org.json.JSONException
 import java.io.File
 
 
@@ -168,6 +180,39 @@ fun isAvailableUpdate(): String {
         //Log.d("updatedVersion","${file.readText().length} ${newVersion.length}")
     } else newVersion = ""
     return if (newVersion == BuildConfig.VERSION_NAME || newVersion == "") "" else newVersion
+
+}
+@Composable
+fun CheckInternetConnection(): Boolean {
+    var client = OkHttpClient()
+    var request = OkHttpRequest(client)
+    val coroutineScope = CoroutineScope(Dispatchers.Main)
+    val url = "https://www.google.com/"
+
+    var check by remember {
+        mutableStateOf("")
+    }
+
+    request.GET(url, object: Callback {
+        override fun onResponse(call: Call, response: Response) {
+            val responseData = response.body?.string()
+             coroutineScope.launch{
+                try {
+                     check = responseData.let { it.toString() }
+                    //Log.d("CheckInternet",check.substring(0,5))
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+
+        }
+
+        override fun onFailure(call: Call, e: java.io.IOException) {
+            //Log.d("CheckInternet","Check failure")
+        }
+    })
+
+    return if (check.length>0) true else false
 
 }
 

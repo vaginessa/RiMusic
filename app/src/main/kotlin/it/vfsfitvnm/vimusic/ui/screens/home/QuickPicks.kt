@@ -85,6 +85,7 @@ import it.vfsfitvnm.vimusic.ui.screens.player.Player
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.CheckInternetConnection
 import it.vfsfitvnm.vimusic.utils.ShowUpdatedVersion
 import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
 import it.vfsfitvnm.vimusic.utils.asMediaItem
@@ -569,6 +570,7 @@ fun QuickPicks(
 
  */
     }
+
 }
 
 
