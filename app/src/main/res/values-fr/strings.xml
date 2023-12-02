@@ -243,5 +243,5 @@
     <string name="song_cache_by_download">CACHE DE CHANSON (Pour le télechargement)</string>
     <string name="visualizer">Visualiseur</string>
     <string name="visualizer_require_mic_permission">Visualiseur exige L\'AUTORISATION DU MICRO</string>
-    <string name="restart_app_please">Redémarrez l'application</string>
+    <string name="restart_app_please">Redémarrez l\'application</string>
 </resources>
