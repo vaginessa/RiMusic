@@ -239,13 +239,13 @@
     <string name="vt_full">Complet</string>
     <string name="new_albums_of_your_artists">Nouveaux albums de vos artistes</string>
     <string name="timeline">Barre de navigation</string>
-    <string name="song_cache_by_player">⏭ CACHE DE CHANSON (Pour le lecteur)</string>
+    <string name="song_cache_by_player">🎧 CACHE DE CHANSON (Pour le lecteur)</string>
     <string name="song_cache_by_download">✈️ CACHE DE CHANSON (Pour le télechargement)</string>
     <string name="visualizer">Visualiseur</string>
     <string name="visualizer_require_mic_permission">Visualiseur exige L\'AUTORISATION DU MICRO</string>
     <string name="restart_app_please">🔃 Redémarrez l\'application</string>
-    <string name="listen_on_piped">Listen on Piped</string>
-    <string name="listen_on_invidious">Listen on Invidious</string>
+    <string name="listen_on_piped">Écouter sur Piped</string>
+    <string name="listen_on_invidious">Ecouter sur Invidious</string>
     <string name="disable_horizontal_swipe">Disable horizontal swipe</string>
     <string name="disable_song_switching_via_swipe">Disable song switching via swipe</string>
     <string name="interface_in_use">Interface in use</string>
