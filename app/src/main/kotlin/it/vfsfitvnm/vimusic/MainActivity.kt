@@ -290,13 +290,18 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                         when (key) {
 
                             languageAppKey -> {
-                                val lang = sharedPreferences.getEnum(
+                                var lang = sharedPreferences.getEnum(
                                     languageAppKey,
                                     Languages.English
                                 )
 
+                                //val precLangCode = LocaleListCompat.getDefault().get(0).toString()
+                                val systemLangCode = AppCompatDelegate.getApplicationLocales().get(0).toString()
+                                //Log.d("LanguageActivity", "lang.code ${lang.code} precLangCode $precLangCode systemLangCode $systemLangCode")
+
+                                val sysLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(systemLangCode)
                                 val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(lang.code)
-                                AppCompatDelegate.setApplicationLocales(appLocale)
+                                AppCompatDelegate.setApplicationLocales( if (lang.code == "") sysLocale else appLocale )
                             }
 
                             effectRotationKey, playerThumbnailSizeKey,

@@ -243,12 +243,15 @@
     <string name="song_cache_by_download">CACHE BRANI (Download)</string>
     <string name="visualizer">Visualizer</string>
     <string name="visualizer_require_mic_permission">Visualizer RICHIEDE ACCESSO AL MICROFONO</string>
-    <string name="restart_app_please">Restart app please.</string>
-    <string name="listen_on_piped">Listen on Piped</string>
-    <string name="listen_on_invidious">Listen on Invidious</string>
-    <string name="disable_horizontal_swipe">Disable horizontal swipe</string>
-    <string name="disable_song_switching_via_swipe">Disable song switching via swipe</string>
-    <string name="interface_in_use">Interface in use</string>
-    <string name="user_interface">User interface</string>
+    <string name="restart_app_please">Riavvia l\\app per favore.</string>
+    <string name="listen_on_piped">Ascolta su Piped</string>
+    <string name="listen_on_invidious">Ascolta su Invidious</string>
+    <string name="disable_horizontal_swipe">Disattiva swipe orizzontale</string>
+    <string name="disable_song_switching_via_swipe">Disabilita il cambio brano tramite swipe</string>
+    <string name="interface_in_use">Interfaccia in uso</string>
+    <string name="user_interface">Interfaccia</string>
     <string name="ui_tab">UI</string>
+    <string name="system_language">Lingua di sistema</string>
+    <string name="french_emoticons_fran_ais">Francese Emoticons (Français)</string>
+    <string name="romanian_emoticons_rom_n">Rumeno Emoticons (Română)</string>
 </resources>

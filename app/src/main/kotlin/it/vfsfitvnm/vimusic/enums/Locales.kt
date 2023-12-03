@@ -17,7 +17,7 @@ enum class Languages {
 
     var code: String = "en"
         get() = when (this) {
-            System -> ""
+            System -> "system"
             English -> "en"
             Italian -> "it"
             Czech -> "cs"

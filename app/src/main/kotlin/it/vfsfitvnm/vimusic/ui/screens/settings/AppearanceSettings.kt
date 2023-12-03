@@ -104,16 +104,16 @@ fun AppearanceSettings() {
             onValueSelected = {languageApp = it },
             valueText = {
                 when (it){
-                    Languages.System -> "System language"
+                    Languages.System -> stringResource(R.string.system_language)
                     Languages.English -> stringResource(R.string.english)
                     Languages.Italian -> stringResource(R.string.italian)
                     Languages.Czech -> stringResource(R.string.czech)
                     Languages.German -> stringResource(R.string.german)
                     Languages.Spanish -> stringResource(R.string.spanish)
                     Languages.French -> stringResource(R.string.french)
-                    Languages.FrenchEmo -> "French Emoticons (Français)"
+                    Languages.FrenchEmo -> stringResource(R.string.french_emoticons_fran_ais)
                     Languages.Romanian -> stringResource(R.string.romanian)
-                    Languages.RomanianEmo -> "Romanian Emoticons (Română)"
+                    Languages.RomanianEmo -> stringResource(R.string.romanian_emoticons_rom_n)
                     Languages.Russian -> stringResource(R.string.russian)
                     Languages.Turkish -> stringResource(R.string.turkish)
                     Languages.Polish -> stringResource(R.string.polish)
@@ -144,8 +144,8 @@ fun AppearanceSettings() {
                 when (it) {
                     ColorPaletteName.Default -> stringResource(R.string._default)
                     ColorPaletteName.Dynamic -> stringResource(R.string.dynamic)
-                    ColorPaletteName.PureBlack -> "PureBlack"
-                    ColorPaletteName.ModernBlack -> "ModernBlack"
+                    ColorPaletteName.PureBlack -> ColorPaletteName.PureBlack.name
+                    ColorPaletteName.ModernBlack -> ColorPaletteName.ModernBlack.name
                 }
             }
         )
