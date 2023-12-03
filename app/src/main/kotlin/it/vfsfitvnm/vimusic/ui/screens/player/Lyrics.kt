@@ -3,6 +3,7 @@ package it.vfsfitvnm.vimusic.ui.screens.player
 import android.app.SearchManager
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -45,8 +46,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.os.LocaleListCompat
 import androidx.media3.common.C
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.Log
@@ -87,6 +90,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import java.util.Locale
 
 
 @UnstableApi
@@ -117,6 +121,10 @@ fun Lyrics(
             mutableStateOf(false)
         }
 
+        var showPlaceholder by remember {
+            mutableStateOf(false)
+        }
+
         var lyrics by remember {
             mutableStateOf<Lyrics?>(null)
         }
@@ -127,9 +135,13 @@ fun Lyrics(
             mutableStateOf(false)
         }
 
-        var languageApp  by rememberPreference(languageAppKey, Languages.English)
+        //var languageApp  by rememberPreference(languageAppKey, Languages.English)
+        //val systemLocale = LocaleListCompat.getDefault().get(0).toString()
+        //val systemLangCode = AppCompatDelegate.getApplicationLocales().get(0).toString()
+        val systemLocale = Locale.getDefault().getLanguage()
+        //Log.d("mediaItemTranslate","languageApp $languageApp systemLangCode $systemLangCode systemLocale $systemLocale")
 
-        val languageDestination = when (languageApp.code) {
+        val languageDestination = when (systemLocale) {
             "ru" -> TranslateLanguage.RUSSIAN
             "it" -> TranslateLanguage.ITALIAN
             "cs" -> TranslateLanguage.CZECH
@@ -318,11 +330,9 @@ fun Lyrics(
                             .verticalFadingEdge()
                     ) {
                         itemsIndexed(items = synchronizedLyrics.sentences) { index, sentence ->
-
                             BasicText(
-                                text = if (translateEnabled == true)
-                                    Translate(sentence.second, languageDestination)
-                                else sentence.second,
+                                text = if (translateEnabled == true) Translate(sentence.second, languageDestination)
+                                        else sentence.second,
                                 style = typography.xs.center.medium.color(if (index == synchronizedLyrics.index) PureBlackColorPalette.text else PureBlackColorPalette.textDisabled),
                                 modifier = Modifier
                                     .padding(vertical = 4.dp, horizontal = 32.dp)
@@ -332,9 +342,8 @@ fun Lyrics(
                 } else {
 
                     BasicText(
-                        text =  if (translateEnabled == true)
-                            Translate(text, languageDestination)
-                        else text,
+                        text = if (translateEnabled) Translate(text, languageDestination)
+                                else text,
                         style = typography.xs.center.medium.color(PureBlackColorPalette.text),
                         modifier = Modifier
                             .verticalFadingEdge()
@@ -345,7 +354,7 @@ fun Lyrics(
                 }
             }
 
-            if (text == null && !isError) {
+            if (text == null && !isError || showPlaceholder) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
@@ -355,7 +364,7 @@ fun Lyrics(
                         TextPlaceholder(
                             color = colorPalette.onOverlayShimmer,
                             modifier = Modifier
-                                .alpha(1f - it * 0.2f)
+                                .alpha(1f - it * 0.1f)
                         )
                     }
                 }
@@ -365,7 +374,10 @@ fun Lyrics(
                 icon = R.drawable.translate,
                 color = if (translateEnabled == true ) colorPalette.text else colorPalette.textDisabled,
                 enabled = true,
-                onClick = { translateEnabled = !translateEnabled },
+                onClick = {
+                    translateEnabled = !translateEnabled
+                    showPlaceholder = true
+                },
                 modifier = Modifier
                     .padding(all = 8.dp)
                     .align(Alignment.BottomStart)

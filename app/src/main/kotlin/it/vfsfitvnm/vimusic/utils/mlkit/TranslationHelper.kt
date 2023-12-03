@@ -22,9 +22,11 @@ fun Translate (
     var languageSource by remember {
         mutableStateOf("")
     }
-    //if (text.isNotEmpty() == true)
-    //languageSource = IdentificationLanguage(text = text)
-    languageSource = "en"
+    if (text.isNotEmpty())
+    languageSource = IdentificationLanguage(text = text.substring(0,if (text.length >= 20) 20 else text.length))
+    //languageSource = "fr"
+
+    //Log.d("mediaItemTranslate","languageDestination $languageDestination")
 
     var transText by remember {
         mutableStateOf("")
@@ -77,7 +79,7 @@ fun IdentificationLanguage (
     languageIdentifier.identifyLanguage(text)
         .addOnSuccessListener { languageCode ->
             if (languageCode == "und") {
-                Log.i("mediaItemLangIdent", "Can't identify language.")
+                //Log.i("mediaItemLangIdent", "Can't identify language.")
             } else {
                 langCode = languageCode
                 //Log.i("mediaItemLangIdent", "Language: $languageCode")
