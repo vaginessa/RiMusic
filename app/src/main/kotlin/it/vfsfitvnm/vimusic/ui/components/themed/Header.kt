@@ -15,22 +15,31 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
+import it.vfsfitvnm.vimusic.utils.UiTypeKey
+import it.vfsfitvnm.vimusic.utils.bold
+import it.vfsfitvnm.vimusic.utils.disableIconButtonOnTopKey
 import it.vfsfitvnm.vimusic.utils.medium
+import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
 import kotlin.random.Random
 
@@ -109,6 +118,7 @@ fun HeaderPlaceholder(
     }
 }
 
+/*
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun HeaderWithIcon (
@@ -138,6 +148,55 @@ fun HeaderWithIcon (
             )
 
 
+
+    }
+}
+ */
+
+@SuppressLint("SuspiciousIndentation")
+@Composable
+fun HeaderWithIcon (
+    title: String,
+    modifier: Modifier,
+    @DrawableRes iconId: Int,
+    showIcon: Boolean = true,
+    enabled: Boolean = true,
+    onClick: () -> Unit
+){
+    val typography = LocalAppearance.current.typography
+    val colorPalette = LocalAppearance.current.colorPalette
+    val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
+    val disableIconButtonOnTop by rememberPreference(disableIconButtonOnTopKey, false)
+
+    Row (
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .requiredHeight(Dimensions.halfheaderHeight)
+            .padding(all = 8.dp)
+
+    ){
+
+        BasicText(
+            text = title,
+            style = TextStyle(
+                fontSize = typography.xxl.bold.fontSize,
+                fontWeight = typography.xxl.bold.fontWeight,
+                color = colorPalette.text,
+                textAlign = if(showIcon && uiType != UiType.ViMusic) TextAlign.Center else TextAlign.End
+            ),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .fillMaxSize(if(showIcon && uiType != UiType.ViMusic) 0.9f else 1f)
+        )
+
+        if (showIcon && uiType != UiType.ViMusic)
+            SecondaryButton(
+                iconId = iconId,
+                enabled = enabled,
+                onClick = onClick,
+            )
 
     }
 }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.media.audiofx.AudioEffect
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -37,7 +36,6 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -65,13 +63,14 @@ import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import coil.compose.AsyncImage
-import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.compose.routing.OnGlobalRoute
+import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.PlayerVisualizerType
+import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.models.ui.toUiMedia
 import it.vfsfitvnm.vimusic.service.PlayerService
@@ -82,41 +81,37 @@ import it.vfsfitvnm.vimusic.ui.components.rememberBottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.themed.BaseMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.DownloadStateIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
+import it.vfsfitvnm.vimusic.ui.screens.homeRoute
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.collapsedPlayerProgressBar
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.DisposableListener
+import it.vfsfitvnm.vimusic.utils.UiTypeKey
+import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
+import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
+import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
+import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
+import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
+import it.vfsfitvnm.vimusic.utils.manageDownload
+import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
+import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.positionAndDurationState
+import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.seamlessPlay
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.shouldBePlaying
+import it.vfsfitvnm.vimusic.utils.shuffleQueue
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.thumbnailTapEnabledKey
 import it.vfsfitvnm.vimusic.utils.toast
-
-import it.vfsfitvnm.vimusic.ui.screens.homeRoute
-import it.vfsfitvnm.vimusic.utils.CheckInternetConnection
-import it.vfsfitvnm.vimusic.utils.checkInternetConnectionWithTimer
-
-import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
-import it.vfsfitvnm.vimusic.utils.effectRotationKey
-import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
-import it.vfsfitvnm.vimusic.utils.getDownloadState
-import it.vfsfitvnm.vimusic.utils.manageDownload
-import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
-import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
-import it.vfsfitvnm.vimusic.utils.rememberPreference
-import it.vfsfitvnm.vimusic.utils.shuffleQueue
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.withContext
-import java.util.Timer
-import kotlin.concurrent.timerTask
 import kotlin.math.absoluteValue
 
 
@@ -132,10 +127,13 @@ fun Player(
     //val context = LocalContext.current
     val menuState = LocalMenuState.current
 
+    val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
 
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
 
     var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
+
+    var disablePlayerHorizontalSwipe by rememberPreference(disablePlayerHorizontalSwipeKey, false)
 
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
@@ -476,7 +474,7 @@ fun Player(
         var thumbnailTapEnabled by rememberPreference(thumbnailTapEnabledKey, false)
 
         val playerBottomSheetState = rememberBottomSheetState(
-            64.dp + horizontalBottomPaddingValues.calculateBottomPadding(),
+            80.dp + horizontalBottomPaddingValues.calculateBottomPadding(),
             layoutState.expandedBound
         )
 
@@ -559,9 +557,11 @@ fun Player(
                             },
 
                             onDragEnd = {
-                                if (deltaX > 0) binder.player.forceSeekToPrevious()
-                                else binder.player.forceSeekToNext()
-                                //Log.d("mediaItemGesture","ondrag end offsetX${offsetX} deltaX ${deltaX}")
+                                if(!disablePlayerHorizontalSwipe) {
+                                    if (deltaX > 0) binder.player.forceSeekToPrevious()
+                                    else binder.player.forceSeekToNext()
+                                    //Log.d("mediaItemGesture","ondrag end offsetX${offsetX} deltaX ${deltaX}")
+                                }
                             }
 
                         )
@@ -570,13 +570,14 @@ fun Player(
 
             ) {
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(30.dp)
-                ) {
+                if (uiType != UiType.ViMusic) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(30.dp)
+                    ) {
 
                         IconButton(
                             icon = R.drawable.chevron_down,
@@ -590,37 +591,37 @@ fun Player(
                                 .size(24.dp)
                         )
 
-                    IconButton(
-                        icon = R.drawable.app_icon,
-                        color = colorPalette.text,
-                        enabled = true,
-                        onClick = {
-                            onGoToHome()
-                        },
-                        modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .size(24.dp)
-                    )
+                        IconButton(
+                            icon = R.drawable.app_icon,
+                            color = colorPalette.text,
+                            enabled = true,
+                            onClick = {
+                                onGoToHome()
+                            },
+                            modifier = Modifier
+                                .padding(horizontal = 4.dp)
+                                .size(24.dp)
+                        )
 
-                    IconButton(
-                        icon = R.drawable.ellipsis_vertical,
-                        color = colorPalette.text,
-                        onClick = {
-                            menuState.display {
-                                PlayerMenu(
-                                    onDismiss = menuState::hide,
-                                    mediaItem = mediaItem,
-                                    binder = binder
-                                )
-                            }
-                        },
-                        modifier = Modifier
-                            .padding(horizontal = 15.dp)
-                            .size(24.dp)
-                    )
+                        IconButton(
+                            icon = R.drawable.ellipsis_vertical,
+                            color = colorPalette.text,
+                            onClick = {
+                                menuState.display {
+                                    PlayerMenu(
+                                        onDismiss = menuState::hide,
+                                        mediaItem = mediaItem,
+                                        binder = binder
+                                    )
+                                }
+                            },
+                            modifier = Modifier
+                                .padding(horizontal = 15.dp)
+                                .size(24.dp)
+                        )
 
-                }
-
+                    }
+            }
 
                 Box(
                     contentAlignment = Alignment.Center,
@@ -652,7 +653,7 @@ fun Player(
             content = {
 
                 val context = LocalContext.current
-
+/*
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start,
@@ -675,7 +676,7 @@ fun Player(
  */
 
                 }
-
+*/
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly,
@@ -685,45 +686,23 @@ fun Player(
                         .fillMaxWidth()
 
                 ) {
-/*
-                    IconButton(
-                        icon = R.drawable.share_social,
-                        color = colorPalette.text,
-                        enabled = true,
+                    if (uiType != UiType.ViMusic) {
+                    DownloadStateIconButton(
+                        icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
+                        color = if (isDownloaded) colorPalette.text else colorPalette.textDisabled,
+                        downloadState = downloadState,
                         onClick = {
-                            val sendIntent = Intent().apply {
-                                action = Intent.ACTION_SEND
-                                type = "text/plain"
-                                putExtra(
-                                    Intent.EXTRA_TEXT,
-                                    "https://music.youtube.com/watch?v=${mediaItem.mediaId}"
-                                )
-                            }
-
-                            context.startActivity(Intent.createChooser(sendIntent, null))
+                            manageDownload(
+                                context = context,
+                                songId = mediaItem.mediaId,
+                                songTitle = mediaItem.mediaMetadata.title.toString(),
+                                downloadState = isDownloaded
+                            )
                         },
                         modifier = Modifier
-                            .size(24.dp),
+                            .padding(horizontal = 4.dp)
+                            .size(24.dp)
                     )
-
- */
-
-                        DownloadStateIconButton(
-                            icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
-                            color = if (isDownloaded) colorPalette.text else colorPalette.textDisabled,
-                            downloadState = downloadState,
-                            onClick = {
-                                manageDownload(
-                                    context = context,
-                                    songId = mediaItem.mediaId,
-                                    songTitle = mediaItem.mediaMetadata.title.toString(),
-                                    downloadState = isDownloaded
-                                )
-                            },
-                            modifier = Modifier
-                                .padding(horizontal = 4.dp)
-                                .size(24.dp)
-                        )
 
 
                     IconButton(
@@ -739,17 +718,17 @@ fun Player(
                     )
 
 
-                        IconButton(
-                            icon = R.drawable.shuffle,
-                            color = colorPalette.text,
-                            enabled = true,
-                            onClick = {
-                                binder?.player?.shuffleQueue()
-                                binder.player.forceSeekToNext()
-                            },
-                            modifier = Modifier
-                                .size(24.dp),
-                        )
+                    IconButton(
+                        icon = R.drawable.shuffle,
+                        color = colorPalette.text,
+                        enabled = true,
+                        onClick = {
+                            binder?.player?.shuffleQueue()
+                            binder.player.forceSeekToNext()
+                        },
+                        modifier = Modifier
+                            .size(24.dp),
+                    )
 
                     IconButton(
                         icon = R.drawable.song_lyrics,
@@ -764,17 +743,17 @@ fun Player(
                     )
 
                     if (playerVisualizerType != PlayerVisualizerType.Disabled)
-                    IconButton(
-                        icon = R.drawable.sound_effect,
-                        color = if (isShowingEqualizer) colorPalette.text else colorPalette.textDisabled,
-                        enabled = true,
-                        onClick = {
-                            if (isShowingLyrics) isShowingLyrics = !isShowingLyrics
-                            isShowingEqualizer = !isShowingEqualizer
-                        },
-                        modifier = Modifier
-                            .size(24.dp)
-                    )
+                        IconButton(
+                            icon = R.drawable.sound_effect,
+                            color = if (isShowingEqualizer) colorPalette.text else colorPalette.textDisabled,
+                            enabled = true,
+                            onClick = {
+                                if (isShowingLyrics) isShowingLyrics = !isShowingLyrics
+                                isShowingEqualizer = !isShowingEqualizer
+                            },
+                            modifier = Modifier
+                                .size(24.dp)
+                        )
 
 
 
@@ -808,7 +787,37 @@ fun Player(
                                 .size(24.dp)
                         )
                     }
+                    } else {
+                        IconButton(
+                            icon = R.drawable.playlist,
+                            color = colorPalette.text,
+                            enabled = true,
+                            onClick = {
+                                playerBottomSheetState.expandSoft()
+                            },
+                            modifier = Modifier
+                                .size(24.dp),
+                        )
 
+                        IconButton(
+                                icon = R.drawable.ellipsis_horizontal,
+                                color = colorPalette.text,
+                                onClick = {
+                                    menuState.display {
+                                        PlayerMenu(
+                                            onDismiss = menuState::hide,
+                                            mediaItem = mediaItem,
+                                            binder = binder
+
+                                        )
+                                    }
+                                },
+                                modifier = Modifier
+                                    .padding(horizontal = 4.dp)
+                                    .size(24.dp)
+                        )
+
+                    }
                 }
             },
             backgroundColorProvider = { colorPalette.background2 },

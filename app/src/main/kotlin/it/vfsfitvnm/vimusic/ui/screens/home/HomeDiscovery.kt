@@ -67,6 +67,7 @@ import it.vfsfitvnm.vimusic.enums.ArtistSortBy
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
+import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Artist
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
@@ -82,6 +83,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
 import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
+import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.artistSortByKey
 import it.vfsfitvnm.vimusic.utils.artistSortOrderKey
 import it.vfsfitvnm.vimusic.utils.center
@@ -98,6 +100,7 @@ import kotlinx.coroutines.Dispatchers
 
 
 
+@SuppressLint("SuspiciousIndentation")
 @UnstableApi
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
@@ -110,6 +113,7 @@ fun HomeDiscovery(
 
     val (colorPalette, typography) = LocalAppearance.current
     val windowInsets = LocalPlayerAwareWindowInsets.current
+    val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
 
     val scrollState = rememberScrollState()
     val lazyGridState = rememberLazyGridState()
@@ -302,14 +306,15 @@ fun HomeDiscovery(
                 }
             }
         }
-/*
+
+        if(uiType == UiType.ViMusic)
         FloatingActionsContainerWithScrollToTop(
             scrollState = scrollState,
             iconId = R.drawable.search,
             onClick = onSearchClick
         )
 
- */
+
     }
 }
 

@@ -104,6 +104,7 @@ fun AppearanceSettings() {
             onValueSelected = {languageApp = it },
             valueText = {
                 when (it){
+                    Languages.System -> "System language"
                     Languages.English -> stringResource(R.string.english)
                     Languages.Italian -> stringResource(R.string.italian)
                     Languages.Czech -> stringResource(R.string.czech)

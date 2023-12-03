@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.enums
 
 enum class Languages {
+    System,
     English,
     Czech,
     French,
@@ -16,6 +17,7 @@ enum class Languages {
 
     var code: String = "en"
         get() = when (this) {
+            System -> ""
             English -> "en"
             Italian -> "it"
             Czech -> "cs"

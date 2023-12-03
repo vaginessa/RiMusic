@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.home
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -36,7 +37,9 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.AlbumSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
+import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Album
+import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
@@ -46,10 +49,12 @@ import it.vfsfitvnm.vimusic.ui.items.AlbumItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.albumSortByKey
 import it.vfsfitvnm.vimusic.utils.albumSortOrderKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 
+@SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
@@ -58,6 +63,7 @@ fun HomeAlbums(
     onSearchClick: () -> Unit,
 ) {
     val (colorPalette) = LocalAppearance.current
+    val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
 
     var sortBy by rememberPreference(albumSortByKey, AlbumSortBy.DateAdded)
     var sortOrder by rememberPreference(albumSortOrderKey, SortOrder.Descending)
@@ -163,13 +169,14 @@ fun HomeAlbums(
                 )
             }
         }
-/*
+
+        if(uiType == UiType.ViMusic)
         FloatingActionsContainerWithScrollToTop(
             lazyListState = lazyListState,
             iconId = R.drawable.search,
             onClick = onSearchClick
         )
 
- */
+
     }
 }

@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.artist
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -44,6 +45,7 @@ import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
@@ -63,6 +65,7 @@ import it.vfsfitvnm.vimusic.ui.items.SongItemPlaceholder
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.align
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.color
@@ -71,8 +74,10 @@ import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
+import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
+@SuppressLint("SuspiciousIndentation")
 @UnstableApi
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -90,6 +95,7 @@ fun ArtistOverview(
     val binder = LocalPlayerServiceBinder.current
     val menuState = LocalMenuState.current
     val windowInsets = LocalPlayerAwareWindowInsets.current
+    val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
 
     val songThumbnailSizeDp = Dimensions.thumbnails.song
     val songThumbnailSizePx = songThumbnailSizeDp.px
@@ -399,7 +405,8 @@ fun ArtistOverview(
                     }
                 }
             }
-/*
+
+            if(uiType == UiType.ViMusic)
             youtubeArtistPage?.radioEndpoint?.let { endpoint ->
                 FloatingActionsContainerWithScrollToTop(
                     scrollState = scrollState,
@@ -411,7 +418,7 @@ fun ArtistOverview(
                 )
             }
 
- */
+
         }
     }
 }

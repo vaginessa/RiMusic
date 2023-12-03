@@ -77,10 +77,12 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.DeviceLists
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
+import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.service.LOCAL_KEY_PREFIX
 import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
+import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
@@ -89,6 +91,7 @@ import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
@@ -132,6 +135,7 @@ fun DeviceListSongs(
 ) {
     val (colorPalette,typography) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
+    val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
 
 
     var songs by persistList<Song>("${deviceLists.name}/songs")
@@ -422,7 +426,8 @@ fun DeviceListSongs(
                 )
             }
         }
-/*
+
+        if(uiType == UiType.ViMusic)
         FloatingActionsContainerWithScrollToTop(
             lazyListState = lazyListState,
             iconId = R.drawable.shuffle,
@@ -435,7 +440,7 @@ fun DeviceListSongs(
                 }
             }
         )
- */
+
     }
 
 

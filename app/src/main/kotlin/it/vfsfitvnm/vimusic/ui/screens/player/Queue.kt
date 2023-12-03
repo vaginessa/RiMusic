@@ -15,20 +15,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
-
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
-
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -43,7 +39,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,32 +50,25 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
-import androidx.media3.common.util.Log
 import androidx.media3.exoplayer.offline.Download
-import androidx.media3.exoplayer.offline.DownloadRequest
-import androidx.media3.exoplayer.offline.DownloadService
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.compose.reordering.ReorderingLazyColumn
 import it.vfsfitvnm.compose.reordering.animateItemPlacement
 import it.vfsfitvnm.compose.reordering.draggedItem
 import it.vfsfitvnm.compose.reordering.rememberReorderingState
 import it.vfsfitvnm.compose.reordering.reorder
-import it.vfsfitvnm.vimusic.Database
-import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
-import it.vfsfitvnm.vimusic.models.Song
-import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.ui.components.BottomSheet
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.MusicBars
+import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.QueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.items.SongItem
@@ -90,7 +78,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.DisposableListener
-import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
@@ -116,7 +104,7 @@ fun Queue(
     content: @Composable BoxScope.() -> Unit,
 ) {
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
-
+    val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
     val windowInsets = WindowInsets.systemBars
 
     val horizontalBottomPaddingValues = windowInsets
@@ -128,7 +116,7 @@ fun Queue(
         state = layoutState,
         modifier = modifier,
         collapsedContent = {
-           /*
+/*
             Box(
                 modifier = Modifier
                     .drawBehind { drawRect(backgroundColorProvider()) }
@@ -146,9 +134,9 @@ fun Queue(
 
                 content()
             }
+*/
 
-            */
-            content()
+           content()
         }
     ) {
         val binder = LocalPlayerServiceBinder.current
@@ -385,7 +373,8 @@ fun Queue(
                         }
                     }
                 }
-/*
+
+                if(uiType == UiType.ViMusic)
                 FloatingActionsContainerWithScrollToTop(
                     lazyListState = reorderingState.lazyListState,
                     iconId = R.drawable.shuffle,
@@ -400,7 +389,7 @@ fun Queue(
                     }
                 )
 
- */
+
             }
 
 
@@ -411,7 +400,7 @@ fun Queue(
                     .fillMaxWidth()
                     .padding(horizontal = 12.dp, vertical = 20.dp)
                     .padding(horizontalBottomPaddingValues)
-                    .height(30.dp)
+                    .height(40.dp) //bottom bar queue
             ) {
                 /*
                 Image(

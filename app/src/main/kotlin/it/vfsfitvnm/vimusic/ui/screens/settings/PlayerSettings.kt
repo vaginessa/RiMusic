@@ -112,6 +112,7 @@ fun PlayerSettings() {
                     PlayerThumbnailSize.Small -> stringResource(R.string.small)
                     PlayerThumbnailSize.Medium -> stringResource(R.string.medium)
                     PlayerThumbnailSize.Big -> stringResource(R.string.big)
+                    PlayerThumbnailSize.Biggest -> "Biggest"
                 }
             }
         )

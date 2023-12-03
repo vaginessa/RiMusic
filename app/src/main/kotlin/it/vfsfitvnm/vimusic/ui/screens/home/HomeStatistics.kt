@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.home
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -34,9 +35,11 @@ import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.StatisticsType
+import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
@@ -46,10 +49,12 @@ import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.playlistSortByKey
 import it.vfsfitvnm.vimusic.utils.playlistSortOrderKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 
+@SuppressLint("SuspiciousIndentation")
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
@@ -60,6 +65,7 @@ fun HomeStatistics(
     onSearchClick: () -> Unit,
 ) {
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
+    val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
 
     var isCreatingANewPlaylist by rememberSaveable {
         mutableStateOf(false)
@@ -234,13 +240,13 @@ fun HomeStatistics(
             }
 
         }
-/*
+        if(uiType == UiType.ViMusic)
         FloatingActionsContainerWithScrollToTop(
             lazyGridState = lazyGridState,
             iconId = R.drawable.search,
             onClick = onSearchClick
         )
 
- */
+
     }
 }

@@ -97,10 +97,12 @@ import it.vfsfitvnm.vimusic.ui.styling.typographyOf
 import it.vfsfitvnm.vimusic.utils.CheckInternetConnection
 import it.vfsfitvnm.vimusic.utils.InitDownloader
 import it.vfsfitvnm.vimusic.utils.OkHttpRequest
+import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
+import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getEnum
@@ -293,15 +295,15 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                                     Languages.English
                                 )
 
-                                //Innertube.localeHl = lang.code
-
                                 val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(lang.code)
                                 AppCompatDelegate.setApplicationLocales(appLocale)
                             }
 
                             effectRotationKey, playerThumbnailSizeKey,
                             //exoPlayerDiskCacheMaxSizeKey,
-                            playerVisualizerTypeKey -> {
+                            playerVisualizerTypeKey,
+                            UiTypeKey,
+                            disablePlayerHorizontalSwipeKey  -> {
                                 this@MainActivity.recreate()
                             }
 

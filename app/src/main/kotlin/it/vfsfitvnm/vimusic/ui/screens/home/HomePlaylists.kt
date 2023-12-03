@@ -48,6 +48,7 @@ import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskDownloadCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
+import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.query
@@ -64,6 +65,7 @@ import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskDownloadCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.playlistSortByKey
@@ -83,6 +85,7 @@ fun HomePlaylists(
 ) {
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val windowInsets = LocalPlayerAwareWindowInsets.current
+    val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
 
     var isCreatingANewPlaylist by rememberSaveable {
         mutableStateOf(false)
@@ -304,13 +307,14 @@ fun HomePlaylists(
             }
 
         }
-/*
+
+        if(uiType == UiType.ViMusic)
         FloatingActionsContainerWithScrollToTop(
             lazyGridState = lazyGridState,
             iconId = R.drawable.search,
             onClick = onSearchClick
         )
 
- */
+
     }
 }
