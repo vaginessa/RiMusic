@@ -244,6 +244,6 @@
     <string name="visualizer">Visualizator</string>
     <string name="visualizer_require_mic_permission">Visualizatorul necesita permisiunea microfonului</string>
     <string name="restart_app_please">Reporniți aplicația vă rog.</string>
-    <string name="listen_on_piped">Listen on Piped</string>
-    <string name="listen_on_invidious">Listen on Invidious</string>
+    <string name="listen_on_piped">Ascultă cu Piped</string>
+    <string name="listen_on_invidious">Ascultă cu Invidious</string>
 </resources>
