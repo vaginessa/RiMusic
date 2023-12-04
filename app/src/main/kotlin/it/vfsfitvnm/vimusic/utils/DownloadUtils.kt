@@ -15,15 +15,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import androidx.media3.common.util.Consumer
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.cache.SimpleCache
 import androidx.media3.exoplayer.offline.Download
 import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
+import dagger.hilt.android.qualifiers.ApplicationContext
 import it.vfsfitvnm.innertube.models.Context
 
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.models.Format
+import it.vfsfitvnm.vimusic.service.DownloadUtil
 import it.vfsfitvnm.vimusic.service.MyDownloadService
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.service.VideoIdMismatchException
@@ -75,7 +78,10 @@ fun downloadedStateMedia ( mediaId: String ): Boolean {
     val binder = LocalPlayerServiceBinder.current
     val downloader = LocalDownloader.current
 
-    var cachedBytes by remember(mediaId) {
+    //val context = LocalContext.current
+    //val downloadCache = DownloadUtil.getDownloadSimpleCache(context) as SimpleCache
+
+    val cachedBytes by remember(mediaId) {
         mutableStateOf(binder?.cache?.getCachedBytes(mediaId, 0, -1))
     }
 
@@ -88,6 +94,7 @@ fun downloadedStateMedia ( mediaId: String ): Boolean {
     }
 
     val download by downloader.getDownload(mediaId).collectAsState(initial = null)
+    //val download = downloadCache.isCached(mediaId,0,-1)
 
     LaunchedEffect(mediaId) {
         Database.format(mediaId).distinctUntilChanged().collectLatest { currentFormat ->
@@ -96,6 +103,7 @@ fun downloadedStateMedia ( mediaId: String ): Boolean {
     }
 
     isDownloaded = (format?.contentLength == cachedBytes) || (download?.state == Download.STATE_COMPLETED)
+    //isDownloaded = (format?.contentLength == cachedBytes) || download == true
 
 //    Log.d("mediaItem", "cachedBytes ${cachedBytes} contentLength ${format?.contentLength} downloadState ${isDownloaded}")
 

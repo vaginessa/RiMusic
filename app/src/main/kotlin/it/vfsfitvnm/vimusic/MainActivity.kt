@@ -198,7 +198,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             val newVersion = responseData.let { it.toString() }
                             val file = File(filesDir, "RiMusicUpdatedVersion.ver")
                             file.writeText(newVersion)
-                            this@MainActivity
+                            //this@MainActivity
                         } catch (e: JSONException) {
                             e.printStackTrace()
                         }

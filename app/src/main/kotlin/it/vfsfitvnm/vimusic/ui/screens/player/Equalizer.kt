@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 
@@ -39,6 +40,7 @@ fun ShowEqualizer(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
     var playerVisualizerType by rememberPreference(playerVisualizerTypeKey, PlayerVisualizerType.Disabled)
     Log.d("visualizer player","passato da qui")
 
@@ -63,8 +65,8 @@ fun ShowEqualizer(
     } else {
         AnimatedVisibility(
             visible = isDisplayed,
-            enter = fadeIn(),
-            exit = fadeOut(),
+            enter = fadeIn(tween(500)),
+            exit = fadeOut(tween(500)),
         ) {
             Equalizer(
                 showInPage = false,

@@ -188,8 +188,17 @@ fun HomeDiscovery(
                 onClick = onSearchClick
             )
             discoverPage?.getOrNull()?.let { page ->
+                var newReleaseAlbumsFiltered by persistList<Innertube.AlbumItem>("discovery/newalbumsartist")
+                page.newReleaseAlbums.forEach { album ->
+                    preferitesArtists.forEach { artist ->
+                        if (artist.name == album.authors?.first()?.name) {
+                            newReleaseAlbumsFiltered += album
+                            //Log.d("mediaItem","artst ok")
+                        }
+                    }
+                }
 
-                 if ( page.newReleaseAlbums.isNotEmpty() && preferitesArtists.isNotEmpty() ) {
+                 if ( newReleaseAlbumsFiltered.distinct().isNotEmpty() && preferitesArtists.isNotEmpty() ) {
                     BasicText(
                         text = stringResource(R.string.new_albums_of_your_artists),
                         style = typography.m.semiBold,
@@ -197,9 +206,9 @@ fun HomeDiscovery(
                     )
 
                     LazyRow(contentPadding = endPaddingValues) {
-                        items(items = page.newReleaseAlbums, key = { it.key }) {
-                              preferitesArtists.forEach { artist ->
-                                    if (artist.name == it.authors?.first()?.name)
+                        items(items = newReleaseAlbumsFiltered.distinct(), key = { it.key }) {
+                              //preferitesArtists.forEach { artist ->
+                              //      if (artist.name == it.authors?.first()?.name)
                                         AlbumItem(
                                             album = it,
                                             thumbnailSizePx = thumbnailPx,
@@ -211,7 +220,7 @@ fun HomeDiscovery(
                                                 )
                                             })
                                         )
-                                }
+                               // }
 
                         }
                     }

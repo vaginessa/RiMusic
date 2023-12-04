@@ -79,6 +79,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.BaseMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.ScrollText
 import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.CustomDialog
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -566,8 +567,29 @@ fun Controls(
                 .weight(0.8f)
         )
 
+/*
+        var showDialog by remember { mutableStateOf(true) }
+        val valueDialog =  remember { mutableStateOf("") }
+        if (showDialog)
+        CustomDialog(
+            title = "Sample",
+            placeholder = "Enter value",
+            value = "30",
+            setShowDialog = {
+            showDialog = it
+            },
+            setValue = {
+                Log.i("HomePage","HomePage : $it")
+                showDialog = false
+            }
+        )/*
+        {
+            Log.i("HomePage","HomePage : $it")
         }
+        */
+*/
 
+        }
 
 }
 
