@@ -181,6 +181,7 @@ fun Lyrics(
 
         LaunchedEffect(mediaId, isShowingSynchronizedLyrics) {
             withContext(Dispatchers.IO) {
+
                 Database.lyrics(mediaId).collect {
                     if (isShowingSynchronizedLyrics && it?.synced == null) {
                         val mediaMetadata = mediaMetadataProvider()
@@ -206,6 +207,7 @@ fun Lyrics(
                                     fixed = it?.fixed,
                                     synced = syncedLyrics?.value ?: ""
                                 )
+
                             )
                         }?.onFailure {
                             isError = true
@@ -226,6 +228,7 @@ fun Lyrics(
                         lyrics = it
                     }
                 }
+
             }
 
         }
@@ -421,7 +424,7 @@ fun Lyrics(
                 enabled = true,
                 onClick = {
                     translateEnabled = !translateEnabled
-                    showPlaceholder = true
+                    if (!translateEnabled) showPlaceholder = false else showPlaceholder = true
                 },
                 modifier = Modifier
                     .padding(all = 8.dp)
