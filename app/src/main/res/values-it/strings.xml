@@ -244,4 +244,6 @@
     <string name="visualizer">Visualizer</string>
     <string name="visualizer_require_mic_permission">Visualizer RICHIEDE ACCESSO AL MICROFONO</string>
     <string name="restart_app_please">Restart app please.</string>
+    <string name="listen_on_piped">Listen on Piped</string>
+    <string name="listen_on_invidious">Listen on Invidious</string>
 </resources>

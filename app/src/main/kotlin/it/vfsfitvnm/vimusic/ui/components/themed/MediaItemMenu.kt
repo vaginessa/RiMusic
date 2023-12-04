@@ -805,7 +805,7 @@ fun MediaItemMenu(
 
                 if (!isLocal) MenuEntry(
                     icon = R.drawable.play,
-                    text = "Listen on Piped",
+                    text = stringResource(R.string.listen_on_piped),
                     onClick = {
                         onDismiss()
                         binder?.player?.pause()
@@ -814,7 +814,7 @@ fun MediaItemMenu(
                 )
                 if (!isLocal) MenuEntry(
                     icon = R.drawable.play,
-                    text = "Listen on Invidious",
+                    text = stringResource(R.string.listen_on_invidious),
                     onClick = {
                         onDismiss()
                         binder?.player?.pause()
