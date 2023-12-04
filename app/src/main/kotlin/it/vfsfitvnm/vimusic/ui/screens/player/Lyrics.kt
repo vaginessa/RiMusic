@@ -54,7 +54,7 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
-import com.google.mlkit.nl.translate.TranslateLanguage
+//import com.google.mlkit.nl.translate.TranslateLanguage
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.NextBody
@@ -90,6 +90,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import me.bush.translator.Language
+import me.bush.translator.Translator
 import java.util.Locale
 
 
@@ -142,6 +144,20 @@ fun Lyrics(
         //Log.d("mediaItemTranslate","languageApp $languageApp systemLangCode $systemLangCode systemLocale $systemLocale")
 
         val languageDestination = when (systemLocale) {
+            "ru" -> Language.RUSSIAN
+            "it" -> Language.ITALIAN
+            "cs" -> Language.CZECH
+            "de" -> Language.GERMAN
+            "es" -> Language.SPANISH
+            "fr" -> Language.FRENCH
+            "ro" -> Language.ROMANIAN
+            "tr" -> Language.TURKISH
+            "pl" -> Language.POLISH
+            else -> { Language.ENGLISH }
+        }
+
+/*        // MLKIT
+        val languageDestination = when (systemLocale) {
             "ru" -> TranslateLanguage.RUSSIAN
             "it" -> TranslateLanguage.ITALIAN
             "cs" -> TranslateLanguage.CZECH
@@ -154,10 +170,13 @@ fun Lyrics(
             else -> { TranslateLanguage.ENGLISH }
         }
 
+ */
+
         var translateEnabled by remember {
             mutableStateOf(false)
         }
 
+        val translator = Translator()
 
 
         LaunchedEffect(mediaId, isShowingSynchronizedLyrics) {
@@ -330,9 +349,22 @@ fun Lyrics(
                             .verticalFadingEdge()
                     ) {
                         itemsIndexed(items = synchronizedLyrics.sentences) { index, sentence ->
+                            var translatedText by remember { mutableStateOf("") }
+                            if (translateEnabled == true) {
+                                LaunchedEffect(Unit) {
+                                    val result = withContext(Dispatchers.IO) {
+                                        translator.translate(
+                                            sentence.second,
+                                            languageDestination,
+                                            Language.AUTO
+                                        ).translatedText
+                                    }
+                                    translatedText = result
+                                    showPlaceholder = false
+                                }
+                            } else translatedText = sentence.second
                             BasicText(
-                                text = if (translateEnabled == true) Translate(sentence.second, languageDestination)
-                                        else sentence.second,
+                                text = translatedText,
                                 style = typography.xs.center.medium.color(if (index == synchronizedLyrics.index) PureBlackColorPalette.text else PureBlackColorPalette.textDisabled),
                                 modifier = Modifier
                                     .padding(vertical = 4.dp, horizontal = 32.dp)
@@ -340,10 +372,23 @@ fun Lyrics(
                         }
                     }
                 } else {
+                    var translatedText by remember { mutableStateOf("") }
+                    if (translateEnabled == true) {
+                        LaunchedEffect(Unit) {
+                            val result = withContext(Dispatchers.IO) {
+                                translator.translate(
+                                    text,
+                                    languageDestination,
+                                    Language.AUTO
+                                ).translatedText
+                            }
+                            translatedText = result
+                            showPlaceholder = false
+                        }
+                    } else translatedText = text
 
                     BasicText(
-                        text = if (translateEnabled) Translate(text, languageDestination)
-                                else text,
+                        text = translatedText,
                         style = typography.xs.center.medium.color(PureBlackColorPalette.text),
                         modifier = Modifier
                             .verticalFadingEdge()
@@ -354,7 +399,7 @@ fun Lyrics(
                 }
             }
 
-            if (text == null && !isError || showPlaceholder) {
+            if ((text == null && !isError) || showPlaceholder) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier

@@ -13,7 +13,7 @@ android {
         minSdk = 21
         targetSdk = 33
         versionCode = 6
-        versionName = "0.6.11"
+        versionName = "0.6.12"
         buildConfigField("String", "VERSION_NAME", "\"$versionName\"")
     }
 
@@ -116,8 +116,7 @@ dependencies {
     // For loading and tinting drawables on older versions of the platform
     implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
 
-    implementation("com.google.mlkit:translate:17.0.2")
-    implementation("com.google.mlkit:language-id:17.0.4")
+    implementation("com.github.therealbush:translator:1.0.2")
 
     implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
     implementation("org.chromium.net:cronet-api:113.5672.61")
