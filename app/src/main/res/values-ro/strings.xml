@@ -16,7 +16,7 @@
     <string name="hide_from_quick_picks">Ascunde din \"Selecții rapide\"</string>
     <string name="related_albums">Albume similare</string>
     <string name="similar_artists">Artiști similari</string>
-    <string name="playlists_you_might_like">Liste de ascultare care ți-ar putea plăcea</string>
+    <string name="playlists_you_might_like">Liste care ți-ar putea plăcea</string>
     <string name="an_error_has_occurred">A apărut o eroare</string>
     <string name="albums">Albume</string>
     <string name="artists">Artiști</string>
@@ -244,6 +244,6 @@
     <string name="visualizer">Visualizator</string>
     <string name="visualizer_require_mic_permission">Visualizatorul necesita permisiunea microfonului</string>
     <string name="restart_app_please">Reporniți aplicația vă rog.</string>
-    <string name="listen_on_piped">Listen on Piped</string>
-    <string name="listen_on_invidious">Listen on Invidious</string>
+    <string name="listen_on_piped">Ascultă cu Piped</string>
+    <string name="listen_on_invidious">Ascultă cu Invidious</string>
 </resources>
