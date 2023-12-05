@@ -159,7 +159,7 @@
     <string name="player_thumbnail_size">Anteprima</string>
     <string name="restarting_rimusic_is_required">E\' richiesto il riavvio</string>
     <string name="size_name">Livello</string>
-    <string name="current_size_name">Grandezza attuale</string>
+    <string name="current_size_name">"Grandezza attuale"</string>
     <string name="current_shape_name">Arotondamento attuale</string>
     <string name="small">Piccolo</string>
     <string name="medium">Medio</string>
