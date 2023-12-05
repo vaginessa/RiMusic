@@ -140,7 +140,7 @@
     <string name="cache_location_folder">Lokalizacja folderu</string>
     <string name="custom_cache_from_android_10_may_not_be_available">W systemie Android 10 lub nowszym ta funkcja może nie być dostępna</string>
     <string name="reset_cache_location_folder">ZRESETUJ LOKALIZACJĘ FOLDERU PAMIĘCI PODRĘCZNEJ</string>
-    <string name="used">w użyciu</string>
+    <string name="used">"w użyciu"</string>
     <string name="close_background_player">Zamknij odtwarzacz w tle</string>
     <string name="when_app_swipe_out_from_task_manager">Kiedy aplikacja zostanie zamknięta menadżerem zadań</string>
     <string name="opening_url">ładuje się...</string>
