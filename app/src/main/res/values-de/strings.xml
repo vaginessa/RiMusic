@@ -24,7 +24,7 @@
     <string name="playlists">Wiedergabelisten</string>
     <string name="favorites">Favoriten</string>
     <string name="quick_picks">Startseite</string>
-    <string name="songs">Songs</string>
+    <string name="songs">Titel</string>
     <string name="other_versions">Alternative Versionen</string>
     <string name="album_no_alternative_version">Dieses Album hat keine alternative Version</string>
     <string name="enqueue">Einreihen</string>
@@ -246,4 +246,13 @@
     <string name="restart_app_please">Restart app please.</string>
     <string name="listen_on_piped">Listen on Piped</string>
     <string name="listen_on_invidious">Listen on Invidious</string>
+    <string name="disable_horizontal_swipe">Disable horizontal swipe</string>
+    <string name="disable_song_switching_via_swipe">Disable song switching via swipe</string>
+    <string name="interface_in_use">Interface in use</string>
+    <string name="user_interface">User interface</string>
+    <string name="ui_tab">UI</string>
+    <string name="system_language">System language</string>
+    <string name="french_emoticons_fran_ais">French Emoticons (Français)</string>
+    <string name="romanian_emoticons_rom_n">Romanian Emoticons (Română)</string>
+    <string name="biggest">Biggest</string>
 </resources>
