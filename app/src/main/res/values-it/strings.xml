@@ -146,12 +146,12 @@
     <string name="opening_url">sta caricando...</string>
     <string name="an_error_has_occurred_while_fetching_the_lyrics">C\'è stato un errore nel recupero delle lyrics</string>
     <string name="are_not_available_for_this_song">non sono disponibili per questo brano</string>
-    <string name="error_a_network_error_has_occurred">A network error has occurred</string>
-    <string name="error_couldn_t_find_a_playable_audio_format">Couldn\'t find a playable audio format</string>
-    <string name="error_the_original_video_source_of_this_song_has_been_deleted">The original video source of this song has been deleted</string>
-    <string name="error_this_song_cannot_be_played_due_to_server_restrictions">This song cannot be played due to server restrictions</string>
-    <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">The returned video id doesn\'t match the requested one</string>
-    <string name="error_an_unknown_playback_error_has_occurred">An unknown playback error has occurred</string>
+    <string name="error_a_network_error_has_occurred">Si è verificato un errore di rete</string>
+    <string name="error_couldn_t_find_a_playable_audio_format">Impossibile trovare un formato audio riproducibile</string>
+    <string name="error_the_original_video_source_of_this_song_has_been_deleted">La sorgente video originale di questa canzone è stata eliminata</string>
+    <string name="error_this_song_cannot_be_played_due_to_server_restrictions">Questo brano non può essere riprodotto a causa di restrizioni del server</string>
+    <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">L\'id video restituito non corrisponde a quello richiesto</string>
+    <string name="error_an_unknown_playback_error_has_occurred">Si è verificato un errore di riproduzione sconosciuto</string>
     <string name="tips">Suggerimenti</string>
     <string name="quick_pics_and_tips">Scelte rapide e Suggerimenti</string>
     <string name="is_min_list_time_for_tips_or_quick_pics">È il tempo minimo di ascolto, per includere la canzone come eventuali Suggerimenti e Scelte rapide</string>
@@ -159,7 +159,7 @@
     <string name="player_thumbnail_size">Anteprima</string>
     <string name="restarting_rimusic_is_required">E\' richiesto il riavvio</string>
     <string name="size_name">Livello</string>
-    <string name="current_size_name">Grandezza attuale</string>
+    <string name="current_size_name">"Grandezza attuale"</string>
     <string name="current_shape_name">Arotondamento attuale</string>
     <string name="small">Piccolo</string>
     <string name="medium">Medio</string>
