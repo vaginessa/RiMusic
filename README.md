@@ -53,7 +53,9 @@
 - **Romanian:** native, thanks to [@OrangeZXZ](https://github.com/OrangeZxZ)
 - **Polish:** native, thanks to [@roklc](https://github.com/roklc)
 - **Turkish:** non native, contribute to improve
-- Contribute for any other language. See [Contributor's Guide: Adding Translations](https://github.com/fast4x/RiMusic/wiki/Contributor's-Guide:-Adding-Translations)
+
+## 🔤 Translations
+- Go to [Crowdin](https://crowdin.com/project/rimusic/invite?h=73f0e6b64be1c64a8aebd467d286cf851925330) and help with the translations.
 
 ## 📲 Installation
 [<img src="https://raw.githubusercontent.com/NeoApplications/Neo-Backup/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png" alt="GitHub" height="80">](https://github.com/fast4x/RiMusic/releases/latest)
@@ -61,7 +63,6 @@
 ## 🤝 Contributing
 **Pull requests are welcome**
 - If you want to **develop new functions**, **fix a bug** or **improve some translations**, fork the repository and send a pull request.
-- If you want to **translate** the app into your language or **improve the languages** already provided, fork the repository and send a pull request. See [Contributor's Guide: Adding Translations](https://github.com/fast4x/RiMusic/wiki/Contributor's-Guide:-Adding-Translations).
 
 ## 🫂 Acknowledgments
 - [**ViMusic**](https://github.com/vfsfitvnm/ViMusic).
