@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="cancel">Zrušit</string>
     <string name="done">Hotovo</string>
@@ -214,22 +214,22 @@
     <string name="search_queries">" vyhledávací dotazy"</string>
     <string name="not_find_battery_optimization_settings">Nepodařilo se najít nastavení optimalizace baterie, prosím, vytvořte whitelist ručně</string>
     <string name="search">Vyhledávání...</string>
-    <string name="no" >Ne</string>
-    <string name="stop" >Stop</string>
-    <string name="preferences" >PREFERENCE</string>
+    <string name="no">Ne</string>
+    <string name="stop">Stop</string>
+    <string name="preferences">PREFERENCE</string>
     <string name="it_seems_that_youtube_music_is_not_installed">Zdá se, že služba YouTube Music není nainstalována!</string>
     <string name="listen_on_youtube">Poslouchat na YouTube</string>
     <string name="listen_on_youtube_music">Poslouchat na YouTube Music</string>
     <string name="on_device">V zařízení</string>
     <string name="open_settings">Otevřít nastavení</string>
     <string name="permission_declined_grant_media_permissions">Oprávnění bylo zamítnuto, udělte prosím oprávnění k médiím v nastavení zařízení.</string>
-    <string name="wavy_timeline">Zvlněná časová osa</string>    
-   <string name="enable_wavy_timeline">Povolit zvlněnou časovou osu</string>
+    <string name="wavy_timeline">Zvlněná časová osa</string>
+    <string name="enable_wavy_timeline">Povolit zvlněnou časovou osu</string>
     <string name="play_next">Přehrát další</string>
     <string name="toggle_lyrics">Zobrazit písňové texty</string>
     <string name="by_tapping_on_the_thumbnail">Klepnutím na miniaturu</string>
     <string name="require_mic_permission">Vizualizační efekt vyžaduje povolení mikrofonu, udělte ho, prosím.</string>
-   <string name="vt_fancy">Fantaskní</string>
+    <string name="vt_fancy">Fantaskní</string>
     <string name="vt_circular">Kruhový</string>
     <string name="vt_disabled">Zakázaný</string>
     <string name="vt_stacked">Skládaný</string>
@@ -246,4 +246,13 @@
     <string name="restart_app_please">Restartujte aplikaci, prosím.</string>
     <string name="listen_on_piped">Poslouchat na Piped</string>
     <string name="listen_on_invidious">Poslouchat na Invidious</string>
+    <string name="disable_horizontal_swipe">Disable horizontal swipe</string>
+    <string name="disable_song_switching_via_swipe">Disable song switching via swipe</string>
+    <string name="interface_in_use">Interface in use</string>
+    <string name="user_interface">User interface</string>
+    <string name="ui_tab">UI</string>
+    <string name="system_language">System language</string>
+    <string name="french_emoticons_fran_ais">French Emoticons (Français)</string>
+    <string name="romanian_emoticons_rom_n">Romanian Emoticons (Română)</string>
+    <string name="biggest">Biggest</string>
 </resources>
