@@ -42,7 +42,9 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.ViMusic.NoActionBar"
         tools:replace="android:label"
-        android:requestLegacyExternalStorage="true">
+        android:requestLegacyExternalStorage="true"
+        android:enableOnBackInvokedCallback="true"
+        tools:targetApi="tiramisu">
 
 
         <activity

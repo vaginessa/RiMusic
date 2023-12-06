@@ -11,6 +11,7 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.widget.Toast
+import android.window.OnBackInvokedDispatcher
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -57,6 +58,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.coerceIn
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import androidx.core.os.BuildCompat
 import androidx.core.os.LocaleListCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -163,6 +165,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
 
     @UnstableApi
+    @androidx.annotation.OptIn(androidx.core.os.BuildCompat.PrereleaseSdkCheck::class)
     @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
     @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -173,6 +176,15 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
         installSplashScreen().setKeepOnScreenCondition { splashScreenStays }
         Handler(Looper.getMainLooper()).postDelayed({ splashScreenStays = false }, delayTime)
+
+
+        if (BuildCompat.isAtLeastT()) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_DEFAULT
+            ) {
+                //Log.d("onBackPress", "yeah")
+            }
+        }
 
 
         @Suppress("DEPRECATION", "UNCHECKED_CAST")
