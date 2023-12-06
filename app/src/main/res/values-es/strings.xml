@@ -54,7 +54,7 @@
     <string name="clear">Limpiar</string>
     <string name="error">Ha ocurrido un error.</string>
     <string name="enter_a_name">Buscar</string>
-    <string name="online">Online</string>
+    <string name="online">En línea</string>
     <string name="no_results_found">Sin resultados. Cambia la clave de búsqueda o la categoría</string>
     <string name="videos">Vídeos</string>
     <string name="featured">Destacado</string>
@@ -109,7 +109,7 @@
     <string name="disable_background_restrictions">Desactivar las restricciones en segundo plano</string>
     <string name="invincible_service">Servicio invencible</string>
     <string name="turning_off_battery_optimizations_is_not_enough">Cuando desactivar la optimización de la batería no es suficiente</string>
-    <string name="player_audio"><![CDATA[Player & Audio]]></string>
+    <string name="player_audio"><![CDATA[Reproductor y audio]]></string>
     <string name="player">Reproductor</string>
     <string name="persistent_queue">Cola persistente</string>
     <string name="save_and_restore_playing_songs">Guardar y restaurar la reproducción de canciones</string>
@@ -197,7 +197,7 @@
     <string name="romanian">Rumano (Română)</string>
     <string name="russian">Ruso (Русский)</string>
     <string name="turkish">Turco (Türkçe)</string>
-    <string name="polish">Polish (Polski)</string>
+    <string name="polish">Polaco (Polski)</string>
     <string name="dark">Oscuro</string>
     <string name="system">Sistema</string>
     <string name="unlimited">Ilimitado</string>
@@ -246,13 +246,13 @@
     <string name="restart_app_please">Por favor, reinicia la aplicación.</string>
     <string name="listen_on_piped">Reproducir en Piped</string>
     <string name="listen_on_invidious">Reproducir en Invidious</string>
-    <string name="disable_horizontal_swipe">Disable horizontal swipe</string>
-    <string name="disable_song_switching_via_swipe">Disable song switching via swipe</string>
-    <string name="interface_in_use">Interface in use</string>
-    <string name="user_interface">User interface</string>
-    <string name="ui_tab">UI</string>
-    <string name="system_language">System language</string>
-    <string name="french_emoticons_fran_ais">French Emoticons (Français)</string>
-    <string name="romanian_emoticons_rom_n">Romanian Emoticons (Română)</string>
-    <string name="biggest">Biggest</string>
+    <string name="disable_horizontal_swipe">Desactivar el deslizamiento horizontal</string>
+    <string name="disable_song_switching_via_swipe">Desactivar el cambio de canciones mediante deslizamiento</string>
+    <string name="interface_in_use">Interfaz en uso</string>
+    <string name="user_interface">Interfaz de usuario</string>
+    <string name="ui_tab">IU</string>
+    <string name="system_language">Idioma del sistema</string>
+    <string name="french_emoticons_fran_ais">Francés con emojis (Français)</string>
+    <string name="romanian_emoticons_rom_n">Rumano con emojis (Română)</string>
+    <string name="biggest">Enorme</string>
 </resources>
