@@ -63,7 +63,7 @@ fun CustomDialog(
     ) {
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = colorPalette.background0
+            color = colorPalette.text
         ) {
             Box(
                 contentAlignment = Alignment.Center
@@ -108,7 +108,7 @@ fun CustomDialog(
                             .border(
                                 BorderStroke(
                                     width = 2.dp,
-                                    color = colorResource(id = if (txtFieldError.value.isEmpty()) colorPalette.text.value.toInt() else R.color.holo_red_dark)
+                                    color = colorResource(id = if (txtFieldError.value.isEmpty()) R.color.white else R.color.holo_red_dark)
                                 ),
                                 shape = RoundedCornerShape(50)
                             ),

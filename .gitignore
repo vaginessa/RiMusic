@@ -11,3 +11,4 @@ local.properties
 /APK keystore/RiMusicKeystore.jks
 /APK keystore/pwd key.txt
 /crowdin.properties
+/__crowdin.properties

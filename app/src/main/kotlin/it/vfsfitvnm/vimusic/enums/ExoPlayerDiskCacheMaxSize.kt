@@ -8,7 +8,8 @@ enum class ExoPlayerDiskCacheMaxSize {
     `2GB`,
     `4GB`,
     `8GB`,
-    Unlimited;
+    Unlimited,
+    Custom;
 
     val bytes: Long
         get() = when (this) {
@@ -20,5 +21,6 @@ enum class ExoPlayerDiskCacheMaxSize {
             `4GB` -> 4096
             `8GB` -> 8192
             Unlimited -> 0
+            Custom -> 1000000
         } * 1000 * 1000L
 }

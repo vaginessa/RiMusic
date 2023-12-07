@@ -30,6 +30,7 @@ import android.text.format.DateUtils
 import androidx.annotation.OptIn
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationCompat
@@ -98,6 +99,7 @@ import it.vfsfitvnm.vimusic.utils.YouTubeRadio
 import it.vfsfitvnm.vimusic.utils.activityPendingIntent
 import it.vfsfitvnm.vimusic.utils.broadCastPendingIntent
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
+import it.vfsfitvnm.vimusic.utils.exoPlayerCustomCacheKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
 import it.vfsfitvnm.vimusic.utils.findNextMediaItemById
@@ -233,9 +235,12 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         isShowingThumbnailInLockscreen =
             preferences.getBoolean(isShowingThumbnailInLockscreenKey, false)
 
+        val exoPlayerCustomCache =  preferences.getInt(exoPlayerCustomCacheKey, 32)
+
         val cacheEvictor = when (val size =
             preferences.getEnum(exoPlayerDiskCacheMaxSizeKey, ExoPlayerDiskCacheMaxSize.`2GB`)) {
             ExoPlayerDiskCacheMaxSize.Unlimited -> NoOpCacheEvictor()
+            ExoPlayerDiskCacheMaxSize.Custom -> LeastRecentlyUsedCacheEvictor(exoPlayerCustomCache.toLong())
             else -> LeastRecentlyUsedCacheEvictor(size.bytes)
         }
 
@@ -243,6 +248,8 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         val downloadDirectory = getExternalFilesDir(null) ?: filesDir
         var cacheDirName = "rimusic_cache"
         val cacheSize = preferences.getEnum(exoPlayerDiskCacheMaxSizeKey,ExoPlayerDiskCacheMaxSize.`2GB`)
+
+
         if ( cacheSize == ExoPlayerDiskCacheMaxSize.Disabled) cacheDirName = "rimusic_no_cache"
 
         if (exoPlayerAlternateCacheLocation=="") {

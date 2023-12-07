@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.settings
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.text.format.Formatter
@@ -19,6 +20,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -34,13 +36,16 @@ import it.vfsfitvnm.vimusic.enums.CoilDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskDownloadCacheMaxSize
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
+import it.vfsfitvnm.vimusic.ui.components.themed.InputNumericDialog
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.coilDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerAlternateCacheLocationKey
+import it.vfsfitvnm.vimusic.utils.exoPlayerCustomCacheKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskDownloadCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 
+@SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalCoilApi::class)
 @ExperimentalAnimationApi
 @UnstableApi
@@ -76,6 +81,12 @@ fun CacheSettings() {
             exoPlayerAlternateCacheLocation = uri.path.toString()
         }
     }
+
+
+    var showExoPlayerCustomCacheDialog by remember { mutableStateOf(false) }
+    var exoPlayerCustomCache by rememberPreference(
+        exoPlayerCustomCacheKey,32
+    )
 
     //val release = Build.VERSION.RELEASE;
     val sdkVersion = Build.VERSION.SDK_INT;
@@ -156,19 +167,30 @@ fun CacheSettings() {
                     append(" ${stringResource(R.string.used)}")
                     when (val size = exoPlayerDiskCacheMaxSize) {
                         ExoPlayerDiskCacheMaxSize.Unlimited -> {}
+                        ExoPlayerDiskCacheMaxSize.Custom -> { exoPlayerCustomCache }
                         else -> append(" (${diskCacheSize * 100 / size.bytes}%)")
                     }
                 }
             )
 
+            if(exoPlayerDiskCacheMaxSize == ExoPlayerDiskCacheMaxSize.Custom)
+                SettingsDescription(
+                    text = "Custom cache size"+" "+exoPlayerCustomCache+"MB"
+                )
+
             EnumValueSelectorSettingsEntry(
                 title = stringResource(R.string.max_size),
                 selectedValue = exoPlayerDiskCacheMaxSize,
-                onValueSelected = { exoPlayerDiskCacheMaxSize = it },
+                onValueSelected = {
+                    exoPlayerDiskCacheMaxSize = it
+                    if (exoPlayerDiskCacheMaxSize == ExoPlayerDiskCacheMaxSize.Custom)
+                    showExoPlayerCustomCacheDialog = true
+                },
                 valueText = {
                     when (it) {
                         ExoPlayerDiskCacheMaxSize.Disabled -> stringResource(R.string.turn_off)
                         ExoPlayerDiskCacheMaxSize.Unlimited -> stringResource(R.string.unlimited)
+                        ExoPlayerDiskCacheMaxSize.Custom -> "Custom"
                         ExoPlayerDiskCacheMaxSize.`32MB` -> "32MB"
                         ExoPlayerDiskCacheMaxSize.`512MB` -> "512MB"
                         ExoPlayerDiskCacheMaxSize.`1GB` -> "1GB"
@@ -179,6 +201,23 @@ fun CacheSettings() {
                     }
                 }
             )
+
+
+            if (showExoPlayerCustomCacheDialog)
+                InputNumericDialog(
+                    title = stringResource(R.string.set_custom_cache),
+                    placeholder = stringResource(R.string.enter_value_in_mb),
+                    value = exoPlayerCustomCache.toString(),
+                    valueMin = "32",
+                    valueMax = "10000",
+                    onDismiss = { showExoPlayerCustomCacheDialog = false },
+                    setValue = {
+                        //Log.d("customCache", it)
+                        exoPlayerCustomCache = it.toInt()
+                        showExoPlayerCustomCacheDialog = false
+                    }
+                )
+
         }
 
         binder?.downloadCache?.let { downloadCache ->

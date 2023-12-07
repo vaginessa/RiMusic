@@ -5,9 +5,11 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,8 +17,11 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +30,10 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -40,11 +49,15 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -403,4 +416,140 @@ inline fun SelectorDialog(
             }
         }
     }
+}
+
+@Composable
+inline fun InputNumericDialog(
+    noinline onDismiss: () -> Unit,
+    title: String,
+    value: String,
+    valueMin: String,
+    valueMax: String,
+    placeholder: String,
+    crossinline setValue: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
+    val txtFieldError = remember { mutableStateOf("") }
+    val txtField = remember { mutableStateOf(value) }
+    val value_cannot_empty = stringResource(R.string.value_cannot_be_empty)
+    val value_must_be_greater = stringResource(R.string.value_must_be_greater_than)
+
+    Dialog(onDismissRequest = onDismiss) {
+        Column(
+            modifier = modifier
+                .padding(all = 48.dp)
+                .background(color = colorPalette.background4, shape = RoundedCornerShape(8.dp))
+                .padding(vertical = 16.dp)
+                .requiredHeight(190.dp)
+        ) {
+            BasicText(
+                text = title,
+                style = typography.s.semiBold,
+                modifier = Modifier
+                    .padding(vertical = 8.dp, horizontal = 24.dp)
+            )
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+
+                TextField(
+                    modifier = Modifier
+                        //.padding(horizontal = 30.dp)
+                        .fillMaxWidth(0.7f),
+                        /*
+                        .border(
+                            BorderStroke(
+                                width = 1.dp,
+                                color = if (txtFieldError.value.isEmpty()) colorPalette.textDisabled else colorPalette.red
+                            ),
+
+                            shape = thumbnailShape
+                        ),
+                         */
+                    colors = TextFieldDefaults.textFieldColors(
+                        placeholderColor = colorPalette.textDisabled,
+                        cursorColor = colorPalette.text,
+                        textColor = colorPalette.text,
+                        backgroundColor = if (txtFieldError.value.isEmpty()) colorPalette.background4 else colorPalette.red,
+                        focusedIndicatorColor = colorPalette.accent,
+                        unfocusedIndicatorColor = colorPalette.textDisabled
+                    ),
+                    leadingIcon = {
+/*
+                        Image(
+                            painter = painterResource(R.drawable.app_icon),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(colorPalette.background0),
+                            modifier = Modifier
+                                .width(30.dp)
+                                .height(30.dp)
+                                .clickable(
+                                    indication = rememberRipple(bounded = false),
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    enabled = true,
+                                    onClick = { onDismiss() }
+                                )
+                        )
+
+ */
+
+
+                    },
+                    placeholder = { Text(text = placeholder) },
+                    value = txtField.value,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    onValueChange = {
+                        txtField.value = it.take(10)
+                    })
+            }
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+
+                BasicText(
+                    text = if (txtFieldError.value.isNotEmpty()) txtFieldError.value else "---",
+                    style = typography.xs.medium,
+                    modifier = Modifier
+                        .padding(vertical = 8.dp, horizontal = 24.dp)
+                )
+            }
+
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                DialogTextButton(
+                    text = stringResource(R.string.confirm),
+                    onClick = {
+                        if (txtField.value.isEmpty()) {
+                            txtFieldError.value = value_cannot_empty
+                            return@DialogTextButton
+                        }
+                        if (txtField.value.isNotEmpty() && txtField.value.toInt() < valueMin.toInt() ) {
+                            txtFieldError.value = value_must_be_greater + valueMin
+                            return@DialogTextButton
+                        }
+                        setValue(txtField.value)
+                    }
+                )
+
+                DialogTextButton(
+                    text = stringResource(R.string.cancel),
+                    onClick = onDismiss,
+                    modifier = Modifier
+                )
+            }
+
+        }
+    }
+
 }

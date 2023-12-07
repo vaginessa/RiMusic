@@ -55,6 +55,7 @@ const val pauseSearchHistoryKey = "pauseSearchHistory"
 const val UiTypeKey = "UiType"
 const val disablePlayerHorizontalSwipeKey = "disablePlayerHorizontalSwipe"
 const val disableIconButtonOnTopKey = "disableIconButtonOnTop"
+const val exoPlayerCustomCacheKey = "exoPlayerCustomCache"
 
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(

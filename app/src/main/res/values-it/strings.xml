@@ -255,4 +255,8 @@
     <string name="french_emoticons_fran_ais">Francese Emoticons (Français)</string>
     <string name="romanian_emoticons_rom_n">Rumeno Emoticons (Română)</string>
     <string name="biggest">Molto grande</string>
+    <string name="set_custom_cache">Set custom cache</string>
+    <string name="enter_value_in_mb">Enter value in MB</string>
+    <string name="value_cannot_be_empty">Value cannot be empty</string>
+    <string name="value_must_be_greater_than">"Value must be greater than "</string>
 </resources>
