@@ -260,4 +260,5 @@
     <string name="value_cannot_be_empty">Value cannot be empty</string>
     <string name="value_must_be_greater_than">"Value must be greater than "</string>
     <string name="custom">Custom</string>
+    <string name="custom_cache_size">Custom cache size</string>
 </resources>

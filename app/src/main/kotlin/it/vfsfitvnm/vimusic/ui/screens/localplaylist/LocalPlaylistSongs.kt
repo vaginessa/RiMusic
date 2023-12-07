@@ -46,10 +46,12 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persist
@@ -101,6 +103,7 @@ import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.getDownloadState
+import it.vfsfitvnm.vimusic.utils.launchYouTubeMusic
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.reorderInQueueEnabledKey
@@ -108,6 +111,7 @@ import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.songSortByKey
 import it.vfsfitvnm.vimusic.utils.songSortOrderKey
+import it.vfsfitvnm.vimusic.utils.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.runBlocking
@@ -217,6 +221,7 @@ fun LocalPlaylistSongs(
     }
 
     val context = LocalContext.current
+    val uriHandler = LocalUriHandler.current
 
     Box {
         ReorderingLazyColumn(
@@ -411,6 +416,31 @@ fun LocalPlaylistSongs(
                                             isDeleting = true
                                         }
                                     )
+
+                                    MenuEntry(
+                                        icon = R.drawable.play,
+                                        text = stringResource(R.string.listen_on_youtube),
+                                        onClick = {
+                                            menuState.hide()
+                                            binder?.player?.pause()
+                                            uriHandler.openUri("https://youtube.com/playlist?list=${playlistWithSongs?.playlist?.browseId?.removePrefix("VL")}")
+                                        }
+                                    )
+
+                                    val ytNonInstalled = stringResource(R.string.it_seems_that_youtube_music_is_not_installed)
+                                    MenuEntry(
+                                        icon = R.drawable.musical_notes,
+                                        text = stringResource(R.string.listen_on_youtube_music),
+                                        onClick = {
+                                            menuState.hide()
+                                            binder?.player?.pause()
+                                            if (!launchYouTubeMusic(context, "playlist?list=${playlistWithSongs?.playlist?.browseId?.removePrefix("VL")}"))
+                                                context.toast(ytNonInstalled)
+
+                                            Log.d("mediaItem",playlistWithSongs?.playlist?.browseId.toString())
+                                        }
+                                    )
+
                                 }
                             }
                         }

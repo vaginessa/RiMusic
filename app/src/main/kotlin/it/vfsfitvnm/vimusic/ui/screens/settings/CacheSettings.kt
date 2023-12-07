@@ -175,7 +175,7 @@ fun CacheSettings() {
 
             if(exoPlayerDiskCacheMaxSize == ExoPlayerDiskCacheMaxSize.Custom)
                 SettingsDescription(
-                    text = "Custom cache size"+" "+exoPlayerCustomCache+"MB"
+                    text = stringResource(R.string.custom_cache_size) +" "+exoPlayerCustomCache+"MB"
                 )
 
             EnumValueSelectorSettingsEntry(
@@ -190,7 +190,7 @@ fun CacheSettings() {
                     when (it) {
                         ExoPlayerDiskCacheMaxSize.Disabled -> stringResource(R.string.turn_off)
                         ExoPlayerDiskCacheMaxSize.Unlimited -> stringResource(R.string.unlimited)
-                        ExoPlayerDiskCacheMaxSize.Custom -> "Custom"
+                        ExoPlayerDiskCacheMaxSize.Custom -> stringResource(R.string.custom)
                         ExoPlayerDiskCacheMaxSize.`32MB` -> "32MB"
                         ExoPlayerDiskCacheMaxSize.`512MB` -> "512MB"
                         ExoPlayerDiskCacheMaxSize.`1GB` -> "1GB"

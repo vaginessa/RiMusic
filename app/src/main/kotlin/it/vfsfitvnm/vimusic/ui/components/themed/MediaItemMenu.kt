@@ -805,26 +805,6 @@ fun MediaItemMenu(
 
                 if (!isLocal) MenuEntry(
                     icon = R.drawable.play,
-                    text = stringResource(R.string.listen_on_piped),
-                    onClick = {
-                        onDismiss()
-                        binder?.player?.pause()
-                        uriHandler.openUri("https://piped.kavin.rocks/watch?v=${mediaItem.mediaId}&playerAutoPlay=true&minimizeDescription=true")
-                    }
-                )
-                if (!isLocal) MenuEntry(
-                    icon = R.drawable.play,
-                    text = stringResource(R.string.listen_on_invidious),
-                    onClick = {
-                        onDismiss()
-                        binder?.player?.pause()
-                        uriHandler.openUri("https://yewtu.be/watch?v=${mediaItem.mediaId}&autoplay=1")
-                    }
-                )
-
-/*
-                if (!isLocal) MenuEntry(
-                    icon = R.drawable.play,
                     text = stringResource(R.string.listen_on_youtube),
                     onClick = {
                         onDismiss()
@@ -845,7 +825,26 @@ fun MediaItemMenu(
                     }
                 )
 
- */
+
+                if (!isLocal) MenuEntry(
+                    icon = R.drawable.play,
+                    text = stringResource(R.string.listen_on_piped),
+                    onClick = {
+                        onDismiss()
+                        binder?.player?.pause()
+                        uriHandler.openUri("https://piped.kavin.rocks/watch?v=${mediaItem.mediaId}&playerAutoPlay=true&minimizeDescription=true")
+                    }
+                )
+                if (!isLocal) MenuEntry(
+                    icon = R.drawable.play,
+                    text = stringResource(R.string.listen_on_invidious),
+                    onClick = {
+                        onDismiss()
+                        binder?.player?.pause()
+                        uriHandler.openUri("https://yewtu.be/watch?v=${mediaItem.mediaId}&autoplay=1")
+                    }
+                )
+
 
 
                 onRemoveFromQueue?.let { onRemoveFromQueue ->
