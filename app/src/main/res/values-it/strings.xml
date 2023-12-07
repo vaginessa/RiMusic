@@ -259,4 +259,5 @@
     <string name="enter_value_in_mb">Grandezza in MB</string>
     <string name="value_cannot_be_empty">Il valore non può essere vuoto</string>
     <string name="value_must_be_greater_than">"Il valore deve essere maggiore di "</string>
+    <string name="custom">Personalizzata</string>
 </resources>
