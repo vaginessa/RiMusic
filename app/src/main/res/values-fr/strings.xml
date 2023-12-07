@@ -207,9 +207,6 @@
     <string name="download">Télécharger</string>
     <string name="_default">Par défaut</string>
     <string name="dynamic">Dynamique</string>
-    <string name="no">Non</string>
-    <string name="stop">Arrêter</string>
-    <string name="preferences">PRÉFÉRENCES</string>
     <string name="discovery">Découvrir</string>
     <string name="mood">Humeur</string>
     <string name="new_albums">Nouveaux albums</string>
@@ -217,6 +214,9 @@
     <string name="search_queries">" requêtes de recherche"</string>
     <string name="not_find_battery_optimization_settings">Impossible de trouver les paramètres d\'optimisation de la batterie, veuillez les ajouter manuellement à la liste blanche</string>
     <string name="search">Rechercher</string>
+    <string name="no">Non</string>
+    <string name="stop">Arrêter</string>
+    <string name="preferences">PRÉFÉRENCES</string>
     <string name="it_seems_that_youtube_music_is_not_installed">Il semblerait que YouTube Music ne soit pas installé !</string>
     <string name="listen_on_youtube">Écouter sur YouTube</string>
     <string name="listen_on_youtube_music">Écouter sur YouTube Music</string>
@@ -259,4 +259,5 @@
     <string name="enter_value_in_mb">Enter value in MB</string>
     <string name="value_cannot_be_empty">Value cannot be empty</string>
     <string name="value_must_be_greater_than">"Value must be greater than "</string>
+    <string name="custom">Custom</string>
 </resources>

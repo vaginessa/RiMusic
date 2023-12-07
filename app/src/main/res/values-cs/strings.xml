@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="cancel">Zrušit</string>
     <string name="done">Hotovo</string>
@@ -259,4 +259,5 @@
     <string name="enter_value_in_mb">Enter value in MB</string>
     <string name="value_cannot_be_empty">Value cannot be empty</string>
     <string name="value_must_be_greater_than">"Value must be greater than "</string>
+    <string name="custom">Custom</string>
 </resources>
