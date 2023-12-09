@@ -5,9 +5,10 @@
 
 ## ✨ Features
 - **Multilingual support:** English, Italian, German, Russian, French, Spanish, Czech, Turkish and Romanian. Contributions for other languages are welcome
+- UI Mode, change style from RiMusic to classic ViMusic style and viceversa
 - Play song from YouTube Music
 - Change your favorite language from settings
-- Auto cache songs for offline playback
+- Auto cache songs for offline playback, is possible to customize size of cache
 - Download songs or entire playlist for offline playback (not cache) 
 - Background playback with stop while app swipe out from task manager
 - Minimized player optimizations
