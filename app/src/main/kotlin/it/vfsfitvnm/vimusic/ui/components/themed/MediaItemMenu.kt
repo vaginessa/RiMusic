@@ -306,6 +306,10 @@ fun MediaItemMenu(
         mutableStateOf(false)
     }
 
+    var showSelectDialogListenOn by remember {
+        mutableStateOf(false)
+    }
+
     var height by remember {
         mutableStateOf(0.dp)
     }
@@ -805,6 +809,29 @@ fun MediaItemMenu(
 
                 if (!isLocal) MenuEntry(
                     icon = R.drawable.play,
+                    text = stringResource(R.string.listen_on),
+                    onClick = { showSelectDialogListenOn = true }
+                )
+
+                if (showSelectDialogListenOn)
+                    SelectorDialog(
+                        title = stringResource(R.string.listen_on),
+                        onDismiss = { showSelectDialogListenOn = false },
+                        values = listOf(
+                            Info("https://youtube.com/watch?v=${mediaItem.mediaId}", stringResource(R.string.listen_on_youtube)),
+                            Info("https://music.youtube.com/watch?v=${mediaItem.mediaId}",stringResource(R.string.listen_on_youtube_music)),
+                            Info("https://piped.kavin.rocks/watch?v=${mediaItem.mediaId}&playerAutoPlay=true",stringResource(R.string.listen_on_piped)),
+                            Info("https://yewtu.be/watch?v=${mediaItem.mediaId}&autoplay=1",stringResource(R.string.listen_on_invidious))
+                        ),
+                        onValueSelected = {
+                            binder?.player?.pause()
+                            showSelectDialogListenOn = false
+                            uriHandler.openUri(it)
+                        }
+                    )
+/*
+                if (!isLocal) MenuEntry(
+                    icon = R.drawable.play,
                     text = stringResource(R.string.listen_on_youtube),
                     onClick = {
                         onDismiss()
@@ -845,7 +872,7 @@ fun MediaItemMenu(
                     }
                 )
 
-
+*/
 
                 onRemoveFromQueue?.let { onRemoveFromQueue ->
                     MenuEntry(

@@ -60,6 +60,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import coil.compose.AsyncImage
@@ -553,7 +554,11 @@ fun Player(
                         detectHorizontalDragGestures(
                             onHorizontalDrag = { change, dragAmount ->
                                 deltaX = dragAmount
-                                //Log.d("mediaItemGesture","ondrag start offsetX${offsetX} dragAmount ${deltaX}")
+                                //Log.d("mediaItemGesture","onHorizontalDrag change ${change} dragAmount ${dragAmount}")
+                            },
+
+                            onDragStart = {
+                                //Log.d("mediaItemGesture","ondragStart offset ${it}")
                             },
 
                             onDragEnd = {
@@ -562,6 +567,7 @@ fun Player(
                                     else binder.player.forceSeekToNext()
                                     //Log.d("mediaItemGesture","ondrag end offsetX${offsetX} deltaX ${deltaX}")
                                 }
+                                //Log.d("mediaItemGesture","onDragEnd deltaX ${deltaX}")
                             }
 
                         )

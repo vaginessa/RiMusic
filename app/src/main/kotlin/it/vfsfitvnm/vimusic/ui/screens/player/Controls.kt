@@ -494,7 +494,8 @@ fun Controls(
                 icon = R.drawable.play_skip_back,
                 color = colorPalette.iconButtonPlayer,
                 onClick = {
-                    binder.player.forceSeekToPrevious()
+                    //binder.player.forceSeekToPrevious()
+                    binder.player.seekToPreviousMediaItem()
                     if (effectRotationEnabled) isRotated = !isRotated
                 },
                 modifier = Modifier
