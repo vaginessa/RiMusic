@@ -260,4 +260,5 @@
     <string name="value_cannot_be_empty">Değer boş olamaz</string>
     <string name="value_must_be_greater_than">"Değer daha büyük olmalıdır "</string>
     <string name="custom">Özel</string>
+    <string name="custom_cache_size">Custom cache size</string>
 </resources>
