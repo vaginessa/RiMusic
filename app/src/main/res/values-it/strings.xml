@@ -261,4 +261,5 @@
     <string name="value_must_be_greater_than">"Il valore deve essere maggiore di "</string>
     <string name="custom">Personalizzata</string>
     <string name="custom_cache_size">Cache personalizzata</string>
+    <string name="error_local_music_not_found">Local music file not found</string>
 </resources>
