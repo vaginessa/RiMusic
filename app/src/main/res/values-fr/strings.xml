@@ -30,7 +30,7 @@
     <string name="enqueue">Mettre en file d\'attente</string>
     <string name="shuffle">Aléatoire</string>
     <string name="view_all">Voir tout</string>
-    <string name="from_wikipedia_cca">De Wikipedia sous license Creative Commons Attributionn CC-BY-SA 3.0</string>
+    <string name="from_wikipedia_cca">De Wikipedia sous license Creative Commons Attribution CC-BY-SA 3.0</string>
     <string name="overview">Aperçu</string>
     <string name="singles">Titres</string>
     <string name="library">Bibliothèque</string>
@@ -260,6 +260,6 @@
     <string name="value_cannot_be_empty">La valeur ne peut pas être vide</string>
     <string name="value_must_be_greater_than">"La valeur doit être supérieure à "</string>
     <string name="custom">Personnalisé</string>
-    <string name="custom_cache_size">Custom cache size</string>
+    <string name="custom_cache_size">Taille du cache personnalisée</string>
     <string name="listen_on">Listen on</string>
 </resources>
