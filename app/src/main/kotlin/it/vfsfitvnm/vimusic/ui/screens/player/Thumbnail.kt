@@ -2,7 +2,6 @@ package it.vfsfitvnm.vimusic.ui.screens.player
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentScope
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
@@ -32,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
-import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import coil.compose.AsyncImage
 import it.vfsfitvnm.vimusic.Database
@@ -49,8 +47,8 @@ import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
-import it.vfsfitvnm.vimusic.utils.currentWindow
 import it.vfsfitvnm.vimusic.utils.DisposableListener
+import it.vfsfitvnm.vimusic.utils.currentWindow
 import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import java.net.UnknownHostException
@@ -85,6 +83,7 @@ fun Thumbnail(
         mutableStateOf<PlaybackException?>(player.playerError)
     }
 
+    val localMusicFileNotFoundError = stringResource(R.string.error_local_music_not_found)
     val networkerror = stringResource(R.string.error_a_network_error_has_occurred)
     val notfindplayableaudioformaterror =
         stringResource(R.string.error_couldn_t_find_a_playable_audio_format)
@@ -94,13 +93,11 @@ fun Thumbnail(
         stringResource(R.string.error_this_song_cannot_be_played_due_to_server_restrictions)
     val videoidmismatcherror =
         stringResource(R.string.error_the_returned_video_id_doesn_t_match_the_requested_one)
-    val unknownplaybackerror = stringResource(R.string.error_an_unknown_playback_error_has_occurred) + " " +
-            stringResource(R.string.restart_app_please)
-
-    val islocalMusic = "Problems in local playback or file no longer exists"
+    val unknownplaybackerror =
+        stringResource(R.string.error_an_unknown_playback_error_has_occurred) + " " +
+                stringResource(R.string.restart_app_please)
 
     val formatUnsupported = "This file seems to have an unsupported format"
-
 
     player.DisposableListener {
         object : Player.Listener {
@@ -153,7 +150,7 @@ fun Thumbnail(
             )
         },
         contentAlignment = Alignment.Center
-    ) {currentWindow ->
+    ) { currentWindow ->
         Box(
             modifier = modifier
                 .aspectRatio(1f)
@@ -183,7 +180,9 @@ fun Thumbnail(
             if (!currentWindow.mediaItem.isLocal) Lyrics(
                 mediaId = currentWindow.mediaItem.mediaId,
                 isDisplayed = isShowingLyrics && error == null,
-                onDismiss = { if(thumbnailTapEnabledKey) {onShowLyrics(false)} else null},
+                onDismiss = {
+                    if (thumbnailTapEnabledKey) onShowLyrics(false)
+                },
                 ensureSongInserted = { Database.insert(currentWindow.mediaItem) },
                 size = thumbnailSizeDp,
                 mediaMetadataProvider = currentWindow.mediaItem::mediaMetadata,
@@ -197,34 +196,22 @@ fun Thumbnail(
             )
 
 
-                ShowEqualizer(
-                    isDisplayed = isShowingEqualizer && error == null,
-                    onDismiss = { onShowEqualizer(false) }
-                )
+            ShowEqualizer(
+                isDisplayed = isShowingEqualizer && error == null,
+                onDismiss = { onShowEqualizer(false) }
+            )
 
             PlaybackError(
                 isDisplayed = error != null,
                 messageProvider = {
-                   //if (currentWindow.mediaItem.isLocal) islocalMusic else
-                    //FOR DEBUG IN PROD
-                    if (currentWindow.mediaItem.isLocal) error?.errorCodeName.toString() else
-                    when (error?.cause?.cause) {
+                    if (currentWindow.mediaItem.isLocal) localMusicFileNotFoundError
+                    else when (error?.cause?.cause) {
                         is UnresolvedAddressException, is UnknownHostException -> networkerror
                         is PlayableFormatNotFoundException -> notfindplayableaudioformaterror
                         is UnplayableException -> originalvideodeletederror
                         is LoginRequiredException -> songnotplayabledueserverrestrictionerror
                         is VideoIdMismatchException -> videoidmismatcherror
                         is PlayableFormatNonSupported -> formatUnsupported
-
-                        /*
-                        is UnresolvedAddressException, is UnknownHostException -> "A network error has occurred"
-                        is PlayableFormatNotFoundException -> "Couldn't find a playable audio format"
-                        is UnplayableException -> "The original video source of this song has been deleted"
-                        is LoginRequiredException -> "This song cannot be played due to server restrictions"
-                        is VideoIdMismatchException -> "The returned video id doesn't match the requested one"
-                        else -> "An unknown playback error has occurred"
-                        */
-
                         else -> unknownplaybackerror
                     }
                 },
