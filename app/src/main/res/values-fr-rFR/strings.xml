@@ -159,7 +159,7 @@
     <string name="player_thumbnail_size">Taille de la pochette d\'album</string>
     <string name="restarting_rimusic_is_required">Un redémarrage est requis pour pouvoir l\'appliquer !</string>
     <string name="size_name">Taille</string>
-    <string name="current_size_name">"Taille de la pochette d\'album actuelle"</string>
+    <string name="current_size_name">"Taille de la pochette d'album actuelle"</string>
     <string name="current_shape_name">Arrondissement des coins actuel</string>
     <string name="small">Petit</string>
     <string name="medium">Moyen</string>
