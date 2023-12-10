@@ -76,7 +76,7 @@ fun InitDownloader () {
 fun downloadedStateMedia ( mediaId: String ): Boolean {
 
     val binder = LocalPlayerServiceBinder.current
-    val downloader = LocalDownloader.current
+    //val downloader = LocalDownloader.current
 
     val context = LocalContext.current
     val downloadCache = DownloadUtil.getDownloadSimpleCache(context) as SimpleCache
@@ -102,7 +102,10 @@ fun downloadedStateMedia ( mediaId: String ): Boolean {
         }
     }
 
-    val download = format?.contentLength?.let { downloadCache.isCached(mediaId,0, it) }
+    val download = format?.contentLength?.let {
+       // Log.d("mediaItem", "contentLength $it")
+        downloadCache.isCached(mediaId,0, it)
+    }
 
     //isDownloaded = (format?.contentLength == cachedBytes) || (download?.state == Download.STATE_COMPLETED)
     isDownloaded = (format?.contentLength == cachedBytes) || download == true
