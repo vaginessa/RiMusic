@@ -1,6 +1,11 @@
 package it.vfsfitvnm.vimusic.ui.screens.album
 
+import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.webkit.MimeTypeMap
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -16,9 +21,13 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.drawable.toBitmap
 import androidx.media3.common.util.UnstableApi
+import coil.Coil
+import coil.request.ImageRequest
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.persist.persist
@@ -28,8 +37,11 @@ import it.vfsfitvnm.innertube.requests.albumPage
 import it.vfsfitvnm.compose.routing.RouteHandler
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.internal
 import it.vfsfitvnm.vimusic.models.Album
+import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongAlbumMap
+import it.vfsfitvnm.vimusic.path
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
@@ -44,16 +56,28 @@ import it.vfsfitvnm.vimusic.ui.screens.searchresult.ItemsPage
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.enqueue
+import it.vfsfitvnm.vimusic.utils.toast
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileInputStream
+import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.Date
 
+@SuppressLint("SuspiciousIndentation", "SimpleDateFormat")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @UnstableApi
 @Composable
 fun AlbumScreen(browseId: String) {
+
+    val uriHandler = LocalUriHandler.current
     val saveableStateHolder = rememberSaveableStateHolder()
 
     var tabIndex by rememberSaveable {
@@ -62,6 +86,7 @@ fun AlbumScreen(browseId: String) {
 
     var album by persist<Album?>("album/$browseId/album")
     var albumPage by persist<Innertube.PlaylistOrAlbumPage?>("album/$browseId/albumPage")
+
 
     PersistMapCleanup(tagPrefix = "album/$browseId/")
 
@@ -134,6 +159,17 @@ fun AlbumScreen(browseId: String) {
                                 modifier = Modifier
                                     .weight(1f)
                             )
+/*
+                            HeaderIconButton(
+                                icon = R.drawable.image,
+                                enabled = album?.thumbnailUrl?.isNotEmpty() == true,
+                                color = if (album?.thumbnailUrl?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
+                                onClick = {
+                                    if (album?.thumbnailUrl?.isNotEmpty() == true)
+                                        uriHandler.openUri(album?.thumbnailUrl.toString())
+                                    }
+                            )
+ */
 
                             HeaderIconButton(
                                 icon = if (album?.bookmarkedAt == null) {
