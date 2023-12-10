@@ -1,6 +1,5 @@
 package it.vfsfitvnm.vimusic.service
 
-import android.os.Binder as AndroidBinder
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
@@ -30,9 +29,7 @@ import android.text.format.DateUtils
 import androidx.annotation.OptIn
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.startForegroundService
 import androidx.core.content.getSystemService
@@ -44,9 +41,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
-import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.database.DatabaseProvider
 import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DataSpec
@@ -58,7 +53,6 @@ import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
 import androidx.media3.datasource.cache.NoOpCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
-import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.RenderersFactory
 import androidx.media3.exoplayer.analytics.AnalyticsListener
@@ -73,11 +67,10 @@ import androidx.media3.exoplayer.audio.SonicAudioProcessor
 import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.MediaSource
+import androidx.media3.extractor.DefaultExtractorsFactory
 import androidx.media3.extractor.ExtractorsFactory
 import androidx.media3.extractor.mkv.MatroskaExtractor
 import androidx.media3.extractor.mp4.FragmentedMp4Extractor
-import dagger.Provides
-import dagger.hilt.android.qualifiers.ApplicationContext
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.innertube.models.bodies.PlayerBody
@@ -123,8 +116,6 @@ import it.vfsfitvnm.vimusic.utils.skipSilenceKey
 import it.vfsfitvnm.vimusic.utils.timer
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.volumeNormalizationKey
-import kotlin.math.roundToInt
-import kotlin.system.exitProcess
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -134,11 +125,10 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.runBlocking
-import okhttp3.OkHttpClient
 import java.io.File
-import javax.inject.Inject
-import javax.inject.Qualifier
-import javax.inject.Singleton
+import kotlin.math.roundToInt
+import kotlin.system.exitProcess
+import android.os.Binder as AndroidBinder
 
 const val LOCAL_KEY_PREFIX = "local:"
 
@@ -213,6 +203,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         super.onBind(intent)
         return binder
     }
+
     @SuppressLint("Range")
     @UnstableApi
     override fun onCreate() {
@@ -235,7 +226,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         isShowingThumbnailInLockscreen =
             preferences.getBoolean(isShowingThumbnailInLockscreenKey, false)
 
-        val exoPlayerCustomCache =  preferences.getInt(exoPlayerCustomCacheKey, 32)
+        val exoPlayerCustomCache = preferences.getInt(exoPlayerCustomCacheKey, 32)
 
         val cacheEvictor = when (val size =
             preferences.getEnum(exoPlayerDiskCacheMaxSizeKey, ExoPlayerDiskCacheMaxSize.`2GB`)) {
@@ -247,12 +238,13 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         var directory = cacheDir
         val downloadDirectory = getExternalFilesDir(null) ?: filesDir
         var cacheDirName = "rimusic_cache"
-        val cacheSize = preferences.getEnum(exoPlayerDiskCacheMaxSizeKey,ExoPlayerDiskCacheMaxSize.`2GB`)
+        val cacheSize =
+            preferences.getEnum(exoPlayerDiskCacheMaxSizeKey, ExoPlayerDiskCacheMaxSize.`2GB`)
 
 
-        if ( cacheSize == ExoPlayerDiskCacheMaxSize.Disabled) cacheDirName = "rimusic_no_cache"
+        if (cacheSize == ExoPlayerDiskCacheMaxSize.Disabled) cacheDirName = "rimusic_no_cache"
 
-        if (exoPlayerAlternateCacheLocation=="") {
+        if (exoPlayerAlternateCacheLocation == "") {
             directory = cacheDir.resolve(cacheDirName).also { directory ->
                 if (directory.exists()) return@also
 
@@ -358,6 +350,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         super.onTaskRemoved(rootIntent)
         if (isclosebackgroundPlayerEnabled == true) super.stopSelf()
     }
+
     @UnstableApi
     override fun onDestroy() {
         maybeSavePlayerQueue()
@@ -391,12 +384,12 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         }
         super.onConfigurationChanged(newConfig)
     }
+
     @UnstableApi
     override fun onPlaybackStatsReady(
         eventTime: AnalyticsListener.EventTime,
         playbackStats: PlaybackStats
     ) {
-
 
 
         val mediaItem =
@@ -420,7 +413,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             else -> minTime
         }
 
-        if (totalPlayTimeMs > minTimeForEvent.ms ) {
+        if (totalPlayTimeMs > minTimeForEvent.ms) {
             query {
                 try {
                     Database.insert(
@@ -531,6 +524,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             }
         }
     }
+
     @UnstableApi
     private fun maybeRestorePlayerQueue() {
         if (!isPersistentQueueEnabled) return
@@ -564,6 +558,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             }
         }
     }
+
     @UnstableApi
     private fun maybeNormalizeVolume() {
         if (!preferences.getBoolean(volumeNormalizationKey, false)) {
@@ -586,7 +581,8 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                     try {
                         loudnessEnhancer?.setTargetGain(-((loudnessDb ?: 0f) * 100).toInt() + 500)
                         loudnessEnhancer?.enabled = true
-                    } catch (_: Exception) { }
+                    } catch (_: Exception) {
+                    }
                 }
             }
         }
@@ -728,7 +724,8 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             }
         }
     }
-@UnstableApi
+
+    @UnstableApi
     override fun onIsPlayingChanged(isPlaying: Boolean) {
         super.onIsPlayingChanged(isPlaying)
         //val totalPlayTimeMs = player.totalBufferedDuration.toString()
@@ -757,6 +754,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             skipSilenceKey -> if (sharedPreferences != null) {
                 player.skipSilenceEnabled = sharedPreferences.getBoolean(key, false)
             }
+
             isShowingThumbnailInLockscreenKey -> {
                 if (sharedPreferences != null) {
                     isShowingThumbnailInLockscreen = sharedPreferences.getBoolean(key, true)
@@ -878,27 +876,27 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         }
     }
      */
-/*
-    @UnstableApi
-    private fun createCacheDataSource(): CacheDataSource.Factory =
-        CacheDataSource.Factory()
-            .setCache(downloadCache)
-            .setUpstreamDataSourceFactory(
-                CacheDataSource.Factory()
-                    .setCache(cache)
-                    .setUpstreamDataSourceFactory(
-                        DefaultDataSource.Factory(
-                            this,
-                            DefaultHttpDataSource.Factory()
-                                .setConnectTimeoutMs(16000)
-                                .setReadTimeoutMs(8000)
-                                .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
+    /*
+        @UnstableApi
+        private fun createCacheDataSource(): CacheDataSource.Factory =
+            CacheDataSource.Factory()
+                .setCache(downloadCache)
+                .setUpstreamDataSourceFactory(
+                    CacheDataSource.Factory()
+                        .setCache(cache)
+                        .setUpstreamDataSourceFactory(
+                            DefaultDataSource.Factory(
+                                this,
+                                DefaultHttpDataSource.Factory()
+                                    .setConnectTimeoutMs(16000)
+                                    .setReadTimeoutMs(8000)
+                                    .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
+                            )
                         )
-                    )
-            )
-            .setCacheWriteDataSinkFactory(null)
-            .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
-*/
+                )
+                .setCacheWriteDataSinkFactory(null)
+                .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
+    */
 
 
     @UnstableApi
@@ -918,7 +916,6 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                 )
             )
     ) { !it.isLocal }
-
 
 
     /*
@@ -1006,13 +1003,13 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         }
     }
     */
-@UnstableApi
-private fun createDataSourceFactory(): DataSource.Factory {
+    @UnstableApi
+    private fun createDataSourceFactory(): DataSource.Factory {
         val chunkLength = 512 * 1024L
         val ringBuffer = RingBuffer<Pair<String, Uri>?>(2) { null }
 
         return ResolvingDataSource.Factory(createCacheDataSource()) { dataSpec ->
-            var videoId = dataSpec.key ?: error("A key must be set")
+            val videoId = dataSpec.key ?: error("A key must be set")
 
             //if(dataSpec.isLocal) videoId = videoId.removePrefix("local:")
             //Log.d("mediaItem","dataSpec isLocal ${dataSpec.isLocal} key ${videoId} all ${dataSpec.toString()}")
@@ -1025,7 +1022,7 @@ private fun createDataSourceFactory(): DataSource.Factory {
             //Log.d("mediaItemDatasource","dataSpecUri ${dataSpec.uri}")
 
             when {
-                        dataSpec.isLocal ||
+                dataSpec.isLocal ||
                         cache.isCached(videoId, dataSpec.position, chunkLength) ||
                         downloadCache.isCached(videoId, dataSpec.position, chunkLength) -> dataSpec
 
@@ -1103,11 +1100,7 @@ private fun createDataSourceFactory(): DataSource.Factory {
     }
 
     @UnstableApi
-    private fun createExtractorsFactory(): ExtractorsFactory {
-        return ExtractorsFactory {
-            arrayOf(MatroskaExtractor(), FragmentedMp4Extractor())
-        }
-    }
+    private fun createExtractorsFactory() = DefaultExtractorsFactory()
 
     @UnstableApi
     private fun createRendersFactory(): RenderersFactory {
@@ -1187,12 +1180,15 @@ private fun createDataSourceFactory(): DataSource.Factory {
             timerJob?.cancel()
             timerJob = null
         }
+
         @UnstableApi
         fun setupRadio(endpoint: NavigationEndpoint.Endpoint.Watch?) =
             startRadio(endpoint = endpoint, justAdd = true)
+
         @UnstableApi
         fun playRadio(endpoint: NavigationEndpoint.Endpoint.Watch?) =
             startRadio(endpoint = endpoint, justAdd = false)
+
         @UnstableApi
         private fun startRadio(endpoint: NavigationEndpoint.Endpoint.Watch?, justAdd: Boolean) {
             radioJob?.cancel()
@@ -1231,7 +1227,8 @@ private fun createDataSourceFactory(): DataSource.Factory {
         override fun onSeekTo(pos: Long) = player.seekTo(pos)
         override fun onStop() = player.pause()
         override fun onRewind() = player.seekToDefaultPosition()
-        override fun onSkipToQueueItem(id: Long) = runCatching { player.seekToDefaultPosition(id.toInt()) }.let { }
+        override fun onSkipToQueueItem(id: Long) =
+            runCatching { player.seekToDefaultPosition(id.toInt()) }.let { }
     }
 
     private class NotificationActionReceiver(private val player: Player) : BroadcastReceiver() {
