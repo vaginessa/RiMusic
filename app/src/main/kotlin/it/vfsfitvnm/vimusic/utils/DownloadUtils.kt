@@ -78,8 +78,8 @@ fun downloadedStateMedia ( mediaId: String ): Boolean {
     val binder = LocalPlayerServiceBinder.current
     val downloader = LocalDownloader.current
 
-    //val context = LocalContext.current
-    //val downloadCache = DownloadUtil.getDownloadSimpleCache(context) as SimpleCache
+    val context = LocalContext.current
+    val downloadCache = DownloadUtil.getDownloadSimpleCache(context) as SimpleCache
 
     val cachedBytes by remember(mediaId) {
         mutableStateOf(binder?.cache?.getCachedBytes(mediaId, 0, -1))
@@ -93,8 +93,8 @@ fun downloadedStateMedia ( mediaId: String ): Boolean {
         mutableStateOf(false)
     }
 
-    val download by downloader.getDownload(mediaId).collectAsState(initial = null)
-    //val download = downloadCache.isCached(mediaId,0,-1)
+    //val download by downloader.getDownload(mediaId).collectAsState(initial = null)
+
 
     LaunchedEffect(mediaId) {
         Database.format(mediaId).distinctUntilChanged().collectLatest { currentFormat ->
@@ -102,8 +102,10 @@ fun downloadedStateMedia ( mediaId: String ): Boolean {
         }
     }
 
-    isDownloaded = (format?.contentLength == cachedBytes) || (download?.state == Download.STATE_COMPLETED)
-    //isDownloaded = (format?.contentLength == cachedBytes) || download == true
+    val download = format?.contentLength?.let { downloadCache.isCached(mediaId,0, it) }
+
+    //isDownloaded = (format?.contentLength == cachedBytes) || (download?.state == Download.STATE_COMPLETED)
+    isDownloaded = (format?.contentLength == cachedBytes) || download == true
 
 //    Log.d("mediaItem", "cachedBytes ${cachedBytes} contentLength ${format?.contentLength} downloadState ${isDownloaded}")
 

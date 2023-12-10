@@ -54,6 +54,7 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
+import coil.network.HttpException
 //import com.google.mlkit.nl.translate.TranslateLanguage
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.innertube.Innertube
@@ -92,6 +93,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import me.bush.translator.Language
 import me.bush.translator.Translator
+import org.json.JSONException
 import java.util.Locale
 
 
@@ -356,13 +358,17 @@ fun Lyrics(
                             if (translateEnabled == true) {
                                 LaunchedEffect(Unit) {
                                     val result = withContext(Dispatchers.IO) {
-                                        translator.translate(
-                                            sentence.second,
-                                            languageDestination,
-                                            Language.AUTO
-                                        ).translatedText
+                                        try {
+                                            translator.translate(
+                                                sentence.second,
+                                                languageDestination,
+                                                Language.AUTO
+                                            ).translatedText
+                                        } catch (e: Exception) {
+                                            e.printStackTrace()
+                                        }
                                     }
-                                    translatedText = result
+                                    translatedText = if (result.toString()=="kotlin.Unit") "" else result.toString()
                                     showPlaceholder = false
                                 }
                             } else translatedText = sentence.second
@@ -379,13 +385,17 @@ fun Lyrics(
                     if (translateEnabled == true) {
                         LaunchedEffect(Unit) {
                             val result = withContext(Dispatchers.IO) {
+                                try {
                                 translator.translate(
                                     text,
                                     languageDestination,
                                     Language.AUTO
                                 ).translatedText
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
                             }
-                            translatedText = result
+                            translatedText = if (result.toString()=="kotlin.Unit") "" else result.toString()
                             showPlaceholder = false
                         }
                     } else translatedText = text

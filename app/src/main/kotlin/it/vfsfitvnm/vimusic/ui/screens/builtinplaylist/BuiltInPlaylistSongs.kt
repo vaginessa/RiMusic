@@ -133,10 +133,26 @@ fun BuiltInPlaylistSongs(
 
      LaunchedEffect(Unit, sortBy, sortOrder, filter) {
         when (builtInPlaylist) {
+            /*
             BuiltInPlaylist.Downloaded -> {
-                DownloadUtil.getDownloads()
+                //try {
+                    DownloadUtil.getDownloads()
+                //} catch (e: Exception) {
+                //    e.printStackTrace()
+                //}
                 DownloadUtil.downloads.value?.keys?.toList()?.let { Database.getSongsList(it) }
             }
+*/
+            BuiltInPlaylist.Downloaded -> Database
+                .songsOffline(sortBy, sortOrder)
+                .flowOn(Dispatchers.IO)
+                .map { songs ->
+                    songs.filter { song ->
+                        song.contentLength?.let {
+                            binder?.downloadCache?.isCached(song.song.id, 0, song.contentLength)
+                        } ?: false
+                    }.map(SongWithContentLength::song)
+                }
 
             BuiltInPlaylist.Favorites -> Database
                 .songsFavorites(sortBy, sortOrder)
