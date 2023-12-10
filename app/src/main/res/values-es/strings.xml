@@ -262,4 +262,6 @@
     <string name="custom">Personalizado</string>
     <string name="custom_cache_size">Custom cache size</string>
     <string name="listen_on">Listen on</string>
+    <string name="custom_cache_size">Tamaño de caché personalizado</string>
+    <string name="error_local_music_not_found">Archivo de música local no encontrado</string>
 </resources>
