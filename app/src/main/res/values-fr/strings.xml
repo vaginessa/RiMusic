@@ -260,5 +260,5 @@
     <string name="value_cannot_be_empty">La valeur ne peut pas être vide</string>
     <string name="value_must_be_greater_than">"La valeur doit être supérieure à "</string>
     <string name="custom">Personnalisé</string>
-    <string name="custom_cache_size">Custom cache size</string>
+    <string name="custom_cache_size">Taille du cache personnalisée</string>
 </resources>
