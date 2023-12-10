@@ -110,7 +110,7 @@
     <string name="invincible_service">Service protégé</string>
     <string name="turning_off_battery_optimizations_is_not_enough">Quand \"désactiver les optimisations de la batterie\" ne suffit pas</string>
     <string name="player_audio"><![CDATA[Player & Audio]]></string>
-    <string name="player">⏭ Lecteur</string>
+    <string name="player">🎵 Lecteur</string>
     <string name="persistent_queue">Playlist persistante</string>
     <string name="save_and_restore_playing_songs">Enregistrer et restaurer la lecture des chansons</string>
     <string name="resume_playback">Reprendre la lecture</string>
@@ -193,7 +193,7 @@
     <string name="czech">Tchèque (Čeština)</string>
     <string name="german">Allemand (Deutsch)</string>
     <string name="spanish">Espagnol (Español)</string>
-    <string name="french">👉 Français</string>
+    <string name="french">Français</string>
     <string name="romanian">Roumain (Română)</string>
     <string name="russian">Russe (Русский)</string>
     <string name="turkish">Turc (Türkçe)</string>
@@ -250,15 +250,15 @@
     <string name="disable_song_switching_via_swipe">Désactiver le changement de chanson par balayage</string>
     <string name="interface_in_use">Interface en cours d\'utilisation</string>
     <string name="user_interface">Interface utilisateur</string>
-    <string name="ui_tab">IU</string>
+    <string name="ui_tab">💡 IU</string>
     <string name="system_language">Langue du système</string>
-    <string name="french_emoticons_fran_ais">Français avec Émojis (Français)</string>
+    <string name="french_emoticons_fran_ais">👉 Français avec Émojis (Français)</string>
     <string name="romanian_emoticons_rom_n">Roumain avec Émojis (Română)</string>
     <string name="biggest">Très gros</string>
     <string name="set_custom_cache">Définir un cache personnalisé</string>
     <string name="enter_value_in_mb">Entrez la valeur en Mo</string>
-    <string name="value_cannot_be_empty">🔢 La valeur ne peut pas être vide</string>
+    <string name="value_cannot_be_empty">La valeur ne peut pas être vide</string>
     <string name="value_must_be_greater_than">"La valeur doit être supérieure à "</string>
     <string name="custom">Personnalisé</string>
-    <string name="custom_cache_size">Custom cache size</string>
+    <string name="custom_cache_size">Taille du cache personnalisée</string>
 </resources>
