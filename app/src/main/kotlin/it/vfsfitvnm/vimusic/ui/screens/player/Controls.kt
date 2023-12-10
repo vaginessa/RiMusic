@@ -349,7 +349,7 @@ fun Controls(
 
         Spacer(
             modifier = Modifier
-                .height(20.dp)
+                .height(30.dp)
         )
 
 
@@ -454,7 +454,7 @@ fun Controls(
 
         Spacer(
             modifier = Modifier
-                .weight(0.6f)
+                .weight(1f)
         )
 
         Row(

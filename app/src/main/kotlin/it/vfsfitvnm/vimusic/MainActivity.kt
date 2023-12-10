@@ -140,6 +140,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
     var client = OkHttpClient()
     var request = OkHttpRequest(client)
 
+    var isConnected = false
+
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -200,6 +202,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
         setContent {
 
+
             val url = "https://raw.githubusercontent.com/fast4x/RiMusic/master/updatedVersion/updatedVersion.ver"
             /*  */
             request.GET(url, object: Callback {
@@ -210,6 +213,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             val newVersion = responseData.let { it.toString() }
                             val file = File(filesDir, "RiMusicUpdatedVersion.ver")
                             file.writeText(newVersion)
+                            isConnected = true
                             //this@MainActivity
                         } catch (e: JSONException) {
                             e.printStackTrace()
@@ -222,6 +226,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                     Log.d("UpdatedVersion","Check failure")
                 }
             })
+
 
 
             val coroutineScope = rememberCoroutineScope()
@@ -523,7 +528,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                 }
 
                 //VisualizerComputer.setupPermissions(this@MainActivity)
-                InitDownloader()
+                if (isConnected) InitDownloader()
             }
         }
 

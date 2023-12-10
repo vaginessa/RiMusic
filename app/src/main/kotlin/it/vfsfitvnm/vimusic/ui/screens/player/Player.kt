@@ -629,6 +629,11 @@ fun Player(
                     }
             }
 
+                Spacer(
+                    modifier = Modifier
+                        .height(20.dp)
+                )
+
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -644,6 +649,11 @@ fun Player(
                             )
                     )
                 }
+
+                Spacer(
+                    modifier = Modifier
+                        .height(20.dp)
+                )
 
                 controlsContent(
                     modifier = Modifier
