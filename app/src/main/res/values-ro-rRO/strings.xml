@@ -87,7 +87,7 @@
     <string name="backup">💾 COPIE DE REZERVĂ</string>
     <string name="personal_preference">Preferințele personale (ex: culorile de temă) si memoria cache sunt excluse.</string>
     <string name="backup_1">Copie de rezervă</string>
-    <string name="export_the_database">Exportează baza de date pe stocarea externă</string>
+    <string name="export_the_database">Exportă baza de date pe stocarea externă</string>
     <string name="restore">⏬ RESTABILIRE</string>
     <string name="restore_1">Restabilește</string>
     <string name="import_the_database">Importă baza de date din stocarea externă</string>
@@ -102,14 +102,14 @@
     <string name="clear_search_history">Șterge istoricul căutărilor</string>
     <string name="history_is_empty">Istoricul este gol</string>
     <string name="service_lifetime">🕗 DURATA SERVICILOR</string>
-    <string name="battery_optimizations_applied">Dacă sunt aplicate optimizările ale bateriei, notificarea de ascultare poate dispărea atunci când este întreruptă.</string>
-    <string name="is_android12">Pe Android 12 sau mai nou, dezactivarea optimizărilor bateriei este necesară pentru ca opțiunea \"Serviciu invincibil\" să aibă efect.</string>
-    <string name="ignore_battery_optimizations">Ignoră optimizările bateriei</string>
-    <string name="already_unrestricted">Deaja fara restrictii</string>
+    <string name="battery_optimizations_applied">Dacă sunt aplicate optimizările ale bateriei, notificarea de ascultare poate dispărea brusc.</string>
+    <string name="is_android12">Începând cu android 12, dezactivarea optimizărilor ale bateriei este necesară pentru ca serviciu invincibil să aibă efect.</string>
+    <string name="ignore_battery_optimizations">Ignoră optimizările ale bateriei</string>
+    <string name="already_unrestricted">Deja fără restricții</string>
     <string name="disable_background_restrictions">Dezactivați restricțiile de fundal</string>
     <string name="invincible_service">Serviciu invincibil</string>
-    <string name="turning_off_battery_optimizations_is_not_enough">Când dezactivarea optimizărilor bateriei nu este suficientă</string>
-    <string name="player_audio"><![CDATA[Player & Audio]]></string>
+    <string name="turning_off_battery_optimizations_is_not_enough">Când dezactivarea optimizărilor ale bateriei nu este suficientă</string>
+    <string name="player_audio"><![CDATA[Player și Audio]]></string>
     <string name="player">Player</string>
     <string name="persistent_queue">Coadă persistentă</string>
     <string name="save_and_restore_playing_songs">Salvează și restaurează melodiile în curs de ascultare</string>
@@ -138,7 +138,7 @@
     <string name="folder_cache">📁 CACHE FOLDER</string>
     <string name="cache_reset_by_clicking_button">Atenție! Făcând clic pe butonul de mai jos, folderul cache va fi resetat!</string>
     <string name="cache_location_folder">Locație folder</string>
-    <string name="custom_cache_from_android_10_may_not_be_available">Pe Android 10 sau mai nou, această funcție poate să nu fie disponibilă</string>
+    <string name="custom_cache_from_android_10_may_not_be_available">Începând cu Android 10, această funcție poate să nu fie disponibilă</string>
     <string name="reset_cache_location_folder">Resetează folderul cache</string>
     <string name="used">" utilizat"</string>
     <string name="close_background_player">Închideți playerul de fundal</string>
@@ -215,7 +215,7 @@
     <string name="not_find_battery_optimization_settings">Nu s-au putut găsi setările de optimizare al bateriei, vă rugăm să adăugați manual în lista albă</string>
     <string name="search">Caută...</string>
     <string name="no">Nu</string>
-    <string name="stop">Stop</string>
+    <string name="stop">Oprește</string>
     <string name="preferences">💖 PREFERINȚE</string>
     <string name="it_seems_that_youtube_music_is_not_installed">YouTube Music nu este instalat!</string>
     <string name="listen_on_youtube">Ascultă pe YouTube</string>
