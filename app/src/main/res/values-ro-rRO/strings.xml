@@ -194,7 +194,7 @@
     <string name="german">Germană (Deutsch) 🇩🇪</string>
     <string name="spanish">Spaniolă (Español) 🇪🇸</string>
     <string name="french">Franceză (Français) 🇫🇷</string>
-    <string name="romanian">Română (SELECȚIONAT) 🇷🇴</string>
+    <string name="romanian">Română (Română) 🇷🇴</string>
     <string name="russian">Rusă (Русский) 🇷🇺</string>
     <string name="turkish">Turcă (Türkçe) 🇹🇷</string>
     <string name="polish">Poloneză (Polski) 🇵🇱</string>
@@ -253,7 +253,7 @@
     <string name="ui_tab">Interfață</string>
     <string name="system_language">Limba sistemului</string>
     <string name="french_emoticons_fran_ais">Franceză cu Emoticoane (Français) 🇫🇷</string>
-    <string name="romanian_emoticons_rom_n">Română cu Emoticoane (Română) 🇷🇴</string>
+    <string name="romanian_emoticons_rom_n">Română cu Emoticoane (SELECȚIONAT) 🇷🇴</string>
     <string name="biggest">Gigantic</string>
     <string name="set_custom_cache">Setează cache personalizat</string>
     <string name="enter_value_in_mb">Introdu valoarea în MB</string>
