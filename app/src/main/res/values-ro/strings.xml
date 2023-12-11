@@ -32,7 +32,7 @@
     <string name="view_all">Vezi tot</string>
     <string name="from_wikipedia_cca">Din Wikipedia sub Creative Commons Attribution CC-BY-SA 3.0</string>
     <string name="overview">Prezentare generală</string>
-    <string name="singles">Single-ur</string>
+    <string name="singles">Single-uri</string>
     <string name="library">Bibliotecă</string>
     <string name="artist_no_release_album">Acest artist nu a lansat niciun album</string>
     <string name="artist_no_release_single">Acest artist nu a lansat niciun single</string>
@@ -260,7 +260,7 @@
     <string name="value_cannot_be_empty">Valoarea nu poate fi goală</string>
     <string name="value_must_be_greater_than">"Valoarea trebuie să fie mai mare decât "</string>
     <string name="custom">Personalizat</string>
-    <string name="custom_cache_size">Custom cache size</string>
     <string name="listen_on">Listen on</string>
-    <string name="error_local_music_not_found">Local music file not found</string>
+    <string name="custom_cache_size">Dimensiune cache personalizată</string>
+    <string name="error_local_music_not_found">Muzica locală nu a fost găsită</string>
 </resources>

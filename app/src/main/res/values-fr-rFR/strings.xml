@@ -223,7 +223,7 @@
     <string name="on_device">📲 Sur l\'appareil</string>
     <string name="open_settings">Ouvrir les paramètres</string>
     <string name="permission_declined_grant_media_permissions">🎥 Autorisation refusée, veuillez accorder les autorisations multimédias dans les paramètres de votre appareil.</string>
-    <string name="wavy_timeline">Ondulée</string>
+    <string name="wavy_timeline">Ondulée</string>     
     <string name="enable_wavy_timeline">Active la barre de navigation ondulée</string>
     <string name="play_next">Musique suivante</string>
     <string name="toggle_lyrics">Afficher les paroles</string>
@@ -257,9 +257,10 @@
     <string name="biggest">Très gros</string>
     <string name="set_custom_cache">Définir un cache personnalisé</string>
     <string name="enter_value_in_mb">Entrez la valeur en Mo</string>
-    <string name="value_cannot_be_empty">La valeur ne peut pas être vide</string>
+    <string name="value_cannot_be_empty">🔢 La valeur ne peut pas être vide</string>
     <string name="value_must_be_greater_than">"La valeur doit être supérieure à "</string>
     <string name="custom">Personnalisé</string>
     <string name="custom_cache_size">Taille du cache personnalisée</string>
+    <string name="error_local_music_not_found">Fichier de musique locale introuvable</string>
     <string name="listen_on">Listen on</string>
 </resources>
