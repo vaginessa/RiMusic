@@ -1,1 +1,0 @@
-* The screen now automatically scrolls when reordering the queue or playlists songs

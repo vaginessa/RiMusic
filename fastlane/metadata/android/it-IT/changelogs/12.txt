@@ -1,3 +1,0 @@
-* A dynamic new theme, which adapts its colors based on the playing song cover, is added
-* The ability to fetch and display synchronized lyrics (from a third party provider) is added
-* The song cover can now be displayed as lockscreen wallpaper

@@ -520,8 +520,8 @@ fun Controls(
                         if (effectRotationEnabled) isRotated = !isRotated
                     }
                     .background(colorPalette.background3)
-                    .width(60.dp)
-                    .height(60.dp)
+                    .width(if (uiType != UiType.RiMusic) 60.dp else 120.dp)
+                    .height(if (uiType != UiType.RiMusic) 60.dp else 80.dp)
             ) {
                 Image(
                     painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),

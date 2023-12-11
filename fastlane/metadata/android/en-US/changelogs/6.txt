@@ -1,0 +1,37 @@
+What's New
+RiMusic translations are now managed on Crowdin.com and automatically merged. Thanks to all contributors.
+Added Play on Youtube, Youtube Music, Piped and Invidious
+Added support Custom cache on Player by #148
+Added support for Predictive Back Gesture, new functionality on Android 13/14. Now back swipe without close app. Bt #148
+Improvement for New Album from preferites Artists, now is visible only when new albums is published for preferites artists. By #148
+Improvement for Lyrics and relative translations. Include #184 #161
+Added support for System Language on settings. Requested by @NEVARLeVrai
+Added UI Mode, now is possibile change UI appearance from RiMusic Style to Classic ViMusic Style and viceversa. By #174
+Added locking song on local playlists. By #165
+
+What's Changed
+Fixed incorrect recognition of RiMusic as a virus by VirusTotal.com. By #180
+Optimized weight of the app. Not more than 32 MB but less than 5MB. By #176
+Fixed crash on startup without internet connection. By #164
+Update Spanish translation by @DanielSevillano in #163
+Updated French by @NEVARLeVrai in #166
+Updated french with new variant by @NEVARLeVrai in #167
+Added Romanian whit emojies and Updated Romanian by @OrangeZXZ in #168
+Update french language Fix by @NEVARLeVrai in #169
+Add untranslated listen on Piped and Invidious to all strings.xml by @ikanakova in #170
+Add untranslated listen on Piped and Invidious to czech strings.xml by @ikanakova in #171
+Updated French untranslated traduction by @NEVARLeVrai in #172
+Update of the Czech translation by @ikanakova in #173
+Updated french forgot an accent by @NEVARLeVrai in #175
+Updated Romanian and Emojies Romanian by @OrangeZXZ in #177
+Addition of Crowdin to the README by @ikanakova in #179
+Updated french and emojies by @NEVARLeVrai in #189
+New Crowdin updates in #181
+New Crowdin updates in #182
+New Crowdin updates in #183
+New Crowdin updates in #185
+New Crowdin updates in #188
+New Crowdin updates in #190
+New Crowdin updates in #191
+New Crowdin updates in #192
+New Crowdin updates in #193

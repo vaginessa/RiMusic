@@ -1,20 +1,29 @@
-<b>Features:</b>
-
-* Search and play any song or video from YouTube Music
-* Background playback w/ notification
-* Search for songs, albums, artists, videos and playlists
-* Bookmark artists and albums
-* Import playlists
-* Automatic cache system for offline playback and saving resources
-* Fetch and edit lyrics and synchronized lyrics
-* Open YouTube/YouTube Music links
-* Local playlists management
-* Queue management
-* Favorites and Offline built-in playlists
-* Sleep timer
-* Skip silence
-* Persistent queue
-* Loudness/audio normalization
-* Android Auto
-* Simple and minimal UI
-* Multilingual support
+## ✨ Features
+- **Multilingual support:** English, Italian, German, Russian, French, Spanish, Czech, Turkish and Romanian. Contributions for other languages are welcome
+- UI Mode, change style from RiMusic to classic ViMusic style and viceversa
+- Play song from YouTube Music
+- Change your favorite language from settings
+- Auto cache songs for offline playback, is possible to customize size of cache
+- Download songs or entire playlist for offline playback (not cache)
+- Background playback with stop while app swipe out from task manager
+- Minimized player optimizations
+- Listening statistics
+- Audio visualizer on player with many type of effects
+- News, mood and musical genres
+- New albums from preferites artists
+- Search for songs, albums, artists and playlists
+- Bookmark artists and albums
+- Import playlists
+- Local playlist management
+- Reorder songs in playlist or queue
+- Persistent queue
+- Clear queue
+- Share menu support for YouTube and YouTube Music links
+- Fetch, display, edit and translate songs lyrics or synchronized lyrics
+- Light, Dark, Dynamic and ModernBack themes
+- Sleep timer
+- Audio normalization
+- Audio skip silence
+- Android Auto support
+- Android TV support
+- Check for Updates
