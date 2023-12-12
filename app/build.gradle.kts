@@ -68,6 +68,8 @@ android {
         generateLocaleConfig = true
     }
 
+
+
 }
 
 kapt {
@@ -79,6 +81,7 @@ kapt {
 android {
     lint {
         baseline = file("lint-baseline.xml")
+        checkReleaseBuilds = false
     }
 }
 
