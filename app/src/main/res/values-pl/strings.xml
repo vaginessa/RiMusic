@@ -5,7 +5,7 @@
     <string name="hidesong">Na pewno chcesz ukryć ten utwór? Jego czas odtwarzania zostanie usunięty oraz zostanie on wymazany z pamięci podręcznej.\nTego działania nie da się cofnąć.</string>
     <string name="new_playlist">Nowa playlista</string>
     <string name="start_radio">Uruchom radio</string>
-    <string name="equalizer">Equalizer</string>
+    <string name="equalizer">Korektor</string>
     <string name="stop_sleep_timer">Zatrzymać wyłącznik czasowy?</string>
     <string name="set_sleep_timer">Ustaw wyłącznik czasowy</string>
     <string name="add_to_playlist">Dodaj do playlisty</string>
