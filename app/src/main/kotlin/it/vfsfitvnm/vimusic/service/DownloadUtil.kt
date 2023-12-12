@@ -20,7 +20,7 @@ import androidx.media3.datasource.cache.Cache
 import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.datasource.cache.NoOpCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
-import androidx.media3.datasource.cronet.CronetDataSource
+//import androidx.media3.datasource.cronet.CronetDataSource
 import androidx.media3.exoplayer.offline.Download
 import androidx.media3.exoplayer.offline.DownloadManager
 import androidx.media3.exoplayer.offline.DownloadNotificationHelper
@@ -40,7 +40,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.runBlocking
-import org.chromium.net.CronetEngine
+//import org.chromium.net.CronetEngine
 import java.io.File
 import java.util.concurrent.Executors
 @UnstableApi
@@ -159,6 +159,7 @@ object DownloadUtil {
         return dataSourceFactory
     }
 
+/*
     @Synchronized
     fun getHttpDataSourceFactory(context: Context): HttpDataSource.Factory {
         if(!DownloadUtil::httpDataSourceFactory.isInitialized) {
@@ -168,18 +169,6 @@ object DownloadUtil {
             )
         }
         return httpDataSourceFactory
-    }
-
-    private fun createCacheDataSource(context: Context): DataSource.Factory {
-        return CacheDataSource.Factory().setCache(getDownloadCache(context)).apply {
-            setUpstreamDataSourceFactory(
-                DefaultHttpDataSource.Factory()
-                    .setConnectTimeoutMs(16000)
-                    .setReadTimeoutMs(8000)
-                    .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
-            )
-            setCacheWriteDataSinkFactory(null)
-        }
     }
 
     @Synchronized
@@ -198,6 +187,20 @@ object DownloadUtil {
         }
         return dataSourceFactory
     }
+
+*/
+    private fun createCacheDataSource(context: Context): DataSource.Factory {
+        return CacheDataSource.Factory().setCache(getDownloadCache(context)).apply {
+            setUpstreamDataSourceFactory(
+                DefaultHttpDataSource.Factory()
+                    .setConnectTimeoutMs(16000)
+                    .setReadTimeoutMs(8000)
+                    .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
+            )
+            setCacheWriteDataSinkFactory(null)
+        }
+    }
+
 
     @Synchronized
     fun getDownloadNotificationHelper(context: Context?): DownloadNotificationHelper {
