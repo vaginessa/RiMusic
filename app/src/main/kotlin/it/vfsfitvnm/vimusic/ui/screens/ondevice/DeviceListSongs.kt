@@ -86,6 +86,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScr
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
+import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -136,7 +137,7 @@ fun DeviceListSongs(
     val (colorPalette,typography) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
     val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
-
+    val menuState = LocalMenuState.current
 
     var songs by persistList<Song>("${deviceLists.name}/songs")
 
@@ -393,16 +394,17 @@ fun DeviceListSongs(
 
                     modifier = Modifier
                         .combinedClickable(
-                            /*
+
                             onLongClick = {
                                 menuState.display {
                                     when (deviceLists) {
-                                        BuiltInPlaylist.Favorites -> NonQueuedMediaItemMenu(
+                                        /*
+                                        deviceLists.Favorites -> NonQueuedMediaItemMenu(
                                             mediaItem = song.asMediaItem,
                                             onDismiss = menuState::hide
                                         )
-
-                                        BuiltInPlaylist.Offline -> InHistoryMediaItemMenu(
+                                        */
+                                        DeviceLists.LocalSongs -> InHistoryMediaItemMenu(
                                             song = song,
                                             onDismiss = menuState::hide
                                         )
@@ -410,7 +412,7 @@ fun DeviceListSongs(
                                 }
                             },
 
-                             */
+
                             onClick = {
 
                                 binder?.stopRadio()
