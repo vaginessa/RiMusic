@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +37,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
@@ -139,8 +141,9 @@ fun AlbumSongs(
                     items = songs,
                     key = { _, song -> song.id }
                 ) { index, song ->
+                    val isLocal by remember { derivedStateOf { song.asMediaItem.isLocal } }
                     downloadState = getDownloadState(song.asMediaItem.mediaId)
-                    val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
+                    val isDownloaded = if (!isLocal) downloadedStateMedia(song.asMediaItem.mediaId) else true
                     SongItem(
                         title = song.title,
                         isDownloaded = isDownloaded,
@@ -158,6 +161,7 @@ fun AlbumSongs(
                                     )
                                 )
                             }
+                            if (!isLocal)
                             manageDownload(
                                 context = context,
                                 songId = song.asMediaItem.mediaId,

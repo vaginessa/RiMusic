@@ -60,7 +60,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import coil.compose.AsyncImage
@@ -270,9 +269,6 @@ fun Player(
 
 
 
-    var isDownloaded by rememberSaveable { mutableStateOf(false) }
-    isDownloaded = downloadedStateMedia(mediaItem.mediaId)
-
     /*
 
     var nextmediaItemIndex = binder.player.nextMediaItemIndex ?: -1
@@ -297,6 +293,10 @@ fun Player(
     }
     downloadState = getDownloadState(mediaItem.mediaId)
 
+//    val isLocal by remember { derivedStateOf { mediaItem.isLocal } }
+
+    var isDownloaded by rememberSaveable { mutableStateOf(false) }
+    isDownloaded = downloadedStateMedia(mediaItem.mediaId)
 
     OnGlobalRoute {
         layoutState.collapseSoft()
@@ -708,6 +708,7 @@ fun Player(
                         color = if (isDownloaded) colorPalette.text else colorPalette.textDisabled,
                         downloadState = downloadState,
                         onClick = {
+                            //if (!isLocal)
                             manageDownload(
                                 context = context,
                                 songId = mediaItem.mediaId,

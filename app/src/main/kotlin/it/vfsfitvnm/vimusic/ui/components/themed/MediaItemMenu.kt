@@ -48,12 +48,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
-import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
-import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
@@ -79,16 +77,13 @@ import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.getDownloadState
-import it.vfsfitvnm.vimusic.utils.launchYouTubeMusic
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.thumbnail
-import it.vfsfitvnm.vimusic.utils.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
-
 
 
 @ExperimentalAnimationApi
@@ -341,7 +336,7 @@ fun MediaItemMenu(
     }
 
     downloadState = getDownloadState(mediaItem.mediaId)
-    val isDownloaded = downloadedStateMedia(mediaItem.mediaId)
+    val isDownloaded = if (!isLocal) downloadedStateMedia(mediaItem.mediaId) else true
 
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
@@ -460,6 +455,7 @@ fun MediaItemMenu(
                                     )
                                 )
                             }
+                            if (!isLocal)
                             manageDownload(
                                 context = context,
                                 songId = mediaItem.mediaId,

@@ -20,21 +20,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.persist.persist
+import it.vfsfitvnm.compose.routing.RouteHandler
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.BrowseBody
 import it.vfsfitvnm.innertube.models.bodies.ContinuationBody
 import it.vfsfitvnm.innertube.requests.artistPage
 import it.vfsfitvnm.innertube.requests.itemsPage
 import it.vfsfitvnm.innertube.utils.from
-import it.vfsfitvnm.compose.routing.RouteHandler
 import it.vfsfitvnm.vimusic.Database
-import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Artist
@@ -256,6 +254,7 @@ fun ArtistScreen(browseId: String) {
                                     })
                                 },
                                 itemContent = { song ->
+
                                     downloadState = getDownloadState(song.asMediaItem.mediaId)
                                     val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
                                     SongItem(
@@ -274,6 +273,7 @@ fun ArtistScreen(browseId: String) {
                                                     )
                                                 )
                                             }
+
                                             manageDownload(
                                                 context = context,
                                                 songId = song.asMediaItem.mediaId,

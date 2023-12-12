@@ -35,6 +35,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -64,6 +65,7 @@ import it.vfsfitvnm.compose.reordering.reorder
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.UiType
+import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.ui.components.BottomSheet
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
@@ -233,13 +235,15 @@ fun Queue(
                         var deltaX by remember { mutableStateOf(0f) }
                         val isPlayingThisMediaItem = mediaItemIndex == window.firstPeriodIndex
                         val currentItem by rememberUpdatedState(window)
+                        val isLocal by remember { derivedStateOf { window.mediaItem.isLocal } }
                         downloadState = getDownloadState(window.mediaItem.mediaId)
-                        val isDownloaded = downloadedStateMedia(window.mediaItem.mediaId)
+                        val isDownloaded = if (!isLocal) downloadedStateMedia(window.mediaItem.mediaId) else true
                         SongItem(
                             song = window.mediaItem,
                             isDownloaded = isDownloaded,
                             onDownloadClick = {
                                 binder?.cache?.removeResource(window.mediaItem.mediaId)
+                                if (!isLocal)
                                 manageDownload(
                                     context = context,
                                     songId = window.mediaItem.mediaId,

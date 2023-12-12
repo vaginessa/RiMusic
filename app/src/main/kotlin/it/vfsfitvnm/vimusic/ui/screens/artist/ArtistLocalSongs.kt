@@ -27,7 +27,6 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.vimusic.Database
-import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
@@ -155,6 +154,7 @@ fun ArtistLocalSongs(
                         items = songs,
                         key = { _, song -> song.id }
                     ) { index, song ->
+
                         downloadState = getDownloadState(song.asMediaItem.mediaId)
                         val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
                         SongItem(
@@ -173,6 +173,7 @@ fun ArtistLocalSongs(
                                         )
                                     )
                                 }
+
                                 manageDownload(
                                     context = context,
                                     songId = song.id,

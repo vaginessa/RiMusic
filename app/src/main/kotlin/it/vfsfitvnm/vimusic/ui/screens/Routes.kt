@@ -22,6 +22,7 @@ import it.vfsfitvnm.vimusic.ui.screens.artist.ArtistScreen
 import it.vfsfitvnm.vimusic.ui.screens.home.HomeScreen
 import it.vfsfitvnm.vimusic.ui.screens.playlist.PlaylistScreen
 import it.vfsfitvnm.vimusic.ui.screens.home.QuickPicks
+import it.vfsfitvnm.vimusic.ui.screens.localplaylist.LocalPlaylistScreen
 import it.vfsfitvnm.vimusic.ui.screens.mood.MoodScreen
 import it.vfsfitvnm.vimusic.ui.screens.ondevice.DeviceListSongs
 import it.vfsfitvnm.vimusic.ui.screens.ondevice.DeviceListSongsScreen
@@ -69,6 +70,14 @@ inline fun RouteHandlerScope.globalRoutes() {
         )
     }
  */
+
+    localPlaylistRoute { playlistId ->
+        LocalPlaylistScreen(
+            playlistId = playlistId ?: error("playlistId cannot be null")
+        )
+    }
+
+
     playlistRoute { browseId, params ->
         PlaylistScreen(
             browseId = browseId ?: error("browseId cannot be null"),

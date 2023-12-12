@@ -1,7 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.statistics
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -29,23 +28,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
-import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.compose.persist.persistList
-import it.vfsfitvnm.innertube.Innertube
-import it.vfsfitvnm.innertube.models.bodies.BrowseBody
-import it.vfsfitvnm.innertube.requests.albumPage
-import it.vfsfitvnm.innertube.requests.artistPage
 import it.vfsfitvnm.vimusic.Database
-import it.vfsfitvnm.vimusic.LocalDownloader
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
@@ -54,9 +46,7 @@ import it.vfsfitvnm.vimusic.models.Album
 import it.vfsfitvnm.vimusic.models.Artist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.Song
-import it.vfsfitvnm.vimusic.models.SongAlbumMap
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
-import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.items.AlbumItem
@@ -65,33 +55,27 @@ import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
-import it.vfsfitvnm.vimusic.ui.screens.playlistRoute
+import it.vfsfitvnm.vimusic.ui.screens.localPlaylistRoute
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
 import it.vfsfitvnm.vimusic.utils.UpdateYoutubeAlbum
 import it.vfsfitvnm.vimusic.utils.UpdateYoutubeArtist
-import it.vfsfitvnm.vimusic.utils.artistScreenTabIndexKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
-import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@ExperimentalComposeUiApi
 @UnstableApi
 @Composable
 fun StatisticsPage(
@@ -99,7 +83,8 @@ fun StatisticsPage(
 ) {
     val onGoToArtist = artistRoute::global
     val onGoToAlbum = albumRoute::global
-    val onGoToPlaylist = playlistRoute::global
+    //val onGoToPlaylist = playlistRoute::global
+    val onGoToPlaylist = localPlaylistRoute::global
 
     val (colorPalette, typography) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
@@ -176,6 +161,7 @@ fun StatisticsPage(
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
+
 
     BoxWithConstraints {
         val quickPicksLazyGridItemWidthFactor = if (isLandscape && maxWidth * 0.475f >= 320.dp) {
@@ -366,6 +352,7 @@ fun StatisticsPage(
                 items(
                     count = playlists.count()
                 ) {
+
                     PlaylistItem(
                         playlist = playlists[it],
                         thumbnailSizePx = playlistThumbnailSizePx,
@@ -373,12 +360,13 @@ fun StatisticsPage(
                         alternative = true,
                         modifier = Modifier
                             .clickable(onClick = {
-                                if (playlists[it].playlist.browseId != "" )
-                                    //onGoToPlaylist(playlists[it].playlist.browseId)
-                                    onGoToPlaylist(
-                                        playlists[it].playlist.browseId,
-                                        null
-                                    )
+
+                               // if (playlists[it].playlist.browseId != "" )
+                                    onGoToPlaylist(playlists[it].playlist.id)
+                                 //   onGoToPlaylist(
+                                 //       playlists[it].playlist.browseId,
+                                 //       null
+                                 //   )
 
                             })
                     )

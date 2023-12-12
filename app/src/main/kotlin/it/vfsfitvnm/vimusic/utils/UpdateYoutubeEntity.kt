@@ -1,6 +1,5 @@
 package it.vfsfitvnm.vimusic.utils
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,10 +26,9 @@ import kotlinx.coroutines.withContext
 @Composable
 fun UpdateYoutubeArtist(browseId: String) {
 
-    Log.d("mediaItemArtistPage","è null")
     var artistPage by persist<Innertube.ArtistPage?>("artist/$browseId/artistPage")
     var artist by persist<Artist?>("artist/$browseId/artist")
-    var tabIndex by rememberPreference(artistScreenTabIndexKey, defaultValue = 0)
+    val tabIndex by rememberPreference(artistScreenTabIndexKey, defaultValue = 0)
 
     LaunchedEffect(browseId) {
         Database
@@ -66,10 +64,9 @@ fun UpdateYoutubeArtist(browseId: String) {
 @UnstableApi
 @Composable
 fun UpdateYoutubeAlbum (browseId: String) {
-    Log.d("mediaItemAlbumPage","è null")
     var album by persist<Album?>("album/$browseId/album")
     var albumPage by persist<Innertube.PlaylistOrAlbumPage?>("album/$browseId/albumPage")
-    var tabIndex by rememberSaveable {mutableStateOf(0)}
+    val tabIndex by rememberSaveable {mutableStateOf(0)}
     LaunchedEffect(browseId) {
         Database
             .album(browseId)

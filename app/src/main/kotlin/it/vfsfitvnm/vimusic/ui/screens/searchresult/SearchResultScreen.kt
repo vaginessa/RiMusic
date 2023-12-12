@@ -1,11 +1,13 @@
 package it.vfsfitvnm.vimusic.ui.screens.searchresult
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,6 +35,7 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
@@ -61,6 +64,7 @@ import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.searchResultScreenTabIndexKey
 
+@SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
@@ -141,8 +145,9 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
                                 emptyItemsText = emptyItemsText,
                                 headerContent = headerContent,
                                 itemContent = { song ->
+                                    val isLocal by remember { derivedStateOf { song.asMediaItem.isLocal } }
                                     downloadState = getDownloadState(song.asMediaItem.mediaId)
-                                    val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
+                                    val isDownloaded = if (!isLocal) downloadedStateMedia(song.asMediaItem.mediaId) else true
                                     SongItem(
                                         song = song,
                                         isDownloaded = isDownloaded,
@@ -159,6 +164,8 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
                                                     )
                                                 )
                                             }
+
+                                            if (!isLocal)
                                             manageDownload(
                                                 context = context,
                                                 songId = song.asMediaItem.mediaId,
