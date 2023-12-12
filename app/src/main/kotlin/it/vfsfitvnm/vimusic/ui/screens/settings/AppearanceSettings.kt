@@ -51,10 +51,8 @@ import it.vfsfitvnm.vimusic.utils.useSystemFontKey
 @Composable
 fun AppearanceSettings() {
     val (colorPalette) = LocalAppearance.current
-    val context = LocalContext.current
     var languageApp  by rememberPreference(languageAppKey, Languages.English)
     val systemLocale = LocaleListCompat.getDefault().get(0).toString()
-    //if (languageApp.code != systemLocale)
         languageApp.code = systemLocale
 
     //Log.d("LanguageSystem",systemLocale.toString() +"  "+ languageApp.name)

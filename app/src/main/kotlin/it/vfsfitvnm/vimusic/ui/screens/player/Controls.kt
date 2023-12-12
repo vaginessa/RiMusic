@@ -528,7 +528,7 @@ fun Controls(
                 if (uiType == UiType.RiMusic)
                 Image(
                     painter = painterResource(R.drawable.a13shape),
-                    colorFilter = ColorFilter.tint(colorPalette.accent),
+                    colorFilter = ColorFilter.tint(colorPalette.background3),
                     modifier = Modifier.fillMaxSize()
                         .rotate(rotationAngle),
                     contentDescription = "Background Image",
