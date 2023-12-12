@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -49,6 +50,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -519,16 +521,26 @@ fun Controls(
                         }
                         if (effectRotationEnabled) isRotated = !isRotated
                     }
-                    .background(colorPalette.background3)
+                    .background(if (uiType != UiType.RiMusic) colorPalette.background3 else colorPalette.background0)
                     .width(if (uiType != UiType.RiMusic) 60.dp else 120.dp)
-                    .height(if (uiType != UiType.RiMusic) 60.dp else 80.dp)
+                    .height(if (uiType != UiType.RiMusic) 60.dp else 120.dp)
             ) {
+                if (uiType == UiType.RiMusic)
+                Image(
+                    painter = painterResource(R.drawable.a13shape),
+                    colorFilter = ColorFilter.tint(colorPalette.accent),
+                    modifier = Modifier.fillMaxSize()
+                        .rotate(rotationAngle),
+                    contentDescription = "Background Image",
+                    contentScale = ContentScale.Crop
+                )
+
                 Image(
                     painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(colorPalette.iconButtonPlayer),
                     modifier = Modifier
-                        .rotate(rotationAngle)
+
                         .align(Alignment.Center)
                         .size(26.dp)
                 )
