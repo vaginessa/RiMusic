@@ -83,6 +83,9 @@ import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.positionAndDurationState
+import it.vfsfitvnm.vimusic.utils.playlistSortByKey
+import it.vfsfitvnm.vimusic.utils.playlistSortOrderKey
+import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import kotlinx.coroutines.Dispatchers
@@ -374,8 +377,10 @@ fun MediaItemMenu(
         }
     ) { currentIsViewingPlaylists ->
         if (currentIsViewingPlaylists) {
+            val sortBy by rememberPreference(playlistSortByKey, PlaylistSortBy.DateAdded)
+            val sortOrder by rememberPreference(playlistSortOrderKey, SortOrder.Descending)
             val playlistPreviews by remember {
-                Database.playlistPreviews(PlaylistSortBy.DateAdded, SortOrder.Descending)
+                Database.playlistPreviews(sortBy, sortOrder)
             }.collectAsState(initial = emptyList(), context = Dispatchers.IO)
 
             var isCreatingNewPlaylist by rememberSaveable {
