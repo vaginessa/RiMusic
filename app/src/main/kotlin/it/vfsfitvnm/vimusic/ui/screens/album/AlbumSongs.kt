@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.ui.screens.album
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -18,6 +19,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
@@ -34,16 +37,22 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
+import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.UiType
+import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.models.SongPlaylistMap
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.isLocal
+import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.items.SongItemPlaceholder
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -61,6 +70,8 @@ import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
 
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalAnimationApi
@@ -81,6 +92,14 @@ fun AlbumSongs(
 
     LaunchedEffect(Unit) {
         Database.albumSongs(browseId).collect { songs = it }
+    }
+
+    val playlistPreviews by remember {
+        Database.playlistPreviews(PlaylistSortBy.Name, SortOrder.Ascending)
+    }.collectAsState(initial = emptyList(), context = Dispatchers.IO)
+
+    var showPlaylistSelectDialog by remember {
+        mutableStateOf(false)
     }
 
     val thumbnailSizeDp = Dimensions.thumbnails.song
@@ -128,6 +147,38 @@ fun AlbumSongs(
                                 }
                             )
 
+                            HeaderIconButton(
+                                icon = R.drawable.add,
+                                enabled = songs.isNotEmpty(),
+                                color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
+                                onClick = {
+                                    showPlaylistSelectDialog = true
+                                }
+                            )
+
+                            if (showPlaylistSelectDialog)
+                                SelectorDialog(
+                                    title = stringResource(R.string.playlists),
+                                    onDismiss = { showPlaylistSelectDialog = false },
+                                    values = playlistPreviews.map {
+                                             Info(it.playlist.id.toString(),"${it.playlist.name} (${it.songCount})")
+                                    },
+                                    onValueSelected = {
+                                        songs.forEach {song ->
+                                            transaction {
+                                                Database.insert(song.asMediaItem)
+                                                Database.insert(
+                                                    SongPlaylistMap(
+                                                        songId = song.asMediaItem.mediaId,
+                                                        playlistId = it.toLong(),
+                                                        position = 0
+                                                    )
+                                                )
+                                            }
+                                        }
+                                        showPlaylistSelectDialog = false
+                                    }
+                                )
 
                         }
 
