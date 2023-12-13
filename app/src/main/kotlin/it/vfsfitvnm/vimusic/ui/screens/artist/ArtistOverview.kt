@@ -128,6 +128,54 @@ fun ArtistOverview(
                         .padding(endPaddingValues)
                 ) {
                     headerContent {
+
+                        HeaderIconButton(
+                            icon = R.drawable.downloaded,
+                            color = colorPalette.text,
+                            onClick = {
+                                downloadState = Download.STATE_DOWNLOADING
+                                if (youtubeArtistPage?.songs?.isNotEmpty() == true)
+                                    youtubeArtistPage.songs?.forEach {
+                                        binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                        query {
+                                            Database.insert(
+                                                Song(
+                                                    id = it.asMediaItem.mediaId,
+                                                    title = it.asMediaItem.mediaMetadata.title.toString(),
+                                                    artistsText = it.asMediaItem.mediaMetadata.artist.toString(),
+                                                    thumbnailUrl = it.thumbnail?.url,
+                                                    durationText = null
+                                                )
+                                            )
+                                        }
+                                        manageDownload(
+                                            context = context,
+                                            songId = it.asMediaItem.mediaId,
+                                            songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                            downloadState = false
+                                        )
+                                    }
+                            }
+                        )
+
+                        HeaderIconButton(
+                            icon = R.drawable.download,
+                            color = colorPalette.text,
+                            onClick = {
+                                downloadState = Download.STATE_DOWNLOADING
+                                if (youtubeArtistPage?.songs?.isNotEmpty() == true)
+                                    youtubeArtistPage.songs?.forEach {
+                                        binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                        manageDownload(
+                                            context = context,
+                                            songId = it.asMediaItem.mediaId,
+                                            songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                            downloadState = true
+                                        )
+                                    }
+                            }
+                        )
+
                         youtubeArtistPage?.shuffleEndpoint?.let { endpoint ->
                             HeaderIconButton(
                                 icon = R.drawable.shuffle,

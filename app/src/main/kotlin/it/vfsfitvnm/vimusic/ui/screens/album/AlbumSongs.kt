@@ -1,7 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.album
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -71,7 +70,6 @@ import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.map
 
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalAnimationApi
@@ -127,6 +125,54 @@ fun AlbumSongs(
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         headerContent {
+
+                            HeaderIconButton(
+                                icon = R.drawable.downloaded,
+                                color = colorPalette.text,
+                                onClick = {
+                                    downloadState = Download.STATE_DOWNLOADING
+                                    if (songs.isNotEmpty() == true)
+                                        songs.forEach {
+                                            binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                            query {
+                                                Database.insert(
+                                                    Song(
+                                                        id = it.asMediaItem.mediaId,
+                                                        title = it.asMediaItem.mediaMetadata.title.toString(),
+                                                        artistsText = it.asMediaItem.mediaMetadata.artist.toString(),
+                                                        thumbnailUrl = it.thumbnailUrl,
+                                                        durationText = null
+                                                    )
+                                                )
+                                            }
+                                            manageDownload(
+                                                context = context,
+                                                songId = it.asMediaItem.mediaId,
+                                                songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                                downloadState = false
+                                            )
+                                        }
+                                }
+                            )
+
+                            HeaderIconButton(
+                                icon = R.drawable.download,
+                                color = colorPalette.text,
+                                onClick = {
+                                    downloadState = Download.STATE_DOWNLOADING
+                                    if (songs.isNotEmpty() == true)
+                                        songs.forEach {
+                                            binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                            manageDownload(
+                                                context = context,
+                                                songId = it.asMediaItem.mediaId,
+                                                songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                                downloadState = true
+                                            )
+                                        }
+                                }
+                            )
+
                             HeaderIconButton(
                                 icon = R.drawable.enqueue,
                                 enabled = songs.isNotEmpty(),

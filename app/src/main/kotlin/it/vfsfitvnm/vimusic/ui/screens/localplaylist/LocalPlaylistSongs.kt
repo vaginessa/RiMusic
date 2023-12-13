@@ -10,12 +10,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -45,6 +47,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
@@ -75,8 +78,9 @@ import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
-import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.InPlaylistMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.Menu
@@ -116,7 +120,7 @@ fun LocalPlaylistSongs(
     playlistId: Long,
     onDelete: () -> Unit,
 ) {
-    val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
+    val (colorPalette, typography) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
     val menuState = LocalMenuState.current
     val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
@@ -225,93 +229,89 @@ fun LocalPlaylistSongs(
                 key = "header",
                 contentType = 0
             ) {
-                Header(
-                    title = playlistWithSongs?.playlist?.name ?: "Unknown",
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .padding(bottom = 8.dp)
+                        .fillMaxWidth()
+                ) {
+                    HeaderWithIcon(
+                        title = playlistWithSongs?.playlist?.name ?: "Unknown",
+                        iconId = R.drawable.playlist,
+                        enabled = true,
+                        showIcon = true,
+                        modifier = Modifier
+                            .padding(bottom = 8.dp),
+                        onClick = {}
+                    ) //{
+
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
                 ) {
 
-                    /*        */
-                    Row (
-                        horizontalArrangement = Arrangement.spacedBy(10.dp),
-                        verticalAlignment = Alignment.Bottom,
-                        modifier = Modifier
-                            //.requiredHeight(30.dp)
-                            .padding(all = 10.dp)
-                            .fillMaxHeight()
-                    ) {
-                        var searching by rememberSaveable { mutableStateOf(false) }
-
-                        if (searching) {
-                            val focusRequester = remember { FocusRequester() }
-                            val focusManager = LocalFocusManager.current
-                            val keyboardController = LocalSoftwareKeyboardController.current
-
-                            LaunchedEffect(searching) {
-                                focusRequester.requestFocus()
-                            }
-
-                            BasicTextField(
-                                value = filter ?: "",
-                                onValueChange = { filter = it },
-                                textStyle = typography.xs.semiBold,
-                                singleLine = true,
-                                maxLines = 1,
-                                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                                keyboardActions = KeyboardActions(onDone = {
-                                    if (filter.isNullOrBlank()) filter = ""
-                                    focusManager.clearFocus()
-                                }),
-                                cursorBrush = SolidColor(colorPalette.text),
-                                decorationBox = { innerTextField ->
-                                    Box(
-                                        contentAlignment = Alignment.CenterStart,
-                                        modifier = Modifier.weight(1f)
-                                    ) {
-                                        androidx.compose.animation.AnimatedVisibility(
-                                            visible = filter?.isEmpty() ?: true,
-                                            enter = fadeIn(tween(100)),
-                                            exit = fadeOut(tween(100)),
-                                        ) {
-                                            BasicText(
-                                                text = stringResource(R.string.search),
-                                                maxLines = 1,
-                                                overflow = TextOverflow.Ellipsis,
-                                                style = typography.xs.semiBold.secondary.copy(color = colorPalette.textDisabled)
-                                            )
-                                        }
-
-                                        innerTextField()
-                                    }
-                                },
-                                modifier = Modifier
-                                    .focusRequester(focusRequester)
-                                    .onFocusChanged {
-                                        if (!it.hasFocus) {
-                                            keyboardController?.hide()
-                                            if (filter?.isBlank() == true) {
-                                                filter = null
-                                                searching = false
-                                            }
-                                        }
-                                    }
-                            )
-                        } else {
-                            HeaderIconButton(
-                                onClick = { searching = true },
-                                icon = R.drawable.search_circle,
-                                color = colorPalette.text,
-                                iconSize = 24.dp
-                            )
-                        }
-                    }
-                    /*        */
-
+                    HeaderInfo(
+                        title = "${playlistWithSongs?.songs?.size}",
+                        icon = painterResource(R.drawable.musical_notes),
+                        spacer = 0
+                    )
 
                     Spacer(
                         modifier = Modifier
                             .weight(1f)
                     )
+
+                    HeaderIconButton(
+                        icon = R.drawable.downloaded,
+                        color = colorPalette.text,
+                        onClick = {
+                            downloadState = Download.STATE_DOWNLOADING
+                            if (playlistWithSongs?.songs?.isNotEmpty() == true)
+                                playlistWithSongs?.songs?.forEach {
+                                    binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                    query {
+                                        Database.insert(
+                                            Song(
+                                                id = it.asMediaItem.mediaId,
+                                                title = it.asMediaItem.mediaMetadata.title.toString(),
+                                                artistsText = it.asMediaItem.mediaMetadata.artist.toString(),
+                                                thumbnailUrl = it.thumbnailUrl,
+                                                durationText = null
+                                            )
+                                        )
+                                    }
+                                    manageDownload(
+                                        context = context,
+                                        songId = it.asMediaItem.mediaId,
+                                        songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                        downloadState = false
+                                    )
+                                }
+                        }
+                    )
+
+                    HeaderIconButton(
+                        icon = R.drawable.download,
+                        color = colorPalette.text,
+                        onClick = {
+                            downloadState = Download.STATE_DOWNLOADING
+                            if (playlistWithSongs?.songs?.isNotEmpty() == true)
+                                playlistWithSongs?.songs?.forEach {
+                                    binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                    manageDownload(
+                                        context = context,
+                                        songId = it.asMediaItem.mediaId,
+                                        songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                        downloadState = true
+                                    )
+                                }
+                        }
+                    )
+
 
                     HeaderIconButton(
                         icon = R.drawable.enqueue,
@@ -365,7 +365,11 @@ fun LocalPlaylistSongs(
                                                 transaction {
                                                     runBlocking(Dispatchers.IO) {
                                                         withContext(Dispatchers.IO) {
-                                                            Innertube.playlistPage(BrowseBody(browseId = browseId))
+                                                            Innertube.playlistPage(
+                                                                BrowseBody(
+                                                                    browseId = browseId
+                                                                )
+                                                            )
                                                                 ?.completed()
                                                         }
                                                     }?.getOrNull()?.let { remotePlaylist ->
@@ -412,21 +416,39 @@ fun LocalPlaylistSongs(
                                         onClick = {
                                             menuState.hide()
                                             binder?.player?.pause()
-                                            uriHandler.openUri("https://youtube.com/playlist?list=${playlistWithSongs?.playlist?.browseId?.removePrefix("VL")}")
+                                            uriHandler.openUri(
+                                                "https://youtube.com/playlist?list=${
+                                                    playlistWithSongs?.playlist?.browseId?.removePrefix(
+                                                        "VL"
+                                                    )
+                                                }"
+                                            )
                                         }
                                     )
 
-                                    val ytNonInstalled = stringResource(R.string.it_seems_that_youtube_music_is_not_installed)
+                                    val ytNonInstalled =
+                                        stringResource(R.string.it_seems_that_youtube_music_is_not_installed)
                                     MenuEntry(
                                         icon = R.drawable.musical_notes,
                                         text = stringResource(R.string.listen_on_youtube_music),
                                         onClick = {
                                             menuState.hide()
                                             binder?.player?.pause()
-                                            if (!launchYouTubeMusic(context, "playlist?list=${playlistWithSongs?.playlist?.browseId?.removePrefix("VL")}"))
+                                            if (!launchYouTubeMusic(
+                                                    context,
+                                                    "playlist?list=${
+                                                        playlistWithSongs?.playlist?.browseId?.removePrefix(
+                                                            "VL"
+                                                        )
+                                                    }"
+                                                )
+                                            )
                                                 context.toast(ytNonInstalled)
 
-                                            Log.d("mediaItem",playlistWithSongs?.playlist?.browseId.toString())
+                                            Log.d(
+                                                "mediaItem",
+                                                playlistWithSongs?.playlist?.browseId.toString()
+                                            )
                                         }
                                     )
 
@@ -434,7 +456,86 @@ fun LocalPlaylistSongs(
                             }
                         }
                     )
+                    //}
                 }
+
+                /*        */
+                Row (
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.Bottom,
+                    modifier = Modifier
+                        //.requiredHeight(30.dp)
+                        .padding(all = 10.dp)
+                        .fillMaxHeight()
+                ) {
+                    var searching by rememberSaveable { mutableStateOf(false) }
+
+                    if (searching) {
+                        val focusRequester = remember { FocusRequester() }
+                        val focusManager = LocalFocusManager.current
+                        val keyboardController = LocalSoftwareKeyboardController.current
+
+                        LaunchedEffect(searching) {
+                            focusRequester.requestFocus()
+                        }
+
+                        BasicTextField(
+                            value = filter ?: "",
+                            onValueChange = { filter = it },
+                            textStyle = typography.xs.semiBold,
+                            singleLine = true,
+                            maxLines = 1,
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(onDone = {
+                                if (filter.isNullOrBlank()) filter = ""
+                                focusManager.clearFocus()
+                            }),
+                            cursorBrush = SolidColor(colorPalette.text),
+                            decorationBox = { innerTextField ->
+                                Box(
+                                    contentAlignment = Alignment.CenterStart,
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    androidx.compose.animation.AnimatedVisibility(
+                                        visible = filter?.isEmpty() ?: true,
+                                        enter = fadeIn(tween(100)),
+                                        exit = fadeOut(tween(100)),
+                                    ) {
+                                        BasicText(
+                                            text = stringResource(R.string.search),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                            style = typography.xs.semiBold.secondary.copy(color = colorPalette.textDisabled)
+                                        )
+                                    }
+
+                                    innerTextField()
+                                }
+                            },
+                            modifier = Modifier
+                                .focusRequester(focusRequester)
+                                .onFocusChanged {
+                                    if (!it.hasFocus) {
+                                        keyboardController?.hide()
+                                        if (filter?.isBlank() == true) {
+                                            filter = null
+                                            searching = false
+                                        }
+                                    }
+                                }
+                        )
+                    } else {
+                        HeaderIconButton(
+                            onClick = { searching = true },
+                            icon = R.drawable.search_circle,
+                            color = colorPalette.text,
+                            iconSize = 24.dp
+                        )
+                    }
+                }
+                /*        */
+
+
             }
 
             itemsIndexed(
