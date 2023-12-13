@@ -522,8 +522,8 @@ fun Controls(
                         if (effectRotationEnabled) isRotated = !isRotated
                     }
                     .background(if (uiType != UiType.RiMusic) colorPalette.background3 else colorPalette.background0)
-                    .width(if (uiType != UiType.RiMusic) 60.dp else 120.dp)
-                    .height(if (uiType != UiType.RiMusic) 60.dp else 120.dp)
+                    .width(if (uiType != UiType.RiMusic) 60.dp else 90.dp)
+                    .height(if (uiType != UiType.RiMusic) 60.dp else 90.dp)
             ) {
                 if (uiType == UiType.RiMusic)
                 Image(
@@ -532,7 +532,7 @@ fun Controls(
                     modifier = Modifier.fillMaxSize()
                         .rotate(rotationAngle),
                     contentDescription = "Background Image",
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Fit
                 )
 
                 Image(
