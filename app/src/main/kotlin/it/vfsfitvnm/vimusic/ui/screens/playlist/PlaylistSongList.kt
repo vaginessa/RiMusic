@@ -334,6 +334,8 @@ fun PlaylistSongList(
                     }
                 )
 
+
+
                 HeaderIconButton(
                     icon = R.drawable.enqueue,
                     enabled = playlistPage?.songsPage?.items?.isNotEmpty() == true,
@@ -341,6 +343,23 @@ fun PlaylistSongList(
                     onClick = {
                         playlistPage?.songsPage?.items?.map(Innertube.SongItem::asMediaItem)?.let { mediaItems ->
                             binder?.player?.enqueue(mediaItems)
+                        }
+                    }
+                )
+
+                HeaderIconButton(
+                    icon = R.drawable.shuffle,
+                    enabled = playlistPage?.songsPage?.items?.isNotEmpty() == true,
+                    color = if (playlistPage?.songsPage?.items?.isNotEmpty() ==true) colorPalette.text else colorPalette.textDisabled,
+                    onClick = {
+                        if (playlistPage?.songsPage?.items?.isNotEmpty() == true) {
+                            binder?.stopRadio()
+                            playlistPage?.songsPage?.items?.shuffled()?.map(Innertube.SongItem::asMediaItem)
+                                ?.let {
+                                    binder?.player?.forcePlayFromBeginning(
+                                        it
+                                    )
+                                }
                         }
                     }
                 )
