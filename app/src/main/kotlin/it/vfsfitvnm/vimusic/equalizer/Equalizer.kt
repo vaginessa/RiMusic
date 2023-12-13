@@ -238,7 +238,7 @@ fun ContentType(
     visualizerData: MutableState<VisualizerData>
 ) {
 
-    val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
+    val (colorPalette,) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
 
     VisualizerComputer.setupPermissions( LocalContext.current as Activity )
@@ -252,7 +252,8 @@ fun ContentType(
     }
 
         val someColors =
-            listOf(Color.Blue, Color.Green, Color.Yellow, Color.Magenta, Color.Red, Color.Cyan)
+            //listOf(Color.Blue, Color.Green, Color.Yellow, Color.Magenta, Color.Red, Color.Cyan)
+            listOf(colorPalette.text, colorPalette.textDisabled, colorPalette.textSecondary)
 
 
         if (visualizerType == PlayerVisualizerType.Fancy)
@@ -275,7 +276,7 @@ fun ContentType(
                         .aspectRatio(1f)
                         .background(colorPalette.overlay),
                     data = visualizerData.value,
-                    barCount = 48,
+                    barCount = 16,
                     maxStackCount = 16
                 )
 
@@ -289,7 +290,7 @@ fun ContentType(
                         .padding(vertical = 4.dp)
                         .background(colorPalette.overlay),
                     data = visualizerData.value,
-                    barCount = 64
+                    barCount = 16
                 )
 
 
@@ -303,7 +304,7 @@ fun ContentType(
                         .background(colorPalette.overlay),
                     barModifier = { i, m -> m.background(someColors[i % someColors.size]) },
                     data = visualizerData.value,
-                    barCount = 64
+                    barCount = 16
                 )
 
 
@@ -320,6 +321,8 @@ fun ContentType(
                     fillBrush = Brush.linearGradient(
                         start = Offset.Zero,
                         end = Offset.Infinite,
+                        colors = someColors.repeat(3)
+                        /*
                         colors = listOf(
                             Color.Red,
                             Color.Yellow,
@@ -328,6 +331,8 @@ fun ContentType(
                             Color.Blue,
                             Color.Magenta,
                         ).repeat(3)
+
+                         */
                     )
                 )
 
@@ -341,11 +346,11 @@ fun ContentType(
                         .padding(vertical = 4.dp)
                         .background(colorPalette.overlay),
                     data = visualizerData.value,
-                    segmentCount = 128,
+                    segmentCount = 64,
                     fillBrush = Brush.linearGradient(
                         start = Offset.Zero,
                         end = Offset(0f, Float.POSITIVE_INFINITY),
-                        colors = listOf(Color.White, Color.Red, Color.White)
+                        colors =  someColors //listOf(Color.White, Color.Red, Color.White)
                     )
                 )
 
@@ -358,14 +363,18 @@ fun ContentType(
                         .padding(vertical = 4.dp)
                         .background(colorPalette.overlay),
                     data = visualizerData.value,
-                    segmentCount = 128,
+                    segmentCount = 64,
                     fillBrush = Brush.radialGradient(
+                        someColors
+                        /*
                         listOf(
                             Color.Red,
                             Color.Red,
                             Color.Yellow,
                             Color.Green
                         )
+
+                         */
                     )
                 )
 
