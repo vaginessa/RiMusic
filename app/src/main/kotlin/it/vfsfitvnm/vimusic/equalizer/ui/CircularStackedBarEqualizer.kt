@@ -62,6 +62,7 @@ fun CircularStackedBarEqualizer(
             defaultHeight = viewportHeight.dp,
             viewportWidth = viewportWidth,
             viewportHeight = viewportHeight,
+            autoMirror = false
         ) { vw, vh ->
             Path(
                 fill = Brush.radialGradient(

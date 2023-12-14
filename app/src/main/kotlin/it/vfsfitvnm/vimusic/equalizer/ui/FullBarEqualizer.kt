@@ -28,7 +28,7 @@ fun FullBarEqualizer(
     Row(modifier.onSizeChanged { size = it }) {
         val widthDp = size.getWidthDp()
         val heightDp = size.getHeightDp()
-        val padding = 1.dp
+        //val padding = 1.dp
         val barWidthDp = widthDp / (barCount +2)
 
         data.resample(barCount).forEachIndexed { index, d ->

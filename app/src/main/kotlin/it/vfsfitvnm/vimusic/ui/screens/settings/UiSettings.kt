@@ -167,6 +167,8 @@ fun UiSettings() {
                 when (it) {
                     PlayerTimelineType.Default -> stringResource(R.string._default)
                     PlayerTimelineType.Wavy -> stringResource(R.string.wavy_timeline)
+                    PlayerTimelineType.BodiedBar -> "Bodied Bar"
+                    PlayerTimelineType.PinBar -> "Pin Bar"
                 }
             }
         )

@@ -40,6 +40,7 @@ fun DoubleSidedPathEqualizer(
             defaultHeight = viewportHeight.dp,
             viewportWidth = viewportWidth,
             viewportHeight = viewportHeight,
+            autoMirror = false
         ) { _, _ ->
             Path(
                 fill = fillBrush,

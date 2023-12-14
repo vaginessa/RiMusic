@@ -76,6 +76,7 @@ import it.vfsfitvnm.vimusic.models.ui.UiMedia
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.SeekBar
+import it.vfsfitvnm.vimusic.ui.components.SeekBarCustom
 import it.vfsfitvnm.vimusic.ui.components.SeekBarWaved
 import it.vfsfitvnm.vimusic.ui.components.themed.BaseMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
@@ -354,6 +355,30 @@ fun Controls(
                 .height(30.dp)
         )
 
+        if (playerTimelineType != PlayerTimelineType.Default && playerTimelineType != PlayerTimelineType.Wavy)
+            SeekBarCustom(
+                type = playerTimelineType,
+                value = scrubbingPosition ?: position,
+                minimumValue = 0,
+                maximumValue = duration,
+                onDragStart = {
+                    scrubbingPosition = it
+                },
+                onDrag = { delta ->
+                    scrubbingPosition = if (duration != C.TIME_UNSET) {
+                        scrubbingPosition?.plus(delta)?.coerceIn(0, duration)
+                    } else {
+                        null
+                    }
+                },
+                onDragEnd = {
+                    scrubbingPosition?.let(binder.player::seekTo)
+                    scrubbingPosition = null
+                },
+                color = colorPalette.collapsedPlayerProgressBar,
+                backgroundColor = colorPalette.textSecondary,
+                shape = RoundedCornerShape(8.dp),
+            )
 
         if (playerTimelineType == PlayerTimelineType.Default)
         SeekBar(
@@ -376,8 +401,9 @@ fun Controls(
             },
             color = colorPalette.collapsedPlayerProgressBar,
             backgroundColor = colorPalette.textSecondary,
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(8.dp),
         )
+
 
 
 

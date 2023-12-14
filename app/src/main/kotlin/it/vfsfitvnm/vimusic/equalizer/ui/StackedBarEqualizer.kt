@@ -51,6 +51,7 @@ fun StackedBarEqualizer(
             defaultHeight = viewportHeight.dp,
             viewportWidth = viewportWidth,
             viewportHeight = viewportHeight,
+            autoMirror = false
         ) { vw, vh ->
             Path(
                 fill = Brush.linearGradient(
