@@ -39,6 +39,10 @@ import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
+import it.vfsfitvnm.vimusic.utils.lastPlayerPlayButtonTypeKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerThumbnailSizeKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerTimelineTypeKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
 import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
@@ -83,6 +87,11 @@ fun PlayerSettings() {
     var playerPlayButtonType by rememberPreference(playerPlayButtonTypeKey, PlayerPlayButtonType.Rectangular)
     var uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
 
+    var lastPlayerVisualizerType by rememberPreference(lastPlayerVisualizerTypeKey, PlayerVisualizerType.Disabled)
+    var lastPlayerTimelineType by rememberPreference(lastPlayerTimelineTypeKey, PlayerTimelineType.Default)
+    var lastPlayerThumbnailSize by rememberPreference(lastPlayerThumbnailSizeKey, PlayerThumbnailSize.Medium)
+    var lastPlayerPlayButtonType by rememberPreference(lastPlayerPlayButtonTypeKey, PlayerPlayButtonType.Rectangular)
+
     val activityResultLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
 
@@ -111,7 +120,10 @@ fun PlayerSettings() {
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.player_thumbnail_size),
             selectedValue = playerThumbnailSize,
-            onValueSelected = { playerThumbnailSize = it },
+            onValueSelected = {
+                playerThumbnailSize = it
+                lastPlayerThumbnailSize = it
+            },
             valueText = {
                 when (it) {
                     PlayerThumbnailSize.Small -> stringResource(R.string.small)
@@ -125,7 +137,10 @@ fun PlayerSettings() {
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.visualizer),
             selectedValue = playerVisualizerType,
-            onValueSelected = { playerVisualizerType = it },
+            onValueSelected = {
+                playerVisualizerType = it
+                lastPlayerVisualizerType = it
+            },
             valueText = {
                 when (it) {
                     PlayerVisualizerType.Fancy -> stringResource(R.string.vt_fancy)
@@ -152,7 +167,10 @@ SwitchSettingEntry(
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.timeline),
             selectedValue = playerTimelineType,
-            onValueSelected = { playerTimelineType = it },
+            onValueSelected = {
+                playerTimelineType = it
+                lastPlayerTimelineType = it
+            },
             valueText = {
                 when (it) {
                     PlayerTimelineType.Default -> stringResource(R.string._default)
@@ -166,7 +184,10 @@ SwitchSettingEntry(
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.play_button),
             selectedValue = playerPlayButtonType,
-            onValueSelected = { playerPlayButtonType = it },
+            onValueSelected = {
+                playerPlayButtonType = it
+                lastPlayerPlayButtonType = it
+            },
             valueText = {
                 when (it) {
                     PlayerPlayButtonType.Default -> stringResource(R.string._default)

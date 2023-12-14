@@ -29,6 +29,7 @@ import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.NavigationTab
+import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
 import it.vfsfitvnm.vimusic.enums.PlayerVisualizerType
@@ -49,6 +50,11 @@ import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid13
 import it.vfsfitvnm.vimusic.utils.isShowingThumbnailInLockscreenKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerPlayButtonTypeKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerThumbnailSizeKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerTimelineTypeKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerVisualizerTypeKey
+import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.playerTimelineTypeKey
 import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
@@ -69,7 +75,12 @@ fun UiSettings() {
     var playerVisualizerType by rememberPreference(playerVisualizerTypeKey, PlayerVisualizerType.Disabled)
     var playerTimelineType by rememberPreference(playerTimelineTypeKey, PlayerTimelineType.Default)
     var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
+    var playerPlayButtonType by rememberPreference(playerPlayButtonTypeKey, PlayerPlayButtonType.Rectangular)
 
+    var lastPlayerVisualizerType by rememberPreference(lastPlayerVisualizerTypeKey, PlayerVisualizerType.Disabled)
+    var lastPlayerTimelineType by rememberPreference(lastPlayerTimelineTypeKey, PlayerTimelineType.Default)
+    var lastPlayerThumbnailSize by rememberPreference(lastPlayerThumbnailSizeKey, PlayerThumbnailSize.Medium)
+    var lastPlayerPlayButtonType by rememberPreference(lastPlayerPlayButtonTypeKey, PlayerPlayButtonType.Rectangular)
 
     Column(
         modifier = Modifier
@@ -107,9 +118,10 @@ fun UiSettings() {
                 } else {
                     disablePlayerHorizontalSwipe = false
                     disableIconButtonOnTop = false
-                    playerTimelineType = PlayerTimelineType.Wavy
-                    playerVisualizerType = PlayerVisualizerType.Disabled
-                    playerThumbnailSize = PlayerThumbnailSize.Medium
+                    playerTimelineType = lastPlayerTimelineType
+                    playerVisualizerType = lastPlayerVisualizerType
+                    playerThumbnailSize = lastPlayerThumbnailSize
+                    playerPlayButtonType = lastPlayerPlayButtonType
                 }
 
             },
