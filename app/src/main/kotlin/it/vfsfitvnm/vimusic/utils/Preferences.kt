@@ -10,7 +10,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.edit
-
+const val lastPlayerThumbnailSizeKey = "lastPlayerThumbnailSize"
+const val lastPlayerPlayButtonTypeKey = "lastPlayerPlayButtonType"
+const val lastPlayerTimelineTypeKey = "lastPlayerTimelineType"
+const val lastPlayerVisualizerTypeKey = "lastPlayerVisualizerType"
+const val playerPlayButtonTypeKey = "playerPlayButtonType"
 const val playerTimelineTypeKey = "playerTimelineType"
 const val playerVisualizerTypeKey = "playerVisualizerType"
 const val thumbnailTapEnabledKey = "thumbnailTapEnabled"
@@ -56,7 +60,7 @@ const val UiTypeKey = "UiType"
 const val disablePlayerHorizontalSwipeKey = "disablePlayerHorizontalSwipe"
 const val disableIconButtonOnTopKey = "disableIconButtonOnTop"
 const val exoPlayerCustomCacheKey = "exoPlayerCustomCache"
-const val playerPlayButtonTypeKey = "playerPlayButtonType"
+
 
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
