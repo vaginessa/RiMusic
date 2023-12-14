@@ -26,18 +26,21 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
+import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
 import it.vfsfitvnm.vimusic.enums.PlayerVisualizerType
+import it.vfsfitvnm.vimusic.enums.UiType
 
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
-
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
+import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.playerTimelineTypeKey
 import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
@@ -73,10 +76,12 @@ fun PlayerSettings() {
 
     var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
-    var wavedPLayerTimelineEnabled by rememberPreference(wavedPlayerTimelineKey, false)
+    //var wavedPLayerTimelineEnabled by rememberPreference(wavedPlayerTimelineKey, false)
     var thumbnailTapEnabled by rememberPreference(thumbnailTapEnabledKey, false)
     var playerVisualizerType by rememberPreference(playerVisualizerTypeKey, PlayerVisualizerType.Disabled)
     var playerTimelineType by rememberPreference(playerTimelineTypeKey, PlayerTimelineType.Default)
+    var playerPlayButtonType by rememberPreference(playerPlayButtonTypeKey, PlayerPlayButtonType.Rectangular)
+    var uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
 
     val activityResultLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
@@ -117,29 +122,6 @@ fun PlayerSettings() {
             }
         )
 
-        /*
-SwitchSettingEntry(
-    title = stringResource(R.string.wavy_timeline),
-    text = stringResource(R.string.enable_wavy_timeline),
-    isChecked = wavedPLayerTimelineEnabled,
-    onCheckedChange = { wavedPLayerTimelineEnabled = it }
-)
-*/
-        EnumValueSelectorSettingsEntry(
-            title = stringResource(R.string.timeline),
-            selectedValue = playerTimelineType,
-            onValueSelected = { playerTimelineType = it },
-            valueText = {
-                when (it) {
-                    PlayerTimelineType.Default -> stringResource(R.string._default)
-                    PlayerTimelineType.Wavy -> stringResource(R.string.wavy_timeline)
-                    PlayerTimelineType.BodiedBar -> "Bodied Bar"
-                    PlayerTimelineType.PinBar -> "Pin Bar"
-                }
-            }
-        )
-
-
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.visualizer),
             selectedValue = playerVisualizerType,
@@ -158,6 +140,44 @@ SwitchSettingEntry(
             }
         )
         ImportantSettingsDescription(text = stringResource(R.string.visualizer_require_mic_permission))
+
+        /*
+SwitchSettingEntry(
+    title = stringResource(R.string.wavy_timeline),
+    text = stringResource(R.string.enable_wavy_timeline),
+    isChecked = wavedPLayerTimelineEnabled,
+    onCheckedChange = { wavedPLayerTimelineEnabled = it }
+)
+*/
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.timeline),
+            selectedValue = playerTimelineType,
+            onValueSelected = { playerTimelineType = it },
+            valueText = {
+                when (it) {
+                    PlayerTimelineType.Default -> stringResource(R.string._default)
+                    PlayerTimelineType.Wavy -> stringResource(R.string.wavy_timeline)
+                    PlayerTimelineType.BodiedBar -> stringResource(R.string.bodied_bar)
+                    PlayerTimelineType.PinBar -> stringResource(R.string.pin_bar)
+                }
+            }
+        )
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.play_button),
+            selectedValue = playerPlayButtonType,
+            onValueSelected = { playerPlayButtonType = it },
+            valueText = {
+                when (it) {
+                    PlayerPlayButtonType.Default -> stringResource(R.string._default)
+                    PlayerPlayButtonType.Rectangular -> stringResource(R.string.rectangular)
+                    PlayerPlayButtonType.Square -> stringResource(R.string.square)
+                    PlayerPlayButtonType.CircularRibbed -> stringResource(R.string.circular_ribbed)
+                }
+            },
+            isEnabled = uiType != UiType.ViMusic
+        )
+
 
         SwitchSettingEntry(
             title = stringResource(R.string.player_rotating_buttons),

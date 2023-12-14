@@ -57,7 +57,7 @@ fun SeekBarCustom(
         PlayerTimelineType.BodiedBar -> {
             _barHeight = 15.dp
             _backbarHeight = 15.dp
-            _scrubberRadius = 6.dp
+            _scrubberRadius = 8.dp
         }
         else -> {
             _barHeight = 3.dp

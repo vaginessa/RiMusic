@@ -66,10 +66,9 @@ import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
 import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
 import it.vfsfitvnm.vimusic.enums.UiType
-import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerComputer
-import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerData
 import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.ui.UiMedia
@@ -82,7 +81,6 @@ import it.vfsfitvnm.vimusic.ui.components.themed.BaseMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.ScrollText
 import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
-import it.vfsfitvnm.vimusic.ui.components.themed.InputNumericDialog
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -93,17 +91,15 @@ import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
-import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.isCompositionLaunched
+import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
 import it.vfsfitvnm.vimusic.utils.playerTimelineTypeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.seamlessPlay
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
-import it.vfsfitvnm.vimusic.utils.wavedPlayerTimelineKey
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
@@ -163,6 +159,7 @@ fun Controls(
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
     //var wavedPlayerTimelineEnabled by rememberPreference(wavedPlayerTimelineKey, false)
     var playerTimelineType by rememberPreference(playerTimelineTypeKey, PlayerTimelineType.Default)
+    var playerPlayButtonType by rememberPreference(playerPlayButtonTypeKey, PlayerPlayButtonType.Rectangular)
 
     val scope = rememberCoroutineScope()
     val animatedPosition = remember { Animatable(position.toFloat()) }
@@ -547,11 +544,19 @@ fun Controls(
                         }
                         if (effectRotationEnabled) isRotated = !isRotated
                     }
-                    .background(if (uiType != UiType.RiMusic) colorPalette.background3 else colorPalette.background0)
-                    .width(if (uiType != UiType.RiMusic) 60.dp else 90.dp)
-                    .height(if (uiType != UiType.RiMusic) 60.dp else 90.dp)
+                    //.background(if (uiType != UiType.RiMusic) colorPalette.background3 else colorPalette.background0)
+                    .background(
+                        when(playerPlayButtonType){
+                            PlayerPlayButtonType.CircularRibbed -> colorPalette.background0
+                            PlayerPlayButtonType.Default -> colorPalette.background3
+                            PlayerPlayButtonType.Rectangular -> colorPalette.accent
+                            PlayerPlayButtonType.Square -> colorPalette.background3
+                        }
+                    )
+                    .width(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.width.dp else playerPlayButtonType.width.dp)
+                    .height(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.height.dp else playerPlayButtonType.height.dp)
             ) {
-                if (uiType == UiType.RiMusic)
+                if (uiType == UiType.RiMusic && playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
                 Image(
                     painter = painterResource(R.drawable.a13shape),
                     colorFilter = ColorFilter.tint(colorPalette.background3),

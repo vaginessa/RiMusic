@@ -154,7 +154,7 @@ fun UiSettings() {
                     PlayerThumbnailSize.Small -> stringResource(R.string.small)
                     PlayerThumbnailSize.Medium -> stringResource(R.string.medium)
                     PlayerThumbnailSize.Big -> stringResource(R.string.big)
-                    PlayerThumbnailSize.Biggest -> "Biggest"
+                    PlayerThumbnailSize.Biggest -> stringResource(R.string.biggest)
                 }
             }
         )
@@ -167,8 +167,8 @@ fun UiSettings() {
                 when (it) {
                     PlayerTimelineType.Default -> stringResource(R.string._default)
                     PlayerTimelineType.Wavy -> stringResource(R.string.wavy_timeline)
-                    PlayerTimelineType.BodiedBar -> "Bodied Bar"
-                    PlayerTimelineType.PinBar -> "Pin Bar"
+                    PlayerTimelineType.BodiedBar -> stringResource(R.string.bodied_bar)
+                    PlayerTimelineType.PinBar -> stringResource(R.string.pin_bar)
                 }
             }
         )
