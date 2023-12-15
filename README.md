@@ -59,7 +59,8 @@
 - Go to [Crowdin](https://crowdin.com/project/rimusic/invite?h=73f0e6b64be1c64a8aebd467d286cf851925330) and help with the translations.
 
 ## 📲 Installation
-[<img src="https://raw.githubusercontent.com/NeoApplications/Neo-Backup/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png" alt="GitHub" height="80">](https://github.com/fast4x/RiMusic/releases/latest)
+[<img src="assets/getItGithub.png" alt="GitHub" height="80">](https://github.com/fast4x/RiMusic/releases/latest)
+[<img src="assets/getItIzzyOnDroid.png" alt="IzzyOnDroid" height="80">](https://apt.izzysoft.de/fdroid/index/apk/it.fast4x.rimusic/)
 
 ## 🤝 Contributing
 **Pull requests are welcome**
