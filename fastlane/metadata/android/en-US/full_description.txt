@@ -1,3 +1,6 @@
+RiMusic is a multilingual Android application for streaming music from YouTube Music, available in several languages
+It was born as an extension of the functionality of ViMusic, which retains the general appearance, colors.
+
 ## ✨ Features
 - **Multilingual support:** English, Italian, German, Russian, French, Spanish, Czech, Turkish and Romanian. Contributions for other languages are welcome
 - UI Mode, change style from RiMusic to classic ViMusic style and viceversa
@@ -27,3 +30,6 @@
 - Android Auto support
 - Android TV support
 - Check for Updates
+
+Visit it on Github
+https://github.com/fast4x/RiMusic
