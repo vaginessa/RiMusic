@@ -260,8 +260,8 @@
     <string name="value_cannot_be_empty">Hodnota nemůže být prázdná</string>
     <string name="value_must_be_greater_than">"Hodnota musí být vyšší než "</string>
     <string name="custom">Vlastní</string>
-    <string name="listen_on">Listen on</string>
     <string name="custom_cache_size">Vlastní velikost mezipaměti</string>
+    <string name="listen_on">Listen on</string>
     <string name="error_local_music_not_found">Lokální hudební soubor nebyl nalezen</string>
     <string name="bodied_bar">Bodied Bar</string>
     <string name="pin_bar">Pin Bar</string>
