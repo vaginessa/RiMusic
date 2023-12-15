@@ -145,9 +145,8 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
                                 emptyItemsText = emptyItemsText,
                                 headerContent = headerContent,
                                 itemContent = { song ->
-                                    val isLocal by remember { derivedStateOf { song.asMediaItem.isLocal } }
                                     downloadState = getDownloadState(song.asMediaItem.mediaId)
-                                    val isDownloaded = if (!isLocal) downloadedStateMedia(song.asMediaItem.mediaId) else true
+                                    val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
                                     SongItem(
                                         song = song,
                                         isDownloaded = isDownloaded,
@@ -165,7 +164,6 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
                                                 )
                                             }
 
-                                            if (!isLocal)
                                             manageDownload(
                                                 context = context,
                                                 songId = song.asMediaItem.mediaId,
