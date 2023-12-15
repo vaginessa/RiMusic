@@ -68,7 +68,7 @@ import kotlin.system.exitProcess
 @Composable
 fun UiSettings() {
     val (colorPalette) = LocalAppearance.current
-    val context = LocalContext.current
+
     var uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
     var disablePlayerHorizontalSwipe by rememberPreference(disablePlayerHorizontalSwipeKey, false)
     var disableIconButtonOnTop by rememberPreference(disableIconButtonOnTopKey, false)
