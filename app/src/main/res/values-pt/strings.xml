@@ -261,8 +261,8 @@
     <string name="value_must_be_greater_than">"Valor deve ser superior a "</string>
     <string name="custom">Personalizado</string>
     <string name="custom_cache_size">Tamanho do cache personalizado</string>
-    <string name="error_local_music_not_found">Ficheiro de música local não encontrado</string>
     <string name="listen_on">Listen on</string>
+    <string name="error_local_music_not_found">Ficheiro de música local não encontrado</string>
     <string name="bodied_bar">Bodied Bar</string>
     <string name="pin_bar">Pin Bar</string>
     <string name="rectangular">Rectangular</string>
