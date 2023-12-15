@@ -7,8 +7,10 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,10 +45,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
@@ -77,7 +81,9 @@ import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderPlaceholder
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
@@ -126,27 +132,29 @@ fun PlaylistSongList(
     var playlistPage by persist<Innertube.PlaylistOrAlbumPage?>("playlist/$browseId/playlistPage")
 
     var filter: String? by rememberSaveable { mutableStateOf(null) }
-    val localMaxDepth = 500
+    val localMaxDepth = 200
 
     LaunchedEffect(Unit, filter) {
-        //if (playlistPage != null && playlistPage?.songsPage?.continuation == null) return@LaunchedEffect
-
+        if (playlistPage != null && playlistPage?.songsPage?.continuation == null) return@LaunchedEffect
+/*
         playlistPage = withContext(Dispatchers.IO) {
             Innertube.playlistPage(BrowseBody(browseId = browseId, params = params))
                 ?.completed(localMaxDepth)?.getOrNull()
         }
-            /*
+
+*/
+/*
                 playlistPage = withContext(Dispatchers.IO) {
                     Innertube.playlistPage(BrowseBody(browseId = browseId, params = params))
                         ?.completed(maxDepth = maxDepth ?: Int.MAX_VALUE)?.getOrNull()
                 }
 
-         */
-    /*
+ */
+
         playlistPage = withContext(Dispatchers.IO) {
             Innertube.playlistPage(BrowseBody(browseId = browseId))?.completed()?.getOrNull()
         }
- */
+
     }
 
     var filterCharSequence: CharSequence
@@ -203,84 +211,37 @@ fun PlaylistSongList(
                     .shimmer()
             )
         } else {
-            Header(title = playlistPage?.title ?: "Unknown") {
 
-                /*        */
-                Row (
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.Bottom,
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                HeaderWithIcon(
+                    title = playlistPage?.title ?: "Unknown",
+                    iconId = R.drawable.playlist,
+                    enabled = true,
+                    showIcon = true,
                     modifier = Modifier
-                        //.requiredHeight(30.dp)
-                        .padding(all = 10.dp)
-                        .fillMaxHeight()
-                ) {
-                    var searching by rememberSaveable { mutableStateOf(false) }
+                        .padding(bottom = 8.dp),
+                    onClick = {}
+                ) //{
 
-                    if (searching) {
-                        val focusRequester = remember { FocusRequester() }
-                        val focusManager = LocalFocusManager.current
-                        val keyboardController = LocalSoftwareKeyboardController.current
+            }
 
-                        LaunchedEffect(searching) {
-                            focusRequester.requestFocus()
-                        }
-
-                        BasicTextField(
-                            value = filter ?: "",
-                            onValueChange = { filter = it },
-                            textStyle = typography.xs.semiBold,
-                            singleLine = true,
-                            maxLines = 1,
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                            keyboardActions = KeyboardActions(onDone = {
-                                if (filter.isNullOrBlank()) filter = ""
-                                focusManager.clearFocus()
-                            }),
-                            cursorBrush = SolidColor(colorPalette.text),
-                            decorationBox = { innerTextField ->
-                                Box(
-                                    contentAlignment = Alignment.CenterStart,
-                                    modifier = Modifier.weight(1f)
-                                ) {
-                                    androidx.compose.animation.AnimatedVisibility(
-                                        visible = filter?.isEmpty() ?: true,
-                                        enter = fadeIn(tween(100)),
-                                        exit = fadeOut(tween(100)),
-                                    ) {
-                                        BasicText(
-                                            text = stringResource(R.string.search),
-                                            maxLines = 1,
-                                            overflow = TextOverflow.Ellipsis,
-                                            style = typography.xs.semiBold.secondary.copy(color = colorPalette.textDisabled)
-                                        )
-                                    }
-
-                                    innerTextField()
-                                }
-                            },
-                            modifier = Modifier
-                                .focusRequester(focusRequester)
-                                .onFocusChanged {
-                                    if (!it.hasFocus) {
-                                        keyboardController?.hide()
-                                        if (filter?.isBlank() == true) {
-                                            filter = null
-                                            searching = false
-                                        }
-                                    }
-                                }
-                        )
-                    } else {
-                        HeaderIconButton(
-                            onClick = { searching = true },
-                            icon = R.drawable.search_circle,
-                            color = colorPalette.text,
-                            iconSize = 24.dp
-                        )
-                    }
-                }
-                /*        */
-
+            //Header(title = playlistPage?.title ?: "Unknown") {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                HeaderInfo(
+                    title = "${playlistPage?.songsPage?.items?.size}",
+                    icon = painterResource(R.drawable.musical_notes),
+                    spacer = 0
+                )
 
                 Spacer(
                     modifier = Modifier
@@ -386,6 +347,81 @@ fun PlaylistSongList(
                     }
                 )
             }
+
+            /*        */
+            Row (
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.Bottom,
+                modifier = Modifier
+                    .padding(all = 10.dp)
+                    .fillMaxWidth()
+            ) {
+                var searching by rememberSaveable { mutableStateOf(false) }
+
+                if (searching) {
+                    val focusRequester = remember { FocusRequester() }
+                    val focusManager = LocalFocusManager.current
+                    val keyboardController = LocalSoftwareKeyboardController.current
+
+                    LaunchedEffect(searching) {
+                        focusRequester.requestFocus()
+                    }
+
+                    BasicTextField(
+                        value = filter ?: "",
+                        onValueChange = { filter = it },
+                        textStyle = typography.xs.semiBold,
+                        singleLine = true,
+                        maxLines = 1,
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                        keyboardActions = KeyboardActions(onDone = {
+                            if (filter.isNullOrBlank()) filter = ""
+                            focusManager.clearFocus()
+                        }),
+                        cursorBrush = SolidColor(colorPalette.text),
+                        decorationBox = { innerTextField ->
+                            Box(
+                                contentAlignment = Alignment.CenterStart,
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                androidx.compose.animation.AnimatedVisibility(
+                                    visible = filter?.isEmpty() ?: true,
+                                    enter = fadeIn(tween(100)),
+                                    exit = fadeOut(tween(100)),
+                                ) {
+                                    BasicText(
+                                        text = stringResource(R.string.search),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        style = typography.xs.semiBold.secondary.copy(color = colorPalette.textDisabled)
+                                    )
+                                }
+
+                                innerTextField()
+                            }
+                        },
+                        modifier = Modifier
+                            .focusRequester(focusRequester)
+                            .onFocusChanged {
+                                if (!it.hasFocus) {
+                                    keyboardController?.hide()
+                                    if (filter?.isBlank() == true) {
+                                        filter = null
+                                        searching = false
+                                    }
+                                }
+                            }
+                    )
+                } else {
+                    HeaderIconButton(
+                        onClick = { searching = true },
+                        icon = R.drawable.search_circle,
+                        color = colorPalette.text,
+                        iconSize = 24.dp
+                    )
+                }
+            }
+            /*        */
         }
     }
 
