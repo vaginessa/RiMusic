@@ -260,8 +260,8 @@
     <string name="value_cannot_be_empty">El valor no puede estar vacío</string>
     <string name="value_must_be_greater_than">"El valor debe ser mayor que "</string>
     <string name="custom">Personalizado</string>
-    <string name="listen_on">Listen on</string>
     <string name="custom_cache_size">Tamaño de caché personalizado</string>
+    <string name="listen_on">Listen on</string>
     <string name="error_local_music_not_found">Archivo de música local no encontrado</string>
     <string name="bodied_bar">Bodied Bar</string>
     <string name="pin_bar">Pin Bar</string>
