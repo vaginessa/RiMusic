@@ -153,36 +153,6 @@ object DownloadUtil {
         return dataSourceFactory
     }
 
-/*
-    @Synchronized
-    fun getHttpDataSourceFactory(context: Context): HttpDataSource.Factory {
-        if(!DownloadUtil::httpDataSourceFactory.isInitialized) {
-            httpDataSourceFactory = CronetDataSource.Factory(
-                CronetEngine.Builder(context).build(),
-                Executors.newSingleThreadExecutor()
-            )
-        }
-        return httpDataSourceFactory
-    }
-
-    @Synchronized
-    fun getReadOnlyDataSourceFactory(context: Context): DataSource.Factory {
-        if(!DownloadUtil::dataSourceFactory.isInitialized) {
-            val contextApplication = context.applicationContext
-            val upstreamFactory = DefaultDataSource.Factory(
-                contextApplication,
-                getHttpDataSourceFactory(contextApplication)
-            )
-            dataSourceFactory = CacheDataSource.Factory()
-                .setCache(getDownloadCache(contextApplication))
-                .setUpstreamDataSourceFactory(upstreamFactory)
-                .setCacheWriteDataSinkFactory(null)
-                .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
-        }
-        return dataSourceFactory
-    }
-
-*/
     private fun createCacheDataSource(context: Context): DataSource.Factory {
         return CacheDataSource.Factory().setCache(getDownloadCache(context)).apply {
             setUpstreamDataSourceFactory(
