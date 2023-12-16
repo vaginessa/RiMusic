@@ -223,8 +223,8 @@
     <string name="on_device">Em dispositivo</string>
     <string name="open_settings">Abrir parâmetros</string>
     <string name="permission_declined_grant_media_permissions">Permissão recusada, por favor, conceda permissões de mídia nas configurações do seu dispositivo.</string>
-    <string name="wavy_timeline">Ondulada</string>
-    <string name="enable_wavy_timeline">Ativar barra de navegação ondulada</string>
+    <string name="wavy_timeline">Timeline ondulada</string>
+    <string name="enable_wavy_timeline">Ativar timeline da ondulação</string>
     <string name="play_next">Jogar a seguir</string>
     <string name="toggle_lyrics">Ativar/desativar letra</string>
     <string name="by_tapping_on_the_thumbnail">Ao tocar na miniatura</string>
@@ -252,8 +252,8 @@
     <string name="user_interface">Interface do utilizador</string>
     <string name="ui_tab">IU</string>
     <string name="system_language">Idioma del sistema</string>
-    <string name="french_emoticons_fran_ais">Francês com Emojis (Français)</string>
-    <string name="romanian_emoticons_rom_n">Română com Emojis (Română)</string>
+    <string name="french_emoticons_fran_ais">Emoticons franceses (Français)</string>
+    <string name="romanian_emoticons_rom_n">Emoticons Romenos (Română)</string>
     <string name="biggest">Grande</string>
     <string name="set_custom_cache">Definir cache personalizado</string>
     <string name="enter_value_in_mb">Insira o valor em MB</string>
@@ -263,10 +263,10 @@
     <string name="custom_cache_size">Tamanho do cache personalizado</string>
     <string name="listen_on">Escutar no</string>
     <string name="error_local_music_not_found">Ficheiro de música local não encontrado</string>
-    <string name="bodied_bar">Muito grande</string>
-    <string name="pin_bar">Largo</string>
+    <string name="bodied_bar">Baixo Grande</string>
+    <string name="pin_bar">Barra de Pinos</string>
     <string name="rectangular">Retangular</string>
     <string name="square">Quadrado</string>
-    <string name="circular_ribbed">Circular ondulado</string>
+    <string name="circular_ribbed">Cama circular</string>
     <string name="play_button">Botão \"Reproduzir\"</string>
 </resources>
