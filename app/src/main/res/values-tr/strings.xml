@@ -260,13 +260,13 @@
     <string name="value_cannot_be_empty">Değer boş olamaz</string>
     <string name="value_must_be_greater_than">"Değer daha büyük olmalıdır "</string>
     <string name="custom">Özel</string>
-    <string name="custom_cache_size">Custom cache size</string>
-    <string name="listen_on">Listen on</string>
-    <string name="error_local_music_not_found">Local music file not found</string>
-    <string name="bodied_bar">Bodied Bar</string>
-    <string name="pin_bar">Pin Bar</string>
-    <string name="rectangular">Rectangular</string>
-    <string name="square">Square</string>
-    <string name="circular_ribbed">Circular ribbed</string>
-    <string name="play_button">Play button</string>
+    <string name="custom_cache_size">Özel önbellek boyutu</string>
+    <string name="listen_on">Şununla dinle</string>
+    <string name="error_local_music_not_found">Yerel müzik dosyası bulunamadı</string>
+    <string name="bodied_bar">Çubuk gövdede</string>
+    <string name="pin_bar">Çubuğu sabitle</string>
+    <string name="rectangular">Dikdörtgen</string>
+    <string name="square">Kare</string>
+    <string name="circular_ribbed">Dairesel</string>
+    <string name="play_button">Oynat butonu</string>
 </resources>
