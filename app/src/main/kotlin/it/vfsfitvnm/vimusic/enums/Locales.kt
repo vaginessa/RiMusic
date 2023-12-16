@@ -8,7 +8,11 @@ enum class Languages {
     FrenchEmo,
     German,
     Italian,
+    Indonesian,
+    Odia,
     Polish,
+    PortugueseBrazilian,
+    Portuguese,
     Romanian,
     RomanianEmo,
     Russian,
@@ -20,16 +24,20 @@ enum class Languages {
             System -> "system"
             English -> "en"
             Italian -> "it"
+            Indonesian -> "in"
             Czech -> "cs"
             German -> "de"
             Spanish -> "es"
             French -> "fr"
             FrenchEmo -> "fr-FR"
+            Odia -> "or"
+            Polish -> "pl"
+            Portuguese -> "pt"
+            PortugueseBrazilian -> "pt-BR"
             Romanian -> "ro"
             RomanianEmo -> "ro-RO"
             Russian -> "ru"
             Turkish -> "tr"
-            Polish -> "pl"
         }
 
 

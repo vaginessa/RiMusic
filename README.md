@@ -44,16 +44,21 @@
 </div>
 
 ## 🌐 Languages available
+- **Czech:** thanks to [@ikanakova](https://github.com/ikanakova)
 - **English:** initially forked from ViMusic
-- **Italian:** native, thanks to [@fast4x](https://github.com/fast4x)
-- **German:** native, thanks to [@siggi1984](https://github.com/siggi1984)
-- **Russian:** native, thanks to [@siggi1984](https://github.com/siggi1984)
-- **French:** native, thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
-- **Czech:** native, thanks to [@ikanakova](https://github.com/ikanakova)
-- **Spanish:** native, thanks to [@DanielSevillano](https://github.com/DanielSevillano)
-- **Romanian:** native, thanks to [@OrangeZXZ](https://github.com/OrangeZxZ)
-- **Polish:** native, thanks to [@roklc](https://github.com/roklc)
-- **Turkish:** non native, contribute to improve
+- **French:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
+- **German:** thanks to [@siggi1984](https://github.com/siggi1984)
+- **Italian:** thanks to [@fast4x](https://github.com/fast4x)
+- **Indonesian:** thanks to [@teddysulaimanGL](https://github.com/teddysulaimanGL)
+- **Odia:** thanks to [@Get100percent](https://github.com/Get100percent)
+- **Polish:** thanks to [@roklc](https://github.com/roklc) and [@damianadam000](https://github.com/damianadam000)
+- **Portuguese:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
+- **Portuguese, Brazilian:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
+- **Romanian:** thanks to [@OrangeZXZ](https://github.com/OrangeZxZ)
+- **Russian:** thanks to [@siggi1984](https://github.com/siggi1984)
+- **Spanish:** thanks to [@DanielSevillano](https://github.com/DanielSevillano)
+- **Turkish:** thanks to [@abfreeman](https://github.com/abfreeman)
+
 
 ## 🔤 Translations
 - Go to [Crowdin](https://crowdin.com/project/rimusic/invite?h=73f0e6b64be1c64a8aebd467d286cf851925330) and help with the translations.

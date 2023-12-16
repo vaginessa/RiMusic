@@ -115,6 +115,10 @@ fun AppearanceSettings() {
                     Languages.Russian -> stringResource(R.string.russian)
                     Languages.Turkish -> stringResource(R.string.turkish)
                     Languages.Polish -> stringResource(R.string.polish)
+                    Languages.PortugueseBrazilian -> "Portuguese, Brazilian"
+                    Languages.Portuguese -> "Portuguese"
+                    Languages.Indonesian -> "Indonesian"
+                    Languages.Odia -> "Odia"
                 }
             }
         )
