@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cancel">Cancel</string>
-    <string name="done">Done</string>
-    <string name="hidesong">Do you really want to hide this song? Its playback time and cache will be wiped.\nThis action is irreversible.</string>
-    <string name="new_playlist">New playlist</string>
-    <string name="start_radio">Start radio</string>
-    <string name="equalizer">Equalizer</string>
+    <string name="cancel">ବାତିଲ୍ କରନ୍ତୁ</string>
+    <string name="done">ସମ୍ପନ୍ନ</string>
+    <string name="hidesong">ଆପଣ ପ୍ରକୃତରେ ଏହି ଗୀତକୁ ଲୁଚାଇବାକୁ ଚାହୁଁଛନ୍ତି କି? ଏହାର ଚଲାଇବା ସମୟ ଏବଂ କ୍ୟାଶେ ବିଲୋପ ହୋଇଯିବ ।\nଏହି କାର୍ଯ୍ୟଟି ଅପରିବର୍ତ୍ତନୀୟ ଅଟେ ।.</string>
+    <string name="new_playlist">ନୂତନ ପ୍ଲେଲିଷ୍ଟ</string>
+    <string name="start_radio">ରେଡିଓ ଆରମ୍ଭ କରନ୍ତୁ</string>
+    <string name="equalizer">ସମାନତା</string>
     <string name="stop_sleep_timer">Do you want to stop the sleep timer?</string>
     <string name="set_sleep_timer">Set sleep timer</string>
     <string name="add_to_playlist">Add to playlist</string>
