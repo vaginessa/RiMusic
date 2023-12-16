@@ -7,7 +7,7 @@
     <string name="start_radio">Écouter la radio</string>
     <string name="equalizer">Égaliseur</string>
     <string name="stop_sleep_timer">Désactiver la minuterie de mise en veille ?</string>
-    <string name="set_sleep_timer">Minuterie d\'arrêt</string>
+    <string name="set_sleep_timer">Régler le minuteur de mise en veille</string>
     <string name="add_to_playlist">Ajouter à la playlist</string>
     <string name="go_to_album">Aller à l\'album</string>
     <string name="remove_from_queue">Supprimer de la file d\'attente</string>
@@ -61,7 +61,7 @@
     <string name="view_the_source_code">Afficher le code source</string>
     <string name="report_an_issue">Signaler un problème</string>
     <string name="you_will_be_redirected_to_github">Vous allez être redirigé vers GitHub</string>
-    <string name="request_a_feature_or_suggest_an_idea">Demander une fonctionnalité \ nous suggérer une idée</string>
+    <string name="request_a_feature_or_suggest_an_idea">Demander une fonctionnalité ou nous suggérer une idée</string>
     <string name="appearance">🎨 Apparence</string>
     <string name="colors">🖌️ Thèmes</string>
     <string name="theme">Thème</string>
@@ -123,7 +123,7 @@
     <string name="interact_with_the_system_equalizer">Paramètre de l\'égaliseur du système</string>
     <string name="about">👨‍💻 À propos</string>
     <string name="more_of">Plus de</string>
-    <string name="sleep_timer">Minuterie d\'arrêt</string>
+    <string name="sleep_timer">Minuteur de veille</string>
     <string name="left">%1$s restantes</string>
     <string name="set">Définir</string>
     <string name="confirm">Confirmer</string>
@@ -261,12 +261,12 @@
     <string name="value_must_be_greater_than">"La valeur doit être supérieure à "</string>
     <string name="custom">Personnalisé</string>
     <string name="custom_cache_size">Taille du cache personnalisée</string>
+    <string name="listen_on">Écouter sur</string>
     <string name="error_local_music_not_found">Fichier de musique locale introuvable</string>
-    <string name="listen_on">Listen on</string>
-    <string name="bodied_bar">Bodied Bar</string>
-    <string name="pin_bar">Pin Bar</string>
-    <string name="rectangular">Rectangular</string>
-    <string name="square">Square</string>
-    <string name="circular_ribbed">Circular ribbed</string>
-    <string name="play_button">Play button</string>
+    <string name="bodied_bar">Très large</string>
+    <string name="pin_bar">Large</string>
+    <string name="rectangular">Rectangulaire</string>
+    <string name="square">Carré</string>
+    <string name="circular_ribbed">Cercle ondulé</string>
+    <string name="play_button">Bouton lecture</string>
 </resources>
