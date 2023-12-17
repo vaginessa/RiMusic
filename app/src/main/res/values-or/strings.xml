@@ -181,11 +181,11 @@
     <string name="most_played_songs">ସର୍ବାଧିକ ବ୍ଯବହୃତ ଗୀତ</string>
     <string name="most_listened_artists">ଅଧିକାଂଶ କଣ୍ଠଶିଳ୍ପୀ</string>
     <string name="most_albums_listened">ଅଧିକାଂଶ ଆଲବମ ଶୁଣାଯାଇଛି</string>
-    <string name="most_played_playlists">Most played playlists</string>
-    <string name="languages">Languages</string>
-    <string name="app_language">App language</string>
-    <string name="in_alphabetical_order">In alphabetical order:</string>
-    <string name="contributors">CONTRIBUTORS</string>
+    <string name="most_played_playlists">ସର୍ବାଧିକ ଖେଳାଯାଇଥିବା ପ୍ଲେ-ଲିଷ୍ଟଗୁଡ଼ିକ</string>
+    <string name="languages">ଭାଷା</string>
+    <string name="app_language">ଆପ୍ ଭାଷା</string>
+    <string name="in_alphabetical_order">ଆକ୍ଷରିକ କ୍ରମରେ:</string>
+    <string name="contributors">ଅବଦାନକାରୀ</string>
     <string name="troubleshooting">TROUBLESHOOTING</string>
     <string name="social">SOCIAL</string>
     <string name="english">English</string>
