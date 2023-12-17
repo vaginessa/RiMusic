@@ -108,9 +108,9 @@
     <string name="already_unrestricted">Sudah tidak dibatasi</string>
     <string name="disable_background_restrictions">Nonaktifkan pembatasan latar belakang</string>
     <string name="invincible_service">Layanan yang tidak terhentikan</string>
-    <string name="turning_off_battery_optimizations_is_not_enough">When turning off battery optimizations is not enough</string>
-    <string name="player_audio"><![CDATA[Player & Audio]]></string>
-    <string name="player">Player</string>
+    <string name="turning_off_battery_optimizations_is_not_enough">Apabila menonaktifkan pengoptimalan baterai saja tidak cukup</string>
+    <string name="player_audio"><![CDATA[Pemutar & Audio]]></string>
+    <string name="player">Pemutar</string>
     <string name="persistent_queue">Persistent queue</string>
     <string name="save_and_restore_playing_songs">Save and restore playing songs</string>
     <string name="resume_playback">Resume playback</string>
