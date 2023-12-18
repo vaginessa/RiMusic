@@ -2,7 +2,7 @@
 <resources>
     <string name="cancel">Anuluj</string>
     <string name="done">Zatwierdź</string>
-    <string name="hidesong">Na pewno chcesz ukryć ten utwór?\nJego czas odtwarzania zostanie usunięty oraz zostanie on wymazany z pamięci podręcznej.</string>
+    <string name="hidesong">Na pewno chcesz ukryć ten utwór? Jego czas odtwarzania zostanie usunięty oraz zostanie on wymazany z pamięci podręcznej.\nTego działania nie da się cofnąć.</string>
     <string name="new_playlist">Nowa playlista</string>
     <string name="start_radio">Uruchom radio</string>
     <string name="equalizer">Korektor</string>
@@ -144,14 +144,14 @@
     <string name="close_background_player">Zamknij odtwarzacz w tle</string>
     <string name="when_app_swipe_out_from_task_manager">Kiedy aplikacja zostanie zamknięta menadżerem zadań</string>
     <string name="opening_url">ładuje się...</string>
-    <string name="an_error_has_occurred_while_fetching_the_lyrics">Wystąpił błąd podczas ładowania tekstu.</string>
-    <string name="are_not_available_for_this_song">nie jest dostępny dla tego utworu.</string>
-    <string name="error_a_network_error_has_occurred">Wystąpił błąd sieci.</string>
-    <string name="error_couldn_t_find_a_playable_audio_format">Nie można znaleźć odtwarzalnego formatu audio.</string>
-    <string name="error_the_original_video_source_of_this_song_has_been_deleted">Oryginalne źródło tego filmu zostało usunięte.</string>
-    <string name="error_this_song_cannot_be_played_due_to_server_restrictions">Ten utwór nie może zostać odtworzony ze względu na ograniczenia serwera.</string>
-    <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">Zwrócone id filmu jest inne niż żądane id.</string>
-    <string name="error_an_unknown_playback_error_has_occurred">Wystąpił nieznany błąd odtwarzania.</string>
+    <string name="an_error_has_occurred_while_fetching_the_lyrics">Wystąpił błąd podczas ładowania tekstu</string>
+    <string name="are_not_available_for_this_song">nie jest dostępny dla tego utworu</string>
+    <string name="error_a_network_error_has_occurred">Wystąpił błąd sieci</string>
+    <string name="error_couldn_t_find_a_playable_audio_format">Nie można znaleźć odtwarzalnego formatu audio</string>
+    <string name="error_the_original_video_source_of_this_song_has_been_deleted">Oryginalne źródło tego filmu zostało usunięte</string>
+    <string name="error_this_song_cannot_be_played_due_to_server_restrictions">Ten utwór nie może zostać odtworzony ze względu na ograniczenia serwera</string>
+    <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">Zwrócone id filmu jest różne niż żądane id</string>
+    <string name="error_an_unknown_playback_error_has_occurred">Wystąpił nieznany błąd odtwarzania</string>
     <string name="tips">Sugestie</string>
     <string name="quick_pics_and_tips">Szybki wybór i sugestie</string>
     <string name="is_min_list_time_for_tips_or_quick_pics">Jest to minimalny czas trwania utworu, aby mógł on zostać pokazany jako sugestia</string>
@@ -217,7 +217,7 @@
     <string name="no">Anuluj</string>
     <string name="stop">Zatrzymaj</string>
     <string name="preferences">PREFERENCJE</string>
-    <string name="it_seems_that_youtube_music_is_not_installed">Wygląda na to, że YouTube Music nie jest zainstalowane.</string>
+    <string name="it_seems_that_youtube_music_is_not_installed">Wygląda na to, że YouTube Music nie jest zainstalowane!</string>
     <string name="listen_on_youtube">Posłuchaj na YouTube</string>
     <string name="listen_on_youtube_music">Posłuchaj na YouTube Music</string>
     <string name="on_device">Na urządzeniu</string>
