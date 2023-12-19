@@ -28,9 +28,9 @@ fun SecondaryButton(
 
     Box(
         modifier = modifier
-            .clip(CircleShape)
+            //.clip(CircleShape)
             .clickable(enabled = enabled, onClick = onClick)
-            .background(colorPalette.primaryButton)
+            //.background(colorPalette.primaryButton)
             .size(36.dp)
     ) {
         Image(
@@ -39,7 +39,7 @@ fun SecondaryButton(
             colorFilter = ColorFilter.tint(colorPalette.text),
             modifier = Modifier
                 .align(Alignment.Center)
-                .size(18.dp)
+                .size(22.dp)
         )
     }
 }
