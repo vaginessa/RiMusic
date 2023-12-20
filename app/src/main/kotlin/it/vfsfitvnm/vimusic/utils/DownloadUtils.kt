@@ -38,7 +38,10 @@ import kotlinx.coroutines.withContext
 @Composable
 fun InitDownloader () {
     val context = LocalContext.current
+    DownloadUtil.getDownloadManager(context)
+    DownloadUtil.getDownloads()
 
+/*
     //val idVideo="initVideoId"
     val idVideo="8n4S1-ctsZw"
     //val contentUri = "https://$idVideo".toUri()
@@ -67,7 +70,7 @@ fun InitDownloader () {
         }.onFailure {
         Log.d("downloadInit","Downloader initialized $it" )
     }
-
+*/
 }
 
 

@@ -24,8 +24,10 @@ import android.media.audiofx.LoudnessEnhancer
 import android.media.session.MediaSession
 import android.media.session.PlaybackState
 import android.net.Uri
+import android.os.Bundle
 import android.os.Handler
 import android.text.format.DateUtils
+import android.util.Log
 import androidx.annotation.OptIn
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -68,9 +70,6 @@ import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.extractor.DefaultExtractorsFactory
-import androidx.media3.extractor.ExtractorsFactory
-import androidx.media3.extractor.mkv.MatroskaExtractor
-import androidx.media3.extractor.mp4.FragmentedMp4Extractor
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.innertube.models.bodies.PlayerBody
@@ -118,13 +117,25 @@ import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.volumeNormalizationKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import java.io.File
 import kotlin.math.roundToInt
 import kotlin.system.exitProcess
@@ -142,26 +153,13 @@ val Song.isLocal get() = id.startsWith(LOCAL_KEY_PREFIX)
 @Suppress("DEPRECATION")
 class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListener.Callback,
     SharedPreferences.OnSharedPreferenceChangeListener {
+    private val coroutineScope = CoroutineScope(Dispatchers.IO) + Job()
     private lateinit var mediaSession: MediaSession
     private lateinit var cache: SimpleCache
     private lateinit var player: ExoPlayer
-
-
     private lateinit var downloadCache: SimpleCache
 
-
-    private val stateBuilder = PlaybackState.Builder()
-        .setActions(
-            PlaybackState.ACTION_PLAY
-                    or PlaybackState.ACTION_PAUSE
-                    or PlaybackState.ACTION_PLAY_PAUSE
-                    or PlaybackState.ACTION_STOP
-                    or PlaybackState.ACTION_SKIP_TO_PREVIOUS
-                    or PlaybackState.ACTION_SKIP_TO_NEXT
-                    or PlaybackState.ACTION_SKIP_TO_QUEUE_ITEM
-                    or PlaybackState.ACTION_SEEK_TO
-                    or PlaybackState.ACTION_REWIND
-        )
+    private val playbackStateMutex = Mutex()
 
     private val metadataBuilder = MediaMetadata.Builder()
 
@@ -172,8 +170,6 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
     private var radio: YouTubeRadio? = null
 
     private lateinit var bitmapProvider: BitmapProvider
-
-    private val coroutineScope = CoroutineScope(Dispatchers.IO) + Job()
 
     private var volumeNormalizationJob: Job? = null
 
@@ -196,8 +192,46 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
     override val notificationId: Int
         get() = NotificationId
 
+    private var isLiked = 0
+
     private lateinit var notificationActionReceiver: NotificationActionReceiver
 
+    private val mediaItemState = MutableStateFlow<MediaItem?>(null)
+
+
+    private val isLikedState = mediaItemState
+        .flatMapMerge { item ->
+            item?.mediaId?.let { Database.likedAt(it).distinctUntilChanged() } ?: flowOf(null)
+        }
+        .map { it != null }
+        .stateIn(coroutineScope, SharingStarted.Eagerly, false)
+
+
+    private val stateBuilder = PlaybackState.Builder()
+        .setActions(
+            PlaybackState.ACTION_PLAY
+                    or PlaybackState.ACTION_PAUSE
+                    or PlaybackState.ACTION_PLAY_PAUSE
+                    or PlaybackState.ACTION_STOP
+                    or PlaybackState.ACTION_SKIP_TO_PREVIOUS
+                    or PlaybackState.ACTION_SKIP_TO_NEXT
+                    or PlaybackState.ACTION_SKIP_TO_QUEUE_ITEM
+                    or PlaybackState.ACTION_SEEK_TO
+                    or PlaybackState.ACTION_REWIND
+        )
+        /*
+        .addCustomAction(
+            "it.fast4x.rimusic.like",
+            "Like",
+            if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline
+        )
+        .addCustomAction(
+            "it.fast4x.rimusic.download",
+            "Download",
+            R.drawable.arrow_down //if () R.drawable.heart else R.drawable.heart_outline
+        )
+
+         */
 
     override fun onBind(intent: Intent?): AndroidBinder {
         super.onBind(intent)
@@ -321,15 +355,42 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         mediaSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS or MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS)
         mediaSession.setCallback(SessionCallback(player))
         mediaSession.setPlaybackState(stateBuilder.build())
+
         mediaSession.isActive = true
 
         notificationActionReceiver = NotificationActionReceiver(player)
+
+        /*
+        coroutineScope.launch {
+            var first = true
+            mediaItemState.zip(isLikedState) { mediaItem, _ ->
+                // work around NPE in other processes
+                if (first) {
+                    first = false
+                    return@zip
+                }
+                if (mediaItem == null) return@zip
+                withContext(Dispatchers.Main) {
+                    updatePlaybackState()
+                    // work around NPE in other processes
+                    handler.post {
+                        runCatching {
+                            applicationContext.getSystemService<NotificationManager>()
+                                ?.notify(NotificationId, notification())
+                        }
+                    }
+                }
+            }
+        }
+        */
 
         val filter = IntentFilter().apply {
             addAction(Action.play.value)
             addAction(Action.pause.value)
             addAction(Action.next.value)
             addAction(Action.previous.value)
+            addAction(Action.like.value)
+            addAction(Action.download.value)
         }
 
         registerReceiver(notificationActionReceiver, filter)
@@ -651,6 +712,20 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         )
     }
 
+    private fun updatePlaybackState() = coroutineScope.launch {
+        playbackStateMutex.withLock {
+            withContext(Dispatchers.Main) {
+                mediaSession.setPlaybackState(
+                    stateBuilder
+                        .setState(player.androidPlaybackState, player.currentPosition, 1f)
+                        .setBufferedPosition(player.bufferedPosition)
+                        .build()
+                )
+            }
+        }
+    }
+
+
     @UnstableApi
     private fun sendCloseEqualizerIntent() {
         sendBroadcast(
@@ -723,6 +798,13 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                 notificationManager?.notify(NotificationId, notification)
             }
         }
+        /*
+        val currentMediaItem = player.currentMediaItem
+        coroutineScope.launch {
+            isLiked = currentMediaItem?.let { Database.songliked(it.mediaId) }!!
+        }
+        */
+        updatePlaybackState() // Important for update background player status
     }
 
     @UnstableApi
@@ -779,9 +861,17 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         val pauseIntent = Action.pause.pendingIntent
         val nextIntent = Action.next.pendingIntent
         val prevIntent = Action.previous.pendingIntent
+        val likeIntent = Action.like.pendingIntent
+        val downloadIntent = Action.download.pendingIntent
 
         val mediaMetadata = player.mediaMetadata
+/*
+        val currentMediaItem = player.currentMediaItem
+        coroutineScope.launch {
+            isLiked = currentMediaItem?.let { Database.songliked(it.mediaId) }!!
+        }
 
+ */
         val builder = if (isAtLeastAndroid8) {
             Notification.Builder(applicationContext, NotificationChannelId)
         } else {
@@ -817,6 +907,13 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                 if (player.shouldBePlaying) pauseIntent else playIntent
             )
             .addAction(R.drawable.play_skip_forward, "Skip forward", nextIntent)
+            /*
+            .addAction(
+                if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline,
+                "Like", likeIntent)
+            .addAction(R.drawable.download, "Download", downloadIntent)
+            */
+
 
 
         bitmapProvider.load(mediaMetadata.artworkUri) { bitmap ->
@@ -826,6 +923,8 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
 
         return builder.build()
     }
+
+
 
     private fun createNotificationChannel() {
         notificationManager = getSystemService()
@@ -1218,8 +1317,62 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             radio = null
         }
     }
+/*
+    private fun likeMediaItemAction() = mediaItemState.value?.let { mediaItem ->
+        transaction {
+            Database.like(
+                mediaItem.mediaId,
+                if (isLikedState.value) null else System.currentTimeMillis()
+            )
+        }
+    }.let { }
 
-    private class SessionCallback(private val player: Player) : MediaSession.Callback() {
+ */
+/*
+    private fun likeMediaItemAction() {
+        val currentMediaItem = player.currentMediaItem
+        Log.d("plserviceOnCustomAction", "pre currentMediaItem ${currentMediaItem?.mediaId}")
+        query {
+            if (currentMediaItem != null) {
+                if (
+                    Database.like(
+                        currentMediaItem.mediaId,
+                        if (isLikedState.value) null else System.currentTimeMillis()
+                    ) == 0
+                ) {
+                    Log.d("plserviceOnCustomAction", "database.like <> 0")
+                    currentMediaItem
+                        ?.takeIf { it.mediaId == currentMediaItem.mediaId }
+                        ?.let {
+                            Database.insert(currentMediaItem, Song::toggleLike)
+                        }
+                }
+                Log.d("plserviceOnCustomAction", "post currentMediaItem ${currentMediaItem?.mediaId}")
+            }
+        }
+
+    }
+*/
+private fun likeMediaItemAction() {
+    val currentMediaItem = player.currentMediaItem
+
+    coroutineScope.launch {
+        isLiked = currentMediaItem?.let { Database.songliked(it.mediaId) }!!
+        //Log.d("plserviceOnCustomAction", "pre currentMediaItem ${currentMediaItem?.mediaId} liked $isLiked")
+        if (currentMediaItem != null) {
+            //Log.d("plserviceOnCustomAction", "into currentMediaItem ${currentMediaItem?.mediaId} liked $isLiked")
+                Database.like(
+                    currentMediaItem.mediaId,
+                    if (isLiked == 1) null else System.currentTimeMillis()
+                )
+        }
+        //isLiked = currentMediaItem?.let { Database.songliked(it.mediaId) }!!
+        //Log.d("plserviceOnCustomAction", "post currentMediaItem ${currentMediaItem?.mediaId} liked $isLiked")
+    }
+
+}
+
+    private inner class SessionCallback(private val player: Player) : MediaSession.Callback() {
         override fun onPlay() = player.play()
         override fun onPause() = player.pause()
         override fun onSkipToPrevious() = runCatching(player::forceSeekToPrevious).let { }
@@ -1229,15 +1382,24 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         override fun onRewind() = player.seekToDefaultPosition()
         override fun onSkipToQueueItem(id: Long) =
             runCatching { player.seekToDefaultPosition(id.toInt()) }.let { }
+
+        override fun onCustomAction(action: String, extras: Bundle?) {
+            super.onCustomAction(action, extras)
+            if (action == "it.fast4x.rimusic.like") likeMediaItemAction()
+            if (action == "it.fast4x.rimusic.download") Log.d("plserviceOnCustomAction", Action.download.value)
+        }
+
     }
 
-    private class NotificationActionReceiver(private val player: Player) : BroadcastReceiver() {
+    inner class NotificationActionReceiver(private val player: Player) : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
                 Action.pause.value -> player.pause()
                 Action.play.value -> player.play()
                 Action.next.value -> player.forceSeekToNext()
                 Action.previous.value -> player.forceSeekToPrevious()
+                Action.like.value ->  likeMediaItemAction() //Log.d("plserviceAction", Action.like.value)
+                Action.download.value -> Log.d("plserviceAction", Action.download.value)
             }
         }
     }
@@ -1260,10 +1422,21 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             )
 
         companion object {
+            /*
             val pause = Action("it.vfsfitvnm.vimusic.pause")
             val play = Action("it.vfsfitvnm.vimusic.play")
             val next = Action("it.vfsfitvnm.vimusic.next")
             val previous = Action("it.vfsfitvnm.vimusic.previous")
+            val like = Action("it.vfsfitvnm.vimusic.like")
+            val download = Action("it.vfsfitvnm.vimusic.download")
+             */
+            val pause = Action("it.fast4x.rimusic.pause")
+            val play = Action("it.fast4x.rimusic.play")
+            val next = Action("it.fast4x.rimusic.next")
+            val previous = Action("it.fast4x.rimusic.previous")
+            val like = Action("it.fast4x.rimusic.like")
+            val download = Action("it.fast4x.rimusic.download")
+
         }
     }
 

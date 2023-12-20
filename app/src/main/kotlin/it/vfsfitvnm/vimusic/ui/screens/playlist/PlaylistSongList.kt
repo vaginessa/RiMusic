@@ -135,14 +135,16 @@ fun PlaylistSongList(
     val localMaxDepth = 200
 
     LaunchedEffect(Unit, filter) {
-        if (playlistPage != null && playlistPage?.songsPage?.continuation == null) return@LaunchedEffect
-/*
+        //if (playlistPage != null && playlistPage?.songsPage?.continuation == null) return@LaunchedEffect
+
+
+
         playlistPage = withContext(Dispatchers.IO) {
             Innertube.playlistPage(BrowseBody(browseId = browseId, params = params))
                 ?.completed(localMaxDepth)?.getOrNull()
         }
+        Log.d("mediaPlaylist", "${playlistPage?.title} songs ${playlistPage?.songsPage?.items?.size} continuation ${playlistPage?.songsPage?.continuation}")
 
-*/
 /*
                 playlistPage = withContext(Dispatchers.IO) {
                     Innertube.playlistPage(BrowseBody(browseId = browseId, params = params))
@@ -150,11 +152,11 @@ fun PlaylistSongList(
                 }
 
  */
-
+/*
         playlistPage = withContext(Dispatchers.IO) {
             Innertube.playlistPage(BrowseBody(browseId = browseId))?.completed()?.getOrNull()
         }
-
+*/
     }
 
     var filterCharSequence: CharSequence

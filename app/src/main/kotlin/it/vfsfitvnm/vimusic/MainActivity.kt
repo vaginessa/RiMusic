@@ -528,7 +528,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                 }
 
                 //VisualizerComputer.setupPermissions(this@MainActivity)
-                if (isConnected) InitDownloader()
+                //if (isConnected)
+                InitDownloader()
             }
         }
 

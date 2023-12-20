@@ -270,6 +270,9 @@ interface Database {
     @Query("DELETE FROM SearchQuery")
     fun clearQueries()
 
+    @Query("SELECT count(id) FROM Song WHERE id = :songId and likedAt is not NULL")
+    fun songliked(songId: String): Int
+
     @Query("SELECT * FROM Song WHERE id = :id")
     fun song(id: String): Flow<Song?>
 
