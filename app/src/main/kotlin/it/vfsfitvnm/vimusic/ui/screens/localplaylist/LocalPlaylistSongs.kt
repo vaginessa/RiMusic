@@ -351,8 +351,8 @@ fun LocalPlaylistSongs(
 
                     HeaderIconButton(
                         icon = R.drawable.ellipsis_horizontal,
-                        color = if (playlistWithSongs?.songs?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
-                        enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
+                        color = colorPalette.text, //if (playlistWithSongs?.songs?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
+                        enabled = true, //playlistWithSongs?.songs?.isNotEmpty() == true,
                         onClick = {
                             menuState.display {
                                 Menu {
