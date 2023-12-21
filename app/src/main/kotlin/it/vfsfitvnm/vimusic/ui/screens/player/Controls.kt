@@ -88,6 +88,7 @@ import it.vfsfitvnm.vimusic.ui.styling.collapsedPlayerProgressBar
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.bold
+import it.vfsfitvnm.vimusic.utils.disableScrollingTextKey
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
@@ -158,7 +159,7 @@ fun Controls(
         animationSpec = tween(durationMillis = 200)
     )
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
-    //var wavedPlayerTimelineEnabled by rememberPreference(wavedPlayerTimelineKey, false)
+    var disableScrollingText by rememberPreference(disableScrollingTextKey, false)
     var playerTimelineType by rememberPreference(playerTimelineTypeKey, PlayerTimelineType.Default)
     var playerPlayButtonType by rememberPreference(playerPlayButtonTypeKey, PlayerPlayButtonType.Rectangular)
 
@@ -246,6 +247,7 @@ fun Controls(
                     )
                 }
 
+                if (disableScrollingText == false) {
                 ScrollText(
                     text = title ?: "",
                     style = TextStyle(
@@ -255,7 +257,18 @@ fun Controls(
                     ),
                     onClick = { if (albumId != null) onGoToAlbum(albumId) },
 
-                )
+                ) } else {
+                BasicText(
+                    text = title ?: "",
+                    style = TextStyle(
+                        color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
+                        fontStyle = typography.l.bold.fontStyle,
+                        fontSize = typography.l.bold.fontSize
+                    ),
+                    maxLines = 1,
+                    modifier = Modifier
+                        .clickable { if (albumId != null) onGoToAlbum(albumId) }
+                )}
             }
 
             if (uiType != UiType.ViMusic)
@@ -327,7 +340,7 @@ fun Controls(
             )
         }
 
-
+            if (disableScrollingText == false) {
             ScrollText(
                 text = artist ?: "",
                 style = TextStyle(
@@ -344,7 +357,21 @@ fun Controls(
                     )
                      */
                 }
-            )
+            ) } else {
+        BasicText(
+            text = title ?: "",
+            style = TextStyle(
+                color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
+                fontStyle = typography.l.bold.fontStyle,
+                fontSize = typography.l.bold.fontSize
+            ),
+            maxLines = 1,
+            modifier = Modifier
+                .clickable {
+                    if (artistIds?.isNotEmpty() == true)
+                    showSelectDialog = true
+                }
+        )}
 
         }
 

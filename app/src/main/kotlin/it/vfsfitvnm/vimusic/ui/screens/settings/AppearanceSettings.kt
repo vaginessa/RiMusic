@@ -45,6 +45,7 @@ import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
 import it.vfsfitvnm.vimusic.utils.disableIconButtonOnTopKey
 import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
+import it.vfsfitvnm.vimusic.utils.disableScrollingTextKey
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.intent
@@ -97,6 +98,7 @@ fun AppearanceSettings() {
     var uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
     var disablePlayerHorizontalSwipe by rememberPreference(disablePlayerHorizontalSwipeKey, false)
     var disableIconButtonOnTop by rememberPreference(disableIconButtonOnTopKey, false)
+    var disableScrollingText by rememberPreference(disableScrollingTextKey, false)
 
     var playerVisualizerType by rememberPreference(playerVisualizerTypeKey, PlayerVisualizerType.Disabled)
     var playerTimelineType by rememberPreference(playerTimelineTypeKey, PlayerTimelineType.Default)
@@ -234,6 +236,13 @@ fun AppearanceSettings() {
                     ThumbnailRoundness.Medium -> stringResource(R.string.medium)
                 }
             }
+        )
+
+        SwitchSettingEntry(
+            title = "Disable scrolling text",
+            text = "Scrolling text is used for long texts",
+            isChecked = disableScrollingText,
+            onCheckedChange = { disableScrollingText = it }
         )
 
         SwitchSettingEntry(
