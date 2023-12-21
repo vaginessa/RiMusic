@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerData
+import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 
 
 @Composable
@@ -24,6 +25,7 @@ fun StackedBarEqualizer(
     barCount: Int,
     maxStackCount: Int = 32
 ) {
+    val (colorPalette) = LocalAppearance.current
     var size by remember { mutableStateOf(IntSize.Zero) }
     Row(modifier.onSizeChanged { size = it }) {
         val viewportWidth = size.width.toFloat()
@@ -55,7 +57,8 @@ fun StackedBarEqualizer(
         ) { vw, vh ->
             Path(
                 fill = Brush.linearGradient(
-                    listOf(Color.Red, Color.Yellow, Color.Green),
+                    //listOf(Color.Red, Color.Yellow, Color.Green),
+                    listOf(colorPalette.accent, colorPalette.text, colorPalette.background0),
                     start = Offset.Zero, end = Offset(0f, Float.POSITIVE_INFINITY)
                 ),
                 pathData = nodes

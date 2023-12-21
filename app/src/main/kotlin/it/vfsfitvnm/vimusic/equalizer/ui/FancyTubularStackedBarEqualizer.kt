@@ -22,6 +22,7 @@ import it.vfsfitvnm.vimusic.equalizer.ui.Point
 import it.vfsfitvnm.vimusic.equalizer.ui.circularProj
 import it.vfsfitvnm.vimusic.equalizer.ui.computeStackedBarPoints
 import it.vfsfitvnm.vimusic.equalizer.ui.stackToNodes
+import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -34,11 +35,12 @@ fun FancyTubularStackedBarEqualizer(
     barCount: Int,
     maxStackCount: Int = 32
 ) {
+    val (colorPalette) = LocalAppearance.current
     var size by remember { mutableStateOf(IntSize.Zero) }
     Row(
         modifier
-            .clip(CircleShape)
-            .border(4.dp, Color.Gray, CircleShape)
+            //.clip(CircleShape)
+            //.border(1.dp, Color.Gray, CircleShape)
             .onSizeChanged { size = it }) {
         val viewportWidth = size.width.toFloat()
         val viewportHeight = size.height.toFloat()
@@ -103,11 +105,19 @@ fun FancyTubularStackedBarEqualizer(
                 modifier = Modifier.background(
                     Brush.radialGradient(
                         listOf(
+                            colorPalette.text,
+                            colorPalette.textDisabled,
+                            colorPalette.background4,
+                            colorPalette.background0,
+                        ),
+                        /*
+                        listOf(
                             Color(0xffffffff),
                             //Color(0xff9575cd),
                             Color(0xff3C37CA),
                             Color(0xff000000),
                         ),
+                         */
                         radius = min(viewportWidth, viewportHeight) / 7f
                     )
                 )
@@ -126,6 +136,7 @@ fun buildRing(
     speedPowFactor: Float, surfaceFactor: Float, stretchPow: Float, secondSurfaceFactor: Float,
     viewportWidth: Float, viewportHeight: Float
 ): @Composable () -> Unit {
+    val (colorPalette) = LocalAppearance.current
     val longestRadiusFactor = sqrt(2f)// Cause ratio is 1:1, diag is sqrt(2)
     val startFactor = ringIndex.toFloat() / ringCount
     val surfaceRatio = surfaceFactor / ringCount
@@ -157,17 +168,17 @@ fun buildRing(
     return {
         Path(
             fill = Brush.radialGradient(
-                endRadius to Color(0x709575cd),
-                endRadiusBackground to Color(0x109575cd),
+                endRadius to colorPalette.accent, //Color(0x709575cd),
+                endRadiusBackground to colorPalette.background0, //Color(0x109575cd),
             ),
             pathData = circleBackground
         )
 
         Path(
             fill = Brush.radialGradient(
-                startRadius to Color(0xffb3e5fc),
-                startRadius + (endRadius - startRadius) / 2f to Color(0xffffffff),
-                endRadius to Color(0xff9575cd),
+                startRadius to colorPalette.textSecondary, //Color(0xffb3e5fc),
+                startRadius + (endRadius - startRadius) / 2f to colorPalette.text, //Color(0xffffffff),
+                endRadius to colorPalette.accent, //Color(0xff9575cd),
             ),
             fillAlpha = if (ringIndex == 0) (moveRatio * 3).coerceAtMost(1f) else 1f,
             pathData = circle

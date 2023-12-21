@@ -261,8 +261,9 @@ fun ContentType(
                     Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
-                        .padding(all = 2.dp)
-                        .background(colorPalette.overlay),
+                        //.padding(all = 2.dp)
+                        //.background(colorPalette.overlay),
+                        .background(Color.Black.copy(0.8f)),
                     data = visualizerData.value,
                     barCount = 48,
                     maxStackCount = 16,
@@ -274,7 +275,8 @@ fun ContentType(
                         .fillMaxWidth()
                         //.height(300.dp)
                         .aspectRatio(1f)
-                        .background(colorPalette.overlay),
+                        //.background(colorPalette.overlay),
+                        .background(Color.Black.copy(0.8f)),
                     data = visualizerData.value,
                     barCount = 16,
                     maxStackCount = 16
@@ -287,8 +289,9 @@ fun ContentType(
                         .fillMaxWidth()
                         //.height(300.dp)
                         .aspectRatio(1f)
-                        .padding(vertical = 4.dp)
-                        .background(colorPalette.overlay),
+                        //.padding(vertical = 4.dp)
+                        //.background(colorPalette.overlay),
+                        .background(Color.Black.copy(0.8f)),
                     data = visualizerData.value,
                     barCount = 16
                 )
@@ -299,9 +302,10 @@ fun ContentType(
                     Modifier
                         .fillMaxWidth()
                         .height(300.dp)
-                        .aspectRatio(1f)
-                        .padding(vertical = 4.dp)
-                        .background(colorPalette.overlay),
+                        //.aspectRatio(1f)
+                        //.padding(vertical = 4.dp)
+                        //.background(colorPalette.overlay),
+                        .background(Color.Black.copy(0.8f)),
                     barModifier = { i, m -> m.background(someColors[i % someColors.size]) },
                     data = visualizerData.value,
                     barCount = 16
@@ -314,8 +318,9 @@ fun ContentType(
                         .fillMaxWidth()
                         .height(300.dp)
                         .aspectRatio(1f)
-                        .padding(vertical = 4.dp)
-                        .background(colorPalette.overlay),
+                        //.padding(vertical = 4.dp)
+                        //.background(colorPalette.overlay),
+                        .background(Color.Black.copy(0.8f)),
                     data = visualizerData.value,
                     segmentCount = 32,
                     fillBrush = Brush.linearGradient(
@@ -343,8 +348,9 @@ fun ContentType(
                         .fillMaxWidth()
                         .height(300.dp)
                         .aspectRatio(1f)
-                        .padding(vertical = 4.dp)
-                        .background(colorPalette.overlay),
+                        //.padding(vertical = 4.dp)
+                        //.background(colorPalette.overlay),
+                        .background(Color.Black.copy(0.8f)),
                     data = visualizerData.value,
                     segmentCount = 64,
                     fillBrush = Brush.linearGradient(
@@ -360,8 +366,9 @@ fun ContentType(
                     Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
-                        .padding(vertical = 4.dp)
-                        .background(colorPalette.overlay),
+                        //.padding(vertical = 4.dp)
+                        //.background(colorPalette.overlay),
+                        .background(Color.Black.copy(0.8f)),
                     data = visualizerData.value,
                     segmentCount = 64,
                     fillBrush = Brush.radialGradient(
