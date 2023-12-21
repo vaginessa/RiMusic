@@ -563,7 +563,7 @@ fun Player(
 
                             onDragEnd = {
                                 if(!disablePlayerHorizontalSwipe) {
-                                    if (deltaX > 0) binder.player.forceSeekToPrevious()
+                                    if (deltaX > 0) binder.player.seekToPreviousMediaItem() //binder.player.forceSeekToPrevious()
                                     else binder.player.forceSeekToNext()
                                     //Log.d("mediaItemGesture","ondrag end offsetX${offsetX} deltaX ${deltaX}")
                                 }

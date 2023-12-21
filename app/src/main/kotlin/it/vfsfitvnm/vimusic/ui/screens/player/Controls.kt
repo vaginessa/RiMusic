@@ -91,6 +91,7 @@ import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
+import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.isCompositionLaunched
 import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
@@ -519,8 +520,8 @@ fun Controls(
                 icon = R.drawable.play_skip_back,
                 color = colorPalette.iconButtonPlayer,
                 onClick = {
-                    //binder.player.forceSeekToPrevious()
-                    binder.player.seekToPreviousMediaItem()
+                    binder.player.forceSeekToPrevious()
+                    //binder.player.seekToPreviousMediaItem()
                     if (effectRotationEnabled) isRotated = !isRotated
                 },
                 modifier = Modifier
