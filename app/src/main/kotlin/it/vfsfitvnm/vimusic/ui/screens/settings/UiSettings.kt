@@ -150,10 +150,12 @@ fun UiSettings() {
                     Languages.Russian -> stringResource(R.string.russian)
                     Languages.Turkish -> stringResource(R.string.turkish)
                     Languages.Polish -> stringResource(R.string.polish)
-                    Languages.PortugueseBrazilian -> "Portuguese, Brazilian"
-                    Languages.Portuguese -> "Portuguese"
-                    Languages.Indonesian -> "Indonesian"
-                    Languages.Odia -> "Odia"
+                    Languages.PortugueseBrazilian -> stringResource(R.string.portuguese_brazilian)
+                    Languages.Portuguese -> stringResource(R.string.portuguese)
+                    Languages.Indonesian -> stringResource(R.string.indonesian)
+                    Languages.Odia -> stringResource(R.string.odia)
+                    Languages.Bashkir -> stringResource(R.string.bashkir)
+                    Languages.Esperanto -> stringResource(R.string.esperanto)
                 }
             }
         )

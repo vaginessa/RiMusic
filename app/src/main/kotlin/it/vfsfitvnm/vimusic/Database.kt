@@ -372,6 +372,11 @@ interface Database {
     fun incrementTotalPlayTimeMs(id: String, addition: Long)
 
     @Transaction
+    @Query("SELECT max(position) FROM SongPlaylistMap WHERE playlistId = :id")
+    fun getSongMaxPositionToPlaylist(id: Long): Int
+
+
+    @Transaction
     @Query("SELECT * FROM Playlist WHERE id = :id")
     fun playlistWithSongs(id: Long): Flow<PlaylistWithSongs?>
 

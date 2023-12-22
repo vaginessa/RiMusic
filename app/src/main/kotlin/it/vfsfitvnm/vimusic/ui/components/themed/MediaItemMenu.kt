@@ -45,6 +45,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -81,11 +82,13 @@ import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.medium
+import it.vfsfitvnm.vimusic.utils.positionAndDurationState
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
+import kotlin.math.absoluteValue
 
 @ExperimentalTextApi
 @ExperimentalAnimationApi
@@ -239,6 +242,7 @@ fun BaseMediaItemMenu(
         onEnqueue = onEnqueue,
         onDownload = onDownload,
         onAddToPlaylist = { playlist, position ->
+            Log.d("mediaitemPosition",position.toString())
             transaction {
                 Database.insert(mediaItem)
                 Database.insert(
@@ -617,7 +621,6 @@ fun MediaItemMenu(
                 onShowSleepTimer?.let {
                     val binder = LocalPlayerServiceBinder.current
                     val (_, typography) = LocalAppearance.current
-
                     var isShowingSleepTimerDialog by remember {
                         mutableStateOf(false)
                     }
@@ -625,6 +628,19 @@ fun MediaItemMenu(
                     val sleepTimerMillisLeft by (binder?.sleepTimerMillisLeft
                         ?: flowOf(null))
                         .collectAsState(initial = null)
+
+                    /*
+                    val positionAndDuration = binder?.player?.positionAndDurationState()
+                    val progress =
+                        positionAndDuration?.value?.first?.toFloat()
+                            ?.div(positionAndDuration.value.second.absoluteValue)
+
+                    val timeRemaining = (progress?.let { it1 ->
+                        positionAndDuration?.value!!.first.absoluteValue.minus(
+                            it1.absoluteValue)
+                    })?.toInt()!!
+                    */
+
 
                     if (isShowingSleepTimerDialog) {
                         if (sleepTimerMillisLeft != null) {
@@ -726,6 +742,12 @@ fun MediaItemMenu(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                 ) {
+                                    /*
+                                    if (timeRemaining != null) {
+                                        //BasicText(text = AnnotatedString(formatAsDuration(timeRemaining.toLong() )))
+                                        BasicText(text = AnnotatedString(formatAsDuration(timeRemaining.toLong())))
+                                    }
+                                    */
                                     IconButton(
                                         onClick = { showCircularSlider = !showCircularSlider },
                                         icon = R.drawable.time,
@@ -745,26 +767,6 @@ fun MediaItemMenu(
                                         icon = R.drawable.checkmark,
                                         color = colorPalette.accent
                                     )
-                                    /*
-                                    DialogTextButton(
-                                        text = stringResource(R.string.custom).dropLast(5),
-                                        onClick = { showCircularSlider = !showCircularSlider }
-                                    )
-                                    DialogTextButton(
-                                        text = stringResource(R.string.cancel),
-                                        onClick = { isShowingSleepTimerDialog = false }
-                                    )
-
-                                    DialogTextButton(
-                                        text = stringResource(R.string.set),
-                                        enabled = amount > 0,
-                                        primary = true,
-                                        onClick = {
-                                            binder?.startSleepTimer(amount * 5 * 60 * 1000L)
-                                            isShowingSleepTimerDialog = false
-                                        }
-                                    )
-                                    */
                                 }
                             }
                         }

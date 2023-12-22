@@ -1257,6 +1257,8 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         fun startSleepTimer(delayMillis: Long) {
             timerJob?.cancel()
 
+
+
             timerJob = coroutineScope.timer(delayMillis) {
                 val notification = NotificationCompat
                     .Builder(this@PlayerService, SleepTimerNotificationChannelId)

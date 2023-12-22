@@ -54,6 +54,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.coerceIn
 import androidx.compose.ui.unit.dp
@@ -165,7 +166,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
     }
 
 
-
+    @ExperimentalTextApi
     @UnstableApi
     @androidx.annotation.OptIn(androidx.core.os.BuildCompat.PrereleaseSdkCheck::class)
     @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)

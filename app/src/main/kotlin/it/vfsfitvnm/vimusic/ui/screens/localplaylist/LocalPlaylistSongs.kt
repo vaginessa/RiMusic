@@ -49,6 +49,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -110,6 +111,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
+@ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
@@ -143,6 +145,7 @@ fun LocalPlaylistSongs(
     var filterCharSequence: CharSequence
     filterCharSequence = filter.toString()
     //Log.d("mediaItemFilter", "<${filter}>  <${filterCharSequence}>")
+
     if (!filter.isNullOrBlank())
         playlistWithSongs?.songs =
             playlistWithSongs?.songs?.filter { songItem ->
@@ -156,6 +159,7 @@ fun LocalPlaylistSongs(
         lazyListState = lazyListState,
         key = playlistWithSongs?.songs ?: emptyList<Any>(),
         onDragEnd = { fromIndex, toIndex ->
+            Log.d("reorder","playlist $playlistId, $fromIndex, $toIndex")
             query {
                 Database.move(playlistId, fromIndex, toIndex)
             }
@@ -197,11 +201,6 @@ fun LocalPlaylistSongs(
         )
     }
 
-    /*
-    var isReorderDisabled by rememberSaveable {
-        mutableStateOf(false)
-    }
-    */
     var isReorderDisabled by rememberPreference(reorderInQueueEnabledKey, defaultValue = true)
 
     val thumbnailSizeDp = Dimensions.thumbnails.song
@@ -410,6 +409,7 @@ fun LocalPlaylistSongs(
                                         }
                                     )
 
+                                    if (!playlistWithSongs?.playlist?.browseId.isNullOrBlank())
                                     MenuEntry(
                                         icon = R.drawable.play,
                                         text = stringResource(R.string.listen_on_youtube),
@@ -428,6 +428,7 @@ fun LocalPlaylistSongs(
 
                                     val ytNonInstalled =
                                         stringResource(R.string.it_seems_that_youtube_music_is_not_installed)
+                                    if (!playlistWithSongs?.playlist?.browseId.isNullOrBlank())
                                     MenuEntry(
                                         icon = R.drawable.musical_notes,
                                         text = stringResource(R.string.listen_on_youtube_music),
@@ -444,11 +445,13 @@ fun LocalPlaylistSongs(
                                                 )
                                             )
                                                 context.toast(ytNonInstalled)
-
+/*
                                             Log.d(
                                                 "mediaItem",
                                                 playlistWithSongs?.playlist?.browseId.toString()
                                             )
+
+ */
                                         }
                                     )
 

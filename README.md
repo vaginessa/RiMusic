@@ -4,7 +4,7 @@
 </div>
 
 ## ✨ Features
-- **Multilingual support:** English, Italian, German, Russian, French, Spanish, Czech, Turkish and Romanian. Contributions for other languages are welcome
+- **Multilingual support:** English, Italian, German, Russian, French, Spanish, Czech, Turkish, Romanian and more. Contributions for other languages are welcome
 - UI Mode, change style from RiMusic to classic ViMusic style and viceversa
 - Play song from YouTube Music
 - Change your favorite language from settings
@@ -44,8 +44,10 @@
 </div>
 
 ## 🌐 Languages available
+- **Bashkir:** thanks to Shilave malay (Bash.boy)
 - **Czech:** thanks to [@ikanakova](https://github.com/ikanakova)
 - **English:** initially forked from ViMusic
+- **Esperanto:** thanks to r.t.redreovic
 - **French:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **German:** thanks to [@siggi1984](https://github.com/siggi1984)
 - **Italian:** thanks to [@fast4x](https://github.com/fast4x)
@@ -57,7 +59,7 @@
 - **Romanian:** thanks to [@OrangeZXZ](https://github.com/OrangeZxZ)
 - **Russian:** thanks to [@siggi1984](https://github.com/siggi1984)
 - **Spanish:** thanks to [@DanielSevillano](https://github.com/DanielSevillano)
-- **Turkish:** thanks to [@abfreeman](https://github.com/abfreeman)
+- **Turkish:** thanks to [@abfreeman](https://github.com/abfreeman) and [@2010furs](https://github.com/2010furs)
 
 
 ## 🔤 Translations

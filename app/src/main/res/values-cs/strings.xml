@@ -269,4 +269,10 @@
     <string name="square">Čtvercový</string>
     <string name="circular_ribbed">Zvlněný kruh</string>
     <string name="play_button">Tlačítko Přehrát</string>
+    <string name="portuguese_brazilian">Portuguese, Brazilian</string>
+    <string name="portuguese">Portuguese</string>
+    <string name="indonesian">Indonesian</string>
+    <string name="odia">Odia</string>
+    <string name="bashkir">Bashkir</string>
+    <string name="esperanto">Esperanto</string>
 </resources>

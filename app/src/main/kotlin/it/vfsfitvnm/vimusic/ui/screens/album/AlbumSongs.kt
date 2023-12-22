@@ -28,7 +28,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persistList
@@ -65,12 +67,13 @@ import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.getDownloadState
+import it.vfsfitvnm.vimusic.utils.isCompositionLaunched
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
 import kotlinx.coroutines.Dispatchers
-
+@ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
@@ -202,30 +205,43 @@ fun AlbumSongs(
                                 }
                             )
 
-                            if (showPlaylistSelectDialog)
+                            if (showPlaylistSelectDialog) {
+
                                 SelectorDialog(
                                     title = stringResource(R.string.playlists),
                                     onDismiss = { showPlaylistSelectDialog = false },
                                     values = playlistPreviews.map {
-                                             Info(it.playlist.id.toString(),"${it.playlist.name} (${it.songCount})")
+                                        Info(
+                                            it.playlist.id.toString(),
+                                            "${it.playlist.name} (${it.songCount})"
+                                        )
                                     },
                                     onValueSelected = {
-                                        songs.forEach {song ->
+                                        query {
+                                            var position =
+                                                Database.getSongMaxPositionToPlaylist(it.toLong())
+                                            //Log.d("mediaItemMaxPos", position.toString())
+
+                                            songs.forEach { song ->
+                                            position++
+                                                //Log.d("mediaItemMaxPos", position.toString())
                                             transaction {
                                                 Database.insert(song.asMediaItem)
                                                 Database.insert(
                                                     SongPlaylistMap(
                                                         songId = song.asMediaItem.mediaId,
                                                         playlistId = it.toLong(),
-                                                        position = 0
+                                                        position = position
                                                     )
                                                 )
                                             }
+                                            }
+
                                         }
                                         showPlaylistSelectDialog = false
                                     }
                                 )
-
+                            }
                         }
 
                         if (!isLandscape) {
