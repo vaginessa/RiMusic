@@ -269,4 +269,10 @@
     <string name="square">Quadrado</string>
     <string name="circular_ribbed">Cama circular</string>
     <string name="play_button">Botão \"Reproduzir\"</string>
+    <string name="portuguese_brazilian">Portuguese, Brazilian</string>
+    <string name="portuguese">Portuguese</string>
+    <string name="indonesian">Indonesian</string>
+    <string name="odia">Odia</string>
+    <string name="bashkir">Bashkir</string>
+    <string name="esperanto">Esperanto</string>
 </resources>
