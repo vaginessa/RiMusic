@@ -212,7 +212,7 @@
     <string name="new_albums">Яңы альбомдар</string>
     <string name="moods_and_genres">Кәйефтәр һәм жанрҙар</string>
     <string name="search_queries">" эҙләү һорауҙары"</string>
-    <string name="not_find_battery_optimization_settings">Couldn\'t find battery optimization settings, please whitelist manually</string>
+    <string name="not_find_battery_optimization_settings">Батарея оптимизацияһын көйләүҙәрен табыу булманы, зинһар, аҡ исемлеккә үҙегеҙ өҫтәгеҙ</string>
     <string name="search">Эҙләү...</string>
     <string name="no">Юҡ</string>
     <string name="stop">Туҡтатырға</string>
