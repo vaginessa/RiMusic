@@ -153,13 +153,22 @@ fun About() {
         SettingsDescription(text = stringResource(R.string.in_alphabetical_order))
 
         SettingsTopDescription( text =
+                "2010furs \n" +
+                "25huizengek1 \n" +
+                "abfreeman \n" +
+                "Bash.boy \n" +
                 "DanielSevillano \n" +
                 "dainvincible1 \n" +
+                "damianadam000 \n" +
+                "Get100percent \n" +
                 "ikanakova \n" +
                 "NEVARLeVrai \n" +
                 "OrangeZXZ \n" +
                 "roklc \n" +
-                "siggi1984"
+                "r.t.redreovic \n" +
+                "Bash.boy \n" +
+                "siggi1984 \n" +
+                "teddysulaimanGL \n"
         )
     }
 }

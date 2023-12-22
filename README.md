@@ -1,6 +1,7 @@
 <div align="center">
   <img src="./app_logo.png" width="300" height="100" />    
   <p><b>RiMusic</b> is a <b>multilingual</b> Android application for streaming music from YouTube Music</p>
+  <p>It was born as an extension of the functionality of [ViMusic](https://github.com/vfsfitvnm/ViMusic), which retains the general appearance, colors.</p>
 </div>
 
 ## ✨ Features
@@ -8,7 +9,7 @@
 - UI Mode, change style from RiMusic to classic ViMusic style and viceversa
 - Play song from YouTube Music
 - Change your favorite language from settings
-- Auto cache songs for offline playback, is possible to customize size of cache
+- Auto cache songs for offline playback with custom cache size
 - Download songs or entire playlist for offline playback (not cache) 
 - Background playback with stop while app swipe out from task manager
 - Minimized player optimizations
@@ -24,9 +25,9 @@
 - Persistent queue
 - Clear queue
 - Share menu support for YouTube and YouTube Music links
-- Fetch, display, edit and translate songs lyrics or synchronized lyrics
-- Light, Dark, Dynamic and ModernBack themes
-- Sleep timer
+- Fetch, display, edit and translate synchronized, or not, songs lyrics
+- Light, Dark, Dynamic, PureBlack and ModernBack themes
+- Sleep timer with custom time
 - Audio normalization
 - Audio skip silence
 - Android Auto support
@@ -46,8 +47,8 @@
 ## 🌐 Languages available
 - **Bashkir:** thanks to Shilave malay (Bash.boy)
 - **Czech:** thanks to [@ikanakova](https://github.com/ikanakova)
-- **English:** initially forked from ViMusic
-- **Esperanto:** thanks to r.t.redreovic
+- **English:** thanks to [@fast4x](https://github.com/fast4x)
+- **Esperanto:** thanks to [r.t.redreovic @Red1922](https://github.com/Red1922)
 - **French:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **German:** thanks to [@siggi1984](https://github.com/siggi1984)
 - **Italian:** thanks to [@fast4x](https://github.com/fast4x)
