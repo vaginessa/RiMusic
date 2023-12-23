@@ -208,8 +208,8 @@ fun  UiSettings() {
 
         SwitchSettingEntry(
             isEnabled = if (BuildCompat.isAtLeastT()) true else false,
-            title = "Close app with Back Button",
-            text = "When you use the back button from the home page",
+            title = stringResource(R.string.close_app_with_back_button),
+            text = stringResource(R.string.when_you_use_the_back_button_from_the_home_page),
             isChecked = closeWithBackButton,
             onCheckedChange = {
                 closeWithBackButton = it
