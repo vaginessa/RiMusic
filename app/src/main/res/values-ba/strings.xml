@@ -269,10 +269,10 @@
     <string name="square">Дүрткел</string>
     <string name="circular_ribbed">Тулҡынлы түңәрәк</string>
     <string name="play_button">Уйнатыу төймәһе</string>
-    <string name="portuguese_brazilian">Portuguese, Brazilian</string>
-    <string name="portuguese">Portuguese</string>
-    <string name="indonesian">Indonesian</string>
-    <string name="odia">Odia</string>
-    <string name="bashkir">Bashkir</string>
-    <string name="esperanto">Esperanto</string>
+    <string name="portuguese_brazilian">Португал, Бразил</string>
+    <string name="portuguese">Португал</string>
+    <string name="indonesian">Индонезия</string>
+    <string name="odia">Одия</string>
+    <string name="bashkir">Башҡурт</string>
+    <string name="esperanto">Эсперанто</string>
 </resources>
