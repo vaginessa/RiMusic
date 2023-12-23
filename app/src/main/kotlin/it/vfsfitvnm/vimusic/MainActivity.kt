@@ -103,6 +103,7 @@ import it.vfsfitvnm.vimusic.utils.OkHttpRequest
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.closeWithBackButtonKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
 import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
@@ -181,6 +182,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
         Handler(Looper.getMainLooper()).postDelayed({ splashScreenStays = false }, delayTime)
 
 
+        if (!preferences.getBoolean(closeWithBackButtonKey, false))
         if (BuildCompat.isAtLeastT()) {
             onBackInvokedDispatcher.registerOnBackInvokedCallback(
                 OnBackInvokedDispatcher.PRIORITY_DEFAULT
@@ -326,7 +328,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             //exoPlayerDiskCacheMaxSizeKey,
                             playerVisualizerTypeKey,
                             UiTypeKey,
-                            disablePlayerHorizontalSwipeKey  -> {
+                            disablePlayerHorizontalSwipeKey -> {
                                 this@MainActivity.recreate()
                             }
 

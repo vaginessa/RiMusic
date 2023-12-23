@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.os.BuildCompat
 import androidx.core.os.LocaleListCompat
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
@@ -47,6 +48,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
+import it.vfsfitvnm.vimusic.utils.closeWithBackButtonKey
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
@@ -77,10 +79,11 @@ import it.vfsfitvnm.vimusic.utils.useSystemFontKey
 import it.vfsfitvnm.vimusic.utils.volumeNormalizationKey
 import kotlin.system.exitProcess
 
+@androidx.annotation.OptIn(androidx.core.os.BuildCompat.PrereleaseSdkCheck::class)
 @ExperimentalAnimationApi
 @UnstableApi
 @Composable
-fun UiSettings() {
+fun  UiSettings() {
     val (colorPalette) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
     val context = LocalContext.current
@@ -97,6 +100,7 @@ fun UiSettings() {
     )
     var persistentQueue by rememberPreference(persistentQueueKey, false)
     var closebackgroundPlayer by rememberPreference(closebackgroundPlayerKey, false)
+    var closeWithBackButton by rememberPreference(closeWithBackButtonKey, false)
     var resumePlaybackWhenDeviceConnected by rememberPreference(
         resumePlaybackWhenDeviceConnectedKey,
         false
@@ -201,6 +205,17 @@ fun UiSettings() {
                 }
             )
         }
+
+        SwitchSettingEntry(
+            isEnabled = if (BuildCompat.isAtLeastT()) true else false,
+            title = "Close app with Back Button",
+            text = "When you use the back button from the home page",
+            isChecked = closeWithBackButton,
+            onCheckedChange = {
+                closeWithBackButton = it
+            }
+        )
+        SettingsDescription(text = stringResource(R.string.restarting_rimusic_is_required))
 
         SwitchSettingEntry(
             title = stringResource(R.string.close_background_player),
