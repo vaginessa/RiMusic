@@ -37,12 +37,15 @@ import it.vfsfitvnm.innertube.requests.player
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
 import it.vfsfitvnm.vimusic.models.Format
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.overlay
+import it.vfsfitvnm.vimusic.utils.audioQualityFormatKey
 import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.medium
+import it.vfsfitvnm.vimusic.utils.rememberPreference
 import kotlin.math.roundToInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -61,6 +64,8 @@ fun StatsForNerds(
     val (colorPalette, typography) = LocalAppearance.current
     val context = LocalContext.current
     val binder = LocalPlayerServiceBinder.current ?: return
+
+    val audioQualityFormat by rememberPreference(audioQualityFormatKey, AudioQualityFormat.High)
 
     AnimatedVisibility(
         visible = isDisplayed,
@@ -86,7 +91,12 @@ fun StatsForNerds(
                         withContext(Dispatchers.IO) {
                             delay(2000)
                             Innertube.player(PlayerBody(videoId = mediaId))?.onSuccess { response ->
-                                response.streamingData?.highestQualityFormat?.let { format ->
+                                //response.streamingData?.highestQualityFormat?.let { format ->
+                                when(audioQualityFormat) {
+                                    AudioQualityFormat.High -> response.streamingData?.highestQualityFormat
+                                    AudioQualityFormat.Medium -> response.streamingData?.mediumQualityFormat
+                                    AudioQualityFormat.Low -> response.streamingData?.lowestQualityFormat
+                                }?.let { format ->
                                     Database.insert(mediaItem)
                                     Database.insert(
                                         Format(
@@ -158,6 +168,10 @@ fun StatsForNerds(
                         style = typography.xs.medium.color(colorPalette.onOverlay)
                     )
                     BasicText(
+                        text = "Quality",
+                        style = typography.xs.medium.color(colorPalette.onOverlay)
+                    )
+                    BasicText(
                         text = stringResource(R.string.bitrate),
                         style = typography.xs.medium.color(colorPalette.onOverlay)
                     )
@@ -186,6 +200,19 @@ fun StatsForNerds(
                     )
                     BasicText(
                         text = format?.itag?.toString() ?: "Unknown",
+                        maxLines = 1,
+                        style = typography.xs.medium.color(colorPalette.onOverlay)
+                    )
+                    BasicText(
+                        text = when (format?.itag?.toString()) {
+                            "251" -> stringResource(R.string.audio_quality_format_high)
+                            "141" -> stringResource(R.string.audio_quality_format_high)
+                            "250" -> stringResource(R.string.audio_quality_format_medium)
+                            "140" -> stringResource(R.string.audio_quality_format_medium)
+                            "249" -> stringResource(R.string.audio_quality_format_low)
+                            "139" -> stringResource(R.string.audio_quality_format_low)
+                            else -> stringResource(R.string.audio_quality_format_unknown)
+                        },
                         maxLines = 1,
                         style = typography.xs.medium.color(colorPalette.onOverlay)
                     )

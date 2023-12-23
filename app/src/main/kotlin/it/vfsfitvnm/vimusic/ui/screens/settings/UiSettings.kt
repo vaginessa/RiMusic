@@ -31,6 +31,7 @@ import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
 import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
@@ -48,6 +49,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
+import it.vfsfitvnm.vimusic.utils.audioQualityFormatKey
 import it.vfsfitvnm.vimusic.utils.closeWithBackButtonKey
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
@@ -108,6 +110,7 @@ fun  UiSettings() {
 
     var skipSilence by rememberPreference(skipSilenceKey, false)
     var volumeNormalization by rememberPreference(volumeNormalizationKey, false)
+    var audioQualityFormat by rememberPreference(audioQualityFormatKey, AudioQualityFormat.High)
 
     val activityResultLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
@@ -167,6 +170,18 @@ fun  UiSettings() {
         SettingsGroupSpacer()
         SettingsEntryGroupText(stringResource(R.string.player))
 
+        EnumValueSelectorSettingsEntry(
+            title = "Audio quality Format",
+            selectedValue = audioQualityFormat,
+            onValueSelected = { audioQualityFormat = it },
+            valueText = {
+                when (it) {
+                    AudioQualityFormat.High -> stringResource(R.string.audio_quality_format_high)
+                    AudioQualityFormat.Medium -> stringResource(R.string.audio_quality_format_medium)
+                    AudioQualityFormat.Low -> stringResource(R.string.audio_quality_format_low)
+                }
+            }
+        )
 
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.min_listening_time),

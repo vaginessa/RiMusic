@@ -12,3 +12,4 @@ local.properties
 /APK keystore/pwd key.txt
 /crowdin.properties
 /__crowdin.properties
+/APK keystore/fdroid_metadata_it.fast4x.rimusic.yml

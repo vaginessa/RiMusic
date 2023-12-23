@@ -77,6 +77,7 @@ import it.vfsfitvnm.innertube.requests.player
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.MainActivity
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
 import it.vfsfitvnm.vimusic.models.Event
@@ -89,6 +90,7 @@ import it.vfsfitvnm.vimusic.utils.RingBuffer
 import it.vfsfitvnm.vimusic.utils.TimerJob
 import it.vfsfitvnm.vimusic.utils.YouTubeRadio
 import it.vfsfitvnm.vimusic.utils.activityPendingIntent
+import it.vfsfitvnm.vimusic.utils.audioQualityFormatKey
 import it.vfsfitvnm.vimusic.utils.broadCastPendingIntent
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerCustomCacheKey
@@ -198,6 +200,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
 
     private val mediaItemState = MutableStateFlow<MediaItem?>(null)
 
+    private lateinit var audioQualityFormat: AudioQualityFormat
 
     private val isLikedState = mediaItemState
         .flatMapMerge { item ->
@@ -259,6 +262,8 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         isInvincibilityEnabled = preferences.getBoolean(isInvincibilityEnabledKey, false)
         isShowingThumbnailInLockscreen =
             preferences.getBoolean(isShowingThumbnailInLockscreenKey, false)
+
+        audioQualityFormat = preferences.getEnum(audioQualityFormatKey, AudioQualityFormat.High)
 
         val exoPlayerCustomCache = preferences.getInt(exoPlayerCustomCacheKey, 32)
 
@@ -1141,7 +1146,13 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                     if (body?.videoDetails?.videoId != videoId) throw VideoIdMismatchException()
 
                     val url = when (val status = body.playabilityStatus?.status) {
-                        "OK" -> body.streamingData?.highestQualityFormat?.let { format ->
+                        //"OK" -> body.streamingData?.highestQualityFormat?.let { format ->
+                        "OK" -> when(audioQualityFormat) {
+                                    AudioQualityFormat.High -> body.streamingData?.highestQualityFormat
+                                    AudioQualityFormat.Medium -> body.streamingData?.mediumQualityFormat
+                                    AudioQualityFormat.Low -> body.streamingData?.lowestQualityFormat
+                        }?.let { format ->
+                            Log.d("formatAudioQuality",format.audioQuality.toString())
                             val mediaItem = runBlocking(Dispatchers.Main) {
                                 player.findNextMediaItemById(videoId)
                             }
