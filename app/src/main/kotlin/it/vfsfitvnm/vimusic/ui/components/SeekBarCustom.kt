@@ -75,7 +75,7 @@ fun SeekBarCustom(
     val transition = updateTransition(transitionState = isDragging, label = null)
 
     val currentBarHeight by transition.animateDp(label = "") { if (it) _scrubberRadius else _barHeight }
-    val currentScrubberRadius by transition.animateDp(label = "") { if (it) 0.dp else _scrubberRadius }
+    val currentScrubberRadius by transition.animateDp(label = "") { if (it) 8.dp else _scrubberRadius }
 
     Box(
         modifier = modifier

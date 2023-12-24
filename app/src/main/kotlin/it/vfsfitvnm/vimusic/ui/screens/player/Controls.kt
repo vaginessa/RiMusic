@@ -358,11 +358,11 @@ fun Controls(
                 }
             ) } else {
         BasicText(
-            text = title ?: "",
+            text = artist ?: "",
             style = TextStyle(
-                color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
-                fontStyle = typography.l.bold.fontStyle,
-                fontSize = typography.l.bold.fontSize
+                color = if (artistIds?.isEmpty() == true) colorPalette.textDisabled else colorPalette.text,
+                fontStyle = typography.s.bold.fontStyle,
+                fontSize = typography.s.bold.fontSize
             ),
             maxLines = 1,
             modifier = Modifier
