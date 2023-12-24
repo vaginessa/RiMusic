@@ -1,7 +1,7 @@
 <div align="center">
   <img src="./app_logo.png" width="300" height="100" />    
-  <p><b>RiMusic</b> is a <b>multilingual</b> Android application for streaming music from YouTube Music</p>
-  <p>It was born as an extension of the functionality of [ViMusic](https://github.com/vfsfitvnm/ViMusic), which retains the general appearance, colors.</p>
+  <p><b>RiMusic</b> is a <b>multilingual</b> Android application for streaming music from YouTube Music.</p>
+  <p>It was born as an extension of the functionality of <b>ViMusic</b>, which retains the general appearance, colors.</p>
 </div>
 
 ## ✨ Features
@@ -75,7 +75,7 @@
 - If you want to **develop new functions**, **fix a bug** or **improve some translations**, fork the repository and send a pull request.
 
 ## 🫂 Acknowledgments
-- [**ViMusic**](https://github.com/vfsfitvnm/ViMusic).
+- [**ViMusic**](https://github.com/vfsfitvnm/ViMusic)
 - [**YouTube-Internal-Clients**](https://github.com/zerodytrash/YouTube-Internal-Clients): A python script that discovers hidden YouTube API clients. Just a research project.
 - [**Ionicons**](https://github.com/ionic-team/ionicons): Premium hand-crafted icons built by Ionic, for Ionic apps and web apps everywhere.
 - [**Flaticon**](https://www.flaticon.com/authors/ilham-fitrotul-hayat) App icon based on icon created by Ilham Fitrotul Hayat.
