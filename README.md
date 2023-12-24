@@ -1,6 +1,6 @@
 <div align="center">
   <img src="./app_logo.png" width="300" height="100" />    
-  <p><b>RiMusic</b> is a <b>multilingual</b> Android application for streaming music from YouTube Music</p>
+  <p><b>RiMusic</b> is a <b>multilingual</b> Android application for streaming music from YouTube Music.</p>
   <p>It was born as an extension of the functionality of <b>ViMusic</b>, which retains the general appearance, colors.</p>
 </div>
 
