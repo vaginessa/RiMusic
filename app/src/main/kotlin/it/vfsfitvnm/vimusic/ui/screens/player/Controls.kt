@@ -431,7 +431,7 @@ fun Controls(
 
 
 
-        if (playerTimelineType == PlayerTimelineType.Wavy)
+        if (playerTimelineType == PlayerTimelineType.Wavy) {
             SeekBarWaved(
                 position = { animatedPosition.value },
                 range = 0f..media.duration.toFloat(),
@@ -463,6 +463,8 @@ fun Controls(
                 backgroundColor = colorPalette.textSecondary,
                 shape = RoundedCornerShape(8.dp)
             )
+        }
+
             AnimatedVisibility(
                 durationVisible,
                 enter = fadeIn() + expandVertically { -it },
@@ -480,7 +482,7 @@ fun Controls(
         )
 
 
-
+        if (!durationVisible)
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
