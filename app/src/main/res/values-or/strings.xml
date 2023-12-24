@@ -269,10 +269,10 @@
     <string name="square">ବର୍ଗ</string>
     <string name="circular_ribbed">ବୃତ୍ତାକାର ରିବଡ୍</string>
     <string name="play_button">ବଟନ୍ ଚଲାନ୍ତୁ</string>
-    <string name="portuguese_brazilian">Portuguese, Brazilian</string>
-    <string name="portuguese">Portuguese</string>
-    <string name="indonesian">Indonesian</string>
-    <string name="odia">Odia</string>
-    <string name="bashkir">Bashkir</string>
-    <string name="esperanto">Esperanto</string>
+    <string name="portuguese_brazilian">ପର୍ତ୍ତୁଗାଲ, ବ୍ରାଜିଲୀୟ</string>
+    <string name="portuguese">ପର୍ତ୍ତୁଗାଲ</string>
+    <string name="indonesian">ଇଣ୍ଡୋନେସିଆ</string>
+    <string name="odia">ଓଡିଆ</string>
+    <string name="bashkir">ବାସ୍କିର</string>
+    <string name="esperanto">ଏସପେରାଣ୍ଟୋ</string>
 </resources>
