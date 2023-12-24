@@ -108,9 +108,7 @@ fun downloadedStateMedia ( mediaId: String ): Boolean {
     }
 
     val download = format?.contentLength?.let {
-       // Log.d("mediaItem", "contentLength $it")
         try {
-            //context.toast(mediaId)
             downloadCache.isCached(mediaId, 0, it)
         } catch (e: Exception) {
             //context.toast(e.toString())
