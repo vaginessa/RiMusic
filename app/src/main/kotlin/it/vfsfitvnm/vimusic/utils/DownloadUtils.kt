@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.utils
 
 
+import android.content.ActivityNotFoundException
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -82,6 +83,7 @@ fun downloadedStateMedia ( mediaId: String ): Boolean {
     //val downloader = LocalDownloader.current
 
     val context = LocalContext.current
+
     val downloadCache = DownloadUtil.getDownloadSimpleCache(context) as SimpleCache
 
     val cachedBytes by remember(mediaId) {
@@ -107,7 +109,12 @@ fun downloadedStateMedia ( mediaId: String ): Boolean {
 
     val download = format?.contentLength?.let {
        // Log.d("mediaItem", "contentLength $it")
-        downloadCache.isCached(mediaId,0, it)
+        try {
+            //context.toast(mediaId)
+            downloadCache.isCached(mediaId, 0, it)
+        } catch (e: Exception) {
+            //context.toast(e.toString())
+        }
     }
 
     //isDownloaded = (format?.contentLength == cachedBytes) || (download?.state == Download.STATE_COMPLETED)
