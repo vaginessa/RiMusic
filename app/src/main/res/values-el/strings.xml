@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">Άκυρο</string>
     <string name="done">Done</string>
-    <string name="hidesong">Do you really want to hide this song? Its playback time and cache will be wiped.\nThis action is irreversible.</string>
-    <string name="new_playlist">New playlist</string>
+    <string name="hidesong">Θέλετε να διαγράψετε αυτό το τραγούδι; Ο χρόνος ακρόασης και η προσωρινή μνήμη του θα διαγραφούν.\nΑυτή η ενέργεια δεν είναι αναστρέψιμη.</string>
+    <string name="new_playlist">Δημιουργία νέου playlist</string>
     <string name="start_radio">Start radio</string>
     <string name="equalizer">Equalizer</string>
     <string name="stop_sleep_timer">Do you want to stop the sleep timer?</string>
