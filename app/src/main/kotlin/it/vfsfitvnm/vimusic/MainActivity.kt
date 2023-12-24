@@ -165,6 +165,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
     override fun onStart() {
         super.onStart()
+        startService(Intent(this, PlayerService::class.java))
         bindService(intent<PlayerService>(), serviceConnection, Context.BIND_AUTO_CREATE)
     }
 

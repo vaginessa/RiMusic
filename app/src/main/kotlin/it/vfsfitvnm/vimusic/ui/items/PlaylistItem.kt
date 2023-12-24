@@ -207,7 +207,7 @@ fun PlaylistItem(
                 modifier = Modifier
                     .fillMaxSize()
             )
-
+/*
             songCount?.let {
                 BasicText(
                     text = "$songCount",
@@ -221,7 +221,9 @@ fun PlaylistItem(
                         .align(Alignment.BottomEnd)
                 )
             }
+            */
         }
+
 
         ItemInfoContainer(
             horizontalAlignment = if (alternative && channelName == null) Alignment.CenterHorizontally else Alignment.Start,
