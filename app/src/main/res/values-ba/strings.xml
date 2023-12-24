@@ -207,7 +207,7 @@
     <string name="download">Йөкләргә</string>
     <string name="_default">Ғәҙәти</string>
     <string name="dynamic">Динамик</string>
-    <string name="discovery">Тикшереү</string>
+    <string name="discovery">Яңыны асығыҙ</string>
     <string name="mood">Кәйеф</string>
     <string name="new_albums">Яңы альбомдар</string>
     <string name="moods_and_genres">Кәйефтәр һәм жанрҙар</string>
@@ -269,10 +269,10 @@
     <string name="square">Дүрткел</string>
     <string name="circular_ribbed">Тулҡынлы түңәрәк</string>
     <string name="play_button">Уйнатыу төймәһе</string>
-    <string name="portuguese_brazilian">Portuguese, Brazilian</string>
-    <string name="portuguese">Portuguese</string>
-    <string name="indonesian">Indonesian</string>
-    <string name="odia">Odia</string>
-    <string name="bashkir">Bashkir</string>
-    <string name="esperanto">Esperanto</string>
+    <string name="portuguese_brazilian">Португал, Бразил</string>
+    <string name="portuguese">Португал</string>
+    <string name="indonesian">Индонезия</string>
+    <string name="odia">Одия</string>
+    <string name="bashkir">Башҡурт</string>
+    <string name="esperanto">Эсперанто</string>
 </resources>
