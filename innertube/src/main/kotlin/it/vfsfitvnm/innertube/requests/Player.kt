@@ -36,7 +36,8 @@ suspend fun Innertube.player(body: PlayerBody) = runCatchingNonCancellable {
         val safePlayerResponse = client.post(player) {
             setBody(
                 body.copy(
-                    context = Context.DefaultAgeRestrictionBypass.copy(
+                    //context = Context.DefaultAgeRestrictionBypass.copy(
+                    context = Context.DefaultWeb.copy(
                         thirdParty = Context.ThirdParty(
                             embedUrl = "https://www.youtube.com/watch?v=${body.videoId}"
                         )
