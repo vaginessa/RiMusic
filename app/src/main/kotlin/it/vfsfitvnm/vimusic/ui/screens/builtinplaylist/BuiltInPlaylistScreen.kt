@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.routing.RouteHandler
@@ -40,6 +41,7 @@ import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 
+@ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi

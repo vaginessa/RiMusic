@@ -56,6 +56,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
@@ -115,6 +116,7 @@ import kotlinx.coroutines.withContext
 import kotlin.math.absoluteValue
 
 
+@ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation", "RememberReturnType")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -563,7 +565,7 @@ fun Player(
 
                             onDragEnd = {
                                 if(!disablePlayerHorizontalSwipe) {
-                                    if (deltaX > 0) binder.player.forceSeekToPrevious()
+                                    if (deltaX > 0) binder.player.seekToPreviousMediaItem() //binder.player.forceSeekToPrevious()
                                     else binder.player.forceSeekToNext()
                                     //Log.d("mediaItemGesture","ondrag end offsetX${offsetX} deltaX ${deltaX}")
                                 }
@@ -844,14 +846,15 @@ fun Player(
     }
 
 }
-
+@ExperimentalTextApi
 @ExperimentalAnimationApi
 @UnstableApi
 @Composable
 private fun PlayerMenu(
     binder: PlayerService.Binder,
     mediaItem: MediaItem,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+
 ) {
     val context = LocalContext.current
 

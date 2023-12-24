@@ -52,6 +52,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -110,8 +111,9 @@ import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlin.math.max
 
+
+@ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -135,14 +137,14 @@ fun PlaylistSongList(
     val localMaxDepth = 200
 
     LaunchedEffect(Unit, filter) {
-        if (playlistPage != null && playlistPage?.songsPage?.continuation == null) return@LaunchedEffect
-/*
+        //if (playlistPage != null && playlistPage?.songsPage?.continuation == null) return@LaunchedEffect
+
         playlistPage = withContext(Dispatchers.IO) {
             Innertube.playlistPage(BrowseBody(browseId = browseId, params = params))
                 ?.completed(localMaxDepth)?.getOrNull()
         }
+        //Log.d("mediaPlaylist", "${playlistPage?.title} songs ${playlistPage?.songsPage?.items?.size} continuation ${playlistPage?.songsPage?.continuation}")
 
-*/
 /*
                 playlistPage = withContext(Dispatchers.IO) {
                     Innertube.playlistPage(BrowseBody(browseId = browseId, params = params))
@@ -150,11 +152,11 @@ fun PlaylistSongList(
                 }
 
  */
-
+/*
         playlistPage = withContext(Dispatchers.IO) {
             Innertube.playlistPage(BrowseBody(browseId = browseId))?.completed()?.getOrNull()
         }
-
+*/
     }
 
     var filterCharSequence: CharSequence

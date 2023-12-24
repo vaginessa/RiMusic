@@ -23,6 +23,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.routing.RouteHandler
@@ -36,6 +37,7 @@ import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 
+@ExperimentalTextApi
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
@@ -61,25 +63,25 @@ fun SettingsScreen() {
                 tabIndex = tabIndex,
                 onTabChanged = onTabChanged,
                 tabColumnContent = { Item ->
-                    Item(0, stringResource(R.string.appearance), R.drawable.color_palette)
-                    Item(1, stringResource(R.string.ui_tab), R.drawable.app_icon)
-                    Item(2, stringResource(R.string.player), R.drawable.app_icon)
-                    Item(3, stringResource(R.string.cache), R.drawable.sync)
-                    Item(4, stringResource(R.string.database), R.drawable.server)
-                    Item(5, stringResource(R.string.other), R.drawable.equalizer)
-                    Item(6, stringResource(R.string.about), R.drawable.information)
+                    Item(0, stringResource(R.string.ui_tab), R.drawable.app_icon)
+                    Item(1, stringResource(R.string.appearance), R.drawable.color_palette)
+                    //Item(2, stringResource(R.string.player), R.drawable.app_icon)
+                    Item(2, stringResource(R.string.cache), R.drawable.sync)
+                    Item(3, stringResource(R.string.database), R.drawable.server)
+                    Item(4, stringResource(R.string.other), R.drawable.equalizer)
+                    Item(5, stringResource(R.string.about), R.drawable.information)
 
                 }
             ) { currentTabIndex ->
                 saveableStateHolder.SaveableStateProvider(currentTabIndex) {
                     when (currentTabIndex) {
-                        0 -> AppearanceSettings()
-                        1 -> UiSettings()
-                        2 -> PlayerSettings()
-                        3 -> CacheSettings()
-                        4 -> DatabaseSettings()
-                        5 -> OtherSettings()
-                        6 -> About()
+                        0 -> UiSettings()
+                        1 -> AppearanceSettings()
+                        //2 -> PlayerSettings()
+                        2 -> CacheSettings()
+                        3 -> DatabaseSettings()
+                        4 -> OtherSettings()
+                        5 -> About()
 
                     }
                 }

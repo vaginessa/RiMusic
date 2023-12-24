@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerData
 import it.vfsfitvnm.vimusic.equalizer.ui.circularProj
 import it.vfsfitvnm.vimusic.equalizer.ui.computeStackedBarPoints
+import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 
 
 @Composable
@@ -25,6 +26,7 @@ fun CircularStackedBarEqualizer(
     barCount: Int,
     maxStackCount: Int = 32
 ) {
+    val (colorPalette) = LocalAppearance.current
     var size by remember { mutableStateOf(IntSize.Zero) }
     Row(modifier.onSizeChanged { size = it }) {
         val viewportWidth = size.width.toFloat()
@@ -67,11 +69,19 @@ fun CircularStackedBarEqualizer(
             Path(
                 fill = Brush.radialGradient(
                     listOf(
+                        colorPalette.background0,
+                        colorPalette.text,
+                        colorPalette.textDisabled,
+                        colorPalette.accent,
+                    )
+                    /*
+                    listOf(
                         Color(0xffb3e5fc),
                         Color(0xffb3e5fc),
                         Color(0xffffffff),
                         Color(0xff9575cd),
                     )
+                     */
                 ),
                 pathData = nodes
             )

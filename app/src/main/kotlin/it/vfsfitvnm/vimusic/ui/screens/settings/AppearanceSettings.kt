@@ -29,21 +29,40 @@ import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.NavigationTab
+import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
+import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
+import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
+import it.vfsfitvnm.vimusic.enums.PlayerVisualizerType
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
+import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.service.MyDownloadService
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
+import it.vfsfitvnm.vimusic.utils.disableIconButtonOnTopKey
+import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
+import it.vfsfitvnm.vimusic.utils.disableScrollingTextKey
+import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid13
 import it.vfsfitvnm.vimusic.utils.isShowingThumbnailInLockscreenKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerPlayButtonTypeKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerThumbnailSizeKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerTimelineTypeKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerVisualizerTypeKey
+import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
+import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
+import it.vfsfitvnm.vimusic.utils.playerTimelineTypeKey
+import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
+import it.vfsfitvnm.vimusic.utils.thumbnailTapEnabledKey
 import it.vfsfitvnm.vimusic.utils.useSystemFontKey
 
 @ExperimentalAnimationApi
@@ -51,11 +70,7 @@ import it.vfsfitvnm.vimusic.utils.useSystemFontKey
 @Composable
 fun AppearanceSettings() {
     val (colorPalette) = LocalAppearance.current
-    var languageApp  by rememberPreference(languageAppKey, Languages.English)
-    val systemLocale = LocaleListCompat.getDefault().get(0).toString()
-        languageApp.code = systemLocale
 
-    //Log.d("LanguageSystem",systemLocale.toString() +"  "+ languageApp.name)
 
     var colorPaletteName by rememberPreference(colorPaletteNameKey, ColorPaletteName.PureBlack)
     var colorPaletteMode by rememberPreference(colorPaletteModeKey, ColorPaletteMode.System)
@@ -73,6 +88,25 @@ fun AppearanceSettings() {
         indexNavigationTabKey,
         NavigationTab.Default
     )
+
+    var playerPlayButtonType by rememberPreference(playerPlayButtonTypeKey, PlayerPlayButtonType.Rectangular)
+
+    var lastPlayerVisualizerType by rememberPreference(lastPlayerVisualizerTypeKey, PlayerVisualizerType.Disabled)
+    var lastPlayerTimelineType by rememberPreference(lastPlayerTimelineTypeKey, PlayerTimelineType.Default)
+    var lastPlayerThumbnailSize by rememberPreference(lastPlayerThumbnailSizeKey, PlayerThumbnailSize.Medium)
+    var lastPlayerPlayButtonType by rememberPreference(lastPlayerPlayButtonTypeKey, PlayerPlayButtonType.Rectangular)
+    var uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
+    var disablePlayerHorizontalSwipe by rememberPreference(disablePlayerHorizontalSwipeKey, false)
+    var disableIconButtonOnTop by rememberPreference(disableIconButtonOnTopKey, false)
+    var disableScrollingText by rememberPreference(disableScrollingTextKey, false)
+
+    var playerVisualizerType by rememberPreference(playerVisualizerTypeKey, PlayerVisualizerType.Disabled)
+    var playerTimelineType by rememberPreference(playerTimelineTypeKey, PlayerTimelineType.Default)
+    var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
+
+    var effectRotationEnabled by rememberPreference(effectRotationKey, true)
+
+    var thumbnailTapEnabled by rememberPreference(thumbnailTapEnabledKey, false)
 
     Column(
         modifier = Modifier
@@ -94,45 +128,37 @@ fun AppearanceSettings() {
             onClick = {}
         )
 
-        SettingsEntryGroupText(title = stringResource(R.string.languages))
+        SettingsGroupSpacer()
+        SettingsEntryGroupText(stringResource(R.string.user_interface))
 
         EnumValueSelectorSettingsEntry(
-            title = stringResource(R.string.app_language),
-            selectedValue = languageApp,
-            onValueSelected = {languageApp = it },
+            title = stringResource(R.string.interface_in_use),
+            selectedValue = uiType,
+            onValueSelected = {
+                uiType = it
+                if (uiType == UiType.ViMusic) {
+                    disablePlayerHorizontalSwipe = true
+                    disableIconButtonOnTop = true
+                    playerTimelineType = PlayerTimelineType.Default
+                    playerVisualizerType = PlayerVisualizerType.Disabled
+                    playerThumbnailSize = PlayerThumbnailSize.Medium
+                } else {
+                    disablePlayerHorizontalSwipe = false
+                    disableIconButtonOnTop = false
+                    playerTimelineType = lastPlayerTimelineType
+                    playerVisualizerType = lastPlayerVisualizerType
+                    playerThumbnailSize = lastPlayerThumbnailSize
+                    playerPlayButtonType = lastPlayerPlayButtonType
+                }
+
+            },
             valueText = {
-                when (it){
-                    Languages.System -> stringResource(R.string.system_language)
-                    Languages.English -> stringResource(R.string.english)
-                    Languages.Italian -> stringResource(R.string.italian)
-                    Languages.Czech -> stringResource(R.string.czech)
-                    Languages.German -> stringResource(R.string.german)
-                    Languages.Spanish -> stringResource(R.string.spanish)
-                    Languages.French -> stringResource(R.string.french)
-                    Languages.FrenchEmo -> stringResource(R.string.french_emoticons_fran_ais)
-                    Languages.Romanian -> stringResource(R.string.romanian)
-                    Languages.RomanianEmo -> stringResource(R.string.romanian_emoticons_rom_n)
-                    Languages.Russian -> stringResource(R.string.russian)
-                    Languages.Turkish -> stringResource(R.string.turkish)
-                    Languages.Polish -> stringResource(R.string.polish)
+                when(it) {
+                    UiType.RiMusic -> UiType.RiMusic.name
+                    UiType.ViMusic -> UiType.ViMusic.name
                 }
             }
         )
-
-
-
-        /*
-        SettingsEntryGroupText(title = "Home")
-
-        EnumValueSelectorSettingsEntry(
-            title = "Tab",
-            selectedValue = navTabIndex,
-            onValueSelected = { navTabIndex = it }
-        )
-        */
-
-
-        SettingsEntryGroupText(title = stringResource(R.string.colors))
 
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.theme),
@@ -167,8 +193,21 @@ fun AppearanceSettings() {
         )
 
         SettingsGroupSpacer()
+        SettingsEntryGroupText(title = stringResource(R.string.player))
 
-        SettingsEntryGroupText(title = stringResource(R.string.shapes))
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.player_thumbnail_size),
+            selectedValue = playerThumbnailSize,
+            onValueSelected = { playerThumbnailSize = it },
+            valueText = {
+                when (it) {
+                    PlayerThumbnailSize.Small -> stringResource(R.string.small)
+                    PlayerThumbnailSize.Medium -> stringResource(R.string.medium)
+                    PlayerThumbnailSize.Big -> stringResource(R.string.big)
+                    PlayerThumbnailSize.Biggest -> stringResource(R.string.biggest)
+                }
+            }
+        )
 
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.thumbnail_roundness),
@@ -199,9 +238,87 @@ fun AppearanceSettings() {
             }
         )
 
+        SwitchSettingEntry(
+            title = "Disable scrolling text",
+            text = "Scrolling text is used for long texts",
+            isChecked = disableScrollingText,
+            onCheckedChange = { disableScrollingText = it }
+        )
+
+        SwitchSettingEntry(
+            title = stringResource(R.string.disable_horizontal_swipe),
+            text = stringResource(R.string.disable_song_switching_via_swipe),
+            isChecked = disablePlayerHorizontalSwipe,
+            onCheckedChange = { disablePlayerHorizontalSwipe = it }
+        )
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.timeline),
+            selectedValue = playerTimelineType,
+            onValueSelected = { playerTimelineType = it },
+            valueText = {
+                when (it) {
+                    PlayerTimelineType.Default -> stringResource(R.string._default)
+                    PlayerTimelineType.Wavy -> stringResource(R.string.wavy_timeline)
+                    PlayerTimelineType.BodiedBar -> stringResource(R.string.bodied_bar)
+                    PlayerTimelineType.PinBar -> stringResource(R.string.pin_bar)
+                }
+            }
+        )
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.play_button),
+            selectedValue = playerPlayButtonType,
+            onValueSelected = {
+                playerPlayButtonType = it
+                lastPlayerPlayButtonType = it
+            },
+            valueText = {
+                when (it) {
+                    PlayerPlayButtonType.Default -> stringResource(R.string._default)
+                    PlayerPlayButtonType.Rectangular -> stringResource(R.string.rectangular)
+                    PlayerPlayButtonType.Square -> stringResource(R.string.square)
+                    PlayerPlayButtonType.CircularRibbed -> stringResource(R.string.circular_ribbed)
+                }
+            },
+            isEnabled = uiType != UiType.ViMusic
+        )
+
+
+        SwitchSettingEntry(
+            title = stringResource(R.string.player_rotating_buttons),
+            text = stringResource(R.string.player_enable_rotation_buttons),
+            isChecked = effectRotationEnabled,
+            onCheckedChange = { effectRotationEnabled = it }
+        )
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.visualizer),
+            selectedValue = playerVisualizerType,
+            onValueSelected = { playerVisualizerType = it },
+            valueText = {
+                when (it) {
+                    PlayerVisualizerType.Fancy -> stringResource(R.string.vt_fancy)
+                    PlayerVisualizerType.Circular -> stringResource(R.string.vt_circular)
+                    PlayerVisualizerType.Disabled -> stringResource(R.string.vt_disabled)
+                    PlayerVisualizerType.Stacked -> stringResource(R.string.vt_stacked)
+                    PlayerVisualizerType.Oneside -> stringResource(R.string.vt_one_side)
+                    PlayerVisualizerType.Doubleside -> stringResource(R.string.vt_double_side)
+                    PlayerVisualizerType.DoublesideCircular -> stringResource(R.string.vt_double_side_circular)
+                    PlayerVisualizerType.Full -> stringResource(R.string.vt_full)
+                }
+            }
+        )
+        ImportantSettingsDescription(text = stringResource(R.string.visualizer_require_mic_permission))
+
+        SwitchSettingEntry(
+            title = stringResource(R.string.toggle_lyrics),
+            text = stringResource(R.string.by_tapping_on_the_thumbnail),
+            isChecked = thumbnailTapEnabled,
+            onCheckedChange = { thumbnailTapEnabled = it }
+        )
 
         SettingsGroupSpacer()
-
         SettingsEntryGroupText(title = stringResource(R.string.text))
 
         SwitchSettingEntry(

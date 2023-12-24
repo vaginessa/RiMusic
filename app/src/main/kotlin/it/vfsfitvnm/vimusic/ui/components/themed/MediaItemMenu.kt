@@ -45,9 +45,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
@@ -79,13 +82,15 @@ import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.medium
+import it.vfsfitvnm.vimusic.utils.positionAndDurationState
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
+import kotlin.math.absoluteValue
 
-
+@ExperimentalTextApi
 @ExperimentalAnimationApi
 @androidx.media3.common.util.UnstableApi
 @Composable
@@ -122,6 +127,7 @@ fun InHistoryMediaItemMenu(
         modifier = modifier
     )
 }
+@ExperimentalTextApi
 @UnstableApi
 @ExperimentalAnimationApi
 @Composable
@@ -144,6 +150,7 @@ fun InPlaylistMediaItemMenu(
         modifier = modifier
     )
 }
+@ExperimentalTextApi
 @UnstableApi
 @ExperimentalAnimationApi
 @Composable
@@ -180,6 +187,7 @@ fun NonQueuedMediaItemMenu(
         modifier = modifier
     )
 }
+@ExperimentalTextApi
 @UnstableApi
 @ExperimentalAnimationApi
 @Composable
@@ -203,6 +211,7 @@ fun QueuedMediaItemMenu(
     )
 }
 
+@ExperimentalTextApi
 @UnstableApi
 @ExperimentalAnimationApi
 @Composable
@@ -233,6 +242,7 @@ fun BaseMediaItemMenu(
         onEnqueue = onEnqueue,
         onDownload = onDownload,
         onAddToPlaylist = { playlist, position ->
+            Log.d("mediaitemPosition",position.toString())
             transaction {
                 Database.insert(mediaItem)
                 Database.insert(
@@ -265,6 +275,7 @@ fun BaseMediaItemMenu(
         modifier = modifier
     )
 }
+@ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
 @UnstableApi
 @ExperimentalAnimationApi
@@ -345,6 +356,10 @@ fun MediaItemMenu(
 
             Database.likedAt(mediaItem.mediaId).collect { likedAt = it }
         }
+    }
+
+    var showCircularSlider by remember {
+        mutableStateOf(false)
     }
 
     AnimatedContent(
@@ -606,7 +621,6 @@ fun MediaItemMenu(
                 onShowSleepTimer?.let {
                     val binder = LocalPlayerServiceBinder.current
                     val (_, typography) = LocalAppearance.current
-
                     var isShowingSleepTimerDialog by remember {
                         mutableStateOf(false)
                     }
@@ -614,6 +628,19 @@ fun MediaItemMenu(
                     val sleepTimerMillisLeft by (binder?.sleepTimerMillisLeft
                         ?: flowOf(null))
                         .collectAsState(initial = null)
+
+                    /*
+                    val positionAndDuration = binder?.player?.positionAndDurationState()
+                    val progress =
+                        positionAndDuration?.value?.first?.toFloat()
+                            ?.div(positionAndDuration.value.second.absoluteValue)
+
+                    val timeRemaining = (progress?.let { it1 ->
+                        positionAndDuration?.value!!.first.absoluteValue.minus(
+                            it1.absoluteValue)
+                    })?.toInt()!!
+                    */
+
 
                     if (isShowingSleepTimerDialog) {
                         if (sleepTimerMillisLeft != null) {
@@ -651,6 +678,7 @@ fun MediaItemMenu(
                                     modifier = Modifier
                                         .padding(vertical = 16.dp)
                                 ) {
+                                    if (!showCircularSlider) {
                                     Box(
                                         contentAlignment = Alignment.Center,
                                         modifier = Modifier
@@ -668,14 +696,15 @@ fun MediaItemMenu(
 
                                     Box(contentAlignment = Alignment.Center) {
                                         BasicText(
-                                            text = "88h 88m",
+                                            text = stringResource(
+                                                R.string.left,
+                                                formatAsDuration(amount * 5 * 60 * 1000L)
+                                            ),
                                             style = typography.s.semiBold,
                                             modifier = Modifier
-                                                .alpha(0f)
-                                        )
-                                        BasicText(
-                                            text = "${amount / 6}h ${(amount % 6) * 5}m",
-                                            style = typography.s.semiBold
+                                                .clickable {
+                                                    showCircularSlider = !showCircularSlider
+                                                }
                                         )
                                     }
 
@@ -693,6 +722,19 @@ fun MediaItemMenu(
                                             style = typography.xs.semiBold
                                         )
                                     }
+
+                                    } else {
+                                            CircularSlider(
+                                                stroke = 40f,
+                                                thumbColor = colorPalette.accent,
+                                                text = formatAsDuration(amount * 5 * 60 * 1000L),
+                                                modifier = Modifier
+                                                    .size(300.dp),
+                                                onChange = {
+                                                    amount = (it * 120).toInt()
+                                                }
+                                            )
+                                    }
                                 }
 
                                 Row(
@@ -700,19 +742,30 @@ fun MediaItemMenu(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                 ) {
-                                    DialogTextButton(
-                                        text = stringResource(R.string.cancel),
-                                        onClick = { isShowingSleepTimerDialog = false }
+                                    /*
+                                    if (timeRemaining != null) {
+                                        //BasicText(text = AnnotatedString(formatAsDuration(timeRemaining.toLong() )))
+                                        BasicText(text = AnnotatedString(formatAsDuration(timeRemaining.toLong())))
+                                    }
+                                    */
+                                    IconButton(
+                                        onClick = { showCircularSlider = !showCircularSlider },
+                                        icon = R.drawable.time,
+                                        color = colorPalette.text
                                     )
-
-                                    DialogTextButton(
-                                        text = stringResource(R.string.set),
+                                    IconButton(
+                                        onClick = { isShowingSleepTimerDialog = false },
+                                        icon = R.drawable.close,
+                                        color = colorPalette.text
+                                    )
+                                    IconButton(
                                         enabled = amount > 0,
-                                        primary = true,
                                         onClick = {
                                             binder?.startSleepTimer(amount * 5 * 60 * 1000L)
                                             isShowingSleepTimerDialog = false
-                                        }
+                                        },
+                                        icon = R.drawable.checkmark,
+                                        color = colorPalette.accent
                                     )
                                 }
                             }

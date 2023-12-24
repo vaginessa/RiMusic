@@ -28,6 +28,7 @@ import it.vfsfitvnm.innertube.models.bodies.PlayerBody
 import it.vfsfitvnm.innertube.requests.player
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.models.Format
+import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.utils.RingBuffer
 import kotlinx.coroutines.Dispatchers
@@ -103,23 +104,40 @@ object DownloadUtil {
 
                             when (val status = body.playabilityStatus?.status) {
                                 "OK" -> body.streamingData?.highestQualityFormat?.let { format ->
+                                    /*
                                     val mediaItem = runBlocking(Dispatchers.Main) {
                                         Innertube.player(PlayerBody(videoId = videoId))
                                     }
-
+                                     */
                                     query {
-                                        if (Database.songExist(videoId) == 1)
-                                        Database.insert(
-                                            Format(
-                                                songId = videoId,
-                                                itag = format.itag,
-                                                mimeType = format.mimeType,
-                                                bitrate = format.bitrate,
-                                                loudnessDb = body.playerConfig?.audioConfig?.normalizedLoudnessDb,
-                                                contentLength = format.contentLength,
-                                                lastModified = format.lastModified
+                                        if (Database.songExist(videoId) == 1) {
+                                            Database.insert(
+                                                Format(
+                                                    songId = videoId,
+                                                    itag = format.itag,
+                                                    mimeType = format.mimeType,
+                                                    bitrate = format.bitrate,
+                                                    loudnessDb = body.playerConfig?.audioConfig?.normalizedLoudnessDb,
+                                                    contentLength = format.contentLength,
+                                                    lastModified = format.lastModified
+                                                )
                                             )
-                                        )
+                                        } /* else {
+                                            Database.insert(mediaItem as Song)
+                                            if (Database.songExist(videoId) == 1) {
+                                                Database.insert(
+                                                    Format(
+                                                        songId = videoId,
+                                                        itag = format.itag,
+                                                        mimeType = format.mimeType,
+                                                        bitrate = format.bitrate,
+                                                        loudnessDb = body.playerConfig?.audioConfig?.normalizedLoudnessDb,
+                                                        contentLength = format.contentLength,
+                                                        lastModified = format.lastModified
+                                                    )
+                                                )
+                                            }
+                                        }*/
                                     }
 
                                     format.url

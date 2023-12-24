@@ -51,6 +51,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -93,6 +94,7 @@ import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.songSortByKey
 import it.vfsfitvnm.vimusic.utils.songSortOrderKey
 
+@ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi

@@ -270,6 +270,9 @@ interface Database {
     @Query("DELETE FROM SearchQuery")
     fun clearQueries()
 
+    @Query("SELECT count(id) FROM Song WHERE id = :songId and likedAt is not NULL")
+    fun songliked(songId: String): Int
+
     @Query("SELECT * FROM Song WHERE id = :id")
     fun song(id: String): Flow<Song?>
 
@@ -367,6 +370,11 @@ interface Database {
 
     @Query("UPDATE Song SET totalPlayTimeMs = totalPlayTimeMs + :addition WHERE id = :id")
     fun incrementTotalPlayTimeMs(id: String, addition: Long)
+
+    @Transaction
+    @Query("SELECT max(position) FROM SongPlaylistMap WHERE playlistId = :id")
+    fun getSongMaxPositionToPlaylist(id: Long): Int
+
 
     @Transaction
     @Query("SELECT * FROM Playlist WHERE id = :id")

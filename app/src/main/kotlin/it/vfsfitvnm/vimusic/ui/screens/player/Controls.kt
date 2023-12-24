@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.media.audiofx.AudioEffect
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -54,8 +53,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.C
@@ -88,9 +87,11 @@ import it.vfsfitvnm.vimusic.ui.styling.collapsedPlayerProgressBar
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.bold
+import it.vfsfitvnm.vimusic.utils.disableScrollingTextKey
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
+import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.isCompositionLaunched
 import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
@@ -157,7 +158,7 @@ fun Controls(
         animationSpec = tween(durationMillis = 200)
     )
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
-    //var wavedPlayerTimelineEnabled by rememberPreference(wavedPlayerTimelineKey, false)
+    var disableScrollingText by rememberPreference(disableScrollingTextKey, false)
     var playerTimelineType by rememberPreference(playerTimelineTypeKey, PlayerTimelineType.Default)
     var playerPlayButtonType by rememberPreference(playerPlayButtonTypeKey, PlayerPlayButtonType.Rectangular)
 
@@ -245,6 +246,7 @@ fun Controls(
                     )
                 }
 
+                if (disableScrollingText == false) {
                 ScrollText(
                     text = title ?: "",
                     style = TextStyle(
@@ -254,7 +256,18 @@ fun Controls(
                     ),
                     onClick = { if (albumId != null) onGoToAlbum(albumId) },
 
-                )
+                ) } else {
+                BasicText(
+                    text = title ?: "",
+                    style = TextStyle(
+                        color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
+                        fontStyle = typography.l.bold.fontStyle,
+                        fontSize = typography.l.bold.fontSize
+                    ),
+                    maxLines = 1,
+                    modifier = Modifier
+                        .clickable { if (albumId != null) onGoToAlbum(albumId) }
+                )}
             }
 
             if (uiType != UiType.ViMusic)
@@ -326,7 +339,7 @@ fun Controls(
             )
         }
 
-
+            if (disableScrollingText == false) {
             ScrollText(
                 text = artist ?: "",
                 style = TextStyle(
@@ -343,7 +356,21 @@ fun Controls(
                     )
                      */
                 }
-            )
+            ) } else {
+        BasicText(
+            text = title ?: "",
+            style = TextStyle(
+                color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
+                fontStyle = typography.l.bold.fontStyle,
+                fontSize = typography.l.bold.fontSize
+            ),
+            maxLines = 1,
+            modifier = Modifier
+                .clickable {
+                    if (artistIds?.isNotEmpty() == true)
+                    showSelectDialog = true
+                }
+        )}
 
         }
 
@@ -519,8 +546,8 @@ fun Controls(
                 icon = R.drawable.play_skip_back,
                 color = colorPalette.iconButtonPlayer,
                 onClick = {
-                    //binder.player.forceSeekToPrevious()
-                    binder.player.seekToPreviousMediaItem()
+                    binder.player.forceSeekToPrevious()
+                    //binder.player.seekToPreviousMediaItem()
                     if (effectRotationEnabled) isRotated = !isRotated
                 },
                 modifier = Modifier
@@ -614,7 +641,7 @@ fun Controls(
         }
 
 }
-
+@ExperimentalTextApi
 @ExperimentalAnimationApi
 @UnstableApi
 @Composable

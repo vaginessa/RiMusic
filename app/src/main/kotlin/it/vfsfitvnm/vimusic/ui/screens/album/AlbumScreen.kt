@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.media3.common.util.UnstableApi
@@ -68,7 +69,7 @@ import java.io.FileInputStream
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Date
-
+@ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation", "SimpleDateFormat")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi

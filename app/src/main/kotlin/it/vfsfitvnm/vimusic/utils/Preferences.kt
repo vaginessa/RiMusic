@@ -60,7 +60,7 @@ const val UiTypeKey = "UiType"
 const val disablePlayerHorizontalSwipeKey = "disablePlayerHorizontalSwipe"
 const val disableIconButtonOnTopKey = "disableIconButtonOnTop"
 const val exoPlayerCustomCacheKey = "exoPlayerCustomCache"
-
+const val disableScrollingTextKey = "disableScrollingText"
 
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(

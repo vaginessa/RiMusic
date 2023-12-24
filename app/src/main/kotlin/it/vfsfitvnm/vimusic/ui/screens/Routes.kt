@@ -5,6 +5,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.routing.Route0
@@ -44,6 +45,7 @@ val moodRoute = Route1<Mood>("moodRoute")
 //val playlistRoute = Route3<String?, String?, Int?>("playlistRoute")
 val playlistRoute = Route2<String?, String?>("playlistRoute")
 
+@ExperimentalTextApi
 @SuppressLint("ComposableNaming")
 @Suppress("NOTHING_TO_INLINE")
 @ExperimentalAnimationApi

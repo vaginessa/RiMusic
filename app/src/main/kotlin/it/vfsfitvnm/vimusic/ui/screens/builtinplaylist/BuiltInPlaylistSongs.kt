@@ -51,6 +51,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -67,6 +68,7 @@ import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongWithContentLength
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.service.DownloadUtil
 import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
@@ -98,7 +100,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
-
+@ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation", "StateFlowValueCalledInComposition")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -109,6 +111,7 @@ fun BuiltInPlaylistSongs(
     builtInPlaylist: BuiltInPlaylist,
     onSearchClick: () -> Unit
 ) {
+    val context = LocalContext.current
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
     val menuState = LocalMenuState.current
@@ -126,26 +129,12 @@ fun BuiltInPlaylistSongs(
 
      LaunchedEffect(Unit, sortBy, sortOrder, filter) {
         when (builtInPlaylist) {
-            /*
+
             BuiltInPlaylist.Downloaded -> {
-                //try {
-                    DownloadUtil.getDownloads()
-                //} catch (e: Exception) {
-                //    e.printStackTrace()
-                //}
-                DownloadUtil.downloads.value?.keys?.toList()?.let { Database.getSongsList(it) }
+                DownloadUtil.getDownloadManager(context)
+                DownloadUtil.getDownloads()
+                DownloadUtil.downloads.value.keys.toList().let { Database.getSongsList(it) }
             }
-*/
-            BuiltInPlaylist.Downloaded -> Database
-                .songsOffline(sortBy, sortOrder)
-                .flowOn(Dispatchers.IO)
-                .map { songs ->
-                    songs.filter { song ->
-                        song.contentLength?.let {
-                            binder?.downloadCache?.isCached(song.song.id, 0, song.contentLength)
-                        } ?: false
-                    }.map(SongWithContentLength::song)
-                }
 
             BuiltInPlaylist.Favorites -> Database
                 .songsFavorites(sortBy, sortOrder)
@@ -183,7 +172,7 @@ fun BuiltInPlaylistSongs(
 
     val lazyListState = rememberLazyListState()
 
-    val context = LocalContext.current
+
 
     Box {
         LazyColumn(
@@ -228,44 +217,44 @@ fun BuiltInPlaylistSongs(
                         modifier = Modifier
                             .weight(1f)
                     )
-                if (builtInPlaylist == BuiltInPlaylist.Favorites) {
-                    HeaderIconButton(
-                        icon = R.drawable.downloaded,
-                        color = colorPalette.text,
-                        onClick = {
-                            downloadState = Download.STATE_DOWNLOADING
-                            if (songs.isNotEmpty() == true)
-                                songs.forEach {
-                                    binder?.cache?.removeResource(it.asMediaItem.mediaId)
-                                    manageDownload(
-                                        context = context,
-                                        songId = it.asMediaItem.mediaId,
-                                        songTitle = it.asMediaItem.mediaMetadata.title.toString(),
-                                        downloadState = false
-                                    )
-                                }
-                        }
-                    )
-                }
+                    if (builtInPlaylist == BuiltInPlaylist.Favorites) {
+                        HeaderIconButton(
+                            icon = R.drawable.downloaded,
+                            color = colorPalette.text,
+                            onClick = {
+                                downloadState = Download.STATE_DOWNLOADING
+                                if (songs.isNotEmpty() == true)
+                                    songs.forEach {
+                                        binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                        manageDownload(
+                                            context = context,
+                                            songId = it.asMediaItem.mediaId,
+                                            songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                            downloadState = false
+                                        )
+                                    }
+                            }
+                        )
+                    }
                     if (builtInPlaylist == BuiltInPlaylist.Favorites || builtInPlaylist == BuiltInPlaylist.Downloaded) {
-                    HeaderIconButton(
-                        icon = R.drawable.download,
-                        color = colorPalette.text,
-                        onClick = {
-                            downloadState = Download.STATE_DOWNLOADING
-                            if (songs.isNotEmpty() == true)
-                                songs.forEach {
-                                    binder?.cache?.removeResource(it.asMediaItem.mediaId)
-                                    manageDownload(
-                                        context = context,
-                                        songId = it.asMediaItem.mediaId,
-                                        songTitle = it.asMediaItem.mediaMetadata.title.toString(),
-                                        downloadState = true
-                                    )
-                                }
-                        }
-                    )
-                }
+                        HeaderIconButton(
+                            icon = R.drawable.download,
+                            color = colorPalette.text,
+                            onClick = {
+                                downloadState = Download.STATE_DOWNLOADING
+                                if (songs.isNotEmpty() == true)
+                                    songs.forEach {
+                                        binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                        manageDownload(
+                                            context = context,
+                                            songId = it.asMediaItem.mediaId,
+                                            songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                            downloadState = true
+                                        )
+                                    }
+                            }
+                        )
+                    }
 
                     HeaderIconButton(
                         icon = R.drawable.enqueue,
@@ -290,7 +279,7 @@ fun BuiltInPlaylistSongs(
                         }
                     )
 
-
+                if (builtInPlaylist != BuiltInPlaylist.Downloaded) {
                     HeaderIconButton(
                         icon = R.drawable.trending,
                         color = if (sortBy == SongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
@@ -321,6 +310,8 @@ fun BuiltInPlaylistSongs(
                         modifier = Modifier
                             .graphicsLayer { rotationZ = sortOrderIconRotation }
                     )
+
+                }
 
                 }
 
