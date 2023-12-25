@@ -7,13 +7,14 @@ import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.BrowseResponse
 import it.vfsfitvnm.innertube.models.MusicTwoRowItemRenderer
 import it.vfsfitvnm.innertube.models.bodies.BrowseBody
+import it.vfsfitvnm.innertube.models.bodies.BrowseBodyWithLocale
 import it.vfsfitvnm.innertube.models.oddElements
 import it.vfsfitvnm.innertube.models.splitBySeparator
 import it.vfsfitvnm.innertube.utils.runCatchingNonCancellable
 
 suspend fun Innertube.discoverPage() = runCatchingNonCancellable {
     val response = client.post(browse) {
-        setBody(BrowseBody(browseId = "FEmusic_explore"))
+        setBody(BrowseBodyWithLocale(browseId = "FEmusic_explore"))
         mask("contents")
     }.body<BrowseResponse>()
 

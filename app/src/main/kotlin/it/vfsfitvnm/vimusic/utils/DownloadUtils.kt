@@ -112,6 +112,7 @@ fun downloadedStateMedia ( mediaId: String ): Boolean {
             downloadCache.isCached(mediaId, 0, it)
         } catch (e: Exception) {
             //context.toast(e.toString())
+            false
         }
     }
 

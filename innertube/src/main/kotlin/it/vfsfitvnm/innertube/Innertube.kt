@@ -27,6 +27,7 @@ import it.vfsfitvnm.innertube.models.YouTubeClient
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import java.net.Proxy
+import java.util.Locale
 
 object Innertube {
     val client = HttpClient(OkHttp) {
@@ -64,7 +65,8 @@ object Innertube {
         }
 
 
-    var localeHl = "en"
+    //var localeHl =  "en"
+    //var localeHl =  Locale.getDefault().toLanguageTag() //"en"
 
     internal const val browse = "/youtubei/v1/browse"
     internal const val next = "/youtubei/v1/next"
@@ -79,6 +81,7 @@ object Innertube {
 
     internal fun HttpRequestBuilder.mask(value: String = "*") =
         header("X-Goog-FieldMask", value)
+
 
 
     data class Info<T : NavigationEndpoint.Endpoint>(

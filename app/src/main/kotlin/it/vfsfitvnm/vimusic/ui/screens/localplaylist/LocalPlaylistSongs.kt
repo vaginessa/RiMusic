@@ -57,6 +57,7 @@ import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persist
+import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.compose.reordering.ReorderingLazyColumn
 import it.vfsfitvnm.compose.reordering.animateItemPlacement
 import it.vfsfitvnm.compose.reordering.draggedItem
@@ -134,13 +135,19 @@ fun LocalPlaylistSongs(
     var sortBy by rememberPreference(songSortByKey, SongSortBy.DateAdded)
     var sortOrder by rememberPreference(songSortOrderKey, SortOrder.Descending)
     */
+    var positions by persistList<Int>("localPlaylist/$playlistId/positions")
+
     var filter: String? by rememberSaveable { mutableStateOf(null) }
 
     LaunchedEffect(Unit, filter) {
         Database.playlistWithSongs(playlistId).filterNotNull().collect { playlistWithSongs = it }
 
+        Database.SongsPlaylistMap(playlistId).filterNotNull().collect { positions = it }
+
         //Database.SongsPlaylist(playlistId, sortBy, sortOrder).collect { songs = it }
     }
+
+    Log.d("mediaItemPos",positions.toString())
 
     var filterCharSequence: CharSequence
     filterCharSequence = filter.toString()
@@ -159,7 +166,7 @@ fun LocalPlaylistSongs(
         lazyListState = lazyListState,
         key = playlistWithSongs?.songs ?: emptyList<Any>(),
         onDragEnd = { fromIndex, toIndex ->
-            Log.d("reorder","playlist $playlistId, $fromIndex, $toIndex")
+            //Log.d("reorder","playlist $playlistId, $fromIndex, $toIndex")
             query {
                 Database.move(playlistId, fromIndex, toIndex)
             }
@@ -546,6 +553,7 @@ fun LocalPlaylistSongs(
                 key = { _, song -> song.id },
                 contentType = { _, song -> song },
             ) { index, song ->
+                //Log.d("mediaItemPos","song index ${index}")
                 val isLocal by remember { derivedStateOf { song.asMediaItem.isLocal } }
                 downloadState = getDownloadState(song.asMediaItem.mediaId)
                 val isDownloaded = if (!isLocal) downloadedStateMedia(song.asMediaItem.mediaId) else true

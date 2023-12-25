@@ -242,7 +242,7 @@ fun BaseMediaItemMenu(
         onEnqueue = onEnqueue,
         onDownload = onDownload,
         onAddToPlaylist = { playlist, position ->
-            Log.d("mediaitemPosition",position.toString())
+            //Log.d("mediaitemPosition","add in $playlist at $position")
             transaction {
                 Database.insert(mediaItem)
                 Database.insert(

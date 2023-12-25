@@ -7,10 +7,12 @@ import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.BrowseResponse
 import it.vfsfitvnm.innertube.models.MusicTwoRowItemRenderer
 import it.vfsfitvnm.innertube.models.bodies.BrowseBody
+import it.vfsfitvnm.innertube.models.bodies.BrowseBodyWithLocale
 import it.vfsfitvnm.innertube.utils.from
 import it.vfsfitvnm.innertube.utils.runCatchingNonCancellable
 
-suspend fun Innertube.browse(body: BrowseBody) = runCatchingNonCancellable {
+//suspend fun Innertube.browse(body: BrowseBody) = runCatchingNonCancellable {
+suspend fun Innertube.browse(body: BrowseBodyWithLocale) = runCatchingNonCancellable {
     val response = client.post(browse) {
         setBody(body)
     }.body<BrowseResponse>()

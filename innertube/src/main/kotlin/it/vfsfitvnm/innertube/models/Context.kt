@@ -2,6 +2,7 @@ package it.vfsfitvnm.innertube.models
 
 import it.vfsfitvnm.innertube.Innertube
 import kotlinx.serialization.Serializable
+import java.util.Locale
 
 @Serializable
 data class Context(
@@ -13,8 +14,9 @@ data class Context(
         val clientName: String,
         val clientVersion: String,
         val platform: String,
-        //val hl: String = "en",
-        val hl: String = Innertube.localeHl,
+        val hl: String = "en",
+        //val hl: String = Locale.getDefault().toLanguageTag(), //"en",
+        //val hl: String = Innertube.localeHl,
         val visitorData: String = "CgtEUlRINDFjdm1YayjX1pSaBg%3D%3D",
         val androidSdkVersion: Int? = null,
         val userAgent: String? = null
@@ -54,6 +56,18 @@ data class Context(
                 platform = "DESKTOP",
                 userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36",
                 visitorData = "AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30"
+
+            )
+        )
+
+        val DefaultWebWithLocale = Context(
+            client = Client(
+                clientName = "WEB_REMIX",
+                clientVersion = "1.20220606.03.00",
+                platform = "DESKTOP",
+                userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36",
+                visitorData = "AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30",
+                hl = Locale.getDefault().toLanguageTag()
 
             )
         )

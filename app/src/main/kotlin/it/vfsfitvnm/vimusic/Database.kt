@@ -388,6 +388,10 @@ interface Database {
     @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.totalPlayTimeMs DESC")
     fun SongsPlaylistByPlayTimeDesc(id: Long): Flow<List<Song>>
 
+    @Transaction
+    @Query("SELECT SP.position FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY SP.position")
+    fun SongsPlaylistMap(id: Long): Flow<List<Int>>
+
     fun SongsPlaylist(id: Long,sortBy: SongSortBy, sortOrder: SortOrder): Flow<List<Song>> {
         return when (sortBy) {
             SongSortBy.PlayTime -> when (sortOrder) {
@@ -402,6 +406,13 @@ interface Database {
                 SortOrder.Ascending -> songsByRowIdAsc()
                 SortOrder.Descending -> songsByRowIdDesc()
             }
+            /*
+            SongSortBy.Position -> when (sortOrder) {
+                SortOrder.Ascending -> songsByRowIdAsc()
+                SortOrder.Descending -> songsByRowIdDesc()
+            }
+
+             */
         }
     }
 

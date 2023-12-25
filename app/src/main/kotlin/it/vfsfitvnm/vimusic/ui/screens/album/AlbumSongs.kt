@@ -217,14 +217,15 @@ fun AlbumSongs(
                                         )
                                     },
                                     onValueSelected = {
+                                        var position = 0
                                         query {
-                                            var position =
+                                            position =
                                                 Database.getSongMaxPositionToPlaylist(it.toLong())
                                             //Log.d("mediaItemMaxPos", position.toString())
-
-                                            songs.forEach { song ->
-                                            position++
-                                                //Log.d("mediaItemMaxPos", position.toString())
+                                        }
+                                        if (position > 0) position++
+                                        songs.forEachIndexed { position, song ->
+                                            //Log.d("mediaItemMaxPos", position.toString())
                                             transaction {
                                                 Database.insert(song.asMediaItem)
                                                 Database.insert(
@@ -235,8 +236,7 @@ fun AlbumSongs(
                                                     )
                                                 )
                                             }
-                                            }
-
+                                            //Log.d("mediaItemPos", "add position $position")
                                         }
                                         showPlaylistSelectDialog = false
                                     }
