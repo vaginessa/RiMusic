@@ -269,10 +269,10 @@
     <string name="square">Quadrado</string>
     <string name="circular_ribbed">Circular ondulado</string>
     <string name="play_button">Botão \"Reproduzir\"</string>
-    <string name="portuguese_brazilian">Portuguese, Brazilian</string>
-    <string name="portuguese">Portuguese</string>
-    <string name="indonesian">Indonesian</string>
-    <string name="odia">Odia</string>
-    <string name="bashkir">Bashkir</string>
-    <string name="esperanto">Esperanto</string>
+    <string name="portuguese_brazilian">Português, Brasileiro (Portuguese, Brazilian)</string>
+    <string name="portuguese">Português (Portuguese)</string>
+    <string name="indonesian">Indonésio (Indonesian)</string>
+    <string name="odia">ଓଡିଆ (Odia)</string>
+    <string name="bashkir">Bashkir (Bashkir)</string>
+    <string name="esperanto">Esperanto (Esperanto)</string>
 </resources>
