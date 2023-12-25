@@ -269,10 +269,10 @@
     <string name="square">Carré</string>
     <string name="circular_ribbed">Cercle ondulé</string>
     <string name="play_button">Bouton lecture</string>
-    <string name="portuguese_brazilian">Portuguese, Brazilian</string>
-    <string name="portuguese">Portuguese</string>
-    <string name="indonesian">Indonesian</string>
-    <string name="odia">Odia</string>
-    <string name="bashkir">Bashkir</string>
-    <string name="esperanto">Esperanto</string>
+    <string name="portuguese_brazilian">Portugais, Brésilien (Portuguese, Brazilian)</string>
+    <string name="portuguese">Portugais (Portuguese)</string>
+    <string name="indonesian">Indonésien (Indonesian)</string>
+    <string name="odia">ଓଡିଆ (Odia)</string>
+    <string name="bashkir">Bachkir (Bashkir)</string>
+    <string name="esperanto">Espéranto (Esperanto)</string>
 </resources>

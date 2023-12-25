@@ -269,10 +269,10 @@
     <string name="square">Pătrat</string>
     <string name="circular_ribbed">Cerc ondulat</string>
     <string name="play_button">Buton de redare</string>
-    <string name="portuguese_brazilian">Portuguese, Brazilian</string>
-    <string name="portuguese">Portuguese</string>
-    <string name="indonesian">Indonesian</string>
-    <string name="odia">Odia</string>
-    <string name="bashkir">Bashkir</string>
-    <string name="esperanto">Esperanto</string>
+    <string name="portuguese_brazilian">Portugheză Braziliană (Portugues do Brasil)</string>
+    <string name="portuguese">Portugheză (Portugues)</string>
+    <string name="indonesian">Indoneziană (Indonesia)</string>
+    <string name="odia">Odia (ଓଡିଆ)</string>
+    <string name="bashkir">Bașchiră (Euskara)</string>
+    <string name="esperanto">Esperanto (Esperanto)</string>
 </resources>
