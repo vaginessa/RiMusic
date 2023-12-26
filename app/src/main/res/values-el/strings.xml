@@ -61,7 +61,7 @@
     <string name="view_the_source_code">Προβολή Πηγαίου Κώδικα</string>
     <string name="report_an_issue">Αναφορά προβλήματος</string>
     <string name="you_will_be_redirected_to_github">Θα μεταφερθείτε στο GitHub</string>
-    <string name="request_a_feature_or_suggest_an_idea">Request a feature or suggest an idea</string>
+    <string name="request_a_feature_or_suggest_an_idea">Προτείνετε μια ιδέα ή ένα χαρακτηριστικό</string>
     <string name="appearance">Εμφάνιση</string>
     <string name="colors">ΧΡΩΜΑΤΑ</string>
     <string name="theme">Θέμα</string>
@@ -71,7 +71,7 @@
     <string name="text">ΚΕΙΜΕΝΟ</string>
     <string name="use_system_font">Χρήση γραμματοσειράς συστήματος</string>
     <string name="use_font_by_the_system">Χρήση της γραμματοσειράς που χρησιμοποιείται από το σύστημα</string>
-    <string name="apply_font_padding">Apply font padding</string>
+    <string name="apply_font_padding">Εφαρμογή περιθωρίου γραμματοσειράς</string>
     <string name="add_spacing_around_texts">Προσθήκη κενού γύρω από τα κείμενα</string>
     <string name="lockscreen">ΟΘΟΝΗ ΚΛΕΙΔΩΜΑΤΟΣ</string>
     <string name="show_song_cover">Εμφάνιση εξώφυλλου τραγουδιού</string>
