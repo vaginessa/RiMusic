@@ -66,8 +66,8 @@
     <string name="colors">ΧΡΩΜΑΤΑ</string>
     <string name="theme">Θέμα</string>
     <string name="theme_mode">Λειτουργία θέματος</string>
-    <string name="shapes">SHAPES</string>
-    <string name="thumbnail_roundness">Thumbnail roundness</string>
+    <string name="shapes">ΣΧΗΜΑ</string>
+    <string name="thumbnail_roundness">Στρογγυλότητα μικρογραφιών</string>
     <string name="text">ΚΕΙΜΕΝΟ</string>
     <string name="use_system_font">Χρήση γραμματοσειράς συστήματος</string>
     <string name="use_font_by_the_system">Χρήση της γραμματοσειράς που χρησιμοποιείται από το σύστημα</string>
@@ -100,7 +100,7 @@
     <string name="pause_search_history">Απενεργοποίηση ιστορικού αναζήτησης</string>
     <string name="neither_save_new_searched_query">Νέα ερωτήματα αναζήτησης δε θα αποθηκεύονται και το ιστορικό αναζήτησης δε θα εμφανίζετε</string>
     <string name="clear_search_history">Διαγραφή ιστορικού αναζήτησης</string>
-    <string name="history_is_empty">History is empty</string>
+    <string name="history_is_empty">Το ιστορικό είναι άδειο</string>
     <string name="service_lifetime">SERVICE LIFETIME</string>
     <string name="battery_optimizations_applied">If battery optimizations are applied, the playback notification can suddenly disappear when paused.</string>
     <string name="is_android12">Since Android 12, disabling battery optimizations is required for the \"Invincible service\" option to take effect.</string>
