@@ -275,4 +275,10 @@
     <string name="odia">Одия</string>
     <string name="bashkir">Башҡурт</string>
     <string name="esperanto">Эсперанто</string>
+    <string name="do_you_really_want_to_delete_download">Do you really want to delete download?</string>
+    <string name="remove_all">Remove all</string>
+    <string name="remove_selected">Remove selected</string>
+    <string name="clear_queue">Clear queue</string>
+    <string name="enqueue_all">Enqueue all</string>
+    <string name="enqueue_selected">Enqueue selected</string>
 </resources>

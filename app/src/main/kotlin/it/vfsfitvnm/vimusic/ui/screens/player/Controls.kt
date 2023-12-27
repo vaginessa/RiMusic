@@ -66,6 +66,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
+import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Info
@@ -95,6 +96,7 @@ import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.isCompositionLaunched
 import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
+import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.playerTimelineTypeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.seamlessPlay
@@ -204,11 +206,14 @@ fun Controls(
 
     var showSelectDialog by remember { mutableStateOf(false) }
 
+    var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
+
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp)
+            //.padding(horizontal = 10.dp)
+            .padding(horizontal = playerThumbnailSize.size.dp)
     ) {
 /*
         Spacer(

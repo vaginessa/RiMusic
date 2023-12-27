@@ -33,6 +33,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxDefaults.colors
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -56,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
+import androidx.media3.common.util.Log
 import androidx.media3.exoplayer.offline.Download
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.compose.reordering.ReorderingLazyColumn
@@ -66,6 +69,7 @@ import it.vfsfitvnm.compose.reordering.reorder
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.UiType
+import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.ui.components.BottomSheet
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
@@ -74,6 +78,7 @@ import it.vfsfitvnm.vimusic.ui.components.MusicBars
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.QueuedMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.items.SongItemPlaceholder
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -213,6 +218,18 @@ fun Queue(
             mutableStateOf(Download.STATE_STOPPED)
         }
 
+        var listMediaItems = remember {
+            mutableListOf<Int>()
+        }
+
+        var selectQueueItems by remember {
+            mutableStateOf(false)
+        }
+
+        var showSelectTypeClearQueue by remember {
+            mutableStateOf(false)
+        }
+
         Column {
             Box(
                 modifier = Modifier
@@ -290,6 +307,22 @@ fun Queue(
                                 }
                             },
                             trailingContent = {
+
+                                val checkedState = remember { mutableStateOf(false) }
+                                if (selectQueueItems)
+                                Checkbox(
+                                    checked = checkedState.value,
+                                    onCheckedChange = {
+                                        checkedState.value = it
+                                        if (it) listMediaItems.add(window.firstPeriodIndex) else
+                                            listMediaItems.remove(window.firstPeriodIndex)
+                                    },
+                                    colors = colors(
+                                        checkedColor = colorPalette.accent,
+                                        uncheckedColor = colorPalette.text
+                                    )
+                                )
+
                                 if (!isReorderDisabled) {
                                     IconButton(
                                         icon = R.drawable.reorder,
@@ -340,17 +373,17 @@ fun Queue(
                                 )
                                 .pointerInput(Unit) {
 
-                                        detectHorizontalDragGestures(
-                                            onHorizontalDrag = { change, dragAmount ->
-                                                deltaX = dragAmount
-                                            },
+                                    detectHorizontalDragGestures(
+                                        onHorizontalDrag = { change, dragAmount ->
+                                            deltaX = dragAmount
+                                        },
 
-                                            onDragEnd = {
-                                                if (!isReorderDisabled)
+                                        onDragEnd = {
+                                            if (!isReorderDisabled)
                                                 player?.removeMediaItem(currentItem.firstPeriodIndex)
-                                            }
+                                        }
 
-                                        )
+                                    )
 
                                 }
                                 .animateItemPlacement(reorderingState = reorderingState)
@@ -432,16 +465,43 @@ fun Queue(
                     icon = R.drawable.trash,
                     color = colorPalette.text,
                     onClick = {
-                        val mediacount = binder.player.mediaItemCount - 1
-                        for (i in mediacount.downTo(0)) {
-                            if (i == mediaItemIndex) null else binder.player.removeMediaItem(i)
+                        if (!selectQueueItems)
+                        showSelectTypeClearQueue = true else {
+                            val mediacount = listMediaItems.size - 1
+                            listMediaItems.sort()
+                            for (i in mediacount.downTo(0)) {
+                                //if (i == mediaItemIndex) null else
+                                binder.player.removeMediaItem(listMediaItems[i])
+                            }
+                            listMediaItems.clear()
+                            selectQueueItems = false
                         }
-
                     },
                     modifier = Modifier
                         .padding(horizontal = 4.dp)
                         .size(24.dp)
                 )
+
+                if (showSelectTypeClearQueue)
+                    SelectorDialog(
+                        title = stringResource(R.string.clear_queue),
+                        onDismiss = { showSelectTypeClearQueue = false },
+                        values = listOf(
+                            Info("a", stringResource(R.string.remove_all)),
+                            Info("s", stringResource(R.string.remove_selected))
+                        ),
+                        onValueSelected = {
+                            if (it == "a") {
+                                val mediacount = binder.player.mediaItemCount - 1
+                                for (i in mediacount.downTo(0)) {
+                                    if (i == mediaItemIndex) null else binder.player.removeMediaItem(i)
+                                }
+                            } else selectQueueItems = true
+
+                            showSelectTypeClearQueue = false
+                        }
+                    )
+
                 IconButton(
                     icon = R.drawable.chevron_forward,
                     color = colorPalette.text,

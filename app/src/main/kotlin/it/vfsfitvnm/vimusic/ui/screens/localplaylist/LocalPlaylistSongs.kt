@@ -135,19 +135,19 @@ fun LocalPlaylistSongs(
     var sortBy by rememberPreference(songSortByKey, SongSortBy.DateAdded)
     var sortOrder by rememberPreference(songSortOrderKey, SortOrder.Descending)
     */
-    var positions by persistList<Int>("localPlaylist/$playlistId/positions")
+    //var positions by persistList<Int>("localPlaylist/$playlistId/positions")
 
     var filter: String? by rememberSaveable { mutableStateOf(null) }
 
     LaunchedEffect(Unit, filter) {
         Database.playlistWithSongs(playlistId).filterNotNull().collect { playlistWithSongs = it }
 
-        Database.SongsPlaylistMap(playlistId).filterNotNull().collect { positions = it }
+        //Database.SongsPlaylistMap(playlistId).filterNotNull().collect { positions = it }
 
         //Database.SongsPlaylist(playlistId, sortBy, sortOrder).collect { songs = it }
     }
 
-    Log.d("mediaItemPos",positions.toString())
+    //Log.d("mediaItemPos",positions.toString())
 
     var filterCharSequence: CharSequence
     filterCharSequence = filter.toString()
@@ -221,6 +221,10 @@ fun LocalPlaylistSongs(
 
     val context = LocalContext.current
     val uriHandler = LocalUriHandler.current
+
+    var showConfirmDeleteDownloadDialog by remember {
+        mutableStateOf(false)
+    }
 
     Box {
         ReorderingLazyColumn(
@@ -304,20 +308,31 @@ fun LocalPlaylistSongs(
                         icon = R.drawable.download,
                         color = colorPalette.text,
                         onClick = {
-                            downloadState = Download.STATE_DOWNLOADING
-                            if (playlistWithSongs?.songs?.isNotEmpty() == true)
-                                playlistWithSongs?.songs?.forEach {
-                                    binder?.cache?.removeResource(it.asMediaItem.mediaId)
-                                    manageDownload(
-                                        context = context,
-                                        songId = it.asMediaItem.mediaId,
-                                        songTitle = it.asMediaItem.mediaMetadata.title.toString(),
-                                        downloadState = true
-                                    )
-                                }
+                            showConfirmDeleteDownloadDialog = true
+
                         }
                     )
 
+                    if (showConfirmDeleteDownloadDialog) {
+                        ConfirmationDialog(
+                            text = stringResource(R.string.do_you_really_want_to_delete_download),
+                            onDismiss = { showConfirmDeleteDownloadDialog = false },
+                            onConfirm = {
+                                showConfirmDeleteDownloadDialog = false
+                                downloadState = Download.STATE_DOWNLOADING
+                                if (playlistWithSongs?.songs?.isNotEmpty() == true)
+                                    playlistWithSongs?.songs?.forEach {
+                                        binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                        manageDownload(
+                                            context = context,
+                                            songId = it.asMediaItem.mediaId,
+                                            songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                            downloadState = true
+                                        )
+                                    }
+                            }
+                        )
+                    }
 
                     HeaderIconButton(
                         icon = R.drawable.enqueue,

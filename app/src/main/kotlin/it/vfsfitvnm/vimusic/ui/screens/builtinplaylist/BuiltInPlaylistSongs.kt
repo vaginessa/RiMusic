@@ -71,6 +71,7 @@ import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.DownloadUtil
 import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
+import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
@@ -125,6 +126,10 @@ fun BuiltInPlaylistSongs(
 
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
+    }
+
+    var showConfirmDeleteDownloadDialog by remember {
+        mutableStateOf(false)
     }
 
      LaunchedEffect(Unit, sortBy, sortOrder, filter) {
@@ -241,19 +246,31 @@ fun BuiltInPlaylistSongs(
                             icon = R.drawable.download,
                             color = colorPalette.text,
                             onClick = {
-                                downloadState = Download.STATE_DOWNLOADING
-                                if (songs.isNotEmpty() == true)
-                                    songs.forEach {
-                                        binder?.cache?.removeResource(it.asMediaItem.mediaId)
-                                        manageDownload(
-                                            context = context,
-                                            songId = it.asMediaItem.mediaId,
-                                            songTitle = it.asMediaItem.mediaMetadata.title.toString(),
-                                            downloadState = true
-                                        )
-                                    }
+                                showConfirmDeleteDownloadDialog = true
                             }
                         )
+
+                        if (showConfirmDeleteDownloadDialog) {
+                            ConfirmationDialog(
+                                text = stringResource(R.string.do_you_really_want_to_delete_download),
+                                onDismiss = { showConfirmDeleteDownloadDialog = false },
+                                onConfirm = {
+                                    showConfirmDeleteDownloadDialog = false
+                                    downloadState = Download.STATE_DOWNLOADING
+                                    if (songs.isNotEmpty() == true)
+                                        songs.forEach {
+                                            binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                            manageDownload(
+                                                context = context,
+                                                songId = it.asMediaItem.mediaId,
+                                                songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                                downloadState = true
+                                            )
+                                        }
+                                }
+                            )
+                        }
+
                     }
 
                     HeaderIconButton(

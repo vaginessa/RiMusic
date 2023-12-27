@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.media3.common.MediaItem
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
@@ -49,6 +52,7 @@ import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
+import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
@@ -103,6 +107,10 @@ fun AlbumSongs(
         mutableStateOf(false)
     }
 
+    var showConfirmDeleteDownloadDialog by remember {
+        mutableStateOf(false)
+    }
+
     val thumbnailSizeDp = Dimensions.thumbnails.song
 
     val lazyListState = rememberLazyListState()
@@ -110,6 +118,22 @@ fun AlbumSongs(
     val context = LocalContext.current
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
+    }
+
+    var listMediaItems = remember {
+        mutableListOf<MediaItem>()
+    }
+
+    var selectItems by remember {
+        mutableStateOf(false)
+    }
+
+    var showSelectDialog by remember {
+        mutableStateOf(false)
+    }
+
+    var showAddPlaylistSelectDialog by remember {
+        mutableStateOf(false)
     }
 
     LayoutWithAdaptiveThumbnail(thumbnailContent = thumbnailContent) {
@@ -162,26 +186,48 @@ fun AlbumSongs(
                                 icon = R.drawable.download,
                                 color = colorPalette.text,
                                 onClick = {
-                                    downloadState = Download.STATE_DOWNLOADING
-                                    if (songs.isNotEmpty() == true)
-                                        songs.forEach {
-                                            binder?.cache?.removeResource(it.asMediaItem.mediaId)
-                                            manageDownload(
-                                                context = context,
-                                                songId = it.asMediaItem.mediaId,
-                                                songTitle = it.asMediaItem.mediaMetadata.title.toString(),
-                                                downloadState = true
-                                            )
-                                        }
+                                    showConfirmDeleteDownloadDialog = true
                                 }
                             )
+
+                            if (showConfirmDeleteDownloadDialog) {
+                                ConfirmationDialog(
+                                    text = stringResource(R.string.do_you_really_want_to_delete_download),
+                                    onDismiss = { showConfirmDeleteDownloadDialog = false },
+                                    onConfirm = {
+                                        showConfirmDeleteDownloadDialog = false
+                                        downloadState = Download.STATE_DOWNLOADING
+                                        if (songs.isNotEmpty() == true)
+                                            songs.forEach {
+                                                binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                                manageDownload(
+                                                    context = context,
+                                                    songId = it.asMediaItem.mediaId,
+                                                    songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                                    downloadState = true
+                                                )
+                                            }
+                                    }
+                                )
+                            }
 
                             HeaderIconButton(
                                 icon = R.drawable.enqueue,
                                 enabled = songs.isNotEmpty(),
                                 color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
-                                onClick = { binder?.player?.enqueue(songs.map(Song::asMediaItem)) }
+                                onClick = {
+                                    if (!selectItems)
+                                    showSelectDialog = true else {
+                                        binder?.player?.enqueue(listMediaItems)
+                                        listMediaItems.clear()
+                                        selectItems = false
+                                    }
+
+                                }
                             )
+
+
+
                             HeaderIconButton(
                                 icon = R.drawable.shuffle,
                                 enabled = songs.isNotEmpty(),
@@ -201,9 +247,29 @@ fun AlbumSongs(
                                 enabled = songs.isNotEmpty(),
                                 color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
                                 onClick = {
-                                    showPlaylistSelectDialog = true
+                                    if (!selectItems)
+                                        showAddPlaylistSelectDialog = true  else
+                                        showPlaylistSelectDialog = true
                                 }
                             )
+
+                            if (showAddPlaylistSelectDialog)
+                                SelectorDialog(
+                                    title = "Add in playlist",
+                                    onDismiss = { showAddPlaylistSelectDialog = false },
+                                    values = listOf(
+                                        Info("a", "Add all in playlist"),
+                                        Info("s", "Add selected in playlist")
+                                    ),
+                                    onValueSelected = {
+                                        if (it == "a") {
+                                            showPlaylistSelectDialog = true
+                                        } else selectItems = true
+
+                                        showAddPlaylistSelectDialog = false
+                                    }
+                                )
+
 
                             if (showPlaylistSelectDialog) {
 
@@ -224,6 +290,7 @@ fun AlbumSongs(
                                             //Log.d("mediaItemMaxPos", position.toString())
                                         }
                                         if (position > 0) position++
+                                        if (listMediaItems.isEmpty()) {
                                         songs.forEachIndexed { position, song ->
                                             //Log.d("mediaItemMaxPos", position.toString())
                                             transaction {
@@ -238,10 +305,46 @@ fun AlbumSongs(
                                             }
                                             //Log.d("mediaItemPos", "add position $position")
                                         }
+                                    } else {
+                                            listMediaItems.forEachIndexed { position, song ->
+                                                //Log.d("mediaItemMaxPos", position.toString())
+                                                transaction {
+                                                    Database.insert(song)
+                                                    Database.insert(
+                                                        SongPlaylistMap(
+                                                            songId = song.mediaId,
+                                                            playlistId = it.toLong(),
+                                                            position = position
+                                                        )
+                                                    )
+                                                }
+                                                //Log.d("mediaItemPos", "add position $position")
+                                            }
+                                            listMediaItems.clear()
+                                            selectItems = false
+                                    }
                                         showPlaylistSelectDialog = false
                                     }
                                 )
                             }
+
+                            if (showSelectDialog)
+                                SelectorDialog(
+                                    title = stringResource(R.string.enqueue),
+                                    onDismiss = { showSelectDialog = false },
+                                    values = listOf(
+                                        Info("a", stringResource(R.string.enqueue_all)),
+                                        Info("s", stringResource(R.string.enqueue_selected))
+                                    ),
+                                    onValueSelected = {
+                                        if (it == "a") {
+                                            binder?.player?.enqueue(songs.map(Song::asMediaItem))
+                                        } else selectItems = true
+
+                                        showSelectDialog = false
+                                    }
+                                )
+
                         }
 
                         if (!isLandscape) {
@@ -313,7 +416,23 @@ fun AlbumSongs(
                                         index
                                     )
                                 }
-                            )
+                            ),
+                            trailingContent = {
+                                val checkedState = remember { mutableStateOf(false) }
+                                if (selectItems)
+                                    Checkbox(
+                                        checked = checkedState.value,
+                                        onCheckedChange = {
+                                            checkedState.value = it
+                                            if (it) listMediaItems.add(song.asMediaItem) else
+                                                listMediaItems.remove(song.asMediaItem)
+                                        },
+                                        colors = CheckboxDefaults.colors(
+                                            checkedColor = colorPalette.accent,
+                                            uncheckedColor = colorPalette.text
+                                        )
+                                    )
+                            }
                     )
                 }
 
