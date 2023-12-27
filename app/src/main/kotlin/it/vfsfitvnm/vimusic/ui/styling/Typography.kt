@@ -53,23 +53,23 @@ fun typographyOf(color: Color, useSystemFont: Boolean, applyFontPadding: Boolean
         } else {
             FontFamily(
                 Font(
-                    resId = R.font.poppins_w300,
+                    resId = R.font.rubik_w300,
                     weight = FontWeight.Light
                 ),
                 Font(
-                    resId = R.font.poppins_w400,
+                    resId = R.font.rubik_w400,
                     weight = FontWeight.Normal
                 ),
                 Font(
-                    resId = R.font.poppins_w500,
+                    resId = R.font.rubik_w500,
                     weight = FontWeight.Medium
                 ),
                 Font(
-                    resId = R.font.poppins_w600,
+                    resId = R.font.rubik_w600,
                     weight = FontWeight.SemiBold
                 ),
                 Font(
-                    resId = R.font.poppins_w700,
+                    resId = R.font.rubik_w700,
                     weight = FontWeight.Bold
                 ),
             )
