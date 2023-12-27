@@ -101,8 +101,8 @@
     <string name="neither_save_new_searched_query">Νέα ερωτήματα αναζήτησης δε θα αποθηκεύονται και το ιστορικό αναζήτησης δε θα εμφανίζετε</string>
     <string name="clear_search_history">Διαγραφή ιστορικού αναζήτησης</string>
     <string name="history_is_empty">Το ιστορικό είναι άδειο</string>
-    <string name="service_lifetime">SERVICE LIFETIME</string>
-    <string name="battery_optimizations_applied">If battery optimizations are applied, the playback notification can suddenly disappear when paused.</string>
+    <string name="service_lifetime">ΖΩΗ ΥΠΗΡΕΣΙΑΣ</string>
+    <string name="battery_optimizations_applied">Εάν εφαρμοστεί η βελτιστοποίηση μπαταρίας, το πλαίσιο γρήγορων ρυθμίσεων μπορεί να εξαφανιστεί ξαφνικά όταν η μουσική είναι σε παύση.</string>
     <string name="is_android12">Since Android 12, disabling battery optimizations is required for the \"Invincible service\" option to take effect.</string>
     <string name="ignore_battery_optimizations">Ignore battery optimizations</string>
     <string name="already_unrestricted">Already unrestricted</string>
