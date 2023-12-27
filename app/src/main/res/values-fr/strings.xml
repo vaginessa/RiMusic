@@ -269,16 +269,16 @@
     <string name="square">Carré</string>
     <string name="circular_ribbed">Cercle ondulé</string>
     <string name="play_button">Bouton lecture</string>
-    <string name="portuguese_brazilian">Portuguese, Brazilian</string>
-    <string name="portuguese">Portuguese</string>
-    <string name="indonesian">Indonesian</string>
-    <string name="odia">Odia</string>
-    <string name="bashkir">Bashkir</string>
-    <string name="esperanto">Esperanto</string>
     <string name="close_app_with_back_button">Close app with Back Button</string>
     <string name="when_you_use_the_back_button_from_the_home_page">When you use the back button from the home page</string>
     <string name="audio_quality_format_high">High</string>
     <string name="audio_quality_format_medium">Medium</string>
     <string name="audio_quality_format_low">Low</string>
     <string name="audio_quality_format_unknown">Unknown</string>
+    <string name="portuguese_brazilian">Portugais, Brésilien (Portuguese, Brazilian)</string>
+    <string name="portuguese">Portugais (Portuguese)</string>
+    <string name="indonesian">Indonésien (Indonesian)</string>
+    <string name="odia">ଓଡିଆ (Odia)</string>
+    <string name="bashkir">Bachkir (Bashkir)</string>
+    <string name="esperanto">Espéranto (Esperanto)</string>
 </resources>
