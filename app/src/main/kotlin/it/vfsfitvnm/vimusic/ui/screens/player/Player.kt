@@ -318,7 +318,7 @@ fun Player(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier
-                    .background(colorPalette.background1)
+                    .background(colorPalette.background2)
                     .fillMaxSize()
                     .padding(horizontalBottomPaddingValues)
                     .drawBehind {

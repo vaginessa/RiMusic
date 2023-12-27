@@ -583,7 +583,7 @@ fun Controls(
                         when(playerPlayButtonType){
                             PlayerPlayButtonType.CircularRibbed -> colorPalette.background0
                             PlayerPlayButtonType.Default -> colorPalette.background3
-                            PlayerPlayButtonType.Rectangular -> colorPalette.accent
+                            PlayerPlayButtonType.Rectangular -> colorPalette.background3 //colorPalette.accent
                             PlayerPlayButtonType.Square -> colorPalette.background3
                         }
                     )
