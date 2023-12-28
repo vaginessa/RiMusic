@@ -239,7 +239,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
             val coroutineScope = rememberCoroutineScope()
             val isSystemInDarkTheme = isSystemInDarkTheme()
 
-            val audioQualityFormat = preferences.getEnum(audioQualityFormatKey, AudioQualityFormat.High)
+            preferences.getEnum(audioQualityFormatKey, AudioQualityFormat.High)
 
             var appearance by rememberSaveable(
                 isSystemInDarkTheme,

@@ -3,6 +3,7 @@ package it.vfsfitvnm.vimusic.enums
 enum class Languages {
     System,
     Bashkir,
+    Catalan,
     English,
     Esperanto,
     Czech,
@@ -26,6 +27,7 @@ enum class Languages {
         get() = when (this) {
             System -> "system"
             Bashkir -> "ba"
+            Catalan -> "ca"
             English -> "en"
             Esperanto -> "eo"
             Italian -> "it"

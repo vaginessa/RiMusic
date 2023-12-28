@@ -278,12 +278,13 @@ if (showNewversionDialog)
                 text = "Click icon to open the release page.",
                 style = typography.xs.semiBold.copy(color = colorPalette.textSecondary),
             )
+            Spacer(modifier = Modifier.height(10.dp))
             Image(
                 painter = painterResource(R.drawable.direct_download),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(colorPalette.shimmer),
                 modifier = Modifier
-                    .size(34.dp)
+                    .size(40.dp)
                     .clickable {
                         showNewversionDialog = false
                         uriHandler.openUri("https://github.com/fast4x/RiMusic/releases")

@@ -282,4 +282,5 @@
     <string name="enqueue_all">Enqueue all</string>
     <string name="enqueue_selected">Enqueue selected</string>
     <string name="greek">Greek</string>
+    <string name="catalan">Catalan</string>
 </resources>

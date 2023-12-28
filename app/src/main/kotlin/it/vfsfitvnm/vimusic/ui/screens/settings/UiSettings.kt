@@ -164,6 +164,7 @@ fun  UiSettings() {
                     Languages.Odia -> stringResource(R.string.odia)
                     Languages.Bashkir -> stringResource(R.string.bashkir)
                     Languages.Esperanto -> stringResource(R.string.esperanto)
+                    Languages.Catalan -> stringResource(R.string.catalan)
                 }
             }
         )
