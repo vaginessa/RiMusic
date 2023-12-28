@@ -192,7 +192,7 @@ fun HomeScreen(
 
 
             Scaffold(
-                topIconButtonId = R.drawable.settings, //if (newVersion == "") R.drawable.settings else R.drawable.direct_download,
+                topIconButtonId = if (newVersion == "") R.drawable.settings else R.drawable.update,
                 onTopIconButtonClick = { settingsRoute() },
                 topIconButton2Id = R.drawable.stats_chart,
                 onTopIconButton2Click = { statisticsTypeRoute(StatisticsType.Today) },
@@ -265,6 +265,7 @@ fun HomeScreen(
 
     newVersion =  isAvailableUpdate()
 
+    /*
 if (showNewversionDialog)
     DefaultDialog(
         onDismiss = { showNewversionDialog = false },
@@ -293,5 +294,5 @@ if (showNewversionDialog)
         }
 
     )
-
+*/
 }

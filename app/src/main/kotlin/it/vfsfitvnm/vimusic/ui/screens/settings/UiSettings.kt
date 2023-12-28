@@ -6,6 +6,7 @@ import android.media.audiofx.AudioEffect
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -22,7 +23,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.BuildCompat
@@ -47,6 +51,7 @@ import it.vfsfitvnm.vimusic.service.MyDownloadService
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.shimmer
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.audioQualityFormatKey
@@ -61,6 +66,7 @@ import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid13
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
+import it.vfsfitvnm.vimusic.utils.isAvailableUpdate
 import it.vfsfitvnm.vimusic.utils.isShowingThumbnailInLockscreenKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.lastPlayerPlayButtonTypeKey
@@ -115,6 +121,13 @@ fun  UiSettings() {
     val activityResultLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
 
+    val newVersion = isAvailableUpdate()
+    var thumbnailRoundness by rememberPreference(
+        thumbnailRoundnessKey,
+        ThumbnailRoundness.Heavy
+    )
+    val uriHandler = LocalUriHandler.current
+
     Column(
         modifier = Modifier
             .background(colorPalette.background0)
@@ -134,6 +147,34 @@ fun  UiSettings() {
             modifier = Modifier,
             onClick = {}
         )
+
+        SettingsGroupSpacer()
+        if (newVersion != "") {
+            //SettingsEntryGroupText(title = "Update available")
+            SettingsEntry(
+                title = "New version $newVersion",
+                text = "Click here to open page",
+                onClick = {
+                    uriHandler.openUri("https://github.com/fast4x/RiMusic/releases/latest")
+                    //uriHandler.openUri("https://github.com/fast4x/RiMusic/releases/tag/v0.6.9")
+                },
+                trailingContent = {
+                    Image(
+                        painter = painterResource(R.drawable.direct_download),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(colorPalette.shimmer),
+                        modifier = Modifier
+                            .size(34.dp)
+                    )
+                },
+                modifier = Modifier
+                    .background(
+                        color = colorPalette.background4,
+                        shape = thumbnailRoundness.shape()
+                    )
+
+            )
+        }
 
         SettingsGroupSpacer()
         SettingsEntryGroupText(title = stringResource(R.string.languages))

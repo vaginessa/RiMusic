@@ -96,9 +96,11 @@ import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
+import it.vfsfitvnm.vimusic.utils.durationToMillis
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
+import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.hasPermission
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid10
@@ -175,6 +177,14 @@ fun DeviceListSongs(
 
     val lazyListState = rememberLazyListState()
 
+    var totalPlayTimes = 0L
+    songs.forEach {
+        totalPlayTimes += if (it.durationText?.length == 4) {
+            durationToMillis("0" + it.durationText)
+        } else {
+            durationToMillis(it.durationText.toString())
+        }
+    }
 
     val activity = LocalContext.current as Activity
     //VisualizerComputer.setupPermissions( LocalContext.current as Activity)
@@ -222,7 +232,7 @@ fun DeviceListSongs(
                             .fillMaxWidth()
                     ){
                     HeaderInfo(
-                        title = "${songs.size}",
+                        title = "${songs.size} (${formatAsDuration(totalPlayTimes).dropLast(3)})",
                         icon = painterResource(R.drawable.musical_notes),
                         spacer = 0
                     )

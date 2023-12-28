@@ -96,9 +96,11 @@ import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.completed
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
+import it.vfsfitvnm.vimusic.utils.durationToMillis
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
+import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.launchYouTubeMusic
 import it.vfsfitvnm.vimusic.utils.manageDownload
@@ -159,6 +161,15 @@ fun LocalPlaylistSongs(
                 songItem.asMediaItem.mediaMetadata.title?.contains(filterCharSequence,true) ?: false
                         || songItem.asMediaItem.mediaMetadata.artist?.contains(filterCharSequence,true) ?: false
             }!!
+
+    var totalPlayTimes = 0L
+    playlistWithSongs?.songs?.forEach {
+        totalPlayTimes += if (it.durationText?.length == 4) {
+            durationToMillis("0" + it.durationText)
+        } else {
+            durationToMillis(it.durationText.toString())
+        }
+    }
 
     val lazyListState = rememberLazyListState()
 
@@ -265,7 +276,7 @@ fun LocalPlaylistSongs(
                 ) {
 
                     HeaderInfo(
-                        title = "${playlistWithSongs?.songs?.size}",
+                        title = "${playlistWithSongs?.songs?.size} (${formatAsDuration(totalPlayTimes).dropLast(3)})",
                         icon = painterResource(R.drawable.musical_notes),
                         spacer = 0
                     )
@@ -568,7 +579,8 @@ fun LocalPlaylistSongs(
                 key = { _, song -> song.id },
                 contentType = { _, song -> song },
             ) { index, song ->
-                //Log.d("mediaItemPos","song index ${index}")
+                //Log.d("mediaItemPos","song ${song.durationText?.let { durationToMillis("0"+it) }}")
+
                 val isLocal by remember { derivedStateOf { song.asMediaItem.isLocal } }
                 downloadState = getDownloadState(song.asMediaItem.mediaId)
                 val isDownloaded = if (!isLocal) downloadedStateMedia(song.asMediaItem.mediaId) else true

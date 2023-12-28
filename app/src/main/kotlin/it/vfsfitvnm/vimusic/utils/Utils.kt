@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import androidx.core.util.TimeUtils
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.UnstableApi
@@ -38,8 +39,12 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import org.json.JSONException
 import java.io.File
+import java.time.Duration
+import java.time.LocalTime
+import java.util.Date
 import java.util.Timer
 import kotlin.concurrent.timerTask
+
 
 
 val Innertube.SongItem.asMediaItem: MediaItem
@@ -152,6 +157,10 @@ fun Uri?.thumbnail(size: Int): Uri? {
 }
 
 fun formatAsDuration(millis: Long) = DateUtils.formatElapsedTime(millis / 1000).removePrefix("0")
+fun durationToMillis(duration: String) = Duration.between(
+    LocalTime.MIN ,
+    LocalTime.parse( duration )
+).toMillis()
 
 suspend fun Result<Innertube.PlaylistOrAlbumPage>.completed(maxDepth: Int = Int.MAX_VALUE): Result<Innertube.PlaylistOrAlbumPage>? {
     var playlistPage = getOrNull() ?: return null
