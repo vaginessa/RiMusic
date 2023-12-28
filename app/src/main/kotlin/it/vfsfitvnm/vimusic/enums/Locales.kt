@@ -9,6 +9,7 @@ enum class Languages {
     French,
     FrenchEmo,
     German,
+    Greek,
     Italian,
     Indonesian,
     Odia,
@@ -31,6 +32,7 @@ enum class Languages {
             Indonesian -> "in"
             Czech -> "cs"
             German -> "de"
+            Greek -> "el"
             Spanish -> "es"
             French -> "fr"
             FrenchEmo -> "fr-FR"

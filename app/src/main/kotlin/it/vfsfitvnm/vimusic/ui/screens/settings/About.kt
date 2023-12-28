@@ -162,6 +162,7 @@ fun About() {
                 "damianadam000 \n" +
                 "Get100percent \n" +
                 "ikanakova \n" +
+                "mapkaps \n" +
                 "NEVARLeVrai \n" +
                 "OrangeZXZ \n" +
                 "roklc \n" +
