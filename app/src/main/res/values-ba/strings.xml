@@ -275,6 +275,12 @@
     <string name="odia">Одия</string>
     <string name="bashkir">Башҡурт</string>
     <string name="esperanto">Эсперанто</string>
+    <string name="close_app_with_back_button">Close app with Back Button</string>
+    <string name="when_you_use_the_back_button_from_the_home_page">When you use the back button from the home page</string>
+    <string name="audio_quality_format_high">High</string>
+    <string name="audio_quality_format_medium">Medium</string>
+    <string name="audio_quality_format_low">Low</string>
+    <string name="audio_quality_format_unknown">Unknown</string>
     <string name="do_you_really_want_to_delete_download">Do you really want to delete download?</string>
     <string name="remove_all">Remove all</string>
     <string name="remove_selected">Remove selected</string>
