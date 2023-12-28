@@ -3,6 +3,12 @@ package it.vfsfitvnm.vimusic.ui.screens.home
 import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,9 +16,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.routing.RouteHandler
@@ -29,6 +40,8 @@ import it.vfsfitvnm.vimusic.enums.StatisticsType
 import it.vfsfitvnm.vimusic.models.SearchQuery
 import it.vfsfitvnm.vimusic.models.toUiMood
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.ui.components.themed.DefaultDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.GenericDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
@@ -48,11 +61,15 @@ import it.vfsfitvnm.vimusic.ui.screens.searchresult.SearchResultScreen
 import it.vfsfitvnm.vimusic.ui.screens.settings.SettingsScreen
 import it.vfsfitvnm.vimusic.ui.screens.settingsRoute
 import it.vfsfitvnm.vimusic.ui.screens.statisticsTypeRoute
+import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.shimmer
+import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.homeScreenTabIndexKey
 import it.vfsfitvnm.vimusic.utils.isAvailableUpdate
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.semiBold
 
 
 @ExperimentalTextApi
@@ -64,8 +81,10 @@ import it.vfsfitvnm.vimusic.utils.rememberPreference
 fun HomeScreen(
     onPlaylistUrl: (String) -> Unit
 ) {
-
+    val (colorPalette, typography) = LocalAppearance.current
     var newVersion = ""
+    var showNewversionDialog by remember { mutableStateOf(true) }
+    val uriHandler = LocalUriHandler.current
 
     val saveableStateHolder = rememberSaveableStateHolder()
     //var setDefaultTab = remember { mutableStateOf(true) }
@@ -173,7 +192,7 @@ fun HomeScreen(
 
 
             Scaffold(
-                topIconButtonId = if (newVersion == "") R.drawable.settings else R.drawable.direct_download,
+                topIconButtonId = R.drawable.settings, //if (newVersion == "") R.drawable.settings else R.drawable.direct_download,
                 onTopIconButtonClick = { settingsRoute() },
                 topIconButton2Id = R.drawable.stats_chart,
                 onTopIconButton2Click = { statisticsTypeRoute(StatisticsType.Today) },
@@ -245,5 +264,33 @@ fun HomeScreen(
     }
 
     newVersion =  isAvailableUpdate()
+
+if (showNewversionDialog)
+    DefaultDialog(
+        onDismiss = { showNewversionDialog = false },
+        content = {
+            BasicText(
+                text = "New version available $newVersion",
+                style = typography.s.bold.copy(color = colorPalette.text),
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            BasicText(
+                text = "Click icon to open the release page.",
+                style = typography.xs.semiBold.copy(color = colorPalette.textSecondary),
+            )
+            Image(
+                painter = painterResource(R.drawable.direct_download),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(colorPalette.shimmer),
+                modifier = Modifier
+                    .size(34.dp)
+                    .clickable {
+                        showNewversionDialog = false
+                        uriHandler.openUri("https://github.com/fast4x/RiMusic/releases")
+                    }
+            )
+        }
+
+    )
 
 }
