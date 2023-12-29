@@ -31,29 +31,5 @@ RiMusic is a multilingual Android application for streaming music from YouTube M
 - Android TV support
 - Check for Updates
 
-## 🌐 Languages available
-- **Bashkir:** thanks to [Shilave malay](https://crowdin.com/profile/Bash.boy)
-- **Catalan:** thanks to [EMC_Translator](https://crowdin.com/profile/EMC_Translator)
-- **Czech:** thanks to [@ikanakova](https://github.com/ikanakova)
-- **English:** thanks to [@fast4x](https://github.com/fast4x)
-- **Esperanto:** thanks to [r.t.redreovic @Red1922](https://github.com/Red1922)
-- **French:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
-- **German:** thanks to [@siggi1984](https://github.com/siggi1984)
-- **Greek:** thanks to [@Marinkas](https://github.com/Marinkas)
-- **Italian:** thanks to [@fast4x](https://github.com/fast4x)
-- **Indonesian:** thanks to [@teddysulaimanGL](https://github.com/teddysulaimanGL)
-- **Odia:** thanks to [@Get100percent](https://github.com/Get100percent)
-- **Polish:** thanks to [@roklc](https://github.com/roklc) and [@damianadam000](https://github.com/damianadam000)
-- **Portuguese:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
-- **Portuguese, Brazilian:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
-- **Romanian:** thanks to [@OrangeZXZ](https://github.com/OrangeZxZ)
-- **Russian:** thanks to [@siggi1984](https://github.com/siggi1984)
-- **Spanish:** thanks to [@DanielSevillano](https://github.com/DanielSevillano)
-- **Turkish:** thanks to [@abfreeman](https://github.com/abfreeman) and [@2010furs](https://github.com/2010furs)
-
-## 🔤 Translations
-- Go to [Crowdin](https://crowdin.com/project/rimusic/invite?h=73f0e6b64be1c64a8aebd467d286cf851925330) and help with the translations.
-
-
 Visit it on Github
 https://github.com/fast4x/RiMusic
