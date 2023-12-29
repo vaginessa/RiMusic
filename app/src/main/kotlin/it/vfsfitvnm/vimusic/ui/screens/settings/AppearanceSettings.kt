@@ -17,17 +17,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.os.LocaleListCompat
-import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
-import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.NavigationTab
 import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
@@ -35,8 +31,6 @@ import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
 import it.vfsfitvnm.vimusic.enums.PlayerVisualizerType
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
-import it.vfsfitvnm.vimusic.service.MyDownloadService
-import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
@@ -48,10 +42,8 @@ import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
 import it.vfsfitvnm.vimusic.utils.disableScrollingTextKey
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
-import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid13
 import it.vfsfitvnm.vimusic.utils.isShowingThumbnailInLockscreenKey
-import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.lastPlayerPlayButtonTypeKey
 import it.vfsfitvnm.vimusic.utils.lastPlayerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.lastPlayerTimelineTypeKey
@@ -239,8 +231,8 @@ fun AppearanceSettings() {
         )
 
         SwitchSettingEntry(
-            title = "Disable scrolling text",
-            text = "Scrolling text is used for long texts",
+            title = stringResource(R.string.disable_scrolling_text),
+            text = stringResource(R.string.scrolling_text_is_used_for_long_texts),
             isChecked = disableScrollingText,
             onCheckedChange = { disableScrollingText = it }
         )

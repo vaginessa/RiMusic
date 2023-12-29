@@ -8,9 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,56 +34,26 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
-import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
-import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
 import it.vfsfitvnm.vimusic.enums.Languages
-import it.vfsfitvnm.vimusic.enums.NavigationTab
-import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
-import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
-import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
-import it.vfsfitvnm.vimusic.enums.PlayerVisualizerType
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
-import it.vfsfitvnm.vimusic.enums.UiType
-import it.vfsfitvnm.vimusic.service.MyDownloadService
-import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
-import it.vfsfitvnm.vimusic.utils.UiTypeKey
-import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.audioQualityFormatKey
 import it.vfsfitvnm.vimusic.utils.closeWithBackButtonKey
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
-import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
-import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
-import it.vfsfitvnm.vimusic.utils.disableIconButtonOnTopKey
-import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
-import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
-import it.vfsfitvnm.vimusic.utils.intent
-import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid13
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isAvailableUpdate
-import it.vfsfitvnm.vimusic.utils.isShowingThumbnailInLockscreenKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
-import it.vfsfitvnm.vimusic.utils.lastPlayerPlayButtonTypeKey
-import it.vfsfitvnm.vimusic.utils.lastPlayerThumbnailSizeKey
-import it.vfsfitvnm.vimusic.utils.lastPlayerTimelineTypeKey
-import it.vfsfitvnm.vimusic.utils.lastPlayerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
-import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
-import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
-import it.vfsfitvnm.vimusic.utils.playerTimelineTypeKey
-import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.resumePlaybackWhenDeviceConnectedKey
 import it.vfsfitvnm.vimusic.utils.skipSilenceKey
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.toast
-import it.vfsfitvnm.vimusic.utils.useSystemFontKey
 import it.vfsfitvnm.vimusic.utils.volumeNormalizationKey
-import kotlin.system.exitProcess
 
 @androidx.annotation.OptIn(androidx.core.os.BuildCompat.PrereleaseSdkCheck::class)
 @ExperimentalAnimationApi
@@ -214,7 +182,7 @@ fun  UiSettings() {
         SettingsEntryGroupText(stringResource(R.string.player))
 
         EnumValueSelectorSettingsEntry(
-            title = "Audio quality Format",
+            title = stringResource(R.string.audio_quality_format),
             selectedValue = audioQualityFormat,
             onValueSelected = { audioQualityFormat = it },
             valueText = {
