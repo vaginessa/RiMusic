@@ -65,6 +65,7 @@ fun Thumbnail(
     onShowStatsForNerds: (Boolean) -> Unit,
     isShowingEqualizer: Boolean,
     onShowEqualizer: (Boolean) -> Unit,
+    onMaximize: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -177,7 +178,8 @@ fun Thumbnail(
                     .fillMaxSize()
             )
 
-            if (!currentWindow.mediaItem.isLocal) Lyrics(
+            if (!currentWindow.mediaItem.isLocal)
+                Lyrics(
                 mediaId = currentWindow.mediaItem.mediaId,
                 isDisplayed = isShowingLyrics && error == null,
                 onDismiss = {
@@ -187,6 +189,7 @@ fun Thumbnail(
                 size = thumbnailSizeDp,
                 mediaMetadataProvider = currentWindow.mediaItem::mediaMetadata,
                 durationProvider = player::getDuration,
+                onMaximize = onMaximize
             )
 
             StatsForNerds(

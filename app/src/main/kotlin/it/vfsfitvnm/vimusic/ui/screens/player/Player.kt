@@ -61,6 +61,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import coil.compose.AsyncImage
@@ -94,6 +95,7 @@ import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
+import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
@@ -300,6 +302,10 @@ fun Player(
     var isDownloaded by rememberSaveable { mutableStateOf(false) }
     isDownloaded = downloadedStateMedia(mediaItem.mediaId)
 
+    var showLyricsBottomSheet by remember {
+        mutableStateOf(false)
+    }
+
     OnGlobalRoute {
         layoutState.collapseSoft()
     }
@@ -481,6 +487,11 @@ fun Player(
             layoutState.expandedBound
         )
 
+        val lyricsBottomSheetState = rememberBottomSheetState(
+            0.dp + horizontalBottomPaddingValues.calculateBottomPadding(),
+            layoutState.expandedBound
+        )
+
         val containerModifier = Modifier
             .background(colorPalette.background1)
             .padding(
@@ -499,6 +510,7 @@ fun Player(
                 onShowStatsForNerds = { isShowingStatsForNerds = it },
                 isShowingEqualizer = isShowingEqualizer,
                 onShowEqualizer = { isShowingEqualizer = it },
+                onMaximize = { lyricsBottomSheetState.expandSoft() },
                 modifier = modifier
                     .nestedScroll(layoutState.preUpPostDownNestedScrollConnection)
             )
@@ -748,6 +760,20 @@ fun Player(
                         modifier = Modifier
                             .size(24.dp),
                     )
+/*
+                        IconButton(
+                            icon = R.drawable.song_lyrics,
+                            color = colorPalette.text,
+                            enabled = true,
+                            onClick = {
+                                lyricsBottomSheetState.expandSoft()
+                                Log.d("mediaItemLyrics","full click")
+                            },
+                            modifier = Modifier
+                                .size(24.dp),
+                        )
+
+ */
 
                     IconButton(
                         icon = R.drawable.song_lyrics,
@@ -760,6 +786,7 @@ fun Player(
                         modifier = Modifier
                             .size(24.dp),
                     )
+
 
                     if (playerVisualizerType != PlayerVisualizerType.Disabled)
                         IconButton(
@@ -843,6 +870,15 @@ fun Player(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
         )
+
+
+        LyricsSheet(
+            layoutState = lyricsBottomSheetState,
+            content = {},
+            backgroundColorProvider = { colorPalette.background2 },
+            onMaximize = { lyricsBottomSheetState.collapseSoft() }
+        )
+
     }
 
 }

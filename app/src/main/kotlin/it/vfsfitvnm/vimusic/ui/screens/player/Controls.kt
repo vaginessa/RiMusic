@@ -83,9 +83,11 @@ import it.vfsfitvnm.vimusic.ui.components.themed.ScrollText
 import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
+import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.collapsedPlayerProgressBar
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
+import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.disableScrollingTextKey
@@ -208,6 +210,10 @@ fun Controls(
 
     var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
 
+    var showLyrics by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = modifier
@@ -215,19 +221,12 @@ fun Controls(
             //.padding(horizontal = 10.dp)
             .padding(horizontal = playerThumbnailSize.size.dp)
     ) {
-/*
-        Spacer(
-            modifier = Modifier
-                .height(30.dp)
-        )
-*/
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = if (uiType != UiType.ViMusic) Arrangement.Start else Arrangement.Center,

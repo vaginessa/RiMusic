@@ -1,9 +1,9 @@
 package it.vfsfitvnm.vimusic.ui.screens.player
 
+//import com.google.mlkit.nl.translate.TranslateLanguage
 import android.app.SearchManager
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -46,16 +46,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.core.os.LocaleListCompat
 import androidx.media3.common.C
 import androidx.media3.common.MediaMetadata
-import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
-import coil.network.HttpException
-//import com.google.mlkit.nl.translate.TranslateLanguage
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.NextBody
@@ -64,7 +59,6 @@ import it.vfsfitvnm.kugou.KuGou
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
-import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.models.Lyrics
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
@@ -81,9 +75,7 @@ import it.vfsfitvnm.vimusic.utils.SynchronizedLyrics
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.isShowingSynchronizedLyricsKey
-import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.medium
-import it.vfsfitvnm.vimusic.utils.mlkit.Translate
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.utils.verticalFadingEdge
@@ -93,7 +85,6 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import me.bush.translator.Language
 import me.bush.translator.Translator
-import org.json.JSONException
 import java.util.Locale
 
 
@@ -103,6 +94,7 @@ fun Lyrics(
     mediaId: String,
     isDisplayed: Boolean,
     onDismiss: () -> Unit,
+    onMaximize: () -> Unit,
     size: Dp,
     mediaMetadataProvider: () -> MediaMetadata,
     durationProvider: () -> Long,
@@ -143,7 +135,6 @@ fun Lyrics(
         //val systemLocale = LocaleListCompat.getDefault().get(0).toString()
         //val systemLangCode = AppCompatDelegate.getApplicationLocales().get(0).toString()
         val systemLocale = Locale.getDefault().getLanguage()
-        //Log.d("mediaItemTranslate","languageApp $languageApp systemLangCode $systemLangCode systemLocale $systemLocale")
 
         val languageDestination = when (systemLocale) {
             "ru" -> Language.RUSSIAN
@@ -155,24 +146,10 @@ fun Lyrics(
             "ro" -> Language.ROMANIAN
             "tr" -> Language.TURKISH
             "pl" -> Language.POLISH
-            else -> { Language.ENGLISH }
+            else -> {
+                Language.ENGLISH
+            }
         }
-
-/*        // MLKIT
-        val languageDestination = when (systemLocale) {
-            "ru" -> TranslateLanguage.RUSSIAN
-            "it" -> TranslateLanguage.ITALIAN
-            "cs" -> TranslateLanguage.CZECH
-            "de" -> TranslateLanguage.DUTCH
-            "es" -> TranslateLanguage.SPANISH
-            "fr" -> TranslateLanguage.FRENCH
-            "ro" -> TranslateLanguage.ROMANIAN
-            "tr" -> TranslateLanguage.TURKISH
-            "pl" -> TranslateLanguage.POLISH
-            else -> { TranslateLanguage.ENGLISH }
-        }
-
- */
 
         var translateEnabled by remember {
             mutableStateOf(false)
@@ -219,7 +196,7 @@ fun Lyrics(
                             Database.upsert(
                                 Lyrics(
                                     songId = mediaId,
-                                    fixed =  fixedLyrics ?: "",
+                                    fixed = fixedLyrics ?: "",
                                     synced = it?.synced
                                 )
                             )
@@ -278,6 +255,7 @@ fun Lyrics(
                 }
                 .fillMaxSize()
                 .background(Color.Black.copy(0.8f))
+
         ) {
             AnimatedVisibility(
                 visible = isError && text == null,
@@ -287,7 +265,7 @@ fun Lyrics(
                     .align(Alignment.TopCenter)
             ) {
                 BasicText(
-                    text = stringResource( R.string.an_error_has_occurred_while_fetching_the_lyrics ),
+                    text = stringResource(R.string.an_error_has_occurred_while_fetching_the_lyrics),
                     style = typography.xs.center.medium.color(PureBlackColorPalette.text),
                     modifier = Modifier
                         .background(Color.Black.copy(0.4f))
@@ -304,7 +282,11 @@ fun Lyrics(
                     .align(Alignment.TopCenter)
             ) {
                 BasicText(
-                    text = "${if (isShowingSynchronizedLyrics) stringResource(id = R.string.synchronized_lyrics) else stringResource(id = R.string.unsynchronized_lyrics)} " +
+                    text = "${
+                        if (isShowingSynchronizedLyrics) stringResource(id = R.string.synchronized_lyrics) else stringResource(
+                            id = R.string.unsynchronized_lyrics
+                        )
+                    } " +
                             " ${stringResource(R.string.are_not_available_for_this_song)}",
                     //text = stringResource(R.string.are_not_available_for_this_song)
                     style = typography.xs.center.medium.color(PureBlackColorPalette.text),
@@ -326,6 +308,7 @@ fun Lyrics(
                             player.currentPosition + 50
                         }
                     }
+
 
                     val lazyListState = rememberLazyListState(
                         synchronizedLyrics.index,
@@ -368,13 +351,14 @@ fun Lyrics(
                                             e.printStackTrace()
                                         }
                                     }
-                                    translatedText = if (result.toString()=="kotlin.Unit") "" else result.toString()
+                                    translatedText =
+                                        if (result.toString() == "kotlin.Unit") "" else result.toString()
                                     showPlaceholder = false
                                 }
                             } else translatedText = sentence.second
                             BasicText(
                                 text = translatedText,
-                                style = typography.xs.center.medium.color(if (index == synchronizedLyrics.index) PureBlackColorPalette.text else PureBlackColorPalette.textDisabled),
+                                style = typography.m.center.medium.color(if (index == synchronizedLyrics.index) PureBlackColorPalette.text else PureBlackColorPalette.textDisabled),
                                 modifier = Modifier
                                     .padding(vertical = 4.dp, horizontal = 32.dp)
                             )
@@ -386,23 +370,24 @@ fun Lyrics(
                         LaunchedEffect(Unit) {
                             val result = withContext(Dispatchers.IO) {
                                 try {
-                                translator.translate(
-                                    text,
-                                    languageDestination,
-                                    Language.AUTO
-                                ).translatedText
+                                    translator.translate(
+                                        text,
+                                        languageDestination,
+                                        Language.AUTO
+                                    ).translatedText
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                 }
                             }
-                            translatedText = if (result.toString()=="kotlin.Unit") "" else result.toString()
+                            translatedText =
+                                if (result.toString() == "kotlin.Unit") "" else result.toString()
                             showPlaceholder = false
                         }
                     } else translatedText = text
 
                     BasicText(
                         text = translatedText,
-                        style = typography.xs.center.medium.color(PureBlackColorPalette.text),
+                        style = typography.m.center.medium.color(PureBlackColorPalette.text),
                         modifier = Modifier
                             .verticalFadingEdge()
                             .verticalScroll(rememberScrollState())
@@ -429,8 +414,19 @@ fun Lyrics(
             }
 
             IconButton(
+                icon = R.drawable.minmax,
+                color = DefaultDarkColorPalette.text,
+                enabled = true,
+                onClick = onMaximize,
+                modifier = Modifier
+                    .padding(all = 8.dp)
+                    .align(Alignment.TopEnd)
+                    .size(24.dp)
+            )
+
+            IconButton(
                 icon = R.drawable.translate,
-                color = if (translateEnabled == true ) colorPalette.text else colorPalette.textDisabled,
+                color = if (translateEnabled == true) colorPalette.text else colorPalette.textDisabled,
                 enabled = true,
                 onClick = {
                     translateEnabled = !translateEnabled
