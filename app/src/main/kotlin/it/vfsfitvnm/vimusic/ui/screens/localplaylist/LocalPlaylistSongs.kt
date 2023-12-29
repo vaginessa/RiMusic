@@ -161,7 +161,7 @@ fun LocalPlaylistSongs(
                 songItem.asMediaItem.mediaMetadata.title?.contains(filterCharSequence,true) ?: false
                         || songItem.asMediaItem.mediaMetadata.artist?.contains(filterCharSequence,true) ?: false
             }!!
-
+/*
     var totalPlayTimes = 0L
     playlistWithSongs?.songs?.forEach {
         totalPlayTimes += if (it.durationText?.length == 4) {
@@ -170,6 +170,7 @@ fun LocalPlaylistSongs(
             durationToMillis(it.durationText.toString())
         }
     }
+ */
 
     val lazyListState = rememberLazyListState()
 
@@ -276,7 +277,8 @@ fun LocalPlaylistSongs(
                 ) {
 
                     HeaderInfo(
-                        title = "${playlistWithSongs?.songs?.size} (${formatAsDuration(totalPlayTimes).dropLast(3)})",
+                       // title = "${playlistWithSongs?.songs?.size} (${formatAsDuration(totalPlayTimes).dropLast(3)})",
+                        title = "${playlistWithSongs?.songs?.size}",
                         icon = painterResource(R.drawable.musical_notes),
                         spacer = 0
                     )

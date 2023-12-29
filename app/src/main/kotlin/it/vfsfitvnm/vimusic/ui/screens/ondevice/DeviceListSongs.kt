@@ -177,6 +177,7 @@ fun DeviceListSongs(
 
     val lazyListState = rememberLazyListState()
 
+    /*
     var totalPlayTimes = 0L
     songs.forEach {
         totalPlayTimes += if (it.durationText?.length == 4) {
@@ -185,6 +186,7 @@ fun DeviceListSongs(
             durationToMillis(it.durationText.toString())
         }
     }
+     */
 
     val activity = LocalContext.current as Activity
     //VisualizerComputer.setupPermissions( LocalContext.current as Activity)
@@ -232,7 +234,8 @@ fun DeviceListSongs(
                             .fillMaxWidth()
                     ){
                     HeaderInfo(
-                        title = "${songs.size} (${formatAsDuration(totalPlayTimes).dropLast(3)})",
+                       // title = "${songs.size} (${formatAsDuration(totalPlayTimes).dropLast(3)})",
+                        title = "${songs.size}",
                         icon = painterResource(R.drawable.musical_notes),
                         spacer = 0
                     )

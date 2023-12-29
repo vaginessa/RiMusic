@@ -179,6 +179,7 @@ fun BuiltInPlaylistSongs(
 
     val lazyListState = rememberLazyListState()
 
+    /*
     var totalPlayTimes = 0L
     songs.forEach {
         totalPlayTimes += if (it.durationText?.length == 4) {
@@ -187,7 +188,7 @@ fun BuiltInPlaylistSongs(
             durationToMillis(it.durationText.toString())
         }
     }
-
+    */
 
     Box {
         LazyColumn(
@@ -223,7 +224,8 @@ fun BuiltInPlaylistSongs(
                         .fillMaxWidth()
                 ) {
                     HeaderInfo(
-                        title = "${songs.size} (${formatAsDuration(totalPlayTimes).dropLast(3)})",
+                        //title = "${songs.size} (${formatAsDuration(totalPlayTimes).dropLast(3)})",
+                        title = "${songs.size}",
                         icon = painterResource(R.drawable.musical_notes),
                         spacer = 0
                     )
