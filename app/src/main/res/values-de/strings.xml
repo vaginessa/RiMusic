@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cancel">Abrechen</string>
+    <string name="cancel">Abbrechen</string>
     <string name="done">Fertig</string>
     <string name="hidesong">Möchten Sie diesen Song wirklich löschen? Die Wiedergabezeit und der \nCache werden gelöscht.</string>
     <string name="new_playlist">Neue Wiedergabeliste</string>
@@ -275,8 +275,8 @@
     <string name="odia">Odia</string>
     <string name="bashkir">Bashkir</string>
     <string name="esperanto">Esperanto</string>
-    <string name="close_app_with_back_button">Close app with Back Button</string>
-    <string name="when_you_use_the_back_button_from_the_home_page">When you use the back button from the home page</string>
+    <string name="close_app_with_back_button">App mit \"Zurück\" schließen</string>
+    <string name="when_you_use_the_back_button_from_the_home_page">Wenn \"Zurück\" Taste/Geste bei Anzeige der Startseite betätigt wird</string>
     <string name="audio_quality_format_high">Hoch</string>
     <string name="audio_quality_format_medium">Mittel</string>
     <string name="audio_quality_format_low">Niedrig</string>
