@@ -45,7 +45,8 @@
 </div>
 
 ## 🌐 Languages available
-- **Bashkir:** thanks to Shilave malay (Bash.boy)
+- **Bashkir:** thanks to [Shilave malay](https://crowdin.com/profile/Bash.boy)
+- **Catalan:** thanks to [EMC_Translator](https://crowdin.com/profile/EMC_Translator)
 - **Czech:** thanks to [@ikanakova](https://github.com/ikanakova)
 - **English:** thanks to [@fast4x](https://github.com/fast4x)
 - **Esperanto:** thanks to [r.t.redreovic @Red1922](https://github.com/Red1922)

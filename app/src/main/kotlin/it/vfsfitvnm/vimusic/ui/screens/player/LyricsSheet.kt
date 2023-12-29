@@ -75,7 +75,7 @@ fun LyricsSheet(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
-                    .padding(vertical = 20.dp, horizontal = 4.dp)
+                    .padding(vertical = 30.dp, horizontal = 4.dp)
             ) {
                 Box(
                     contentAlignment = Alignment.Center,
