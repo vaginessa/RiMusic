@@ -6,7 +6,7 @@
     <string name="new_playlist">Nouvelle playlist</string>
     <string name="start_radio">Écouter la radio</string>
     <string name="equalizer">Égaliseur</string>
-    <string name="stop_sleep_timer">Désactiver la minuterie de mise en veille ?</string>
+    <string name="stop_sleep_timer">Désactiver le minuteur de mise en veille ?</string>
     <string name="set_sleep_timer">Régler le minuteur de mise en veille</string>
     <string name="add_to_playlist">Ajouter à la playlist</string>
     <string name="go_to_album">Aller à l\'album</string>
