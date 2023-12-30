@@ -147,6 +147,8 @@ fun  UiSettings() {
         SettingsGroupSpacer()
         SettingsEntryGroupText(title = stringResource(R.string.languages))
 
+        SettingsDescription(text = stringResource(R.string.system_language)+": $systemLocale")
+
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.app_language),
             selectedValue = languageApp,
