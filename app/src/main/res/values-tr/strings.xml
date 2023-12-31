@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cancel">İptal etmek</string>
+    <string name="cancel">İptal</string>
     <string name="done">Tamam</string>
     <string name="hidesong">Bu şarkıyı gerçekten gizlemek istiyor musun? Oynatma süresi ve önbelleği silinecek.\nBu işlem geri alınamaz.</string>
     <string name="new_playlist">Yeni oynatma listesi</string>
@@ -12,7 +12,7 @@
     <string name="go_to_album">Albüme git</string>
     <string name="remove_from_queue">Sıradan kaldır</string>
     <string name="remove_from_playlist">Oynatma listesinden kaldır</string>
-    <string name="hide">Saklamak</string>
+    <string name="hide">Gizle</string>
     <string name="hide_from_quick_picks">Dan saklanmak \"Kısayollar\"</string>
     <string name="related_albums">İlgili albümler</string>
     <string name="similar_artists">Benzer sanatçılar</string>
