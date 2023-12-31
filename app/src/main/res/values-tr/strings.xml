@@ -13,7 +13,7 @@
     <string name="remove_from_queue">Sıradan kaldır</string>
     <string name="remove_from_playlist">Oynatma listesinden kaldır</string>
     <string name="hide">Gizle</string>
-    <string name="hide_from_quick_picks">Dan saklanmak \"Kısayollar\"</string>
+    <string name="hide_from_quick_picks">Hızlı seçimlerden gizle</string>
     <string name="related_albums">İlgili albümler</string>
     <string name="similar_artists">Benzer sanatçılar</string>
     <string name="playlists_you_might_like">Beğenebileceğiniz oynatma listeleri</string>
