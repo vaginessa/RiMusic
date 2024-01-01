@@ -276,7 +276,7 @@
     <string name="bashkir">Bashkir</string>
     <string name="esperanto">Esperanto</string>
     <string name="close_app_with_back_button">Закрыть приложение кнопкой \"Назад\"</string>
-    <string name="when_you_use_the_back_button_from_the_home_page">When you use the back button from the home page</string>
+    <string name="when_you_use_the_back_button_from_the_home_page">При нажатии кнопки \"Назад\" на главной странице</string>
     <string name="audio_quality_format_high">High</string>
     <string name="audio_quality_format_medium">Medium</string>
     <string name="audio_quality_format_low">Low</string>
