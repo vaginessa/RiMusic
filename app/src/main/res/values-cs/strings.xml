@@ -281,7 +281,7 @@
     <string name="audio_quality_format_medium">Střední</string>
     <string name="audio_quality_format_low">Nízká</string>
     <string name="audio_quality_format_unknown">Neznámá</string>
-    <string name="do_you_really_want_to_delete_download">Do you really want to delete download?</string>
+    <string name="do_you_really_want_to_delete_download">Opravdu chcete odstranit stahování?</string>
     <string name="remove_all">Odebrat vše</string>
     <string name="remove_selected">Odebrat vybrané</string>
     <string name="clear_queue">Vyčistit frontu</string>
@@ -289,7 +289,7 @@
     <string name="enqueue_selected">Zařadit vybrané do fronty</string>
     <string name="greek">Řečtina</string>
     <string name="catalan">Katalánština</string>
-    <string name="disable_scrolling_text">Disable scrolling text</string>
-    <string name="scrolling_text_is_used_for_long_texts">Scrolling text is used for long texts</string>
+    <string name="disable_scrolling_text">Zakázat posouvání textu</string>
+    <string name="scrolling_text_is_used_for_long_texts">Posouvání textu se používá pro dlouhé texty</string>
     <string name="audio_quality_format">Kvalita zvuku</string>
 </resources>
