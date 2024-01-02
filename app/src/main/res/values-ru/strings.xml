@@ -47,7 +47,7 @@
     <string name="queue_loop">"Повтор очереди "</string>
     <string name="id">Id</string>
     <string name="itag">Itag</string>
-    <string name="bitrate">Bitrate</string>
+    <string name="bitrate">Битрейт</string>
     <string name="size">Размер</string>
     <string name="cached">Кэш</string>
     <string name="loudness">Громкость</string>
