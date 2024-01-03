@@ -6,7 +6,7 @@
     <string name="new_playlist">Nueva lista de reproducción</string>
     <string name="start_radio">Iniciar radio</string>
     <string name="equalizer">Ecualizador</string>
-    <string name="stop_sleep_timer">¿Detener el temporizador de apagado?</string>
+    <string name="stop_sleep_timer">¿Quieres detener el temporizador de apagado?</string>
     <string name="set_sleep_timer">Temporizador de apagado</string>
     <string name="add_to_playlist">Añadir a una lista de reproducción</string>
     <string name="go_to_album">Ver álbum</string>
@@ -282,11 +282,11 @@
     <string name="audio_quality_format_low">Baja</string>
     <string name="audio_quality_format_unknown">Desconocida</string>
     <string name="do_you_really_want_to_delete_download">¿Seguro que quieres borrar esta descarga?</string>
-    <string name="remove_all">Remove all</string>
-    <string name="remove_selected">Remove selected</string>
-    <string name="clear_queue">Clear queue</string>
-    <string name="enqueue_all">Enqueue all</string>
-    <string name="enqueue_selected">Enqueue selected</string>
+    <string name="remove_all">Quitar todo</string>
+    <string name="remove_selected">Quitar selección</string>
+    <string name="clear_queue">Limpiar la cola</string>
+    <string name="enqueue_all">Agregar todo a la fila</string>
+    <string name="enqueue_selected">Agregar seleccionados a la fila</string>
     <string name="greek">Griego (Ελληνική)</string>
     <string name="catalan">Catalán (Català)</string>
     <string name="disable_scrolling_text">Desactivar el desplazamiento del texto</string>

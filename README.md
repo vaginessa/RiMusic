@@ -49,7 +49,7 @@
 - **Catalan:** thanks to [EMC_Translator](https://crowdin.com/profile/EMC_Translator)
 - **Czech:** thanks to [@ikanakova](https://github.com/ikanakova)
 - **English:** thanks to [@fast4x](https://github.com/fast4x)
-- **Esperanto:** thanks to [r.t.redreovic @Red1922](https://github.com/Red1922)
+- **Esperanto:** thanks to [@kjev666](https://github.com/kjev666)
 - **French:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **German:** thanks to [@siggi1984](https://github.com/siggi1984)
 - **Greek:** thanks to [@Marinkas](https://github.com/Marinkas)
