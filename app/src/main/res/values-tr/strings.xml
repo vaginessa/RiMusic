@@ -222,7 +222,7 @@
     <string name="listen_on_youtube_music">YouTube Music üzerinden dinleyin</string>
     <string name="on_device">Cihaz üzerinde</string>
     <string name="open_settings">Ayarları aç</string>
-    <string name="permission_declined_grant_media_permissions">İzin reddedildi, lütfen cihazınızın ayarlarında medya izinleri verin.</string>
+    <string name="permission_declined_grant_media_permissions">İzin reddedildi, lütfen cihaz ayarlarından medyaya erişim izni verin.</string>
     <string name="wavy_timeline">Dalgalı zaman çizelgesi</string>
     <string name="enable_wavy_timeline">Dalgalı zaman çizelgesini etkinleştir</string>
     <string name="play_next">Sonrakini oynat</string>
