@@ -250,7 +250,7 @@
     <string name="disable_song_switching_via_swipe">禁用通过滑动切换歌曲</string>
     <string name="interface_in_use">正在使用的界面</string>
     <string name="user_interface">用户界面</string>
-    <string name="ui_tab">UI</string>
+    <string name="ui_tab">界面</string>
     <string name="system_language">系统语言</string>
     <string name="french_emoticons_fran_ais">French Emoticons (Français)</string>
     <string name="romanian_emoticons_rom_n">Romanian Emoticons (Română)</string>
