@@ -2,10 +2,13 @@ package it.vfsfitvnm.vimusic.enums
 
 enum class Languages {
     System,
+    Arabic,
     Bashkir,
     Catalan,
     English,
     Esperanto,
+    ChineseSimplified,
+    ChineseTraditional,
     Czech,
     French,
     FrenchEmo,
@@ -26,8 +29,11 @@ enum class Languages {
     var code: String = "en"
         get() = when (this) {
             System -> "system"
+            Arabic -> "ar"
             Bashkir -> "ba"
             Catalan -> "ca"
+            ChineseSimplified -> "zh-CN"
+            ChineseTraditional -> "zh-TW"
             English -> "en"
             Esperanto -> "eo"
             Italian -> "it"

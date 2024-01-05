@@ -156,20 +156,27 @@ fun About() {
                 "2010furs \n" +
                 "25huizengek1 \n" +
                 "abfreeman \n" +
+                "Adam Kop \n" +
                 "Bash.boy \n" +
+                "Conk \n" +
                 "DanielSevillano \n" +
                 "dainvincible1 \n" +
                 "damianadam000 \n" +
+                "Fabian Urra \n" +
                 "Get100percent \n" +
                 "ikanakova \n" +
+                "Jakub Žitník \n" +
                 "mapkaps \n" +
+                "Muha Aliss \n" +
                 "NEVARLeVrai \n" +
                 "OrangeZXZ \n" +
                 "roklc \n" +
                 "r.t.redreovic \n" +
-                "Bash.boy \n" +
+                "SharkChan0622 \n" +
                 "siggi1984 \n" +
-                "teddysulaimanGL \n"
+                "teddysulaimanGL \n" +
+                "kyev666 \n"
+
         )
     }
 }

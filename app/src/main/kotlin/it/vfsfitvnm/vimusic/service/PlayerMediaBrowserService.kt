@@ -16,6 +16,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.cache.Cache
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
@@ -48,6 +49,7 @@ class PlayerMediaBrowserService : MediaBrowserService(), ServiceConnection {
         super.onDestroy()
     }
 
+    @UnstableApi
     override fun onServiceConnected(className: ComponentName, service: IBinder) {
         if (service is PlayerService.Binder) {
             bound = true
@@ -230,6 +232,7 @@ class PlayerMediaBrowserService : MediaBrowserService(), ServiceConnection {
         override fun onSeekTo(pos: Long) = player.seekTo(pos)
         override fun onSkipToQueueItem(id: Long) = player.seekToDefaultPosition(id.toInt())
 
+        @UnstableApi
         override fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
             val data = mediaId?.split('/') ?: return
             var index = 0

@@ -86,19 +86,21 @@ class VisualizerComputer {
         }
 
     fun start(audioSessionId: Int = 0, onData: (VisualizerData) -> Unit) {
-        stop()
-        visualizer = Visualizer(audioSessionId).apply {
-            enabled = false // All configuration have to be done in a disabled state
-            captureSize = CAPTURE_SIZE
-            scalingMode = Visualizer.SCALING_MODE_NORMALIZED //Check
-            measurementMode = Visualizer.MEASUREMENT_MODE_NONE // Check
-            setDataCaptureListener(
-                visualizerCallback(onData),
-                Visualizer.getMaxCaptureRate(),
-                true,
-                true
-            )
-            enabled = true // Configuration is done, can enable now...
+        //stop()
+        if (visualizer == null) {
+            visualizer = Visualizer(audioSessionId).apply {
+                enabled = false // All configuration have to be done in a disabled state
+                captureSize = CAPTURE_SIZE
+                scalingMode = Visualizer.SCALING_MODE_NORMALIZED //Check
+                measurementMode = Visualizer.MEASUREMENT_MODE_NONE // Check
+                setDataCaptureListener(
+                    visualizerCallback(onData),
+                    Visualizer.getMaxCaptureRate(),
+                    true,
+                    true
+                )
+                enabled = true // Configuration is done, can enable now...
+            }
         }
     }
 

@@ -45,24 +45,27 @@
 </div>
 
 ## 🌐 Languages available
+- **Arabic:** thanks to [Ahmad Al Juwaisri](https://crowdin.com/profile/juwaisri)
 - **Bashkir:** thanks to [Shilave malay](https://crowdin.com/profile/Bash.boy)
 - **Catalan:** thanks to [EMC_Translator](https://crowdin.com/profile/EMC_Translator)
-- **Czech:** thanks to [@ikanakova](https://github.com/ikanakova)
+- **Chinese Simplified:** thanks to [@SharkChan0622](https://github.com/SharkChan0622)
+- **Chinese Traditional:** thanks to [@SharkChan0622](https://github.com/SharkChan0622)
+- **Czech:** thanks to [@ikanakova](https://github.com/ikanakova) and [@JZITNIK-github](https://github.com/JZITNIK-github) and [Adam Kop](https://crowdin.com/profile/damianadam000)
 - **English:** thanks to [@fast4x](https://github.com/fast4x)
 - **Esperanto:** thanks to [@kjev666](https://github.com/kjev666)
 - **French:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
-- **German:** thanks to [@siggi1984](https://github.com/siggi1984)
+- **German:** thanks to [Conk](https://crowdin.com/profile/conk) and [@siggi1984](https://github.com/siggi1984)
 - **Greek:** thanks to [@Marinkas](https://github.com/Marinkas)
 - **Italian:** thanks to [@fast4x](https://github.com/fast4x)
 - **Indonesian:** thanks to [@teddysulaimanGL](https://github.com/teddysulaimanGL)
 - **Odia:** thanks to [@Get100percent](https://github.com/Get100percent)
-- **Polish:** thanks to [@roklc](https://github.com/roklc) and [@damianadam000](https://github.com/damianadam000)
+- **Polish:** thanks to [@roklc](https://github.com/roklc) and [Fabian Urra](https://crowdin.com/profile/nsagcl)
 - **Portuguese:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **Portuguese, Brazilian:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **Romanian:** thanks to [@OrangeZXZ](https://github.com/OrangeZxZ)
-- **Russian:** thanks to [@siggi1984](https://github.com/siggi1984)
-- **Spanish:** thanks to [@DanielSevillano](https://github.com/DanielSevillano)
-- **Turkish:** thanks to [@abfreeman](https://github.com/abfreeman) and [@2010furs](https://github.com/2010furs)
+- **Russian:** thanks to [Vladimir](https://crowdin.com/profile/vladimir15426) and [@siggi1984](https://github.com/siggi1984)
+- **Spanish:** thanks to [@DanielSevillano](https://github.com/DanielSevillano) and [@DanielSevillano](https://github.com/DanielSevillano)
+- **Turkish:** thanks to [@abfreeman](https://github.com/abfreeman) and [@2010furs](https://github.com/2010furs) and [Muha Aliss](https://crowdin.com/profile/muhaaliss)
 
 
 ## 🔤 Translations

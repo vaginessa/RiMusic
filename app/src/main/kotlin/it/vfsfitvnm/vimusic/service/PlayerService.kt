@@ -29,6 +29,7 @@ import android.os.Handler
 import android.text.format.DateUtils
 import android.util.Log
 import androidx.annotation.OptIn
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -84,6 +85,7 @@ import it.vfsfitvnm.vimusic.models.Event
 import it.vfsfitvnm.vimusic.models.QueuedMediaItem
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.utils.ConditionalCacheDataSourceFactory
 import it.vfsfitvnm.vimusic.utils.InvincibleService
 import it.vfsfitvnm.vimusic.utils.RingBuffer
@@ -119,6 +121,7 @@ import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.volumeNormalizationKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -127,6 +130,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -161,7 +165,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
     private lateinit var player: ExoPlayer
     private lateinit var downloadCache: SimpleCache
 
-    private val playbackStateMutex = Mutex()
+    //private val playbackStateMutex = Mutex()
 
     private val metadataBuilder = MediaMetadata.Builder()
 
@@ -194,21 +198,24 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
     override val notificationId: Int
         get() = NotificationId
 
-    private var isLiked = 0
-
     private lateinit var notificationActionReceiver: NotificationActionReceiver
-
-    private val mediaItemState = MutableStateFlow<MediaItem?>(null)
 
     private lateinit var audioQualityFormat: AudioQualityFormat
 
+    private val mediaItemState = MutableStateFlow<MediaItem?>(null)
+
+    private var isLiked = MutableStateFlow(false)
+
+    /*
+
+    @ExperimentalCoroutinesApi
     private val isLikedState = mediaItemState
-        .flatMapMerge { item ->
+        .flatMapLatest { item ->
             item?.mediaId?.let { Database.likedAt(it).distinctUntilChanged() } ?: flowOf(null)
         }
         .map { it != null }
-        .stateIn(coroutineScope, SharingStarted.Eagerly, false)
-
+        .stateIn(coroutineScope, SharingStarted.Lazily, false)
+*/
 
     private val stateBuilder = PlaybackState.Builder()
         .setActions(
@@ -222,19 +229,20 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                     or PlaybackState.ACTION_SEEK_TO
                     or PlaybackState.ACTION_REWIND
         )
-        /*
+    /*
         .addCustomAction(
             "it.fast4x.rimusic.like",
             "Like",
-            if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline
+            if (isLiked.value) R.drawable.heart else R.drawable.heart_outline
         )
         .addCustomAction(
             "it.fast4x.rimusic.download",
             "Download",
             R.drawable.arrow_down //if () R.drawable.heart else R.drawable.heart_outline
         )
+     */
 
-         */
+
 
     override fun onBind(intent: Intent?): AndroidBinder {
         super.onBind(intent)
@@ -356,16 +364,27 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
 
         maybeRestorePlayerQueue()
 
+
+
         mediaSession = MediaSession(baseContext, "PlayerService")
         mediaSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS or MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS)
         mediaSession.setCallback(SessionCallback(player))
-        mediaSession.setPlaybackState(stateBuilder.build())
+        //mediaSession.setPlaybackState(stateBuilder.build())
+        //updateCustomInfos()
 
-        mediaSession.isActive = true
+        /*
+val mediaId = player.currentMediaItem?.mediaId
+coroutineScope.launch {
+    isLiked = if (mediaId?.let { Database.songliked(it) } == 1) MutableStateFlow(true) else MutableStateFlow(false)
+    Log.d("mediaItemOnCreate","mediaId $mediaId isLiked ${isLiked.value}")
+}
+ */
+
+        //mediaSession.isActive = true
 
         notificationActionReceiver = NotificationActionReceiver(player)
 
-        /*
+/*
         coroutineScope.launch {
             var first = true
             mediaItemState.zip(isLikedState) { mediaItem, _ ->
@@ -387,7 +406,10 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                 }
             }
         }
-        */
+*/
+
+
+
 
         val filter = IntentFilter().apply {
             addAction(Action.play.value)
@@ -717,17 +739,47 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         )
     }
 
+
+    private fun updateCustomInfos() {
+        val mediaId = player.currentMediaItem!!.mediaId
+        coroutineScope.launch {
+            isLiked = if (mediaId.let { Database.songliked(it) } == 1) MutableStateFlow(true) else MutableStateFlow(false)
+            Log.d("mediaItemOnCustInfo","mediaId $mediaId isLiked ${isLiked.value}")
+        }
+        updatePlaybackState()
+    }
+
+
     private fun updatePlaybackState() = coroutineScope.launch {
-        playbackStateMutex.withLock {
+        //updateCustomInfos()
+        Log.d("mediaItemOnUpdate","after isLiked ${isLiked.value}")
+        //playbackStateMutex.withLock {
             withContext(Dispatchers.Main) {
+                Log.d("mediaItemOnUpdateCont","after isLiked ${isLiked.value}")
+                mediaSession.isActive = false
                 mediaSession.setPlaybackState(
                     stateBuilder
+
+                        //From Android 11
+                        /*
+                        .addCustomAction(
+                            "it.fast4x.rimusic.like",
+                            "Like",
+                            if (isLiked.value) R.drawable.heart else R.drawable.heart_outline
+                        )
+                        .addCustomAction(
+                            "it.fast4x.rimusic.download",
+                            "Download",
+                            R.drawable.arrow_down
+                        )
+                         */
                         .setState(player.androidPlaybackState, player.currentPosition, 1f)
                         .setBufferedPosition(player.bufferedPosition)
                         .build()
                 )
+                mediaSession.isActive = true
             }
-        }
+        //}
     }
 
 
@@ -763,11 +815,16 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             )
         }
 
+
+        /*
         stateBuilder
             .setState(player.androidPlaybackState, player.currentPosition, 1f)
             .setBufferedPosition(player.bufferedPosition)
 
+
+
         mediaSession.setPlaybackState(stateBuilder.build())
+        */
 
         if (events.containsAny(
                 Player.EVENT_PLAYBACK_STATE_CHANGED,
@@ -803,12 +860,7 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                 notificationManager?.notify(NotificationId, notification)
             }
         }
-        /*
-        val currentMediaItem = player.currentMediaItem
-        coroutineScope.launch {
-            isLiked = currentMediaItem?.let { Database.songliked(it.mediaId) }!!
-        }
-        */
+
         updatePlaybackState() // Important for update background player status
     }
 
@@ -870,13 +922,19 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
         val downloadIntent = Action.download.pendingIntent
 
         val mediaMetadata = player.mediaMetadata
-/*
-        val currentMediaItem = player.currentMediaItem
-        coroutineScope.launch {
-            isLiked = currentMediaItem?.let { Database.songliked(it.mediaId) }!!
-        }
 
- */
+        val mediaId = player.currentMediaItem!!.mediaId
+        updateCustomInfos()
+
+        /*
+        val mediaId = player.currentMediaItem!!.mediaId
+        coroutineScope.launch {
+            isLiked = if (mediaId.let { Database.songliked(it) } == 1) MutableStateFlow(true) else MutableStateFlow(false)
+            Log.d("mediaItemOnNotif","mediaId $mediaId isLiked ${isLiked.value}")
+        }
+         */
+
+
         val builder = if (isAtLeastAndroid8) {
             Notification.Builder(applicationContext, NotificationChannelId)
         } else {
@@ -912,13 +970,17 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                 if (player.shouldBePlaying) pauseIntent else playIntent
             )
             .addAction(R.drawable.play_skip_forward, "Skip forward", nextIntent)
+
+            //Prior Android 11
             /*
             .addAction(
-                if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline,
+                if (isLiked.value) R.drawable.heart else R.drawable.heart_outline,
                 "Like", likeIntent)
-            .addAction(R.drawable.download, "Download", downloadIntent)
-            */
+             */
+            //.addAction(R.drawable.download, "Download", downloadIntent)
 
+
+        Log.d("mediaItemOnNotif","after mediaId $mediaId isLiked ${isLiked.value}")
 
 
         bitmapProvider.load(mediaMetadata.artworkUri) { bitmap ->
@@ -1330,17 +1392,21 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
             radio = null
         }
     }
-/*
+
+    /*
     private fun likeMediaItemAction() = mediaItemState.value?.let { mediaItem ->
         transaction {
             Database.like(
                 mediaItem.mediaId,
-                if (isLikedState.value) null else System.currentTimeMillis()
+                if (isLiked.value) null else System.currentTimeMillis()
             )
         }
+        updateCustomInfos()
+        updatePlaybackState()
     }.let { }
+     */
 
- */
+
 /*
     private fun likeMediaItemAction() {
         val currentMediaItem = player.currentMediaItem
@@ -1366,24 +1432,23 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
 
     }
 */
+
 private fun likeMediaItemAction() {
     val currentMediaItem = player.currentMediaItem
-
+    Log.d("plserviceOnLikeAction", "BeforeLikeAction mediaId ${currentMediaItem?.mediaId} liked ${isLiked.value}")
     coroutineScope.launch {
-        isLiked = currentMediaItem?.let { Database.songliked(it.mediaId) }!!
-        //Log.d("plserviceOnCustomAction", "pre currentMediaItem ${currentMediaItem?.mediaId} liked $isLiked")
         if (currentMediaItem != null) {
-            //Log.d("plserviceOnCustomAction", "into currentMediaItem ${currentMediaItem?.mediaId} liked $isLiked")
-                Database.like(
-                    currentMediaItem.mediaId,
-                    if (isLiked == 1) null else System.currentTimeMillis()
-                )
+            Database.like(
+                currentMediaItem.mediaId,
+                if (isLiked.value) null else System.currentTimeMillis()
+            )
         }
-        //isLiked = currentMediaItem?.let { Database.songliked(it.mediaId) }!!
-        //Log.d("plserviceOnCustomAction", "post currentMediaItem ${currentMediaItem?.mediaId} liked $isLiked")
     }
-
+    updatePlaybackState()
+    Log.d("plserviceOnLikeAction", "AfterLikeAction mediaId ${currentMediaItem?.mediaId} liked ${isLiked.value}")
 }
+
+
 
     private inner class SessionCallback(private val player: Player) : MediaSession.Callback() {
         override fun onPlay() = player.play()
@@ -1398,21 +1463,27 @@ private fun likeMediaItemAction() {
 
         override fun onCustomAction(action: String, extras: Bundle?) {
             super.onCustomAction(action, extras)
-            if (action == "it.fast4x.rimusic.like") likeMediaItemAction()
+            //From Android 11
+            if (action == "it.fast4x.rimusic.like") Log.d("plserviceOnCustomAction", Action.like.value) //likeMediaItemAction()
             if (action == "it.fast4x.rimusic.download") Log.d("plserviceOnCustomAction", Action.download.value)
         }
 
     }
 
     inner class NotificationActionReceiver(private val player: Player) : BroadcastReceiver() {
+
+        // Prior Android 11
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
                 Action.pause.value -> player.pause()
                 Action.play.value -> player.play()
                 Action.next.value -> player.forceSeekToNext()
                 Action.previous.value -> player.forceSeekToPrevious()
-                Action.like.value ->  likeMediaItemAction() //Log.d("plserviceAction", Action.like.value)
-                Action.download.value -> Log.d("plserviceAction", Action.download.value)
+                Action.like.value ->  {
+                    Log.d("plserviceActionA10", Action.like.value)
+                    likeMediaItemAction()
+                }
+                Action.download.value -> Log.d("plserviceActionA10", Action.download.value)
             }
         }
     }

@@ -156,26 +156,29 @@ fun  UiSettings() {
             valueText = {
                 when (it){
                     Languages.System -> stringResource(R.string.system_language)
-                    Languages.English -> stringResource(R.string.english)
-                    Languages.Italian -> stringResource(R.string.italian)
+                    Languages.Arabic -> "Arabic"
+                    Languages.Bashkir -> stringResource(R.string.bashkir)
+                    Languages.Catalan -> stringResource(R.string.catalan)
+                    Languages.ChineseSimplified -> "Chinese Simplified"
+                    Languages.ChineseTraditional -> "Chinese Traditional"
                     Languages.Czech -> stringResource(R.string.czech)
-                    Languages.German -> stringResource(R.string.german)
-                    Languages.Greek -> stringResource(R.string.greek)
-                    Languages.Spanish -> stringResource(R.string.spanish)
+                    Languages.English -> stringResource(R.string.english)
+                    Languages.Esperanto -> stringResource(R.string.esperanto)
                     Languages.French -> stringResource(R.string.french)
                     Languages.FrenchEmo -> stringResource(R.string.french_emoticons_fran_ais)
-                    Languages.Romanian -> stringResource(R.string.romanian)
-                    Languages.RomanianEmo -> stringResource(R.string.romanian_emoticons_rom_n)
-                    Languages.Russian -> stringResource(R.string.russian)
-                    Languages.Turkish -> stringResource(R.string.turkish)
+                    Languages.German -> stringResource(R.string.german)
+                    Languages.Greek -> stringResource(R.string.greek)
+                    Languages.Indonesian -> stringResource(R.string.indonesian)
+                    Languages.Italian -> stringResource(R.string.italian)
+                    Languages.Odia -> stringResource(R.string.odia)
                     Languages.Polish -> stringResource(R.string.polish)
                     Languages.PortugueseBrazilian -> stringResource(R.string.portuguese_brazilian)
                     Languages.Portuguese -> stringResource(R.string.portuguese)
-                    Languages.Indonesian -> stringResource(R.string.indonesian)
-                    Languages.Odia -> stringResource(R.string.odia)
-                    Languages.Bashkir -> stringResource(R.string.bashkir)
-                    Languages.Esperanto -> stringResource(R.string.esperanto)
-                    Languages.Catalan -> stringResource(R.string.catalan)
+                    Languages.Romanian -> stringResource(R.string.romanian)
+                    Languages.RomanianEmo -> stringResource(R.string.romanian_emoticons_rom_n)
+                    Languages.Russian -> stringResource(R.string.russian)
+                    Languages.Spanish -> stringResource(R.string.spanish)
+                    Languages.Turkish -> stringResource(R.string.turkish)
                 }
             }
         )
