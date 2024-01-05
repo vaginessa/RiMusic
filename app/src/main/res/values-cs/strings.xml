@@ -41,9 +41,9 @@
     <string name="rename">Přejmenovat</string>
     <string name="delete">Smazat</string>
     <string name="enter_the_lyrics">Zadejte písňový text</string>
-    <string name="edit_lyrics">Upravit text písně</string>
+    <string name="edit_lyrics">Upravit písňový text</string>
     <string name="search_lyrics_online">Vyhledávání písňového textu online</string>
-    <string name="fetch_lyrics_again">Znovu načíst text písně</string>
+    <string name="fetch_lyrics_again">Znovu načíst písňový text</string>
     <string name="queue_loop">"Smyčka fronty "</string>
     <string name="id">Id</string>
     <string name="itag">Itag</string>
