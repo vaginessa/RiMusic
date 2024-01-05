@@ -41,9 +41,9 @@
     <string name="rename">Přejmenovat</string>
     <string name="delete">Smazat</string>
     <string name="enter_the_lyrics">Zadejte písňový text</string>
-    <string name="edit_lyrics">Upravit text písně</string>
-    <string name="search_lyrics_online">Vyhledávání písňového textu online</string>
-    <string name="fetch_lyrics_again">Znovu načíst text písně</string>
+    <string name="edit_lyrics">Upravit písňový text</string>
+    <string name="search_lyrics_online">Vyhledat písňový text online</string>
+    <string name="fetch_lyrics_again">Znovu načíst písňový text</string>
     <string name="queue_loop">"Smyčka fronty "</string>
     <string name="id">Id</string>
     <string name="itag">Itag</string>
@@ -275,7 +275,7 @@
     <string name="odia">Urijština (ଓଡ଼ିଆ)</string>
     <string name="bashkir">Baškirština (Башҡорт теле)</string>
     <string name="esperanto">Esperanto (Esperanto)</string>
-    <string name="close_app_with_back_button">Zavřít aplikaci tlačítkem zpět</string>
+    <string name="close_app_with_back_button">Zavřít aplikaci tlačítkem Zpět</string>
     <string name="when_you_use_the_back_button_from_the_home_page">Když použijete tlačítko zpět z domovské stránky</string>
     <string name="audio_quality_format_high">Vysoká</string>
     <string name="audio_quality_format_medium">Střední</string>
@@ -287,8 +287,8 @@
     <string name="clear_queue">Vyčistit frontu</string>
     <string name="enqueue_all">Zařadit vše do fronty</string>
     <string name="enqueue_selected">Zařadit vybrané do fronty</string>
-    <string name="greek">Řečtina</string>
-    <string name="catalan">Katalánština</string>
+    <string name="greek">Řečtina (Ελληνικά)</string>
+    <string name="catalan">Katalánština (Català)</string>
     <string name="disable_scrolling_text">Zakázat posouvání textu</string>
     <string name="scrolling_text_is_used_for_long_texts">Posouvání textu se používá pro dlouhé texty</string>
     <string name="audio_quality_format">Kvalita zvuku</string>
