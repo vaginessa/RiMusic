@@ -263,13 +263,13 @@
     <string name="custom_cache_size">Özel önbellek boyutu</string>
     <string name="listen_on">Şununla dinle</string>
     <string name="error_local_music_not_found">Yerel müzik dosyası bulunamadı</string>
-    <string name="bodied_bar">Çubuk gövdede</string>
-    <string name="pin_bar">Çubuğu sabitle</string>
+    <string name="bodied_bar">Kalın çubuk</string>
+    <string name="pin_bar">İnce çubuk</string>
     <string name="rectangular">Dikdörtgen</string>
     <string name="square">Kare</string>
-    <string name="circular_ribbed">Dairesel</string>
-    <string name="play_button">Oynat butonu</string>
-    <string name="portuguese_brazilian">Portekizce, Brezilya</string>
+    <string name="circular_ribbed">Kıvrımlı Daire</string>
+    <string name="play_button">Oynat tuşu</string>
+    <string name="portuguese_brazilian">Portekizce (Brezilya)</string>
     <string name="portuguese">Portekizce</string>
     <string name="indonesian">Endonezce</string>
     <string name="odia">Odia</string>
@@ -282,7 +282,7 @@
     <string name="audio_quality_format_low">Düşük</string>
     <string name="audio_quality_format_unknown">Bilinmeyen</string>
     <string name="do_you_really_want_to_delete_download">İndirilen dosyayı silmek istediğinize emin misiniz?</string>
-    <string name="remove_all">Tümünü kaldır</string>
+    <string name="remove_all">Hepsini sil</string>
     <string name="remove_selected">Seçilenleri kaldır</string>
     <string name="clear_queue">Kuyruğu temizle</string>
     <string name="enqueue_all">Hepsini kuyruğa ekle</string>
