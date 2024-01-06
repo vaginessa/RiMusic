@@ -29,11 +29,12 @@ import android.os.Handler
 import android.text.format.DateUtils
 import android.util.Log
 import androidx.annotation.OptIn
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startForegroundService
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
@@ -121,20 +122,19 @@ import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.volumeNormalizationKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
@@ -157,7 +157,9 @@ val Song.isLocal get() = id.startsWith(LOCAL_KEY_PREFIX)
 
 @UnstableApi
 @Suppress("DEPRECATION")
-class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListener.Callback,
+class PlayerService : InvincibleService(),
+    Player.Listener,
+    PlaybackStatsListener.Callback,
     SharedPreferences.OnSharedPreferenceChangeListener {
     private val coroutineScope = CoroutineScope(Dispatchers.IO) + Job()
     private lateinit var mediaSession: MediaSession
@@ -165,7 +167,28 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
     private lateinit var player: ExoPlayer
     private lateinit var downloadCache: SimpleCache
 
-    //private val playbackStateMutex = Mutex()
+    private val stateBuilder
+        get() = PlaybackState.Builder().setActions(
+            PlaybackState.ACTION_PLAY or
+                    PlaybackState.ACTION_PAUSE or
+                    PlaybackState.ACTION_PLAY_PAUSE or
+                    PlaybackState.ACTION_STOP or
+                    PlaybackState.ACTION_SKIP_TO_PREVIOUS or
+                    PlaybackState.ACTION_SKIP_TO_NEXT or
+                    PlaybackState.ACTION_SKIP_TO_QUEUE_ITEM or
+                    PlaybackState.ACTION_SEEK_TO or
+                    PlaybackState.ACTION_REWIND
+        ).addCustomAction(
+            /* action = */ "LIKE",
+            /* name   = */ "Like",
+            /* icon   = */ if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline
+        ).addCustomAction(
+            /* action = */ "DOWNLOAD",
+            /* name   = */ "Download",
+            /* icon   = */ if (isLikedState.value) R.drawable.downloaded else R.drawable.download
+        )
+
+    private val playbackStateMutex = Mutex()
 
     private val metadataBuilder = MediaMetadata.Builder()
 
@@ -203,46 +226,12 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
     private lateinit var audioQualityFormat: AudioQualityFormat
 
     private val mediaItemState = MutableStateFlow<MediaItem?>(null)
-
-    private var isLiked = MutableStateFlow(false)
-
-    /*
-
-    @ExperimentalCoroutinesApi
     private val isLikedState = mediaItemState
-        .flatMapLatest { item ->
+        .flatMapMerge { item ->
             item?.mediaId?.let { Database.likedAt(it).distinctUntilChanged() } ?: flowOf(null)
         }
         .map { it != null }
-        .stateIn(coroutineScope, SharingStarted.Lazily, false)
-*/
-
-    private val stateBuilder = PlaybackState.Builder()
-        .setActions(
-            PlaybackState.ACTION_PLAY
-                    or PlaybackState.ACTION_PAUSE
-                    or PlaybackState.ACTION_PLAY_PAUSE
-                    or PlaybackState.ACTION_STOP
-                    or PlaybackState.ACTION_SKIP_TO_PREVIOUS
-                    or PlaybackState.ACTION_SKIP_TO_NEXT
-                    or PlaybackState.ACTION_SKIP_TO_QUEUE_ITEM
-                    or PlaybackState.ACTION_SEEK_TO
-                    or PlaybackState.ACTION_REWIND
-        )
-    /*
-        .addCustomAction(
-            "it.fast4x.rimusic.like",
-            "Like",
-            if (isLiked.value) R.drawable.heart else R.drawable.heart_outline
-        )
-        .addCustomAction(
-            "it.fast4x.rimusic.download",
-            "Download",
-            R.drawable.arrow_down //if () R.drawable.heart else R.drawable.heart_outline
-        )
-     */
-
-
+        .stateIn(coroutineScope, SharingStarted.Eagerly, false)
 
     override fun onBind(intent: Intent?): AndroidBinder {
         super.onBind(intent)
@@ -367,24 +356,11 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
 
 
         mediaSession = MediaSession(baseContext, "PlayerService")
-        mediaSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS or MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS)
+        //mediaSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS or MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS)
         mediaSession.setCallback(SessionCallback(player))
-        //mediaSession.setPlaybackState(stateBuilder.build())
-        //updateCustomInfos()
+        mediaSession.setPlaybackState(stateBuilder.build())
+        mediaSession.isActive = true
 
-        /*
-val mediaId = player.currentMediaItem?.mediaId
-coroutineScope.launch {
-    isLiked = if (mediaId?.let { Database.songliked(it) } == 1) MutableStateFlow(true) else MutableStateFlow(false)
-    Log.d("mediaItemOnCreate","mediaId $mediaId isLiked ${isLiked.value}")
-}
- */
-
-        //mediaSession.isActive = true
-
-        notificationActionReceiver = NotificationActionReceiver(player)
-
-/*
         coroutineScope.launch {
             var first = true
             mediaItemState.zip(isLikedState) { mediaItem, _ ->
@@ -404,11 +380,11 @@ coroutineScope.launch {
                         }
                     }
                 }
-            }
+            }.collect()
         }
-*/
 
 
+        notificationActionReceiver = NotificationActionReceiver(player)
 
 
         val filter = IntentFilter().apply {
@@ -420,19 +396,20 @@ coroutineScope.launch {
             addAction(Action.download.value)
         }
 
-        registerReceiver(notificationActionReceiver, filter)
+        ContextCompat.registerReceiver(
+            /* context  = */ this,
+            /* receiver = */ notificationActionReceiver,
+            /* filter   = */ filter,
+            /* flags    = */ ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+        //registerReceiver(notificationActionReceiver, filter)
 
         maybeResumePlaybackWhenDeviceConnected()
+
+
     }
 
-    /*
-        override fun onTaskRemoved(rootIntent: Intent?) {
-            if (!player.shouldBePlaying) {
-                broadCastPendingIntent<NotificationDismissReceiver>().send()
-            }
-            super.onTaskRemoved(rootIntent)
-        }
-    */
+
     override fun onTaskRemoved(rootIntent: Intent?) {
         isclosebackgroundPlayerEnabled = preferences.getBoolean(closebackgroundPlayerKey, false)
         super.onTaskRemoved(rootIntent)
@@ -520,6 +497,9 @@ coroutineScope.launch {
 
     @UnstableApi
     override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+
+        mediaItemState.update { mediaItem }
+
         maybeRecoverPlaybackError()
         maybeNormalizeVolume()
         maybeProcessRadio()
@@ -740,49 +720,6 @@ coroutineScope.launch {
     }
 
 
-    private fun updateCustomInfos() {
-        val mediaId = player.currentMediaItem!!.mediaId
-        coroutineScope.launch {
-            isLiked = if (mediaId.let { Database.songliked(it) } == 1) MutableStateFlow(true) else MutableStateFlow(false)
-            Log.d("mediaItemOnCustInfo","mediaId $mediaId isLiked ${isLiked.value}")
-        }
-        updatePlaybackState()
-    }
-
-
-    private fun updatePlaybackState() = coroutineScope.launch {
-        //updateCustomInfos()
-        Log.d("mediaItemOnUpdate","after isLiked ${isLiked.value}")
-        //playbackStateMutex.withLock {
-            withContext(Dispatchers.Main) {
-                Log.d("mediaItemOnUpdateCont","after isLiked ${isLiked.value}")
-                mediaSession.isActive = false
-                mediaSession.setPlaybackState(
-                    stateBuilder
-
-                        //From Android 11
-                        /*
-                        .addCustomAction(
-                            "it.fast4x.rimusic.like",
-                            "Like",
-                            if (isLiked.value) R.drawable.heart else R.drawable.heart_outline
-                        )
-                        .addCustomAction(
-                            "it.fast4x.rimusic.download",
-                            "Download",
-                            R.drawable.arrow_down
-                        )
-                         */
-                        .setState(player.androidPlaybackState, player.currentPosition, 1f)
-                        .setBufferedPosition(player.bufferedPosition)
-                        .build()
-                )
-                mediaSession.isActive = true
-            }
-        //}
-    }
-
-
     @UnstableApi
     private fun sendCloseEqualizerIntent() {
         sendBroadcast(
@@ -792,8 +729,20 @@ coroutineScope.launch {
         )
     }
 
+    private fun updatePlaybackState() = coroutineScope.launch {
+        playbackStateMutex.withLock {
+            withContext(Dispatchers.Main) {
+                mediaSession.setPlaybackState(
+                    stateBuilder
+                        .setState(player.androidPlaybackState, player.currentPosition, 1f)
+                        .setBufferedPosition(player.bufferedPosition)
+                        .build()
+                )
+            }
+        }
+    }
 
-    private val Player.androidPlaybackState: Int
+    private val Player.androidPlaybackState
         get() = when (playbackState) {
             Player.STATE_BUFFERING -> if (playWhenReady) PlaybackState.STATE_BUFFERING else PlaybackState.STATE_PAUSED
             Player.STATE_READY -> if (playWhenReady) PlaybackState.STATE_PLAYING else PlaybackState.STATE_PAUSED
@@ -802,29 +751,19 @@ coroutineScope.launch {
             else -> PlaybackState.STATE_NONE
         }
 
-    @UnstableApi
+    // legacy behavior may cause inconsistencies, but not available on sdk 24 or lower
+    @Suppress("DEPRECATION")
     override fun onEvents(player: Player, events: Player.Events) {
-        if (player.duration != C.TIME_UNSET) {
-            mediaSession.setMetadata(
-                metadataBuilder
-                    .putText(MediaMetadata.METADATA_KEY_TITLE, player.mediaMetadata.title)
-                    .putText(MediaMetadata.METADATA_KEY_ARTIST, player.mediaMetadata.artist)
-                    .putText(MediaMetadata.METADATA_KEY_ALBUM, player.mediaMetadata.albumTitle)
-                    .putLong(MediaMetadata.METADATA_KEY_DURATION, player.duration)
-                    .build()
-            )
-        }
+        if (player.duration != C.TIME_UNSET) mediaSession.setMetadata(
+            metadataBuilder
+                .putText(MediaMetadata.METADATA_KEY_TITLE, player.mediaMetadata.title)
+                .putText(MediaMetadata.METADATA_KEY_ARTIST, player.mediaMetadata.artist)
+                .putText(MediaMetadata.METADATA_KEY_ALBUM, player.mediaMetadata.albumTitle)
+                .putLong(MediaMetadata.METADATA_KEY_DURATION, player.duration)
+                .build()
+        )
 
-
-        /*
-        stateBuilder
-            .setState(player.androidPlaybackState, player.currentPosition, 1f)
-            .setBufferedPosition(player.bufferedPosition)
-
-
-
-        mediaSession.setPlaybackState(stateBuilder.build())
-        */
+        updatePlaybackState()
 
         if (events.containsAny(
                 Player.EVENT_PLAYBACK_STATE_CHANGED,
@@ -860,8 +799,6 @@ coroutineScope.launch {
                 notificationManager?.notify(NotificationId, notification)
             }
         }
-
-        updatePlaybackState() // Important for update background player status
     }
 
     @UnstableApi
@@ -923,18 +860,6 @@ coroutineScope.launch {
 
         val mediaMetadata = player.mediaMetadata
 
-        val mediaId = player.currentMediaItem!!.mediaId
-        updateCustomInfos()
-
-        /*
-        val mediaId = player.currentMediaItem!!.mediaId
-        coroutineScope.launch {
-            isLiked = if (mediaId.let { Database.songliked(it) } == 1) MutableStateFlow(true) else MutableStateFlow(false)
-            Log.d("mediaItemOnNotif","mediaId $mediaId isLiked ${isLiked.value}")
-        }
-         */
-
-
         val builder = if (isAtLeastAndroid8) {
             Notification.Builder(applicationContext, NotificationChannelId)
         } else {
@@ -972,15 +897,11 @@ coroutineScope.launch {
             .addAction(R.drawable.play_skip_forward, "Skip forward", nextIntent)
 
             //Prior Android 11
-            /*
             .addAction(
-                if (isLiked.value) R.drawable.heart else R.drawable.heart_outline,
+                if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline,
                 "Like", likeIntent)
-             */
-            //.addAction(R.drawable.download, "Download", downloadIntent)
-
-
-        Log.d("mediaItemOnNotif","after mediaId $mediaId isLiked ${isLiked.value}")
+            .addAction(if (isLikedState.value) R.drawable.downloaded else R.drawable.download,
+                "Download", downloadIntent)
 
 
         bitmapProvider.load(mediaMetadata.artworkUri) { bitmap ->
@@ -1029,41 +950,6 @@ coroutineScope.launch {
         }
     }
 
-    /*
-    @UnstableApi
-    private fun createCacheDataSource(): DataSource.Factory {
-        return CacheDataSource.Factory().setCache(cache).apply {
-            setUpstreamDataSourceFactory(
-                DefaultHttpDataSource.Factory()
-                    .setConnectTimeoutMs(16000)
-                    .setReadTimeoutMs(8000)
-                    .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
-            )
-        }
-    }
-     */
-    /*
-        @UnstableApi
-        private fun createCacheDataSource(): CacheDataSource.Factory =
-            CacheDataSource.Factory()
-                .setCache(downloadCache)
-                .setUpstreamDataSourceFactory(
-                    CacheDataSource.Factory()
-                        .setCache(cache)
-                        .setUpstreamDataSourceFactory(
-                            DefaultDataSource.Factory(
-                                this,
-                                DefaultHttpDataSource.Factory()
-                                    .setConnectTimeoutMs(16000)
-                                    .setReadTimeoutMs(8000)
-                                    .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
-                            )
-                        )
-                )
-                .setCacheWriteDataSinkFactory(null)
-                .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
-    */
-
 
     @UnstableApi
     private fun createCacheDataSource() = ConditionalCacheDataSourceFactory(
@@ -1083,92 +969,6 @@ coroutineScope.launch {
             )
     ) { !it.isLocal }
 
-
-    /*
-    @UnstableApi
-    private fun createDataSourceFactory(): DataSource.Factory {
-        val chunkLength = 512 * 1024L
-        val ringBuffer = RingBuffer<Pair<String, Uri>?>(2) { null }
-
-        return ResolvingDataSource.Factory(createCacheDataSource()) { dataSpec ->
-            val videoId = dataSpec.key ?: error("A key must be set")
-
-            if (cache.isCached(videoId, dataSpec.position, chunkLength)) {
-                dataSpec
-            } else {
-                when (videoId) {
-                    ringBuffer.getOrNull(0)?.first -> dataSpec.withUri(ringBuffer.getOrNull(0)!!.second)
-                    ringBuffer.getOrNull(1)?.first -> dataSpec.withUri(ringBuffer.getOrNull(1)!!.second)
-                    else -> {
-                        val urlResult = runBlocking(Dispatchers.IO) {
-                            Innertube.player(PlayerBody(videoId = videoId))
-                        }?.mapCatching { body ->
-                            if (body.videoDetails?.videoId != videoId) {
-                                throw VideoIdMismatchException()
-                            }
-
-                            when (val status = body.playabilityStatus?.status) {
-                                "OK" -> body.streamingData?.highestQualityFormat?.let { format ->
-                                    val mediaItem = runBlocking(Dispatchers.Main) {
-                                        player.findNextMediaItemById(videoId)
-                                    }
-
-                                    if (mediaItem?.mediaMetadata?.extras?.getString("durationText") == null) {
-                                        format.approxDurationMs?.div(1000)
-                                            ?.let(DateUtils::formatElapsedTime)?.removePrefix("0")
-                                            ?.let { durationText ->
-                                                mediaItem?.mediaMetadata?.extras?.putString(
-                                                    "durationText",
-                                                    durationText
-                                                )
-                                                Database.updateDurationText(videoId, durationText)
-                                            }
-                                    }
-
-                                    query {
-                                        mediaItem?.let(Database::insert)
-
-                                        Database.insert(
-                                            it.vfsfitvnm.vimusic.models.Format(
-                                                songId = videoId,
-                                                itag = format.itag,
-                                                mimeType = format.mimeType,
-                                                bitrate = format.bitrate,
-                                                loudnessDb = body.playerConfig?.audioConfig?.normalizedLoudnessDb,
-                                                contentLength = format.contentLength,
-                                                lastModified = format.lastModified
-                                            )
-                                        )
-                                    }
-
-                                    format.url
-                                } ?: throw PlayableFormatNotFoundException()
-
-                                "UNPLAYABLE" -> throw UnplayableException()
-                                "LOGIN_REQUIRED" -> throw LoginRequiredException()
-                                else -> throw PlaybackException(
-                                    status,
-                                    null,
-                                    PlaybackException.ERROR_CODE_REMOTE_ERROR
-                                )
-                            }
-                        }
-
-                        urlResult?.getOrThrow()?.let { url ->
-                            ringBuffer.append(videoId to url.toUri())
-                            dataSpec.withUri(url.toUri())
-                                .subrange(dataSpec.uriPositionOffset, chunkLength)
-                        } ?: throw PlaybackException(
-                            null,
-                            urlResult?.exceptionOrNull(),
-                            PlaybackException.ERROR_CODE_REMOTE_ERROR
-                        )
-                    }
-                }
-            }
-        }
-    }
-    */
     @UnstableApi
     private fun createDataSourceFactory(): DataSource.Factory {
         val chunkLength = 512 * 1024L
@@ -1393,60 +1193,15 @@ coroutineScope.launch {
         }
     }
 
-    /*
-    private fun likeMediaItemAction() = mediaItemState.value?.let { mediaItem ->
+    private fun likeAction() = mediaItemState.value?.let { mediaItem ->
+        Log.d("plserviceLikeAction","mediaId ${mediaItem.mediaId}")
         transaction {
             Database.like(
                 mediaItem.mediaId,
-                if (isLiked.value) null else System.currentTimeMillis()
+                if (isLikedState.value) null else System.currentTimeMillis()
             )
         }
-        updateCustomInfos()
-        updatePlaybackState()
     }.let { }
-     */
-
-
-/*
-    private fun likeMediaItemAction() {
-        val currentMediaItem = player.currentMediaItem
-        Log.d("plserviceOnCustomAction", "pre currentMediaItem ${currentMediaItem?.mediaId}")
-        query {
-            if (currentMediaItem != null) {
-                if (
-                    Database.like(
-                        currentMediaItem.mediaId,
-                        if (isLikedState.value) null else System.currentTimeMillis()
-                    ) == 0
-                ) {
-                    Log.d("plserviceOnCustomAction", "database.like <> 0")
-                    currentMediaItem
-                        ?.takeIf { it.mediaId == currentMediaItem.mediaId }
-                        ?.let {
-                            Database.insert(currentMediaItem, Song::toggleLike)
-                        }
-                }
-                Log.d("plserviceOnCustomAction", "post currentMediaItem ${currentMediaItem?.mediaId}")
-            }
-        }
-
-    }
-*/
-
-private fun likeMediaItemAction() {
-    val currentMediaItem = player.currentMediaItem
-    Log.d("plserviceOnLikeAction", "BeforeLikeAction mediaId ${currentMediaItem?.mediaId} liked ${isLiked.value}")
-    coroutineScope.launch {
-        if (currentMediaItem != null) {
-            Database.like(
-                currentMediaItem.mediaId,
-                if (isLiked.value) null else System.currentTimeMillis()
-            )
-        }
-    }
-    updatePlaybackState()
-    Log.d("plserviceOnLikeAction", "AfterLikeAction mediaId ${currentMediaItem?.mediaId} liked ${isLiked.value}")
-}
 
 
 
@@ -1461,11 +1216,17 @@ private fun likeMediaItemAction() {
         override fun onSkipToQueueItem(id: Long) =
             runCatching { player.seekToDefaultPosition(id.toInt()) }.let { }
 
+
         override fun onCustomAction(action: String, extras: Bundle?) {
             super.onCustomAction(action, extras)
+            Log.d("plserviceOnCustomAction", action)
             //From Android 11
-            if (action == "it.fast4x.rimusic.like") Log.d("plserviceOnCustomAction", Action.like.value) //likeMediaItemAction()
-            if (action == "it.fast4x.rimusic.download") Log.d("plserviceOnCustomAction", Action.download.value)
+            if (action == "LIKE") {
+                Log.d("plserviceOnCustomAction", "OK ${Action.like.value}")
+                likeAction()
+                refreshPlayer()
+            }
+            if (action == "DOWNLOAD") Log.d("plserviceOnCustomAction", "OK ${Action.download.value}")
         }
 
     }
@@ -1481,10 +1242,21 @@ private fun likeMediaItemAction() {
                 Action.previous.value -> player.forceSeekToPrevious()
                 Action.like.value ->  {
                     Log.d("plserviceActionA10", Action.like.value)
-                    likeMediaItemAction()
+                    likeAction()
+                    refreshPlayer()
                 }
                 Action.download.value -> Log.d("plserviceActionA10", Action.download.value)
             }
+        }
+    }
+
+    private fun refreshPlayer() {
+        if (player.shouldBePlaying) {
+            player.pause()
+            player.play()
+        } else {
+            player.play()
+            player.pause()
         }
     }
 
