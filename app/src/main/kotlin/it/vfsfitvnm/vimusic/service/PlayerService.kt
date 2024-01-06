@@ -185,7 +185,7 @@ class PlayerService : InvincibleService(),
         ).addCustomAction(
             /* action = */ "DOWNLOAD",
             /* name   = */ "Download",
-            /* icon   = */ if (isLikedState.value) R.drawable.downloaded else R.drawable.download
+            /* icon   = */ if (isLikedState.value) R.drawable.downloaded_to else R.drawable.download_to
         )
 
     private val playbackStateMutex = Mutex()
@@ -227,6 +227,13 @@ class PlayerService : InvincibleService(),
 
     private val mediaItemState = MutableStateFlow<MediaItem?>(null)
     private val isLikedState = mediaItemState
+        .flatMapMerge { item ->
+            item?.mediaId?.let { Database.likedAt(it).distinctUntilChanged() } ?: flowOf(null)
+        }
+        .map { it != null }
+        .stateIn(coroutineScope, SharingStarted.Eagerly, false)
+
+    private val isDownloadedState = mediaItemState
         .flatMapMerge { item ->
             item?.mediaId?.let { Database.likedAt(it).distinctUntilChanged() } ?: flowOf(null)
         }
@@ -900,7 +907,7 @@ class PlayerService : InvincibleService(),
             .addAction(
                 if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline,
                 "Like", likeIntent)
-            .addAction(if (isLikedState.value) R.drawable.downloaded else R.drawable.download,
+            .addAction(if (isLikedState.value) R.drawable.downloaded_to else R.drawable.download_to,
                 "Download", downloadIntent)
 
 
