@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cancel">Cancel</string>
-    <string name="done">Done</string>
-    <string name="hidesong">Do you really want to hide this song? Its playback time and cache will be wiped.\nThis action is irreversible.</string>
-    <string name="new_playlist">New playlist</string>
-    <string name="start_radio">Start radio</string>
-    <string name="equalizer">Equalizer</string>
-    <string name="stop_sleep_timer">Do you want to stop the sleep timer?</string>
-    <string name="set_sleep_timer">Set sleep timer</string>
+    <string name="cancel">لغو</string>
+    <string name="done">انجام شد</string>
+    <string name="hidesong">آیا واقعاً میخواهید این آهنگ را پنهان کنید؟ زمان پخش و حافظه پنهان آن پاک می‌شود.\nاین عمل غیرقابل برگشت است.</string>
+    <string name="new_playlist">لیست پخش جدید</string>
+    <string name="start_radio">راه‌اندازی رادیو</string>
+    <string name="equalizer">برابر ساز</string>
+    <string name="stop_sleep_timer">آیا میخواهید تایمر خواب را متوقف کنید؟</string>
+    <string name="set_sleep_timer">تنظیم زمان‌سنج خواب</string>
     <string name="add_to_playlist">Add to playlist</string>
     <string name="go_to_album">Go to album</string>
     <string name="remove_from_queue">Remove from queue</string>
