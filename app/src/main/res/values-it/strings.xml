@@ -292,4 +292,5 @@
     <string name="disable_scrolling_text">Disabilita testo scorrevole</string>
     <string name="scrolling_text_is_used_for_long_texts">Il testo scorrevole è usato per testi lunghi</string>
     <string name="audio_quality_format">Qualità audio</string>
+    <string name="persian">Persian</string>
 </resources>

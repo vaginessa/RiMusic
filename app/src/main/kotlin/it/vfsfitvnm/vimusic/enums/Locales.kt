@@ -17,6 +17,7 @@ enum class Languages {
     Italian,
     Indonesian,
     Odia,
+    Persian,
     Polish,
     PortugueseBrazilian,
     Portuguese,
@@ -45,6 +46,7 @@ enum class Languages {
             French -> "fr"
             FrenchEmo -> "fr-FR"
             Odia -> "or"
+            Persian -> "fa"
             Polish -> "pl"
             Portuguese -> "pt"
             PortugueseBrazilian -> "pt-BR"

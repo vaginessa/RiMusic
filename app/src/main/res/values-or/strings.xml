@@ -292,4 +292,5 @@
     <string name="disable_scrolling_text">ସ୍କ୍ରୋଲିଂ ପାଠ୍ୟକୁ ନିଷ୍କ୍ରିୟ କରନ୍ତୁ</string>
     <string name="scrolling_text_is_used_for_long_texts">ଦୀର୍ଘ ପାଠ୍ୟଗୁଡ଼ିକ ପାଇଁ ସ୍କ୍ରୋଲିଂ ପାଠ୍ୟ ବ୍ୟବହୃତ ହୁଏ</string>
     <string name="audio_quality_format">ଧ୍ୱନି ଗୁଣବତ୍ତା ଶୈଳୀ</string>
+    <string name="persian">Persian</string>
 </resources>

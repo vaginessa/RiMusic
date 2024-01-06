@@ -59,6 +59,7 @@
 - **Italian:** thanks to [@fast4x](https://github.com/fast4x)
 - **Indonesian:** thanks to [@teddysulaimanGL](https://github.com/teddysulaimanGL)
 - **Odia:** thanks to [@Get100percent](https://github.com/Get100percent)
+- **Persian:** thanks to [@CUMOON](https://github.com/CUMOON)
 - **Polish:** thanks to [@roklc](https://github.com/roklc) and [Fabian Urra](https://crowdin.com/profile/nsagcl)
 - **Portuguese:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **Portuguese, Brazilian:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)

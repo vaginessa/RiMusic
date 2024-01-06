@@ -159,6 +159,7 @@ fun About() {
                 "Adam Kop \n" +
                 "Bash.boy \n" +
                 "Conk \n" +
+                "CUMOON \n" +
                 "DanielSevillano \n" +
                 "dainvincible1 \n" +
                 "damianadam000 \n" +

@@ -292,4 +292,5 @@
     <string name="disable_scrolling_text">Lauftext deaktivieren</string>
     <string name="scrolling_text_is_used_for_long_texts">Lauftext wird für lange Texte verwendet</string>
     <string name="audio_quality_format">Wiedergabequalität</string>
+    <string name="persian">Persian</string>
 </resources>
