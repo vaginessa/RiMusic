@@ -60,7 +60,7 @@
     <string name="featured">Öne Çıkanlar</string>
     <string name="view_the_source_code">Kaynak kodunu görüntüle</string>
     <string name="report_an_issue">Sorun bildir</string>
-    <string name="you_will_be_redirected_to_github">Şuraya yönlendirileceksiniz: GitHub</string>
+    <string name="you_will_be_redirected_to_github">GitHub\'a yönlendirileceksiniz</string>
     <string name="request_a_feature_or_suggest_an_idea">Bir özellik isteyin veya bir fikir önerin</string>
     <string name="appearance">Görünüm</string>
     <string name="colors">RENKLER</string>
@@ -250,7 +250,7 @@
     <string name="disable_song_switching_via_swipe">Kaydırma yoluyla şarkı geçişini devre dışı bırak</string>
     <string name="interface_in_use">Kullanılan arayüz</string>
     <string name="user_interface">Kullanıcı arayüzü</string>
-    <string name="ui_tab">UI</string>
+    <string name="ui_tab">Arayüz</string>
     <string name="system_language">Sistem dili</string>
     <string name="french_emoticons_fran_ais">Fransızca Emojiler (Français)</string>
     <string name="romanian_emoticons_rom_n">Romence Emojiler (Română)</string>
