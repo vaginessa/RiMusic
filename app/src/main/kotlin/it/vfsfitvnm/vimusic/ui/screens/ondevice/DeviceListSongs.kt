@@ -500,7 +500,7 @@ fun Context.musicFilesAsFlow(): StateFlow<List<Song>> = flow {
                             add(
                                 Song(
                                     id = "$LOCAL_KEY_PREFIX$id",
-                                    title = name,
+                                    title = name.substringBeforeLast("."),
                                     artistsText = artist,
                                     durationText = durationText,
                                     thumbnailUrl = albumUri.toString()
