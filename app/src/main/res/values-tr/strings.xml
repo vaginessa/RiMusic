@@ -226,7 +226,7 @@
     <string name="wavy_timeline">Dalgalı zaman çizgisi</string>
     <string name="enable_wavy_timeline">Dalgalı zaman çizgisini etkinleştir</string>
     <string name="play_next">Bundan sonra oynat</string>
-    <string name="toggle_lyrics">Toggle şarkı sözleri</string>
+    <string name="toggle_lyrics">Şarkı sözlerini aç/kapat</string>
     <string name="by_tapping_on_the_thumbnail">Küçük resme dokunarak</string>
     <string name="require_mic_permission">Görselleştirici efekti mikrofon izni gerektirir, lütfen izin verin.</string>
     <string name="vt_fancy">Süslü</string>
