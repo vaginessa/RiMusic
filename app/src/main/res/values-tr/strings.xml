@@ -10,7 +10,7 @@
     <string name="set_sleep_timer">Uyku zamanlayıcısını ayarla</string>
     <string name="add_to_playlist">Oynatma listesine ekle</string>
     <string name="go_to_album">Albüme git</string>
-    <string name="remove_from_queue">Kuyruktan kaldır</string>
+    <string name="remove_from_queue">Sıradan kaldır</string>
     <string name="remove_from_playlist">Oynatma listesinden kaldır</string>
     <string name="hide">Gizle</string>
     <string name="hide_from_quick_picks">Hızlı seçimlerden gizle</string>
@@ -44,7 +44,7 @@
     <string name="edit_lyrics">Şarkı sözlerini düzenle</string>
     <string name="search_lyrics_online">Şarkı sözlerini çevrimiçi ara</string>
     <string name="fetch_lyrics_again">Şarkı sözlerini yeniden al</string>
-    <string name="queue_loop">"Kuyruğu tekrarla "</string>
+    <string name="queue_loop">"Sırayı döngüye al "</string>
     <string name="id">Kimlik</string>
     <string name="itag">Itag</string>
     <string name="bitrate">Bit hızı</string>
@@ -111,9 +111,9 @@
     <string name="turning_off_battery_optimizations_is_not_enough">Pil optimizasyonlarını devre dışı bırakmak yeterli olmadığında</string>
     <string name="player_audio"><![CDATA[Oynatıcı & Ses]]></string>
     <string name="player">Oynatıcı</string>
-    <string name="persistent_queue">Kalıcı kuyruk</string>
+    <string name="persistent_queue">Kalıcı çalma sırası</string>
     <string name="save_and_restore_playing_songs">Çalan şarkıları kaydedin ve geri yükleyin</string>
-    <string name="resume_playback">Çalmaya devam et</string>
+    <string name="resume_playback">Oynatmayı sürdür</string>
     <string name="when_device_is_connected">Kablolu veya bluetooth cihaz bağlandığında</string>
     <string name="audio">SES</string>
     <string name="skip_silence">Sessizliği atla</string>
@@ -134,7 +134,7 @@
     <string name="cleanup">TEMİZLE</string>
     <string name="delete_playback_events">%1$s oynatma olayını sil</string>
     <string name="existing_data_will_be_overwritten">Mevcut verilerin üzerine yazılacak.\n%1$s veritabanını geri yükledikten sonra otomatik olarak kendini kapatacaktır.</string>
-    <string name="on_queue">kuyrukta</string>
+    <string name="on_queue">sırada</string>
     <string name="folder_cache">KLASÖR ÖNBELLEĞİ</string>
     <string name="cache_reset_by_clicking_button">Dikkat Aşağıdaki butona tıkladığınızda önbellek konumu klasörü varsayılana sıfırlanacaktır.</string>
     <string name="cache_location_folder">Konum klasörü</string>
@@ -284,9 +284,9 @@
     <string name="do_you_really_want_to_delete_download">İndirilen dosyayı silmek istediğinize emin misiniz?</string>
     <string name="remove_all">Hepsini sil</string>
     <string name="remove_selected">Seçilenleri kaldır</string>
-    <string name="clear_queue">Kuyruğu temizle</string>
-    <string name="enqueue_all">Hepsini kuyruğa ekle</string>
-    <string name="enqueue_selected">Seçilenleri kuyruğa ekle</string>
+    <string name="clear_queue">Sırayı temizle</string>
+    <string name="enqueue_all">Hepsini sıraya ekle</string>
+    <string name="enqueue_selected">Seçilenleri sıraya ekle</string>
     <string name="greek">Yunanca</string>
     <string name="catalan">Katalonca</string>
     <string name="disable_scrolling_text">Kayan yazıyı devre dışı bırak</string>
