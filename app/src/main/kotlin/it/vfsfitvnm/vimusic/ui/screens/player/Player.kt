@@ -322,7 +322,7 @@ fun Player(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier
-                    .background(colorPalette.background2)
+                    .background(colorPalette.background1)
                     .fillMaxSize()
                     .padding(horizontalBottomPaddingValues)
                     .drawBehind {
@@ -431,7 +431,7 @@ fun Player(
                                 }
                                 if (effectRotationEnabled) isRotated = !isRotated
                             }
-                            .background(colorPalette.background3)
+                            .background(colorPalette.background2)
                             .size(42.dp)
                     ) {
                         Image(

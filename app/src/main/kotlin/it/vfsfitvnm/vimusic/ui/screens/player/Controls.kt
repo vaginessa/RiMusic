@@ -231,6 +231,21 @@ fun Controls(
                 modifier = Modifier.fillMaxWidth(if (uiType != UiType.ViMusic) 0.9f else 1f)
             ) {
                 if (uiType != UiType.ViMusic) {
+                    if (albumId == null) {
+                        IconButton(
+                            icon = R.drawable.alert_circle_not_filled,
+                            color = colorPalette.text,
+                            enabled = false,
+                            onClick = {},
+                            modifier = Modifier
+                                .size(24.dp)
+                        )
+
+                        Spacer(
+                            modifier = Modifier
+                                .width(8.dp)
+                        )
+                    }
                     IconButton(
                         icon = R.drawable.disc,
                         color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
@@ -326,6 +341,21 @@ fun Controls(
 
 
             if (uiType != UiType.ViMusic) {
+                if (artistIds?.isEmpty() == true) {
+                    IconButton(
+                        icon = R.drawable.alert_circle_not_filled,
+                        color = colorPalette.text,
+                        enabled = false,
+                        onClick = {},
+                        modifier = Modifier
+                            .size(20.dp)
+                    )
+
+                    Spacer(
+                        modifier = Modifier
+                            .width(8.dp)
+                    )
+                }
                 IconButton(
                     icon = R.drawable.artists,
                     color = if (artistIds?.isEmpty() == true) colorPalette.textDisabled else colorPalette.text,
@@ -577,12 +607,15 @@ fun Controls(
                     }
                     //.background(if (uiType != UiType.RiMusic) colorPalette.background3 else colorPalette.background0)
                     .background(
+                        if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed) colorPalette.background0 else colorPalette.background2
+                        /*
                         when(playerPlayButtonType){
                             PlayerPlayButtonType.CircularRibbed -> colorPalette.background0
                             PlayerPlayButtonType.Default -> colorPalette.background3
                             PlayerPlayButtonType.Rectangular -> colorPalette.background3 //colorPalette.accent
                             PlayerPlayButtonType.Square -> colorPalette.background3
                         }
+                         */
                     )
                     .width(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.width.dp else playerPlayButtonType.width.dp)
                     .height(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.height.dp else playerPlayButtonType.height.dp)
@@ -590,7 +623,7 @@ fun Controls(
                 if (uiType == UiType.RiMusic && playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
                 Image(
                     painter = painterResource(R.drawable.a13shape),
-                    colorFilter = ColorFilter.tint(colorPalette.background3),
+                    colorFilter = ColorFilter.tint(colorPalette.background2),
                     modifier = Modifier.fillMaxSize()
                         .rotate(rotationAngle),
                     contentDescription = "Background Image",
@@ -600,7 +633,7 @@ fun Controls(
                 Image(
                     painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(colorPalette.iconButtonPlayer),
+                    colorFilter = if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed) ColorFilter.tint(colorPalette.iconButtonPlayer) else ColorFilter.tint(colorPalette.text),
                     modifier = Modifier
 
                         .align(Alignment.Center)
