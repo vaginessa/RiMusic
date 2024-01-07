@@ -169,6 +169,7 @@ fun About() {
                 "Jakub Žitník \n" +
                 "mapkaps \n" +
                 "Muha Aliss \n" +
+                "Ndvok \n" +
                 "NEVARLeVrai \n" +
                 "OrangeZXZ \n" +
                 "roklc \n" +

@@ -293,4 +293,5 @@
     <string name="scrolling_text_is_used_for_long_texts">Прокрутка текста используется для длинных текстов</string>
     <string name="audio_quality_format">Формат качества аудио</string>
     <string name="persian">Persian</string>
+    <string name="hungarian">Hungarian</string>
 </resources>

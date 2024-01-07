@@ -14,6 +14,7 @@ enum class Languages {
     FrenchEmo,
     German,
     Greek,
+    Hungarian,
     Italian,
     Indonesian,
     Odia,
@@ -42,6 +43,7 @@ enum class Languages {
             Czech -> "cs"
             German -> "de"
             Greek -> "el"
+            Hungarian -> "hu"
             Spanish -> "es"
             French -> "fr"
             FrenchEmo -> "fr-FR"

@@ -293,4 +293,5 @@
     <string name="scrolling_text_is_used_for_long_texts">Le défilement du texte est utilisé pour les longs textes</string>
     <string name="audio_quality_format">Format de la qualité audio</string>
     <string name="persian">Persian</string>
+    <string name="hungarian">Hungarian</string>
 </resources>

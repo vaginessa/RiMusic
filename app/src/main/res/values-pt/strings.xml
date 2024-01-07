@@ -293,4 +293,5 @@
     <string name="scrolling_text_is_used_for_long_texts">Rolagem de texto é utilizada para textos longos</string>
     <string name="audio_quality_format">Formato de qualidade de áudio</string>
     <string name="persian">Persian</string>
+    <string name="hungarian">Hungarian</string>
 </resources>

@@ -56,6 +56,7 @@
 - **French:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **German:** thanks to [Conk](https://crowdin.com/profile/conk) and [@siggi1984](https://github.com/siggi1984)
 - **Greek:** thanks to [@Marinkas](https://github.com/Marinkas)
+- **Hungarìan:** thanks to [Ndvok](https://crowdin.com/profile/ndvok)
 - **Italian:** thanks to [@fast4x](https://github.com/fast4x)
 - **Indonesian:** thanks to [@teddysulaimanGL](https://github.com/teddysulaimanGL)
 - **Odia:** thanks to [@Get100percent](https://github.com/Get100percent)

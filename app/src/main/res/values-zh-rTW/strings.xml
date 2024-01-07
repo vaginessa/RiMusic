@@ -293,4 +293,5 @@
     <string name="scrolling_text_is_used_for_long_texts">滚动文本用于长文本</string>
     <string name="audio_quality_format">音频质量格式</string>
     <string name="persian">Persian</string>
+    <string name="hungarian">Hungarian</string>
 </resources>
