@@ -292,6 +292,6 @@
     <string name="disable_scrolling_text">Zakázat posouvání textu</string>
     <string name="scrolling_text_is_used_for_long_texts">Posouvání textu se používá pro dlouhé texty</string>
     <string name="audio_quality_format">Kvalita zvuku</string>
-    <string name="persian">Persian</string>
-    <string name="hungarian">Hungarian</string>
+    <string name="persian">Perština (فارسی)</string>
+    <string name="hungarian">Maďarština (Magyar)</string>
 </resources>
