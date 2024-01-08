@@ -86,8 +86,9 @@
 - [**ViMusic**](https://github.com/vfsfitvnm/ViMusic)
 - [**YouTube-Internal-Clients**](https://github.com/zerodytrash/YouTube-Internal-Clients): A python script that discovers hidden YouTube API clients. Just a research project.
 - [**Ionicons**](https://github.com/ionic-team/ionicons): Premium hand-crafted icons built by Ionic, for Ionic apps and web apps everywhere.
-- [**Flaticon**](https://www.flaticon.com/authors/ilham-fitrotul-hayat) App icon based on icon created by Ilham Fitrotul Hayat.
 - **New logo design** thanks to [@ikanakova](https://github.com/ikanakova).
+- [**Rubik** Font](https://fonts.google.com/specimen/Rubik): Rubik is RiMusic's default font.
+- [**Poppins** Font](https://fonts.google.com/specimen/Poppins): Poppins is ViMusic's default font.
 
 ## ❗ Disclaimer
 This project and its contents are not affiliated with, funded, authorized, endorsed by, or in any way associated with YouTube, Google LLC or any of its affiliates and subsidiaries.
