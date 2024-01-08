@@ -292,6 +292,6 @@
     <string name="disable_scrolling_text">Desativar rolagem de texto</string>
     <string name="scrolling_text_is_used_for_long_texts">Rolagem de texto é utilizada para textos longos</string>
     <string name="audio_quality_format">Formato de qualidade de áudio</string>
-    <string name="persian">Persian</string>
-    <string name="hungarian">Hungarian</string>
+    <string name="persian">Persa (فارسی)</string>
+    <string name="hungarian">Hungarian (Magyar)</string>
 </resources>
