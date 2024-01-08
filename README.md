@@ -50,7 +50,7 @@
 - **Catalan:** thanks to [EMC_Translator](https://crowdin.com/profile/EMC_Translator)
 - **Chinese Simplified:** thanks to [@SharkChan0622](https://github.com/SharkChan0622)
 - **Chinese Traditional:** thanks to [@SharkChan0622](https://github.com/SharkChan0622)
-- **Czech:** thanks to [@ikanakova](https://github.com/ikanakova) and [@JZITNIK-github](https://github.com/JZITNIK-github) and [Adam Kop](https://crowdin.com/profile/damianadam000)
+- **Czech:** thanks to [@ikanakova](https://github.com/ikanakova) and [@JZITNIK-github](https://github.com/JZITNIK-github)
 - **English:** thanks to [@fast4x](https://github.com/fast4x)
 - **Esperanto:** thanks to [@kjev666](https://github.com/kjev666)
 - **French:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
@@ -61,12 +61,12 @@
 - **Indonesian:** thanks to [@teddysulaimanGL](https://github.com/teddysulaimanGL)
 - **Odia:** thanks to [@Get100percent](https://github.com/Get100percent)
 - **Persian:** thanks to [@CUMOON](https://github.com/CUMOON)
-- **Polish:** thanks to [@roklc](https://github.com/roklc) and [Fabian Urra](https://crowdin.com/profile/nsagcl)
+- **Polish:** thanks to [@roklc](https://github.com/roklc) and [Adam Kop](https://crowdin.com/profile/damianadam000)
 - **Portuguese:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **Portuguese, Brazilian:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **Romanian:** thanks to [@OrangeZXZ](https://github.com/OrangeZxZ)
 - **Russian:** thanks to [Vladimir](https://crowdin.com/profile/vladimir15426) and [@siggi1984](https://github.com/siggi1984)
-- **Spanish:** thanks to [@DanielSevillano](https://github.com/DanielSevillano) and [@DanielSevillano](https://github.com/DanielSevillano)
+- **Spanish:** thanks to [@DanielSevillano](https://github.com/DanielSevillano) and [Fabian Urra](https://crowdin.com/profile/nsagcl)
 - **Turkish:** thanks to [@abfreeman](https://github.com/abfreeman) and [@2010furs](https://github.com/2010furs) and [Muha Aliss](https://crowdin.com/profile/muhaaliss)
 
 
