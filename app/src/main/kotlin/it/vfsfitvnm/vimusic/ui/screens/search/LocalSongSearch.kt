@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.ExperimentalTextApi
@@ -105,12 +107,14 @@ fun LocalSongSearch(
                         BasicTextField(
                             value = textFieldValue,
                             onValueChange = onTextFieldValueChanged,
-                            textStyle = typography.xxl.medium.align(TextAlign.End),
+                            textStyle = typography.xxl.medium.align(TextAlign.Center),
                             singleLine = true,
                             maxLines = 1,
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                             cursorBrush = SolidColor(colorPalette.text),
-                            decorationBox = decorationBox
+                            decorationBox = decorationBox,
+                            modifier = Modifier
+                                .fillMaxWidth()
                         )
                     },
                     actionsContent = {

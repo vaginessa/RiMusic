@@ -12,8 +12,8 @@ android {
         applicationId = "it.fast4x.rimusic"
         minSdk = 21
         targetSdk = 33
-        versionCode = 11
-        versionName = "0.6.16"
+        versionCode = 12
+        versionName = "0.6.16.1"
         buildConfigField("String", "VERSION_NAME", "\"$versionName\"")
     }
 
@@ -122,7 +122,7 @@ dependencies {
 
     implementation("com.github.therealbush:translator:1.0.2")
 
-    implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
+    //implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
 
     implementation("io.github.gautamchibde:audiovisualizer:2.2.7")
 

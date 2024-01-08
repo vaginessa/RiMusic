@@ -5,7 +5,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
@@ -15,10 +17,12 @@ import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.routing.RouteHandler
@@ -70,12 +74,13 @@ fun SearchScreen(
                         enter = fadeIn(tween(300)),
                         exit = fadeOut(tween(300)),
                         modifier = Modifier
-                            .align(Alignment.CenterEnd)
+                            .align(Alignment.Center)
                     ) {
                         BasicText(
                             text = stringResource(R.string.enter_a_name),
                             maxLines = 1,
-                            style = LocalAppearance.current.typography.xxl.secondary
+                            style = LocalAppearance.current.typography.xxl.secondary,
+
                         )
                     }
 
