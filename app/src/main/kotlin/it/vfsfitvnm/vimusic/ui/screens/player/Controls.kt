@@ -180,7 +180,7 @@ fun Controls(
                 easing = LinearEasing
             ))
     }
-    val durationVisible by remember(isSeeking) { derivedStateOf { isSeeking } }
+    //val durationVisible by remember(isSeeking) { derivedStateOf { isSeeking } }
 
 
 
@@ -468,14 +468,23 @@ fun Controls(
                 position = { animatedPosition.value },
                 range = 0f..media.duration.toFloat(),
                 onSeekStarted = {
-                    isSeeking = true
+                    scrubbingPosition = it.toLong()
+
+                    //isSeeking = true
                     scope.launch {
                         animatedPosition.animateTo(it)
                     }
+
                 },
                 onSeek = { delta ->
+                    scrubbingPosition = if (duration != C.TIME_UNSET) {
+                        scrubbingPosition?.plus(delta)?.coerceIn(0F, duration.toFloat())?.toLong()
+                    } else {
+                        null
+                    }
+
                     if (media.duration != C.TIME_UNSET) {
-                        isSeeking = true
+                        //isSeeking = true
                         scope.launch {
                             animatedPosition.snapTo(
                                 animatedPosition.value.plus(delta)
@@ -483,12 +492,17 @@ fun Controls(
                             )
                         }
                     }
+
                 },
                 onSeekFinished = {
+                    scrubbingPosition?.let(binder.player::seekTo)
+                    scrubbingPosition = null
+                    /*
                     isSeeking = false
                     animatedPosition.let {
                         binder.player.seekTo(it.targetValue.toLong())
                     }
+                     */
                 },
                 color = colorPalette.collapsedPlayerProgressBar,
                 isActive = binder.player.isPlaying,
@@ -496,7 +510,7 @@ fun Controls(
                 shape = RoundedCornerShape(8.dp)
             )
         }
-
+/*
             AnimatedVisibility(
                 durationVisible,
                 enter = fadeIn() + expandVertically { -it },
@@ -506,6 +520,7 @@ fun Controls(
                     Duration(animatedPosition.value, media.duration)
                 }
             }
+*/
 
 
         Spacer(
@@ -514,7 +529,7 @@ fun Controls(
         )
 
 
-        if (!durationVisible)
+        //if (!durationVisible)
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,

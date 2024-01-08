@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic
 
+import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -70,7 +71,6 @@ import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import com.valentinilk.shimmer.LocalShimmerTheme
 import com.valentinilk.shimmer.defaultShimmerTheme
-//import dagger.hilt.android.AndroidEntryPoint
 import it.vfsfitvnm.compose.persist.PersistMap
 import it.vfsfitvnm.compose.persist.PersistMapOwner
 import it.vfsfitvnm.innertube.Innertube
@@ -134,7 +134,6 @@ import org.json.JSONException
 import java.io.File
 
 
-//@AndroidEntryPoint
 @UnstableApi
 class MainActivity : AppCompatActivity(), PersistMapOwner {
 

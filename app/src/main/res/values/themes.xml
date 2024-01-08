@@ -32,16 +32,13 @@
         <!-- Set the splash screen background, animated icon, and animation
         duration. -->
         <item name="windowSplashScreenBackground">#000000</item>
-
         <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
              drawable. One of these is required. -->
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_logo</item>
         <!-- Required for animated icons. -->
         <item name="windowSplashScreenAnimationDuration">1000</item>
-
-
         <!-- Ready to future version
-        <item name="android:windowSplashScreenBrandingImage">@drawable/heart</item>-->
+        <item name="android:windowSplashScreenBrandingImage">@drawable/heart</item> -->
 
         <!-- Set the theme of the Activity that directly follows your splash
         screen. This is required. -->

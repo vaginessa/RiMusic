@@ -122,8 +122,6 @@ dependencies {
 
     implementation("com.github.therealbush:translator:1.0.2")
 
-    //implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
-
     implementation("io.github.gautamchibde:audiovisualizer:2.2.7")
 
     implementation("androidx.compose.material:material:1.1.0")
