@@ -62,6 +62,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.Song
@@ -98,6 +99,7 @@ import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
+import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -168,6 +170,11 @@ fun PlaylistSongList(
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
     }
+
+    var thumbnailRoundness by rememberPreference(
+        thumbnailRoundnessKey,
+        ThumbnailRoundness.Heavy
+    )
 
     if (isImportingPlaylist) {
         TextFieldDialog(
@@ -392,6 +399,11 @@ fun PlaylistSongList(
                             }
                         },
                         modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                colorPalette.background4,
+                                shape = thumbnailRoundness.shape()
+                            )
                             .focusRequester(focusRequester)
                             .onFocusChanged {
                                 if (!it.hasFocus) {

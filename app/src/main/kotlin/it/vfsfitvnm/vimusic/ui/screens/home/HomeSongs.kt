@@ -64,6 +64,7 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
+import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
@@ -93,6 +94,7 @@ import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.songSortByKey
 import it.vfsfitvnm.vimusic.utils.songSortOrderKey
+import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
@@ -129,6 +131,10 @@ fun  HomeSongs(
 
     val context = LocalContext.current
 
+    var thumbnailRoundness by rememberPreference(
+        thumbnailRoundnessKey,
+        ThumbnailRoundness.Heavy
+    )
     //InitDownloader()
 
     LaunchedEffect(sortBy, sortOrder, filter) {
@@ -308,6 +314,11 @@ fun  HomeSongs(
                                 }
                             },
                             modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    colorPalette.background4,
+                                    shape = thumbnailRoundness.shape()
+                                )
                                 .focusRequester(focusRequester)
                                 .onFocusChanged {
                                     if (!it.hasFocus) {

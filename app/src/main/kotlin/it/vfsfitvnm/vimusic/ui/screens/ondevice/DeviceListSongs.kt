@@ -71,6 +71,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.DeviceLists
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
+import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.service.LOCAL_KEY_PREFIX
@@ -97,6 +98,7 @@ import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.songSortByKey
 import it.vfsfitvnm.vimusic.utils.songSortOrderKey
+import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.toast
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
@@ -159,6 +161,11 @@ fun DeviceListSongs(
     val sortOrderIconRotation by animateFloatAsState(
         targetValue = if (sortOrder == SortOrder.Ascending) 0f else 180f,
         animationSpec = tween(durationMillis = 400, easing = LinearEasing)
+    )
+
+    var thumbnailRoundness by rememberPreference(
+        thumbnailRoundnessKey,
+        ThumbnailRoundness.Heavy
     )
 
     val lazyListState = rememberLazyListState()
@@ -342,6 +349,11 @@ fun DeviceListSongs(
                                 }
                             },
                             modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    colorPalette.background4,
+                                    shape = thumbnailRoundness.shape()
+                                )
                                 .focusRequester(focusRequester)
                                 .onFocusChanged {
                                     if (!it.hasFocus) {

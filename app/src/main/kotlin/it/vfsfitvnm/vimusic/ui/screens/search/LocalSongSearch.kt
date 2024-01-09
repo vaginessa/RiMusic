@@ -3,6 +3,7 @@ package it.vfsfitvnm.vimusic.ui.screens.search
 import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
@@ -37,6 +39,8 @@ import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
+import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.isLocal
@@ -56,6 +60,8 @@ import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.medium
+import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
@@ -90,6 +96,11 @@ fun LocalSongSearch(
     }
     val context = LocalContext.current
 
+    var thumbnailRoundness by rememberPreference(
+        thumbnailRoundnessKey,
+        ThumbnailRoundness.Heavy
+    )
+
     Box {
         LazyColumn(
             state = lazyListState,
@@ -114,13 +125,17 @@ fun LocalSongSearch(
                             cursorBrush = SolidColor(colorPalette.text),
                             decorationBox = decorationBox,
                             modifier = Modifier
+                                .background(
+                                    colorPalette.background4,
+                                    shape = thumbnailRoundness.shape()
+                                )
                                 .fillMaxWidth()
                         )
                     },
                     actionsContent = {
                         if (textFieldValue.text.isNotEmpty()) {
                             SecondaryTextButton(
-                                text = "Clear",
+                                text = stringResource(R.string.clear),
                                 onClick = { onTextFieldValueChanged(TextFieldValue()) }
                             )
                         }
