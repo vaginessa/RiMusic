@@ -294,4 +294,10 @@
     <string name="audio_quality_format">Calidad del audio</string>
     <string name="persian">Persian</string>
     <string name="hungarian">Hungarian</string>
+    <string name="korean">Korean</string>
+    <string name="background_player">"BACKGROUND PLAYER "</string>
+    <string name="show_like_button">Show Like button</string>
+    <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">Add/Remove like to song from lock screen and notification area</string>
+    <string name="show_download_button">Show Download button</string>
+    <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">Download, or remove downloaded, song from lock screen and notification area</string>
 </resources>

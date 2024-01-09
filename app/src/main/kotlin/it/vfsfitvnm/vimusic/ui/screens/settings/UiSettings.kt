@@ -170,6 +170,7 @@ fun  UiSettings() {
                     Languages.Greek -> stringResource(R.string.greek)
                     Languages.Hungarian -> stringResource(R.string.hungarian)
                     Languages.Indonesian -> stringResource(R.string.indonesian)
+                    Languages.Korean -> stringResource(R.string.korean)
                     Languages.Italian -> stringResource(R.string.italian)
                     Languages.Odia -> stringResource(R.string.odia)
                     Languages.Persian -> stringResource(R.string.persian)

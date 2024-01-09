@@ -17,6 +17,7 @@ enum class Languages {
     Hungarian,
     Italian,
     Indonesian,
+    Korean,
     Odia,
     Persian,
     Polish,
@@ -40,6 +41,7 @@ enum class Languages {
             Esperanto -> "eo"
             Italian -> "it"
             Indonesian -> "in"
+            Korean -> "ko"
             Czech -> "cs"
             German -> "de"
             Greek -> "el"
