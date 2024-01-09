@@ -103,7 +103,7 @@
     <string name="history_is_empty">Geçmiş boş</string>
     <string name="service_lifetime">HİZMET ÖMRÜ</string>
     <string name="battery_optimizations_applied">Eğer pil optimizasyonları uygulanırsa, oynatma bildirimi müzik duraklatıldığında aniden kaybolabilir.</string>
-    <string name="is_android12">Android 12\'den bu yana, \"Kapanmayan hizmet\" seçeneğinin etkili olması için pil optimizasyonlarının devre dışı bırakılması gerekir.</string>
+    <string name="is_android12">Android 12\'den itibaren, \"Kapanmayan hizmet\" seçeneğinin etkili olması için pil optimizasyonlarının devre dışı bırakılması gerekir.</string>
     <string name="ignore_battery_optimizations">Pil optimizasyonlarını yok say</string>
     <string name="already_unrestricted">Zaten kısıtlanmamış</string>
     <string name="disable_background_restrictions">Arka plan kısıtlamalarını devre dışı bırak</string>
@@ -111,7 +111,7 @@
     <string name="turning_off_battery_optimizations_is_not_enough">Pil optimizasyonlarını devre dışı bırakmak yeterli olmadığında</string>
     <string name="player_audio"><![CDATA[Oynatıcı & Ses]]></string>
     <string name="player">Oynatıcı</string>
-    <string name="persistent_queue">Kalıcı çalma sırası</string>
+    <string name="persistent_queue">Kalıcı oynatma sırası</string>
     <string name="save_and_restore_playing_songs">Çalan şarkıları kaydedin ve geri yükleyin</string>
     <string name="resume_playback">Oynatmayı sürdür</string>
     <string name="when_device_is_connected">Kablolu veya bluetooth cihaz bağlandığında</string>
@@ -188,7 +188,7 @@
     <string name="contributors">KATKIDA BULUNANLAR</string>
     <string name="troubleshooting">SORUN GİDERME</string>
     <string name="social">SOSYAL</string>
-    <string name="english">İngilizce</string>
+    <string name="english">İngilizce (English)</string>
     <string name="italian">Italiano (İtalyanca)</string>
     <string name="czech">Czech (Čeština)</string>
     <string name="german">German (Deutsch)</string>
@@ -252,8 +252,8 @@
     <string name="user_interface">Kullanıcı arayüzü</string>
     <string name="ui_tab">Arayüz</string>
     <string name="system_language">Sistem dili</string>
-    <string name="french_emoticons_fran_ais">Fransızca Emojiler (Français)</string>
-    <string name="romanian_emoticons_rom_n">Romence Emojiler (Română)</string>
+    <string name="french_emoticons_fran_ais">Emojili Fransızca (Français)</string>
+    <string name="romanian_emoticons_rom_n">Emojili Romence (Română)</string>
     <string name="biggest">En büyük</string>
     <string name="set_custom_cache">Özel önbellek ayarla</string>
     <string name="enter_value_in_mb">Değeri MB cinsinden girin</string>
@@ -269,7 +269,7 @@
     <string name="square">Kare</string>
     <string name="circular_ribbed">Kıvrımlı Daire</string>
     <string name="play_button">Oynat tuşu</string>
-    <string name="portuguese_brazilian">Portekizce (Brezilya)</string>
+    <string name="portuguese_brazilian">Portekizce (Portuguese, Brazilian)</string>
     <string name="portuguese">Portekizce</string>
     <string name="indonesian">Endonezce</string>
     <string name="odia">Odia</string>
@@ -287,11 +287,11 @@
     <string name="clear_queue">Sırayı temizle</string>
     <string name="enqueue_all">Hepsini sıraya ekle</string>
     <string name="enqueue_selected">Seçilenleri sıraya ekle</string>
-    <string name="greek">Yunanca</string>
+    <string name="greek">Yunanca (Yunanca)</string>
     <string name="catalan">Katalonca</string>
     <string name="disable_scrolling_text">Kayan yazıyı devre dışı bırak</string>
     <string name="scrolling_text_is_used_for_long_texts">Kayan yazı uzun metinler için kullanılır</string>
     <string name="audio_quality_format">Ses kalitesi</string>
-    <string name="persian">Persian</string>
-    <string name="hungarian">Hungarian</string>
+    <string name="persian">Farsça (فارسی)</string>
+    <string name="hungarian">Macarca (Hungarian)</string>
 </resources>
