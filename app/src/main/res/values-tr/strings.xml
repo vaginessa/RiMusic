@@ -23,7 +23,7 @@
     <string name="enter_the_playlist_name">Oynatma listesi adını girin</string>
     <string name="playlists">Oynatma listeleri</string>
     <string name="favorites">Favoriler</string>
-    <string name="quick_picks">Hızlı seçimler</string>
+    <string name="quick_picks">Hızlı Seçimler</string>
     <string name="songs">Şarkılar</string>
     <string name="other_versions">Diğer versiyonlar</string>
     <string name="album_no_alternative_version">Bu albümün alternatif versiyonu yok</string>
@@ -49,7 +49,7 @@
     <string name="itag">Itag</string>
     <string name="bitrate">Bit hızı</string>
     <string name="size">Boyut</string>
-    <string name="cached">Önbelleğe alındı</string>
+    <string name="cached">Önbellektekiler</string>
     <string name="loudness">Ses yüksekliği</string>
     <string name="clear">Temizle</string>
     <string name="error">Bir hata oluştu.</string>
@@ -103,7 +103,7 @@
     <string name="history_is_empty">Geçmiş boş</string>
     <string name="service_lifetime">HİZMET ÖMRÜ</string>
     <string name="battery_optimizations_applied">Eğer pil optimizasyonları uygulanırsa, oynatma bildirimi müzik duraklatıldığında aniden kaybolabilir.</string>
-    <string name="is_android12">Android 12\'den bu yana, \"Kapanmayan hizmet\" seçeneğinin etkili olması için pil optimizasyonlarının devre dışı bırakılması gerekir.</string>
+    <string name="is_android12">Android 12\'den itibaren, \"Kapanmayan hizmet\" seçeneğinin etkili olması için pil optimizasyonlarının devre dışı bırakılması gerekir.</string>
     <string name="ignore_battery_optimizations">Pil optimizasyonlarını yok say</string>
     <string name="already_unrestricted">Zaten kısıtlanmamış</string>
     <string name="disable_background_restrictions">Arka plan kısıtlamalarını devre dışı bırak</string>
@@ -111,7 +111,7 @@
     <string name="turning_off_battery_optimizations_is_not_enough">Pil optimizasyonlarını devre dışı bırakmak yeterli olmadığında</string>
     <string name="player_audio"><![CDATA[Oynatıcı & Ses]]></string>
     <string name="player">Oynatıcı</string>
-    <string name="persistent_queue">Kalıcı çalma sırası</string>
+    <string name="persistent_queue">Kalıcı oynatma sırası</string>
     <string name="save_and_restore_playing_songs">Çalan şarkıları kaydedin ve geri yükleyin</string>
     <string name="resume_playback">Oynatmayı sürdür</string>
     <string name="when_device_is_connected">Kablolu veya bluetooth cihaz bağlandığında</string>
@@ -152,9 +152,9 @@
     <string name="error_this_song_cannot_be_played_due_to_server_restrictions">Bu şarkı sunucu kısıtlamaları nedeniyle oynatılamıyor</string>
     <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">Döndürülen video kimliği, istenen video kimliğiyle eşleşmiyor</string>
     <string name="error_an_unknown_playback_error_has_occurred">Bilinmeyen bir oynatma hatası oluştu</string>
-    <string name="tips">İpuçları</string>
-    <string name="quick_pics_and_tips">Hızlı Seçimler ve İpuçları</string>
-    <string name="is_min_list_time_for_tips_or_quick_pics">Şarkıyı muhtemel ipuçları veya hızlı seçimlere dahil etmek için gereken minimum dinleme süresidir</string>
+    <string name="tips">Öneriler</string>
+    <string name="quick_pics_and_tips">Hızlı Seçimler ve Öneriler</string>
+    <string name="is_min_list_time_for_tips_or_quick_pics">Şarkının muhtemel olarak önerilere veya hızlı seçimlere dahil edilebilmesi için gereken minimum dinleme süresidir.</string>
     <string name="min_listening_time">Minimum dinleme süresi</string>
     <string name="player_thumbnail_size">Küçük resim boyutu</string>
     <string name="restarting_rimusic_is_required">Yeniden başlatma gerekli</string>
@@ -165,7 +165,7 @@
     <string name="medium">Orta</string>
     <string name="big">Büyük</string>
     <string name="none">Yok</string>
-    <string name="light">Az</string>
+    <string name="light">Açık</string>
     <string name="heavy">Çok</string>
     <string name="effects">Efektler</string>
     <string name="player_rotating_buttons">Dönen tuşlar</string>
@@ -182,13 +182,13 @@
     <string name="most_listened_artists">En çok dinlenen sanatçılar</string>
     <string name="most_albums_listened">En çok dinlenen albümler</string>
     <string name="most_played_playlists">En çok dinlenen oynatma listeleri</string>
-    <string name="languages">Diller</string>
+    <string name="languages">DİLLER</string>
     <string name="app_language">Uygulama dili</string>
     <string name="in_alphabetical_order">Alfabetik sırayla:</string>
     <string name="contributors">KATKIDA BULUNANLAR</string>
     <string name="troubleshooting">SORUN GİDERME</string>
     <string name="social">SOSYAL</string>
-    <string name="english">İngilizce</string>
+    <string name="english">İngilizce (English)</string>
     <string name="italian">Italiano (İtalyanca)</string>
     <string name="czech">Czech (Čeština)</string>
     <string name="german">German (Deutsch)</string>
@@ -202,7 +202,7 @@
     <string name="system">Sistem</string>
     <string name="unlimited">Sınırsız</string>
     <string name="_light">Az</string>
-    <string name="downloaded">İndirildi</string>
+    <string name="downloaded">İndirilenler</string>
     <string name="turn_off">Kapat</string>
     <string name="download">İndir</string>
     <string name="_default">Varsayılan</string>
@@ -239,10 +239,10 @@
     <string name="vt_full">Tam</string>
     <string name="new_albums_of_your_artists">Sanatçılarınızın yeni albümleri</string>
     <string name="timeline">Zaman çizgisi</string>
-    <string name="song_cache_by_player">ŞARKI ÖNBELLEĞİ (Oynatıcıdan)</string>
-    <string name="song_cache_by_download">ŞARKI ÖNBELLEĞİ (İndirmeye göre)</string>
+    <string name="song_cache_by_player">ŞARKI ÖNBELLEĞİ (Oynatma)</string>
+    <string name="song_cache_by_download">ŞARKI ÖNBELLEĞİ (İndirme)</string>
     <string name="visualizer">Görselleştirme</string>
-    <string name="visualizer_require_mic_permission">Görselleştirici MİKROFON İZİNİ GEREKTİRİR</string>
+    <string name="visualizer_require_mic_permission">Görselleştirici MİKROFON İZNİ GEREKTİRİR</string>
     <string name="restart_app_please">Lütfen uygulamayı yeniden başlatın.</string>
     <string name="listen_on_piped">Piped ile dinle</string>
     <string name="listen_on_invidious">Invidious ile dinle</string>
@@ -252,8 +252,8 @@
     <string name="user_interface">Kullanıcı arayüzü</string>
     <string name="ui_tab">Arayüz</string>
     <string name="system_language">Sistem dili</string>
-    <string name="french_emoticons_fran_ais">Fransızca Emojiler (Français)</string>
-    <string name="romanian_emoticons_rom_n">Romence Emojiler (Română)</string>
+    <string name="french_emoticons_fran_ais">Emojili Fransızca (Français)</string>
+    <string name="romanian_emoticons_rom_n">Emojili Romence (Română)</string>
     <string name="biggest">En büyük</string>
     <string name="set_custom_cache">Özel önbellek ayarla</string>
     <string name="enter_value_in_mb">Değeri MB cinsinden girin</string>
@@ -269,8 +269,8 @@
     <string name="square">Kare</string>
     <string name="circular_ribbed">Kıvrımlı Daire</string>
     <string name="play_button">Oynat tuşu</string>
-    <string name="portuguese_brazilian">Portekizce (Brezilya)</string>
-    <string name="portuguese">Portekizce</string>
+    <string name="portuguese_brazilian">Portekizce (Portuguese, Brazilian)</string>
+    <string name="portuguese">Portekizce (Portugal)</string>
     <string name="indonesian">Endonezce</string>
     <string name="odia">Odia</string>
     <string name="bashkir">Bashkir</string>
@@ -287,11 +287,11 @@
     <string name="clear_queue">Sırayı temizle</string>
     <string name="enqueue_all">Hepsini sıraya ekle</string>
     <string name="enqueue_selected">Seçilenleri sıraya ekle</string>
-    <string name="greek">Yunanca</string>
+    <string name="greek">Yunanca (Yunanca)</string>
     <string name="catalan">Katalonca</string>
     <string name="disable_scrolling_text">Kayan yazıyı devre dışı bırak</string>
     <string name="scrolling_text_is_used_for_long_texts">Kayan yazı uzun metinler için kullanılır</string>
     <string name="audio_quality_format">Ses kalitesi</string>
-    <string name="persian">Persian</string>
-    <string name="hungarian">Hungarian</string>
+    <string name="persian">Farsça (فارسی)</string>
+    <string name="hungarian">Macarca (Hungarian)</string>
 </resources>
