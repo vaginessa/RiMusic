@@ -65,6 +65,7 @@ import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
@@ -88,6 +89,7 @@ import it.vfsfitvnm.vimusic.ui.styling.collapsedPlayerProgressBar
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.bold
+import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
 import it.vfsfitvnm.vimusic.utils.disableScrollingTextKey
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
@@ -125,6 +127,7 @@ fun Controls(
     modifier: Modifier = Modifier
 ) {
     val (colorPalette, typography) = LocalAppearance.current
+    var colorPaletteName by rememberPreference(colorPaletteNameKey, ColorPaletteName.PureBlack)
 
     val binder = LocalPlayerServiceBinder.current
     binder?.player ?: return
@@ -622,7 +625,7 @@ fun Controls(
                     }
                     //.background(if (uiType != UiType.RiMusic) colorPalette.background3 else colorPalette.background0)
                     .background(
-                        if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed) colorPalette.background0 else colorPalette.background2
+                        if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed && colorPaletteName == ColorPaletteName.Dynamic) colorPalette.background1 else colorPalette.background2
                         /*
                         when(playerPlayButtonType){
                             PlayerPlayButtonType.CircularRibbed -> colorPalette.background0
