@@ -179,14 +179,14 @@ class PlayerService : InvincibleService(),
                     PlaybackState.ACTION_SEEK_TO or
                     PlaybackState.ACTION_REWIND
         ).addCustomAction(
-            /* action = */ "LIKE",
-            /* name   = */ "Like",
-            /* icon   = */ if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline
-        ).addCustomAction(
             /* action = */ "DOWNLOAD",
             /* name   = */ "Download",
             /* icon   = */ if (isDownloadedState.value || isCachedState.value || isDownloadedAction) R.drawable.downloaded_to else R.drawable.download_to
 
+        ).addCustomAction(
+            /* action = */ "LIKE",
+            /* name   = */ "Like",
+            /* icon   = */ if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline
         )
 
     private val playbackStateMutex = Mutex()
@@ -964,11 +964,11 @@ class PlayerService : InvincibleService(),
             .addAction(R.drawable.play_skip_forward, "Skip forward", nextIntent)
 
             //Prior Android 11
+            .addAction(if (isDownloadedState.value || isCachedState.value || isDownloadedAction) R.drawable.downloaded_to else R.drawable.download_to,
+                "Download", downloadIntent)
             .addAction(
                 if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline,
                 "Like", likeIntent)
-            .addAction(if (isDownloadedState.value || isCachedState.value || isDownloadedAction) R.drawable.downloaded_to else R.drawable.download_to,
-                "Download", downloadIntent)
 
 
         bitmapProvider.load(mediaMetadata.artworkUri) { bitmap ->
