@@ -63,7 +63,8 @@ const val disableIconButtonOnTopKey = "disableIconButtonOnTop"
 const val exoPlayerCustomCacheKey = "exoPlayerCustomCache"
 const val disableScrollingTextKey = "disableScrollingText"
 const val audioQualityFormatKey = "audioQualityFormat"
-
+const val showLikeButtonBackgroundPlayerKey = "showLikeButtonBackgroundPlayer"
+const val showDownloadButtonBackgroundPlayerKey = "showDownloadButtonBackgroundPlayer"
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,

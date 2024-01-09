@@ -115,6 +115,8 @@ import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.queueLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.resumePlaybackWhenDeviceConnectedKey
 import it.vfsfitvnm.vimusic.utils.shouldBePlaying
+import it.vfsfitvnm.vimusic.utils.showDownloadButtonBackgroundPlayerKey
+import it.vfsfitvnm.vimusic.utils.showLikeButtonBackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.skipSilenceKey
 import it.vfsfitvnm.vimusic.utils.timer
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
@@ -167,6 +169,19 @@ class PlayerService : InvincibleService(),
     private lateinit var player: ExoPlayer
     private lateinit var downloadCache: SimpleCache
 
+    private val stateBuilderWithoutCustomAction
+        get() = PlaybackState.Builder().setActions(
+            PlaybackState.ACTION_PLAY or
+                    PlaybackState.ACTION_PAUSE or
+                    PlaybackState.ACTION_PLAY_PAUSE or
+                    PlaybackState.ACTION_STOP or
+                    PlaybackState.ACTION_SKIP_TO_PREVIOUS or
+                    PlaybackState.ACTION_SKIP_TO_NEXT or
+                    PlaybackState.ACTION_SKIP_TO_QUEUE_ITEM or
+                    PlaybackState.ACTION_SEEK_TO or
+                    PlaybackState.ACTION_REWIND
+        )
+
     private val stateBuilder
         get() = PlaybackState.Builder().setActions(
             PlaybackState.ACTION_PLAY or
@@ -183,6 +198,41 @@ class PlayerService : InvincibleService(),
             /* name   = */ "Download",
             /* icon   = */ if (isDownloadedState.value || isCachedState.value || isDownloadedAction) R.drawable.downloaded_to else R.drawable.download_to
 
+        ).addCustomAction(
+            /* action = */ "LIKE",
+            /* name   = */ "Like",
+            /* icon   = */ if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline
+        )
+
+    private val stateBuilderWithDownloadOnly
+        get() = PlaybackState.Builder().setActions(
+            PlaybackState.ACTION_PLAY or
+                    PlaybackState.ACTION_PAUSE or
+                    PlaybackState.ACTION_PLAY_PAUSE or
+                    PlaybackState.ACTION_STOP or
+                    PlaybackState.ACTION_SKIP_TO_PREVIOUS or
+                    PlaybackState.ACTION_SKIP_TO_NEXT or
+                    PlaybackState.ACTION_SKIP_TO_QUEUE_ITEM or
+                    PlaybackState.ACTION_SEEK_TO or
+                    PlaybackState.ACTION_REWIND
+        ).addCustomAction(
+            /* action = */ "DOWNLOAD",
+            /* name   = */ "Download",
+            /* icon   = */ if (isDownloadedState.value || isCachedState.value || isDownloadedAction) R.drawable.downloaded_to else R.drawable.download_to
+
+        )
+
+    private val stateBuilderWithLikeOnly
+        get() = PlaybackState.Builder().setActions(
+            PlaybackState.ACTION_PLAY or
+                    PlaybackState.ACTION_PAUSE or
+                    PlaybackState.ACTION_PLAY_PAUSE or
+                    PlaybackState.ACTION_STOP or
+                    PlaybackState.ACTION_SKIP_TO_PREVIOUS or
+                    PlaybackState.ACTION_SKIP_TO_NEXT or
+                    PlaybackState.ACTION_SKIP_TO_QUEUE_ITEM or
+                    PlaybackState.ACTION_SEEK_TO or
+                    PlaybackState.ACTION_REWIND
         ).addCustomAction(
             /* action = */ "LIKE",
             /* name   = */ "Like",
@@ -258,6 +308,9 @@ class PlayerService : InvincibleService(),
         .map { it }
         .stateIn(coroutineScope, SharingStarted.Eagerly, false)
 
+    private var showLikeButton = true
+    private var showDownloadButton = true
+
     override fun onBind(intent: Intent?): AndroidBinder {
         super.onBind(intent)
         return binder
@@ -285,7 +338,11 @@ class PlayerService : InvincibleService(),
         isShowingThumbnailInLockscreen =
             preferences.getBoolean(isShowingThumbnailInLockscreenKey, false)
 
+
         audioQualityFormat = preferences.getEnum(audioQualityFormatKey, AudioQualityFormat.High)
+
+        showLikeButton = preferences.getBoolean(showLikeButtonBackgroundPlayerKey, true)
+        showDownloadButton = preferences.getBoolean(showDownloadButtonBackgroundPlayerKey, true)
 
         val exoPlayerCustomCache = preferences.getInt(exoPlayerCustomCacheKey, 32)
 
@@ -377,15 +434,22 @@ class PlayerService : InvincibleService(),
 
 
         mediaSession = MediaSession(baseContext, "PlayerService")
-        //mediaSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS or MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS)
+        mediaSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS or MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS)
         mediaSession.setCallback(SessionCallback(player))
-        mediaSession.setPlaybackState(stateBuilder.build())
+        if (showLikeButton && showDownloadButton)
+            mediaSession.setPlaybackState(stateBuilder.build())
+        if (showLikeButton && !showDownloadButton)
+            mediaSession.setPlaybackState(stateBuilderWithLikeOnly.build())
+        if (showDownloadButton && !showLikeButton)
+            mediaSession.setPlaybackState(stateBuilderWithDownloadOnly.build())
+        if (!showLikeButton && !showDownloadButton)
+            mediaSession.setPlaybackState(stateBuilderWithoutCustomAction.build())
+
         mediaSession.isActive = true
 
         coroutineScope.launch {
             var first = true
             mediaItemState.zip(isLikedState) { mediaItem, _ ->
-                // work around NPE in other processes
                 if (first) {
                     first = false
                     return@zip
@@ -393,7 +457,6 @@ class PlayerService : InvincibleService(),
                 if (mediaItem == null) return@zip
                 withContext(Dispatchers.Main) {
                     updatePlaybackState()
-                    // work around NPE in other processes
                     handler.post {
                         runCatching {
                             applicationContext.getSystemService<NotificationManager>()
@@ -407,7 +470,6 @@ class PlayerService : InvincibleService(),
         coroutineScope.launch {
             var first = true
             mediaDownloadedItemState.zip(isDownloadedState) { mediaItem, _ ->
-                // work around NPE in other processes
                 if (first) {
                     first = false
                     return@zip
@@ -415,7 +477,6 @@ class PlayerService : InvincibleService(),
                 if (mediaItem == null) return@zip
                 withContext(Dispatchers.Main) {
                     updatePlaybackState()
-                    // work around NPE in other processes
                     handler.post {
                         runCatching {
                             applicationContext.getSystemService<NotificationManager>()
@@ -429,7 +490,6 @@ class PlayerService : InvincibleService(),
         coroutineScope.launch {
             var first = true
             mediaCachedItemState.zip(isCachedState) { mediaItem, _ ->
-                // work around NPE in other processes
                 if (first) {
                     first = false
                     return@zip
@@ -437,7 +497,6 @@ class PlayerService : InvincibleService(),
                 if (mediaItem == null) return@zip
                 withContext(Dispatchers.Main) {
                     updatePlaybackState()
-                    // work around NPE in other processes
                     handler.post {
                         runCatching {
                             applicationContext.getSystemService<NotificationManager>()
@@ -798,12 +857,34 @@ class PlayerService : InvincibleService(),
     private fun updatePlaybackState() = coroutineScope.launch {
         playbackStateMutex.withLock {
             withContext(Dispatchers.Main) {
+                if (showLikeButton && showDownloadButton)
                 mediaSession.setPlaybackState(
                     stateBuilder
                         .setState(player.androidPlaybackState, player.currentPosition, 1f)
                         .setBufferedPosition(player.bufferedPosition)
                         .build()
                 )
+                if (showLikeButton && !showDownloadButton)
+                    mediaSession.setPlaybackState(
+                        stateBuilderWithLikeOnly
+                            .setState(player.androidPlaybackState, player.currentPosition, 1f)
+                            .setBufferedPosition(player.bufferedPosition)
+                            .build()
+                    )
+                if (showDownloadButton && !showLikeButton)
+                    mediaSession.setPlaybackState(
+                        stateBuilderWithDownloadOnly
+                            .setState(player.androidPlaybackState, player.currentPosition, 1f)
+                            .setBufferedPosition(player.bufferedPosition)
+                            .build()
+                    )
+                if (!showDownloadButton && !showLikeButton)
+                    mediaSession.setPlaybackState(
+                        stateBuilderWithoutCustomAction
+                            .setState(player.androidPlaybackState, player.currentPosition, 1f)
+                            .setBufferedPosition(player.bufferedPosition)
+                            .build()
+                    )
             }
         }
     }
@@ -962,13 +1043,36 @@ class PlayerService : InvincibleService(),
                 if (player.shouldBePlaying) pauseIntent else playIntent
             )
             .addAction(R.drawable.play_skip_forward, "Skip forward", nextIntent)
-
+            if (showLikeButton && showDownloadButton) {
+                //Prior Android 11
+                builder
+                    .addAction(
+                        if (isDownloadedState.value || isCachedState.value || isDownloadedAction) R.drawable.downloaded_to else R.drawable.download_to,
+                        "Download", downloadIntent
+                    )
+                    .addAction(
+                        if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline,
+                        "Like",
+                        likeIntent
+                    )
+            }
+        if (showLikeButton && !showDownloadButton) {
             //Prior Android 11
-            .addAction(if (isDownloadedState.value || isCachedState.value || isDownloadedAction) R.drawable.downloaded_to else R.drawable.download_to,
-                "Download", downloadIntent)
-            .addAction(
-                if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline,
-                "Like", likeIntent)
+            builder
+                .addAction(
+                    if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline,
+                    "Like",
+                    likeIntent
+                )
+        }
+        if (!showLikeButton && showDownloadButton) {
+            //Prior Android 11
+            builder
+                .addAction(
+                    if (isDownloadedState.value || isCachedState.value || isDownloadedAction) R.drawable.downloaded_to else R.drawable.download_to,
+                    "Download", downloadIntent
+                )
+        }
 
 
         bitmapProvider.load(mediaMetadata.artworkUri) { bitmap ->
