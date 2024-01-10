@@ -66,6 +66,7 @@ const val audioQualityFormatKey = "audioQualityFormat"
 const val showLikeButtonBackgroundPlayerKey = "showLikeButtonBackgroundPlayer"
 const val showDownloadButtonBackgroundPlayerKey = "showDownloadButtonBackgroundPlayer"
 const val playEventsTypeKey = "playEventsType"
+const val fontTypeKey = "fontType"
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,

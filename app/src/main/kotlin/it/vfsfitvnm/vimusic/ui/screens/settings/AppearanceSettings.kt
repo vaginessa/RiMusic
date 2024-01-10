@@ -25,6 +25,7 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
+import it.vfsfitvnm.vimusic.enums.FontType
 import it.vfsfitvnm.vimusic.enums.NavigationTab
 import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
@@ -44,6 +45,7 @@ import it.vfsfitvnm.vimusic.utils.disableIconButtonOnTopKey
 import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
 import it.vfsfitvnm.vimusic.utils.disableScrollingTextKey
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
+import it.vfsfitvnm.vimusic.utils.fontTypeKey
 import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid13
@@ -113,6 +115,7 @@ fun AppearanceSettings() {
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
 
     var thumbnailTapEnabled by rememberPreference(thumbnailTapEnabledKey, false)
+    var fontType by rememberPreference(fontTypeKey, FontType.Rubik)
 
     Column(
         modifier = Modifier
@@ -345,6 +348,18 @@ fun AppearanceSettings() {
 
         SettingsGroupSpacer()
         SettingsEntryGroupText(title = stringResource(R.string.text))
+
+        EnumValueSelectorSettingsEntry(
+            title = "Use font type",
+            selectedValue = fontType,
+            onValueSelected = { fontType = it },
+            valueText = {
+                when (it) {
+                    FontType.Rubik -> FontType.Rubik.name
+                    FontType.Poppins -> FontType.Poppins.name
+                }
+            }
+        )
 
         SwitchSettingEntry(
             title = stringResource(R.string.use_system_font),

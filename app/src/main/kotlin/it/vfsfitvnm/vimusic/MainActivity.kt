@@ -80,6 +80,7 @@ import it.vfsfitvnm.innertube.requests.song
 import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
 import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
+import it.vfsfitvnm.vimusic.enums.FontType
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.service.DownloadUtil
@@ -109,6 +110,7 @@ import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
 import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
+import it.vfsfitvnm.vimusic.utils.fontTypeKey
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.intent
@@ -254,12 +256,14 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                     val colorPalette =
                         colorPaletteOf(colorPaletteName, colorPaletteMode, isSystemInDarkTheme)
 
+                    val fontType = getEnum(fontTypeKey, FontType.Rubik)
+
                     setSystemBarAppearance(colorPalette.isDark)
 
                     mutableStateOf(
                         Appearance(
                             colorPalette = colorPalette,
-                            typography = typographyOf(colorPalette.text, useSystemFont, applyFontPadding),
+                            typography = typographyOf(colorPalette.text, useSystemFont, applyFontPadding, fontType),
                             thumbnailShape = thumbnailRoundness.shape()
                         )
                     )
@@ -379,12 +383,13 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                                 )
                             }
 
-                            useSystemFontKey, applyFontPaddingKey -> {
+                            useSystemFontKey, applyFontPaddingKey, fontTypeKey -> {
                                 val useSystemFont = sharedPreferences.getBoolean(useSystemFontKey, false)
                                 val applyFontPadding = sharedPreferences.getBoolean(applyFontPaddingKey, false)
+                                val fontType = sharedPreferences.getEnum(fontTypeKey, FontType.Rubik)
 
                                 appearance = appearance.copy(
-                                    typography = typographyOf(appearance.colorPalette.text, useSystemFont, applyFontPadding),
+                                    typography = typographyOf(appearance.colorPalette.text, useSystemFont, applyFontPadding, fontType),
                                 )
                             }
                         }
