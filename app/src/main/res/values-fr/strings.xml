@@ -300,4 +300,6 @@
     <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">Add/Remove like to song from lock screen and notification area</string>
     <string name="show_download_button">Show Download button</string>
     <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">Download, or remove downloaded, song from lock screen and notification area</string>
+    <string name="by_most_played_song">By Most played song</string>
+    <string name="by_last_played_song">By Last played song</string>
 </resources>

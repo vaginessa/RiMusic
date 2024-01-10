@@ -36,6 +36,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
 import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
 import it.vfsfitvnm.vimusic.enums.Languages
+import it.vfsfitvnm.vimusic.enums.PlayEventsType
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -48,6 +49,7 @@ import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isAvailableUpdate
 import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
+import it.vfsfitvnm.vimusic.utils.playEventsTypeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.resumePlaybackWhenDeviceConnectedKey
 import it.vfsfitvnm.vimusic.utils.skipSilenceKey
@@ -95,6 +97,11 @@ fun  UiSettings() {
         ThumbnailRoundness.Heavy
     )
     val uriHandler = LocalUriHandler.current
+
+    var playEventType by rememberPreference(
+        playEventsTypeKey,
+        PlayEventsType.MostPlayed
+    )
 
     Column(
         modifier = Modifier
@@ -214,6 +221,19 @@ fun  UiSettings() {
                     ExoPlayerMinTimeForEvent.`30s` -> "30s"
                     ExoPlayerMinTimeForEvent.`40s` -> "40s"
                     ExoPlayerMinTimeForEvent.`60s` -> "60s"
+                }
+            }
+        )
+        SettingsDescription(text = stringResource(R.string.is_min_list_time_for_tips_or_quick_pics))
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.tips),
+            selectedValue = playEventType,
+            onValueSelected = { playEventType = it },
+            valueText = {
+                when (it) {
+                    PlayEventsType.MostPlayed -> stringResource(R.string.by_most_played_song)
+                    PlayEventsType.LastPlayed -> stringResource(R.string.by_last_played_song)
                 }
             }
         )

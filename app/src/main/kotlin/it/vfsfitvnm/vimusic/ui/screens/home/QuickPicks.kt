@@ -58,6 +58,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.PlayEventsType
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Artist
 import it.vfsfitvnm.vimusic.models.Song
@@ -89,6 +90,7 @@ import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
+import it.vfsfitvnm.vimusic.utils.playEventsTypeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -112,6 +114,7 @@ fun QuickPicks(
     val menuState = LocalMenuState.current
     val windowInsets = LocalPlayerAwareWindowInsets.current
     val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
+    val playEventType  by rememberPreference(playEventsTypeKey, PlayEventsType.MostPlayed)
 
     var trending by persist<Song?>("home/trending")
 
@@ -128,12 +131,24 @@ fun QuickPicks(
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        Database.trending().distinctUntilChanged().collect { songs ->
-            val song = songs.firstOrNull()
-            if (relatedPageResult == null || trending?.id != song?.id) {
-                relatedPageResult = Innertube.relatedPage(NextBody(videoId = (song?.id ?: "HZnNt9nnEhw")))
+        when (playEventType) {
+            PlayEventsType.MostPlayed ->
+            Database.trending().distinctUntilChanged().collect { songs ->
+                val song = songs.firstOrNull()
+                if (relatedPageResult == null || trending?.id != song?.id) {
+                    relatedPageResult = Innertube.relatedPage(NextBody(videoId = (song?.id ?: "HZnNt9nnEhw")))
+                }
+                trending = song
             }
-            trending = song
+            PlayEventsType.LastPlayed ->
+            Database.lastPlayed().distinctUntilChanged().collect { songs ->
+                val song = songs.firstOrNull()
+                if (relatedPageResult == null || trending?.id != song?.id) {
+                    relatedPageResult =
+                        Innertube.relatedPage(NextBody(videoId = (song?.id ?: "HZnNt9nnEhw")))
+                }
+                trending = song
+            }
         }
     }
 
@@ -209,6 +224,16 @@ fun QuickPicks(
                 text = stringResource(R.string.tips),
                 style = typography.m.semiBold,
                 modifier = sectionTextModifier
+            )
+            BasicText(
+                text = when (playEventType) {
+                    PlayEventsType.MostPlayed -> stringResource(R.string.by_most_played_song)
+                    PlayEventsType.LastPlayed -> stringResource(R.string.by_last_played_song)
+                },
+                style = typography.xxs.secondary,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 8.dp)
             )
 
             relatedPageResult?.getOrNull()?.let { related ->

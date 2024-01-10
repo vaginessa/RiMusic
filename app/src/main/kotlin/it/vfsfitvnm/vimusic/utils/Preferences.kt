@@ -65,6 +65,7 @@ const val disableScrollingTextKey = "disableScrollingText"
 const val audioQualityFormatKey = "audioQualityFormat"
 const val showLikeButtonBackgroundPlayerKey = "showLikeButtonBackgroundPlayer"
 const val showDownloadButtonBackgroundPlayerKey = "showDownloadButtonBackgroundPlayer"
+const val playEventsTypeKey = "playEventsType"
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,

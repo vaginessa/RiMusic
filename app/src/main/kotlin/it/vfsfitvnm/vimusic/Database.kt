@@ -527,6 +527,10 @@ interface Database {
     @RewriteQueriesToDropUnusedColumns
     fun trending(limit: Int = 3): Flow<List<Song>>
 
+    @Transaction
+    @Query("SELECT Song.* FROM Event JOIN Song ON Song.id = songId WHERE Song.id NOT LIKE '$LOCAL_KEY_PREFIX%' GROUP BY songId ORDER BY timestamp DESC LIMIT :limit")
+    @RewriteQueriesToDropUnusedColumns
+    fun lastPlayed( limit: Int = 3 ): Flow<List<Song>>
 
     @Transaction
     @Query("SELECT Song.* FROM Event JOIN Song ON Song.id = songId WHERE (:now - Event.timestamp) <= :period AND Song.id NOT LIKE '$LOCAL_KEY_PREFIX%' GROUP BY songId ORDER BY SUM(playTime) DESC LIMIT :limit")
