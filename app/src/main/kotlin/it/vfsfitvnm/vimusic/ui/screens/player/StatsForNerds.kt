@@ -93,6 +93,7 @@ fun StatsForNerds(
                             Innertube.player(PlayerBody(videoId = mediaId))?.onSuccess { response ->
                                 //response.streamingData?.highestQualityFormat?.let { format ->
                                 when(audioQualityFormat) {
+                                    AudioQualityFormat.Auto -> response.streamingData?.autoMaxQualityFormat
                                     AudioQualityFormat.High -> response.streamingData?.highestQualityFormat
                                     AudioQualityFormat.Medium -> response.streamingData?.mediumQualityFormat
                                     AudioQualityFormat.Low -> response.streamingData?.lowestQualityFormat

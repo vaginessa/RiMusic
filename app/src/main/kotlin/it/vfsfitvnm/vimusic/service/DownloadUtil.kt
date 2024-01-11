@@ -27,10 +27,14 @@ import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.PlayerBody
 import it.vfsfitvnm.innertube.requests.player
 import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
 import it.vfsfitvnm.vimusic.models.Format
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.utils.RingBuffer
+import it.vfsfitvnm.vimusic.utils.audioQualityFormatKey
+import it.vfsfitvnm.vimusic.utils.getEnum
+import it.vfsfitvnm.vimusic.utils.preferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -52,6 +56,8 @@ object DownloadUtil {
     private lateinit var downloadNotificationHelper: DownloadNotificationHelper
     private lateinit var downloadDirectory: File
     private lateinit var downloadManager: DownloadManager
+    private lateinit var audioQualityFormat: AudioQualityFormat
+
 
 
 
@@ -81,6 +87,7 @@ object DownloadUtil {
     @Synchronized
     fun getResolvingDataSourceFactory (context: Context): ResolvingDataSource.Factory {
         val cache = getDownloadCache(context)
+        audioQualityFormat =  context.preferences.getEnum(audioQualityFormatKey, AudioQualityFormat.High)
         val dataSourceFactory = ResolvingDataSource.Factory(createCacheDataSource(context)) { dataSpec ->
             val videoId = dataSpec.key ?: error("A key must be set")
             //val chunkLength = 1024 * 1024L
@@ -103,8 +110,13 @@ object DownloadUtil {
                             }
 
                             when (val status = body.playabilityStatus?.status) {
-                                "OK" -> body.streamingData?.highestQualityFormat?.let { format ->
-                                    /*
+                                //"OK" -> body.streamingData?.highestQualityFormat?.let { format ->
+                                "OK" -> when(audioQualityFormat) {
+                                    AudioQualityFormat.Auto -> body.streamingData?.autoMaxQualityFormat
+                                    AudioQualityFormat.High -> body.streamingData?.highestQualityFormat
+                                    AudioQualityFormat.Medium -> body.streamingData?.mediumQualityFormat
+                                    AudioQualityFormat.Low -> body.streamingData?.lowestQualityFormat
+                                }?.let { format ->                                  /*
                                     val mediaItem = runBlocking(Dispatchers.Main) {
                                         Innertube.player(PlayerBody(videoId = videoId))
                                     }

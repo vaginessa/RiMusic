@@ -239,7 +239,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
             val coroutineScope = rememberCoroutineScope()
             val isSystemInDarkTheme = isSystemInDarkTheme()
 
-            preferences.getEnum(audioQualityFormatKey, AudioQualityFormat.High)
+            preferences.getEnum(audioQualityFormatKey, AudioQualityFormat.Auto)
 
             var appearance by rememberSaveable(
                 isSystemInDarkTheme,
@@ -336,7 +336,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             //exoPlayerDiskCacheMaxSizeKey,
                             playerVisualizerTypeKey,
                             UiTypeKey,
-                            disablePlayerHorizontalSwipeKey -> {
+                            disablePlayerHorizontalSwipeKey,
+                            audioQualityFormatKey -> {
                                 this@MainActivity.recreate()
                             }
 

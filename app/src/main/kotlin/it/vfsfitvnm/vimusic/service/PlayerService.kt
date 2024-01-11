@@ -858,7 +858,7 @@ class PlayerService : InvincibleService(),
         playbackStateMutex.withLock {
             withContext(Dispatchers.Main) {
                 if (showLikeButton && showDownloadButton)
-                mediaSession.setPlaybackState(
+                    mediaSession.setPlaybackState(
                     stateBuilder
                         .setState(player.androidPlaybackState, player.currentPosition, 1f)
                         .setBufferedPosition(player.bufferedPosition)
@@ -1181,9 +1181,10 @@ class PlayerService : InvincibleService(),
                     val url = when (val status = body.playabilityStatus?.status) {
                         //"OK" -> body.streamingData?.highestQualityFormat?.let { format ->
                         "OK" -> when(audioQualityFormat) {
-                                    AudioQualityFormat.High -> body.streamingData?.highestQualityFormat
-                                    AudioQualityFormat.Medium -> body.streamingData?.mediumQualityFormat
-                                    AudioQualityFormat.Low -> body.streamingData?.lowestQualityFormat
+                            AudioQualityFormat.Auto -> body.streamingData?.autoMaxQualityFormat
+                            AudioQualityFormat.High -> body.streamingData?.highestQualityFormat
+                            AudioQualityFormat.Medium -> body.streamingData?.mediumQualityFormat
+                            AudioQualityFormat.Low -> body.streamingData?.lowestQualityFormat
                         }?.let { format ->
                             //Log.d("formatAudioQuality",format.audioQuality.toString())
                             val mediaItem = runBlocking(Dispatchers.Main) {

@@ -86,7 +86,7 @@ fun  UiSettings() {
 
     var skipSilence by rememberPreference(skipSilenceKey, false)
     var volumeNormalization by rememberPreference(volumeNormalizationKey, false)
-    var audioQualityFormat by rememberPreference(audioQualityFormatKey, AudioQualityFormat.High)
+    var audioQualityFormat by rememberPreference(audioQualityFormatKey, AudioQualityFormat.Auto)
 
     val activityResultLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
@@ -202,6 +202,7 @@ fun  UiSettings() {
             onValueSelected = { audioQualityFormat = it },
             valueText = {
                 when (it) {
+                    AudioQualityFormat.Auto -> stringResource(R.string.audio_quality_automatic)
                     AudioQualityFormat.High -> stringResource(R.string.audio_quality_format_high)
                     AudioQualityFormat.Medium -> stringResource(R.string.audio_quality_format_medium)
                     AudioQualityFormat.Low -> stringResource(R.string.audio_quality_format_low)
