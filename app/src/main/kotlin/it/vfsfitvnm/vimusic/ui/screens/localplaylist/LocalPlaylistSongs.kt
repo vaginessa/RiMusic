@@ -2,6 +2,8 @@ package it.vfsfitvnm.vimusic.ui.screens.localplaylist
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -10,6 +12,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +24,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
@@ -42,7 +46,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -68,6 +75,9 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
+import it.vfsfitvnm.vimusic.enums.SongSortBy
+import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.PlaylistWithSongs
@@ -90,9 +100,13 @@ import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.onOverlay
+import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.center
+import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.completed
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue
@@ -101,10 +115,12 @@ import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.launchYouTubeMusic
 import it.vfsfitvnm.vimusic.utils.manageDownload
+import it.vfsfitvnm.vimusic.utils.playlistSongSortByKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.reorderInQueueEnabledKey
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
+import it.vfsfitvnm.vimusic.utils.songSortOrderKey
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.toast
 import kotlinx.coroutines.Dispatchers
@@ -123,35 +139,58 @@ fun LocalPlaylistSongs(
     playlistId: Long,
     onDelete: () -> Unit,
 ) {
-    val (colorPalette, typography) = LocalAppearance.current
+    val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val binder = LocalPlayerServiceBinder.current
     val menuState = LocalMenuState.current
-    val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
+    val uiType by rememberPreference(UiTypeKey, UiType.RiMusic)
 
     var playlistWithSongs by persist<PlaylistWithSongs?>("localPlaylist/$playlistId/playlistWithSongs")
-    /*
-    var songs by persistList<Song>("localPlaylist/$playlistId/songs")
 
-    var sortBy by rememberPreference(songSortByKey, SongSortBy.DateAdded)
+    var sortBy by rememberPreference(playlistSongSortByKey, PlaylistSongSortBy.Title)
     var sortOrder by rememberPreference(songSortOrderKey, SortOrder.Descending)
-    */
-    //var positions by persistList<Int>("localPlaylist/$playlistId/positions")
 
     var filter: String? by rememberSaveable { mutableStateOf(null) }
 
     LaunchedEffect(Unit, filter) {
         Database.playlistWithSongs(playlistId).filterNotNull().collect { playlistWithSongs = it }
-
-        //Database.SongsPlaylistMap(playlistId).filterNotNull().collect { positions = it }
-
-        //Database.SongsPlaylist(playlistId, sortBy, sortOrder).collect { songs = it }
     }
 
-    //Log.d("mediaItemPos",positions.toString())
+        when (sortOrder) {
+            SortOrder.Ascending ->
+                when (sortBy) {
+                    PlaylistSongSortBy.Title ->
+                        playlistWithSongs?.songs =
+                            playlistWithSongs?.songs?.sortedBy { it.title }!!
+
+                    PlaylistSongSortBy.Artist ->
+                        playlistWithSongs?.songs =
+                            playlistWithSongs?.songs?.sortedBy { it.artistsText }!!
+
+                    PlaylistSongSortBy.PlayTime ->
+                        playlistWithSongs?.songs =
+                            playlistWithSongs?.songs?.sortedBy { it.totalPlayTimeMs }!!
+
+                }
+
+            SortOrder.Descending ->
+                when (sortBy) {
+                    PlaylistSongSortBy.Title ->
+                        playlistWithSongs?.songs =
+                            playlistWithSongs?.songs?.sortedByDescending { it.title }!!
+
+                    PlaylistSongSortBy.Artist ->
+                        playlistWithSongs?.songs =
+                            playlistWithSongs?.songs?.sortedByDescending { it.artistsText }!!
+
+                    PlaylistSongSortBy.PlayTime ->
+                        playlistWithSongs?.songs =
+                            playlistWithSongs?.songs?.sortedByDescending { it.totalPlayTimeMs }!!
+
+                }
+        }
 
     var filterCharSequence: CharSequence
     filterCharSequence = filter.toString()
-    //Log.d("mediaItemFilter", "<${filter}>  <${filterCharSequence}>")
 
     if (!filter.isNullOrBlank())
         playlistWithSongs?.songs =
@@ -159,6 +198,7 @@ fun LocalPlaylistSongs(
                 songItem.asMediaItem.mediaMetadata.title?.contains(filterCharSequence,true) ?: false
                         || songItem.asMediaItem.mediaMetadata.artist?.contains(filterCharSequence,true) ?: false
             }!!
+
 /*
     var totalPlayTimes = 0L
     playlistWithSongs?.songs?.forEach {
@@ -173,6 +213,11 @@ fun LocalPlaylistSongs(
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
         ThumbnailRoundness.Heavy
+    )
+
+    val sortOrderIconRotation by animateFloatAsState(
+        targetValue = if (sortOrder == SortOrder.Ascending) 0f else 180f,
+        animationSpec = tween(durationMillis = 400, easing = LinearEasing)
     )
 
     val lazyListState = rememberLazyListState()
@@ -319,7 +364,7 @@ fun LocalPlaylistSongs(
                                 }
                         }
                     )
-
+/*
                     HeaderIconButton(
                         icon = R.drawable.download,
                         color = colorPalette.text,
@@ -328,7 +373,7 @@ fun LocalPlaylistSongs(
 
                         }
                     )
-
+*/
                     if (showConfirmDeleteDownloadDialog) {
                         ConfirmationDialog(
                             text = stringResource(R.string.do_you_really_want_to_delete_download),
@@ -498,6 +543,8 @@ fun LocalPlaylistSongs(
                         }
                     )
                     //}
+
+
                 }
 
                 /*        */
@@ -554,7 +601,7 @@ fun LocalPlaylistSongs(
                                 }
                             },
                             modifier = Modifier
-                                .fillMaxWidth()
+                                .fillMaxWidth(0.5F)
                                 .background(
                                     colorPalette.background4,
                                     shape = thumbnailRoundness.shape()
@@ -578,8 +625,42 @@ fun LocalPlaylistSongs(
                             iconSize = 24.dp
                         )
                     }
+
+                    Spacer(
+                        modifier = Modifier
+                            .weight(1f)
+                    )
+
+                    HeaderIconButton(
+                        icon = R.drawable.trending,
+                        color = if (sortBy == PlaylistSongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
+                        onClick = { sortBy = PlaylistSongSortBy.PlayTime }
+                    )
+
+                    HeaderIconButton(
+                        icon = R.drawable.text,
+                        color = if (sortBy == PlaylistSongSortBy.Title) colorPalette.text else colorPalette.textDisabled,
+                        onClick = { sortBy = PlaylistSongSortBy.Title }
+                    )
+
+                    HeaderIconButton(
+                        icon = R.drawable.person,
+                        color = if (sortBy == PlaylistSongSortBy.Artist) colorPalette.text else colorPalette.textDisabled,
+                        onClick = { sortBy = PlaylistSongSortBy.Artist }
+                    )
+
+                    HeaderIconButton(
+                        icon = R.drawable.arrow_up,
+                        color = colorPalette.text,
+                        onClick = { sortOrder = !sortOrder },
+                        modifier = Modifier
+                            .graphicsLayer { rotationZ = sortOrderIconRotation }
+                    )
+
                 }
                 /*        */
+
+
 
 
             }
@@ -635,6 +716,24 @@ fun LocalPlaylistSongs(
                             )
                         }
                     },
+                    onThumbnailContent = if (sortBy == PlaylistSongSortBy.PlayTime) ({
+                        BasicText(
+                            text = song.formattedTotalPlayTime,
+                            style = typography.xxs.semiBold.center.color(colorPalette.onOverlay),
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    brush = Brush.verticalGradient(
+                                        colors = listOf(Color.Transparent, colorPalette.overlay)
+                                    ),
+                                    shape = thumbnailShape
+                                )
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                                .align(Alignment.BottomCenter)
+                        )
+                    }) else null,
                     modifier = Modifier
                         .combinedClickable(
                             onLongClick = {

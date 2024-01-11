@@ -44,7 +44,8 @@ data class Typography(
             listOf(
                 value.xxs.color.value.toLong(),
                 value.xxs.fontFamily == FontFamily.Default,
-                value.xxs.platformStyle?.paragraphStyle?.includeFontPadding ?: false
+                value.xxs.platformStyle?.paragraphStyle?.includeFontPadding ?: false,
+                FontType.Rubik
             )
     }
 }
