@@ -1056,23 +1056,23 @@ class PlayerService : InvincibleService(),
                         likeIntent
                     )
             }
-        if (showLikeButton && !showDownloadButton) {
             //Prior Android 11
+            if (showLikeButton && !showDownloadButton) {
             builder
                 .addAction(
                     if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline,
                     "Like",
                     likeIntent
                 )
-        }
-        if (!showLikeButton && showDownloadButton) {
+            }
             //Prior Android 11
+            if (!showLikeButton && showDownloadButton) {
             builder
                 .addAction(
                     if (isDownloadedState.value || isCachedState.value || isDownloadedAction) R.drawable.downloaded_to else R.drawable.download_to,
                     "Download", downloadIntent
                 )
-        }
+            }
 
 
         bitmapProvider.load(mediaMetadata.artworkUri) { bitmap ->
