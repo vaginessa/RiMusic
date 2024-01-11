@@ -61,6 +61,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import coil.compose.AsyncImage
@@ -221,54 +222,61 @@ fun Player(
 
     }
 
-    /*
-        val audioComputer = VisualizerComputer()
-        val visualizerData = remember { mutableStateOf(VisualizerData()) }
 
-        LaunchedEffect(Unit) {
-            while(true) {
-                binder?.player?.audioSessionId?.let {
-                    audioComputer.start(audioSessionId = it, onData = { data ->
-                        visualizerData.value = data
-                    })
-                }
-                delay(5000)
-            }
-        }
-
-     */
     val ExistIdsExtras = mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.size.toString()
-    val ExistAlbumIdExtras = mediaItem.mediaMetadata.extras?.getString("albumId")?.toString()
+    val ExistAlbumIdExtras = mediaItem.mediaMetadata.extras?.getString("albumId")
 
     var albumId   = albumInfo?.id
     if (albumId == null) albumId = ExistAlbumIdExtras
-    var albumTitle = albumInfo?.name
+    //var albumTitle = albumInfo?.name
 
     var artistIds = arrayListOf<String>()
     var artistNames = arrayListOf<String>()
-    var artistsList = listOf<String>()
+    //var artistsList = listOf<String>()
 
     artistsInfo?.forEach { (id) -> artistIds = arrayListOf(id) }
     if (ExistIdsExtras.equals(0).not()) mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.toCollection(artistIds)
 
     artistsInfo?.forEach { (name) -> artistNames = arrayListOf(name) }
-    if (ExistIdsExtras.equals(0).not()) mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.toCollection(artistIds)
+    if (ExistIdsExtras.equals(0).not()) mediaItem.mediaMetadata.extras?.getStringArrayList("artistNames")?.toCollection(artistNames)
+    //if (ExistIdsExtras.equals(0).not()) mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.toCollection(artistIds)
+
+    //Log.d("mediaItem_player","artistsInfo?.isEmpty() ${artistsInfo?.isEmpty()} ExistIdsExtras.equals(0).not() ${ExistIdsExtras.equals(0).not()} ")
+    if (artistsInfo?.isEmpty() == true && ExistIdsExtras.equals(0).not()) {
+        //Log.d("mediaItem_player","update artistsInfo with "+artistIds.toString()+" and "+artistNames.toString() )
+        artistsInfo = artistNames.let { artistNames ->
+            artistIds.let { artistIds ->
+                artistNames.zip(artistIds).map {
+                    Info(it.second, it.first)
+                }
+            }
+        }
+    }
 
     /*
     //Log.d("mediaItem_pl_mediaId",mediaItem.mediaId)
-    Log.d("mediaItem_pl","--- START LOG ARTIST ---")
-    Log.d("mediaItem_pl_extraArt?",ExistIdsExtras.toString())
-    Log.d("mediaItem_pl_extrasArt",mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds").toString())
-    Log.d("mediaItem_pl_artinfo",artistsInfo.toString())
-    Log.d("mediaItem_pl_artId",artistIds.toString())
-    Log.d("mediaItem_pl","--- START LOG ALBUM ---")
-    Log.d("mediaItem_pl_extraAlb?",ExistAlbumIdExtras.toString())
-    //Log.d("mediaItem_pl_extras",mediaItem.mediaMetadata.extras.toString())
-    Log.d("mediaItem_pl_albinfo",albumInfo.toString())
-    Log.d("mediaItem_pl_albId",albumId.toString())
-    Log.d("mediaItem_pl","--- END LOG ---")
-    */
+    Log.d("mediaItem_player","--- START LOG ARTIST ---")
+    Log.d("mediaItem_player","ExistIdsExtras: $ExistIdsExtras")
+    Log.d("mediaItem_player","metadata artisIds "+mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds").toString())
+    Log.d("mediaItem_player","variable artisIds "+artistIds.toString())
+    Log.d("mediaItem_player","variable artisNames pre"+artistNames.toString())
+    Log.d("mediaItem_player","variable artistsInfo pre "+artistsInfo.toString())
 
+    //Log.d("mediaItem_pl_artinfo",artistsInfo.toString())
+    //Log.d("mediaItem_pl_artId",artistIds.toString())
+    Log.d("mediaItem_player","--- START LOG ALBUM ---")
+    Log.d("mediaItem_player",ExistAlbumIdExtras.toString())
+    Log.d("mediaItem_player","metadata albumId "+mediaItem.mediaMetadata.extras?.getString("albumId").toString())
+    Log.d("mediaItem_player","metadata extra "+mediaItem.mediaMetadata.extras?.toString())
+    Log.d("mediaItem_player","metadata full "+mediaItem.mediaMetadata.toString())
+    //Log.d("mediaItem_pl_extrasArt",mediaItem.mediaMetadata.extras?.getStringArrayList("artistNames").toString())
+    //Log.d("mediaItem_pl_extras",mediaItem.mediaMetadata.extras.toString())
+    Log.d("mediaItem_player","albumInfo "+albumInfo.toString())
+    Log.d("mediaItem_player","albumId "+albumId.toString())
+
+    Log.d("mediaItem_pl","--- END LOG ---")
+
+    */
 
 
     /*
@@ -300,9 +308,11 @@ fun Player(
     var isDownloaded by rememberSaveable { mutableStateOf(false) }
     isDownloaded = downloadedStateMedia(mediaItem.mediaId)
 
+    /*
     var showLyricsBottomSheet by remember {
         mutableStateOf(false)
     }
+    */
 
     OnGlobalRoute {
         layoutState.collapseSoft()
@@ -513,6 +523,7 @@ fun Player(
                     .nestedScroll(layoutState.preUpPostDownNestedScrollConnection)
             )
         }
+
 
         val controlsContent: @Composable (modifier: Modifier) -> Unit = { modifier ->
             Controls(

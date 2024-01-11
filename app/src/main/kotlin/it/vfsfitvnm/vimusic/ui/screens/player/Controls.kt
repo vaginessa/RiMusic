@@ -234,23 +234,9 @@ fun Controls(
                 modifier = Modifier.fillMaxWidth(if (uiType != UiType.ViMusic) 0.9f else 1f)
             ) {
                 if (uiType != UiType.ViMusic) {
-                    if (albumId == null) {
-                        IconButton(
-                            icon = R.drawable.alert_circle_not_filled,
-                            color = colorPalette.text,
-                            enabled = false,
-                            onClick = {},
-                            modifier = Modifier
-                                .size(24.dp)
-                        )
 
-                        Spacer(
-                            modifier = Modifier
-                                .width(8.dp)
-                        )
-                    }
                     IconButton(
-                        icon = R.drawable.disc,
+                        icon = if (albumId == null) R.drawable.alert_circle_not_filled else R.drawable.disc,
                         color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
                         enabled = albumId != null,
                         onClick = {
@@ -344,23 +330,8 @@ fun Controls(
 
 
             if (uiType != UiType.ViMusic) {
-                if (artistIds?.isEmpty() == true) {
-                    IconButton(
-                        icon = R.drawable.alert_circle_not_filled,
-                        color = colorPalette.text,
-                        enabled = false,
-                        onClick = {},
-                        modifier = Modifier
-                            .size(20.dp)
-                    )
-
-                    Spacer(
-                        modifier = Modifier
-                            .width(8.dp)
-                    )
-                }
                 IconButton(
-                    icon = R.drawable.artists,
+                    icon = if (artistIds?.isEmpty() == true) R.drawable.alert_circle_not_filled else R.drawable.artists,
                     color = if (artistIds?.isEmpty() == true) colorPalette.textDisabled else colorPalette.text,
                     onClick = { if (artistIds?.isNotEmpty() == true) showSelectDialog = true },
                     modifier = Modifier
