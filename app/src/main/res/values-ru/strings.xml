@@ -67,7 +67,7 @@
     <string name="theme">Тема</string>
     <string name="theme_mode">Режим темы</string>
     <string name="shapes">Формы</string>
-    <string name="thumbnail_roundness">Скругление</string>
+    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">Скругление</string>
     <string name="text">Текст</string>
     <string name="use_system_font">Использовать системный шрифт</string>
     <string name="use_font_by_the_system">Использовать шрифт, используемый системой</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">Показать обложку песни</string>
     <string name="use_song_cover_on_lockscreen">Использование обложек песен на экране блокировки</string>
     <string name="cache">Кэш</string>
-    <string name="cache_cleared">Когда в кеше заканчивается место, ресурсы, к которым не было доступа в течение длительного времени, удаляются.</string>
+    <string name="cache_cleared" comment="Player settings cache_cleared">Когда в кеше заканчивается место, ресурсы, к которым не было доступа в течение длительного времени, удаляются.</string>
     <string name="image_cache">Кэш картинок</string>
     <string name="max_size">Максимальный размер</string>
     <string name="song_cache">Кэш песен</string>

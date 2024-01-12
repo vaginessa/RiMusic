@@ -67,7 +67,7 @@
     <string name="theme">主题</string>
     <string name="theme_mode">主题模式</string>
     <string name="shapes">形状</string>
-    <string name="thumbnail_roundness">缩略图圆角</string>
+    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">缩略图圆角</string>
     <string name="text">文本</string>
     <string name="use_system_font">使用系统字体</string>
     <string name="use_font_by_the_system">使用系统应用的字体</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">显示歌曲封面</string>
     <string name="use_song_cover_on_lockscreen">使用播放歌曲的封面作为锁屏壁纸</string>
     <string name="cache">缓存</string>
-    <string name="cache_cleared">当缓存空间不足时，最长时间未被访问的资源将被清除。</string>
+    <string name="cache_cleared" comment="Player settings cache_cleared">当缓存空间不足时，最长时间未被访问的资源将被清除。</string>
     <string name="image_cache">图像缓存</string>
     <string name="max_size">最大容量</string>
     <string name="song_cache">歌曲缓存</string>

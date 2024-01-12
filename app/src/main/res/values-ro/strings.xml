@@ -67,7 +67,7 @@
     <string name="theme">Temă</string>
     <string name="theme_mode">Culoare temă</string>
     <string name="shapes">📐 FORME</string>
-    <string name="thumbnail_roundness">Rotunjimea miniaturilor</string>
+    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">Rotunjimea miniaturilor</string>
     <string name="text">🔤 TEXT</string>
     <string name="use_system_font">Folosește fontul sistemului</string>
     <string name="use_font_by_the_system">Folosește fontul aplicat in sistem</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">Utilizează coperta muzicii</string>
     <string name="use_song_cover_on_lockscreen">Utilizează coperta muzicii ca fundal pentru ecranul de blocare</string>
     <string name="cache">Cache</string>
-    <string name="cache_cleared">Când memoria cache rămâne fără spațiu, resursele care nu au fost accesate de mult timp sunt șterse</string>
+    <string name="cache_cleared" comment="Player settings cache_cleared">Când memoria cache rămâne fără spațiu, resursele care nu au fost accesate de mult timp sunt șterse</string>
     <string name="image_cache">🖼️ CACHE IMAGINI</string>
     <string name="max_size">Dimensiune maximă</string>
     <string name="song_cache">🎵 CACHE MUZICI</string>
@@ -292,8 +292,8 @@
     <string name="disable_scrolling_text">Dezactivează derularea textului</string>
     <string name="scrolling_text_is_used_for_long_texts">Textul de derulare este folosit pentru texte lungi</string>
     <string name="audio_quality_format">Format calitate audio</string>
-    <string name="persian">Persian</string>
-    <string name="hungarian">Hungarian</string>
+    <string name="persian">Persană</string>
+    <string name="hungarian">Maghiară</string>
     <string name="korean">Korean</string>
     <string name="background_player">"BACKGROUND PLAYER "</string>
     <string name="show_like_button">Show Like button</string>

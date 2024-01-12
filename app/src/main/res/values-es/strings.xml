@@ -67,7 +67,7 @@
     <string name="theme">Tema</string>
     <string name="theme_mode">Modo de tema</string>
     <string name="shapes">FORMAS</string>
-    <string name="thumbnail_roundness">Curvatura de las miniaturas</string>
+    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">Curvatura de las miniaturas</string>
     <string name="text">TEXTO</string>
     <string name="use_system_font">Usar fuentes del sistema</string>
     <string name="use_font_by_the_system">Utilizar la fuente aplicada por el sistema</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">Mostrar la portada de la canción</string>
     <string name="use_song_cover_on_lockscreen">Use la portada de la canción que se está reproduciendo como fondo de la pantalla de bloqueo</string>
     <string name="cache">Caché</string>
-    <string name="cache_cleared">Cuando la caché se queda sin espacio, los recursos a los que no se ha accedido durante más tiempo se borran</string>
+    <string name="cache_cleared" comment="Player settings cache_cleared">Cuando la caché se queda sin espacio, los recursos a los que no se ha accedido durante más tiempo se borran</string>
     <string name="image_cache">CACHÉ DE IMÁGENES</string>
     <string name="max_size">Tamaño máximo</string>
     <string name="song_cache">CACHÉ DE CANCIONES</string>
