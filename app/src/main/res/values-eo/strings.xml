@@ -67,7 +67,7 @@
     <string name="theme">Haŭto</string>
     <string name="theme_mode">Haŭta reĝimo</string>
     <string name="shapes">FORMOJ</string>
-    <string name="thumbnail_roundness">Bildeta rondeco</string>
+    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">Bildeta rondeco</string>
     <string name="text">TEKSTO</string>
     <string name="use_system_font">Uzi sisteman tiparon</string>
     <string name="use_font_by_the_system">Uzi la tiparon aplikatan far la sistemo</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">Montri kantokovraĵon</string>
     <string name="use_song_cover_on_lockscreen">Uzi la ludantan kantokovraĵon kiel la ŝlosilekran tapeton</string>
     <string name="cache">Kaŝmemoro</string>
-    <string name="cache_cleared">Kiam la kaŝmemoro elĉerpiĝas, la risurcoj, kiuj ne estis aliritaj dum la plej longa tempo, estas forigitaj</string>
+    <string name="cache_cleared" comment="Player settings cache_cleared">Kiam la kaŝmemoro elĉerpiĝas, la risurcoj, kiuj ne estis aliritaj dum la plej longa tempo, estas forigitaj</string>
     <string name="image_cache">BILDA KAŜMEMORO</string>
     <string name="max_size">Maksimuma grandeco</string>
     <string name="song_cache">KANTA KAŜMEMORO</string>
