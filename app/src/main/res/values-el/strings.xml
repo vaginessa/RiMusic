@@ -67,7 +67,7 @@
     <string name="theme">Θέμα</string>
     <string name="theme_mode">Λειτουργία θέματος</string>
     <string name="shapes">ΣΧΗΜΑ</string>
-    <string name="thumbnail_roundness">Στρογγυλότητα μικρογραφιών</string>
+    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">Στρογγυλότητα μικρογραφιών</string>
     <string name="text">ΚΕΙΜΕΝΟ</string>
     <string name="use_system_font">Χρήση γραμματοσειράς συστήματος</string>
     <string name="use_font_by_the_system">Χρήση της γραμματοσειράς που χρησιμοποιείται από το σύστημα</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">Εμφάνιση εξώφυλλου τραγουδιού</string>
     <string name="use_song_cover_on_lockscreen">Χρήση εξώφυλλου του τρέχοντος τραγουδιού ως ταπετσαρία για την οθόνης κλειδώματος</string>
     <string name="cache">Μνήμη Cache</string>
-    <string name="cache_cleared">Όταν η κρυφή μνήμη γεμίσει, τα στοιχεία τα οποία δεν έχουν χρησιμοποιηθεί για το μεγαλύτερο χρονικό διάστημα διαγράφονται</string>
+    <string name="cache_cleared" comment="Player settings cache_cleared">Όταν η κρυφή μνήμη γεμίσει, τα στοιχεία τα οποία δεν έχουν χρησιμοποιηθεί για το μεγαλύτερο χρονικό διάστημα διαγράφονται</string>
     <string name="image_cache">ΚΡΥΓΗ ΜΝΗΜΗ ΕΙΚΟΝΩΝ</string>
     <string name="max_size">Μέγιστο μέγεθος</string>
     <string name="song_cache">ΚΡΥΓΗ ΜΝΗΜΗ ΤΡΑΓΟΥΔΙΩΝ</string>
