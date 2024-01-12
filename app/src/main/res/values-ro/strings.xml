@@ -292,6 +292,6 @@
     <string name="disable_scrolling_text">Dezactivează derularea textului</string>
     <string name="scrolling_text_is_used_for_long_texts">Textul de derulare este folosit pentru texte lungi</string>
     <string name="audio_quality_format">Format calitate audio</string>
-    <string name="persian">Persian</string>
-    <string name="hungarian">Hungarian</string>
+    <string name="persian">Persană</string>
+    <string name="hungarian">Maghiară</string>
 </resources>
