@@ -238,7 +238,7 @@ fun  UiSettings() {
                 }
             }
         )
-        SettingsDescription(text = stringResource(R.string.is_min_list_time_for_tips_or_quick_pics))
+
 
         SwitchSettingEntry(
             title = stringResource(R.string.persistent_queue),
