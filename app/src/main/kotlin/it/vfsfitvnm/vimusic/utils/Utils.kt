@@ -38,7 +38,7 @@ import java.time.Duration
 import java.time.LocalTime
 import java.util.Timer
 import kotlin.concurrent.timerTask
-
+import kotlin.time.Duration.Companion.minutes
 
 
 val Innertube.SongItem.asMediaItem: MediaItem
@@ -153,8 +153,19 @@ fun Uri?.thumbnail(size: Int): Uri? {
 fun formatAsDuration(millis: Long) = DateUtils.formatElapsedTime(millis / 1000).removePrefix("0")
 fun durationToMillis(duration: String) = Duration.between(
     LocalTime.MIN ,
-    LocalTime.parse( duration )
+    LocalTime.parse(
+        if (duration.length==4) "0$duration"
+                     else if (duration.length<4) "00:00"
+                     else duration
+    )
 ).toMillis()
+
+fun formatAsTime(millis: Long): String {
+    val timePart1 = Duration.ofMillis(millis / 60).toMinutes().minutes
+    val timePart2 = Duration.ofMillis(millis / 60).seconds % 60
+
+    return "${timePart1} ${timePart2}s"
+}
 
 suspend fun Result<Innertube.PlaylistOrAlbumPage>.completed(maxDepth: Int = Int.MAX_VALUE): Result<Innertube.PlaylistOrAlbumPage>? {
     var playlistPage = getOrNull() ?: return null

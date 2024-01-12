@@ -12,7 +12,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,7 +23,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
@@ -76,7 +74,6 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
-import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
@@ -109,9 +106,12 @@ import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.completed
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
+import it.vfsfitvnm.vimusic.utils.durationToMillis
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
+import it.vfsfitvnm.vimusic.utils.formatAsDuration
+import it.vfsfitvnm.vimusic.utils.formatAsTime
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.launchYouTubeMusic
 import it.vfsfitvnm.vimusic.utils.manageDownload
@@ -199,16 +199,13 @@ fun LocalPlaylistSongs(
                         || songItem.asMediaItem.mediaMetadata.artist?.contains(filterCharSequence,true) ?: false
             }!!
 
-/*
+
     var totalPlayTimes = 0L
     playlistWithSongs?.songs?.forEach {
-        totalPlayTimes += if (it.durationText?.length == 4) {
-            durationToMillis("0" + it.durationText)
-        } else {
-            durationToMillis(it.durationText.toString())
-        }
+        //Log.d("mediaItem","durationText ${it.durationText} durationToMillis ${durationToMillis("12:78")}")
+        totalPlayTimes += it.durationText?.let { it1 -> durationToMillis(it1) }?.toLong() ?: 0
     }
- */
+
 
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
@@ -313,7 +310,7 @@ fun LocalPlaylistSongs(
                         modifier = Modifier
                             .padding(bottom = 8.dp),
                         onClick = {}
-                    ) //{
+                    )
 
                 }
 
@@ -325,8 +322,8 @@ fun LocalPlaylistSongs(
                 ) {
 
                     HeaderInfo(
-                       // title = "${playlistWithSongs?.songs?.size} (${formatAsDuration(totalPlayTimes).dropLast(3)})",
-                        title = "${playlistWithSongs?.songs?.size}",
+                        //title = "${playlistWithSongs?.songs?.size} (${formatAsDuration(totalPlayTimes)})",
+                        title = "${playlistWithSongs?.songs?.size} (${formatAsTime(totalPlayTimes)})",
                         icon = painterResource(R.drawable.musical_notes),
                         spacer = 0
                     )
