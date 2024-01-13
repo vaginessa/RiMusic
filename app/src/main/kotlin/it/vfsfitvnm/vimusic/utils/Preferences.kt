@@ -68,6 +68,11 @@ const val showDownloadButtonBackgroundPlayerKey = "showDownloadButtonBackgroundP
 const val playEventsTypeKey = "playEventsType"
 const val fontTypeKey = "fontType"
 const val playlistSongSortByKey = "playlistSongSortBy"
+const val showRelatedAlbumsKey = "showRelatedAlbums"
+const val showSimilarArtistsKey = "showSimilarArtists"
+const val showNewAlbumsArtistsKey = "showNewAlbumsArtists"
+const val showPlaylistMightLikeKey = "showPlaylistMightLike"
+
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,
