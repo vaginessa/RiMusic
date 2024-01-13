@@ -14,7 +14,7 @@
 - Background playback with stop while app swipe out from task manager
 - Minimized player optimizations
 - Listening statistics
-- Audio visualizer on player with many type of effects
+- Audio visualizer on player with many type of effects. THIS FEATURE REQUIRE MIC PERMISSION, ONLY IF ACTIVATE IT FROM SETTINGS. BY DEFAULT IS DISABLED [Full list of permissions](https://github.com/fast4x/RiMusic/wiki/FAQs#-what-permissions-are-used)
 - News, mood and musical genres
 - New albums from preferites artists
 - Search for songs, albums, artists and playlists
