@@ -67,7 +67,7 @@
     <string name="theme">Tema</string>
     <string name="theme_mode">Mode tema</string>
     <string name="shapes">BENTUK</string>
-    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">Tingkat kebulatan gambar keluku (thumbnail)</string>
+    <string name="thumbnail_roundness">Tingkat kebulatan gambar keluku (thumbnail)</string>
     <string name="text">TEKS</string>
     <string name="use_system_font">Gunakan fon sistem</string>
     <string name="use_font_by_the_system">Gunakan fon yang diterapkan oleh sistem</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">Perlihatkan gambar sampul lagu</string>
     <string name="use_song_cover_on_lockscreen">Gunakan gambar sampul lagu yang sedang diputar sebagai wallpaper layar kunci</string>
     <string name="cache">Berkas singgahan (cache)</string>
-    <string name="cache_cleared" comment="Player settings cache_cleared">Saat kehabisan ruang kosong untuk berkas singgahan (cache), sumber daya yang sudah lama tidak diakses akan dihapus</string>
+    <string name="cache_cleared">Saat kehabisan ruang kosong untuk berkas singgahan (cache), sumber daya yang sudah lama tidak diakses akan dihapus</string>
     <string name="image_cache">BERKAS SINGGAHAN (CACHE) GAMBAR</string>
     <string name="max_size">Ukuran maks.</string>
     <string name="song_cache">BERKAS SINGGAHAN (CACHE) LAGU</string>
