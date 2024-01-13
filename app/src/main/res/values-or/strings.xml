@@ -67,7 +67,7 @@
     <string name="theme">ପ୍ରସଙ୍ଗ</string>
     <string name="theme_mode">ଥିମ୍ ‌ ଫ୍ୟାଶନ୍ ‌</string>
     <string name="shapes">ଆକାର</string>
-    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">ଥମ୍ବନେଲ ଗୋଲାକାର</string>
+    <string name="thumbnail_roundness">ଥମ୍ବନେଲ ଗୋଲାକାର</string>
     <string name="text">ଅକ୍ଷର</string>
     <string name="use_system_font">ସିଷ୍ଟମ୍ ଫଣ୍ଟ ବ୍ୟବହାର କରନ୍ତୁ</string>
     <string name="use_font_by_the_system">ସିଷ୍ଟମ୍ ଦ୍ୱାରା ପ୍ରୟୋଗ ହୋଇଥିବା ଫଣ୍ଟ ବ୍ୟବହାର କରନ୍ତୁ</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">ଗୀତ କଭର ଦେଖାନ୍ତୁ</string>
     <string name="use_song_cover_on_lockscreen">ଲକ୍ସ୍କ୍ରିନ୍ ୱାଲପେପର ଭାବରେ ଖେଳୁଥିବା ଗୀତ କଭର ବ୍ୟବହାର କରନ୍ତୁ</string>
     <string name="cache">କ୍ୟାଚ୍</string>
-    <string name="cache_cleared" comment="Player settings cache_cleared">ଯେତେବେଳେ କ୍ୟାଚ୍ ସ୍ପେସ୍ ସରିଯାଏ, ଦୀର୍ଘ ସମୟ ଧରି ଆକ୍ସେସ୍ ହୋଇନଥିବା ଉତ୍ସଗୁଡିକ ସଫା ହୋଇଯାଏ</string>
+    <string name="cache_cleared">ଯେତେବେଳେ କ୍ୟାଚ୍ ସ୍ପେସ୍ ସରିଯାଏ, ଦୀର୍ଘ ସମୟ ଧରି ଆକ୍ସେସ୍ ହୋଇନଥିବା ଉତ୍ସଗୁଡିକ ସଫା ହୋଇଯାଏ</string>
     <string name="image_cache">ଫଟୋ କ୍ଯାଚ୍</string>
     <string name="max_size">ସର୍ବାଧିକ ଆକାର</string>
     <string name="song_cache">ଗୀତ କ୍ୟାଚ୍</string>

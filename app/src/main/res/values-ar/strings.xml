@@ -67,7 +67,7 @@
     <string name="theme">Theme</string>
     <string name="theme_mode">Theme mode</string>
     <string name="shapes">SHAPES</string>
-    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">Thumbnail roundness</string>
+    <string name="thumbnail_roundness">Thumbnail roundness</string>
     <string name="text">TEXT</string>
     <string name="use_system_font">Use system font</string>
     <string name="use_font_by_the_system">Use the font applied by the system</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">Show song cover</string>
     <string name="use_song_cover_on_lockscreen">Use the playing song cover as the lockscreen wallpaper</string>
     <string name="cache">Cache</string>
-    <string name="cache_cleared" comment="Player settings cache_cleared">When the cache runs out of space, the resources that haven\'t been accessed for the longest time are cleared</string>
+    <string name="cache_cleared">When the cache runs out of space, the resources that haven\'t been accessed for the longest time are cleared</string>
     <string name="image_cache">IMAGE CACHE</string>
     <string name="max_size">Max size</string>
     <string name="song_cache">SONG CACHE</string>

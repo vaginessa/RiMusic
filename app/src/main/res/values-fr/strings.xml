@@ -67,7 +67,7 @@
     <string name="theme">Thème</string>
     <string name="theme_mode">Thème Système</string>
     <string name="shapes">📐 Forme</string>
-    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">Aspect</string>
+    <string name="thumbnail_roundness">Aspect</string>
     <string name="text">🔤 Texte</string>
     <string name="use_system_font">Utiliser la police du système</string>
     <string name="use_font_by_the_system">Utiliser la police appliquée par le système</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">Afficher la pochette d\'album</string>
     <string name="use_song_cover_on_lockscreen">Afficher la pochette d\'album sur le fond d\'écran de l\'écran de verrouillage</string>
     <string name="cache">🗃 Cache</string>
-    <string name="cache_cleared" comment="Player settings cache_cleared">Lorsque le cache manque d\'espace, les ressources en cache les moins récemment consultées seront effacées</string>
+    <string name="cache_cleared">Lorsque le cache manque d\'espace, les ressources en cache les moins récemment consultées seront effacées</string>
     <string name="image_cache">🖼️ CACHE D\'IMAGE</string>
     <string name="max_size">Taille max</string>
     <string name="song_cache">🎶 CACHE DES CHANSONS</string>

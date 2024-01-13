@@ -67,7 +67,7 @@
     <string name="theme">Tema</string>
     <string name="theme_mode">Modalità tema</string>
     <string name="shapes">FORME</string>
-    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">Angoli arrotondati</string>
+    <string name="thumbnail_roundness">Angoli arrotondati</string>
     <string name="text">TESTO</string>
     <string name="use_system_font">Usa font di sistema</string>
     <string name="use_font_by_the_system">Usa font applicato dal sistema</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">Mostra copertina della canzone</string>
     <string name="use_song_cover_on_lockscreen">Usa la copertina del brano in riproduzione come sfondo della schermata di blocco</string>
     <string name="cache">Cache</string>
-    <string name="cache_cleared" comment="Player settings cache_cleared">Quando la cache esaurisce lo spazio, le risorse a cui non è stato effettuato l\'accesso per il tempo più lungo vengono cancellate</string>
+    <string name="cache_cleared">Quando la cache esaurisce lo spazio, le risorse a cui non è stato effettuato l\'accesso per il tempo più lungo vengono cancellate</string>
     <string name="image_cache">CACHE IMMAGINI</string>
     <string name="max_size">Grandezza massima</string>
     <string name="song_cache">CACHE BRANI</string>

@@ -67,7 +67,7 @@
     <string name="theme">Motyw</string>
     <string name="theme_mode">Wariant motywu</string>
     <string name="shapes">KSZTAŁTY</string>
-    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">Poziom zaokrąglenia krawędzi miniatury</string>
+    <string name="thumbnail_roundness">Poziom zaokrąglenia krawędzi miniatury</string>
     <string name="text">CZCIONKA</string>
     <string name="use_system_font">Użyj czcionki systemowej</string>
     <string name="use_font_by_the_system">Użyj czcionki zastosowanej w systemie</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">Pokaż okładkę utworu</string>
     <string name="use_song_cover_on_lockscreen">Ustaw odtwarzany utwór jako tapetę ekranu blokady</string>
     <string name="cache">Pamięć podręczna</string>
-    <string name="cache_cleared" comment="Player settings cache_cleared">Kiedy skończy się miejsce w pamięci podręcznej, zasoby, które nie były wykorzystywane od najdłuższego czasu zostaną usunięte.</string>
+    <string name="cache_cleared">Kiedy skończy się miejsce w pamięci podręcznej, zasoby, które nie były wykorzystywane od najdłuższego czasu zostaną usunięte.</string>
     <string name="image_cache">OBRAZY</string>
     <string name="max_size">Maksymalny rozmiar</string>
     <string name="song_cache">UTWORY</string>
