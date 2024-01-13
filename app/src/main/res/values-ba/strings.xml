@@ -67,7 +67,7 @@
     <string name="theme">Тема</string>
     <string name="theme_mode">Тема режимы</string>
     <string name="shapes">КИПТӘР</string>
-    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">Түңәрәкләү</string>
+    <string name="thumbnail_roundness">Түңәрәкләү</string>
     <string name="text">ТЕКСТ</string>
     <string name="use_system_font">Системалы шрифт менән ҡулланырға</string>
     <string name="use_font_by_the_system">Система ҡулланған шрифт менән файҙаланырға</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">Йырҙың тышың күргәтергә</string>
     <string name="use_song_cover_on_lockscreen">Блокировкалау экранында йырҙың тышың ҡулланырға</string>
     <string name="cache">Кэш</string>
-    <string name="cache_cleared" comment="Player settings cache_cleared">Кэшта урын бөтһә, оҙаҡ ресурстарға доступ булмаһа, улар юйылалар</string>
+    <string name="cache_cleared">Кэшта урын бөтһә, оҙаҡ ресурстарға доступ булмаһа, улар юйылалар</string>
     <string name="image_cache">ҺҮРӘТТӘРҘЕҢ КЭШЫ</string>
     <string name="max_size">Максималь күләме</string>
     <string name="song_cache">ЙЫРҘЫҢ КЭШЫ</string>
