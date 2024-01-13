@@ -165,7 +165,7 @@
     <string name="medium">중간</string>
     <string name="big">크게</string>
     <string name="none">없음</string>
-    <string name="light">밝게</string>
+    <string name="light">얇게</string>
     <string name="heavy">두껍게</string>
     <string name="effects">효과</string>
     <string name="player_rotating_buttons">회전 버튼</string>
