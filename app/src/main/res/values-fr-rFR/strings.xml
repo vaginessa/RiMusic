@@ -223,7 +223,7 @@
     <string name="on_device">📲 Sur l\'appareil</string>
     <string name="open_settings">Ouvrir les paramètres</string>
     <string name="permission_declined_grant_media_permissions">🎥 Autorisation refusée, veuillez accorder les autorisations multimédias dans les paramètres de votre appareil.</string>
-    <string name="wavy_timeline">Ondulée</string>     
+    <string name="wavy_timeline">Ondulée</string>
     <string name="enable_wavy_timeline">Active la barre de navigation ondulée</string>
     <string name="play_next">Musique suivante</string>
     <string name="toggle_lyrics">Afficher les paroles</string>
@@ -292,8 +292,8 @@
     <string name="disable_scrolling_text">Désactiver le défilement du texte</string>
     <string name="scrolling_text_is_used_for_long_texts">Le défilement du texte est utilisé pour les longs textes</string>
     <string name="audio_quality_format">Format de la qualité audio</string>
-    <string name="persian">Persian</string>
-    <string name="hungarian">Hungarian</string>
+    <string name="persian">Persan (فارسی)</string>
+    <string name="hungarian">Hongrois (Magyar)</string>
     <string name="korean">Korean</string>
     <string name="background_player">"BACKGROUND PLAYER "</string>
     <string name="show_like_button">Show Like button</string>
