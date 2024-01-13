@@ -67,7 +67,7 @@
     <string name="theme">Téma</string>
     <string name="theme_mode">Téma mód</string>
     <string name="shapes">FORMÁK</string>
-    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">Borítókép kereksége</string>
+    <string name="thumbnail_roundness">Borítókép kereksége</string>
     <string name="text">SZÖVEG</string>
     <string name="use_system_font">Rendszer betűtípus használata</string>
     <string name="use_font_by_the_system">Használja a rendszer által alkalmazott betűtípust</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">Dalborító megjelenítése</string>
     <string name="use_song_cover_on_lockscreen">Használja a lejátszott dal borítóját a lezárási képernyő háttérképeként</string>
     <string name="cache">Gyorsítótár</string>
-    <string name="cache_cleared" comment="Player settings cache_cleared">Ha a gyorsítótárból elfogy a hely, a leghosszabb ideig nem használt erőforrások törlődnek</string>
+    <string name="cache_cleared">Ha a gyorsítótárból elfogy a hely, a leghosszabb ideig nem használt erőforrások törlődnek</string>
     <string name="image_cache">KÉP GYORSÍTÓTÁR</string>
     <string name="max_size">Max. méret</string>
     <string name="song_cache">ZENE GYORSÍTÓTÁR</string>
