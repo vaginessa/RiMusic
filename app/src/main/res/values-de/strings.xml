@@ -67,7 +67,7 @@
     <string name="theme">Nachtmodus</string>
     <string name="theme_mode">Themenmodus</string>
     <string name="shapes">Formen</string>
-    <string name="thumbnail_roundness" comment="Player thumbnail_roundness">Rundheit der Miniaturansicht</string>
+    <string name="thumbnail_roundness">Rundheit der Miniaturansicht</string>
     <string name="text">Text</string>
     <string name="use_system_font">Systemschrift verwenden</string>
     <string name="use_font_by_the_system">Verwenden Sie die vom System angewendete Schriftart</string>
@@ -77,7 +77,7 @@
     <string name="show_song_cover">Songcover anzeigen</string>
     <string name="use_song_cover_on_lockscreen">Songcover auf dem Sperrbildschirm verwenden</string>
     <string name="cache">Zwischenspeicher</string>
-    <string name="cache_cleared" comment="Player settings cache_cleared">Wenn der Zwischenspeicher keinen Speicherplatz mehr hat, werden die Ressourcen, auf die am längsten nicht zugegriffen wurde, gelöscht</string>
+    <string name="cache_cleared">Wenn der Zwischenspeicher keinen Speicherplatz mehr hat, werden die Ressourcen, auf die am längsten nicht zugegriffen wurde, gelöscht</string>
     <string name="image_cache">Bild Zwischenspeicher</string>
     <string name="max_size">Max. Größe</string>
     <string name="song_cache">Song Zwischenspeicher</string>
