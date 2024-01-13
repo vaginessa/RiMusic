@@ -106,6 +106,7 @@ import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.completed
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
+import it.vfsfitvnm.vimusic.utils.durationTextToMillis
 import it.vfsfitvnm.vimusic.utils.durationToMillis
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
@@ -153,6 +154,11 @@ fun LocalPlaylistSongs(
 
     LaunchedEffect(Unit, filter) {
         Database.playlistWithSongs(playlistId).filterNotNull().collect { playlistWithSongs = it }
+    }
+
+    var allDownloaded by remember { mutableStateOf(true) }
+    playlistWithSongs?.songs?.forEach {
+        allDownloaded = downloadedStateMedia(it.asMediaItem.mediaId)
     }
 
         when (sortOrder) {
@@ -203,7 +209,8 @@ fun LocalPlaylistSongs(
     var totalPlayTimes = 0L
     playlistWithSongs?.songs?.forEach {
         //Log.d("mediaItem","durationText ${it.durationText} durationToMillis ${durationToMillis("12:78")}")
-        totalPlayTimes += it.durationText?.let { it1 -> durationToMillis(it1) }?.toLong() ?: 0
+        totalPlayTimes += it.durationText?.let { it1 ->
+            durationTextToMillis(it1) }?.toLong() ?: 0
     }
 
 
@@ -332,6 +339,15 @@ fun LocalPlaylistSongs(
                         modifier = Modifier
                             .weight(1f)
                     )
+/*
+                        HeaderIconButton(
+                            icon = if (allDownloaded) R.drawable.downloaded else R.drawable.download,
+                            color = colorPalette.text,
+                            onClick = {
+
+                            }
+                        )
+*/
 
                     HeaderIconButton(
                         icon = R.drawable.downloaded,
@@ -361,7 +377,7 @@ fun LocalPlaylistSongs(
                                 }
                         }
                     )
-/*
+
                     HeaderIconButton(
                         icon = R.drawable.download,
                         color = colorPalette.text,
@@ -370,7 +386,7 @@ fun LocalPlaylistSongs(
 
                         }
                     )
-*/
+
                     if (showConfirmDeleteDownloadDialog) {
                         ConfirmationDialog(
                             text = stringResource(R.string.do_you_really_want_to_delete_download),
@@ -689,13 +705,14 @@ fun LocalPlaylistSongs(
                             )
                         }
 
-                        if (!isLocal)
-                        manageDownload(
-                            context = context,
-                            songId = song.asMediaItem.mediaId,
-                            songTitle = song.asMediaItem.mediaMetadata.title.toString(),
-                            downloadState = isDownloaded
-                        )
+                        if (!isLocal) {
+                            manageDownload(
+                                context = context,
+                                songId = song.asMediaItem.mediaId,
+                                songTitle = song.asMediaItem.mediaMetadata.title.toString(),
+                                downloadState = isDownloaded
+                            )
+                        }
                     },
                     downloadState = downloadState,
                     thumbnailSizePx = thumbnailSizePx,

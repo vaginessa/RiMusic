@@ -40,11 +40,9 @@ import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Album
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
-import it.vfsfitvnm.vimusic.ui.components.themed.HalfHeader
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
-import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryButton
 import it.vfsfitvnm.vimusic.ui.items.AlbumItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -122,6 +120,13 @@ fun HomeAlbums(
                         modifier = Modifier
                             .weight(1f)
                     )
+
+                    HeaderIconButton(
+                        icon = R.drawable.time,
+                        color = if (sortBy == AlbumSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
+                        onClick = { sortBy = AlbumSortBy.DateAdded }
+                    )
+
                     HeaderIconButton(
                         icon = R.drawable.calendar,
                         color = if (sortBy == AlbumSortBy.Year) colorPalette.text else colorPalette.textDisabled,
@@ -134,13 +139,7 @@ fun HomeAlbums(
                         onClick = { sortBy = AlbumSortBy.Title }
                     )
 
-                    HeaderIconButton(
-                        icon = R.drawable.time,
-                        color = if (sortBy == AlbumSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { sortBy = AlbumSortBy.DateAdded }
-                    )
-
-                    Spacer(
+                     Spacer(
                         modifier = Modifier
                             .width(2.dp)
                     )

@@ -27,7 +27,6 @@ import it.vfsfitvnm.vimusic.utils.showNewAlbumsArtistsKey
 import it.vfsfitvnm.vimusic.utils.showPlaylistMightLikeKey
 import it.vfsfitvnm.vimusic.utils.showRelatedAlbumsKey
 import it.vfsfitvnm.vimusic.utils.showSimilarArtistsKey
-import it.vfsfitvnm.vimusic.utils.skipSilenceKey
 
 @androidx.annotation.OptIn(androidx.core.os.BuildCompat.PrereleaseSdkCheck::class)
 @ExperimentalAnimationApi

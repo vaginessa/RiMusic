@@ -5,7 +5,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.PathNode
 import it.vfsfitvnm.vimusic.equalizer.audio.VisualizerComputer.Companion.SAMPLING_INTERVAL
-import kotlin.math.*
+import kotlin.math.cos
+import kotlin.math.min
+import kotlin.math.pow
+import kotlin.math.roundToInt
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 @JvmInline
 value class Point(private val p: Pair<Float, Float>) {

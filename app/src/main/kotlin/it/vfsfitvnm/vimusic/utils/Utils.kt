@@ -160,6 +160,15 @@ fun durationToMillis(duration: String) = Duration.between(
     )
 ).toMillis()
 
+fun durationTextToMillis(duration: String): Long {
+    return try {
+        durationToMillis(duration)
+    } catch (e: Exception) {
+        0L
+    }
+}
+
+
 fun formatAsTime(millis: Long): String {
     val timePart1 = Duration.ofMillis(millis / 60).toMinutes().minutes
     val timePart2 = Duration.ofMillis(millis / 60).seconds % 60
