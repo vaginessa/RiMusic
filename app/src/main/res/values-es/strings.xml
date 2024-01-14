@@ -135,7 +135,7 @@
     <string name="delete_playback_events">Eliminar %1$s eventos de reproducción</string>
     <string name="existing_data_will_be_overwritten">Los datos existentes se sobrescribirán.\n%1$s se cerrará automáticamente después de restaurar la base de datos.</string>
     <string name="on_queue">en cola</string>
-    <string name="folder_cache">CACHÉ DE CARPETA</string>
+    <string name="folder_cache">CARPETA DE CACHÉ</string>
     <string name="cache_reset_by_clicking_button">Cuidado, la carpeta de ubicación de la caché se restablecerá a la configuración predeterminada al pulsar el siguiente botón</string>
     <string name="cache_location_folder">Carpeta de ubicación</string>
     <string name="custom_cache_from_android_10_may_not_be_available">Es posible que esta función no esté disponible a partir de Android 10</string>
