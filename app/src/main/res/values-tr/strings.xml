@@ -165,7 +165,7 @@
     <string name="medium">Orta</string>
     <string name="big">Büyük</string>
     <string name="none">Yok</string>
-    <string name="light">Açık</string>
+    <string name="light">Az</string>
     <string name="heavy">Çok</string>
     <string name="effects">Efektler</string>
     <string name="player_rotating_buttons">Dönen tuşlar</string>
@@ -201,7 +201,7 @@
     <string name="dark">Koyu</string>
     <string name="system">Sistem</string>
     <string name="unlimited">Sınırsız</string>
-    <string name="_light">Az</string>
+    <string name="_light">Açık</string>
     <string name="downloaded">İndirilenler</string>
     <string name="turn_off">Kapat</string>
     <string name="download">İndir</string>
@@ -294,13 +294,13 @@
     <string name="audio_quality_format">Ses kalitesi</string>
     <string name="persian">Farsça (فارسی)</string>
     <string name="hungarian">Macarca (Hungarian)</string>
-    <string name="korean">Korean</string>
-    <string name="background_player">"BACKGROUND PLAYER "</string>
-    <string name="show_like_button">Show Like button</string>
-    <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">Add/Remove like to song from lock screen and notification area</string>
-    <string name="show_download_button">Show Download button</string>
-    <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">Download, or remove downloaded, song from lock screen and notification area</string>
-    <string name="by_most_played_song">By Most played song</string>
-    <string name="by_last_played_song">By Last played song</string>
-    <string name="audio_quality_automatic">Automatic</string>
+    <string name="korean">Korece (Korean)</string>
+    <string name="background_player">"ARKAPLAN OYNATICISI "</string>
+    <string name="show_like_button">Beğen düğmesini göster</string>
+    <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">Kilit ekranında ve bildirimlerde şarkıyı beğenme ve beğenmeyi kaldırma</string>
+    <string name="show_download_button">İndirme düğmesini göster</string>
+    <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">Kilit ekranında ve bildirimlerde şarkı indirme ve indirileni silme</string>
+    <string name="by_most_played_song">En çok oynatılan şarkıya göre</string>
+    <string name="by_last_played_song">En son oynatılan şarkıya göre</string>
+    <string name="audio_quality_automatic">Otomatik</string>
 </resources>
