@@ -11,7 +11,7 @@ RiMusic, YouTube Music'ten müzik yayını yapmak için çeşitli dillerde sunul
 - Uygulama görev yöneticisinden kapatıldığında arka planda oynatma/durdurma
 - Minimize edilmiş aynatma optimizasyonları
 - Dinleme istatistikleri
-- Birçok efekt ile oynatıcıda ses görselleştirici
+- Birçok efekt ile oynatıcıda ses görselleştirici. THIS FEATURE REQUIRE MIC PERMISSION, ONLY IF ACTIVATE IT FROM SETTINGS. BY DEFAULT IS DISABLED. All permissions list are in wiki page at link  https://github.com/fast4x/RiMusic/wiki/FAQs#-what-permissions-are-used
 - Haberler, ruh hali ve müzik türleri
 - Tercih edilen sanatçılardan yeni albümler
 - Şarkıları, albümleri, sanatçıları ve çalma listeleri arama
