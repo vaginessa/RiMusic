@@ -292,15 +292,15 @@
     <string name="disable_scrolling_text">ସ୍କ୍ରୋଲିଂ ପାଠ୍ୟକୁ ନିଷ୍କ୍ରିୟ କରନ୍ତୁ</string>
     <string name="scrolling_text_is_used_for_long_texts">ଦୀର୍ଘ ପାଠ୍ୟଗୁଡ଼ିକ ପାଇଁ ସ୍କ୍ରୋଲିଂ ପାଠ୍ୟ ବ୍ୟବହୃତ ହୁଏ</string>
     <string name="audio_quality_format">ଧ୍ୱନି ଗୁଣବତ୍ତା ଶୈଳୀ</string>
-    <string name="persian">Persian</string>
-    <string name="hungarian">Hungarian</string>
-    <string name="korean">Korean</string>
-    <string name="background_player">"BACKGROUND PLAYER "</string>
-    <string name="show_like_button">Show Like button</string>
-    <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">Add/Remove like to song from lock screen and notification area</string>
-    <string name="show_download_button">Show Download button</string>
-    <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">Download, or remove downloaded, song from lock screen and notification area</string>
-    <string name="by_most_played_song">By Most played song</string>
-    <string name="by_last_played_song">By Last played song</string>
-    <string name="audio_quality_automatic">Automatic</string>
+    <string name="persian">ପାର୍ସୀ</string>
+    <string name="hungarian">ହଙ୍ଗେରୀ</string>
+    <string name="korean">କୋରିଆନ୍</string>
+    <string name="background_player">"ପୃଷ୍ଠଭୂମି ଚାଳକ "</string>
+    <string name="show_like_button">ଗୋଟିଏ ପସନ୍ଦ ସ୍ୱିଚକୁ ଦର୍ଶାନ୍ତୁ</string>
+    <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">ଲକ ପରଦା ଏବଂ ବିଜ୍ଞପ୍ତି କ୍ଷେତ୍ରରୁ ଗୀତକୁ ଯୋଗ କରନ୍ତୁ/ଅପସାରଣ କରନ୍ତୁ</string>
+    <string name="show_download_button">ଆହରଣ ବଟନ୍ ଦର୍ଶାନ୍ତୁ</string>
+    <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">ଲକ ପରଦା ଏବଂ ବିଜ୍ଞପ୍ତି କ୍ଷେତ୍ରରୁ ଆହରଣ, କିମ୍ବା ଆହରଣ, ଗୀତକୁ ଅପସାରଣ କରନ୍ତୁ</string>
+    <string name="by_most_played_song">ସର୍ବାଧିକ ବଜାଯାଇଥିବା ଗୀତ ଦ୍ୱାରା</string>
+    <string name="by_last_played_song">ଅନ୍ତିମ ଗୀତ ଦ୍ୱାରା</string>
+    <string name="audio_quality_automatic">ସ୍ୱୟଂଚାଳିତ</string>
 </resources>
