@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -77,6 +78,8 @@ import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
+import it.vfsfitvnm.vimusic.models.Playlist
+import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.PlaylistWithSongs
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
@@ -94,6 +97,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.InPlaylistMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.Menu
 import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
+import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -156,10 +160,6 @@ fun LocalPlaylistSongs(
         Database.playlistWithSongs(playlistId).filterNotNull().collect { playlistWithSongs = it }
     }
 
-    var allDownloaded by remember { mutableStateOf(true) }
-    playlistWithSongs?.songs?.forEach {
-        allDownloaded = downloadedStateMedia(it.asMediaItem.mediaId)
-    }
 
         when (sortOrder) {
             SortOrder.Ascending ->
@@ -290,6 +290,13 @@ fun LocalPlaylistSongs(
         mutableStateOf(false)
     }
 
+    /*
+    var allDownloaded by rememberSaveable { mutableStateOf(true) }
+    playlistWithSongs?.songs?.forEach {
+        allDownloaded = downloadedStateMedia(it.asMediaItem.mediaId)
+    }
+    */
+
     Box {
         ReorderingLazyColumn(
             reorderingState = reorderingState,
@@ -339,15 +346,6 @@ fun LocalPlaylistSongs(
                         modifier = Modifier
                             .weight(1f)
                     )
-/*
-                        HeaderIconButton(
-                            icon = if (allDownloaded) R.drawable.downloaded else R.drawable.download,
-                            color = colorPalette.text,
-                            onClick = {
-
-                            }
-                        )
-*/
 
                     HeaderIconButton(
                         icon = R.drawable.downloaded,
