@@ -11,7 +11,7 @@ RiMusic je vícejazyčná aplikace pro Android pro streamování hudby z YouTube
 - Přehrávání na pozadí s možností zastavení při přejetí aplikace ze správce úloh
 - Minimální optimalizace přehrávače
 - Statistiky poslechu
-- Vizualizér zvuku v přehrávači s mnoha typy efektů
+- Vizualizér zvuku v přehrávači s mnoha typy efektů. TATO FUNKCE VYŽADUJE OPRÁVNĚNÍ MIKROFONU, POUZE POKUD JI AKTIVUJETE V NASTAVENÍ. VE VÝCHOZÍM NASTAVENÍ JE VYPNUTA. Seznam všech oprávnění je na stránce wiki na odkazu https://github.com/fast4x/RiMusic/wiki/FAQs#-what-permissions-are-used.
 - Novinky, nálady a hudební žánry
 - Nová alba oblíbených interpretů
 - Vyhledávání skladeb, alb, interpretů a playlistů
