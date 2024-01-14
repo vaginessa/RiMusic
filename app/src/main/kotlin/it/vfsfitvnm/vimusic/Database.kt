@@ -98,7 +98,7 @@ interface Database {
     @Query("SELECT Song.* FROM Event JOIN Song ON Song.id = songId WHERE timestamp " +
             "BETWEEN :from AND :to GROUP BY songId  ORDER BY timestamp DESC LIMIT :limit")
     @RewriteQueriesToDropUnusedColumns
-    fun songsMostPlayedByPeriod(from: Long,to: Long, limit:Int): Flow<List<Song>>
+    fun songsMostPlayedByPeriod(from: Long, to: Long, limit:Long = Long.MAX_VALUE): Flow<List<Song>>
 
     @Transaction
     @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY totalPlayTimeMs")

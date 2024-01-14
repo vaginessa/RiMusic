@@ -72,6 +72,8 @@ const val showRelatedAlbumsKey = "showRelatedAlbums"
 const val showSimilarArtistsKey = "showSimilarArtists"
 const val showNewAlbumsArtistsKey = "showNewAlbumsArtists"
 const val showPlaylistMightLikeKey = "showPlaylistMightLike"
+const val maxStatisticsItemsKey = "maxStatisticsItems"
+const val showStatsListeningTimeKey = "showStatsListeningTime"
 
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(

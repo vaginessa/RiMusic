@@ -3,6 +3,7 @@ package it.vfsfitvnm.vimusic.ui.screens.statistics
 import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
@@ -31,10 +33,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persistList
@@ -42,12 +47,16 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.MaxStatisticsItems
+import it.vfsfitvnm.vimusic.enums.PlayEventsType
 import it.vfsfitvnm.vimusic.enums.StatisticsType
+import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.models.Album
 import it.vfsfitvnm.vimusic.models.Artist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.items.AlbumItem
@@ -57,19 +66,30 @@ import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
 import it.vfsfitvnm.vimusic.ui.screens.localPlaylistRoute
+import it.vfsfitvnm.vimusic.ui.screens.settings.SettingsEntry
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.ui.styling.shimmer
 import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
 import it.vfsfitvnm.vimusic.utils.UpdateYoutubeAlbum
 import it.vfsfitvnm.vimusic.utils.UpdateYoutubeArtist
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
+import it.vfsfitvnm.vimusic.utils.durationTextToMillis
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
+import it.vfsfitvnm.vimusic.utils.formatAsTime
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
+import it.vfsfitvnm.vimusic.utils.maxStatisticsItemsKey
+import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
+import it.vfsfitvnm.vimusic.utils.showStatsListeningTimeKey
+import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -112,12 +132,20 @@ fun StatisticsPage(
         .padding(top = 24.dp, bottom = 8.dp)
         .padding(endPaddingValues)
 
+    var thumbnailRoundness by rememberPreference(
+        thumbnailRoundnessKey,
+        ThumbnailRoundness.Heavy
+    )
+
+    var showStatsListeningTime by rememberPreference(showStatsListeningTimeKey,   true)
+
     val context = LocalContext.current
 
     val thumbnailSizeDp = Dimensions.thumbnails.song
     val thumbnailSize = thumbnailSizeDp.px
 
     var songs by persistList<Song>("statistics/songs")
+    var allSongs by persistList<Song>("statistics/allsongs")
     var artists by persistList<Artist>("statistics/artists")
     var albums by persistList<Album>("statistics/albums")
     var playlists by persistList<PlaylistPreview>("statistics/playlists")
@@ -136,7 +164,7 @@ fun StatisticsPage(
     val lastYear = dateTime.minusDays(365).toEpochSecond(ZoneOffset.UTC) * 1000
     val last20Year = dateTime.minusYears(20).toEpochSecond(ZoneOffset.UTC) * 1000
 
-    var from = when (statisticsType) {
+    val from = when (statisticsType) {
         StatisticsType.Today -> today
         StatisticsType.OneWeek -> lastWeek
         StatisticsType.OneMonth -> lastMonth
@@ -146,19 +174,35 @@ fun StatisticsPage(
         StatisticsType.All -> last20Year
     }
 
-    LaunchedEffect(Unit) {
-        Database.songsMostPlayedByPeriod(from, now, 6).collect { songs = it }
-    }
-    LaunchedEffect(Unit) {
-        Database.artistsMostPlayedByPeriod(from, now, 6).collect { artists = it }
-    }
-    LaunchedEffect(Unit) {
-        Database.albumsMostPlayedByPeriod(from, now, 6).collect { albums = it }
-    }
-    LaunchedEffect(Unit) {
-        Database.playlistsMostPlayedByPeriod(from, now, 6).collect { playlists = it }
+    var maxStatisticsItems by rememberPreference(
+        maxStatisticsItemsKey,
+        MaxStatisticsItems.`10`
+    )
+
+    var totalPlayTimes = 0L
+    allSongs.forEach {
+        totalPlayTimes += it.durationText?.let { it1 ->
+            durationTextToMillis(it1)
+        }?.toLong() ?: 0
     }
 
+    if (showStatsListeningTime) {
+        LaunchedEffect(Unit) {
+            Database.songsMostPlayedByPeriod(from, now).collect { allSongs = it }
+        }
+    }
+    LaunchedEffect(Unit) {
+        Database.artistsMostPlayedByPeriod(from, now, maxStatisticsItems.number.toInt()).collect { artists = it }
+    }
+    LaunchedEffect(Unit) {
+        Database.albumsMostPlayedByPeriod(from, now, maxStatisticsItems.number.toInt()).collect { albums = it }
+    }
+    LaunchedEffect(Unit) {
+        Database.playlistsMostPlayedByPeriod(from, now, maxStatisticsItems.number.toInt()).collect { playlists = it }
+    }
+    LaunchedEffect(Unit) {
+        Database.songsMostPlayedByPeriod(from, now, maxStatisticsItems.number).collect { songs = it }
+    }
 
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
@@ -212,9 +256,30 @@ fun StatisticsPage(
                 onClick = {}
             )
 
+            if (showStatsListeningTime)
+            SettingsEntry(
+                title = "${allSongs.size} ${stringResource(R.string.statistics_songs_heard)}",
+                text = "${formatAsTime(totalPlayTimes)} ${stringResource(R.string.statistics_of_time_taken)}",
+                onClick = {},
+                trailingContent = {
+                    Image(
+                        painter = painterResource(R.drawable.musical_notes),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(colorPalette.shimmer),
+                        modifier = Modifier
+                            .size(34.dp)
+                    )
+                },
+                modifier = Modifier
+                    .background(
+                        color = colorPalette.background4,
+                        shape = thumbnailRoundness.shape()
+                    )
+
+            )
 
             BasicText(
-                text = stringResource(R.string.most_played_songs),
+                text = "${maxStatisticsItems} ${stringResource(R.string.most_played_songs)}",
                 style = typography.m.semiBold,
                 modifier = sectionTextModifier
             )
@@ -285,7 +350,7 @@ fun StatisticsPage(
                 }
 
             BasicText(
-                text = stringResource(R.string.most_listened_artists),
+                text = "${maxStatisticsItems} ${stringResource(R.string.most_listened_artists)}",
                 style = typography.m.semiBold,
                 modifier = sectionTextModifier
             )
@@ -315,7 +380,7 @@ fun StatisticsPage(
 
 
             BasicText(
-                text = stringResource(R.string.most_albums_listened),
+                text = "${maxStatisticsItems} ${stringResource(R.string.most_albums_listened)}",
                 style = typography.m.semiBold,
                 modifier = sectionTextModifier
             )
@@ -345,7 +410,7 @@ fun StatisticsPage(
 
 
             BasicText(
-                text = stringResource(R.string.most_played_playlists),
+                text = "${maxStatisticsItems} ${stringResource(R.string.most_played_playlists)}",
                 style = typography.m.semiBold,
                 modifier = sectionTextModifier
             )
