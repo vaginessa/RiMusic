@@ -285,8 +285,8 @@
     <string name="remove_all">Quitar todo</string>
     <string name="remove_selected">Quitar selección</string>
     <string name="clear_queue">Limpiar la cola</string>
-    <string name="enqueue_all">Agregar todo a la fila</string>
-    <string name="enqueue_selected">Agregar seleccionados a la fila</string>
+    <string name="enqueue_all">Añadir todo a la cola</string>
+    <string name="enqueue_selected">Añadir la selección a la cola</string>
     <string name="greek">Griego (Ελληνική)</string>
     <string name="catalan">Catalán (Català)</string>
     <string name="disable_scrolling_text">Desactivar el desplazamiento del texto</string>
