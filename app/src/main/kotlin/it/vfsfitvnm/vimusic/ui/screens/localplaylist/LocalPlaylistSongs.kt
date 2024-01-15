@@ -7,12 +7,15 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +24,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -42,6 +46,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -59,9 +64,11 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persist
+import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.compose.reordering.ReorderingLazyColumn
 import it.vfsfitvnm.compose.reordering.animateItemPlacement
 import it.vfsfitvnm.compose.reordering.draggedItem
@@ -74,6 +81,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
@@ -93,6 +101,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.IconInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InPlaylistMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.Menu
 import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
@@ -101,6 +110,7 @@ import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.ui.styling.px
@@ -150,6 +160,8 @@ fun LocalPlaylistSongs(
     val uiType by rememberPreference(UiTypeKey, UiType.RiMusic)
 
     var playlistWithSongs by persist<PlaylistWithSongs?>("localPlaylist/$playlistId/playlistWithSongs")
+    var playlistPreview by persist<PlaylistPreview?>("localPlaylist/playlist")
+
 
     var sortBy by rememberPreference(playlistSongSortByKey, PlaylistSongSortBy.Title)
     var sortOrder by rememberPreference(songSortOrderKey, SortOrder.Descending)
@@ -160,6 +172,12 @@ fun LocalPlaylistSongs(
         Database.playlistWithSongs(playlistId).filterNotNull().collect { playlistWithSongs = it }
     }
 
+    LaunchedEffect(Unit) {
+        Database.singlePlaylistPreview(playlistId).collect { playlistPreview = it }
+    }
+
+
+    Log.d("mediaItem","playlistpreview ${playlistPreview}")
 
         when (sortOrder) {
             SortOrder.Ascending ->
@@ -208,7 +226,6 @@ fun LocalPlaylistSongs(
 
     var totalPlayTimes = 0L
     playlistWithSongs?.songs?.forEach {
-        //Log.d("mediaItem","durationText ${it.durationText} durationToMillis ${durationToMillis("12:78")}")
         totalPlayTimes += it.durationText?.let { it1 ->
             durationTextToMillis(it1) }?.toLong() ?: 0
     }
@@ -274,6 +291,9 @@ fun LocalPlaylistSongs(
 
     var isReorderDisabled by rememberPreference(reorderInQueueEnabledKey, defaultValue = true)
 
+    val playlistThumbnailSizeDp = Dimensions.thumbnails.playlist
+    val playlistThumbnailSizePx = playlistThumbnailSizeDp.px
+
     val thumbnailSizeDp = Dimensions.thumbnails.song
     val thumbnailSizePx = thumbnailSizeDp.px
 
@@ -291,11 +311,16 @@ fun LocalPlaylistSongs(
     }
 
     /*
-    var allDownloaded by rememberSaveable { mutableStateOf(true) }
-    playlistWithSongs?.songs?.forEach {
-        allDownloaded = downloadedStateMedia(it.asMediaItem.mediaId)
-    }
+        var allDownloaded by remember { mutableStateOf(false) }
+        var listDownloadedMedia = remember{ mutableListOf<Song>() }
+
+            var count = 0
+            playlistWithSongs?.songs?.forEach {
+                if (downloadedStateMedia(it.asMediaItem.mediaId)) count++
+            }
+            if (playlistWithSongs?.songs?.size == count) allDownloaded = true
     */
+
 
     Box {
         ReorderingLazyColumn(
@@ -329,23 +354,94 @@ fun LocalPlaylistSongs(
                 }
 
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        //.background(colorPalette.background4)
+                        .fillMaxSize(0.99F)
+                        .background(color = colorPalette.background4, shape = thumbnailRoundness.shape())
+                ) {
+
+                    playlistPreview?.let {
+                        PlaylistItem(
+                            playlist = it,
+                            thumbnailSizeDp = playlistThumbnailSizeDp,
+                            thumbnailSizePx = playlistThumbnailSizePx,
+                            alternative = true,
+                            showName = false
+                        )
+                    }
+
+                    Column (
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.Start,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            //.border(BorderStroke(1.dp, Color.White))
+                    ) {
+                        Spacer(modifier = Modifier.height(10.dp))
+                        IconInfo(
+                            title = playlistPreview?.songCount.toString(),
+                            icon = painterResource(R.drawable.musical_notes)
+                        )
+                        Spacer(modifier = Modifier.height(5.dp))
+                        IconInfo(
+                            title = formatAsTime(totalPlayTimes),
+                            icon = painterResource(R.drawable.time)
+                        )
+                        Spacer(modifier = Modifier.height(30.dp))
+                    }
+
+
+
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween, //Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
 
+                        /*
                     HeaderInfo(
-                        //title = "${playlistWithSongs?.songs?.size} (${formatAsDuration(totalPlayTimes)})",
                         title = "${playlistWithSongs?.songs?.size} (${formatAsTime(totalPlayTimes)})",
                         icon = painterResource(R.drawable.musical_notes),
                         spacer = 0
                     )
 
+
                     Spacer(
                         modifier = Modifier
                             .weight(1f)
                     )
+                    */
+
+                    /*
+                                        LaunchedEffect(listDownloadedMedia) {
+                                            if (playlistWithSongs?.songs?.size == listDownloadedMedia.size) allDownloaded = true
+                                            else allDownloaded = false
+                                        }
+
+
+                                                if (allDownloaded) {
+                                                    HeaderIconButton(
+                                                        icon = R.drawable.downloaded,
+                                                        color = colorPalette.text,
+                                                        onClick = { allDownloaded = !allDownloaded }
+                                                    )
+                                                } else {
+                                                    HeaderIconButton(
+                                                        icon = R.drawable.download,
+                                                        color = colorPalette.text,
+                                                        onClick = { allDownloaded = !allDownloaded }
+                                                    )
+                                                }
+
+                     */
+
 
                     HeaderIconButton(
                         icon = R.drawable.downloaded,
@@ -558,6 +654,8 @@ fun LocalPlaylistSongs(
 
                 }
 
+                Spacer(modifier = Modifier.height(10.dp))
+
                 /*        */
                 Row (
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -686,6 +784,9 @@ fun LocalPlaylistSongs(
                 val isLocal by remember { derivedStateOf { song.asMediaItem.isLocal } }
                 downloadState = getDownloadState(song.asMediaItem.mediaId)
                 val isDownloaded = if (!isLocal) downloadedStateMedia(song.asMediaItem.mediaId) else true
+                //if (isDownloaded && !listDownloadedMedia.contains(song)) listDownloadedMedia.add(song)
+                //if (!isDownloaded) listDownloadedMedia.dropWhile {  it.asMediaItem.mediaId == song.asMediaItem.mediaId } else listDownloadedMedia.add(song)
+                //Log.d("mediaItem", "loop items listDownloadedMedia ${listDownloadedMedia.distinct().size} ${listDownloadedMedia.distinct()}")
                 SongItem(
                     song = song,
                     isDownloaded = isDownloaded,
@@ -711,6 +812,8 @@ fun LocalPlaylistSongs(
                                 downloadState = isDownloaded
                             )
                         }
+                        //if (isDownloaded) listDownloadedMedia.dropWhile { it.asMediaItem.mediaId == song.asMediaItem.mediaId } else listDownloadedMedia.add(song)
+                        //Log.d("mediaItem", "manageDownload click isDownloaded ${isDownloaded} listDownloadedMedia ${listDownloadedMedia.distinct().size}")
                     },
                     downloadState = downloadState,
                     thumbnailSizePx = thumbnailSizePx,
@@ -793,3 +896,4 @@ fun LocalPlaylistSongs(
 
     }
 }
+

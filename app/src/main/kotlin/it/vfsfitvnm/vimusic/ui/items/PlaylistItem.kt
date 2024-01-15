@@ -75,6 +75,7 @@ fun PlaylistItem(
     thumbnailSizeDp: Dp,
     modifier: Modifier = Modifier,
     alternative: Boolean = false,
+    showName: Boolean = true
 ) {
     val thumbnails by remember {
         Database.playlistThumbnailUrls(playlist.playlist.id).distinctUntilChanged().map {
@@ -121,7 +122,8 @@ fun PlaylistItem(
         channelName = null,
         thumbnailSizeDp = thumbnailSizeDp,
         modifier = modifier,
-        alternative = alternative
+        alternative = alternative,
+        showName = showName
     )
 }
 
@@ -183,6 +185,7 @@ fun PlaylistItem(
     thumbnailSizeDp: Dp,
     modifier: Modifier = Modifier,
     alternative: Boolean = false,
+    showName: Boolean = true
 ) {
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
 
@@ -224,6 +227,7 @@ fun PlaylistItem(
             modifier = Modifier
                 .fillMaxSize()
         ) {
+            if (showName)
             BasicText(
                 text = name ?: "",
                 style = typography.xs.semiBold,
