@@ -228,12 +228,12 @@ fun PlaylistItem(
                 .fillMaxSize()
         ) {
             if (showName)
-            BasicText(
-                text = name ?: "",
-                style = typography.xs.semiBold,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
+                BasicText(
+                    text = name ?: "",
+                    style = typography.xs.semiBold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
 
             channelName?.let {
                 BasicText(
