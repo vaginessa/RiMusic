@@ -7,7 +7,7 @@
     <string name="start_radio">Putar radio</string>
     <string name="equalizer">Ekualiser</string>
     <string name="stop_sleep_timer">Apakah anda ingin menghentikan pengatur waktu tidur?</string>
-    <string name="set_sleep_timer">Setel pengatur waktu tidur</string>
+    <string name="set_sleep_timer">Atur waktu tidur</string>
     <string name="add_to_playlist">Tambahkan ke daftar putar</string>
     <string name="go_to_album">Buka album</string>
     <string name="remove_from_queue">Hapus dari antrean</string>
@@ -253,8 +253,8 @@ Saat cache kehabisan ruang kosong, lagu &amp; gambar yang sudah lama tidak diaks
     <string name="user_interface">Antarmuka pengguna</string>
     <string name="ui_tab">Antarmuka</string>
     <string name="system_language">Setelan sistem</string>
-    <string name="french_emoticons_fran_ais">Français</string>
-    <string name="romanian_emoticons_rom_n">Română</string>
+    <string name="french_emoticons_fran_ais">Français (émoji)</string>
+    <string name="romanian_emoticons_rom_n">Română (emoji)</string>
     <string name="biggest">Sangat Besar</string>
     <string name="set_custom_cache">Atur cache khusus</string>
     <string name="enter_value_in_mb">Masukkan nilai (MB)</string>
