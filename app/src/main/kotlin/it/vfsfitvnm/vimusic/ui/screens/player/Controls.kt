@@ -327,7 +327,12 @@ fun Controls(
                 IconButton(
                     icon = if (artistIds?.isEmpty() == true) R.drawable.alert_circle_not_filled else R.drawable.artists,
                     color = if (artistIds?.isEmpty() == true) colorPalette.textDisabled else colorPalette.text,
-                    onClick = { if (artistIds?.isNotEmpty() == true) showSelectDialog = true },
+                    onClick = {
+                        if (artistIds?.isNotEmpty() == true && artistIds.size > 1)
+                            showSelectDialog = true
+                        if (artistIds?.isNotEmpty() == true && artistIds.size == 1)
+                            onGoToArtist( artistIds[0].id )
+                    },
                     modifier = Modifier
                         .size(20.dp)
                         .padding(start = 6.dp)
@@ -348,13 +353,10 @@ fun Controls(
                     fontSize = typography.s.bold.fontSize
                 ),
                 onClick = {
-                    if (artistIds?.isNotEmpty() == true)
-                    showSelectDialog = true
-                    /*
-                    if (artistIds?.isEmpty() == false) onGoToArtist(
-                        artistIds?.get(0).toString()
-                    )
-                     */
+                    if (artistIds?.isNotEmpty() == true && artistIds.size > 1)
+                        showSelectDialog = true
+                    if (artistIds?.isNotEmpty() == true && artistIds.size == 1)
+                        onGoToArtist( artistIds[0].id )
                 }
             ) } else {
         BasicText(
@@ -367,8 +369,10 @@ fun Controls(
             maxLines = 1,
             modifier = Modifier
                 .clickable {
-                    if (artistIds?.isNotEmpty() == true)
-                    showSelectDialog = true
+                    if (artistIds?.isNotEmpty() == true && artistIds.size > 1)
+                        showSelectDialog = true
+                    if (artistIds?.isNotEmpty() == true && artistIds.size == 1)
+                        onGoToArtist( artistIds[0].id )
                 }
         )}
 
