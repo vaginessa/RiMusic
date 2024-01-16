@@ -132,7 +132,9 @@ fun PlaylistSongList(
 
         playlistPage = withContext(Dispatchers.IO) {
             Innertube.playlistPage(BrowseBody(browseId = browseId, params = params))
-                ?.completed(localMaxDepth)?.getOrNull()
+                //?.completed(localMaxDepth)?.getOrNull()
+                ?.completed()?.getOrNull()
+
         }
         //Log.d("mediaPlaylist", "${playlistPage?.title} songs ${playlistPage?.songsPage?.items?.size} continuation ${playlistPage?.songsPage?.continuation}")
 
