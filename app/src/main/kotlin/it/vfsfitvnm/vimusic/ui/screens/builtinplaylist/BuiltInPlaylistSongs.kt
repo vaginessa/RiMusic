@@ -9,15 +9,19 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -39,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -76,11 +81,14 @@ import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
+import it.vfsfitvnm.vimusic.ui.components.themed.IconInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.ui.styling.px
@@ -88,9 +96,11 @@ import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
+import it.vfsfitvnm.vimusic.utils.durationTextToMillis
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
+import it.vfsfitvnm.vimusic.utils.formatAsTime
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -184,16 +194,12 @@ fun BuiltInPlaylistSongs(
 
     val lazyListState = rememberLazyListState()
 
-    /*
     var totalPlayTimes = 0L
     songs.forEach {
-        totalPlayTimes += if (it.durationText?.length == 4) {
-            durationToMillis("0" + it.durationText)
-        } else {
-            durationToMillis(it.durationText.toString())
-        }
+        totalPlayTimes += it.durationText?.let { it1 ->
+            durationTextToMillis(it1)
+        }?.toLong() ?: 0
     }
-    */
 
     Box {
         LazyColumn(
@@ -223,11 +229,62 @@ fun BuiltInPlaylistSongs(
                 )
 
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        //.background(colorPalette.background4)
+                        .fillMaxSize(0.99F)
+                        .background(color = colorPalette.background4, shape = thumbnailRoundness.shape())
+                ) {
+
+                    PlaylistItem(
+                        icon = when (builtInPlaylist) {
+                            BuiltInPlaylist.Favorites -> R.drawable.heart
+                            BuiltInPlaylist.Downloaded -> R.drawable.downloaded
+                            BuiltInPlaylist.Offline -> R.drawable.sync
+                        },
+                        iconSize = 64.dp,
+                        colorTint = colorPalette.favoritesIcon,
+                        name = "",
+                        songCount = null,
+                        thumbnailSizeDp = thumbnailSizeDp,
+                        alternative = true,
+                        showName = false
+                    )
+
+                    Column (
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.Start,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                        //.border(BorderStroke(1.dp, Color.White))
+                    ) {
+                        Spacer(modifier = Modifier.height(10.dp))
+                        IconInfo(
+                            title = songs.size.toString(),
+                            icon = painterResource(R.drawable.musical_notes)
+                        )
+                        Spacer(modifier = Modifier.height(5.dp))
+                        IconInfo(
+                            title = formatAsTime(totalPlayTimes),
+                            icon = painterResource(R.drawable.time)
+                        )
+                        Spacer(modifier = Modifier.height(30.dp))
+                    }
+
+
+
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween, //Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
+                    /*
                     HeaderInfo(
                         //title = "${songs.size} (${formatAsDuration(totalPlayTimes).dropLast(3)})",
                         title = "${songs.size}",
@@ -239,6 +296,7 @@ fun BuiltInPlaylistSongs(
                         modifier = Modifier
                             .weight(1f)
                     )
+                    */
                     if (builtInPlaylist == BuiltInPlaylist.Favorites) {
                         HeaderIconButton(
                             icon = R.drawable.downloaded,
@@ -332,11 +390,12 @@ fun BuiltInPlaylistSongs(
                         onClick = { sortBy = SongSortBy.DateAdded }
                     )
 
+                    /*
                     Spacer(
                         modifier = Modifier
                             .width(2.dp)
                     )
-
+                       */
                     HeaderIconButton(
                         icon = R.drawable.arrow_up,
                         color = colorPalette.text,

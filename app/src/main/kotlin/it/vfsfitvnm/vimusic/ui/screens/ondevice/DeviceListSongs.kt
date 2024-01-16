@@ -19,12 +19,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -68,6 +71,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.DeviceLists
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
@@ -81,16 +85,21 @@ import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScr
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
+import it.vfsfitvnm.vimusic.ui.components.themed.IconInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.durationTextToMillis
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
+import it.vfsfitvnm.vimusic.utils.formatAsTime
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid10
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid13
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -170,16 +179,12 @@ fun DeviceListSongs(
 
     val lazyListState = rememberLazyListState()
 
-    /*
     var totalPlayTimes = 0L
     songs.forEach {
-        totalPlayTimes += if (it.durationText?.length == 4) {
-            durationToMillis("0" + it.durationText)
-        } else {
-            durationToMillis(it.durationText.toString())
-        }
+        totalPlayTimes += it.durationText?.let { it1 ->
+            durationTextToMillis(it1)
+        }?.toLong() ?: 0
     }
-     */
 
     val activity = LocalContext.current as Activity
     //VisualizerComputer.setupPermissions( LocalContext.current as Activity)
@@ -220,12 +225,59 @@ fun DeviceListSongs(
                     onClick = onSearchClick
                 )
 
+                Row(
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        //.background(colorPalette.background4)
+                        .fillMaxSize(0.99F)
+                        .background(color = colorPalette.background4, shape = thumbnailRoundness.shape())
+                ) {
+
+                    PlaylistItem(
+                        icon = R.drawable.musical_notes,
+                        iconSize = 64.dp,
+                        colorTint = colorPalette.favoritesIcon,
+                        name = "",
+                        songCount = null,
+                        thumbnailSizeDp = thumbnailSizeDp,
+                        alternative = true,
+                        showName = false
+                    )
+
+                    Column (
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.Start,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                        //.border(BorderStroke(1.dp, Color.White))
+                    ) {
+                        Spacer(modifier = Modifier.height(10.dp))
+                        IconInfo(
+                            title = songs.size.toString(),
+                            icon = painterResource(R.drawable.musical_notes)
+                        )
+                        Spacer(modifier = Modifier.height(5.dp))
+                        IconInfo(
+                            title = formatAsTime(totalPlayTimes),
+                            icon = painterResource(R.drawable.time)
+                        )
+                        Spacer(modifier = Modifier.height(30.dp))
+                    }
+
+
+
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
                 Row (
-                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween, //Arrangement.spacedBy(10.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
                     ){
+                    /*
                     HeaderInfo(
                        // title = "${songs.size} (${formatAsDuration(totalPlayTimes).dropLast(3)})",
                         title = "${songs.size}",
@@ -237,7 +289,7 @@ fun DeviceListSongs(
                         modifier = Modifier
                             .weight(1f)
                     )
-
+                    */
                     HeaderIconButton(
                         icon = R.drawable.enqueue,
                         enabled = songs.isNotEmpty(),
@@ -279,12 +331,12 @@ fun DeviceListSongs(
                                 color = if (sortBy == SongSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
                                 onClick = { sortBy = SongSortBy.DateAdded }
                             )
-
+                            /*
                             Spacer(
                                 modifier = Modifier
                                     .width(2.dp)
                             )
-
+                            */
                             HeaderIconButton(
                                 icon = R.drawable.arrow_up,
                                 color = colorPalette.text,

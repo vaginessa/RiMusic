@@ -47,6 +47,8 @@ fun PlaylistItem(
     thumbnailSizeDp: Dp,
     modifier: Modifier = Modifier,
     alternative: Boolean = false,
+    showName: Boolean = true,
+    iconSize: Dp = 34.dp
 ) {
     PlaylistItem(
         thumbnailContent = {
@@ -56,7 +58,7 @@ fun PlaylistItem(
                 colorFilter = ColorFilter.tint(colorTint),
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .size(34.dp)
+                    .size(iconSize)
             )
         },
         songCount = songCount,
@@ -64,7 +66,8 @@ fun PlaylistItem(
         channelName = null,
         thumbnailSizeDp = thumbnailSizeDp,
         modifier = modifier,
-        alternative = alternative
+        alternative = alternative,
+        showName = showName
     )
 }
 
