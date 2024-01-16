@@ -446,7 +446,8 @@ fun MediaItemMenu(
                 modifier = modifier
                     .onPlaced { height = with(density) { it.size.height.toDp() } }
             ) {
-                val thumbnailSizeDp = Dimensions.thumbnails.song
+                //val thumbnailSizeDp = Dimensions.thumbnails.song
+                val thumbnailSizeDp = Dimensions.thumbnails.playlist
                 val thumbnailSizePx = thumbnailSizeDp.px
 
                 Row(
@@ -505,7 +506,7 @@ fun MediaItemMenu(
                             },
                             modifier = Modifier
                                 .padding(all = 4.dp)
-                                .size(18.dp)
+                                .size(24.dp)
                         )
 
                         /*
@@ -524,7 +525,7 @@ fun MediaItemMenu(
                             onClick = onShare,
                             modifier = Modifier
                                 .padding(all = 4.dp)
-                                .size(17.dp)
+                                .size(24.dp)
                             )
 
                     }
