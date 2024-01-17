@@ -326,15 +326,15 @@ fun AppearanceSettings() {
         SettingsEntryGroupText(title = stringResource(R.string.background_player))
 
         SwitchSettingEntry(
-            title = stringResource(R.string.show_like_button),
-            text = stringResource(R.string.add_remove_like_to_song_from_lock_screen_and_notification_area),
+            title = stringResource(R.string.show_favorite_button),
+            text = stringResource(R.string.show_favorite_button_in_lock_screen_and_notification_area),
             isChecked = showLikeButtonBackgroundPlayer,
             onCheckedChange = { showLikeButtonBackgroundPlayer = it }
         )
         ImportantSettingsDescription(text = stringResource(R.string.restarting_rimusic_is_required))
         SwitchSettingEntry(
             title = stringResource(R.string.show_download_button),
-            text = stringResource(R.string.download_or_remove_downloaded_song_from_lock_screen_and_notification_area),
+            text = stringResource(R.string.show_download_button_in_lock_screen_and_notification_area),
             isChecked = showDownloadButtonBackgroundPlayer,
             onCheckedChange = { showDownloadButtonBackgroundPlayer = it }
         )

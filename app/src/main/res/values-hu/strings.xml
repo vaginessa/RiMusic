@@ -296,14 +296,17 @@
     <string name="hungarian">Magyar</string>
     <string name="korean">Koreai</string>
     <string name="background_player">"HÁTTÉR LEJÁTSZÓ "</string>
-    <string name="show_like_button">Tetszik gomb megjelenítése</string>
-    <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">A dal kedvelésének hozzáadása/eltávolítása a lezárási képernyőről és az értesítési felületről</string>
+    <string name="show_favorite_button">Show Favorite button</string>
+    <string name="show_favorite_button_in_lock_screen_and_notification_area">Show Favorite button in lock screen and notification area</string>
     <string name="show_download_button">Letöltés gomb megjelenítése</string>
-    <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">A letöltése gomb megjelenítése/elrejtése a lezárt képernyőről és az értesítési felületről</string>
+    <string name="show_download_button_in_lock_screen_and_notification_area">Show Download button in lock screen and notification area</string>
     <string name="by_most_played_song">A legtöbbet játszott dalok alapján</string>
     <string name="by_last_played_song">Utoljára lejátszott dalok alapján</string>
     <string name="audio_quality_automatic">Automatikus</string>
     <string name="statistics_songs_heard">songs heard</string>
     <string name="statistics_of_time_taken">of time taken</string>
     <string name="statistics_max_number_of_items">Max number of items</string>
+    <string name="arabic">Arabic</string>
+    <string name="chinese_simplified">Chinese Simplified</string>
+    <string name="chinese_traditional">Chinese Traditional</string>
 </resources>

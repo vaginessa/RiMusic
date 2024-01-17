@@ -296,14 +296,17 @@
     <string name="hungarian">Ungherese</string>
     <string name="korean">Coreano</string>
     <string name="background_player">"PLAYER IN SOTTOFONDO "</string>
-    <string name="show_like_button">Mostra pulsante Like</string>
-    <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">Aggiungi/Rimuovi come brano dalla schermata di blocco e dall\'area di notifica</string>
+    <string name="show_favorite_button">Show Favorite button</string>
+    <string name="show_favorite_button_in_lock_screen_and_notification_area">Show Favorite button in lock screen and notification area</string>
     <string name="show_download_button">Mostra pulsante Download</string>
-    <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">Scarica, o rimuovi i brani scaricati dalla schermata di blocco e dall\'area di notifica</string>
+    <string name="show_download_button_in_lock_screen_and_notification_area">Show Download button in lock screen and notification area</string>
     <string name="by_most_played_song">In base alla canzone più ascoltata</string>
     <string name="by_last_played_song">In base all\'ultimo brano ascoltato</string>
     <string name="audio_quality_automatic">Automatica</string>
     <string name="statistics_songs_heard">songs heard</string>
     <string name="statistics_of_time_taken">of time taken</string>
     <string name="statistics_max_number_of_items">Max number of items</string>
+    <string name="arabic">Arabic</string>
+    <string name="chinese_simplified">Chinese Simplified</string>
+    <string name="chinese_traditional">Chinese Traditional</string>
 </resources>
