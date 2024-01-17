@@ -461,7 +461,6 @@ fun MediaItemMenu(
                 modifier = modifier
                     .onPlaced { height = with(density) { it.size.height.toDp() } }
             ) {
-                //val thumbnailSizeDp = Dimensions.thumbnails.song
                 val thumbnailSizeDp = Dimensions.thumbnails.song + 20.dp
                 val thumbnailSizePx = thumbnailSizeDp.px
                 val thumbnailArtistSizeDp = Dimensions.thumbnails.song + 10.dp
