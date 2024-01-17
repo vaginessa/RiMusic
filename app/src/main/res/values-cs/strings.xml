@@ -296,17 +296,17 @@
     <string name="hungarian">Maďarština (Magyar)</string>
     <string name="korean">Korejština (한국어)</string>
     <string name="background_player">"PŘEHRÁVAČ NA POZADÍ "</string>
-    <string name="show_favorite_button">Show Favorite button</string>
-    <string name="show_favorite_button_in_lock_screen_and_notification_area">Show Favorite button in lock screen and notification area</string>
+    <string name="show_favorite_button">Zobrazit tlačítko Oblíbené</string>
+    <string name="show_favorite_button_in_lock_screen_and_notification_area">Zobrazit tlačítko Oblíbené na uzamčené obrazovce a v oznamovací oblasti</string>
     <string name="show_download_button">Zobrazit tlačítko Stáhnout</string>
-    <string name="show_download_button_in_lock_screen_and_notification_area">Show Download button in lock screen and notification area</string>
+    <string name="show_download_button_in_lock_screen_and_notification_area">Zobrazit tlačítko Stáhnout na uzamčené obrazovce a v oznamovací oblasti</string>
     <string name="by_most_played_song">Podle nejčastěji přehrávané skladby</string>
     <string name="by_last_played_song">Podle naposledy přehrávané skladby</string>
     <string name="audio_quality_automatic">Automaticky</string>
     <string name="statistics_songs_heard">poslechnuté skladby</string>
     <string name="statistics_of_time_taken">potřebného času</string>
     <string name="statistics_max_number_of_items">Maximální počet položek</string>
-    <string name="arabic">Arabic</string>
-    <string name="chinese_simplified">Chinese Simplified</string>
-    <string name="chinese_traditional">Chinese Traditional</string>
+    <string name="arabic">Arabština (العربية)</string>
+    <string name="chinese_simplified">Zjednodušená čínština (汉语)</string>
+    <string name="chinese_traditional">Tradiční čínština (漢語)</string>
 </resources>
