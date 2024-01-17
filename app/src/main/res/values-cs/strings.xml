@@ -294,11 +294,11 @@
     <string name="audio_quality_format">Kvalita zvuku</string>
     <string name="persian">Perština (فارسی)</string>
     <string name="hungarian">Maďarština (Magyar)</string>
-    <string name="korean">Korejština</string>
-    <string name="background_player">"BACKGROUND PLAYER "</string>
-    <string name="show_like_button">Show Like button</string>
+    <string name="korean">Korejština (한국어)</string>
+    <string name="background_player">"PŘEHRÁVAČ NA POZADÍ "</string>
+    <string name="show_like_button">Zobrazit tlačítko To se mi líbí</string>
     <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">Add/Remove like to song from lock screen and notification area</string>
-    <string name="show_download_button">Show Download button</string>
+    <string name="show_download_button">Zobrazit tlačítko Stáhnout</string>
     <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">Download, or remove downloaded, song from lock screen and notification area</string>
     <string name="by_most_played_song">By Most played song</string>
     <string name="by_last_played_song">By Last played song</string>
