@@ -297,10 +297,10 @@ Saat cache kehabisan ruang kosong, lagu &amp; gambar yang sudah lama tidak diaks
     <string name="hungarian">Magyar</string>
     <string name="korean">한국어</string>
     <string name="background_player">"PEMUTAR LATAR BELAKANG "</string>
-    <string name="show_favorite_button">Show Favorite button</string>
-    <string name="show_favorite_button_in_lock_screen_and_notification_area">Show Favorite button in lock screen and notification area</string>
+    <string name="show_favorite_button">Tampilkan tombol Favorit</string>
+    <string name="show_favorite_button_in_lock_screen_and_notification_area">Tampilkan tombol Suka di dalam layar kunci dan notifikasi</string>
     <string name="show_download_button">Tampilkan tombol Unduh</string>
-    <string name="show_download_button_in_lock_screen_and_notification_area">Show Download button in lock screen and notification area</string>
+    <string name="show_download_button_in_lock_screen_and_notification_area">Tampilkan tombol Unduh di dalam layar kunci dan notifikasi</string>
     <string name="by_most_played_song">Dari lagu yang paling banyak diputar</string>
     <string name="by_last_played_song">Dari lagu yang terakhir kali diputar</string>
     <string name="audio_quality_automatic">Otomatis</string>
