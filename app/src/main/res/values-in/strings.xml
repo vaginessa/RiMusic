@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cancel">Batalkan</string>
+    <string name="cancel">Batal</string>
     <string name="done">Selesai</string>
     <string name="hidesong">Apakah anda yakin ingin menyembunyikan lagu ini? Waktu pemutaran dan cache dari lagu ini akan dihapus.\nTindakan ini tidak dapat diubah.</string>
     <string name="new_playlist">Daftar putar baru</string>

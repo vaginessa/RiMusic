@@ -306,4 +306,7 @@
     <string name="by_most_played_song">ସର୍ବାଧିକ ବଜାଯାଇଥିବା ଗୀତ ଦ୍ୱାରା</string>
     <string name="by_last_played_song">ଅନ୍ତିମ ଗୀତ ଦ୍ୱାରା</string>
     <string name="audio_quality_automatic">ସ୍ୱୟଂଚାଳିତ</string>
+    <string name="statistics_songs_heard">songs heard</string>
+    <string name="statistics_of_time_taken">of time taken</string>
+    <string name="statistics_max_number_of_items">Max number of items</string>
 </resources>
