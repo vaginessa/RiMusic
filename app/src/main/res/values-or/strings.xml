@@ -292,6 +292,9 @@
     <string name="disable_scrolling_text">ସ୍କ୍ରୋଲିଂ ପାଠ୍ୟକୁ ନିଷ୍କ୍ରିୟ କରନ୍ତୁ</string>
     <string name="scrolling_text_is_used_for_long_texts">ଦୀର୍ଘ ପାଠ୍ୟଗୁଡ଼ିକ ପାଇଁ ସ୍କ୍ରୋଲିଂ ପାଠ୍ୟ ବ୍ୟବହୃତ ହୁଏ</string>
     <string name="audio_quality_format">ଧ୍ୱନି ଗୁଣବତ୍ତା ଶୈଳୀ</string>
+    <string name="statistics_songs_heard">songs heard</string>
+    <string name="statistics_of_time_taken">of time taken</string>
+    <string name="statistics_max_number_of_items">Max number of items</string>
     <string name="persian">ପାର୍ସୀ</string>
     <string name="hungarian">ହଙ୍ଗେରୀ</string>
     <string name="korean">କୋରିଆନ୍</string>

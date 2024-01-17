@@ -65,11 +65,11 @@ fun SettingsScreen() {
                 tabColumnContent = { Item ->
                     Item(0, stringResource(R.string.ui_tab), R.drawable.app_icon)
                     Item(1, stringResource(R.string.appearance), R.drawable.color_palette)
-                    //Item(2, stringResource(R.string.player), R.drawable.app_icon)
-                    Item(2, stringResource(R.string.cache), R.drawable.sync)
-                    Item(3, stringResource(R.string.database), R.drawable.server)
-                    Item(4, stringResource(R.string.other), R.drawable.equalizer)
-                    Item(5, stringResource(R.string.about), R.drawable.information)
+                    Item(2, stringResource(R.string.quick_picks), R.drawable.app_icon)
+                    Item(3, stringResource(R.string.cache), R.drawable.sync)
+                    Item(4, stringResource(R.string.database), R.drawable.server)
+                    Item(5, stringResource(R.string.other), R.drawable.equalizer)
+                    Item(6, stringResource(R.string.about), R.drawable.information)
 
                 }
             ) { currentTabIndex ->
@@ -77,11 +77,11 @@ fun SettingsScreen() {
                     when (currentTabIndex) {
                         0 -> UiSettings()
                         1 -> AppearanceSettings()
-                        //2 -> PlayerSettings()
-                        2 -> CacheSettings()
-                        3 -> DatabaseSettings()
-                        4 -> OtherSettings()
-                        5 -> About()
+                        2 -> QuickPicsSettings()
+                        3 -> CacheSettings()
+                        4 -> DatabaseSettings()
+                        5 -> OtherSettings()
+                        6 -> About()
 
                     }
                 }

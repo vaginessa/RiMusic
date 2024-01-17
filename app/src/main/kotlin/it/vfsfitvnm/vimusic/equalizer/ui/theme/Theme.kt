@@ -1,7 +1,5 @@
 package it.vfsfitvnm.vimusic.equalizer.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.Composable
 //import it.vfsfitvnm.vimusic.equalizer.ui.theme.Shapes
 /*
 private val DarkColorPalette = darkColors(

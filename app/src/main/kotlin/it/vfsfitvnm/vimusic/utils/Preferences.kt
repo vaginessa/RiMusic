@@ -7,9 +7,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SnapshotMutationPolicy
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.edit
+
 const val lastPlayerThumbnailSizeKey = "lastPlayerThumbnailSize"
 const val lastPlayerPlayButtonTypeKey = "lastPlayerPlayButtonType"
 const val lastPlayerTimelineTypeKey = "lastPlayerTimelineType"
@@ -68,6 +68,13 @@ const val showDownloadButtonBackgroundPlayerKey = "showDownloadButtonBackgroundP
 const val playEventsTypeKey = "playEventsType"
 const val fontTypeKey = "fontType"
 const val playlistSongSortByKey = "playlistSongSortBy"
+const val showRelatedAlbumsKey = "showRelatedAlbums"
+const val showSimilarArtistsKey = "showSimilarArtists"
+const val showNewAlbumsArtistsKey = "showNewAlbumsArtists"
+const val showPlaylistMightLikeKey = "showPlaylistMightLike"
+const val maxStatisticsItemsKey = "maxStatisticsItems"
+const val showStatsListeningTimeKey = "showStatsListeningTime"
+
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,

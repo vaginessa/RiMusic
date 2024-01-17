@@ -6,7 +6,6 @@ import android.content.Intent
 import android.media.audiofx.AudioEffect
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
@@ -14,10 +13,6 @@ import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,7 +32,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -333,7 +327,12 @@ fun Controls(
                 IconButton(
                     icon = if (artistIds?.isEmpty() == true) R.drawable.alert_circle_not_filled else R.drawable.artists,
                     color = if (artistIds?.isEmpty() == true) colorPalette.textDisabled else colorPalette.text,
-                    onClick = { if (artistIds?.isNotEmpty() == true) showSelectDialog = true },
+                    onClick = {
+                        if (artistIds?.isNotEmpty() == true && artistIds.size > 1)
+                            showSelectDialog = true
+                        if (artistIds?.isNotEmpty() == true && artistIds.size == 1)
+                            onGoToArtist( artistIds[0].id )
+                    },
                     modifier = Modifier
                         .size(20.dp)
                         .padding(start = 6.dp)
@@ -354,13 +353,10 @@ fun Controls(
                     fontSize = typography.s.bold.fontSize
                 ),
                 onClick = {
-                    if (artistIds?.isNotEmpty() == true)
-                    showSelectDialog = true
-                    /*
-                    if (artistIds?.isEmpty() == false) onGoToArtist(
-                        artistIds?.get(0).toString()
-                    )
-                     */
+                    if (artistIds?.isNotEmpty() == true && artistIds.size > 1)
+                        showSelectDialog = true
+                    if (artistIds?.isNotEmpty() == true && artistIds.size == 1)
+                        onGoToArtist( artistIds[0].id )
                 }
             ) } else {
         BasicText(
@@ -373,8 +369,10 @@ fun Controls(
             maxLines = 1,
             modifier = Modifier
                 .clickable {
-                    if (artistIds?.isNotEmpty() == true)
-                    showSelectDialog = true
+                    if (artistIds?.isNotEmpty() == true && artistIds.size > 1)
+                        showSelectDialog = true
+                    if (artistIds?.isNotEmpty() == true && artistIds.size == 1)
+                        onGoToArtist( artistIds[0].id )
                 }
         )}
 

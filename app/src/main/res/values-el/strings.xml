@@ -57,7 +57,7 @@
     <string name="online">Συνδεδεμένο</string>
     <string name="no_results_found">Δεν βρέθηκαν αποτελέσματα. Δοκιμάστε διαφορετικές λέξεις-κλειδιά ή κατηγορίες</string>
     <string name="videos">Βίντεο</string>
-    <string name="featured">﻿Προτεινόμενα</string>
+    <string name="featured">Προτεινόμενα</string>
     <string name="view_the_source_code">Προβολή Πηγαίου Κώδικα</string>
     <string name="report_an_issue">Αναφορά προβλήματος</string>
     <string name="you_will_be_redirected_to_github">Θα μεταφερθείτε στο GitHub</string>
@@ -303,4 +303,7 @@
     <string name="by_most_played_song">By Most played song</string>
     <string name="by_last_played_song">By Last played song</string>
     <string name="audio_quality_automatic">Automatic</string>
+    <string name="statistics_songs_heard">songs heard</string>
+    <string name="statistics_of_time_taken">of time taken</string>
+    <string name="statistics_max_number_of_items">Max number of items</string>
 </resources>

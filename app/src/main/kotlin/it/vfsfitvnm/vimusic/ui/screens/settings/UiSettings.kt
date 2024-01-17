@@ -36,6 +36,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
 import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
 import it.vfsfitvnm.vimusic.enums.Languages
+import it.vfsfitvnm.vimusic.enums.MaxStatisticsItems
 import it.vfsfitvnm.vimusic.enums.PlayEventsType
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
@@ -48,10 +49,12 @@ import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isAvailableUpdate
 import it.vfsfitvnm.vimusic.utils.languageAppKey
+import it.vfsfitvnm.vimusic.utils.maxStatisticsItemsKey
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
 import it.vfsfitvnm.vimusic.utils.playEventsTypeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.resumePlaybackWhenDeviceConnectedKey
+import it.vfsfitvnm.vimusic.utils.showStatsListeningTimeKey
 import it.vfsfitvnm.vimusic.utils.skipSilenceKey
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.toast
@@ -98,10 +101,12 @@ fun  UiSettings() {
     )
     val uriHandler = LocalUriHandler.current
 
-    var playEventType by rememberPreference(
-        playEventsTypeKey,
-        PlayEventsType.MostPlayed
+    var maxStatisticsItems by rememberPreference(
+        maxStatisticsItemsKey,
+        MaxStatisticsItems.`10`
     )
+
+    var showStatsListeningTime by rememberPreference(showStatsListeningTimeKey,   true)
 
     Column(
         modifier = Modifier
@@ -227,6 +232,7 @@ fun  UiSettings() {
         )
         SettingsDescription(text = stringResource(R.string.is_min_list_time_for_tips_or_quick_pics))
 
+        /*
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.tips),
             selectedValue = playEventType,
@@ -238,7 +244,7 @@ fun  UiSettings() {
                 }
             }
         )
-
+        */
 
         SwitchSettingEntry(
             title = stringResource(R.string.persistent_queue),
@@ -318,7 +324,28 @@ fun  UiSettings() {
         )
 
 
+        SettingsGroupSpacer()
+        SettingsEntryGroupText(stringResource(R.string.statistics))
 
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.statistics_max_number_of_items),
+            selectedValue = maxStatisticsItems,
+            onValueSelected = { maxStatisticsItems = it },
+            valueText = {
+                it.number.toString()
+            }
+        )
+
+        SwitchSettingEntry(
+            title = "Listening time",
+            text = "Shows the number of songs heard and their listening time",
+            isChecked = showStatsListeningTime,
+            onCheckedChange = {
+                showStatsListeningTime = it
+            }
+        )
+
+        SettingsGroupSpacer()
 
     }
 }

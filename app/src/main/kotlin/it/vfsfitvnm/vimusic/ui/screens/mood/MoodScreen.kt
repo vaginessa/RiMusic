@@ -10,7 +10,6 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.routing.RouteHandler
-import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Mood
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold

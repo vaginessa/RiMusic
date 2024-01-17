@@ -94,6 +94,10 @@ import it.vfsfitvnm.vimusic.utils.playEventsTypeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
+import it.vfsfitvnm.vimusic.utils.showNewAlbumsArtistsKey
+import it.vfsfitvnm.vimusic.utils.showPlaylistMightLikeKey
+import it.vfsfitvnm.vimusic.utils.showRelatedAlbumsKey
+import it.vfsfitvnm.vimusic.utils.showSimilarArtistsKey
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 @ExperimentalTextApi
@@ -129,6 +133,12 @@ fun QuickPicks(
     }
 
     val context = LocalContext.current
+
+    var showRelatedAlbums by rememberPreference(showRelatedAlbumsKey, true)
+    var showSimilarArtists by rememberPreference(showSimilarArtistsKey, true)
+    var showNewAlbumsArtists by rememberPreference(showNewAlbumsArtistsKey, true)
+    var showPlaylistMightLike by rememberPreference(showPlaylistMightLikeKey, true)
+
 
     LaunchedEffect(Unit) {
         when (playEventType) {
@@ -425,48 +435,7 @@ fun QuickPicks(
                     }
                 }
 
-                discoverPageAlbums?.getOrNull()?.let { page ->
-                    var newReleaseAlbumsFiltered by persistList<Innertube.AlbumItem>("discovery/newalbumsartist")
-                        page.newReleaseAlbums.forEach { album ->
-                            preferitesArtists.forEach { artist ->
-                                if (artist.name == album.authors?.first()?.name) {
-                                    newReleaseAlbumsFiltered += album
-                                    //Log.d("mediaItem","artst ok")
-                                }
-                            }
-                        }
-
-                    //Log.d("mediaItem",newReleaseAlbumsFiltered.distinct().toString())
-
-                    if ( newReleaseAlbumsFiltered.distinct().isNotEmpty() && preferitesArtists.isNotEmpty() ) {
-                        BasicText(
-                            text = stringResource(R.string.new_albums_of_your_artists),
-                            style = typography.m.semiBold,
-                            modifier = sectionTextModifier
-                        )
-
-                        LazyRow(contentPadding = endPaddingValues) {
-                            items(items = newReleaseAlbumsFiltered.distinct(), key = { it.key }) {
-                                //preferitesArtists.forEach { artist ->
-                                //    if (artist.name == it.authors?.first()?.name)
-                                        AlbumItem(
-                                            album = it,
-                                            thumbnailSizePx = albumThumbnailSizePx,
-                                            thumbnailSizeDp = albumThumbnailSizeDp,
-                                            alternative = true,
-                                            modifier = Modifier.clickable(onClick = {
-                                                onAlbumClick( it.key )
-                                            })
-                                        )
-                                //}
-
-                            }
-                        }
-
-                    }
-                }
-
-
+                if (showRelatedAlbums)
                 related.albums?.let { albums ->
                     BasicText(
                         text = stringResource(R.string.related_albums),
@@ -491,6 +460,7 @@ fun QuickPicks(
                     }
                 }
 
+                if (showSimilarArtists)
                 related.artists?.let { artists ->
                     BasicText(
                         text = stringResource(R.string.similar_artists),
@@ -515,6 +485,49 @@ fun QuickPicks(
                     }
                 }
 
+                if (showNewAlbumsArtists)
+                discoverPageAlbums?.getOrNull()?.let { page ->
+                    var newReleaseAlbumsFiltered by persistList<Innertube.AlbumItem>("discovery/newalbumsartist")
+                    page.newReleaseAlbums.forEach { album ->
+                        preferitesArtists.forEach { artist ->
+                            if (artist.name == album.authors?.first()?.name) {
+                                newReleaseAlbumsFiltered += album
+                                //Log.d("mediaItem","artst ok")
+                            }
+                        }
+                    }
+
+                    //Log.d("mediaItem",newReleaseAlbumsFiltered.distinct().toString())
+
+                    if ( newReleaseAlbumsFiltered.distinct().isNotEmpty() && preferitesArtists.isNotEmpty() ) {
+                        BasicText(
+                            text = stringResource(R.string.new_albums_of_your_artists),
+                            style = typography.m.semiBold,
+                            modifier = sectionTextModifier
+                        )
+
+                        LazyRow(contentPadding = endPaddingValues) {
+                            items(items = newReleaseAlbumsFiltered.distinct(), key = { it.key }) {
+                                //preferitesArtists.forEach { artist ->
+                                //    if (artist.name == it.authors?.first()?.name)
+                                AlbumItem(
+                                    album = it,
+                                    thumbnailSizePx = albumThumbnailSizePx,
+                                    thumbnailSizeDp = albumThumbnailSizeDp,
+                                    alternative = true,
+                                    modifier = Modifier.clickable(onClick = {
+                                        onAlbumClick( it.key )
+                                    })
+                                )
+                                //}
+
+                            }
+                        }
+
+                    }
+                }
+
+                if (showPlaylistMightLike)
                 related.playlists?.let { playlists ->
                     BasicText(
                         text = stringResource(R.string.playlists_you_might_like),

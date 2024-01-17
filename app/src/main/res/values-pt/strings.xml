@@ -294,6 +294,9 @@
     <string name="audio_quality_format">Formato de qualidade de áudio</string>
     <string name="persian">Persa (فارسی)</string>
     <string name="hungarian">Hungarian (Magyar)</string>
+    <string name="statistics_songs_heard">songs heard</string>
+    <string name="statistics_of_time_taken">of time taken</string>
+    <string name="statistics_max_number_of_items">Max number of items</string>
     <string name="korean">Coreano (한국인)</string>
     <string name="background_player">"JOGADOR DE FUNDO "</string>
     <string name="show_like_button">Mostrar botão Curtir</string>

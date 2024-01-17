@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.media.audiofx.Visualizer
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 
 class VisualizerComputer {

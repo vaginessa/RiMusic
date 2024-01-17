@@ -1,10 +1,7 @@
 package it.vfsfitvnm.vimusic.service
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.content.Context
-import android.util.Log
-import androidx.media3.common.util.NotificationUtil
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.common.util.Util
 import androidx.media3.exoplayer.offline.Download

@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,19 +25,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
-import it.vfsfitvnm.vimusic.ui.styling.onOverlay
-import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
-import it.vfsfitvnm.vimusic.utils.color
-import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.thumbnail
-import it.vfsfitvnm.innertube.Innertube
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -53,6 +47,8 @@ fun PlaylistItem(
     thumbnailSizeDp: Dp,
     modifier: Modifier = Modifier,
     alternative: Boolean = false,
+    showName: Boolean = true,
+    iconSize: Dp = 34.dp
 ) {
     PlaylistItem(
         thumbnailContent = {
@@ -62,7 +58,7 @@ fun PlaylistItem(
                 colorFilter = ColorFilter.tint(colorTint),
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .size(34.dp)
+                    .size(iconSize)
             )
         },
         songCount = songCount,
@@ -70,7 +66,8 @@ fun PlaylistItem(
         channelName = null,
         thumbnailSizeDp = thumbnailSizeDp,
         modifier = modifier,
-        alternative = alternative
+        alternative = alternative,
+        showName = showName
     )
 }
 
@@ -81,6 +78,7 @@ fun PlaylistItem(
     thumbnailSizeDp: Dp,
     modifier: Modifier = Modifier,
     alternative: Boolean = false,
+    showName: Boolean = true
 ) {
     val thumbnails by remember {
         Database.playlistThumbnailUrls(playlist.playlist.id).distinctUntilChanged().map {
@@ -127,7 +125,8 @@ fun PlaylistItem(
         channelName = null,
         thumbnailSizeDp = thumbnailSizeDp,
         modifier = modifier,
-        alternative = alternative
+        alternative = alternative,
+        showName = showName
     )
 }
 
@@ -189,6 +188,7 @@ fun PlaylistItem(
     thumbnailSizeDp: Dp,
     modifier: Modifier = Modifier,
     alternative: Boolean = false,
+    showName: Boolean = true
 ) {
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
 
@@ -230,12 +230,13 @@ fun PlaylistItem(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            BasicText(
-                text = name ?: "",
-                style = typography.xs.semiBold,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
+            if (showName)
+                BasicText(
+                    text = name ?: "",
+                    style = typography.xs.semiBold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
 
             channelName?.let {
                 BasicText(

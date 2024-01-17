@@ -1,10 +1,5 @@
 package it.vfsfitvnm.vimusic.equalizer.audio
 
-import android.content.res.AssetManager
-import android.media.MediaPlayer
-import androidx.compose.runtime.MutableState
-import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
-
 class AudioPlayer {
 
 
