@@ -40,7 +40,6 @@ import java.util.Timer
 import kotlin.concurrent.timerTask
 import kotlin.time.Duration.Companion.minutes
 
-
 val Innertube.SongItem.asMediaItem: MediaItem
     @UnstableApi
     get() = MediaItem.Builder()
@@ -57,7 +56,8 @@ val Innertube.SongItem.asMediaItem: MediaItem
                     bundleOf(
                         "albumId" to album?.endpoint?.browseId,
                         "durationText" to durationText,
-                        "artistNames" to authors?.filter { it.endpoint != null }?.mapNotNull { it.name },
+                        "artistNames" to authors?.filter { it.endpoint != null }
+                            ?.mapNotNull { it.name },
                         "artistIds" to authors?.mapNotNull { it.endpoint?.browseId },
                     )
                 )
@@ -79,12 +79,13 @@ val Innertube.VideoItem.asMediaItem: MediaItem
                 .setExtras(
                     bundleOf(
                         "durationText" to durationText,
-                        "artistNames" to authors?.filter { it.endpoint != null }?.mapNotNull { it.name } ,
+                        "artistNames" to authors?.filter { it.endpoint != null }
+                            ?.mapNotNull { it.name },
                         "artistIds" to authors?.mapNotNull { it.endpoint?.browseId },
                         "isOfficialMusicVideo" to isOfficialMusicVideo,
                         "isUserGeneratedContent" to isUserGeneratedContent
-                       // "artistNames" to if (isOfficialMusicVideo) authors?.filter { it.endpoint != null }?.mapNotNull { it.name } else null,
-                       // "artistIds" to if (isOfficialMusicVideo) authors?.mapNotNull { it.endpoint?.browseId } else null,
+                        // "artistNames" to if (isOfficialMusicVideo) authors?.filter { it.endpoint != null }?.mapNotNull { it.name } else null,
+                        // "artistIds" to if (isOfficialMusicVideo) authors?.mapNotNull { it.endpoint?.browseId } else null,
                     )
                 )
                 .build()
@@ -152,11 +153,11 @@ fun Uri?.thumbnail(size: Int): Uri? {
 
 fun formatAsDuration(millis: Long) = DateUtils.formatElapsedTime(millis / 1000).removePrefix("0")
 fun durationToMillis(duration: String) = Duration.between(
-    LocalTime.MIN ,
+    LocalTime.MIN,
     LocalTime.parse(
-        if (duration.length==4) "0$duration"
-                     else if (duration.length<4) "00:00"
-                     else duration
+        if (duration.length == 4) "0$duration"
+        else if (duration.length < 4) "00:00"
+        else duration
     )
 ).toMillis()
 
@@ -176,20 +177,22 @@ fun formatAsTime(millis: Long): String {
     return "${timePart1} ${timePart2}s"
 }
 
-suspend fun Result<Innertube.PlaylistOrAlbumPage>.completed(maxDepth: Int = Int.MAX_VALUE): Result<Innertube.PlaylistOrAlbumPage>? {
+suspend fun Result<Innertube.PlaylistOrAlbumPage>.completed(
+    maxDepth: Int = Int.MAX_VALUE
+): Result<Innertube.PlaylistOrAlbumPage>? {
     var playlistPage = getOrNull() ?: return null
 
     var depth = 0
     while (playlistPage.songsPage?.continuation != null && depth++ < maxDepth) {
-        val continuation = playlistPage.songsPage?.continuation!!
-        val otherPlaylistPageResult =
-            Innertube.playlistPage(ContinuationBody(continuation = continuation)) ?: break
+        val newSongs = Innertube.playlistPage(
+            body = ContinuationBody(continuation = playlistPage.songsPage?.continuation!!)
+        )?.getOrNull()?.takeIf { result ->
+            result.items?.let { items ->
+                items.isNotEmpty() && playlistPage.songsPage?.items?.none { it in items } != false
+            } != false
+        } ?: break
 
-        if (otherPlaylistPageResult.isFailure) break
-
-        otherPlaylistPageResult.getOrNull()?.let { otherSongsPage ->
-            playlistPage = playlistPage.copy(songsPage = playlistPage.songsPage + otherSongsPage)
-        }
+        playlistPage = playlistPage.copy(songsPage = playlistPage.songsPage + newSongs)
     }
 
     return Result.success(playlistPage)
@@ -205,7 +208,6 @@ fun isAvailableUpdate(): String {
         //Log.d("updatedVersion","${file.readText().length} ${newVersion.length}")
     } else newVersion = ""
     return if (newVersion == BuildConfig.VERSION_NAME || newVersion == "") "" else newVersion
-
 }
 
 @Composable
@@ -235,8 +237,8 @@ fun checkInternetConnectionWithTimer(): Boolean {
 
 @Composable
 fun CheckInternetConnection(): Boolean {
-    var client = OkHttpClient()
-    var request = OkHttpRequest(client)
+    val client = OkHttpClient()
+    val request = OkHttpRequest(client)
     val coroutineScope = CoroutineScope(Dispatchers.Main)
     val url = "https://www.google.com/"
 
@@ -244,18 +246,17 @@ fun CheckInternetConnection(): Boolean {
         mutableStateOf("")
     }
 
-    request.GET(url, object: Callback {
+    request.GET(url, object : Callback {
         override fun onResponse(call: Call, response: Response) {
             val responseData = response.body?.string()
-             coroutineScope.launch{
+            coroutineScope.launch {
                 try {
-                     responseData.let { check = it.toString() }
+                    responseData.let { check = it.toString() }
                     //Log.d("CheckInternet",check.substring(0,5))
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
             }
-
         }
 
         override fun onFailure(call: Call, e: java.io.IOException) {
@@ -264,8 +265,7 @@ fun CheckInternetConnection(): Boolean {
     })
 
     //Log.d("CheckInternetRet",check)
-    return if (check.length>0) true else false
-
+    return check.isNotEmpty()
 }
 
 /*
@@ -303,4 +303,3 @@ inline val isAtLeastAndroid12
 
 inline val isAtLeastAndroid13
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-

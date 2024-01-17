@@ -22,8 +22,7 @@ import it.vfsfitvnm.vimusic.ui.screens.globalRoutes
 @Composable
 fun PlaylistScreen(
     browseId: String,
-    params: String?,
-    maxDepth: Int? = null
+    params: String?
 ) {
     val saveableStateHolder = rememberSaveableStateHolder()
     PersistMapCleanup(tagPrefix = "playlist/$browseId")
@@ -48,8 +47,7 @@ fun PlaylistScreen(
                     when (currentTabIndex) {
                         0 -> PlaylistSongList(
                             browseId = browseId,
-                            params = params,
-                            maxDepth = maxDepth
+                            params = params
                         )
                     }
                 }
