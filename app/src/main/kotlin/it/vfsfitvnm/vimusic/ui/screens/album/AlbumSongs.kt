@@ -268,11 +268,11 @@ fun AlbumSongs(
 
                             if (showAddPlaylistSelectDialog)
                                 SelectorDialog(
-                                    title = "Add in playlist",
+                                    title = stringResource(R.string.add_in_playlist),
                                     onDismiss = { showAddPlaylistSelectDialog = false },
                                     values = listOf(
-                                        Info("a", "Add all in playlist"),
-                                        Info("s", "Add selected in playlist")
+                                        Info("a", stringResource(R.string.add_all_in_playlist)),
+                                        Info("s", stringResource(R.string.add_selected_in_playlist))
                                     ),
                                     onValueSelected = {
                                         if (it == "a") {

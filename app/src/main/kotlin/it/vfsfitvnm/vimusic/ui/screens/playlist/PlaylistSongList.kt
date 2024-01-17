@@ -29,6 +29,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -62,8 +63,11 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
+import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
+import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
@@ -79,6 +83,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderPlaceholder
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.adaptiveThumbnailContent
 import it.vfsfitvnm.vimusic.ui.items.SongItem
@@ -175,6 +180,18 @@ fun PlaylistSongList(
         thumbnailRoundnessKey,
         ThumbnailRoundness.Heavy
     )
+
+    var showAddPlaylistSelectDialog by remember {
+        mutableStateOf(false)
+    }
+
+    val playlistPreviews by remember {
+        Database.playlistPreviews(PlaylistSortBy.Name, SortOrder.Ascending)
+    }.collectAsState(initial = emptyList(), context = Dispatchers.IO)
+
+    var showPlaylistSelectDialog by remember {
+        mutableStateOf(false)
+    }
 
     if (isImportingPlaylist) {
         TextFieldDialog(
@@ -326,8 +343,67 @@ fun PlaylistSongList(
                 HeaderIconButton(
                     icon = R.drawable.add,
                     color = colorPalette.text,
-                    onClick = { isImportingPlaylist = true }
+                    onClick = {
+                        showAddPlaylistSelectDialog = true
+                    }
                 )
+
+                if (showAddPlaylistSelectDialog)
+                    SelectorDialog(
+                        title = stringResource(R.string.add_in_playlist),
+                        onDismiss = { showAddPlaylistSelectDialog = false },
+                        values = listOf(
+                            Info("a", stringResource(R.string.import_playlist)),
+                            Info("s", stringResource(R.string.add_all_in_playlist))
+                        ),
+                        onValueSelected = {
+                            if (it == "a") {
+                                isImportingPlaylist = true
+                            } else showPlaylistSelectDialog = true
+
+                            showAddPlaylistSelectDialog = false
+                        }
+                    )
+
+                if (showPlaylistSelectDialog) {
+
+                    SelectorDialog(
+                        title = stringResource(R.string.playlists),
+                        onDismiss = { showPlaylistSelectDialog = false },
+                        values = playlistPreviews.map {
+                            Info(
+                                it.playlist.id.toString(),
+                                "${it.playlist.name} (${it.songCount})"
+                            )
+                        },
+                        onValueSelected = {
+                            var position = 0
+                            query {
+                                position =
+                                    Database.getSongMaxPositionToPlaylist(it.toLong())
+                                //Log.d("mediaItemMaxPos", position.toString())
+                            }
+                            if (position > 0) position++
+
+                                playlistPage!!.songsPage?.items?.forEachIndexed { position, song ->
+                                    //Log.d("mediaItemMaxPos", position.toString())
+                                    transaction {
+                                        Database.insert(song.asMediaItem)
+                                        Database.insert(
+                                            SongPlaylistMap(
+                                                songId = song.asMediaItem.mediaId,
+                                                playlistId = it.toLong(),
+                                                position = position
+                                            )
+                                        )
+                                    }
+                                    //Log.d("mediaItemPos", "add position $position")
+                                }
+
+                            showPlaylistSelectDialog = false
+                        }
+                    )
+                }
 
                 HeaderIconButton(
                     icon = R.drawable.share_social,
