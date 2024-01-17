@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cancel">Batalkan</string>
+    <string name="cancel">Batal</string>
     <string name="done">Selesai</string>
     <string name="hidesong">Apakah anda yakin ingin menyembunyikan lagu ini? Waktu pemutaran dan cache dari lagu ini akan dihapus.\nTindakan ini tidak dapat diubah.</string>
     <string name="new_playlist">Daftar putar baru</string>
@@ -304,4 +304,7 @@ Saat cache kehabisan ruang kosong, lagu &amp; gambar yang sudah lama tidak diaks
     <string name="by_most_played_song">Dari lagu yang paling banyak diputar</string>
     <string name="by_last_played_song">Dari lagu yang terakhir kali diputar</string>
     <string name="audio_quality_automatic">Otomatis</string>
+    <string name="statistics_songs_heard">songs heard</string>
+    <string name="statistics_of_time_taken">of time taken</string>
+    <string name="statistics_max_number_of_items">Max number of items</string>
 </resources>
