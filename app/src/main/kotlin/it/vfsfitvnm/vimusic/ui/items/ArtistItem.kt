@@ -91,7 +91,7 @@ fun ArtistItem(
                 .requiredSize(thumbnailSizeDp)
         )
 
-        if (showName)
+    if (showName)
         ItemInfoContainer(
             horizontalAlignment = if (alternative) Alignment.CenterHorizontally else Alignment.Start,
         ) {
