@@ -143,7 +143,9 @@ fun BuiltInPlaylistSongs(
     var showConfirmDeleteDownloadDialog by remember {
         mutableStateOf(false)
     }
-
+    var showConfirmDownloadAllDialog by remember {
+        mutableStateOf(false)
+    }
      LaunchedEffect(Unit, sortBy, sortOrder, filter) {
         when (builtInPlaylist) {
 
@@ -302,6 +304,17 @@ fun BuiltInPlaylistSongs(
                             icon = R.drawable.downloaded,
                             color = colorPalette.text,
                             onClick = {
+                                showConfirmDownloadAllDialog = true
+                            }
+                        )
+                    }
+
+                    if (showConfirmDownloadAllDialog) {
+                        ConfirmationDialog(
+                            text = stringResource(R.string.do_you_really_want_to_download_all),
+                            onDismiss = { showConfirmDownloadAllDialog = false },
+                            onConfirm = {
+                                showConfirmDownloadAllDialog = false
                                 downloadState = Download.STATE_DOWNLOADING
                                 if (songs.isNotEmpty() == true)
                                     songs.forEach {
@@ -316,6 +329,7 @@ fun BuiltInPlaylistSongs(
                             }
                         )
                     }
+
                     if (builtInPlaylist == BuiltInPlaylist.Favorites || builtInPlaylist == BuiltInPlaylist.Downloaded) {
                         HeaderIconButton(
                             icon = R.drawable.download,

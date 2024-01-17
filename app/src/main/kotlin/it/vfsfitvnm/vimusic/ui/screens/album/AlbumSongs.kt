@@ -109,6 +109,10 @@ fun AlbumSongs(
         mutableStateOf(false)
     }
 
+    var showConfirmDownloadAllDialog by remember {
+        mutableStateOf(false)
+    }
+
     val thumbnailSizeDp = Dimensions.thumbnails.song
 
     val lazyListState = rememberLazyListState()
@@ -155,30 +159,41 @@ fun AlbumSongs(
                                 icon = R.drawable.downloaded,
                                 color = colorPalette.text,
                                 onClick = {
-                                    downloadState = Download.STATE_DOWNLOADING
-                                    if (songs.isNotEmpty() == true)
-                                        songs.forEach {
-                                            binder?.cache?.removeResource(it.asMediaItem.mediaId)
-                                            query {
-                                                Database.insert(
-                                                    Song(
-                                                        id = it.asMediaItem.mediaId,
-                                                        title = it.asMediaItem.mediaMetadata.title.toString(),
-                                                        artistsText = it.asMediaItem.mediaMetadata.artist.toString(),
-                                                        thumbnailUrl = it.thumbnailUrl,
-                                                        durationText = null
-                                                    )
-                                                )
-                                            }
-                                            manageDownload(
-                                                context = context,
-                                                songId = it.asMediaItem.mediaId,
-                                                songTitle = it.asMediaItem.mediaMetadata.title.toString(),
-                                                downloadState = false
-                                            )
-                                        }
+                                    showConfirmDownloadAllDialog = true
                                 }
                             )
+
+                            if (showConfirmDownloadAllDialog) {
+                                ConfirmationDialog(
+                                    text = stringResource(R.string.do_you_really_want_to_download_all),
+                                    onDismiss = { showConfirmDownloadAllDialog = false },
+                                    onConfirm = {
+                                        showConfirmDownloadAllDialog = false
+                                        downloadState = Download.STATE_DOWNLOADING
+                                        if (songs.isNotEmpty() == true)
+                                            songs.forEach {
+                                                binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                                query {
+                                                    Database.insert(
+                                                        Song(
+                                                            id = it.asMediaItem.mediaId,
+                                                            title = it.asMediaItem.mediaMetadata.title.toString(),
+                                                            artistsText = it.asMediaItem.mediaMetadata.artist.toString(),
+                                                            thumbnailUrl = it.thumbnailUrl,
+                                                            durationText = null
+                                                        )
+                                                    )
+                                                }
+                                                manageDownload(
+                                                    context = context,
+                                                    songId = it.asMediaItem.mediaId,
+                                                    songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                                    downloadState = false
+                                                )
+                                            }
+                                    }
+                                )
+                            }
 
                             HeaderIconButton(
                                 icon = R.drawable.download,

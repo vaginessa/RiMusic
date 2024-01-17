@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
@@ -36,6 +37,7 @@ import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
+import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
@@ -107,6 +109,14 @@ fun ArtistLocalSongs(
 
     val lazyListState = rememberLazyListState()
 
+    var showConfirmDeleteDownloadDialog by remember {
+        mutableStateOf(false)
+    }
+
+    var showConfirmDownloadAllDialog by remember {
+        mutableStateOf(false)
+    }
+
     LayoutWithAdaptiveThumbnail(thumbnailContent = thumbnailContent) {
         Box {
             LazyColumn(
@@ -128,48 +138,70 @@ fun ArtistLocalSongs(
                                 icon = R.drawable.downloaded,
                                 color = colorPalette.text,
                                 onClick = {
-                                    downloadState = Download.STATE_DOWNLOADING
-                                    if (songs?.isNotEmpty() == true)
-                                        songs?.forEach {
-                                            binder?.cache?.removeResource(it.asMediaItem.mediaId)
-                                            query {
-                                                Database.insert(
-                                                    Song(
-                                                        id = it.asMediaItem.mediaId,
-                                                        title = it.asMediaItem.mediaMetadata.title.toString(),
-                                                        artistsText = it.asMediaItem.mediaMetadata.artist.toString(),
-                                                        thumbnailUrl = it.thumbnailUrl,
-                                                        durationText = null
-                                                    )
-                                                )
-                                            }
-                                            manageDownload(
-                                                context = context,
-                                                songId = it.asMediaItem.mediaId,
-                                                songTitle = it.asMediaItem.mediaMetadata.title.toString(),
-                                                downloadState = false
-                                            )
-                                        }
+                                    showConfirmDownloadAllDialog = true
                                 }
                             )
+
+                            if (showConfirmDownloadAllDialog) {
+                                ConfirmationDialog(
+                                    text = stringResource(R.string.do_you_really_want_to_download_all),
+                                    onDismiss = { showConfirmDownloadAllDialog = false },
+                                    onConfirm = {
+                                        showConfirmDownloadAllDialog = false
+                                        downloadState = Download.STATE_DOWNLOADING
+                                        if (songs?.isNotEmpty() == true)
+                                            songs?.forEach {
+                                                binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                                query {
+                                                    Database.insert(
+                                                        Song(
+                                                            id = it.asMediaItem.mediaId,
+                                                            title = it.asMediaItem.mediaMetadata.title.toString(),
+                                                            artistsText = it.asMediaItem.mediaMetadata.artist.toString(),
+                                                            thumbnailUrl = it.thumbnailUrl,
+                                                            durationText = null
+                                                        )
+                                                    )
+                                                }
+                                                manageDownload(
+                                                    context = context,
+                                                    songId = it.asMediaItem.mediaId,
+                                                    songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                                    downloadState = false
+                                                )
+                                            }
+                                    }
+                                )
+                            }
 
                             HeaderIconButton(
                                 icon = R.drawable.download,
                                 color = colorPalette.text,
                                 onClick = {
-                                    downloadState = Download.STATE_DOWNLOADING
-                                    if (songs?.isNotEmpty() == true)
-                                        songs?.forEach {
-                                            binder?.cache?.removeResource(it.asMediaItem.mediaId)
-                                            manageDownload(
-                                                context = context,
-                                                songId = it.asMediaItem.mediaId,
-                                                songTitle = it.asMediaItem.mediaMetadata.title.toString(),
-                                                downloadState = true
-                                            )
-                                        }
+                                    showConfirmDeleteDownloadDialog = true
                                 }
                             )
+
+                            if (showConfirmDeleteDownloadDialog) {
+                                ConfirmationDialog(
+                                    text = stringResource(R.string.do_you_really_want_to_delete_download),
+                                    onDismiss = { showConfirmDeleteDownloadDialog = false },
+                                    onConfirm = {
+                                        showConfirmDeleteDownloadDialog = false
+                                        downloadState = Download.STATE_DOWNLOADING
+                                        if (songs?.isNotEmpty() == true)
+                                            songs?.forEach {
+                                                binder?.cache?.removeResource(it.asMediaItem.mediaId)
+                                                manageDownload(
+                                                    context = context,
+                                                    songId = it.asMediaItem.mediaId,
+                                                    songTitle = it.asMediaItem.mediaMetadata.title.toString(),
+                                                    downloadState = true
+                                                )
+                                            }
+                                    }
+                                )
+                            }
 
                             HeaderIconButton(
                                 icon = R.drawable.enqueue,

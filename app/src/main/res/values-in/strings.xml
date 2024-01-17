@@ -310,4 +310,5 @@ Saat cache kehabisan ruang kosong, lagu &amp; gambar yang sudah lama tidak diaks
     <string name="arabic">Arabic</string>
     <string name="chinese_simplified">Chinese Simplified</string>
     <string name="chinese_traditional">Chinese Traditional</string>
+    <string name="do_you_really_want_to_download_all">Do you really want to download all?</string>
 </resources>
