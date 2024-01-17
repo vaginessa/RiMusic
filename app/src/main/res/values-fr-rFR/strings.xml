@@ -296,10 +296,10 @@
     <string name="hungarian">Hongrois (Magyar)</string>
     <string name="korean">Coréen (한국인)</string>
     <string name="background_player">"PLAYER D'ARRIÈRE PLAN"</string>
-    <string name="show_like_button">Afficher le bouton like</string>
-    <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">Add/Remove like to song from lock screen and notification area</string>
+    <string name="show_favorite_button">Show Favorite button</string>
+    <string name="show_favorite_button_in_lock_screen_and_notification_area">Show Favorite button in lock screen and notification area</string>
     <string name="show_download_button">Show Download button</string>
-    <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">Download, or remove downloaded, song from lock screen and notification area</string>
+    <string name="show_download_button_in_lock_screen_and_notification_area">Show Download button in lock screen and notification area</string>
     <string name="statistics_songs_heard">songs heard</string>
     <string name="statistics_of_time_taken">of time taken</string>
     <string name="statistics_max_number_of_items">Max number of items</string>

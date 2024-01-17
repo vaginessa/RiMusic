@@ -299,10 +299,10 @@
     <string name="hungarian">ହଙ୍ଗେରୀ</string>
     <string name="korean">କୋରିଆନ୍</string>
     <string name="background_player">"ପୃଷ୍ଠଭୂମି ଚାଳକ "</string>
-    <string name="show_like_button">ଗୋଟିଏ ପସନ୍ଦ ସ୍ୱିଚକୁ ଦର୍ଶାନ୍ତୁ</string>
-    <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">ଲକ ପରଦା ଏବଂ ବିଜ୍ଞପ୍ତି କ୍ଷେତ୍ରରୁ ଗୀତକୁ ଯୋଗ କରନ୍ତୁ/ଅପସାରଣ କରନ୍ତୁ</string>
+    <string name="show_favorite_button">Show Favorite button</string>
+    <string name="show_favorite_button_in_lock_screen_and_notification_area">Show Favorite button in lock screen and notification area</string>
     <string name="show_download_button">ଆହରଣ ବଟନ୍ ଦର୍ଶାନ୍ତୁ</string>
-    <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">ଲକ ପରଦା ଏବଂ ବିଜ୍ଞପ୍ତି କ୍ଷେତ୍ରରୁ ଆହରଣ, କିମ୍ବା ଆହରଣ, ଗୀତକୁ ଅପସାରଣ କରନ୍ତୁ</string>
+    <string name="show_download_button_in_lock_screen_and_notification_area">Show Download button in lock screen and notification area</string>
     <string name="by_most_played_song">ସର୍ବାଧିକ ବଜାଯାଇଥିବା ଗୀତ ଦ୍ୱାରା</string>
     <string name="by_last_played_song">ଅନ୍ତିମ ଗୀତ ଦ୍ୱାରା</string>
     <string name="audio_quality_automatic">ସ୍ୱୟଂଚାଳିତ</string>
