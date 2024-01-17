@@ -296,10 +296,10 @@
     <string name="hungarian">Maďarština (Magyar)</string>
     <string name="korean">Korejština (한국어)</string>
     <string name="background_player">"PŘEHRÁVAČ NA POZADÍ "</string>
-    <string name="show_like_button">Zobrazit tlačítko To se mi líbí</string>
-    <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">Přidat/odebrat tlačítko like u skladby ze zamykací obrazovky a oznamovací oblasti</string>
+    <string name="show_favorite_button">Show Favorite button</string>
+    <string name="show_favorite_button_in_lock_screen_and_notification_area">Show Favorite button in lock screen and notification area</string>
     <string name="show_download_button">Zobrazit tlačítko Stáhnout</string>
-    <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">Tlačítko Stáhnout nebo odstranit stahování u skladby na zamykací obrazovce a v oznamovací oblasti</string>
+    <string name="show_download_button_in_lock_screen_and_notification_area">Show Download button in lock screen and notification area</string>
     <string name="by_most_played_song">Podle nejčastěji přehrávané skladby</string>
     <string name="by_last_played_song">Podle naposledy přehrávané skladby</string>
     <string name="audio_quality_automatic">Automaticky</string>

@@ -296,10 +296,10 @@
     <string name="hungarian">Húngaro (Magyar)</string>
     <string name="korean">Coreano (한국어)</string>
     <string name="background_player">"REPRODUCTOR EN SEGUNDO PLANO "</string>
-    <string name="show_like_button">Mostrar el botón de favoritos</string>
-    <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">Añade o elimina una canción de favoritos desde la pantalla de bloqueo y el área de notificaciones</string>
+    <string name="show_favorite_button">Show Favorite button</string>
+    <string name="show_favorite_button_in_lock_screen_and_notification_area">Show Favorite button in lock screen and notification area</string>
     <string name="show_download_button">Mostrar el botón de descarga</string>
-    <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">Descarga o elimina la descarga de la canción desde la pantalla de bloqueo y el área de notificaciones</string>
+    <string name="show_download_button_in_lock_screen_and_notification_area">Show Download button in lock screen and notification area</string>
     <string name="by_most_played_song">Por la canción más reproducida</string>
     <string name="by_last_played_song">Por la última canción reproducida</string>
     <string name="audio_quality_automatic">Automática</string>

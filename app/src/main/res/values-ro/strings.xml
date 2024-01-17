@@ -296,10 +296,10 @@
     <string name="hungarian">Maghiară (Magyar)</string>
     <string name="korean">Coreeană (한국인)</string>
     <string name="background_player">"PLAYER DE FUNDAL "</string>
-    <string name="show_like_button">Arată butonul Like</string>
-    <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">Adaugă/Elimină Like-urile din ecranul de blocare și zona de notificare</string>
+    <string name="show_favorite_button">Show Favorite button</string>
+    <string name="show_favorite_button_in_lock_screen_and_notification_area">Show Favorite button in lock screen and notification area</string>
     <string name="show_download_button">Arată butonul de Descărcare</string>
-    <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">Descarcați/Stergeti muzicile pe ecranul de blocare si zona de notificare</string>
+    <string name="show_download_button_in_lock_screen_and_notification_area">Show Download button in lock screen and notification area</string>
     <string name="by_most_played_song">Cea mai ascultată melodie</string>
     <string name="by_last_played_song">Ultima melodie ascultată</string>
     <string name="audio_quality_automatic">Automatic</string>
