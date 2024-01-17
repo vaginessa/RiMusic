@@ -31,6 +31,7 @@ fun ArtistItem(
     thumbnailSizeDp: Dp,
     modifier: Modifier = Modifier,
     alternative: Boolean = false,
+    showName: Boolean = true
 ) {
     ArtistItem(
         thumbnailUrl = artist.thumbnailUrl,
@@ -39,7 +40,8 @@ fun ArtistItem(
         thumbnailSizePx = thumbnailSizePx,
         thumbnailSizeDp = thumbnailSizeDp,
         modifier = modifier,
-        alternative = alternative
+        alternative = alternative,
+        showName = showName
     )
 }
 
@@ -71,6 +73,7 @@ fun ArtistItem(
     thumbnailSizeDp: Dp,
     modifier: Modifier = Modifier,
     alternative: Boolean = false,
+    showName: Boolean = true
 ) {
     val (_, typography) = LocalAppearance.current
 
@@ -88,6 +91,7 @@ fun ArtistItem(
                 .requiredSize(thumbnailSizeDp)
         )
 
+        if (showName)
         ItemInfoContainer(
             horizontalAlignment = if (alternative) Alignment.CenterHorizontally else Alignment.Start,
         ) {

@@ -43,24 +43,27 @@ fun Innertube.SongItem.Companion.from(content: MusicShelfRenderer.Content): Inne
 fun Innertube.VideoItem.Companion.from(content: MusicShelfRenderer.Content): Innertube.VideoItem? {
     val (mainRuns, otherRuns) = content.runs
 
-    return Innertube.VideoItem(
-        info = mainRuns
-            .firstOrNull()
-            ?.let(Innertube::Info),
-        authors = otherRuns
-            .getOrNull(otherRuns.lastIndex - 2)
-            ?.map(Innertube::Info),
-        viewsText = otherRuns
-            .getOrNull(otherRuns.lastIndex - 1)
-            ?.firstOrNull()
-            ?.text,
-        durationText = otherRuns
-            .getOrNull(otherRuns.lastIndex)
-            ?.firstOrNull()
-            ?.text,
-        thumbnail = content
-            .thumbnail
-    ).takeIf { it.info?.endpoint?.videoId != null }
+    return runCatching {
+        Innertube.VideoItem(
+            info = mainRuns
+                .firstOrNull()
+                ?.let(Innertube::Info),
+            authors = otherRuns
+                .getOrNull(otherRuns.lastIndex - 2)
+                ?.map(Innertube::Info),
+            viewsText = otherRuns
+                .getOrNull(otherRuns.lastIndex - 1)
+                ?.firstOrNull()
+                ?.text,
+            durationText = otherRuns
+                .getOrNull(otherRuns.lastIndex)
+                ?.firstOrNull()
+                ?.text,
+            thumbnail = content
+                .thumbnail
+        ).takeIf { it.info?.endpoint?.videoId != null }
+    }.getOrNull()
+
 }
 
 fun Innertube.AlbumItem.Companion.from(content: MusicShelfRenderer.Content): Innertube.AlbumItem? {

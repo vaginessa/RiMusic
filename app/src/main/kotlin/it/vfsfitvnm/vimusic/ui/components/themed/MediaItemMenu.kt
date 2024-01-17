@@ -10,8 +10,10 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.with
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -49,14 +52,17 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
+import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
+import it.vfsfitvnm.vimusic.models.Artist
 import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.Song
@@ -64,6 +70,7 @@ import it.vfsfitvnm.vimusic.models.SongPlaylistMap
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.transaction
+import it.vfsfitvnm.vimusic.ui.items.ArtistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
@@ -347,15 +354,28 @@ fun MediaItemMenu(
 
     downloadState = getDownloadState(mediaItem.mediaId)
     val isDownloaded = if (!isLocal) downloadedStateMedia(mediaItem.mediaId) else true
+    var artistsList by persistList<Artist?>("home/artists")
+    var artistIds = remember { mutableListOf("") }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(Unit, mediaItem.mediaId) {
         withContext(Dispatchers.IO) {
-            if (albumInfo == null) albumInfo = Database.songAlbumInfo(mediaItem.mediaId)
-            if (artistsInfo == null) artistsInfo = Database.songArtistInfo(mediaItem.mediaId)
+            //if (albumInfo == null)
+                albumInfo = Database.songAlbumInfo(mediaItem.mediaId)
+            //if (artistsInfo == null)
+                artistsInfo = Database.songArtistInfo(mediaItem.mediaId)
+
+            artistsInfo?.forEach { info ->
+                if (info.id.isNotEmpty()) artistIds.add(info.id)
+            }
+            Database.getArtistsList(artistIds).collect { artistsList = it }
 
             Database.likedAt(mediaItem.mediaId).collect { likedAt = it }
         }
     }
+
+    Log.d("mediaItem","artistsInfo $artistsInfo")
+    Log.d("mediaItem","artistsIds $artistIds")
+    Log.d("mediaItem","artistsList $artistsList")
 
     var showCircularSlider by remember {
         mutableStateOf(false)
@@ -447,14 +467,17 @@ fun MediaItemMenu(
                     .onPlaced { height = with(density) { it.size.height.toDp() } }
             ) {
                 //val thumbnailSizeDp = Dimensions.thumbnails.song
-                val thumbnailSizeDp = Dimensions.thumbnails.playlist
+                val thumbnailSizeDp = Dimensions.thumbnails.song+20.dp
                 val thumbnailSizePx = thumbnailSizeDp.px
+                val thumbnailArtistSizeDp = Dimensions.thumbnails.song
+                val thumbnailArtistSizePx = thumbnailArtistSizeDp.px
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .padding(end = 12.dp)
                 ) {
+
                     SongItem(
                         thumbnailUrl = mediaItem.mediaMetadata.artworkUri.thumbnail(thumbnailSizePx)
                             ?.toString(),
@@ -489,6 +512,7 @@ fun MediaItemMenu(
                             .weight(1f)
                     )
 
+
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         IconButton(
                             icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
@@ -509,16 +533,6 @@ fun MediaItemMenu(
                                 .size(24.dp)
                         )
 
-                        /*
-                        IconButton(
-                            icon = R.drawable.share_social,
-                            color = colorPalette.text,
-                            onClick = onShare,
-                            modifier = Modifier
-                                .padding(all = 4.dp)
-                                .size(17.dp)
-                        )
-                         */
                         if (!isLocal) IconButton(
                             icon = R.drawable.share_social,
                             color = colorPalette.text,
@@ -529,7 +543,35 @@ fun MediaItemMenu(
                             )
 
                     }
+
                 }
+
+
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .padding(start = 12.dp ,end = 12.dp)
+                            .fillMaxWidth()
+                            //.border(BorderStroke(1.dp, Color.Red))
+                            .background(colorPalette.background1)
+                    ) {
+                        artistsList.forEach { artist ->
+                            if (artist != null) {
+                                ArtistItem(
+                                    artist = artist,
+                                    showName = false,
+                                    thumbnailSizePx = thumbnailArtistSizePx,
+                                    thumbnailSizeDp = thumbnailArtistSizeDp,
+                                    alternative = true,
+                                    modifier = Modifier
+                                    // .clickable(onClick = { onArtistClick(artist) })
+                                )
+                            }
+                        }
+                    }
+
+
 
                 Spacer(
                     modifier = Modifier

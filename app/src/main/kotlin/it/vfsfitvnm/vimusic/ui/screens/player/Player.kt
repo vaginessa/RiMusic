@@ -64,6 +64,7 @@ import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import coil.compose.AsyncImage
+import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.compose.routing.OnGlobalRoute
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
@@ -72,6 +73,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.PlayerVisualizerType
 import it.vfsfitvnm.vimusic.enums.UiType
+import it.vfsfitvnm.vimusic.models.Artist
 import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.models.ui.toUiMedia
 import it.vfsfitvnm.vimusic.service.PlayerService
@@ -209,8 +211,6 @@ fun Player(
         )
     }
 
-
-
     LaunchedEffect(mediaItem.mediaId) {
         withContext(Dispatchers.IO) {
             //if (albumInfo == null)
@@ -218,7 +218,6 @@ fun Player(
             //if (artistsInfo == null)
                 artistsInfo = Database.songArtistInfo(mediaItem.mediaId)
         }
-
     }
 
 
@@ -251,6 +250,7 @@ fun Player(
             }
         }
     }
+
 
     /*
     //Log.d("mediaItem_pl_mediaId",mediaItem.mediaId)
@@ -584,7 +584,7 @@ fun Player(
                             },
 
                             onDragEnd = {
-                                if(!disablePlayerHorizontalSwipe) {
+                                if (!disablePlayerHorizontalSwipe) {
                                     if (deltaX > 0) binder.player.seekToPreviousMediaItem() //binder.player.forceSeekToPrevious()
                                     else binder.player.forceSeekToNext()
                                     //Log.d("mediaItemGesture","ondrag end offsetX${offsetX} deltaX ${deltaX}")

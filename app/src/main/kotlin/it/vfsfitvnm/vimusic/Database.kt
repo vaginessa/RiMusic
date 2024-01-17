@@ -63,6 +63,12 @@ import kotlinx.coroutines.flow.Flow
 interface Database {
     companion object : Database by DatabaseInitializer.Instance.database
 
+
+    @Transaction
+    @Query("SELECT * FROM Artist WHERE id in (:idsList)")
+    @RewriteQueriesToDropUnusedColumns
+    fun getArtistsList(idsList: List<String>): Flow<List<Artist?>>
+
     @Transaction
     @Query("SELECT * FROM Song WHERE id in (:idsList) ")
     @RewriteQueriesToDropUnusedColumns

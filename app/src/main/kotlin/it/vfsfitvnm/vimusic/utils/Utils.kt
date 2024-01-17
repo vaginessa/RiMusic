@@ -182,11 +182,15 @@ suspend fun Result<Innertube.PlaylistOrAlbumPage>.completed(
 ): Result<Innertube.PlaylistOrAlbumPage>? {
     var playlistPage = getOrNull() ?: return null
 
+    //playlistPage.songsPage?.continuation?.let { Log.d("mediaItem", it) }
+
     var depth = 0
     while (playlistPage.songsPage?.continuation != null && depth++ < maxDepth) {
+        //Log.d("mediaItemDepth","depth $depth")
         val newSongs = Innertube.playlistPage(
             body = ContinuationBody(continuation = playlistPage.songsPage?.continuation!!)
         )?.getOrNull()?.takeIf { result ->
+            //Log.d("mediaItemResult","result items ${result.items?.size}")
             result.items?.let { items ->
                 items.isNotEmpty() && playlistPage.songsPage?.items?.none { it in items } != false
             } != false
