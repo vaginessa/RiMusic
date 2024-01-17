@@ -303,7 +303,7 @@
     <string name="by_most_played_song">En çok oynatılan şarkıya göre</string>
     <string name="by_last_played_song">En son oynatılan şarkıya göre</string>
     <string name="audio_quality_automatic">Otomatik</string>
-    <string name="statistics_songs_heard">songs heard</string>
-    <string name="statistics_of_time_taken">of time taken</string>
-    <string name="statistics_max_number_of_items">Max number of items</string>
+    <string name="statistics_songs_heard">şarkı dinlendi</string>
+    <string name="statistics_of_time_taken">süre aldı</string>
+    <string name="statistics_max_number_of_items">Maksimum öğe sayısı</string>
 </resources>
