@@ -230,18 +230,17 @@ fun Player(
 
     var artistIds = arrayListOf<String>()
     var artistNames = arrayListOf<String>()
-    //var artistsList = listOf<String>()
+
 
     artistsInfo?.forEach { (id) -> artistIds = arrayListOf(id) }
     if (ExistIdsExtras.equals(0).not()) mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.toCollection(artistIds)
 
     artistsInfo?.forEach { (name) -> artistNames = arrayListOf(name) }
     if (ExistIdsExtras.equals(0).not()) mediaItem.mediaMetadata.extras?.getStringArrayList("artistNames")?.toCollection(artistNames)
-    //if (ExistIdsExtras.equals(0).not()) mediaItem.mediaMetadata.extras?.getStringArrayList("artistIds")?.toCollection(artistIds)
 
-    //Log.d("mediaItem_player","artistsInfo?.isEmpty() ${artistsInfo?.isEmpty()} ExistIdsExtras.equals(0).not() ${ExistIdsExtras.equals(0).not()} ")
+
+
     if (artistsInfo?.isEmpty() == true && ExistIdsExtras.equals(0).not()) {
-        //Log.d("mediaItem_player","update artistsInfo with "+artistIds.toString()+" and "+artistNames.toString() )
         artistsInfo = artistNames.let { artistNames ->
             artistIds.let { artistIds ->
                 artistNames.zip(artistIds).map {

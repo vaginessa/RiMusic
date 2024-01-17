@@ -248,7 +248,6 @@ fun BaseMediaItemMenu(
         onEnqueue = onEnqueue,
         onDownload = onDownload,
         onAddToPlaylist = { playlist, position ->
-            //Log.d("mediaitemPosition","add in $playlist at $position")
             transaction {
                 Database.insert(mediaItem)
                 Database.insert(
@@ -372,10 +371,6 @@ fun MediaItemMenu(
             Database.likedAt(mediaItem.mediaId).collect { likedAt = it }
         }
     }
-
-    Log.d("mediaItem","artistsInfo $artistsInfo")
-    Log.d("mediaItem","artistsIds $artistIds")
-    Log.d("mediaItem","artistsList $artistsList")
 
     var showCircularSlider by remember {
         mutableStateOf(false)
