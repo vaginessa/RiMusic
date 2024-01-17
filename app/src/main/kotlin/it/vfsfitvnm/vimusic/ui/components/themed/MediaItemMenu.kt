@@ -10,10 +10,8 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.with
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,7 +39,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -52,7 +49,6 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
-import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persistList
@@ -133,6 +129,7 @@ fun InHistoryMediaItemMenu(
         modifier = modifier
     )
 }
+
 @ExperimentalTextApi
 @UnstableApi
 @ExperimentalAnimationApi
@@ -156,6 +153,7 @@ fun InPlaylistMediaItemMenu(
         modifier = modifier
     )
 }
+
 @ExperimentalTextApi
 @UnstableApi
 @ExperimentalAnimationApi
@@ -193,6 +191,7 @@ fun NonQueuedMediaItemMenu(
         modifier = modifier
     )
 }
+
 @ExperimentalTextApi
 @UnstableApi
 @ExperimentalAnimationApi
@@ -280,6 +279,7 @@ fun BaseMediaItemMenu(
         modifier = modifier
     )
 }
+
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
 @UnstableApi
@@ -359,9 +359,9 @@ fun MediaItemMenu(
     LaunchedEffect(Unit, mediaItem.mediaId) {
         withContext(Dispatchers.IO) {
             //if (albumInfo == null)
-                albumInfo = Database.songAlbumInfo(mediaItem.mediaId)
+            albumInfo = Database.songAlbumInfo(mediaItem.mediaId)
             //if (artistsInfo == null)
-                artistsInfo = Database.songArtistInfo(mediaItem.mediaId)
+            artistsInfo = Database.songArtistInfo(mediaItem.mediaId)
 
             artistsInfo?.forEach { info ->
                 if (info.id.isNotEmpty()) artistIds.add(info.id)
@@ -462,9 +462,9 @@ fun MediaItemMenu(
                     .onPlaced { height = with(density) { it.size.height.toDp() } }
             ) {
                 //val thumbnailSizeDp = Dimensions.thumbnails.song
-                val thumbnailSizeDp = Dimensions.thumbnails.song+20.dp
+                val thumbnailSizeDp = Dimensions.thumbnails.song + 20.dp
                 val thumbnailSizePx = thumbnailSizeDp.px
-                val thumbnailArtistSizeDp = Dimensions.thumbnails.song
+                val thumbnailArtistSizeDp = Dimensions.thumbnails.song + 10.dp
                 val thumbnailArtistSizePx = thumbnailArtistSizeDp.px
 
                 Row(
@@ -485,18 +485,20 @@ fun MediaItemMenu(
                                         id = mediaItem.mediaId,
                                         title = mediaItem.mediaMetadata.title.toString(),
                                         artistsText = mediaItem.mediaMetadata.artist.toString(),
-                                        thumbnailUrl = mediaItem.mediaMetadata.artworkUri.thumbnail(thumbnailSizePx).toString(),
+                                        thumbnailUrl = mediaItem.mediaMetadata.artworkUri.thumbnail(
+                                            thumbnailSizePx
+                                        ).toString(),
                                         durationText = null
                                     )
                                 )
                             }
                             if (!isLocal)
-                            manageDownload(
-                                context = context,
-                                songId = mediaItem.mediaId,
-                                songTitle = mediaItem.mediaMetadata.title.toString(),
-                                downloadState = isDownloaded
-                            )
+                                manageDownload(
+                                    context = context,
+                                    songId = mediaItem.mediaId,
+                                    songTitle = mediaItem.mediaMetadata.title.toString(),
+                                    downloadState = isDownloaded
+                                )
                         },
                         downloadState = downloadState,
                         title = mediaItem.mediaMetadata.title.toString(),
@@ -535,18 +537,18 @@ fun MediaItemMenu(
                             modifier = Modifier
                                 .padding(all = 4.dp)
                                 .size(24.dp)
-                            )
+                        )
 
                     }
 
                 }
 
-
-                Row(
-                    horizontalArrangement = Arrangement.Center,
+                if (artistsList.isNotEmpty())
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .padding(start = 12.dp ,end = 12.dp)
+                            .padding(start = 12.dp, end = 12.dp)
                             .fillMaxWidth()
                             //.border(BorderStroke(1.dp, Color.Red))
                             .background(colorPalette.background1)
@@ -560,7 +562,12 @@ fun MediaItemMenu(
                                     thumbnailSizeDp = thumbnailArtistSizeDp,
                                     alternative = true,
                                     modifier = Modifier
-                                    // .clickable(onClick = { onArtistClick(artist) })
+                                        .clickable(onClick = {
+                                            if (onGoToArtist != null) {
+                                                onDismiss()
+                                                onGoToArtist(artist.id)
+                                            }
+                                        })
                                 )
                             }
                         }
@@ -633,16 +640,16 @@ fun MediaItemMenu(
                 }
 
                 if (!isDownloaded)
-                onDownload?.let { onDownload ->
-                    MenuEntry(
-                        icon = R.drawable.download,
-                        text = stringResource(R.string.download),
-                        onClick = {
-                            onDismiss()
-                            onDownload()
-                        }
-                    )
-                }
+                    onDownload?.let { onDownload ->
+                        MenuEntry(
+                            icon = R.drawable.download,
+                            text = stringResource(R.string.download),
+                            onClick = {
+                                onDismiss()
+                                onDownload()
+                            }
+                        )
+                    }
 
 
                 onGoToEqualizer?.let { onGoToEqualizer ->
@@ -718,61 +725,61 @@ fun MediaItemMenu(
                                         .padding(vertical = 16.dp)
                                 ) {
                                     if (!showCircularSlider) {
-                                    Box(
-                                        contentAlignment = Alignment.Center,
-                                        modifier = Modifier
-                                            .alpha(if (amount <= 1) 0.5f else 1f)
-                                            .clip(CircleShape)
-                                            .clickable(enabled = amount > 1) { amount-- }
-                                            .size(48.dp)
-                                            .background(colorPalette.background0)
-                                    ) {
-                                        BasicText(
-                                            text = "-",
-                                            style = typography.xs.semiBold
-                                        )
-                                    }
-
-                                    Box(contentAlignment = Alignment.Center) {
-                                        BasicText(
-                                            text = stringResource(
-                                                R.string.left,
-                                                formatAsDuration(amount * 5 * 60 * 1000L)
-                                            ),
-                                            style = typography.s.semiBold,
+                                        Box(
+                                            contentAlignment = Alignment.Center,
                                             modifier = Modifier
-                                                .clickable {
-                                                    showCircularSlider = !showCircularSlider
-                                                }
-                                        )
-                                    }
+                                                .alpha(if (amount <= 1) 0.5f else 1f)
+                                                .clip(CircleShape)
+                                                .clickable(enabled = amount > 1) { amount-- }
+                                                .size(48.dp)
+                                                .background(colorPalette.background0)
+                                        ) {
+                                            BasicText(
+                                                text = "-",
+                                                style = typography.xs.semiBold
+                                            )
+                                        }
 
-                                    Box(
-                                        contentAlignment = Alignment.Center,
-                                        modifier = Modifier
-                                            .alpha(if (amount >= 60) 0.5f else 1f)
-                                            .clip(CircleShape)
-                                            .clickable(enabled = amount < 60) { amount++ }
-                                            .size(48.dp)
-                                            .background(colorPalette.background0)
-                                    ) {
-                                        BasicText(
-                                            text = "+",
-                                            style = typography.xs.semiBold
-                                        )
-                                    }
+                                        Box(contentAlignment = Alignment.Center) {
+                                            BasicText(
+                                                text = stringResource(
+                                                    R.string.left,
+                                                    formatAsDuration(amount * 5 * 60 * 1000L)
+                                                ),
+                                                style = typography.s.semiBold,
+                                                modifier = Modifier
+                                                    .clickable {
+                                                        showCircularSlider = !showCircularSlider
+                                                    }
+                                            )
+                                        }
+
+                                        Box(
+                                            contentAlignment = Alignment.Center,
+                                            modifier = Modifier
+                                                .alpha(if (amount >= 60) 0.5f else 1f)
+                                                .clip(CircleShape)
+                                                .clickable(enabled = amount < 60) { amount++ }
+                                                .size(48.dp)
+                                                .background(colorPalette.background0)
+                                        ) {
+                                            BasicText(
+                                                text = "+",
+                                                style = typography.xs.semiBold
+                                            )
+                                        }
 
                                     } else {
-                                            CircularSlider(
-                                                stroke = 40f,
-                                                thumbColor = colorPalette.accent,
-                                                text = formatAsDuration(amount * 5 * 60 * 1000L),
-                                                modifier = Modifier
-                                                    .size(300.dp),
-                                                onChange = {
-                                                    amount = (it * 120).toInt()
-                                                }
-                                            )
+                                        CircularSlider(
+                                            stroke = 40f,
+                                            thumbColor = colorPalette.accent,
+                                            text = formatAsDuration(amount * 5 * 60 * 1000L),
+                                            modifier = Modifier
+                                                .size(300.dp),
+                                            onChange = {
+                                                amount = (it * 120).toInt()
+                                            }
+                                        )
                                     }
                                 }
 
@@ -906,10 +913,22 @@ fun MediaItemMenu(
                         title = stringResource(R.string.listen_on),
                         onDismiss = { showSelectDialogListenOn = false },
                         values = listOf(
-                            Info("https://youtube.com/watch?v=${mediaItem.mediaId}", stringResource(R.string.listen_on_youtube)),
-                            Info("https://music.youtube.com/watch?v=${mediaItem.mediaId}",stringResource(R.string.listen_on_youtube_music)),
-                            Info("https://piped.kavin.rocks/watch?v=${mediaItem.mediaId}&playerAutoPlay=true",stringResource(R.string.listen_on_piped)),
-                            Info("https://yewtu.be/watch?v=${mediaItem.mediaId}&autoplay=1",stringResource(R.string.listen_on_invidious))
+                            Info(
+                                "https://youtube.com/watch?v=${mediaItem.mediaId}",
+                                stringResource(R.string.listen_on_youtube)
+                            ),
+                            Info(
+                                "https://music.youtube.com/watch?v=${mediaItem.mediaId}",
+                                stringResource(R.string.listen_on_youtube_music)
+                            ),
+                            Info(
+                                "https://piped.kavin.rocks/watch?v=${mediaItem.mediaId}&playerAutoPlay=true",
+                                stringResource(R.string.listen_on_piped)
+                            ),
+                            Info(
+                                "https://yewtu.be/watch?v=${mediaItem.mediaId}&autoplay=1",
+                                stringResource(R.string.listen_on_invidious)
+                            )
                         ),
                         onValueSelected = {
                             binder?.player?.pause()
@@ -917,50 +936,50 @@ fun MediaItemMenu(
                             uriHandler.openUri(it)
                         }
                     )
-/*
-                if (!isLocal) MenuEntry(
-                    icon = R.drawable.play,
-                    text = stringResource(R.string.listen_on_youtube),
-                    onClick = {
-                        onDismiss()
-                        binder?.player?.pause()
-                        uriHandler.openUri("https://youtube.com/watch?v=${mediaItem.mediaId}")
-                    }
-                )
+                /*
+                                if (!isLocal) MenuEntry(
+                                    icon = R.drawable.play,
+                                    text = stringResource(R.string.listen_on_youtube),
+                                    onClick = {
+                                        onDismiss()
+                                        binder?.player?.pause()
+                                        uriHandler.openUri("https://youtube.com/watch?v=${mediaItem.mediaId}")
+                                    }
+                                )
 
-                val ytNonInstalled = stringResource(R.string.it_seems_that_youtube_music_is_not_installed)
-                if (!isLocal) MenuEntry(
-                    icon = R.drawable.musical_notes,
-                    text = stringResource(R.string.listen_on_youtube_music),
-                    onClick = {
-                        onDismiss()
-                        binder?.player?.pause()
-                        if (!launchYouTubeMusic(context, "watch?v=${mediaItem.mediaId}"))
-                            context.toast(ytNonInstalled)
-                    }
-                )
+                                val ytNonInstalled = stringResource(R.string.it_seems_that_youtube_music_is_not_installed)
+                                if (!isLocal) MenuEntry(
+                                    icon = R.drawable.musical_notes,
+                                    text = stringResource(R.string.listen_on_youtube_music),
+                                    onClick = {
+                                        onDismiss()
+                                        binder?.player?.pause()
+                                        if (!launchYouTubeMusic(context, "watch?v=${mediaItem.mediaId}"))
+                                            context.toast(ytNonInstalled)
+                                    }
+                                )
 
 
-                if (!isLocal) MenuEntry(
-                    icon = R.drawable.play,
-                    text = stringResource(R.string.listen_on_piped),
-                    onClick = {
-                        onDismiss()
-                        binder?.player?.pause()
-                        uriHandler.openUri("https://piped.kavin.rocks/watch?v=${mediaItem.mediaId}&playerAutoPlay=true&minimizeDescription=true")
-                    }
-                )
-                if (!isLocal) MenuEntry(
-                    icon = R.drawable.play,
-                    text = stringResource(R.string.listen_on_invidious),
-                    onClick = {
-                        onDismiss()
-                        binder?.player?.pause()
-                        uriHandler.openUri("https://yewtu.be/watch?v=${mediaItem.mediaId}&autoplay=1")
-                    }
-                )
+                                if (!isLocal) MenuEntry(
+                                    icon = R.drawable.play,
+                                    text = stringResource(R.string.listen_on_piped),
+                                    onClick = {
+                                        onDismiss()
+                                        binder?.player?.pause()
+                                        uriHandler.openUri("https://piped.kavin.rocks/watch?v=${mediaItem.mediaId}&playerAutoPlay=true&minimizeDescription=true")
+                                    }
+                                )
+                                if (!isLocal) MenuEntry(
+                                    icon = R.drawable.play,
+                                    text = stringResource(R.string.listen_on_invidious),
+                                    onClick = {
+                                        onDismiss()
+                                        binder?.player?.pause()
+                                        uriHandler.openUri("https://yewtu.be/watch?v=${mediaItem.mediaId}&autoplay=1")
+                                    }
+                                )
 
-*/
+                */
 
                 onRemoveFromQueue?.let { onRemoveFromQueue ->
                     MenuEntry(
