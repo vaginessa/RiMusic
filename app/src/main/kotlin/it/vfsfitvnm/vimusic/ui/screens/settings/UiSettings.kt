@@ -168,11 +168,11 @@ fun  UiSettings() {
             valueText = {
                 when (it){
                     Languages.System -> stringResource(R.string.system_language)
-                    Languages.Arabic -> "Arabic"
+                    Languages.Arabic -> stringResource(R.string.arabic)
                     Languages.Bashkir -> stringResource(R.string.bashkir)
                     Languages.Catalan -> stringResource(R.string.catalan)
-                    Languages.ChineseSimplified -> "Chinese Simplified"
-                    Languages.ChineseTraditional -> "Chinese Traditional"
+                    Languages.ChineseSimplified -> stringResource(R.string.chinese_simplified)
+                    Languages.ChineseTraditional -> stringResource(R.string.chinese_traditional)
                     Languages.Czech -> stringResource(R.string.czech)
                     Languages.English -> stringResource(R.string.english)
                     Languages.Esperanto -> stringResource(R.string.esperanto)
