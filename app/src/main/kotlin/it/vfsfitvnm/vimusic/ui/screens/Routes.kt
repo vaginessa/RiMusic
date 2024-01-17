@@ -83,8 +83,7 @@ inline fun RouteHandlerScope.globalRoutes() {
     playlistRoute { browseId, params ->
         PlaylistScreen(
             browseId = browseId ?: error("browseId cannot be null"),
-            params = params,
-            //maxDepth = maxDepth
+            params = params
         )
     }
 
