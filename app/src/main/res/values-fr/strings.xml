@@ -111,7 +111,7 @@
     <string name="turning_off_battery_optimizations_is_not_enough">Quand \"désactiver les optimisations de la batterie\" ne suffit pas</string>
     <string name="player_audio"><![CDATA[Lecteur et Audio]]></string>
     <string name="player">Lecteur</string>
-    <string name="persistent_queue">Playlist persistante</string>
+    <string name="persistent_queue">Lecteur persistant</string>
     <string name="save_and_restore_playing_songs">Enregistrer et restaurer la lecture des chansons</string>
     <string name="resume_playback">Reprendre la lecture</string>
     <string name="when_device_is_connected">Lorsque vous avez un appareil connecté</string>
@@ -303,4 +303,7 @@
     <string name="by_most_played_song">Par les titres les plus joués</string>
     <string name="by_last_played_song">Par les titres les derniers joués</string>
     <string name="audio_quality_automatic">Automatique</string>
+    <string name="statistics_songs_heard">titres entendus</string>
+    <string name="statistics_of_time_taken">du temps passé</string>
+    <string name="statistics_max_number_of_items">Nombre maximum d\'items</string>
 </resources>
