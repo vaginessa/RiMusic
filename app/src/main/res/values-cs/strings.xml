@@ -296,7 +296,7 @@
     <string name="hungarian">Maďarština (Magyar)</string>
     <string name="korean">Korejština (한국어)</string>
     <string name="background_player">"PŘEHRÁVAČ NA POZADÍ "</string>
-    <string name="show_like_button">Zobrazit tlačítko Like</string>
+    <string name="show_like_button">Zobrazit tlačítko To se mi líbí</string>
     <string name="add_remove_like_to_song_from_lock_screen_and_notification_area">Přidat/odebrat tlačítko like u skladby ze zamykací obrazovky a oznamovací oblasti</string>
     <string name="show_download_button">Zobrazit tlačítko Stáhnout</string>
     <string name="download_or_remove_downloaded_song_from_lock_screen_and_notification_area">Tlačítko Stáhnout nebo odstranit stahování u skladby na zamykací obrazovce a v oznamovací oblasti</string>
