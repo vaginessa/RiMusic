@@ -306,4 +306,7 @@
     <string name="statistics_songs_heard">melodii ascultate</string>
     <string name="statistics_of_time_taken">de timp luat</string>
     <string name="statistics_max_number_of_items">Număr maxim de elemente</string>
+    <string name="arabic">Arabic</string>
+    <string name="chinese_simplified">Chinese Simplified</string>
+    <string name="chinese_traditional">Chinese Traditional</string>
 </resources>

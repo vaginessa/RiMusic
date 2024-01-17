@@ -306,4 +306,7 @@
     <string name="by_most_played_song">🎶 Par les titres les plus joués</string>
     <string name="by_last_played_song">🎶 Par les titres les derniers joués</string>
     <string name="audio_quality_automatic">Automatique</string>
+    <string name="arabic">Arabic</string>
+    <string name="chinese_simplified">Chinese Simplified</string>
+    <string name="chinese_traditional">Chinese Traditional</string>
 </resources>

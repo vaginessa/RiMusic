@@ -306,4 +306,7 @@
     <string name="statistics_songs_heard">Músicas ouvidas</string>
     <string name="statistics_of_time_taken">tempo de execução</string>
     <string name="statistics_max_number_of_items">Número máximo de itens</string>
+    <string name="arabic">Arabic</string>
+    <string name="chinese_simplified">Chinese Simplified</string>
+    <string name="chinese_traditional">Chinese Traditional</string>
 </resources>
