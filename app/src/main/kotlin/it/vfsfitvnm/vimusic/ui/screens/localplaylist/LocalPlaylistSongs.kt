@@ -7,11 +7,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -46,7 +43,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -81,12 +77,10 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
-import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
-import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.PlaylistWithSongs
 import it.vfsfitvnm.vimusic.models.Song
@@ -98,7 +92,6 @@ import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
-import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconInfo
@@ -110,7 +103,6 @@ import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
-import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.ui.styling.px
@@ -121,11 +113,9 @@ import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.completed
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.durationTextToMillis
-import it.vfsfitvnm.vimusic.utils.durationToMillis
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
-import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.formatAsTime
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.launchYouTubeMusic
@@ -159,7 +149,7 @@ fun LocalPlaylistSongs(
     val menuState = LocalMenuState.current
     val uiType by rememberPreference(UiTypeKey, UiType.RiMusic)
 
-    var playlistWithSongs by persist<PlaylistWithSongs?>("localPlaylist/$playlistId/playlistWithSongs")
+    var playlistSongs by persistList<Song>("localPlaylist/$playlistId/playlistSongsDesc")
     var playlistPreview by persist<PlaylistPreview?>("localPlaylist/playlist")
 
 
@@ -168,8 +158,8 @@ fun LocalPlaylistSongs(
 
     var filter: String? by rememberSaveable { mutableStateOf(null) }
 
-    LaunchedEffect(Unit, filter) {
-        Database.playlistWithSongs(playlistId).filterNotNull().collect { playlistWithSongs = it }
+    LaunchedEffect(Unit, filter, sortOrder, sortBy) {
+        Database.songsPlaylist(playlistId, sortBy, sortOrder).filterNotNull().collect{ playlistSongs = it }
     }
 
     LaunchedEffect(Unit) {
@@ -177,55 +167,19 @@ fun LocalPlaylistSongs(
     }
 
 
-    //Log.d("mediaItem","playlistpreview ${playlistPreview}")
-
-        when (sortOrder) {
-            SortOrder.Ascending ->
-                when (sortBy) {
-                    PlaylistSongSortBy.Title ->
-                        playlistWithSongs?.songs =
-                            playlistWithSongs?.songs?.sortedBy { it.title }!!
-
-                    PlaylistSongSortBy.Artist ->
-                        playlistWithSongs?.songs =
-                            playlistWithSongs?.songs?.sortedBy { it.artistsText }!!
-
-                    PlaylistSongSortBy.PlayTime ->
-                        playlistWithSongs?.songs =
-                            playlistWithSongs?.songs?.sortedBy { it.totalPlayTimeMs }!!
-
-                }
-
-            SortOrder.Descending ->
-                when (sortBy) {
-                    PlaylistSongSortBy.Title ->
-                        playlistWithSongs?.songs =
-                            playlistWithSongs?.songs?.sortedByDescending { it.title }!!
-
-                    PlaylistSongSortBy.Artist ->
-                        playlistWithSongs?.songs =
-                            playlistWithSongs?.songs?.sortedByDescending { it.artistsText }!!
-
-                    PlaylistSongSortBy.PlayTime ->
-                        playlistWithSongs?.songs =
-                            playlistWithSongs?.songs?.sortedByDescending { it.totalPlayTimeMs }!!
-
-                }
-        }
-
     var filterCharSequence: CharSequence
     filterCharSequence = filter.toString()
 
     if (!filter.isNullOrBlank())
-        playlistWithSongs?.songs =
-            playlistWithSongs?.songs?.filter { songItem ->
+        playlistSongs =
+            playlistSongs.filter { songItem ->
                 songItem.asMediaItem.mediaMetadata.title?.contains(filterCharSequence,true) ?: false
                         || songItem.asMediaItem.mediaMetadata.artist?.contains(filterCharSequence,true) ?: false
-            }!!
+            }
 
 
     var totalPlayTimes = 0L
-    playlistWithSongs?.songs?.forEach {
+    playlistSongs.forEach {
         totalPlayTimes += it.durationText?.let { it1 ->
             durationTextToMillis(it1) }?.toLong() ?: 0
     }
@@ -245,7 +199,7 @@ fun LocalPlaylistSongs(
 
     val reorderingState = rememberReorderingState(
         lazyListState = lazyListState,
-        key = playlistWithSongs?.songs ?: emptyList<Any>(),
+        key = playlistSongs,
         onDragEnd = { fromIndex, toIndex ->
             //Log.d("reorder","playlist $playlistId, $fromIndex, $toIndex")
             query {
@@ -262,11 +216,11 @@ fun LocalPlaylistSongs(
     if (isRenaming) {
         TextFieldDialog(
             hintText = stringResource(R.string.enter_the_playlist_name),
-            initialTextInput = playlistWithSongs?.playlist?.name ?: "",
+            initialTextInput = playlistPreview?.playlist?.name ?: "",
             onDismiss = { isRenaming = false },
             onDone = { text ->
                 query {
-                    playlistWithSongs?.playlist?.copy(name = text)?.let(Database::update)
+                    playlistPreview?.playlist?.copy(name = text)?.let(Database::update)
                 }
             }
         )
@@ -282,7 +236,7 @@ fun LocalPlaylistSongs(
             onDismiss = { isDeleting = false },
             onConfirm = {
                 query {
-                    playlistWithSongs?.playlist?.let(Database::delete)
+                    playlistPreview?.playlist?.let(Database::delete)
                 }
                 onDelete()
             }
@@ -346,7 +300,7 @@ fun LocalPlaylistSongs(
                         .fillMaxWidth()
                 ) {
                     HeaderWithIcon(
-                        title = playlistWithSongs?.playlist?.name ?: "Unknown",
+                        title = playlistPreview?.playlist?.name ?: "Unknown",
                         iconId = R.drawable.playlist,
                         enabled = true,
                         showIcon = true,
@@ -466,8 +420,8 @@ fun LocalPlaylistSongs(
                             onConfirm = {
                                 showConfirmDownloadAllDialog = false
                                 downloadState = Download.STATE_DOWNLOADING
-                                if (playlistWithSongs?.songs?.isNotEmpty() == true)
-                                    playlistWithSongs?.songs?.forEach {
+                                if (playlistSongs.isNotEmpty() == true)
+                                    playlistSongs.forEach {
                                         binder?.cache?.removeResource(it.asMediaItem.mediaId)
                                         query {
                                             Database.insert(
@@ -507,8 +461,8 @@ fun LocalPlaylistSongs(
                             onConfirm = {
                                 showConfirmDeleteDownloadDialog = false
                                 downloadState = Download.STATE_DOWNLOADING
-                                if (playlistWithSongs?.songs?.isNotEmpty() == true)
-                                    playlistWithSongs?.songs?.forEach {
+                                if (playlistSongs.isNotEmpty() == true)
+                                    playlistSongs.forEach {
                                         binder?.cache?.removeResource(it.asMediaItem.mediaId)
                                         manageDownload(
                                             context = context,
@@ -523,12 +477,12 @@ fun LocalPlaylistSongs(
 
                     HeaderIconButton(
                         icon = R.drawable.enqueue,
-                        enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
-                        color = if (playlistWithSongs?.songs?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
+                        enabled = playlistSongs.isNotEmpty() == true,
+                        color = if (playlistSongs.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
                         onClick = {
-                            playlistWithSongs?.songs
-                                ?.map(Song::asMediaItem)
-                                ?.let { mediaItems ->
+                            playlistSongs
+                                .map(Song::asMediaItem)
+                                .let { mediaItems ->
                                     binder?.player?.enqueue(mediaItems)
                                 }
                         }
@@ -536,10 +490,10 @@ fun LocalPlaylistSongs(
 
                     HeaderIconButton(
                         icon = R.drawable.shuffle,
-                        enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
-                        color = if (playlistWithSongs?.songs?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
+                        enabled = playlistSongs.isNotEmpty() == true,
+                        color = if (playlistSongs.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
                         onClick = {
-                            playlistWithSongs?.songs?.let { songs ->
+                            playlistSongs.let { songs ->
                                 if (songs.isNotEmpty()) {
                                     binder?.stopRadio()
                                     binder?.player?.forcePlayFromBeginning(
@@ -552,8 +506,8 @@ fun LocalPlaylistSongs(
 
                     HeaderIconButton(
                         icon = if (isReorderDisabled) R.drawable.locked else R.drawable.unlocked,
-                        enabled = playlistWithSongs?.songs?.isNotEmpty() == true,
-                        color = if (playlistWithSongs?.songs?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
+                        enabled = playlistSongs.isNotEmpty() == true,
+                        color = if (playlistSongs.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
                         onClick = { isReorderDisabled = !isReorderDisabled }
                     )
 
@@ -561,10 +515,12 @@ fun LocalPlaylistSongs(
                         icon = R.drawable.ellipsis_horizontal,
                         color = colorPalette.text, //if (playlistWithSongs?.songs?.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
                         enabled = true, //playlistWithSongs?.songs?.isNotEmpty() == true,
+                        modifier = Modifier
+                            .padding(end = 4.dp),
                         onClick = {
                             menuState.display {
                                 Menu {
-                                    playlistWithSongs?.playlist?.browseId?.let { browseId ->
+                                    playlistPreview?.playlist?.browseId?.let { browseId ->
                                         MenuEntry(
                                             icon = R.drawable.sync,
                                             text = stringResource(R.string.sync),
@@ -618,7 +574,7 @@ fun LocalPlaylistSongs(
                                         }
                                     )
 
-                                    if (!playlistWithSongs?.playlist?.browseId.isNullOrBlank())
+                                    if (!playlistPreview?.playlist?.browseId.isNullOrBlank())
                                     MenuEntry(
                                         icon = R.drawable.play,
                                         text = stringResource(R.string.listen_on_youtube),
@@ -627,7 +583,7 @@ fun LocalPlaylistSongs(
                                             binder?.player?.pause()
                                             uriHandler.openUri(
                                                 "https://youtube.com/playlist?list=${
-                                                    playlistWithSongs?.playlist?.browseId?.removePrefix(
+                                                    playlistPreview?.playlist?.browseId?.removePrefix(
                                                         "VL"
                                                     )
                                                 }"
@@ -637,7 +593,7 @@ fun LocalPlaylistSongs(
 
                                     val ytNonInstalled =
                                         stringResource(R.string.it_seems_that_youtube_music_is_not_installed)
-                                    if (!playlistWithSongs?.playlist?.browseId.isNullOrBlank())
+                                    if (!playlistPreview?.playlist?.browseId.isNullOrBlank())
                                     MenuEntry(
                                         icon = R.drawable.musical_notes,
                                         text = stringResource(R.string.listen_on_youtube_music),
@@ -647,7 +603,7 @@ fun LocalPlaylistSongs(
                                             if (!launchYouTubeMusic(
                                                     context,
                                                     "playlist?list=${
-                                                        playlistWithSongs?.playlist?.browseId?.removePrefix(
+                                                        playlistPreview?.playlist?.browseId?.removePrefix(
                                                             "VL"
                                                         )
                                                     }"
@@ -760,6 +716,18 @@ fun LocalPlaylistSongs(
                     )
 
                     HeaderIconButton(
+                        icon = R.drawable.playlist_played,
+                        color = if (sortBy == PlaylistSongSortBy.DatePlayed) colorPalette.text else colorPalette.textDisabled,
+                        onClick = { sortBy = PlaylistSongSortBy.DatePlayed }
+                    )
+
+                    HeaderIconButton(
+                        icon = R.drawable.up_right_arrow,
+                        color = if (sortBy == PlaylistSongSortBy.Position) colorPalette.text else colorPalette.textDisabled,
+                        onClick = { sortBy = PlaylistSongSortBy.Position }
+                    )
+
+                    HeaderIconButton(
                         icon = R.drawable.trending,
                         color = if (sortBy == PlaylistSongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
                         onClick = { sortBy = PlaylistSongSortBy.PlayTime }
@@ -794,7 +762,9 @@ fun LocalPlaylistSongs(
             }
 
             itemsIndexed(
-                items = playlistWithSongs?.songs ?: emptyList(),
+                //items = playlistWithSongs?.songs ?: emptyList(),
+                items = playlistSongs ?: emptyList(),
+
                 key = { _, song -> song.id },
                 contentType = { _, song -> song },
             ) { index, song ->
@@ -881,9 +851,9 @@ fun LocalPlaylistSongs(
                                 }
                             },
                             onClick = {
-                                playlistWithSongs?.songs
-                                    ?.map(Song::asMediaItem)
-                                    ?.let { mediaItems ->
+                                playlistSongs
+                                    .map(Song::asMediaItem)
+                                    .let { mediaItems ->
                                         binder?.stopRadio()
                                         binder?.player?.forcePlayAtIndex(mediaItems, index)
                                     }
@@ -901,7 +871,7 @@ fun LocalPlaylistSongs(
             iconId = R.drawable.shuffle,
             visible = !reorderingState.isDragging,
             onClick = {
-                playlistWithSongs?.songs?.let { songs ->
+                playlistSongs.let { songs ->
                     if (songs.isNotEmpty()) {
                         binder?.stopRadio()
                         binder?.player?.forcePlayFromBeginning(

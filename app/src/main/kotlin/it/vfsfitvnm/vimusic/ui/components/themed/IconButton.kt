@@ -25,7 +25,7 @@ fun HeaderIconButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     indication: Indication? = null,
-    iconSize: Dp? = 18.dp
+    iconSize: Dp? = 20.dp
 ) {
     IconButton(
         icon = icon,

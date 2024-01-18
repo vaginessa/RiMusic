@@ -35,6 +35,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteQuery
 import it.vfsfitvnm.vimusic.enums.AlbumSortBy
 import it.vfsfitvnm.vimusic.enums.ArtistSortBy
+import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
@@ -386,41 +387,81 @@ interface Database {
     @Query("SELECT * FROM Playlist WHERE id = :id")
     fun playlistWithSongs(id: Long): Flow<PlaylistWithSongs?>
 
+
+    @Transaction
+    @Query("SELECT SP.position FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY SP.position DESC")
+    fun songsPositionPlaylistDesc(id: Long): Flow<List<Int>>
+
+    @Transaction
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.artistsText")
+    fun songsPlaylistByArtistAsc(id: Long): Flow<List<Song>>
+    @Transaction
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.artistsText DESC")
+    fun songsPlaylistByArtistDesc(id: Long): Flow<List<Song>>
+    @Transaction
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.title")
+    fun songsPlaylistByTitleAsc(id: Long): Flow<List<Song>>
+    @Transaction
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.title DESC")
+    fun songsPlaylistByTitleDesc(id: Long): Flow<List<Song>>
+    @Transaction
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY SP.position")
+    fun songsPlaylistByPositionAsc(id: Long): Flow<List<Song>>
+    @Transaction
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY SP.position DESC")
+    fun songsPlaylistByPositionDesc(id: Long): Flow<List<Song>>
+
     @Transaction
     @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.totalPlayTimeMs")
-    fun SongsPlaylistByPlayTimeAsc(id: Long): Flow<List<Song>>
+    fun songsPlaylistByPlayTimeAsc(id: Long): Flow<List<Song>>
 
     @Transaction
     @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.totalPlayTimeMs DESC")
-    fun SongsPlaylistByPlayTimeDesc(id: Long): Flow<List<Song>>
+    fun songsPlaylistByPlayTimeDesc(id: Long): Flow<List<Song>>
+
+    @Transaction
+    @Query("SELECT DISTINCT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId " +
+            "LEFT JOIN Event E ON E.songId=S.id " +
+            "WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "ORDER BY E.timestamp")
+    fun songsPlaylistByDatePlayedAsc(id: Long): Flow<List<Song>>
+
+    @Transaction
+    @Query("SELECT DISTINCT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId " +
+            "LEFT JOIN Event E ON E.songId=S.id " +
+            "WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "ORDER BY E.timestamp DESC")
+    fun songsPlaylistByDatePlayedDesc(id: Long): Flow<List<Song>>
+
+    fun songsPlaylist(id: Long, sortBy: PlaylistSongSortBy, sortOrder: SortOrder): Flow<List<Song>> {
+        return when (sortBy) {
+            PlaylistSongSortBy.PlayTime -> when (sortOrder) {
+                SortOrder.Ascending -> songsPlaylistByPlayTimeAsc(id)
+                SortOrder.Descending -> songsPlaylistByPlayTimeDesc(id)
+            }
+            PlaylistSongSortBy.Title -> when (sortOrder) {
+                SortOrder.Ascending -> songsPlaylistByTitleAsc(id)
+                SortOrder.Descending -> songsPlaylistByTitleDesc(id)
+            }
+            PlaylistSongSortBy.Artist -> when (sortOrder) {
+                SortOrder.Ascending -> songsPlaylistByArtistAsc(id)
+                SortOrder.Descending -> songsPlaylistByArtistDesc(id)
+            }
+            PlaylistSongSortBy.Position -> when (sortOrder) {
+                SortOrder.Ascending -> songsPlaylistByPositionAsc(id)
+                SortOrder.Descending -> songsPlaylistByPositionDesc(id)
+            }
+            PlaylistSongSortBy.DatePlayed -> when (sortOrder) {
+                SortOrder.Ascending -> songsPlaylistByDatePlayedAsc(id)
+                SortOrder.Descending -> songsPlaylistByDatePlayedDesc(id)
+            }
+
+        }
+    }
 
     @Transaction
     @Query("SELECT SP.position FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY SP.position")
-    fun SongsPlaylistMap(id: Long): Flow<List<Int>>
-
-    fun SongsPlaylist(id: Long,sortBy: SongSortBy, sortOrder: SortOrder): Flow<List<Song>> {
-        return when (sortBy) {
-            SongSortBy.PlayTime -> when (sortOrder) {
-                SortOrder.Ascending -> SongsPlaylistByPlayTimeAsc(id)
-                SortOrder.Descending -> SongsPlaylistByPlayTimeDesc(id)
-            }
-            SongSortBy.Title -> when (sortOrder) {
-                SortOrder.Ascending -> songsByTitleAsc()
-                SortOrder.Descending -> songsByTitleDesc()
-            }
-            SongSortBy.DateAdded -> when (sortOrder) {
-                SortOrder.Ascending -> songsByRowIdAsc()
-                SortOrder.Descending -> songsByRowIdDesc()
-            }
-            /*
-            SongSortBy.Position -> when (sortOrder) {
-                SortOrder.Ascending -> songsByRowIdAsc()
-                SortOrder.Descending -> songsByRowIdDesc()
-            }
-
-             */
-        }
-    }
+    fun songsPlaylistMap(id: Long): Flow<List<Int>>
 
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Transaction
