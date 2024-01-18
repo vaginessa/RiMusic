@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cancel">Cancel</string>
-    <string name="done">Done</string>
-    <string name="hidesong">Do you really want to hide this song? Its playback time and cache will be wiped.\nThis action is irreversible.</string>
-    <string name="new_playlist">New playlist</string>
+    <string name="cancel">Скасовувати</string>
+    <string name="done">Зроблено</string>
+    <string name="hidesong">Ви дійсно хочете приховати цю пісню? Час її відтворення та кеш буде витерто.\nЦя дія є незворотною.</string>
+    <string name="new_playlist">Новий плейлист</string>
     <string name="start_radio">Start radio</string>
     <string name="equalizer">Equalizer</string>
     <string name="stop_sleep_timer">Do you want to stop the sleep timer?</string>
