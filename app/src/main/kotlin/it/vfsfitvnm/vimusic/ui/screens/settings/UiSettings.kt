@@ -140,7 +140,7 @@ fun  UiSettings() {
                 },
                 trailingContent = {
                     Image(
-                        painter = painterResource(R.drawable.direct_download),
+                        painter = painterResource(R.drawable.update),
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(colorPalette.shimmer),
                         modifier = Modifier
@@ -194,6 +194,7 @@ fun  UiSettings() {
                     Languages.Russian -> stringResource(R.string.russian)
                     Languages.Spanish -> stringResource(R.string.spanish)
                     Languages.Turkish -> stringResource(R.string.turkish)
+                    Languages.Ukrainian -> stringResource(R.string.lang_ukrainian)
                 }
             }
         )

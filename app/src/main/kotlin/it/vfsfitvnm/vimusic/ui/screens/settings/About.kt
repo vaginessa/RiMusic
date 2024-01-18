@@ -96,7 +96,7 @@ fun About() {
                 },
                 trailingContent = {
                     Image(
-                        painter = painterResource(R.drawable.direct_download),
+                        painter = painterResource(R.drawable.update),
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(colorPalette.shimmer),
                         modifier = Modifier
@@ -176,7 +176,8 @@ fun About() {
                 "siggi1984 \n" +
                 "teddysulaimanGL \n" +
                 "TsyQax \n" +
-                "kyev666 \n"
+                "kyev666 \n" +
+                "xxxdevourer"
 
         )
     }

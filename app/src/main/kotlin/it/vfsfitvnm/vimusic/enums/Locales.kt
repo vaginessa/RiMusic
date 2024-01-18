@@ -27,7 +27,8 @@ enum class Languages {
     RomanianEmo,
     Russian,
     Spanish,
-    Turkish;
+    Turkish,
+    Ukrainian;
 
     var code: String = "en"
         get() = when (this) {
@@ -58,6 +59,7 @@ enum class Languages {
             RomanianEmo -> "ro-RO"
             Russian -> "ru"
             Turkish -> "tr"
+            Ukrainian -> "uk"
         }
 
 

@@ -69,7 +69,7 @@
 - **Russian:** thanks to [Vladimir](https://crowdin.com/profile/vladimir15426) and [@siggi1984](https://github.com/siggi1984)
 - **Spanish:** thanks to [@DanielSevillano](https://github.com/DanielSevillano) and [Fabian Urra](https://crowdin.com/profile/nsagcl)
 - **Turkish:** thanks to [@abfreeman](https://github.com/abfreeman) and [@2010furs](https://github.com/2010furs) and [Muha Aliss](https://crowdin.com/profile/muhaaliss)
-
+  **Ukrainian:** thanks to [xxxdevourer](https://crowdin.com/profile/xxxdevourer) 
 
 ## 🔤 Translations
 - Go to [Crowdin](https://crowdin.com/project/rimusic/invite?h=73f0e6b64be1c64a8aebd467d286cf851925330) and help with the translations.
