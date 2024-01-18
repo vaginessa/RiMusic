@@ -306,9 +306,9 @@
     <string name="statistics_songs_heard">songs heard</string>
     <string name="statistics_of_time_taken">of time taken</string>
     <string name="statistics_max_number_of_items">Max number of items</string>
-    <string name="arabic">Arabic</string>
-    <string name="chinese_simplified">Chinese Simplified</string>
-    <string name="chinese_traditional">Chinese Traditional</string>
+    <string name="arabic">Arabic (العربية)</string>
+    <string name="chinese_simplified">Chinese Simplified (汉语)</string>
+    <string name="chinese_traditional">Chinese Traditional (漢語)</string>
     <string name="do_you_really_want_to_download_all">Do you really want to download all?</string>
     <string name="add_all_in_playlist">Add all in playlist</string>
     <string name="add_in_playlist">Add in playlist</string>
