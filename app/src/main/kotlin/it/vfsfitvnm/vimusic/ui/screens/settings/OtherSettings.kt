@@ -122,7 +122,7 @@ fun OtherSettings() {
 
 
         SettingsEntryGroupText(title = stringResource(R.string.proxy))
-
+        SettingsDescription(text = stringResource(R.string.restarting_rimusic_is_required))
         SwitchSettingEntry(
             title = stringResource(R.string.enable_proxy),
             text = "",

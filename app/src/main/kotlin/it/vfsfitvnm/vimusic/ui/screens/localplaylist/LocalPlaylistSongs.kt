@@ -149,7 +149,7 @@ fun LocalPlaylistSongs(
     val menuState = LocalMenuState.current
     val uiType by rememberPreference(UiTypeKey, UiType.RiMusic)
 
-    var playlistSongs by persistList<Song>("localPlaylist/$playlistId/playlistSongsDesc")
+    var playlistSongs by persistList<Song>("localPlaylist/$playlistId/songs")
     var playlistPreview by persist<PlaylistPreview?>("localPlaylist/playlist")
 
 
@@ -610,13 +610,6 @@ fun LocalPlaylistSongs(
                                                 )
                                             )
                                                 context.toast(ytNonInstalled)
-/*
-                                            Log.d(
-                                                "mediaItem",
-                                                playlistWithSongs?.playlist?.browseId.toString()
-                                            )
-
- */
                                         }
                                     )
 
@@ -768,7 +761,6 @@ fun LocalPlaylistSongs(
                 key = { _, song -> song.id },
                 contentType = { _, song -> song },
             ) { index, song ->
-                //Log.d("mediaItemPos","song ${song.durationText?.let { durationToMillis("0"+it) }}")
 
                 val isLocal by remember { derivedStateOf { song.asMediaItem.isLocal } }
                 downloadState = getDownloadState(song.asMediaItem.mediaId)

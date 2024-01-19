@@ -355,7 +355,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             playerVisualizerTypeKey,
                             UiTypeKey,
                             disablePlayerHorizontalSwipeKey,
-                            audioQualityFormatKey -> {
+                            audioQualityFormatKey
+                            -> {
                                 this@MainActivity.recreate()
                             }
 
