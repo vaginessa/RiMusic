@@ -24,8 +24,10 @@ import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.innertube.models.Runs
 import it.vfsfitvnm.innertube.models.Thumbnail
 import it.vfsfitvnm.innertube.models.YouTubeClient
+import it.vfsfitvnm.innertube.utils.ProxyPreferences
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import java.net.InetSocketAddress
 import java.net.Proxy
 import java.util.Locale
 
@@ -46,6 +48,18 @@ object Innertube {
 
         install(ContentEncoding) {
             brotli()
+        }
+
+        ProxyPreferences.preference?.let {
+            engine {
+                proxy = Proxy(
+                    it.proxyMode,
+                    InetSocketAddress(
+                        it.proxyHost,
+                        it.proxyPort
+                    )
+                )
+            }
         }
 
         defaultRequest {

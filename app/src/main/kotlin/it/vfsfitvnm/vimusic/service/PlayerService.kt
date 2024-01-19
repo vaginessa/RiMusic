@@ -55,6 +55,7 @@ import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
 import androidx.media3.datasource.cache.NoOpCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
+import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.RenderersFactory
 import androidx.media3.exoplayer.analytics.AnalyticsListener
@@ -74,6 +75,7 @@ import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.innertube.models.bodies.PlayerBody
 import it.vfsfitvnm.innertube.requests.player
+import it.vfsfitvnm.innertube.utils.ProxyPreferences
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.MainActivity
 import it.vfsfitvnm.vimusic.R
@@ -144,7 +146,11 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
 import java.io.File
+import java.net.InetSocketAddress
+import java.net.Proxy
+import java.time.Duration
 import kotlin.math.roundToInt
 import kotlin.system.exitProcess
 import android.os.Binder as AndroidBinder
@@ -1122,6 +1128,22 @@ class PlayerService : InvincibleService(),
     }
 
 
+    private fun okHttpClient() : OkHttpClient {
+        ProxyPreferences.preference?.let{
+            return OkHttpClient.Builder()
+                .proxy(Proxy(it.proxyMode,
+                    InetSocketAddress(it.proxyHost,it.proxyPort)
+                ))
+                .connectTimeout(Duration.ofSeconds(16))
+                .readTimeout(Duration.ofSeconds(8))
+                .build()
+        }
+        return OkHttpClient.Builder()
+            .connectTimeout(Duration.ofSeconds(16))
+            .readTimeout(Duration.ofSeconds(8))
+            .build()
+    }
+
     @UnstableApi
     private fun createCacheDataSource() = ConditionalCacheDataSourceFactory(
         cacheDataSourceFactory = CacheDataSource.Factory().setCache(downloadCache)
@@ -1130,6 +1152,9 @@ class PlayerService : InvincibleService(),
         upstreamDataSourceFactory = CacheDataSource.Factory()
             .setCache(cache)
             .setUpstreamDataSourceFactory(
+                OkHttpDataSource.Factory(okHttpClient())
+                    .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
+                /*
                 DefaultDataSource.Factory(
                     this,
                     DefaultHttpDataSource.Factory()
@@ -1137,6 +1162,7 @@ class PlayerService : InvincibleService(),
                         .setReadTimeoutMs(8000)
                         .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
                 )
+                 */
             )
     ) { !it.isLocal }
 

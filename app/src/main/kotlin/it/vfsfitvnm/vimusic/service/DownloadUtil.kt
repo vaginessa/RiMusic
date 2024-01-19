@@ -17,12 +17,14 @@ import androidx.media3.datasource.cache.Cache
 import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.datasource.cache.NoOpCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
+import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.offline.Download
 import androidx.media3.exoplayer.offline.DownloadManager
 import androidx.media3.exoplayer.offline.DownloadNotificationHelper
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.PlayerBody
 import it.vfsfitvnm.innertube.requests.player
+import it.vfsfitvnm.innertube.utils.ProxyPreferences
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
 import it.vfsfitvnm.vimusic.models.Format
@@ -36,7 +38,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
 import java.io.File
+import java.net.InetSocketAddress
+import java.net.Proxy
+import java.time.Duration
 import java.util.concurrent.Executors
 
 @UnstableApi
@@ -180,13 +186,36 @@ object DownloadUtil {
         return dataSourceFactory
     }
 
+    private fun okHttpClient() : OkHttpClient {
+        ProxyPreferences.preference?.let{
+            return OkHttpClient.Builder()
+                .proxy(
+                    Proxy(it.proxyMode,
+                    InetSocketAddress(it.proxyHost,it.proxyPort)
+                )
+                )
+                .connectTimeout(Duration.ofSeconds(16))
+                .readTimeout(Duration.ofSeconds(8))
+                .build()
+        }
+        return OkHttpClient.Builder()
+            .connectTimeout(Duration.ofSeconds(16))
+            .readTimeout(Duration.ofSeconds(8))
+            .build()
+    }
+
     private fun createCacheDataSource(context: Context): DataSource.Factory {
         return CacheDataSource.Factory().setCache(getDownloadCache(context)).apply {
             setUpstreamDataSourceFactory(
+                OkHttpDataSource.Factory(okHttpClient())
+                    .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
+                /*
                 DefaultHttpDataSource.Factory()
                     .setConnectTimeoutMs(16000)
                     .setReadTimeoutMs(8000)
                     .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
+
+                 */
             )
             setCacheWriteDataSinkFactory(null)
         }

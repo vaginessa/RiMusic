@@ -74,7 +74,10 @@ const val showNewAlbumsArtistsKey = "showNewAlbumsArtists"
 const val showPlaylistMightLikeKey = "showPlaylistMightLike"
 const val maxStatisticsItemsKey = "maxStatisticsItems"
 const val showStatsListeningTimeKey = "showStatsListeningTime"
-
+const val isProxyEnabledKey = "isProxyEnabled"
+const val proxyHostnameKey = "proxyHostname"
+const val proxyPortKey = "proxyPort"
+const val proxyModeKey = "ProxyMode"
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,

@@ -77,6 +77,8 @@ import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.BrowseBody
 import it.vfsfitvnm.innertube.requests.playlistPage
 import it.vfsfitvnm.innertube.requests.song
+import it.vfsfitvnm.innertube.utils.ProxyPreferenceItem
+import it.vfsfitvnm.innertube.utils.ProxyPreferences
 import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
 import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
@@ -116,10 +118,14 @@ import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid8
+import it.vfsfitvnm.vimusic.utils.isProxyEnabledKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.preferences
+import it.vfsfitvnm.vimusic.utils.proxyHostnameKey
+import it.vfsfitvnm.vimusic.utils.proxyModeKey
+import it.vfsfitvnm.vimusic.utils.proxyPortKey
 import it.vfsfitvnm.vimusic.utils.showLikeButtonBackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.useSystemFontKey
@@ -135,6 +141,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import org.json.JSONException
 import java.io.File
+import java.net.Proxy
 
 
 @UnstableApi
@@ -202,6 +209,17 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val launchedFromNotification = intent?.extras?.getBoolean("expandPlayerBottomSheet") == true
+
+        with(preferences){
+            if(getBoolean(isProxyEnabledKey,false)) {
+                val hostName = getString(proxyHostnameKey,null)
+                val proxyPort = getInt(proxyPortKey, 8080)
+                val proxyMode = getEnum(proxyModeKey, Proxy.Type.HTTP)
+                hostName?.let { hName->
+                    ProxyPreferences.preference = ProxyPreferenceItem(hName,proxyPort,proxyMode)
+                }
+            }
+        }
 
         //Log.d("mediaItemLang",LocaleListCompat.getDefault().get(0).toString())
         //Innertube.localeHl = LocaleListCompat.getDefault().get(0).toString()
