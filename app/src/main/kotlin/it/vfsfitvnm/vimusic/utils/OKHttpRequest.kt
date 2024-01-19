@@ -5,19 +5,43 @@ package it.vfsfitvnm.vimusic.utils
  */
 
 
+import it.vfsfitvnm.innertube.utils.ProxyPreferences
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.FormBody
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.net.InetSocketAddress
+import java.net.Proxy
+import java.time.Duration
 
 class OkHttpRequest(client: OkHttpClient) {
-    internal var client = OkHttpClient()
+    //internal var client = OkHttpClient()
+    internal var client = okHttpClient()
 
     init {
         this.client = client
     }
+
+    private fun okHttpClient() : OkHttpClient {
+        ProxyPreferences.preference?.let{
+            return OkHttpClient.Builder()
+                .proxy(
+                    Proxy(it.proxyMode,
+                        InetSocketAddress(it.proxyHost,it.proxyPort)
+                    )
+                )
+                .connectTimeout(Duration.ofSeconds(16))
+                .readTimeout(Duration.ofSeconds(8))
+                .build()
+        }
+        return OkHttpClient.Builder()
+            .connectTimeout(Duration.ofSeconds(16))
+            .readTimeout(Duration.ofSeconds(8))
+            .build()
+    }
+
 
     fun POST(url: String, parameters: HashMap<String, String>, callback: Callback): Call {
         val builder = FormBody.Builder()

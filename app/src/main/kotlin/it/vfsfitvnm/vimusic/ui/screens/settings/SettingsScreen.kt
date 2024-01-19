@@ -297,15 +297,18 @@ fun TextDialogSettingEntry(
     isEnabled: Boolean = true
 ) {
     var showDialog by remember { mutableStateOf(false) }
-    val context = LocalContext.current
+    //val context = LocalContext.current
 
     if (showDialog) {
-        TextFieldDialog(hintText =title ,
+        TextFieldDialog(hintText = title ,
             onDismiss = { showDialog = false },
-            onDone ={value->
+            onDone ={ value ->
                 onTextSave(value)
-                context.toast("Preference Saved")
-            } , doneText = "Save", initialTextInput = currentText)
+                //context.toast("Preference Saved")
+            },
+            //doneText = "Save",
+            initialTextInput = currentText
+        )
     }
     SettingsEntry(
         title = title,

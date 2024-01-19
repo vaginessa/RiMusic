@@ -52,6 +52,7 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.UnstableApi
 import com.valentinilk.shimmer.shimmer
+import io.ktor.client.HttpClient
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.NextBody
 import it.vfsfitvnm.innertube.requests.lyrics
@@ -85,6 +86,8 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import me.bush.translator.Language
 import me.bush.translator.Translator
+import java.net.InetSocketAddress
+import java.net.Proxy
 import java.util.Locale
 
 
@@ -154,6 +157,14 @@ fun Lyrics(
         var translateEnabled by remember {
             mutableStateOf(false)
         }
+
+        /*
+        val httpClient = HttpClient() {
+            engine {
+                proxy = Proxy(Proxy.Type.HTTP, InetSocketAddress("sample-proxy-server", 3128))
+            }
+        }
+         */
 
         val translator = Translator()
 

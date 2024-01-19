@@ -121,10 +121,10 @@ fun OtherSettings() {
         )
 
 
-        SettingsEntryGroupText(title = "PROXY")
+        SettingsEntryGroupText(title = stringResource(R.string.proxy))
 
         SwitchSettingEntry(
-            title = "Enable Proxy",
+            title = stringResource(R.string.enable_proxy),
             text = "",
             isChecked = isProxyEnabled,
             onCheckedChange = { isProxyEnabled = it }
@@ -132,19 +132,19 @@ fun OtherSettings() {
 
         AnimatedVisibility(visible = isProxyEnabled) {
             Column {
-                EnumValueSelectorSettingsEntry(title = "Proxy Mode",
+                EnumValueSelectorSettingsEntry(title = stringResource(R.string.proxy_mode),
                     selectedValue = proxyMode,
                     onValueSelected = { proxyMode = it },
                     valueText = { it.name }
                 )
                 TextDialogSettingEntry(
-                    title = "Proxy Host",
-                    text = "Set proxy hostname",
+                    title = stringResource(R.string.proxy_host),
+                    text = stringResource(R.string.set_proxy_hostname),
                     currentText = proxyHost,
                     onTextSave = { proxyHost = it })
                 TextDialogSettingEntry(
-                    title = "Proxy Port",
-                    text = "Set proxy port",
+                    title = stringResource(R.string.proxy_port),
+                    text = stringResource(R.string.set_proxy_port),
                     currentText = proxyPort.toString(),
                     onTextSave = { proxyPort = it.toIntOrNull() ?: 1080 })
             }

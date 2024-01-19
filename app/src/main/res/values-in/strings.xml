@@ -316,4 +316,11 @@ Saat cache kehabisan ruang kosong, lagu &amp; gambar yang sudah lama tidak diaks
     <string name="add_selected_in_playlist">Add selected in playlist</string>
     <string name="import_playlist">Import playlist</string>
     <string name="lang_ukrainian">Ukrainian</string>
+    <string name="proxy">PROXY</string>
+    <string name="enable_proxy">Enable Proxy</string>
+    <string name="proxy_mode">Proxy Mode</string>
+    <string name="proxy_host">Proxy Host</string>
+    <string name="set_proxy_hostname">Set proxy hostname</string>
+    <string name="proxy_port">Proxy Port</string>
+    <string name="set_proxy_port">Set proxy port</string>
 </resources>
