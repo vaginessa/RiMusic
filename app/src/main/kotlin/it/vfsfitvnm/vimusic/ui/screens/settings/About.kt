@@ -177,6 +177,7 @@ fun About() {
                 "siggi1984 \n" +
                 "SuhasDissa \n" +
                 "teddysulaimanGL \n" +
+                "TheCreeperDuck \n" +
                 "TsyQax \n" +
                 "kyev666 \n"
 
