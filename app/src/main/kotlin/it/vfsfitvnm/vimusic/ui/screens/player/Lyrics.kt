@@ -75,6 +75,7 @@ import it.vfsfitvnm.vimusic.ui.styling.onOverlayShimmer
 import it.vfsfitvnm.vimusic.utils.SynchronizedLyrics
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
+import it.vfsfitvnm.vimusic.utils.getHttpClient
 import it.vfsfitvnm.vimusic.utils.isShowingSynchronizedLyricsKey
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -158,15 +159,7 @@ fun Lyrics(
             mutableStateOf(false)
         }
 
-        /*
-        val httpClient = HttpClient() {
-            engine {
-                proxy = Proxy(Proxy.Type.HTTP, InetSocketAddress("sample-proxy-server", 3128))
-            }
-        }
-         */
-
-        val translator = Translator()
+        val translator = Translator(getHttpClient())
 
 
         LaunchedEffect(mediaId, isShowingSynchronizedLyrics) {

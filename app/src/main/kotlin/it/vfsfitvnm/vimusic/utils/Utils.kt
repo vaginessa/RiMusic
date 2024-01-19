@@ -17,9 +17,12 @@ import androidx.core.os.bundleOf
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.UnstableApi
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.UserAgent
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.ContinuationBody
 import it.vfsfitvnm.innertube.requests.playlistPage
+import it.vfsfitvnm.innertube.utils.ProxyPreferences
 import it.vfsfitvnm.innertube.utils.plus
 import it.vfsfitvnm.vimusic.BuildConfig
 import it.vfsfitvnm.vimusic.models.Song
@@ -34,6 +37,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import org.json.JSONException
 import java.io.File
+import java.net.InetSocketAddress
+import java.net.Proxy
 import java.time.Duration
 import java.time.LocalTime
 import java.util.Timer
@@ -290,6 +295,19 @@ suspend fun Result<Innertube.PlaylistOrAlbumPage>.completed(): Result<Innertube.
     return Result.success(playlistPage)
 }
  */
+
+fun getHttpClient() = HttpClient() {
+    install(UserAgent) {
+        agent = "Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0"
+    }
+    engine {
+        ProxyPreferences.preference?.let{
+            proxy = Proxy(it.proxyMode, InetSocketAddress(it.proxyHost, it.proxyPort))
+        }
+
+    }
+}
+
 
 inline val isAtLeastAndroid6
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
