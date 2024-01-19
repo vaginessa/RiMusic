@@ -1,57 +1,90 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   class="ionicon"
-   viewBox="0 0 432 432"
+   width="108.0px"
+   height="108.0px"
+   viewBox="0 0 108.0 108.0"
    version="1.1"
-   id="svg2"
-   sodipodi:docname="ic_launcher_foreground_inverse.svg"
+   id="SVGRoot"
+   sodipodi:docname="ic_launcher_foreground - kopie.svg"
    inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
-   width="432"
-   height="432"
-   inkscape:export-filename="rimusic_icon.png"
-   inkscape:export-xdpi="64"
-   inkscape:export-ydpi="64"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
-     id="defs2">
-    <color-profile
-       name="sRGB-IEC61966-2.1"
-       xlink:href="file:///C:/WINDOWS/system32/spool/drivers/color/sRGB%20Color%20Space%20Profile.icm"
-       id="color-profile2" />
-  </defs>
+     id="defs1600" />
   <sodipodi:namedview
-     id="namedview2"
+     id="base"
      pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscape:showpageshadow="2"
+     bordercolor="#666666"
+     borderopacity="1.0"
      inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     showguides="false"
-     inkscape:zoom="0.83691406"
-     inkscape:cx="248.53209"
-     inkscape:cy="324.40607"
-     inkscape:window-width="1920"
-     inkscape:window-height="1001"
-     inkscape:window-x="-9"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6"
+     inkscape:cx="56.160714"
+     inkscape:cy="40.803571"
+     inkscape:document-units="px"
+     inkscape:current-layer="SVGRoot"
+     inkscape:document-rotation="0"
+     showgrid="true"
+     inkscape:window-width="2560"
+     inkscape:window-height="1351"
+     inkscape:window-x="1911"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg2" />
+     inkscape:pagecheckerboard="0"
+     inkscape:snap-grids="true"
+     inkscape:snap-center="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-paths="true"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2170"
+       originx="0"
+       originy="0"
+       spacingy="1"
+       spacingx="1"
+       units="px"
+       visible="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata1603">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <g
-     id="g1"
-     transform="matrix(0.72,0,0,0.72,36,31.68)">
+     id="g2"
+     transform="matrix(0.140925,0,0,0.140925,21.042346,17.9232)">
     <path
-       style="opacity:1;fill:#4fc17c;fill-opacity:1;stroke:none;stroke-width:0.844898;stroke-opacity:1"
-       d="m 79.720372,438.95124 c -6.16509,-1.29334 -12.60211,-4.75368 -17.55282,-9.43585 -5.52063,-5.22119 -8.36893,-9.75922 -10.575769,-16.84982 C 50.057602,407.73623 50,402.06848 50,256.04257 50,110.01665 50.0576,104.3489 51.591783,99.419568 53.798622,92.328971 56.646922,87.790936 62.167552,82.56975 c 10.06273,-9.516909 23.69221,-12.475461 35.99162,-7.812703 3.751088,1.422054 249.475958,148.090803 256.848898,153.308493 2.09113,1.47984 5.41686,5.08617 7.39051,8.01407 4.89696,7.2646 6.41112,12.86974 5.96985,22.09932 -0.29584,6.18759 -0.7947,8.27015 -3.10536,12.96377 -1.51409,3.07556 -4.53906,7.39968 -6.72215,9.60916 -2.96847,3.00436 -22.22545,14.9348 -76.37657,47.31824 -71.4748,42.74333 -72.46551,43.30101 -76.92453,43.30101 -11.64407,0 -19.17367,-11.99554 -14.10367,-22.46877 1.66245,-3.43418 4.46972,-5.20979 73.97632,-46.79037 l 72.24829,-43.22074 -0.25899,-3.00923 -0.259,-3.00924 -124.19996,-74.36415 C 144.33283,137.60833 87.624602,103.97092 86.624512,103.75881 c -1.11942,-0.23742 -2.49962,0.29563 -3.59081,1.38683 l -1.77249,1.77248 v 149.12445 c 0,147.99792 0.0128,149.13721 1.6898,150.81424 0.92939,0.92939 2.29499,1.6898 3.03467,1.6898 0.73967,0 16.611038,-9.16387 35.269708,-20.36417 l 33.92484,-20.36415 4.78032,0.34577 c 11.49325,0.83135 18.25676,13.18204 12.65938,23.11704 -1.74053,3.08933 -5.43062,5.5272 -36.71931,24.25872 -19.13137,11.45333 -36.425248,21.40096 -38.430838,22.10585 -4.72292,1.65992 -13.11708,2.27736 -17.74941,1.30557 z"
-       id="path4" />
-    <path
-       style="opacity:1;fill:#4fc17c;fill-opacity:1;stroke:none;stroke-width:0.844898;stroke-opacity:1"
-       d="m 426.95391,445.65338 c -1.74375,-0.92054 -4.21507,-3.25225 -5.49184,-5.18157 l -2.32139,-3.50786 V 256.03243 75.100916 l 2.32441,-3.51242 c 7.15771,-10.81604 23.22314,-8.49695 27.52385,3.97313 1.43347,4.15639 1.30149,357.532464 -0.135,361.492644 -1.29116,3.55951 -5.27528,7.74927 -8.74912,9.20074 -3.86828,1.61627 -9.43174,1.36174 -13.15091,-0.60163 z"
-       id="path5" />
+       d="m 182.19863,346.975 30.9875,-18.54625 30.9875,-18.54625 30.9875,-18.54625 30.9875,-18.54625 c 12.12,-7.25 12.12,-26.33 0,-33.58 L 58.248628,90.84 C 44.248626,82.48 27.248626,93.56 27.248626,111 v 290 c 0,17.44 17,28.52 31.000002,20.16 l 30.9875,-18.54625 15.493752,-9.27312"
+       style="display:inline;fill:none;stroke:#4fc17c;stroke-width:48;stroke-linecap:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       id="path1"
+       sodipodi:nodetypes="cccccccssccc" />
+    <line
+       x1="440.48462"
+       y1="80"
+       x2="440.48462"
+       y2="432"
+       style="display:inline;fill:none;stroke:#4fc17c;stroke-width:48;stroke-linecap:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       id="line1" />
   </g>
 </svg>

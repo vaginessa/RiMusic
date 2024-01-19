@@ -296,8 +296,8 @@
     <string name="hungarian">Magyar</string>
     <string name="korean">Koreai</string>
     <string name="background_player">"HÁTTÉR LEJÁTSZÓ "</string>
-    <string name="show_favorite_button">Show Favorite button</string>
-    <string name="show_favorite_button_in_lock_screen_and_notification_area">Show Favorite button in lock screen and notification area</string>
+    <string name="show_favorite_button">Kedvencek gomb megjelenítése</string>
+    <string name="show_favorite_button_in_lock_screen_and_notification_area">A Kedvenc gomb megjelenítése a lezárt képernyőn és az értesítési felületen</string>
     <string name="show_download_button">Letöltés gomb megjelenítése</string>
     <string name="show_download_button_in_lock_screen_and_notification_area">Show Download button in lock screen and notification area</string>
     <string name="by_most_played_song">A legtöbbet játszott dalok alapján</string>
