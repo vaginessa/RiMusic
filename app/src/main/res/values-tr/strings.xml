@@ -43,7 +43,7 @@
     <string name="enter_the_lyrics">Şarkı sözlerini gir</string>
     <string name="edit_lyrics">Şarkı sözlerini düzenle</string>
     <string name="search_lyrics_online">Şarkı sözlerini çevrimiçi ara</string>
-    <string name="fetch_lyrics_again">Şarkı sözlerini yeniden al</string>
+    <string name="fetch_lyrics_again">Şarkı sözlerini yeniden indir</string>
     <string name="queue_loop">"Sırayı döngüye al "</string>
     <string name="id">Kimlik</string>
     <string name="itag">Itag</string>
@@ -127,9 +127,9 @@
     <string name="left">%1$s kaldı</string>
     <string name="set">Ayarla</string>
     <string name="confirm">Onayla</string>
-    <string name="show">Göster</string>
-    <string name="unsynchronized_lyrics">senkronize edilmemiş sözler</string>
-    <string name="synchronized_lyrics">senkronize sözler</string>
+    <string name="show">göster</string>
+    <string name="unsynchronized_lyrics">Senkronize edilmemiş sözleri</string>
+    <string name="synchronized_lyrics">Senkronize sözleri</string>
     <string name="provided_by">Sağlayıcı</string>
     <string name="cleanup">TEMİZLE</string>
     <string name="delete_playback_events">%1$s oynatma olayını sil</string>
@@ -144,7 +144,7 @@
     <string name="close_background_player">Arka plan oynatıcısını kapat</string>
     <string name="when_app_swipe_out_from_task_manager">Uygulama görev yöneticisinden dışarı kaydırıldığında</string>
     <string name="opening_url">yükleniyor...</string>
-    <string name="an_error_has_occurred_while_fetching_the_lyrics">Sözler indirilirken bir hata oluştu</string>
+    <string name="an_error_has_occurred_while_fetching_the_lyrics">Şarkı sözleri indirilirken bir hata oluştu</string>
     <string name="are_not_available_for_this_song">bu şarkı için mevcut değil</string>
     <string name="error_a_network_error_has_occurred">Bir ağ hatası oluştu</string>
     <string name="error_couldn_t_find_a_playable_audio_format">Oynatılabilir bir ses biçimi bulunamadı</string>
