@@ -1014,7 +1014,7 @@ class PlayerService : InvincibleService(),
 
         val mediaMetadata = player.mediaMetadata
 
-            val builder = if (isAtLeastAndroid8) {
+        val builder = if (isAtLeastAndroid8) {
             Notification.Builder(applicationContext, NotificationChannelId)
         } else {
             Notification.Builder(applicationContext)
@@ -1049,7 +1049,7 @@ class PlayerService : InvincibleService(),
                 if (player.shouldBePlaying) pauseIntent else playIntent
             )
             .addAction(R.drawable.play_skip_forward, "Skip forward", nextIntent)
-                if (showLikeButton && showDownloadButton) {
+            if (showLikeButton && showDownloadButton) {
                 //Prior Android 11
                 builder
                     .addAction(
