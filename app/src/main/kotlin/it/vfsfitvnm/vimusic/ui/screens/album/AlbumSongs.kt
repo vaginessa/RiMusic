@@ -392,12 +392,12 @@ fun AlbumSongs(
 
                             if (showSelectCustomizeAlbumDialog)
                                 SelectorDialog(
-                                    title = "Customize album",
+                                    title = stringResource(R.string.customize_album),
                                     onDismiss = { showSelectCustomizeAlbumDialog = false },
                                     values = listOf(
-                                        Info("t", "Update Title"),
-                                        Info("a", "Update Authors"),
-                                        Info("c", "Update Cover")
+                                        Info("t", stringResource(R.string.update_title)),
+                                        Info("a", stringResource(R.string.update_authors)),
+                                        Info("c", stringResource(R.string.update_cover))
                                     ),
                                     onValueSelected = {
                                         when (it) {
@@ -412,9 +412,9 @@ fun AlbumSongs(
                             if (showDialogChangeAlbumTitle)
                                 InputTextDialog(
                                     onDismiss = { showDialogChangeAlbumTitle = false },
-                                    title = "Update Title",
+                                    title = stringResource(R.string.update_title),
                                     value = album?.title.toString(),
-                                    placeholder = "Title",
+                                    placeholder = stringResource(R.string.title),
                                     setValue = {
                                         if (it.isNotEmpty()) {
                                             query {
@@ -427,9 +427,9 @@ fun AlbumSongs(
                             if (showDialogChangeAlbumAuthors)
                                 InputTextDialog(
                                     onDismiss = { showDialogChangeAlbumAuthors = false },
-                                    title = "Update Authors",
+                                    title = stringResource(R.string.update_authors),
                                     value = album?.authorsText.toString(),
-                                    placeholder = "Authors",
+                                    placeholder = stringResource(R.string.authors),
                                     setValue = {
                                         if (it.isNotEmpty()) {
                                             query {
@@ -443,9 +443,9 @@ fun AlbumSongs(
                             if (showDialogChangeAlbumCover)
                                 InputTextDialog(
                                     onDismiss = { showDialogChangeAlbumCover = false },
-                                    title = "Update Cover",
+                                    title = stringResource(R.string.update_cover),
                                     value = album?.thumbnailUrl.toString(),
-                                    placeholder = "Cover",
+                                    placeholder = stringResource(R.string.cover),
                                     setValue = {
                                         if (it.isNotEmpty()) {
                                             query {
