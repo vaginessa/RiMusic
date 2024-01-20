@@ -24,7 +24,7 @@
     <string name="playlists">Wiedergabelisten</string>
     <string name="favorites">Favoriten</string>
     <string name="quick_picks">Startseite</string>
-    <string name="songs">Titel</string>
+    <string name="songs">Songs</string>
     <string name="other_versions">Alternative Versionen</string>
     <string name="album_no_alternative_version">Dieses Album hat keine alternative Version</string>
     <string name="enqueue">Einreihen</string>
@@ -32,11 +32,11 @@
     <string name="view_all">Alle Anzeigen</string>
     <string name="from_wikipedia_cca">Von Wikipedia unter Creative Commons Attribution CC-BY-SA 3.0</string>
     <string name="overview">Übersicht</string>
-    <string name="singles">Einzeln</string>
+    <string name="singles">Singles</string>
     <string name="library">Bibliothek</string>
     <string name="artist_no_release_album">Dieser Künstler hat kein Album veröffentlicht</string>
     <string name="artist_no_release_single">Dieser Künstler hat keine Singles veröffentlicht</string>
-    <string name="delete_playlist">Möchtest du diese Playlist wirklich löschen?</string>
+    <string name="delete_playlist">Möchtest du diese Wiedergabeliste wirklich löschen?</string>
     <string name="sync">Synchronisieren</string>
     <string name="rename">Umbenennen</string>
     <string name="delete">Löschen</string>
@@ -49,13 +49,13 @@
     <string name="itag">Itag</string>
     <string name="bitrate">Bitrate</string>
     <string name="size">Größe</string>
-    <string name="cached">Song-Zwischenspeicher</string>
+    <string name="cached">Zwischenspeicher</string>
     <string name="loudness">Lautstärke</string>
     <string name="clear">Löschen</string>
     <string name="error">Es ist ein Fehler aufgetreten.</string>
     <string name="enter_a_name">Suchen</string>
     <string name="online">Online</string>
-    <string name="no_results_found">Keine Ergebnisse gefunden. Bitte versuchen Sie eine andere Suchanfrage oder Kategorie</string>
+    <string name="no_results_found">Keine Ergebnisse gefunden. Bitte versuch eine andere Suchanfrage oder Kategorie</string>
     <string name="videos">Videos</string>
     <string name="featured">Vorgestellt</string>
     <string name="view_the_source_code">Den Quellcode anzeigen</string>
@@ -64,7 +64,7 @@
     <string name="request_a_feature_or_suggest_an_idea">Fordern Sie ein Feature an oder schlagen Sie eine Idee vor</string>
     <string name="appearance">Aussehen</string>
     <string name="colors">Farben</string>
-    <string name="theme">Nachtmodus</string>
+    <string name="theme">Erscheinungsbild</string>
     <string name="theme_mode">Themenmodus</string>
     <string name="shapes">Formen</string>
     <string name="thumbnail_roundness">Rundheit der Miniaturansicht</string>
@@ -82,8 +82,8 @@
     <string name="max_size">Max. Größe</string>
     <string name="song_cache">Song Zwischenspeicher</string>
     <string name="database">Datenbank</string>
-    <string name="reset_quick_picks">Zurücksetzen der Entdecken-Auswahl</string>
-    <string name="quick_picks_are_cleared">Entdecken-Auswahl wird gelöscht</string>
+    <string name="reset_quick_picks">Zurücksetzen der Tips-Auswahl</string>
+    <string name="quick_picks_are_cleared">Tips-Auswahl wird gelöscht</string>
     <string name="backup">Sicherung</string>
     <string name="personal_preference">Persönliche Einstellungen (z.B. der Theme-Modus) und der Zwischenspeicher sind ausgeschlossen.</string>
     <string name="backup_1">Sichern</string>
@@ -107,7 +107,7 @@
     <string name="ignore_battery_optimizations">Ignorieren der Akku-Optimierungen</string>
     <string name="already_unrestricted">Schon uneingeschränkt</string>
     <string name="disable_background_restrictions">Deaktivieren von Einschränkungen im Hintergrund</string>
-    <string name="invincible_service">Unbesiegbarer Service</string>
+    <string name="invincible_service">Unbesiegbarer Dienst</string>
     <string name="turning_off_battery_optimizations_is_not_enough">Wenn Ausschalten der Akku-Optimierungen nicht ausreicht</string>
     <string name="player_audio"><![CDATA[Spieler & Audio]]></string>
     <string name="player">Spieler</string>
@@ -129,7 +129,7 @@
     <string name="confirm">Bestätigen</string>
     <string name="show">Zeigen</string>
     <string name="unsynchronized_lyrics">Unsynchronisierten lyrics</string>
-    <string name="synchronized_lyrics">Synchronisiert lyrics</string>
+    <string name="synchronized_lyrics">Synchronisierte Songtexte</string>
     <string name="provided_by">Bildmaterial von</string>
     <string name="cleanup">Zurücksetzen</string>
     <string name="delete_playback_events">Löschen %1$s Wiedergabeereignisse</string>
@@ -215,7 +215,7 @@
     <string name="not_find_battery_optimization_settings">Konnte die Einstellungen für die Batterieoptimierung nicht finden, bitte manuell auf die Whitelist setzen</string>
     <string name="search">Suche...</string>
     <string name="no">Nein</string>
-    <string name="stop">Aufhören</string>
+    <string name="stop">Stop</string>
     <string name="preferences">PREFERENZEN</string>
     <string name="it_seems_that_youtube_music_is_not_installed">Es scheint, dass YouTube Music nicht installiert ist!</string>
     <string name="listen_on_youtube">Auf YouTube anhören</string>
@@ -228,7 +228,7 @@
     <string name="play_next">Als nächstes wiedergeben</string>
     <string name="toggle_lyrics">Songtext umschalten</string>
     <string name="by_tapping_on_the_thumbnail">Durch Tippen auf das Thumbnail</string>
-    <string name="require_mic_permission">Visualisierungseffekte benötigen Mikrofon, gewähren Sie bitte.</string>
+    <string name="require_mic_permission">Visualisierungseffekte benötigen Mikrofon, gewähren Sie bitte die Berechtigung.</string>
     <string name="vt_fancy">Schön</string>
     <string name="vt_circular">Kreisförmig</string>
     <string name="vt_disabled">Aus</string>
@@ -239,8 +239,8 @@
     <string name="vt_full">Voll</string>
     <string name="new_albums_of_your_artists">Neue Alben Ihrer Künstler</string>
     <string name="timeline">Zeitverlauf</string>
-    <string name="song_cache_by_player">SONG CACHE (nach Spieler)</string>
-    <string name="song_cache_by_download">SONG CACHE (durch Download)</string>
+    <string name="song_cache_by_player">Song-Zwischenspeicher</string>
+    <string name="song_cache_by_download">Download-Speicher</string>
     <string name="visualizer">Vorschau</string>
     <string name="visualizer_require_mic_permission">Visualisierer MIC PERMISSION</string>
     <string name="restart_app_please">Starte bitte die App neu.</string>
@@ -259,7 +259,7 @@
     <string name="enter_value_in_mb">Wert in MB eingeben</string>
     <string name="value_cannot_be_empty">Wert darf nicht leer sein</string>
     <string name="value_must_be_greater_than">"Der Wert muss grösser sein als "</string>
-    <string name="custom">Kundenspezifisch</string>
+    <string name="custom">Benutzerdefiniert</string>
     <string name="custom_cache_size">Benutzerdefinierte Zwischenspeichergröße</string>
     <string name="listen_on">Hören auf</string>
     <string name="error_local_music_not_found">Lokale Musikdatei nicht gefunden</string>
@@ -281,7 +281,7 @@
     <string name="audio_quality_format_medium">Mittel</string>
     <string name="audio_quality_format_low">Niedrig</string>
     <string name="audio_quality_format_unknown">Unbekannt</string>
-    <string name="do_you_really_want_to_delete_download">Möchten Sie den Download wirklich löschen?</string>
+    <string name="do_you_really_want_to_delete_download">Möchtest Du den Download wirklich löschen?</string>
     <string name="remove_all">Alle entfernen</string>
     <string name="remove_selected">Ausgewählte entfernen</string>
     <string name="clear_queue">Warteschlange leeren</string>
@@ -291,7 +291,7 @@
     <string name="catalan">Katalanisch (català)</string>
     <string name="disable_scrolling_text">Lauftext deaktivieren</string>
     <string name="scrolling_text_is_used_for_long_texts">Lauftext wird für lange Texte verwendet</string>
-    <string name="audio_quality_format">Wiedergabequalität</string>
+    <string name="audio_quality_format">Audioqualität</string>
     <string name="persian">Persian</string>
     <string name="hungarian">Hungarian</string>
     <string name="korean">Korean</string>
