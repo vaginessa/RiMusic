@@ -130,12 +130,12 @@
 ###  **Developer / Designer:**
 - [@25huizengek1](https://github.com/25huizengek1)
 - [@Craeckie](https://github.com/Craeckie)
+- [@DanielSevillano](https://github.com/DanielSevillano)
 - [@fast4x](https://github.com/fast4x)
 - [@ikanakova](https://github.com/ikanakova)
 - [@locxter](https://github.com/locxter)
-- [DanielSevillano](https://github.com/DanielSevillano)
-- [roklc](https://github.com/roklc)
-- [SuhasDissa](https://github.com/SuhasDissa)
+- [@roklc](https://github.com/roklc)
+- [@SuhasDissa](https://github.com/SuhasDissa)
 
 
 
