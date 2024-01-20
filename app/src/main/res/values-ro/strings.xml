@@ -322,8 +322,8 @@
     <string name="set_proxy_hostname">Setează un Hostname pentru Proxy</string>
     <string name="proxy_port">Portul Proxy</string>
     <string name="set_proxy_port">Setează un Port Proxy</string>
-    <string name="disable_if_you_do_not_want_to_see">Disable if you do not want to see</string>
-    <string name="lang_hebrew">Hebrew</string>
+    <string name="disable_if_you_do_not_want_to_see">Dezactivează dacă nu vrei să vezi</string>
+    <string name="lang_hebrew">Ebraică (עִברִית)</string>
     <string name="customize_album">Customize album</string>
     <string name="update_title">Update Title</string>
     <string name="update_authors">Update Authors</string>

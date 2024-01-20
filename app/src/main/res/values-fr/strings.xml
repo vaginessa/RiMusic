@@ -322,8 +322,8 @@
     <string name="set_proxy_hostname">Définir le nom d\'hôte du proxy</string>
     <string name="proxy_port">Port du Proxy</string>
     <string name="set_proxy_port">Définir le port du proxy</string>
-    <string name="disable_if_you_do_not_want_to_see">Disable if you do not want to see</string>
-    <string name="lang_hebrew">Hebrew</string>
+    <string name="disable_if_you_do_not_want_to_see">Désactiver si vous ne souhaitez pas voir</string>
+    <string name="lang_hebrew">Hébreu (עִברִית)</string>
     <string name="customize_album">Customize album</string>
     <string name="update_title">Update Title</string>
     <string name="update_authors">Update Authors</string>
