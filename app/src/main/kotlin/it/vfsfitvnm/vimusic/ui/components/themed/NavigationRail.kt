@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.size.Dimension
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -70,7 +71,7 @@ inline fun NavigationRail(
             modifier = Modifier
                 .size(
                     width = if (isLandscape) Dimensions.navigationRailWidthLandscape else Dimensions.navigationRailWidth,
-                    height = Dimensions.headerHeight
+                    height = if (showButton2) Dimensions.headerHeight else Dimensions.halfheaderHeight
                 )
         ) {
             Image(

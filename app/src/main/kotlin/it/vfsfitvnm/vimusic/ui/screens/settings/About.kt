@@ -150,37 +150,49 @@ fun About() {
         SettingsEntryGroupText(title = stringResource(R.string.contributors))
         SettingsDescription(text = stringResource(R.string.in_alphabetical_order))
 
+        SettingsTopDescription( text ="Translator:")
         SettingsTopDescription( text =
-                "2010furs \n" +
-                "25huizengek1 \n" +
-                "abfreeman \n" +
-                "Adam Kop \n" +
-                "Bash.boy \n" +
-                "Conk \n" +
-                "Crayz310 \n" +
-                "CUMOON \n" +
-                "DanielSevillano \n" +
-                "dainvincible1 \n" +
-                "damianadam000 \n" +
-                "Fabian Urra \n" +
-                "Get100percent \n" +
-                "ikanakova \n" +
-                "Jakub Žitník \n" +
-                "mapkaps \n" +
-                "Muha Aliss \n" +
-                "Ndvok \n" +
-                "NEVARLeVrai \n" +
-                "OrangeZXZ \n" +
-                "roklc \n" +
-                "r.t.redreovic \n" +
-                "SharkChan0622 \n" +
-                "siggi1984 \n" +
-                "SuhasDissa \n" +
-                "teddysulaimanGL \n" +
-                "TheCreeperDuck \n" +
-                "TsyQax \n" +
-                "kyev666 \n"
+            "2010furs \n"+
+                    "abfreeman \n"+
+                    "Adam Kop \n"+
+                    "Ahmad Al Juwaisri \n"+
+                    "Conk \n"+
+                    "Crayz310 \n"+
+                    "CUMOON \n"+
+                    "DanielSevillano \n"+
+                    "EMC_Translator \n"+
+                    "Fabian Urra \n"+
+                    "fast4x \n"+
+                    "Fausta Ahmad \n"+
+                    "Get100percent \n"+
+                    "ikanakova \n"+
+                    "JZITNIK-github \n"+
+                    "kjev666 \n"+
+                    "Marinkas \n"+
+                    "Muha Aliss \n"+
+                    "Ndvok \n"+
+                    "NEVARLeVrai \n"+
+                    "OrangeZXZ \n"+
+                    "roklc \n"+
+                    "SharkChan0622 \n"+
+                    "Shilave malay \n"+
+                    "siggi1984 \n"+
+                    "teddysulaimanGL \n"+
+                    "TheCreeperDuck \n"+
+                    "TsyQax \n"+
+                    "Vladimir \n"
+        )
 
+        SettingsTopDescription( text ="Developer / Designer:")
+        SettingsTopDescription( text =
+            "25huizengek1 \n"+
+                "Craeckie \n"+
+                "fast4x \n"+
+                "ikanakova \n"+
+                "locxter \n"+
+                "DanielSevillano \n"+
+                "roklc \n"+
+                "SuhasDissa \n"
         )
     }
 }
