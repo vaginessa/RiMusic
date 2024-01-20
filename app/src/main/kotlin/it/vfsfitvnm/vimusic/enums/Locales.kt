@@ -11,7 +11,7 @@ enum class Languages {
     ChineseTraditional,
     Czech,
     French,
-    FrenchEmo,
+    //FrenchEmo,
     German,
     Greek,
     Hebrew,
@@ -25,7 +25,7 @@ enum class Languages {
     PortugueseBrazilian,
     Portuguese,
     Romanian,
-    RomanianEmo,
+    //RomanianEmo,
     Russian,
     Spanish,
     Turkish,
@@ -51,14 +51,14 @@ enum class Languages {
             Hungarian -> "hu"
             Spanish -> "es"
             French -> "fr"
-            FrenchEmo -> "fr-FR"
+            //FrenchEmo -> "fr-FR"
             Odia -> "or"
             Persian -> "fa"
             Polish -> "pl"
             Portuguese -> "pt"
             PortugueseBrazilian -> "pt-BR"
             Romanian -> "ro"
-            RomanianEmo -> "ro-RO"
+            //RomanianEmo -> "ro-RO"
             Russian -> "ru"
             Turkish -> "tr"
             Ukrainian -> "uk"

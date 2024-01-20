@@ -57,7 +57,7 @@
     <string name="online">Συνδεδεμένο</string>
     <string name="no_results_found">Δεν βρέθηκαν αποτελέσματα. Δοκιμάστε διαφορετικές λέξεις-κλειδιά ή κατηγορίες</string>
     <string name="videos">Βίντεο</string>
-    <string name="featured">﻿Προτεινόμενα</string>
+    <string name="featured">Προτεινόμενα</string>
     <string name="view_the_source_code">Προβολή Πηγαίου Κώδικα</string>
     <string name="report_an_issue">Αναφορά προβλήματος</string>
     <string name="you_will_be_redirected_to_github">Θα μεταφερθείτε στο GitHub</string>
@@ -322,4 +322,6 @@
     <string name="set_proxy_hostname">Set proxy hostname</string>
     <string name="proxy_port">Proxy Port</string>
     <string name="set_proxy_port">Set proxy port</string>
+    <string name="disable_if_you_do_not_want_to_see">Disable if you do not want to see</string>
+    <string name="lang_hebrew">Hebrew</string>
 </resources>

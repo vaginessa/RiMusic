@@ -81,7 +81,7 @@ fun  QuickPicsSettings() {
 
         SwitchSettingEntry(
             title = "${stringResource(R.string.show)} ${stringResource(R.string.related_albums)}",
-            text = "Disable if you do not want to see "+stringResource(R.string.related_albums),
+            text = stringResource(R.string.disable_if_you_do_not_want_to_see) + " " +stringResource(R.string.related_albums),
             isChecked = showRelatedAlbums,
             onCheckedChange = {
                 showRelatedAlbums = it
@@ -92,7 +92,7 @@ fun  QuickPicsSettings() {
 
         SwitchSettingEntry(
             title = "${stringResource(R.string.show)} ${stringResource(R.string.similar_artists)}",
-            text = "Disable if you do not want to see "+stringResource(R.string.similar_artists),
+            text = stringResource(R.string.disable_if_you_do_not_want_to_see) + " " +stringResource(R.string.similar_artists),
             isChecked = showSimilarArtists,
             onCheckedChange = {
                 showSimilarArtists = it
@@ -104,7 +104,7 @@ fun  QuickPicsSettings() {
 
         SwitchSettingEntry(
             title = "${stringResource(R.string.show)} ${stringResource(R.string.new_albums_of_your_artists)}",
-            text = "Disable if you do not want to see "+stringResource(R.string.new_albums_of_your_artists),
+            text = stringResource(R.string.disable_if_you_do_not_want_to_see) + " " +stringResource(R.string.new_albums_of_your_artists),
             isChecked = showNewAlbumsArtists,
             onCheckedChange = {
                 showNewAlbumsArtists = it
@@ -115,7 +115,7 @@ fun  QuickPicsSettings() {
 
         SwitchSettingEntry(
             title = "${stringResource(R.string.show)} ${stringResource(R.string.playlists_you_might_like)}",
-            text = "Disable if you do not want to see "+stringResource(R.string.playlists_you_might_like),
+            text = stringResource(R.string.disable_if_you_do_not_want_to_see) + " " +stringResource(R.string.playlists_you_might_like),
             isChecked = showPlaylistMightLike,
             onCheckedChange = {
                 showPlaylistMightLike = it
