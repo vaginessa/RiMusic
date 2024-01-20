@@ -33,8 +33,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.media3.common.MediaItem
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
+import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
@@ -43,6 +45,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.UiType
+import it.vfsfitvnm.vimusic.models.Album
 import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
@@ -52,11 +55,14 @@ import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.CustomDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.items.SongItemPlaceholder
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -74,6 +80,7 @@ import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
+import it.vfsfitvnm.vimusic.utils.toast
 import kotlinx.coroutines.Dispatchers
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
@@ -92,9 +99,13 @@ fun AlbumSongs(
     val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
 
     var songs by persistList<Song>("album/$browseId/songs")
+    var album by persist<Album?>("album/$browseId")
 
     LaunchedEffect(Unit) {
         Database.albumSongs(browseId).collect { songs = it }
+    }
+    LaunchedEffect(Unit) {
+        Database.album(browseId).collect { album = it }
     }
 
     val playlistPreviews by remember {
@@ -135,6 +146,19 @@ fun AlbumSongs(
     }
 
     var showAddPlaylistSelectDialog by remember {
+        mutableStateOf(false)
+    }
+
+    var showSelectCustomizeAlbumDialog by remember {
+        mutableStateOf(false)
+    }
+    var showDialogChangeAlbumTitle by remember {
+        mutableStateOf(false)
+    }
+    var showDialogChangeAlbumAuthors by remember {
+        mutableStateOf(false)
+    }
+    var showDialogChangeAlbumCover by remember {
         mutableStateOf(false)
     }
 
@@ -355,6 +379,80 @@ fun AlbumSongs(
                                         } else selectItems = true
 
                                         showSelectDialog = false
+                                    }
+                                )
+
+                            HeaderIconButton(
+                                icon = R.drawable.pencil,
+                                color = colorPalette.text,
+                                onClick = {
+                                    showSelectCustomizeAlbumDialog = true
+                                }
+                            )
+
+                            if (showSelectCustomizeAlbumDialog)
+                                SelectorDialog(
+                                    title = "Customize album",
+                                    onDismiss = { showSelectCustomizeAlbumDialog = false },
+                                    values = listOf(
+                                        Info("t", "Update Title"),
+                                        Info("a", "Update Authors"),
+                                        Info("c", "Update Cover")
+                                    ),
+                                    onValueSelected = {
+                                        when (it) {
+                                            "t" -> showDialogChangeAlbumTitle = true
+                                            "a" -> showDialogChangeAlbumAuthors = true
+                                            "c" -> showDialogChangeAlbumCover = true
+                                        }
+                                        showSelectCustomizeAlbumDialog = false
+                                    }
+                                )
+
+                            if (showDialogChangeAlbumTitle)
+                                InputTextDialog(
+                                    onDismiss = { showDialogChangeAlbumTitle = false },
+                                    title = "Update Title",
+                                    value = album?.title.toString(),
+                                    placeholder = "Title",
+                                    setValue = {
+                                        if (it.isNotEmpty()) {
+                                            query {
+                                                Database.updateAlbumTitle(browseId, it)
+                                            }
+                                            //context.toast("Album Saved $it")
+                                        }
+                                    }
+                                )
+                            if (showDialogChangeAlbumAuthors)
+                                InputTextDialog(
+                                    onDismiss = { showDialogChangeAlbumAuthors = false },
+                                    title = "Update Authors",
+                                    value = album?.authorsText.toString(),
+                                    placeholder = "Authors",
+                                    setValue = {
+                                        if (it.isNotEmpty()) {
+                                            query {
+                                                Database.updateAlbumAuthors(browseId, it)
+                                            }
+                                            //context.toast("Album Saved $it")
+                                        }
+                                    }
+                                )
+
+                            if (showDialogChangeAlbumCover)
+                                InputTextDialog(
+                                    onDismiss = { showDialogChangeAlbumCover = false },
+                                    title = "Update Cover",
+                                    value = album?.thumbnailUrl.toString(),
+                                    placeholder = "Cover",
+                                    setValue = {
+                                        if (it.isNotEmpty()) {
+                                            query {
+                                                Database.updateAlbumCover(browseId, it)
+                                            }
+                                            //context.toast("Album Saved $it")
+                                        }
                                     }
                                 )
 
