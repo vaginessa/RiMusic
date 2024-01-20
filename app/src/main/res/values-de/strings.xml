@@ -296,9 +296,9 @@
     <string name="hungarian">Hungarian</string>
     <string name="korean">Korean</string>
     <string name="background_player">"BACKGROUND PLAYER "</string>
-    <string name="show_favorite_button">Show Favorite button</string>
-    <string name="show_favorite_button_in_lock_screen_and_notification_area">Show Favorite button in lock screen and notification area</string>
-    <string name="show_download_button">Show Download button</string>
+    <string name="show_favorite_button">Schaltfläche \"Favoriten\" anzeigen</string>
+    <string name="show_favorite_button_in_lock_screen_and_notification_area">Favoriten-Schaltfläche im Sperrbildschirm und Benachrichtigungsbereich anzeigen</string>
+    <string name="show_download_button">Download-Button anzeigen</string>
     <string name="show_download_button_in_lock_screen_and_notification_area">Show Download button in lock screen and notification area</string>
     <string name="by_most_played_song">By Most played song</string>
     <string name="by_last_played_song">By Last played song</string>
