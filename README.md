@@ -87,6 +87,58 @@
 **Pull requests are welcome**
 - If you want to **develop new functions**, **fix a bug** or **improve some translations**, fork the repository and send a pull request.
 
+## 🤝 Contributors
+### **Translator:**
+- [@2010furs](https://github.com/2010furs)
+- [@abfreeman](https://github.com/abfreeman)
+- [@Crayz310](https://github.com/Crayz310)
+- [@Crayz310](https://github.com/Crayz310)
+- [@CUMOON](https://github.com/CUMOON)
+- [@DanielSevillano](https://github.com/DanielSevillano)
+- [@fast4x](https://github.com/fast4x)
+- [@fast4x](https://github.com/fast4x)
+- [@Get100percent](https://github.com/Get100percent)
+- [@ikanakova](https://github.com/ikanakova)
+- [@JZITNIK-github](https://github.com/JZITNIK-github)
+- [@kjev666](https://github.com/kjev666)
+- [@Marinkas](https://github.com/Marinkas)
+- [@NEVARLeVrai](https://github.com/NEVARLeVrai)
+- [@NEVARLeVrai](https://github.com/NEVARLeVrai)
+- [@NEVARLeVrai](https://github.com/NEVARLeVrai)
+- [@OrangeZXZ](https://github.com/OrangeZxZ)
+- [@roklc](https://github.com/roklc)
+- [@SharkChan0622](https://github.com/SharkChan0622)
+- [@SharkChan0622](https://github.com/SharkChan0622)
+- [@siggi1984](https://github.com/siggi1984)
+- [@siggi1984](https://github.com/siggi1984)
+- [@teddysulaimanGL](https://github.com/teddysulaimanGL)
+- [Adam Kop](https://crowdin.com/profile/damianadam000)
+- [Ahmad Al Juwaisri](https://crowdin.com/profile/juwaisri)
+- [Conk](https://crowdin.com/profile/conk)
+- [EMC_Translator](https://crowdin.com/profile/EMC_Translator)
+- [Fabian Urra](https://crowdin.com/profile/nsagcl)
+- [@fast4x](https://github.com/fast4x)
+- [Fausta Ahmad](https://crowdin.com/profile/faustaahmad)  
+- [Muha Aliss](https://crowdin.com/profile/muhaaliss)
+- [Ndvok](https://crowdin.com/profile/ndvok)
+- [Shilave malay](https://crowdin.com/profile/Bash.boy)
+- [TheCreeperDuck](https://crowdin.com/profile/thecreeperduck)
+- [TsyQax](https://crowdin.com/profile/TsyQax)
+- [Vladimir](https://crowdin.com/profile/vladimir15426)
+
+
+###  **Developer / Designer:**
+- [@25huizengek1](https://github.com/25huizengek1)
+- [@Craeckie](https://github.com/Craeckie)
+- [@fast4x](https://github.com/fast4x)
+- [@ikanakova](https://github.com/ikanakova)
+- [@locxter](https://github.com/locxter)
+- [DanielSevillano](https://github.com/DanielSevillano)
+- [roklc](https://github.com/roklc)
+- [SuhasDissa](https://github.com/SuhasDissa)
+
+
+
 ## 🫂 Acknowledgments
 - [**ViMusic**](https://github.com/vfsfitvnm/ViMusic)
 - [**YouTube-Internal-Clients**](https://github.com/zerodytrash/YouTube-Internal-Clients): A python script that discovers hidden YouTube API clients. Just a research project.
