@@ -309,7 +309,7 @@
     <string name="arabic">Arabic</string>
     <string name="chinese_simplified">Chinese Simplified</string>
     <string name="chinese_traditional">Chinese Traditional</string>
-    <string name="do_you_really_want_to_download_all">Do you really want to download all?</string>
+    <string name="do_you_really_want_to_download_all">Вы действительно хотите загрузить все?</string>
     <string name="add_all_in_playlist">Add all in playlist</string>
     <string name="add_in_playlist">Add in playlist</string>
     <string name="add_selected_in_playlist">Add selected in playlist</string>
