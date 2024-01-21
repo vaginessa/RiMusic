@@ -2,18 +2,18 @@
 <resources>
     <string name="cancel">Abbrechen</string>
     <string name="done">Fertig</string>
-    <string name="hidesong">Möchten Sie diesen Song wirklich löschen? Die Wiedergabezeit und der \nCache werden gelöscht.</string>
+    <string name="hidesong">Möchtest Du diesen Song wirklich löschen? Die Wiedergabezeit und der \nCache werden gelöscht.</string>
     <string name="new_playlist">Neue Wiedergabeliste</string>
     <string name="start_radio">Radio starten</string>
-    <string name="equalizer">Ausgleich</string>
-    <string name="stop_sleep_timer">Möchten Sie den Schlaf-Timer stoppen?</string>
+    <string name="equalizer">Equalizer</string>
+    <string name="stop_sleep_timer">Möchtest Du den Schlaf-Timer stoppen?</string>
     <string name="set_sleep_timer">Einstellen des Schlaf-Timer</string>
     <string name="add_to_playlist">Zu Wiedergabeliste hinzufügen</string>
     <string name="go_to_album">Zum Album gehen</string>
     <string name="remove_from_queue">Aus der Warteschlange entfernen</string>
     <string name="remove_from_playlist">Aus der Wiedergabeliste entfernen</string>
     <string name="hide">Löschen</string>
-    <string name="hide_from_quick_picks">Löschen von \"Tips\"</string>
+    <string name="hide_from_quick_picks">Löschen von \"Tipps\"</string>
     <string name="related_albums">Ähnliche Alben</string>
     <string name="similar_artists">Ähnliche Künstler</string>
     <string name="playlists_you_might_like">Wiedergabelisten, die dir gefallen könnten</string>
@@ -40,7 +40,7 @@
     <string name="sync">Synchronisieren</string>
     <string name="rename">Umbenennen</string>
     <string name="delete">Löschen</string>
-    <string name="enter_the_lyrics">Geben Sie den Songtext ein</string>
+    <string name="enter_the_lyrics">Gebe den Songtext ein</string>
     <string name="edit_lyrics">Bearbeiten des Songtextes</string>
     <string name="search_lyrics_online">Suche Songtext online</string>
     <string name="fetch_lyrics_again">Songtexte erneut herunterladen</string>
@@ -60,7 +60,7 @@
     <string name="featured">Vorgestellt</string>
     <string name="view_the_source_code">Den Quellcode anzeigen</string>
     <string name="report_an_issue">Ein Problem melden</string>
-    <string name="you_will_be_redirected_to_github">Sie werden weitergeleitet zu GitHub</string>
+    <string name="you_will_be_redirected_to_github">Du wirst weitergeleitet zu GitHub</string>
     <string name="request_a_feature_or_suggest_an_idea">Fordern Sie ein Feature an oder schlagen Sie eine Idee vor</string>
     <string name="appearance">Aussehen</string>
     <string name="colors">Farben</string>
@@ -82,8 +82,8 @@
     <string name="max_size">Max. Größe</string>
     <string name="song_cache">Song Zwischenspeicher</string>
     <string name="database">Datenbank</string>
-    <string name="reset_quick_picks">Zurücksetzen der Tips-Auswahl</string>
-    <string name="quick_picks_are_cleared">Tips-Auswahl wird gelöscht</string>
+    <string name="reset_quick_picks">Zurücksetzen der Tipps-Auswahl</string>
+    <string name="quick_picks_are_cleared">Tipps-Auswahl wird gelöscht</string>
     <string name="backup">Sicherung</string>
     <string name="personal_preference">Persönliche Einstellungen (z.B. der Theme-Modus) und der Zwischenspeicher sind ausgeschlossen.</string>
     <string name="backup_1">Sichern</string>
