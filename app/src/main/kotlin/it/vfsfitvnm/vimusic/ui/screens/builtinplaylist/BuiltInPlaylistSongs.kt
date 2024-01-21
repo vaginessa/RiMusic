@@ -68,6 +68,7 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
+import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
@@ -386,6 +387,14 @@ fun BuiltInPlaylistSongs(
                     )
 
                 if (builtInPlaylist != BuiltInPlaylist.Downloaded) {
+
+                    if (builtInPlaylist == BuiltInPlaylist.Favorites)
+                        HeaderIconButton(
+                            icon = R.drawable.up_right_arrow,
+                            color = if (sortBy == SongSortBy.DatePlayed) colorPalette.text else colorPalette.textDisabled,
+                            onClick = { sortBy = SongSortBy.DatePlayed }
+                        )
+
                     HeaderIconButton(
                         icon = R.drawable.trending,
                         color = if (sortBy == SongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,

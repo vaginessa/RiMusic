@@ -144,6 +144,17 @@ interface Database {
     @RewriteQueriesToDropUnusedColumns
     fun songsFavoritesByRowIdDesc(): Flow<List<Song>>
 
+    @Transaction
+    @Query("SELECT DISTINCT S.* FROM Song S LEFT JOIN Event E ON E.songId=S.id " +
+            "WHERE likedAt IS NOT NULL AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "ORDER BY E.timestamp DESC")
+    fun songsFavoritesByDatePlayedDesc(): Flow<List<Song>>
+
+    @Transaction
+    @Query("SELECT DISTINCT S.* FROM Song S LEFT JOIN Event E ON E.songId=S.id " +
+            "WHERE likedAt IS NOT NULL AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "ORDER BY E.timestamp")
+    fun songsFavoritesByDatePlayedAsc(): Flow<List<Song>>
 
     fun songsFavorites(sortBy: SongSortBy, sortOrder: SortOrder): Flow<List<Song>> {
         return when (sortBy) {
@@ -158,6 +169,10 @@ interface Database {
             SongSortBy.DateAdded -> when (sortOrder) {
                 SortOrder.Ascending -> songsFavoritesByRowIdAsc()
                 SortOrder.Descending -> songsFavoritesByRowIdDesc()
+            }
+            SongSortBy.DatePlayed -> when (sortOrder) {
+                SortOrder.Ascending -> songsFavoritesByDatePlayedAsc()
+                SortOrder.Descending -> songsFavoritesByDatePlayedDesc()
             }
         }
     }
@@ -193,7 +208,7 @@ interface Database {
 
     fun songsOffline(sortBy: SongSortBy, sortOrder: SortOrder): Flow<List<SongWithContentLength>> {
         return when (sortBy) {
-            SongSortBy.PlayTime -> when (sortOrder) {
+            SongSortBy.PlayTime, SongSortBy.DatePlayed -> when (sortOrder) {
                 SortOrder.Ascending -> songsOfflineByPlayTimeAsc()
                 SortOrder.Descending -> songsOfflineByPlayTimeDesc()
             }
@@ -205,6 +220,7 @@ interface Database {
                 SortOrder.Ascending -> songsOfflineByRowIdAsc()
                 SortOrder.Descending -> songsOfflineByRowIdDesc()
             }
+
         }
     }
 
@@ -249,7 +265,7 @@ interface Database {
 
     fun songs(sortBy: SongSortBy, sortOrder: SortOrder): Flow<List<Song>> {
         return when (sortBy) {
-            SongSortBy.PlayTime -> when (sortOrder) {
+            SongSortBy.PlayTime, SongSortBy.DatePlayed -> when (sortOrder) {
                 SortOrder.Ascending -> songsByPlayTimeAsc()
                 SortOrder.Descending -> songsByPlayTimeDesc()
             }

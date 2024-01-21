@@ -368,8 +368,11 @@ fun MediaItemMenu(
             }
             Database.getArtistsList(artistIds).collect { artistsList = it }
 
-            Database.likedAt(mediaItem.mediaId).collect { likedAt = it }
+
         }
+    }
+    LaunchedEffect(Unit, mediaItem.mediaId) {
+        Database.likedAt(mediaItem.mediaId).collect { likedAt = it }
     }
 
     var showCircularSlider by remember {
