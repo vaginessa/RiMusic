@@ -65,12 +65,13 @@
 - **Persian:** thanks to [@CUMOON](https://github.com/CUMOON)
 - **Polish:** thanks to [@roklc](https://github.com/roklc) and [Adam Kop](https://crowdin.com/profile/damianadam000)
 - **Portuguese:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
-- **Portuguese, Brazilian:** thanks to [@NEVARLeVrai](https://github.com/NEVARLeVrai)
+- **Portuguese, Brazilian:** thanks to [RegularWater](https://crowdin.com/profile/RegularWater) and [@NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **Romanian:** thanks to [@OrangeZXZ](https://github.com/OrangeZxZ)
-- **Russian:** thanks to [@Crayz310](https://github.com/Crayz310) and [Vladimir](https://crowdin.com/profile/vladimir15426) and [@siggi1984](https://github.com/siggi1984)
+- **Russian:** thanks to [kptmx](https://crowdin.com/profile/kptmx) and [@Crayz310](https://github.com/Crayz310) and [Vladimir](https://crowdin.com/profile/vladimir15426) and [@siggi1984](https://github.com/siggi1984)
 - **Spanish:** thanks to [@DanielSevillano](https://github.com/DanielSevillano) and [Fabian Urra](https://crowdin.com/profile/nsagcl)
 - **Turkish:** thanks to [@abfreeman](https://github.com/abfreeman) and [@2010furs](https://github.com/2010furs) and [Muha Aliss](https://crowdin.com/profile/muhaaliss)
 - **Ukrainian:** thanks to [@Crayz310](https://github.com/Crayz310) 
+- **Vietnamese:** thanks to [teaminh](https://crowdin.com/profile/teaminh)
 
 ## 🔤 Translations
 - Go to [Crowdin](https://crowdin.com/project/rimusic/invite?h=73f0e6b64be1c64a8aebd467d286cf851925330) and help with the translations.
@@ -113,9 +114,12 @@
 - [Fabian Urra](https://crowdin.com/profile/nsagcl)
 - [@fast4x](https://github.com/fast4x)
 - [Fausta Ahmad](https://crowdin.com/profile/faustaahmad)  
+- [kptmx](https://crowdin.com/profile/kptmx)
 - [Muha Aliss](https://crowdin.com/profile/muhaaliss)
 - [Ndvok](https://crowdin.com/profile/ndvok)
+- [RegularWater](https://crowdin.com/profile/RegularWater)
 - [Shilave malay](https://crowdin.com/profile/Bash.boy)
+- [teaminh](https://crowdin.com/profile/teaminh)
 - [TheCreeperDuck](https://crowdin.com/profile/thecreeperduck)
 - [TsyQax](https://crowdin.com/profile/TsyQax)
 - [Vladimir](https://crowdin.com/profile/vladimir15426)

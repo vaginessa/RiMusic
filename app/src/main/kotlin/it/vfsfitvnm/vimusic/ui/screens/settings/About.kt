@@ -168,15 +168,18 @@ fun About() {
                     "ikanakova \n"+
                     "JZITNIK-github \n"+
                     "kjev666 \n"+
+                    "kptmx \n"+
                     "Marinkas \n"+
                     "Muha Aliss \n"+
                     "Ndvok \n"+
                     "NEVARLeVrai \n"+
                     "OrangeZXZ \n"+
+                    "RegularWater \n"+
                     "roklc \n"+
                     "SharkChan0622 \n"+
                     "Shilave malay \n"+
                     "siggi1984 \n"+
+                    "teaminh \n"+
                     "teddysulaimanGL \n"+
                     "TheCreeperDuck \n"+
                     "TsyQax \n"+
