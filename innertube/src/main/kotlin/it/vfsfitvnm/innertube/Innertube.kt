@@ -233,6 +233,9 @@ object Innertube {
         val albums: List<AlbumItem>? = null,
         val artists: List<ArtistItem>? = null,
     )
+    data class RelatedSongs(
+        val songs: List<SongItem>? = null
+    )
 
     data class DiscoverPage(
         val newReleaseAlbums: List<AlbumItem>,

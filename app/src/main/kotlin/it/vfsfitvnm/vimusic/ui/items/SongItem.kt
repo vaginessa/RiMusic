@@ -69,7 +69,8 @@ fun SongItem(
     trailingContent: (@Composable () -> Unit)? = null,
     isDownloaded: Boolean,
     onDownloadClick: () -> Unit,
-    downloadState: Int
+    downloadState: Int,
+    isRecommended: Boolean = false
 ) {
     SongItem(
         thumbnailUrl = song.mediaMetadata.artworkUri.thumbnail(thumbnailSizePx)?.toString(),
@@ -82,7 +83,8 @@ fun SongItem(
         modifier = modifier,
         isDownloaded = isDownloaded,
         onDownloadClick = onDownloadClick,
-        downloadState = downloadState
+        downloadState = downloadState,
+        isRecommended = isRecommended
     )
 }
 
@@ -127,7 +129,8 @@ fun SongItem(
     trailingContent: (@Composable () -> Unit)? = null,
     isDownloaded: Boolean,
     onDownloadClick: () -> Unit,
-    downloadState: Int
+    downloadState: Int,
+    isRecommended: Boolean = false
 ) {
     SongItem(
         title = title,
@@ -150,7 +153,8 @@ fun SongItem(
         trailingContent = trailingContent,
         isDownloaded = isDownloaded,
         onDownloadClick = onDownloadClick,
-        downloadState = downloadState
+        downloadState = downloadState,
+        isRecommended = isRecommended
     )
 }
 
@@ -250,7 +254,8 @@ fun SongItem(
     trailingContent: @Composable (() -> Unit)? = null,
     isDownloaded: Boolean,
     onDownloadClick: () -> Unit,
-    downloadState: Int
+    downloadState: Int,
+    isRecommended: Boolean = false
 ) {
     val (colorPalette, typography) = LocalAppearance.current
 
@@ -269,6 +274,16 @@ fun SongItem(
         ItemInfoContainer {
             trailingContent?.let {
                 Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (isRecommended)
+                        IconButton(
+                            icon = R.drawable.smart_shuffle,
+                            color = colorPalette.accent,
+                            enabled = true,
+                            onClick = {},
+                            modifier = Modifier
+                                .size(18.dp)
+                        )
+
                     BasicText(
                         text = title ?: "",
                         style = typography.xs.semiBold,

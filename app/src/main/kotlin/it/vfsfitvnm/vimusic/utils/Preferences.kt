@@ -78,6 +78,7 @@ const val isProxyEnabledKey = "isProxyEnabled"
 const val proxyHostnameKey = "proxyHostname"
 const val proxyPortKey = "proxyPort"
 const val proxyModeKey = "ProxyMode"
+const val isRecommendationEnabledKey = "isRecommendationEnabled"
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,

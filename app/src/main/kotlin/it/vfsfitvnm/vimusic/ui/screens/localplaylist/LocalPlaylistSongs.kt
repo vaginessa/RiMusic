@@ -72,7 +72,10 @@ import it.vfsfitvnm.compose.reordering.rememberReorderingState
 import it.vfsfitvnm.compose.reordering.reorder
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.BrowseBody
+import it.vfsfitvnm.innertube.models.bodies.NextBody
 import it.vfsfitvnm.innertube.requests.playlistPage
+import it.vfsfitvnm.innertube.requests.relatedPage
+import it.vfsfitvnm.innertube.requests.relatedSongs
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
@@ -85,6 +88,7 @@ import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.PlaylistWithSongs
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
+import it.vfsfitvnm.vimusic.models.ui.toUiMedia
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.transaction
@@ -118,6 +122,7 @@ import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.formatAsTime
 import it.vfsfitvnm.vimusic.utils.getDownloadState
+import it.vfsfitvnm.vimusic.utils.isRecommendationEnabledKey
 import it.vfsfitvnm.vimusic.utils.launchYouTubeMusic
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.playlistSongSortByKey
@@ -129,6 +134,7 @@ import it.vfsfitvnm.vimusic.utils.songSortOrderKey
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.toast
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -159,13 +165,43 @@ fun LocalPlaylistSongs(
     var filter: String? by rememberSaveable { mutableStateOf(null) }
 
     LaunchedEffect(Unit, filter, sortOrder, sortBy) {
-        Database.songsPlaylist(playlistId, sortBy, sortOrder).filterNotNull().collect{ playlistSongs = it }
+        Database.songsPlaylist(playlistId, sortBy, sortOrder).filterNotNull()
+            .collect{ playlistSongs = it }
     }
 
     LaunchedEffect(Unit) {
         Database.singlePlaylistPreview(playlistId).collect { playlistPreview = it }
     }
 
+    //**** SMART RECOMMENDATION
+    var isRecommendationEnabled by rememberPreference(isRecommendationEnabledKey, false)
+    var relatedSongsRecommendationResult by persist<Result<Innertube.RelatedSongs?>?>(tag = "home/relatedSongsResult")
+    var songBaseRecommendation by persist<Song?>("home/songBaseRecommendation")
+    var positionsRecommendationList = arrayListOf<Int>()
+    if (isRecommendationEnabled) {
+        LaunchedEffect(Unit,isRecommendationEnabled) {
+            Database.songsPlaylist(playlistId, sortBy, sortOrder).distinctUntilChanged()
+                .collect { songs ->
+                    val song = songs.firstOrNull()
+                    if (relatedSongsRecommendationResult == null || songBaseRecommendation?.id != song?.id) {
+                        relatedSongsRecommendationResult =
+                            Innertube.relatedSongs(NextBody(videoId = (song?.id ?: "HZnNt9nnEhw")))
+                    }
+                    songBaseRecommendation = song
+                }
+        }
+        //relatedSongsRecommendationResult?.getOrNull()?.songs?.toString()?.let { Log.d("mediaItem", "related  $it") }
+        //Log.d("mediaItem","related size "+relatedSongsRecommendationResult?.getOrNull()?.songs?.size.toString())
+        //val numRelated = relatedSongsResult?.getOrNull()?.songs?.size ?: 0
+        //val relatedMax = playlistSongs.size
+        if (relatedSongsRecommendationResult != null) {
+            for (index in 0..5) {
+                positionsRecommendationList.add((0..playlistSongs.size).random())
+            }
+        }
+        //Log.d("mediaItem","positionsList "+positionsRecommendationList.toString())
+        //**** SMART RECOMMENDATION
+    }
 
     var filterCharSequence: CharSequence
     filterCharSequence = filter.toString()
@@ -489,6 +525,15 @@ fun LocalPlaylistSongs(
                     )
 
                     HeaderIconButton(
+                        icon = R.drawable.smart_shuffle,
+                        enabled = true,
+                        color = if (isRecommendationEnabled) colorPalette.text else colorPalette.textDisabled,
+                        onClick = {
+                            isRecommendationEnabled = !isRecommendationEnabled
+                        }
+                    )
+
+                    HeaderIconButton(
                         icon = R.drawable.shuffle,
                         enabled = playlistSongs.isNotEmpty() == true,
                         color = if (playlistSongs.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
@@ -762,6 +807,24 @@ fun LocalPlaylistSongs(
                 contentType = { _, song -> song },
             ) { index, song ->
 
+                if (index in positionsRecommendationList.distinct()) {
+                    relatedSongsRecommendationResult?.getOrNull()?.songs?.shuffled()
+                        ?.lastOrNull()?.asMediaItem?.let {
+                        SongItem(
+                            song = it,
+                            isRecommended = true,
+                            thumbnailSizeDp = thumbnailSizeDp,
+                            thumbnailSizePx = thumbnailSizePx,
+                            isDownloaded = false,
+                            onDownloadClick = {},
+                            downloadState = Download.STATE_STOPPED,
+                            trailingContent = {},
+                            onThumbnailContent = {},
+                            modifier = Modifier
+                        )
+                    }
+                }
+                
                 val isLocal by remember { derivedStateOf { song.asMediaItem.isLocal } }
                 downloadState = getDownloadState(song.asMediaItem.mediaId)
                 val isDownloaded = if (!isLocal) downloadedStateMedia(song.asMediaItem.mediaId) else true
@@ -877,4 +940,10 @@ fun LocalPlaylistSongs(
 
     }
 }
+
+
+
+
+
+
 
