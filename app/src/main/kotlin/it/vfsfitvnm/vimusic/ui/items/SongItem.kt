@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
+import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -70,13 +72,14 @@ fun SongItem(
     isDownloaded: Boolean,
     onDownloadClick: () -> Unit,
     downloadState: Int,
-    isRecommended: Boolean = false
+    isRecommended: Boolean = false,
+    duration: String? = ""
 ) {
     SongItem(
         thumbnailUrl = song.mediaMetadata.artworkUri.thumbnail(thumbnailSizePx)?.toString(),
         title = song.mediaMetadata.title.toString(),
         authors = song.mediaMetadata.artist.toString(),
-        duration = song.mediaMetadata.extras?.getString("durationText"),
+        duration = duration?.ifBlank { song.mediaMetadata.extras?.getString("durationText") },
         thumbnailSizeDp = thumbnailSizeDp,
         onThumbnailContent = onThumbnailContent,
         trailingContent = trailingContent,
@@ -286,7 +289,12 @@ fun SongItem(
 
                     BasicText(
                         text = title ?: "",
-                        style = typography.xs.semiBold,
+                        //style = typography.xs.semiBold,
+                        style = TextStyle(
+                            color = if (isRecommended) colorPalette.accent else colorPalette.text,
+                            fontStyle = typography.xs.semiBold.fontStyle,
+                            fontSize = typography.xs.semiBold.fontSize
+                        ),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
@@ -296,11 +304,12 @@ fun SongItem(
                     it()
                 }
             } ?: BasicText(
-                text = title ?: "",
-                style = typography.xs.semiBold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+                    text = title ?: "",
+                    style = typography.xs.semiBold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                 )
+
 
 
             Row(verticalAlignment = Alignment.CenterVertically) {

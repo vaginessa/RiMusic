@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -118,6 +119,7 @@ import it.vfsfitvnm.vimusic.utils.completed
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.durationTextToMillis
 import it.vfsfitvnm.vimusic.utils.enqueue
+import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.formatAsTime
@@ -386,6 +388,13 @@ fun LocalPlaylistSongs(
                             title = formatAsTime(totalPlayTimes),
                             icon = painterResource(R.drawable.time)
                         )
+                        if (isRecommendationEnabled) {
+                            Spacer(modifier = Modifier.height(5.dp))
+                            IconInfo(
+                                title = positionsRecommendationList.distinct().size.toString(),
+                                icon = painterResource(R.drawable.smart_shuffle)
+                            )
+                        }
                         Spacer(modifier = Modifier.height(30.dp))
                     }
 
@@ -808,10 +817,13 @@ fun LocalPlaylistSongs(
             ) { index, song ->
 
                 if (index in positionsRecommendationList.distinct()) {
-                    relatedSongsRecommendationResult?.getOrNull()?.songs?.shuffled()
-                        ?.lastOrNull()?.asMediaItem?.let {
+                    val songRecommended = relatedSongsRecommendationResult?.getOrNull()?.songs?.shuffled()
+                        ?.lastOrNull()
+                    val duration = songRecommended?.durationText
+                    songRecommended?.asMediaItem?.let {
                         SongItem(
                             song = it,
+                            duration = duration,
                             isRecommended = true,
                             thumbnailSizeDp = thumbnailSizeDp,
                             thumbnailSizePx = thumbnailSizePx,
@@ -821,6 +833,10 @@ fun LocalPlaylistSongs(
                             trailingContent = {},
                             onThumbnailContent = {},
                             modifier = Modifier
+                                .clickable {
+                                    binder?.stopRadio()
+                                    binder?.player?.forcePlay(it)
+                                }
                         )
                     }
                 }
