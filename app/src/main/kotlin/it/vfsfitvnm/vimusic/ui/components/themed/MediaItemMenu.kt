@@ -367,8 +367,6 @@ fun MediaItemMenu(
                 if (info.id.isNotEmpty()) artistIds.add(info.id)
             }
             Database.getArtistsList(artistIds).collect { artistsList = it }
-
-
         }
     }
     LaunchedEffect(Unit, mediaItem.mediaId) {
