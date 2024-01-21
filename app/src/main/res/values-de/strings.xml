@@ -82,8 +82,8 @@
     <string name="max_size">Max. Größe</string>
     <string name="song_cache">Song Zwischenspeicher</string>
     <string name="database">Datenbank</string>
-    <string name="reset_quick_picks">Zurücksetzen der Tips-Auswahl</string>
-    <string name="quick_picks_are_cleared">Tips-Auswahl wird gelöscht</string>
+    <string name="reset_quick_picks">Zurücksetzen der Tipps-Auswahl</string>
+    <string name="quick_picks_are_cleared">Tipps-Auswahl wird gelöscht</string>
     <string name="backup">Sicherung</string>
     <string name="personal_preference">Persönliche Einstellungen (z.B. der Theme-Modus) und der Zwischenspeicher sind ausgeschlossen.</string>
     <string name="backup_1">Sichern</string>
