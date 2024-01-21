@@ -26,7 +26,7 @@
     <string name="quick_picks">Обзор</string>
     <string name="songs">Песни</string>
     <string name="other_versions">Другие версии</string>
-    <string name="album_no_alternative_version">Этот альбом не имеет других версии</string>
+    <string name="album_no_alternative_version">Этот альбом не имеет других версий</string>
     <string name="enqueue">В очередь</string>
     <string name="shuffle">Перемешать</string>
     <string name="view_all">Показать все</string>
