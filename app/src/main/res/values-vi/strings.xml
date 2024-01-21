@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">Hủy</string>
     <string name="done">Done</string>
     <string name="hidesong">Do you really want to hide this song? Its playback time and cache will be wiped.\nThis action is irreversible.</string>
-    <string name="new_playlist">New playlist</string>
+    <string name="new_playlist">Danh sách phát mới</string>
     <string name="start_radio">Start radio</string>
-    <string name="equalizer">Equalizer</string>
+    <string name="equalizer">Bộ chỉnh âm</string>
     <string name="stop_sleep_timer">Do you want to stop the sleep timer?</string>
     <string name="set_sleep_timer">Set sleep timer</string>
-    <string name="add_to_playlist">Add to playlist</string>
-    <string name="go_to_album">Go to album</string>
-    <string name="remove_from_queue">Remove from queue</string>
-    <string name="remove_from_playlist">Remove from playlist</string>
-    <string name="hide">Hide</string>
+    <string name="add_to_playlist">Thêm vào danh sách phát</string>
+    <string name="go_to_album">Xem album</string>
+    <string name="remove_from_queue">Loại bỏ khỏi hàng đợi</string>
+    <string name="remove_from_playlist">Xóa khỏi danh sách phát</string>
+    <string name="hide">Ẩn</string>
     <string name="hide_from_quick_picks">Hide from \"Quick picks\"</string>
     <string name="related_albums">Related albums</string>
     <string name="similar_artists">Similar artists</string>
     <string name="playlists_you_might_like">Playlists you might like</string>
     <string name="an_error_has_occurred">An error has occurred</string>
-    <string name="albums">Albums</string>
-    <string name="artists">Artists</string>
+    <string name="albums">Album</string>
+    <string name="artists">Nghệ sĩ</string>
     <string name="enter_the_playlist_name">Enter the playlist name</string>
     <string name="playlists">Playlists</string>
     <string name="favorites">Favorites</string>
@@ -29,7 +29,7 @@
     <string name="album_no_alternative_version">This album doesn\'t have any alternative version</string>
     <string name="enqueue">Enqueue</string>
     <string name="shuffle">Shuffle</string>
-    <string name="view_all">View all</string>
+    <string name="view_all">Xem tất cả</string>
     <string name="from_wikipedia_cca">From Wikipedia under Creative Commons Attribution CC-BY-SA 3.0</string>
     <string name="overview">Overview</string>
     <string name="singles">Singles</string>
@@ -37,9 +37,9 @@
     <string name="artist_no_release_album">This artist didn\'t release any album</string>
     <string name="artist_no_release_single">This artist didn\'t release any single</string>
     <string name="delete_playlist">Do you really want to delete this playlist?</string>
-    <string name="sync">Sync</string>
-    <string name="rename">Rename</string>
-    <string name="delete">Delete</string>
+    <string name="sync">Đồng bộ</string>
+    <string name="rename">Đổi tên</string>
+    <string name="delete">Xóa</string>
     <string name="enter_the_lyrics">Enter the lyrics</string>
     <string name="edit_lyrics">Edit lyrics</string>
     <string name="search_lyrics_online">Search lyrics online</string>
