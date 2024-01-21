@@ -145,7 +145,7 @@
 - [**Rubik** Font](https://fonts.google.com/specimen/Rubik): Rubik is RiMusic's default font.
 - [**Poppins** Font](https://fonts.google.com/specimen/Poppins): Poppins is ViMusic's default font.
 - [**Translator**](https://github.com/therealbush/translator): A simple and free Google Translate library for Kotlin/JVM and Java.
-- [**Swipe**](https://github.com/saket/swipe): Swipe gesture actions for Compose UI
+
 
 ## ❗ Disclaimer
 This project and its contents are not affiliated with, funded, authorized, endorsed by, or in any way associated with YouTube, Google LLC or any of its affiliates and subsidiaries.

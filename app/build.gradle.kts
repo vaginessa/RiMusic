@@ -130,7 +130,6 @@ dependencies {
 
     implementation("com.github.therealbush:translator:1.0.2")
 
-    implementation("me.saket.swipe:swipe:1.1.0")
     //implementation("androidx.compose.foundation:foundation:1.4.0")
     // Fix Duplicate class
     //implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
