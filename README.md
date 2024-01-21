@@ -141,9 +141,11 @@
 - [**ViMusic**](https://github.com/vfsfitvnm/ViMusic)
 - [**YouTube-Internal-Clients**](https://github.com/zerodytrash/YouTube-Internal-Clients): A python script that discovers hidden YouTube API clients. Just a research project.
 - [**Ionicons**](https://github.com/ionic-team/ionicons): Premium hand-crafted icons built by Ionic, for Ionic apps and web apps everywhere.
-- **New logo design** thanks to [@ikanakova](https://github.com/ikanakova).
+- [**RiMusic Logo**] [@ikanakova](https://github.com/ikanakova): Designer
 - [**Rubik** Font](https://fonts.google.com/specimen/Rubik): Rubik is RiMusic's default font.
 - [**Poppins** Font](https://fonts.google.com/specimen/Poppins): Poppins is ViMusic's default font.
+- [**Translator**](https://github.com/therealbush/translator): A simple and free Google Translate library for Kotlin/JVM and Java.
+- [**Swipe**](https://github.com/saket/swipe): Swipe gesture actions for Compose UI
 
 ## ❗ Disclaimer
 This project and its contents are not affiliated with, funded, authorized, endorsed by, or in any way associated with YouTube, Google LLC or any of its affiliates and subsidiaries.

@@ -126,12 +126,11 @@ dependencies {
     // For loading and tinting drawables on older versions of the platform
     implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
 
-    implementation("com.github.therealbush:translator:1.0.2")
-
-    implementation("io.github.gautamchibde:audiovisualizer:2.2.7")
-
     implementation("androidx.compose.material:material:1.1.0")
 
+    implementation("com.github.therealbush:translator:1.0.2")
+
+    implementation("me.saket.swipe:swipe:1.1.0")
     //implementation("androidx.compose.foundation:foundation:1.4.0")
     // Fix Duplicate class
     //implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
