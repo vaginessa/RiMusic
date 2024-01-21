@@ -754,13 +754,13 @@ fun LocalPlaylistSongs(
                     )
 
                     HeaderIconButton(
-                        icon = R.drawable.playlist_played,
+                        icon = R.drawable.up_right_arrow,
                         color = if (sortBy == PlaylistSongSortBy.DatePlayed) colorPalette.text else colorPalette.textDisabled,
                         onClick = { sortBy = PlaylistSongSortBy.DatePlayed }
                     )
 
                     HeaderIconButton(
-                        icon = R.drawable.up_right_arrow,
+                        icon = R.drawable.playlist_played,
                         color = if (sortBy == PlaylistSongSortBy.Position) colorPalette.text else colorPalette.textDisabled,
                         onClick = { sortBy = PlaylistSongSortBy.Position }
                     )
