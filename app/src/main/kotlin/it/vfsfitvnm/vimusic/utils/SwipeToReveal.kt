@@ -74,7 +74,7 @@ fun SwipeItemToReveal(
     val swipeAbleState = rememberSwipeableState(initialValue = 0)
     val squareSize = 150.dp // horizontal swipe size
     val sizePx = with(LocalDensity.current) { squareSize.toPx() }
-    val anchors = mapOf(0f to 0, sizePx to 1)
+        val anchors = mapOf(0f to 0, sizePx to 1)
 /*
     Column(
         //modifier = Modifier
