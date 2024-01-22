@@ -64,6 +64,8 @@ import kotlinx.coroutines.flow.Flow
 interface Database {
     companion object : Database by DatabaseInitializer.Instance.database
 
+    @Query("UPDATE Song SET title = :title WHERE id = :id")
+    fun updateSongTitle(id: String, title: String): Int
     @Query("UPDATE Album SET thumbnailUrl = :thumb WHERE id = :id")
     fun updateAlbumCover(id: String, thumb: String): Int
     @Query("UPDATE Album SET authorsText = :artist WHERE id = :id")

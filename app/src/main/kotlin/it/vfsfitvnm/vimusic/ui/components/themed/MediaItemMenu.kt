@@ -377,6 +377,35 @@ fun MediaItemMenu(
         mutableStateOf(false)
     }
 
+    var showDialogChangeSongTitle by remember {
+        mutableStateOf(false)
+    }
+
+    var songSaved by remember {
+        mutableStateOf(0)
+    }
+    LaunchedEffect(Unit, mediaItem.mediaId) {
+        withContext(Dispatchers.IO) {
+            songSaved = Database.songExist(mediaItem.mediaId)
+        }
+    }
+
+    if (showDialogChangeSongTitle)
+        InputTextDialog(
+            onDismiss = { showDialogChangeSongTitle = false },
+            title = stringResource(R.string.update_title),
+            value = mediaItem.mediaMetadata.title.toString(),
+            placeholder = stringResource(R.string.title),
+            setValue = {
+                if (it.isNotEmpty()) {
+                    query {
+                        Database.updateSongTitle(mediaItem.mediaId, it)
+                    }
+                    //context.toast("Song Saved $it")
+                }
+            }
+        )
+
     AnimatedContent(
         targetState = isViewingPlaylists,
         transitionSpec = {
@@ -606,6 +635,17 @@ fun MediaItemMenu(
                     )
                 }
                  */
+
+                if (!isLocal && songSaved > 0) {
+                    MenuEntry(
+                        icon = R.drawable.pencil,
+                        text = stringResource(R.string.update_title),
+                        onClick = {
+                            showDialogChangeSongTitle = true
+                        }
+                    )
+                }
+
                 if (!isLocal) onStartRadio?.let { onStartRadio ->
                     MenuEntry(
                         icon = R.drawable.radio,
