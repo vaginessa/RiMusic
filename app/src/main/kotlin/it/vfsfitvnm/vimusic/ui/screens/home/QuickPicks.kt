@@ -236,6 +236,7 @@ fun QuickPicks(
                 onClick = onSearchClick
             )
 
+            /*
             SwipeItemToReveal(
                 actionsContent = {
                     BasicText(
@@ -254,6 +255,7 @@ fun QuickPicks(
                     )
                 }
             )
+             */
 
             BasicText(
                 text = stringResource(R.string.tips),
