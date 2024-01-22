@@ -32,6 +32,7 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -111,6 +112,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.SwipeToReveal
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
@@ -141,6 +143,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
+@ExperimentalMaterialApi
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalAnimationApi
@@ -769,7 +772,7 @@ fun LocalPlaylistSongs(
                     )
 
                     HeaderIconButton(
-                        icon = R.drawable.playlist_played,
+                        icon = R.drawable.position,
                         color = if (sortBy == PlaylistSongSortBy.Position) colorPalette.text else colorPalette.textDisabled,
                         onClick = { sortBy = PlaylistSongSortBy.Position }
                     )

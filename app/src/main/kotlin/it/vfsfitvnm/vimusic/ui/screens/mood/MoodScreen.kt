@@ -2,6 +2,7 @@ package it.vfsfitvnm.vimusic.ui.screens.mood
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -14,7 +15,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Mood
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
 import it.vfsfitvnm.vimusic.ui.screens.globalRoutes
-
+@ExperimentalMaterialApi
 @ExperimentalTextApi
 @ExperimentalFoundationApi
 @ExperimentalComposeUiApi

@@ -29,6 +29,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -44,6 +45,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
@@ -82,6 +84,8 @@ import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
+import it.vfsfitvnm.vimusic.utils.SwipeItemToReveal
+import it.vfsfitvnm.vimusic.utils.SwipeToReveal
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
@@ -90,6 +94,7 @@ import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
+import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.playEventsTypeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
@@ -100,6 +105,7 @@ import it.vfsfitvnm.vimusic.utils.showRelatedAlbumsKey
 import it.vfsfitvnm.vimusic.utils.showSimilarArtistsKey
 import kotlinx.coroutines.flow.distinctUntilChanged
 
+@ExperimentalMaterialApi
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
@@ -134,10 +140,10 @@ fun QuickPicks(
 
     val context = LocalContext.current
 
-    var showRelatedAlbums by rememberPreference(showRelatedAlbumsKey, true)
-    var showSimilarArtists by rememberPreference(showSimilarArtistsKey, true)
-    var showNewAlbumsArtists by rememberPreference(showNewAlbumsArtistsKey, true)
-    var showPlaylistMightLike by rememberPreference(showPlaylistMightLikeKey, true)
+    val showRelatedAlbums by rememberPreference(showRelatedAlbumsKey, true)
+    val showSimilarArtists by rememberPreference(showSimilarArtistsKey, true)
+    val showNewAlbumsArtists by rememberPreference(showNewAlbumsArtistsKey, true)
+    val showPlaylistMightLike by rememberPreference(showPlaylistMightLikeKey, true)
 
 
     LaunchedEffect(Unit) {
@@ -228,6 +234,25 @@ fun QuickPicks(
                 showIcon = true,
                 modifier = Modifier,
                 onClick = onSearchClick
+            )
+
+            SwipeItemToReveal(
+                actionsContent = {
+                    BasicText(
+                        text = "actionlist",
+                        style = typography.xxl.medium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                content = {
+                    BasicText(
+                        text = "content",
+                        style = typography.xxl.medium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             )
 
             BasicText(

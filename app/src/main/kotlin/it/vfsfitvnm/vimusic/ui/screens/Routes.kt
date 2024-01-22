@@ -3,6 +3,7 @@ package it.vfsfitvnm.vimusic.ui.screens
 import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.text.ExperimentalTextApi
@@ -45,6 +46,7 @@ val moodRoute = Route1<Mood>("moodRoute")
 //val playlistRoute = Route3<String?, String?, Int?>("playlistRoute")
 val playlistRoute = Route2<String?, String?>("playlistRoute")
 
+@ExperimentalMaterialApi
 @ExperimentalTextApi
 @SuppressLint("ComposableNaming")
 @Suppress("NOTHING_TO_INLINE")

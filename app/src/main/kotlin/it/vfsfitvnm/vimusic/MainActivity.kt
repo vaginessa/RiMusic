@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
@@ -177,7 +178,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
         bindService(intent<PlayerService>(), serviceConnection, Context.BIND_AUTO_CREATE)
     }
 
-
+    @ExperimentalMaterialApi
     @ExperimentalTextApi
     @UnstableApi
     @androidx.annotation.OptIn(androidx.core.os.BuildCompat.PrereleaseSdkCheck::class)
