@@ -78,9 +78,9 @@
     <string name="use_song_cover_on_lockscreen">Songcover auf dem Sperrbildschirm verwenden</string>
     <string name="cache">Zwischenspeicher</string>
     <string name="cache_cleared">Wenn der Zwischenspeicher keinen Speicherplatz mehr hat, werden die Ressourcen, auf die am längsten nicht zugegriffen wurde, gelöscht</string>
-    <string name="image_cache">Bild Zwischenspeicher</string>
+    <string name="image_cache">Bild-Zwischenspeicher</string>
     <string name="max_size">Max. Größe</string>
-    <string name="song_cache">Song Zwischenspeicher</string>
+    <string name="song_cache">Song-Zwischenspeicher</string>
     <string name="database">Datenbank</string>
     <string name="reset_quick_picks">Zurücksetzen der Tipps-Auswahl</string>
     <string name="quick_picks_are_cleared">Tipps-Auswahl wird gelöscht</string>
@@ -110,7 +110,7 @@
     <string name="invincible_service">Unbesiegbarer Dienst</string>
     <string name="turning_off_battery_optimizations_is_not_enough">Wenn Ausschalten der Akku-Optimierungen nicht ausreicht</string>
     <string name="player_audio"><![CDATA[Spieler & Audio]]></string>
-    <string name="player">Spieler</string>
+    <string name="player">Player</string>
     <string name="persistent_queue">Dauerhafte Warteschlange</string>
     <string name="save_and_restore_playing_songs">Speichern und Wiederherstellen der Wiedergabe von Songs</string>
     <string name="resume_playback">Wiedergabe fortzusetzen</string>
@@ -238,7 +238,7 @@
     <string name="vt_double_side_circular">Doppelseitig kreisförmig</string>
     <string name="vt_full">Voll</string>
     <string name="new_albums_of_your_artists">Neue Alben Ihrer Künstler</string>
-    <string name="timeline">Zeitverlauf</string>
+    <string name="timeline">Zeitachse</string>
     <string name="song_cache_by_player">Song-Zwischenspeicher</string>
     <string name="song_cache_by_download">Download-Speicher</string>
     <string name="visualizer">Vorschau</string>
