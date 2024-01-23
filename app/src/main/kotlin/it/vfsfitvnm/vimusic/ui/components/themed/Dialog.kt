@@ -398,7 +398,6 @@ inline fun SelectorDialog(
                                 color = colorPalette.text,
                                 modifier = Modifier
                                     .size(18.dp)
-                                    //.padding(4.dp)
                             )
 
                             BasicText(
