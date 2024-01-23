@@ -236,27 +236,6 @@ fun QuickPicks(
                 onClick = onSearchClick
             )
 
-            /*
-            SwipeItemToReveal(
-                actionsContent = {
-                    BasicText(
-                        text = "actionlist",
-                        style = typography.xxl.medium,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                content = {
-                    BasicText(
-                        text = "content",
-                        style = typography.xxl.medium,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-            )
-             */
-
             BasicText(
                 text = stringResource(R.string.tips),
                 style = typography.m.semiBold,

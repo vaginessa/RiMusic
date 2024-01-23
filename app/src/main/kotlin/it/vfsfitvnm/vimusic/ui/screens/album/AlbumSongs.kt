@@ -25,6 +25,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,6 +48,7 @@ import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Album
 import it.vfsfitvnm.vimusic.models.Info
+import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
 import it.vfsfitvnm.vimusic.query
@@ -161,6 +163,9 @@ fun AlbumSongs(
     var showDialogChangeAlbumCover by remember {
         mutableStateOf(false)
     }
+    var isCreatingNewPlaylist by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     LayoutWithAdaptiveThumbnail(thumbnailContent = thumbnailContent) {
         Box {
@@ -186,6 +191,22 @@ fun AlbumSongs(
                                     showConfirmDownloadAllDialog = true
                                 }
                             )
+
+                            if (isCreatingNewPlaylist)
+                                InputTextDialog(
+                                    onDismiss = { isCreatingNewPlaylist = false },
+                                    title = stringResource(R.string.new_playlist),
+                                    value = "",
+                                    placeholder = stringResource(R.string.new_playlist),
+                                    setValue = {
+                                        if (it.isNotEmpty()) {
+                                            query {
+                                                Database.insert(Playlist(name = it))
+                                            }
+                                            //context.toast("Song Saved $it")
+                                        }
+                                    }
+                                )
 
                             if (showConfirmDownloadAllDialog) {
                                 ConfirmationDialog(
@@ -292,17 +313,19 @@ fun AlbumSongs(
 
                             if (showAddPlaylistSelectDialog)
                                 SelectorDialog(
-                                    title = stringResource(R.string.add_in_playlist),
+                                    title = stringResource(R.string.playlists),
                                     onDismiss = { showAddPlaylistSelectDialog = false },
                                     values = listOf(
+                                        Info("n", stringResource(R.string.new_playlist)),
                                         Info("a", stringResource(R.string.add_all_in_playlist)),
                                         Info("s", stringResource(R.string.add_selected_in_playlist))
                                     ),
                                     onValueSelected = {
-                                        if (it == "a") {
-                                            showPlaylistSelectDialog = true
-                                        } else selectItems = true
-
+                                        when (it) {
+                                            "a" -> showPlaylistSelectDialog = true
+                                            "n" -> isCreatingNewPlaylist = true
+                                            else -> selectItems = true
+                                        }
                                         showAddPlaylistSelectDialog = false
                                     }
                                 )
