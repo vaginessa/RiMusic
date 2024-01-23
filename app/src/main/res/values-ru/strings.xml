@@ -92,7 +92,7 @@
     <string name="restore_1">Восстановить</string>
     <string name="import_the_database">Восстановление данных из локального хранилища</string>
     <string name="other">Другое</string>
-    <string name="android_auto">Андроид Авто</string>
+    <string name="android_auto">Android Auto</string>
     <string name="enable_unknown_sources">Не забудьте включить функцию \"Неизвестные источники\" в настройках разработчика в Андроид Авто.</string>
     <string name="android_auto_1">Андроид Авто</string>
     <string name="enable_android_auto_support">Включение поддержки Андроид Авто</string>
