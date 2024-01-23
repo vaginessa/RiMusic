@@ -4,6 +4,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -235,9 +237,9 @@ inline fun DefaultDialog(
         Column(
             horizontalAlignment = horizontalAlignment,
             modifier = modifier
-                .padding(all = 48.dp)
+                .padding(all = 10.dp)
                 .background(
-                    color = colorPalette.background4,
+                    color = colorPalette.background1,
                     shape = RoundedCornerShape(8.dp)
                 )
                 .padding(horizontal = 24.dp, vertical = 16.dp),
@@ -261,8 +263,8 @@ inline fun <T> ValueSelectorDialog(
     Dialog(onDismissRequest = onDismiss) {
         Column(
             modifier = modifier
-                .padding(all = 48.dp)
-                .background(color = colorPalette.background4, shape = RoundedCornerShape(8.dp))
+                .padding(all = 10.dp)
+                .background(color = colorPalette.background1, shape = RoundedCornerShape(8.dp))
                 .padding(vertical = 16.dp)
         ) {
             BasicText(
@@ -351,14 +353,15 @@ inline fun SelectorDialog(
     title: String,
     values: List<Info>?,
     crossinline onValueSelected: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    showItemsIcon: Boolean = false
 ) {
     val (colorPalette, typography) = LocalAppearance.current
 
     Dialog(onDismissRequest = onDismiss) {
         Column(
             modifier = modifier
-                .padding(all = 48.dp)
+                .padding(all = 10.dp)
                 .background(color = colorPalette.background1, shape = RoundedCornerShape(8.dp))
                 .padding(vertical = 16.dp)
         ) {
@@ -388,8 +391,20 @@ inline fun SelectorDialog(
                             .padding(vertical = 12.dp, horizontal = 24.dp)
                             .fillMaxWidth()
                     ) {
+                        if(showItemsIcon)
+                            IconButton(
+                                onClick = {},
+                                icon =R.drawable.playlist,
+                                color = colorPalette.text,
+                                modifier = Modifier
+                                    .size(18.dp)
+                                    //.padding(4.dp)
+                            )
+
                             BasicText(
                                 text = value.name ?: "Not selectable",
+                                maxLines = 3,
+                                overflow = TextOverflow.Ellipsis,
                                 style = typography.xs.medium
                             )
                     }
@@ -431,8 +446,8 @@ inline fun InputNumericDialog(
     Dialog(onDismissRequest = onDismiss) {
         Column(
             modifier = modifier
-                .padding(all = 48.dp)
-                .background(color = colorPalette.background4, shape = RoundedCornerShape(8.dp))
+                .padding(all = 10.dp)
+                .background(color = colorPalette.background1, shape = RoundedCornerShape(8.dp))
                 .padding(vertical = 16.dp)
                 .requiredHeight(190.dp)
         ) {
@@ -467,7 +482,7 @@ inline fun InputNumericDialog(
                         placeholderColor = colorPalette.textDisabled,
                         cursorColor = colorPalette.text,
                         textColor = colorPalette.text,
-                        backgroundColor = if (txtFieldError.value.isEmpty()) colorPalette.background4 else colorPalette.red,
+                        backgroundColor = if (txtFieldError.value.isEmpty()) colorPalette.background1 else colorPalette.red,
                         focusedIndicatorColor = colorPalette.accent,
                         unfocusedIndicatorColor = colorPalette.textDisabled
                     ),
@@ -565,8 +580,8 @@ inline fun InputTextDialog(
     Dialog(onDismissRequest = onDismiss) {
         Column(
             modifier = modifier
-                .padding(all = 48.dp)
-                .background(color = colorPalette.background4, shape = RoundedCornerShape(8.dp))
+                .padding(all = 10.dp)
+                .background(color = colorPalette.background1, shape = RoundedCornerShape(8.dp))
                 .padding(vertical = 16.dp)
                 .requiredHeight(190.dp)
         ) {
@@ -601,7 +616,7 @@ inline fun InputTextDialog(
                         placeholderColor = colorPalette.textDisabled,
                         cursorColor = colorPalette.text,
                         textColor = colorPalette.text,
-                        backgroundColor = if (txtFieldError.value.isEmpty()) colorPalette.background4 else colorPalette.red,
+                        backgroundColor = if (txtFieldError.value.isEmpty()) colorPalette.background1 else colorPalette.red,
                         focusedIndicatorColor = colorPalette.accent,
                         unfocusedIndicatorColor = colorPalette.textDisabled
                     ),
@@ -697,7 +712,7 @@ inline fun GenericDialog(
         Column(
             modifier = modifier
                 .padding(all = 48.dp)
-                .background(color = colorPalette.background4, shape = RoundedCornerShape(8.dp))
+                .background(color = colorPalette.background1, shape = RoundedCornerShape(8.dp))
                 .padding(vertical = 16.dp)
         ) {
             BasicText(

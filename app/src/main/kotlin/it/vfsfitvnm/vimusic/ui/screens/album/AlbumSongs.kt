@@ -336,10 +336,11 @@ fun AlbumSongs(
                                 SelectorDialog(
                                     title = stringResource(R.string.playlists),
                                     onDismiss = { showPlaylistSelectDialog = false },
+                                    showItemsIcon = true,
                                     values = playlistPreviews.map {
                                         Info(
                                             it.playlist.id.toString(),
-                                            "${it.playlist.name} (${it.songCount})"
+                                            "${it.playlist.name} \n ${it.songCount} ${stringResource(R.string.songs)}"
                                         )
                                     },
                                     onValueSelected = {
