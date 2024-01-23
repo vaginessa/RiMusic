@@ -62,6 +62,7 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
@@ -112,6 +113,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.SwipeItemToReveal
 import it.vfsfitvnm.vimusic.utils.SwipeToReveal
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
@@ -840,6 +842,7 @@ fun LocalPlaylistSongs(
                                     binder?.stopRadio()
                                     binder?.player?.forcePlay(it)
                                 }
+
                         )
                     }
                 }
@@ -850,92 +853,93 @@ fun LocalPlaylistSongs(
                 //if (isDownloaded && !listDownloadedMedia.contains(song)) listDownloadedMedia.add(song)
                 //if (!isDownloaded) listDownloadedMedia.dropWhile {  it.asMediaItem.mediaId == song.asMediaItem.mediaId } else listDownloadedMedia.add(song)
                 //Log.d("mediaItem", "loop items listDownloadedMedia ${listDownloadedMedia.distinct().size} ${listDownloadedMedia.distinct()}")
-                SongItem(
-                    song = song,
-                    isDownloaded = isDownloaded,
-                    onDownloadClick = {
-                        binder?.cache?.removeResource(song.asMediaItem.mediaId)
-                        query {
-                            Database.insert(
-                                Song(
-                                    id = song.asMediaItem.mediaId,
-                                    title = song.asMediaItem.mediaMetadata.title.toString(),
-                                    artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
-                                    thumbnailUrl = song.thumbnailUrl,
-                                    durationText = null
-                                )
-                            )
-                        }
-
-                        if (!isLocal) {
-                            manageDownload(
-                                context = context,
-                                songId = song.asMediaItem.mediaId,
-                                songTitle = song.asMediaItem.mediaMetadata.title.toString(),
-                                downloadState = isDownloaded
-                            )
-                        }
-                        //if (isDownloaded) listDownloadedMedia.dropWhile { it.asMediaItem.mediaId == song.asMediaItem.mediaId } else listDownloadedMedia.add(song)
-                        //Log.d("mediaItem", "manageDownload click isDownloaded ${isDownloaded} listDownloadedMedia ${listDownloadedMedia.distinct().size}")
-                    },
-                    downloadState = downloadState,
-                    thumbnailSizePx = thumbnailSizePx,
-                    thumbnailSizeDp = thumbnailSizeDp,
-                    trailingContent = {
-                        if (!isReorderDisabled) {
-                            IconButton(
-                                icon = R.drawable.reorder,
-                                color = colorPalette.textDisabled,
-                                indication = rippleIndication,
-                                onClick = {},
-                                modifier = Modifier
-                                    .reorder(reorderingState = reorderingState, index = index)
-                                    .size(18.dp)
-                            )
-                        }
-                    },
-                    onThumbnailContent = if (sortBy == PlaylistSongSortBy.PlayTime) ({
-                        BasicText(
-                            text = song.formattedTotalPlayTime,
-                            style = typography.xxs.semiBold.center.color(colorPalette.onOverlay),
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(
-                                    brush = Brush.verticalGradient(
-                                        colors = listOf(Color.Transparent, colorPalette.overlay)
-                                    ),
-                                    shape = thumbnailShape
-                                )
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
-                                .align(Alignment.BottomCenter)
-                        )
-                    }) else null,
-                    modifier = Modifier
-                        .combinedClickable(
-                            onLongClick = {
-                                menuState.display {
-                                    InPlaylistMediaItemMenu(
-                                        playlistId = playlistId,
-                                        positionInPlaylist = index,
-                                        song = song,
-                                        onDismiss = menuState::hide
+                    SongItem(
+                        song = song,
+                        isDownloaded = isDownloaded,
+                        onDownloadClick = {
+                            binder?.cache?.removeResource(song.asMediaItem.mediaId)
+                            query {
+                                Database.insert(
+                                    Song(
+                                        id = song.asMediaItem.mediaId,
+                                        title = song.asMediaItem.mediaMetadata.title.toString(),
+                                        artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
+                                        thumbnailUrl = song.thumbnailUrl,
+                                        durationText = null
                                     )
-                                }
-                            },
-                            onClick = {
-                                playlistSongs
-                                    .map(Song::asMediaItem)
-                                    .let { mediaItems ->
-                                        binder?.stopRadio()
-                                        binder?.player?.forcePlayAtIndex(mediaItems, index)
-                                    }
+                                )
                             }
-                        )
-                        .animateItemPlacement(reorderingState = reorderingState)
-                        .draggedItem(reorderingState = reorderingState, index = index)
-                )
+
+                            if (!isLocal) {
+                                manageDownload(
+                                    context = context,
+                                    songId = song.asMediaItem.mediaId,
+                                    songTitle = song.asMediaItem.mediaMetadata.title.toString(),
+                                    downloadState = isDownloaded
+                                )
+                            }
+                            //if (isDownloaded) listDownloadedMedia.dropWhile { it.asMediaItem.mediaId == song.asMediaItem.mediaId } else listDownloadedMedia.add(song)
+                            //Log.d("mediaItem", "manageDownload click isDownloaded ${isDownloaded} listDownloadedMedia ${listDownloadedMedia.distinct().size}")
+                        },
+                        downloadState = downloadState,
+                        thumbnailSizePx = thumbnailSizePx,
+                        thumbnailSizeDp = thumbnailSizeDp,
+                        trailingContent = {
+                            if (!isReorderDisabled) {
+                                IconButton(
+                                    icon = R.drawable.reorder,
+                                    color = colorPalette.textDisabled,
+                                    indication = rippleIndication,
+                                    onClick = {},
+                                    modifier = Modifier
+                                        .reorder(reorderingState = reorderingState, index = index)
+                                        .size(18.dp)
+                                )
+                            }
+                        },
+                        onThumbnailContent = if (sortBy == PlaylistSongSortBy.PlayTime) ({
+                            BasicText(
+                                text = song.formattedTotalPlayTime,
+                                style = typography.xxs.semiBold.center.color(colorPalette.onOverlay),
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(
+                                        brush = Brush.verticalGradient(
+                                            colors = listOf(Color.Transparent, colorPalette.overlay)
+                                        ),
+                                        shape = thumbnailShape
+                                    )
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                                    .align(Alignment.BottomCenter)
+                            )
+                        }) else null,
+                        modifier = Modifier
+                            .combinedClickable(
+                                onLongClick = {
+                                    menuState.display {
+                                        InPlaylistMediaItemMenu(
+                                            playlistId = playlistId,
+                                            positionInPlaylist = index,
+                                            song = song,
+                                            onDismiss = menuState::hide
+                                        )
+                                    }
+                                },
+                                onClick = {
+                                    playlistSongs
+                                        .map(Song::asMediaItem)
+                                        .let { mediaItems ->
+                                            binder?.stopRadio()
+                                            binder?.player?.forcePlayAtIndex(mediaItems, index)
+                                        }
+                                }
+                            )
+                            .animateItemPlacement(reorderingState = reorderingState)
+                            .draggedItem(reorderingState = reorderingState, index = index)
+                    )
+
             }
         }
 
