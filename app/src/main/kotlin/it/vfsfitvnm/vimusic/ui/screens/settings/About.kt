@@ -170,6 +170,7 @@ fun About() {
                     "kjev666 \n"+
                     "kptmx \n"+
                     "Marinkas \n"+
+                    "Mid_Vur_Shaan \n" +
                     "Muha Aliss \n"+
                     "Ndvok \n"+
                     "NEVARLeVrai \n"+

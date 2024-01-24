@@ -330,4 +330,5 @@
     <string name="title">Title</string>
     <string name="authors">Authors</string>
     <string name="cover">Cover</string>
+    <string name="lang_japanese">Japanese</string>
 </resources>
