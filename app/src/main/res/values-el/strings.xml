@@ -222,7 +222,7 @@
     <string name="listen_on_youtube_music">Ακούστε στο YouTube Music</string>
     <string name="on_device">Στη συσκευή</string>
     <string name="open_settings">Άνοιγμα ρυθμίσεων</string>
-    <string name="permission_declined_grant_media_permissions">Permission declined, please grant media permissions in the settings of your device.</string>
+    <string name="permission_declined_grant_media_permissions">Η πρόσβαση απορρίφθηκε, παρακαλώ παραχωρήστε πρόσβαση στα αρχεία και μέσα μέσο των ρυθμίσεων της συσκευής σας.</string>
     <string name="wavy_timeline">Wavy timeline</string>
     <string name="enable_wavy_timeline">Enable the wavy timeline</string>
     <string name="play_next">Play next</string>
