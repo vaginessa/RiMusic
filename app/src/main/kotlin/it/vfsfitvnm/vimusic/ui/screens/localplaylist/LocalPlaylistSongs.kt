@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.ui.screens.localplaylist
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -220,6 +221,7 @@ fun LocalPlaylistSongs(
                         || songItem.asMediaItem.mediaMetadata.artist?.contains(filterCharSequence,true) ?: false
             }
 
+    var searching by rememberSaveable { mutableStateOf(false) }
 
     var totalPlayTimes = 0L
     playlistSongs.forEach {
@@ -692,75 +694,12 @@ fun LocalPlaylistSongs(
                         .padding(all = 10.dp)
                         .fillMaxHeight()
                 ) {
-                    var searching by rememberSaveable { mutableStateOf(false) }
-
-                    if (searching) {
-                        val focusRequester = remember { FocusRequester() }
-                        val focusManager = LocalFocusManager.current
-                        val keyboardController = LocalSoftwareKeyboardController.current
-
-                        LaunchedEffect(searching) {
-                            focusRequester.requestFocus()
-                        }
-
-                        BasicTextField(
-                            value = filter ?: "",
-                            onValueChange = { filter = it },
-                            textStyle = typography.xs.semiBold,
-                            singleLine = true,
-                            maxLines = 1,
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                            keyboardActions = KeyboardActions(onDone = {
-                                if (filter.isNullOrBlank()) filter = ""
-                                focusManager.clearFocus()
-                            }),
-                            cursorBrush = SolidColor(colorPalette.text),
-                            decorationBox = { innerTextField ->
-                                Box(
-                                    contentAlignment = Alignment.CenterStart,
-                                    modifier = Modifier.weight(1f)
-                                ) {
-                                    androidx.compose.animation.AnimatedVisibility(
-                                        visible = filter?.isEmpty() ?: true,
-                                        enter = fadeIn(tween(100)),
-                                        exit = fadeOut(tween(100)),
-                                    ) {
-                                        BasicText(
-                                            text = stringResource(R.string.search),
-                                            maxLines = 1,
-                                            overflow = TextOverflow.Ellipsis,
-                                            style = typography.xs.semiBold.secondary.copy(color = colorPalette.textDisabled)
-                                        )
-                                    }
-
-                                    innerTextField()
-                                }
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth(0.5F)
-                                .background(
-                                    colorPalette.background4,
-                                    shape = thumbnailRoundness.shape()
-                                )
-                                .focusRequester(focusRequester)
-                                .onFocusChanged {
-                                    if (!it.hasFocus) {
-                                        keyboardController?.hide()
-                                        if (filter?.isBlank() == true) {
-                                            filter = null
-                                            searching = false
-                                        }
-                                    }
-                                }
-                        )
-                    } else {
-                        HeaderIconButton(
-                            onClick = { searching = true },
-                            icon = R.drawable.search_circle,
-                            color = colorPalette.text,
-                            iconSize = 24.dp
-                        )
-                    }
+                    HeaderIconButton(
+                        onClick = { searching = !searching },
+                        icon = R.drawable.search_circle,
+                        color = colorPalette.text,
+                        iconSize = 24.dp
+                    )
 
                     Spacer(
                         modifier = Modifier
@@ -812,8 +751,77 @@ fun LocalPlaylistSongs(
                     )
 
                 }
-                /*        */
 
+
+                Row (
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.Bottom,
+                    modifier = Modifier
+                        .padding(all = 10.dp)
+                        .fillMaxWidth()
+                ) {
+                    AnimatedVisibility(visible = searching) {
+                        val focusRequester = remember { FocusRequester() }
+                        val focusManager = LocalFocusManager.current
+                        val keyboardController = LocalSoftwareKeyboardController.current
+
+                        LaunchedEffect(searching) {
+                            focusRequester.requestFocus()
+                        }
+
+                        BasicTextField(
+                            value = filter ?: "",
+                            onValueChange = { filter = it },
+                            textStyle = typography.xs.semiBold,
+                            singleLine = true,
+                            maxLines = 1,
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                            keyboardActions = KeyboardActions(onDone = {
+                                if (filter.isNullOrBlank()) filter = ""
+                                focusManager.clearFocus()
+                            }),
+                            cursorBrush = SolidColor(colorPalette.text),
+                            decorationBox = { innerTextField ->
+                                Box(
+                                    contentAlignment = Alignment.CenterStart,
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    androidx.compose.animation.AnimatedVisibility(
+                                        visible = filter?.isEmpty() ?: true,
+                                        enter = fadeIn(tween(100)),
+                                        exit = fadeOut(tween(100)),
+                                    ) {
+                                        BasicText(
+                                            text = stringResource(R.string.search),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                            style = typography.xs.semiBold.secondary.copy(color = colorPalette.textDisabled)
+                                        )
+                                    }
+
+                                    innerTextField()
+                                }
+                            },
+                            modifier = Modifier
+                                .height(30.dp)
+                                .fillMaxWidth()
+                                .background(
+                                    colorPalette.background4,
+                                    shape = thumbnailRoundness.shape()
+                                )
+                                .focusRequester(focusRequester)
+                                .onFocusChanged {
+                                    if (!it.hasFocus) {
+                                        keyboardController?.hide()
+                                        if (filter?.isBlank() == true) {
+                                            filter = null
+                                            searching = false
+                                        }
+                                    }
+                                }
+                        )
+                    }
+                }
 
 
 

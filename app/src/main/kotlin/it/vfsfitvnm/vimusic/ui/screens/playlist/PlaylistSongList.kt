@@ -2,6 +2,7 @@ package it.vfsfitvnm.vimusic.ui.screens.playlist
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -165,6 +167,8 @@ fun PlaylistSongList(
                         || songItem.asMediaItem.mediaMetadata.artist?.contains(filterCharSequence,true) ?: false
             }
 
+    var searching by rememberSaveable { mutableStateOf(false) }
+
     val songThumbnailSizeDp = Dimensions.thumbnails.song
     val songThumbnailSizePx = songThumbnailSizeDp.px
 
@@ -261,6 +265,13 @@ fun PlaylistSongList(
                 Spacer(
                     modifier = Modifier
                         .weight(1f)
+                )
+
+                HeaderIconButton(
+                    onClick = { searching = !searching },
+                    icon = R.drawable.search_circle,
+                    color = colorPalette.text,
+                    iconSize = 24.dp
                 )
 
                 HeaderIconButton(
@@ -422,17 +433,14 @@ fun PlaylistSongList(
                 )
             }
 
-            /*        */
             Row (
-                horizontalArrangement = Arrangement.Start,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.Bottom,
                 modifier = Modifier
                     .padding(all = 10.dp)
                     .fillMaxWidth()
             ) {
-                var searching by rememberSaveable { mutableStateOf(false) }
-
-                if (searching) {
+                AnimatedVisibility(visible = searching) {
                     val focusRequester = remember { FocusRequester() }
                     val focusManager = LocalFocusManager.current
                     val keyboardController = LocalSoftwareKeyboardController.current
@@ -475,6 +483,7 @@ fun PlaylistSongList(
                             }
                         },
                         modifier = Modifier
+                            .height(30.dp)
                             .fillMaxWidth()
                             .background(
                                 colorPalette.background4,
@@ -491,16 +500,9 @@ fun PlaylistSongList(
                                 }
                             }
                     )
-                } else {
-                    HeaderIconButton(
-                        onClick = { searching = true },
-                        icon = R.drawable.search_circle,
-                        color = colorPalette.text,
-                        iconSize = 24.dp
-                    )
                 }
             }
-            /*        */
+
         }
     }
 

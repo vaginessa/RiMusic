@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.ui.screens.home
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -171,6 +173,8 @@ fun  HomeSongs(
                         || it.artistsText?.contains(filterCharSequence,true) ?: false
             }
 
+    var searching by rememberSaveable { mutableStateOf(false) }
+
 /*
     val itemsCount = items.size
     if (!items.isEmpty())
@@ -228,6 +232,13 @@ fun  HomeSongs(
                     )
 
                         HeaderIconButton(
+                            onClick = { searching = !searching },
+                            icon = R.drawable.search_circle,
+                            color = colorPalette.text,
+                            iconSize = 24.dp
+                        )
+
+                        HeaderIconButton(
                             icon = R.drawable.up_right_arrow,
                             color = if (sortBy == SongSortBy.DatePlayed) colorPalette.text else colorPalette.textDisabled,
                             onClick = { sortBy = SongSortBy.DatePlayed }
@@ -276,9 +287,7 @@ fun  HomeSongs(
                         .padding(all = 10.dp)
                         .fillMaxWidth()
                 ) {
-                    var searching by rememberSaveable { mutableStateOf(false) }
-
-                    if (searching) {
+                    AnimatedVisibility(visible = searching) {
                         val focusRequester = remember { FocusRequester() }
                         val focusManager = LocalFocusManager.current
                         val keyboardController = LocalSoftwareKeyboardController.current
@@ -321,6 +330,7 @@ fun  HomeSongs(
                                 }
                             },
                             modifier = Modifier
+                                .height(30.dp)
                                 .fillMaxWidth()
                                 .background(
                                     colorPalette.background4,
@@ -337,7 +347,9 @@ fun  HomeSongs(
                                     }
                                 }
                         )
-                    } else {
+                    }
+                    /*
+                    else {
                         HeaderIconButton(
                             onClick = { searching = true },
                             icon = R.drawable.search_circle,
@@ -345,6 +357,8 @@ fun  HomeSongs(
                             iconSize = 24.dp
                         )
                     }
+
+                     */
                 }
                 /*        */
             }

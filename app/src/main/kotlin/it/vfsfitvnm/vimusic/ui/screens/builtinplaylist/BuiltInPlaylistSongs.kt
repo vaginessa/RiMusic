@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.ui.screens.builtinplaylist
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -148,28 +149,28 @@ fun BuiltInPlaylistSongs(
         mutableStateOf(false)
     }
      LaunchedEffect(Unit, sortBy, sortOrder, filter) {
-        when (builtInPlaylist) {
+         when (builtInPlaylist) {
 
-            BuiltInPlaylist.Downloaded -> {
-                DownloadUtil.getDownloadManager(context)
-                DownloadUtil.getDownloads()
-                DownloadUtil.downloads.value.keys.toList().let { Database.getSongsList(it) }
-            }
+             BuiltInPlaylist.Downloaded -> {
+                 DownloadUtil.getDownloadManager(context)
+                 DownloadUtil.getDownloads()
+                 DownloadUtil.downloads.value.keys.toList().let { Database.getSongsList(it) }
+             }
 
-            BuiltInPlaylist.Favorites -> Database
-                .songsFavorites(sortBy, sortOrder)
+             BuiltInPlaylist.Favorites -> Database
+                 .songsFavorites(sortBy, sortOrder)
 
-            BuiltInPlaylist.Offline -> Database
-                .songsOffline(sortBy, sortOrder)
-                .flowOn(Dispatchers.IO)
-                .map { songs ->
-                    songs.filter { song ->
-                        song.contentLength?.let {
-                            binder?.cache?.isCached(song.song.id, 0, song.contentLength)
-                        } ?: false
-                    }.map(SongWithContentLength::song)
-                }
-        }?.collect { songs = it }
+             BuiltInPlaylist.Offline -> Database
+                 .songsOffline(sortBy, sortOrder)
+                 .flowOn(Dispatchers.IO)
+                 .map { songs ->
+                     songs.filter { song ->
+                         song.contentLength?.let {
+                             binder?.cache?.isCached(song.song.id, 0, song.contentLength)
+                         } ?: false
+                     }.map(SongWithContentLength::song)
+                 }
+         }.collect { songs = it }
     }
 
     var filterCharSequence: CharSequence
@@ -181,6 +182,8 @@ fun BuiltInPlaylistSongs(
             it.title?.contains(filterCharSequence,true) ?: false
             || it.artistsText?.contains(filterCharSequence,true) ?: false
         }
+
+    var searching by rememberSaveable { mutableStateOf(false) }
 
     val thumbnailSizeDp = Dimensions.thumbnails.song
     val thumbnailSize = thumbnailSizeDp.px
@@ -287,19 +290,13 @@ fun BuiltInPlaylistSongs(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    /*
-                    HeaderInfo(
-                        //title = "${songs.size} (${formatAsDuration(totalPlayTimes).dropLast(3)})",
-                        title = "${songs.size}",
-                        icon = painterResource(R.drawable.musical_notes),
-                        spacer = 0
+                    HeaderIconButton(
+                        onClick = { searching = !searching },
+                        icon = R.drawable.search_circle,
+                        color = colorPalette.text,
+                        iconSize = 24.dp
                     )
 
-                    Spacer(
-                        modifier = Modifier
-                            .weight(1f)
-                    )
-                    */
                     if (builtInPlaylist == BuiltInPlaylist.Favorites) {
                         HeaderIconButton(
                             icon = R.drawable.downloaded,
@@ -431,18 +428,14 @@ fun BuiltInPlaylistSongs(
 
                 }
 
-                /*        */
-                Row(
+                Row (
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.Bottom,
                     modifier = Modifier
-                        //.requiredHeight(30.dp)
                         .padding(all = 10.dp)
                         .fillMaxWidth()
                 ) {
-                    var searching by rememberSaveable { mutableStateOf(false) }
-
-                    if (searching) {
+                    AnimatedVisibility(visible = searching) {
                         val focusRequester = remember { FocusRequester() }
                         val focusManager = LocalFocusManager.current
                         val keyboardController = LocalSoftwareKeyboardController.current
@@ -485,6 +478,7 @@ fun BuiltInPlaylistSongs(
                                 }
                             },
                             modifier = Modifier
+                                .height(30.dp)
                                 .fillMaxWidth()
                                 .background(
                                     colorPalette.background4,
@@ -501,34 +495,10 @@ fun BuiltInPlaylistSongs(
                                     }
                                 }
                         )
-                    } else {
-                        HeaderIconButton(
-                            onClick = { searching = true },
-                            icon = R.drawable.search_circle,
-                            color = colorPalette.text,
-                            iconSize = 24.dp
-                        )
                     }
                 }
-                /*        */
 
             }
-
-            /*
-            if (builtInPlaylist == BuiltInPlaylist.Downloaded)
-            item(
-                key = "warning",
-                contentType = 0
-            ) {
-                BasicText(
-                    text = "Please be patient, I’m working on it.",
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = typography.m.semiBold.secondary.copy(color = colorPalette.textDisabled)
-                )
-            }
-             */
-
 
             itemsIndexed(
                 items = songs,
