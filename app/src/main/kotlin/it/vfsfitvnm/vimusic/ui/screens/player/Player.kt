@@ -38,6 +38,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
@@ -56,11 +57,13 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import coil.compose.AsyncImage
@@ -71,10 +74,15 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.PlayerVisualizerType
+import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
+import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Info
+import it.vfsfitvnm.vimusic.models.SongPlaylistMap
 import it.vfsfitvnm.vimusic.models.ui.toUiMedia
+import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.PlayerService
+import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.BottomSheet
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
@@ -82,6 +90,7 @@ import it.vfsfitvnm.vimusic.ui.components.rememberBottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.themed.BaseMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.DownloadStateIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
 import it.vfsfitvnm.vimusic.ui.screens.homeRoute
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -89,6 +98,7 @@ import it.vfsfitvnm.vimusic.ui.styling.collapsedPlayerProgressBar
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.DisposableListener
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
+import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
@@ -105,6 +115,12 @@ import it.vfsfitvnm.vimusic.utils.seamlessPlay
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.shouldBePlaying
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerAddToPlaylistKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerArrowKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerDownloadKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerLoopKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerLyricsKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerShuffleKey
 import it.vfsfitvnm.vimusic.utils.shuffleQueue
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.thumbnailTapEnabledKey
@@ -315,11 +331,20 @@ fun Player(
     var isDownloaded by rememberSaveable { mutableStateOf(false) }
     isDownloaded = downloadedStateMedia(mediaItem.mediaId)
 
-    /*
-    var showLyricsBottomSheet by remember {
+    val showButtonPlayerAddToPlaylist by rememberPreference(showButtonPlayerAddToPlaylistKey, true)
+    val showButtonPlayerArrow by rememberPreference(showButtonPlayerArrowKey, true)
+    val showButtonPlayerDownload by rememberPreference(showButtonPlayerDownloadKey, true)
+    val showButtonPlayerLoop by rememberPreference(showButtonPlayerLoopKey, true)
+    val showButtonPlayerLyrics by rememberPreference(showButtonPlayerLyricsKey, true)
+    val showButtonPlayerShuffle by rememberPreference(showButtonPlayerShuffleKey, true)
+
+    val playlistPreviews by remember {
+        Database.playlistPreviews(PlaylistSortBy.Name, SortOrder.Ascending)
+    }.collectAsState(initial = emptyList(), context = Dispatchers.IO)
+
+    var showPlaylistSelectDialog by remember {
         mutableStateOf(false)
     }
-    */
 
     OnGlobalRoute {
         layoutState.collapseSoft()
@@ -733,6 +758,8 @@ fun Player(
 
                 ) {
                     if (uiType != UiType.ViMusic) {
+
+                        if(showButtonPlayerDownload)
                         DownloadStateIconButton(
                             icon = if (isDownloaded) R.drawable.downloaded else R.drawable.download,
                             color = if (isDownloaded) colorPalette.text else colorPalette.textDisabled,
@@ -751,7 +778,56 @@ fun Player(
                                 .size(24.dp)
                         )
 
+                        if (showPlaylistSelectDialog) {
+                            SelectorDialog(
+                                title = stringResource(R.string.playlists),
+                                onDismiss = { showPlaylistSelectDialog = false },
+                                showItemsIcon = true,
+                                values = playlistPreviews.map {
+                                    Info(
+                                        it.playlist.id.toString(),
+                                        "${it.playlist.name} \n ${it.songCount} ${stringResource(R.string.songs)}"
+                                    )
+                                },
+                                onValueSelected = {
+                                    //Log.d("mediaItem", it)
+                                    var position = 0
+                                    query {
+                                        position =
+                                            Database.getSongMaxPositionToPlaylist(it.toLong())
+                                    }
+                                    if (position > 0) position++
+                                    //Log.d("mediaItemMaxPos", position.toString())
+                                    transaction {
+                                        Database.insert(mediaItem)
+                                        Database.insert(
+                                            SongPlaylistMap(
+                                                songId = mediaItem.mediaId,
+                                                playlistId = it.toLong(),
+                                                position = position
+                                            )
+                                        )
+                                    }
+                                    //Log.d("mediaItemPos", "add position $position")
+                                    showPlaylistSelectDialog = false
+                                }
+                            )
+                        }
 
+
+                        if(showButtonPlayerAddToPlaylist)
+                            IconButton(
+                                icon = R.drawable.add,
+                                color = colorPalette.text,
+                                onClick = { showPlaylistSelectDialog = true },
+                                modifier = Modifier
+                                    .padding(horizontal = 4.dp)
+                                    .size(24.dp)
+                            )
+
+
+
+                        if(showButtonPlayerLoop)
                         IconButton(
                             icon = R.drawable.repeat,
                             color = if (trackLoopEnabled) colorPalette.text else colorPalette.textDisabled,
@@ -764,7 +840,7 @@ fun Player(
                                 .size(24.dp)
                         )
 
-
+                        if(showButtonPlayerShuffle)
                         IconButton(
                             icon = R.drawable.shuffle,
                             color = colorPalette.text,
@@ -791,6 +867,7 @@ fun Player(
 
                          */
 
+                        if(showButtonPlayerLyrics)
                         IconButton(
                             icon = R.drawable.song_lyrics,
                             color = if (isShowingLyrics) colorPalette.text else colorPalette.textDisabled,
@@ -818,7 +895,7 @@ fun Player(
                             )
 
 
-
+                        if(showButtonPlayerArrow)
                         IconButton(
                             icon = R.drawable.chevron_up,
                             color = colorPalette.text,

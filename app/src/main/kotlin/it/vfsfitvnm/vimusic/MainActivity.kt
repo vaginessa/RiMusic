@@ -127,6 +127,12 @@ import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.proxyHostnameKey
 import it.vfsfitvnm.vimusic.utils.proxyModeKey
 import it.vfsfitvnm.vimusic.utils.proxyPortKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerAddToPlaylistKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerArrowKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerDownloadKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerLoopKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerLyricsKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerShuffleKey
 import it.vfsfitvnm.vimusic.utils.showLikeButtonBackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.useSystemFontKey
@@ -356,7 +362,13 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             playerVisualizerTypeKey,
                             UiTypeKey,
                             disablePlayerHorizontalSwipeKey,
-                            audioQualityFormatKey
+                            audioQualityFormatKey,
+                            showButtonPlayerArrowKey,
+                            showButtonPlayerAddToPlaylistKey,
+                            showButtonPlayerDownloadKey,
+                            showButtonPlayerLoopKey,
+                            showButtonPlayerLyricsKey,
+                            showButtonPlayerShuffleKey
                             -> {
                                 this@MainActivity.recreate()
                             }

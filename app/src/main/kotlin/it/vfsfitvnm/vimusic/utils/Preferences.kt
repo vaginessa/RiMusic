@@ -79,6 +79,12 @@ const val proxyHostnameKey = "proxyHostname"
 const val proxyPortKey = "proxyPort"
 const val proxyModeKey = "ProxyMode"
 const val isRecommendationEnabledKey = "isRecommendationEnabled"
+const val showButtonPlayerAddToPlaylistKey = "showButtonPlayerAddToPlaylist"
+const val showButtonPlayerArrowKey = "showButtonPlayerArrow"
+const val showButtonPlayerDownloadKey = "showButtonPlayerDownload"
+const val showButtonPlayerLoopKey = "showButtonPlayerLoop"
+const val showButtonPlayerLyricsKey = "showButtonPlayerLyrics"
+const val showButtonPlayerShuffleKey = "showButtonPlayerShuffle"
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,

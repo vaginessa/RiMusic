@@ -4,7 +4,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -393,21 +391,21 @@ inline fun SelectorDialog(
                             .padding(vertical = 12.dp, horizontal = 24.dp)
                             .fillMaxWidth()
                     ) {
-                        if(showItemsIcon)
+                        if (showItemsIcon)
                             IconButton(
                                 onClick = {},
-                                icon =R.drawable.playlist,
+                                icon = R.drawable.playlist,
                                 color = colorPalette.text,
                                 modifier = Modifier
                                     .size(18.dp)
                             )
 
-                            BasicText(
-                                text = value.name ?: "Not selectable",
-                                maxLines = 3,
-                                overflow = TextOverflow.Ellipsis,
-                                style = typography.xs.medium
-                            )
+                        BasicText(
+                            text = value.name ?: "Not selectable",
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis,
+                            style = typography.xs.medium
+                        )
                     }
                 }
             }
@@ -469,16 +467,16 @@ inline fun InputNumericDialog(
                     modifier = Modifier
                         //.padding(horizontal = 30.dp)
                         .fillMaxWidth(0.7f),
-                        /*
-                        .border(
-                            BorderStroke(
-                                width = 1.dp,
-                                color = if (txtFieldError.value.isEmpty()) colorPalette.textDisabled else colorPalette.red
-                            ),
-
-                            shape = thumbnailShape
+                    /*
+                    .border(
+                        BorderStroke(
+                            width = 1.dp,
+                            color = if (txtFieldError.value.isEmpty()) colorPalette.textDisabled else colorPalette.red
                         ),
-                         */
+
+                        shape = thumbnailShape
+                    ),
+                     */
                     colors = TextFieldDefaults.textFieldColors(
                         placeholderColor = colorPalette.textDisabled,
                         cursorColor = colorPalette.text,
@@ -543,7 +541,7 @@ inline fun InputNumericDialog(
                             txtFieldError.value = value_cannot_empty
                             return@DialogTextButton
                         }
-                        if (txtField.value.isNotEmpty() && txtField.value.toInt() < valueMin.toInt() ) {
+                        if (txtField.value.isNotEmpty() && txtField.value.toInt() < valueMin.toInt()) {
                             txtFieldError.value = value_must_be_greater + valueMin
                             return@DialogTextButton
                         }
@@ -584,7 +582,7 @@ inline fun InputTextDialog(
                 .padding(all = 10.dp)
                 .background(color = colorPalette.background1, shape = RoundedCornerShape(8.dp))
                 .padding(vertical = 16.dp)
-                .defaultMinSize(Dp.Unspecified,190.dp)
+                .defaultMinSize(Dp.Unspecified, 190.dp)
         ) {
             BasicText(
                 text = title,

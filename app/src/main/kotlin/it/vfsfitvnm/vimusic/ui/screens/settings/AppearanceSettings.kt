@@ -56,6 +56,12 @@ import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.playerTimelineTypeKey
 import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerAddToPlaylistKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerArrowKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerDownloadKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerLoopKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerLyricsKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerShuffleKey
 import it.vfsfitvnm.vimusic.utils.showDownloadButtonBackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.showLikeButtonBackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
@@ -111,6 +117,14 @@ fun AppearanceSettings() {
 
     var thumbnailTapEnabled by rememberPreference(thumbnailTapEnabledKey, false)
     var fontType by rememberPreference(fontTypeKey, FontType.Rubik)
+
+    var showButtonPlayerAddToPlaylist by rememberPreference(showButtonPlayerAddToPlaylistKey, true)
+    var showButtonPlayerArrow by rememberPreference(showButtonPlayerArrowKey, true)
+    var showButtonPlayerDownload by rememberPreference(showButtonPlayerDownloadKey, true)
+    var showButtonPlayerLoop by rememberPreference(showButtonPlayerLoopKey, true)
+    var showButtonPlayerLyrics by rememberPreference(showButtonPlayerLyricsKey, true)
+    var showButtonPlayerShuffle by rememberPreference(showButtonPlayerShuffleKey, true)
+
 
     Column(
         modifier = Modifier
@@ -320,6 +334,51 @@ fun AppearanceSettings() {
             text = stringResource(R.string.by_tapping_on_the_thumbnail),
             isChecked = thumbnailTapEnabled,
             onCheckedChange = { thumbnailTapEnabled = it }
+        )
+
+        SettingsGroupSpacer()
+        SettingsEntryGroupText(title = "ACTION BAR BUTTON")
+
+        SwitchSettingEntry(
+            title = "Show Download button",
+            text = "",
+            isChecked = showButtonPlayerDownload,
+            onCheckedChange = { showButtonPlayerDownload = it }
+        )
+
+        SwitchSettingEntry(
+            title = "Show Add to playlist button",
+            text = "",
+            isChecked = showButtonPlayerAddToPlaylist,
+            onCheckedChange = { showButtonPlayerAddToPlaylist = it }
+        )
+
+        SwitchSettingEntry(
+            title = "Show Loop button",
+            text = "",
+            isChecked = showButtonPlayerLoop,
+            onCheckedChange = { showButtonPlayerLoop = it }
+        )
+
+        SwitchSettingEntry(
+            title = "Show Shuffle button",
+            text = "",
+            isChecked = showButtonPlayerShuffle,
+            onCheckedChange = { showButtonPlayerShuffle = it }
+        )
+
+        SwitchSettingEntry(
+            title = "Show Lyrics button",
+            text = "",
+            isChecked = showButtonPlayerLyrics,
+            onCheckedChange = { showButtonPlayerLyrics = it }
+        )
+
+        SwitchSettingEntry(
+            title = "Show Arrow button",
+            text = "",
+            isChecked = showButtonPlayerArrow,
+            onCheckedChange = { showButtonPlayerArrow = it }
         )
 
         SettingsGroupSpacer()

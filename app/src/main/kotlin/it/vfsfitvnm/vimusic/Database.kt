@@ -404,7 +404,7 @@ interface Database {
     fun incrementTotalPlayTimeMs(id: String, addition: Long)
 
     @Transaction
-    @Query("SELECT max(position) FROM SongPlaylistMap WHERE playlistId = :id")
+    @Query("SELECT max(position) maxPos FROM SongPlaylistMap WHERE playlistId = :id")
     fun getSongMaxPositionToPlaylist(id: Long): Int
 
 
