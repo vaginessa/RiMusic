@@ -228,6 +228,12 @@ fun  HomeSongs(
                     )
 
                         HeaderIconButton(
+                            icon = R.drawable.up_right_arrow,
+                            color = if (sortBy == SongSortBy.DatePlayed) colorPalette.text else colorPalette.textDisabled,
+                            onClick = { sortBy = SongSortBy.DatePlayed }
+                        )
+
+                        HeaderIconButton(
                             icon = R.drawable.trending,
                             color = if (sortBy == SongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
                             onClick = { sortBy = SongSortBy.PlayTime }
@@ -244,11 +250,12 @@ fun  HomeSongs(
                             color = if (sortBy == SongSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
                             onClick = { sortBy = SongSortBy.DateAdded }
                         )
-
+/*
                         Spacer(
                             modifier = Modifier
                                 .width(2.dp)
                         )
+ */
 
                         HeaderIconButton(
                             icon = R.drawable.arrow_up,

@@ -265,9 +265,23 @@ interface Database {
     @RewriteQueriesToDropUnusedColumns
     fun songsByPlayTimeDesc(): Flow<List<Song>>
 
+    @Transaction
+    @Query("SELECT DISTINCT S.* FROM Song S " +
+            "LEFT JOIN Event E ON E.songId=S.id " +
+            "WHERE S.totalPlayTimeMs > 0 AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "ORDER BY E.timestamp DESC")
+    fun songsByDatePlayedDesc(): Flow<List<Song>>
+
+    @Transaction
+    @Query("SELECT DISTINCT S.* FROM Song S " +
+            "LEFT JOIN Event E ON E.songId=S.id " +
+            "WHERE S.totalPlayTimeMs > 0 AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "ORDER BY E.timestamp")
+    fun songsByDatePlayedAsc(): Flow<List<Song>>
+
     fun songs(sortBy: SongSortBy, sortOrder: SortOrder): Flow<List<Song>> {
         return when (sortBy) {
-            SongSortBy.PlayTime, SongSortBy.DatePlayed -> when (sortOrder) {
+            SongSortBy.PlayTime -> when (sortOrder) {
                 SortOrder.Ascending -> songsByPlayTimeAsc()
                 SortOrder.Descending -> songsByPlayTimeDesc()
             }
@@ -278,6 +292,10 @@ interface Database {
             SongSortBy.DateAdded -> when (sortOrder) {
                 SortOrder.Ascending -> songsByRowIdAsc()
                 SortOrder.Descending -> songsByRowIdDesc()
+            }
+            SongSortBy.DatePlayed -> when (sortOrder) {
+                SortOrder.Ascending -> songsByDatePlayedAsc()
+                SortOrder.Descending -> songsByDatePlayedDesc()
             }
         }
     }
