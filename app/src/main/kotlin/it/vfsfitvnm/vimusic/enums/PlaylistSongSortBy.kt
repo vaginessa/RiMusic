@@ -5,6 +5,7 @@ enum class PlaylistSongSortBy {
     Title,
     Artist,
     Position,
-    DatePlayed
+    DatePlayed,
+    AlbumYear
 
 }

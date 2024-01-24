@@ -458,6 +458,22 @@ interface Database {
             "ORDER BY E.timestamp DESC")
     fun songsPlaylistByDatePlayedDesc(id: Long): Flow<List<Song>>
 
+    @Transaction
+    @Query("SELECT DISTINCT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId " +
+            "LEFT JOIN songalbummap SA ON SA.songId=SP.songId " +
+            "LEFT JOIN Album A ON A.Id=SA.albumId " +
+            "WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "ORDER BY CAST(A.year AS INTEGER) DESC")
+    fun songsPlaylistByAlbumYearDesc(id: Long): Flow<List<Song>>
+
+    @Transaction
+    @Query("SELECT DISTINCT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId " +
+            "LEFT JOIN songalbummap SA ON SA.songId=SP.songId " +
+            "LEFT JOIN Album A ON A.Id=SA.albumId " +
+            "WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "ORDER BY CAST(A.year AS INTEGER)")
+    fun songsPlaylistByAlbumYearAsc(id: Long): Flow<List<Song>>
+
     fun songsPlaylist(id: Long, sortBy: PlaylistSongSortBy, sortOrder: SortOrder): Flow<List<Song>> {
         return when (sortBy) {
             PlaylistSongSortBy.PlayTime -> when (sortOrder) {
@@ -479,6 +495,10 @@ interface Database {
             PlaylistSongSortBy.DatePlayed -> when (sortOrder) {
                 SortOrder.Ascending -> songsPlaylistByDatePlayedAsc(id)
                 SortOrder.Descending -> songsPlaylistByDatePlayedDesc(id)
+            }
+            PlaylistSongSortBy.AlbumYear -> when (sortOrder) {
+                SortOrder.Ascending -> songsPlaylistByAlbumYearAsc(id)
+                SortOrder.Descending -> songsPlaylistByAlbumYearDesc(id)
             }
 
         }

@@ -768,6 +768,12 @@ fun LocalPlaylistSongs(
                     )
 
                     HeaderIconButton(
+                        icon = R.drawable.calendar,
+                        color = if (sortBy == PlaylistSongSortBy.AlbumYear) colorPalette.text else colorPalette.textDisabled,
+                        onClick = { sortBy = PlaylistSongSortBy.AlbumYear }
+                    )
+
+                    HeaderIconButton(
                         icon = R.drawable.up_right_arrow,
                         color = if (sortBy == PlaylistSongSortBy.DatePlayed) colorPalette.text else colorPalette.textDisabled,
                         onClick = { sortBy = PlaylistSongSortBy.DatePlayed }
