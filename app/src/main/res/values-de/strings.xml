@@ -242,7 +242,7 @@
     <string name="song_cache_by_player">Song-Zwischenspeicher</string>
     <string name="song_cache_by_download">Download-Speicher</string>
     <string name="visualizer">Vorschau</string>
-    <string name="visualizer_require_mic_permission">Visualisierer MIC PERMISSION</string>
+    <string name="visualizer_require_mic_permission">Visualizer erfordert Mikrofonberechtigung</string>
     <string name="restart_app_please">Starte bitte die App neu.</string>
     <string name="listen_on_piped">Auf Piped hören</string>
     <string name="listen_on_invidious">Auf Invidious hören</string>
