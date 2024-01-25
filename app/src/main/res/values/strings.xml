@@ -213,7 +213,7 @@
     <string name="moods_and_genres">Moods and genres</string>
     <string name="search_queries">" search queries"</string>
     <string name="not_find_battery_optimization_settings">Couldn\'t find battery optimization settings, please whitelist manually</string>
-    <string name="search">Search...</string>
+    <string name="search">Search</string>
     <string name="no" >No</string>
     <string name="stop" >Stop</string>
     <string name="preferences" >PREFERENCES</string>
@@ -332,4 +332,14 @@
     <string name="authors">Authors</string>
     <string name="cover">Cover</string>
     <string name="lang_japanese">Japanese</string>
+    <string name="paste_or_type_a_valid_url">Paste or type a valid url</string>
+    <string name="you_can_put_a_complete_link">You can put a complete link of a playlist, an album, a channel or a single song on YouTube or YouTube Music</string>
+    <string name="go_to_link">Go to link</string>
+    <string name="action_bar_button">ACTION BAR BUTTON</string>
+    <string name="action_bar_show_download_button">Show Download button</string>
+    <string name="action_bar_show_add_to_playlist_button">Show Add to playlist button</string>
+    <string name="action_bar_show_loop_button">Show Loop button</string>
+    <string name="action_bar_show_shuffle_button">Show Shuffle button</string>
+    <string name="action_bar_show_lyrics_button">Show Lyrics button</string>
+    <string name="action_bar_show_arrow_button">Show Arrow button</string>
 </resources>

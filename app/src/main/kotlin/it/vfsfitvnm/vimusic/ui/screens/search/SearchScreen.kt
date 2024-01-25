@@ -96,6 +96,7 @@ fun SearchScreen(
                 tabColumnContent = { Item ->
                     Item(0, stringResource(R.string.online), R.drawable.globe)
                     Item(1, stringResource(R.string.library), R.drawable.library)
+                    Item(2, stringResource(R.string.go_to_link), R.drawable.link)
                 }
             ) { currentTabIndex ->
                 saveableStateHolder.SaveableStateProvider(currentTabIndex) {
@@ -109,6 +110,12 @@ fun SearchScreen(
                         )
 
                         1 -> LocalSongSearch(
+                            textFieldValue = textFieldValue,
+                            onTextFieldValueChanged = onTextFieldValueChanged,
+                            decorationBox = decorationBox
+                        )
+
+                        2 -> GoToLink(
                             textFieldValue = textFieldValue,
                             onTextFieldValueChanged = onTextFieldValueChanged,
                             decorationBox = decorationBox

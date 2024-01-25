@@ -337,45 +337,45 @@ fun AppearanceSettings() {
         )
 
         SettingsGroupSpacer()
-        SettingsEntryGroupText(title = "ACTION BAR BUTTON")
+        SettingsEntryGroupText(title = stringResource(R.string.action_bar_button))
 
         SwitchSettingEntry(
-            title = "Show Download button",
+            title = stringResource(R.string.action_bar_show_download_button),
             text = "",
             isChecked = showButtonPlayerDownload,
             onCheckedChange = { showButtonPlayerDownload = it }
         )
 
         SwitchSettingEntry(
-            title = "Show Add to playlist button",
+            title = stringResource(R.string.action_bar_show_add_to_playlist_button),
             text = "",
             isChecked = showButtonPlayerAddToPlaylist,
             onCheckedChange = { showButtonPlayerAddToPlaylist = it }
         )
 
         SwitchSettingEntry(
-            title = "Show Loop button",
+            title = stringResource(R.string.action_bar_show_loop_button),
             text = "",
             isChecked = showButtonPlayerLoop,
             onCheckedChange = { showButtonPlayerLoop = it }
         )
 
         SwitchSettingEntry(
-            title = "Show Shuffle button",
+            title = stringResource(R.string.action_bar_show_shuffle_button),
             text = "",
             isChecked = showButtonPlayerShuffle,
             onCheckedChange = { showButtonPlayerShuffle = it }
         )
 
         SwitchSettingEntry(
-            title = "Show Lyrics button",
+            title = stringResource(R.string.action_bar_show_lyrics_button),
             text = "",
             isChecked = showButtonPlayerLyrics,
             onCheckedChange = { showButtonPlayerLyrics = it }
         )
 
         SwitchSettingEntry(
-            title = "Show Arrow button",
+            title = stringResource(R.string.action_bar_show_arrow_button),
             text = "",
             isChecked = showButtonPlayerArrow,
             onCheckedChange = { showButtonPlayerArrow = it }

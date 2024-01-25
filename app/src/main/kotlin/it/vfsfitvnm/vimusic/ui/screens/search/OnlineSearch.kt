@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -58,6 +59,7 @@ import it.vfsfitvnm.vimusic.models.SearchQuery
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.align
@@ -143,6 +145,23 @@ fun OnlineSearch(
                 key = "header",
                 contentType = 0
             ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    HeaderWithIcon(
+                        title = "${stringResource(R.string.search)} ${stringResource(R.string.online)}",
+                        iconId = R.drawable.globe,
+                        enabled = true,
+                        showIcon = true,
+                        modifier = Modifier
+                            .padding(bottom = 8.dp),
+                        onClick = {}
+                    )
+
+                }
                 Header(
                     titleContent = {
                         BasicTextField(
