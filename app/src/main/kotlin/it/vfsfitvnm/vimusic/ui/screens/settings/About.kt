@@ -156,6 +156,7 @@ fun About() {
                     "abfreeman \n"+
                     "Adam Kop \n"+
                     "Ahmad Al Juwaisri \n"+
+                    "AntoniNowak \n" +
                     "Conk \n"+
                     "Crayz310 \n"+
                     "CUMOON \n"+

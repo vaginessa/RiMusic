@@ -64,7 +64,7 @@
 - **Korean:** thanks to [TsyQax](https://crowdin.com/profile/TsyQax)
 - **Odia:** thanks to [Get100percent](https://github.com/Get100percent)
 - **Persian:** thanks to [CUMOON](https://github.com/CUMOON)
-- **Polish:** thanks to [roklc](https://github.com/roklc) and [Adam Kop](https://crowdin.com/profile/damianadam000)
+- **Polish:** thanks to [AntoniNowak](https://crowdin.com/profile/AntoniNowak) and [roklc](https://github.com/roklc) and [Adam Kop](https://crowdin.com/profile/damianadam000)
 - **Portuguese:** thanks to [NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **Portuguese, Brazilian:** thanks to [RegularWater](https://crowdin.com/profile/RegularWater) and [NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **Romanian:** thanks to [OrangeZXZ](https://github.com/OrangeZxZ)
