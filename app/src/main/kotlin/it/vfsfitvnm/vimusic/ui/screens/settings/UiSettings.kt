@@ -182,7 +182,6 @@ fun  UiSettings() {
                     Languages.Esperanto -> stringResource(R.string.esperanto)
                     Languages.Finnish -> stringResource(R.string.lang_finnish)
                     Languages.French -> stringResource(R.string.french)
-                    //Languages.FrenchEmo -> stringResource(R.string.french_emoticons_fran_ais)
                     Languages.German -> stringResource(R.string.german)
                     Languages.Greek -> stringResource(R.string.greek)
                     Languages.Hebrew -> stringResource(R.string.lang_hebrew)
@@ -346,8 +345,8 @@ fun  UiSettings() {
         )
 
         SwitchSettingEntry(
-            title = "Listening time",
-            text = "Shows the number of songs heard and their listening time",
+            title = stringResource(R.string.listening_time),
+            text = stringResource(R.string.shows_the_number_of_songs_heard_and_their_listening_time),
             isChecked = showStatsListeningTime,
             onCheckedChange = {
                 showStatsListeningTime = it
