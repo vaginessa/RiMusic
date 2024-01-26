@@ -342,4 +342,5 @@
     <string name="action_bar_show_shuffle_button">Show Shuffle button</string>
     <string name="action_bar_show_lyrics_button">Show Lyrics button</string>
     <string name="action_bar_show_arrow_button">Show Arrow button</string>
+    <string name="lang_finnish">Finnish</string>
 </resources>

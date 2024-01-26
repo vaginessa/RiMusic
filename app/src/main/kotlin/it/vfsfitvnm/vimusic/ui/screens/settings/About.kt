@@ -177,6 +177,7 @@ fun About() {
                     "NEVARLeVrai \n"+
                     "OrangeZXZ \n"+
                     "RegularWater \n"+
+                    "rikalaj \n" +
                     "roklc \n"+
                     "SharkChan0622 \n"+
                     "Shilave malay \n"+

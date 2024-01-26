@@ -53,6 +53,7 @@
 - **Czech:** thanks to [ikanakova](https://github.com/ikanakova) and [JZITNIK-github](https://github.com/JZITNIK-github)
 - **English:** thanks to [fast4x](https://github.com/fast4x)
 - **Esperanto:** thanks to [kjev666](https://github.com/kjev666)
+- **Finnish:** thanks to [rikalaj](https://crowdin.com/profile/rikalaj)
 - **French:** thanks to [NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **German:** thanks to [Seryoga1984](https://crowdin.com/profile/Seryoga1984) and [Conk](https://crowdin.com/profile/conk) and [siggi1984](https://github.com/siggi1984)
 - **Greek:** thanks to [Marinkas](https://github.com/Marinkas)

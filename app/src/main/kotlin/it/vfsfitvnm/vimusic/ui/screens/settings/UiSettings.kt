@@ -180,6 +180,7 @@ fun  UiSettings() {
                     Languages.Czech -> stringResource(R.string.czech)
                     Languages.English -> stringResource(R.string.english)
                     Languages.Esperanto -> stringResource(R.string.esperanto)
+                    Languages.Finnish -> stringResource(R.string.lang_finnish)
                     Languages.French -> stringResource(R.string.french)
                     //Languages.FrenchEmo -> stringResource(R.string.french_emoticons_fran_ais)
                     Languages.German -> stringResource(R.string.german)

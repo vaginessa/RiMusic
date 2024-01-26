@@ -10,6 +10,7 @@ enum class Languages {
     ChineseSimplified,
     ChineseTraditional,
     Czech,
+    Finnish,
     French,
     //FrenchEmo,
     German,
@@ -43,6 +44,7 @@ enum class Languages {
             ChineseTraditional -> "zh-TW"
             English -> "en"
             Esperanto -> "eo"
+            Finnish -> "fi"
             Italian -> "it"
             Indonesian -> "in"
             Japanese -> "ja"
