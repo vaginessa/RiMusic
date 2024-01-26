@@ -213,7 +213,7 @@
     <string name="moods_and_genres">Moods and genres</string>
     <string name="search_queries">" search queries"</string>
     <string name="not_find_battery_optimization_settings">Couldn\'t find battery optimization settings, please whitelist manually</string>
-    <string name="search">Search</string>
+    <string name="search">Search...</string>
     <string name="no">No</string>
     <string name="stop">Stop</string>
     <string name="preferences">PREFERENCES</string>
@@ -343,4 +343,6 @@
     <string name="action_bar_show_lyrics_button">Show Lyrics button</string>
     <string name="action_bar_show_arrow_button">Show Arrow button</string>
     <string name="lang_finnish">Finnish</string>
+    <string name="listening_time">Listening time</string>
+    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Shows the number of songs heard and their listening time</string>
 </resources>
