@@ -213,7 +213,7 @@
     <string name="moods_and_genres">Moods and genres</string>
     <string name="search_queries">" search queries"</string>
     <string name="not_find_battery_optimization_settings">Couldn\'t find battery optimization settings, please whitelist manually</string>
-    <string name="search">Search</string>
+    <string name="search">Search...</string>
     <string name="no">No</string>
     <string name="stop">Stop</string>
     <string name="preferences">PREFERENCES</string>
