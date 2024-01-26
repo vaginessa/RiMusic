@@ -343,4 +343,6 @@
     <string name="action_bar_show_lyrics_button">Pokaż przycisk Tekstu Piosenki</string>
     <string name="action_bar_show_arrow_button">Pokaż przycisk Przewijania</string>
     <string name="lang_finnish">Fiński</string>
+    <string name="listening_time">Listening time</string>
+    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Shows the number of songs heard and their listening time</string>
 </resources>
