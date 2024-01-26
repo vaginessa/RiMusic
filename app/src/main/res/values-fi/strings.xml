@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cancel">Cancel</string>
-    <string name="done">Done</string>
+    <string name="cancel">Peruuta</string>
+    <string name="done">Valmis</string>
     <string name="hidesong">Do you really want to hide this song? Its playback time and cache will be wiped.\nThis action is irreversible.</string>
-    <string name="new_playlist">New playlist</string>
-    <string name="start_radio">Start radio</string>
-    <string name="equalizer">Equalizer</string>
+    <string name="new_playlist">Uusi soittolista</string>
+    <string name="start_radio">Käynnistä radio</string>
+    <string name="equalizer">Taajuuskorjain</string>
     <string name="stop_sleep_timer">Do you want to stop the sleep timer?</string>
     <string name="set_sleep_timer">Set sleep timer</string>
     <string name="add_to_playlist">Add to playlist</string>
