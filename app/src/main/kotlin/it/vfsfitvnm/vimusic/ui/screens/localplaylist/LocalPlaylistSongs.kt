@@ -203,7 +203,7 @@ fun LocalPlaylistSongs(
         //val numRelated = relatedSongsResult?.getOrNull()?.songs?.size ?: 0
         //val relatedMax = playlistSongs.size
         if (relatedSongsRecommendationResult != null) {
-            for (index in 0..5) {
+            for (index in 0..19) {
                 positionsRecommendationList.add((0..playlistSongs.size).random())
             }
         }
