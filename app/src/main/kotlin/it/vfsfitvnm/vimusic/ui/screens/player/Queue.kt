@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
@@ -46,6 +47,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -125,7 +127,7 @@ fun Queue(
         state = layoutState,
         modifier = modifier,
         collapsedContent = {
-/*
+
             Box(
                 modifier = Modifier
                     .drawBehind { drawRect(backgroundColorProvider()) }
@@ -133,19 +135,17 @@ fun Queue(
                     .padding(horizontalBottomPaddingValues)
             ) {
                 Image(
-                    painter = painterResource(R.drawable.chevron_up),
+                    painter = painterResource(R.drawable.horizontal_bold_line),
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(colorPalette.text),
                     modifier = Modifier
                         .align(Alignment.TopCenter)
-                        .size(18.dp)
+                        .size(30.dp)
                 )
 
                 content()
             }
-*/
 
-           content()
         }
     ) {
         val binder = LocalPlayerServiceBinder.current

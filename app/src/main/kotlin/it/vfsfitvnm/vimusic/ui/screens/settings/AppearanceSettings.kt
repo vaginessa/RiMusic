@@ -119,7 +119,7 @@ fun AppearanceSettings() {
     var fontType by rememberPreference(fontTypeKey, FontType.Rubik)
 
     var showButtonPlayerAddToPlaylist by rememberPreference(showButtonPlayerAddToPlaylistKey, true)
-    var showButtonPlayerArrow by rememberPreference(showButtonPlayerArrowKey, true)
+    var showButtonPlayerArrow by rememberPreference(showButtonPlayerArrowKey, false)
     var showButtonPlayerDownload by rememberPreference(showButtonPlayerDownloadKey, true)
     var showButtonPlayerLoop by rememberPreference(showButtonPlayerLoopKey, true)
     var showButtonPlayerLyrics by rememberPreference(showButtonPlayerLyricsKey, true)

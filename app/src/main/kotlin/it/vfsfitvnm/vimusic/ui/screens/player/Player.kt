@@ -332,7 +332,7 @@ fun Player(
     isDownloaded = downloadedStateMedia(mediaItem.mediaId)
 
     val showButtonPlayerAddToPlaylist by rememberPreference(showButtonPlayerAddToPlaylistKey, true)
-    val showButtonPlayerArrow by rememberPreference(showButtonPlayerArrowKey, true)
+    val showButtonPlayerArrow by rememberPreference(showButtonPlayerArrowKey, false)
     val showButtonPlayerDownload by rememberPreference(showButtonPlayerDownloadKey, true)
     val showButtonPlayerLoop by rememberPreference(showButtonPlayerLoopKey, true)
     val showButtonPlayerLyrics by rememberPreference(showButtonPlayerLyricsKey, true)
