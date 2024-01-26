@@ -301,7 +301,7 @@ fun Controls(
 
         Spacer(
             modifier = Modifier
-                .height(20.dp)
+                .height(10.dp)
         )
 
         Row(
@@ -571,7 +571,7 @@ fun Controls(
                         //binder.player.seekToPreviousMediaItem()
                         if (effectRotationEnabled) isRotated = !isRotated
                     }
-                    .background( colorPalette.background2 )
+                    //.background( colorPalette.background2 )
                     .width(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.width.dp else playerPlayButtonType.width.dp)
                     .height(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.height.dp else playerPlayButtonType.height.dp)
             ) {
@@ -583,7 +583,7 @@ fun Controls(
                     modifier = Modifier
                         .rotate(rotationAngle)
                         .align(Alignment.Center)
-                        .size(26.dp)
+                        .size(36.dp)
                 )
             }
             /*
@@ -635,13 +635,13 @@ fun Controls(
                 )
 
                 Image(
-                    painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
+                    painter = painterResource(if (shouldBePlaying) R.drawable.new_pause_button else R.drawable.new_play_button),
                     contentDescription = null,
                     colorFilter = if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed) ColorFilter.tint(colorPalette.iconButtonPlayer) else ColorFilter.tint(colorPalette.text),
                     modifier = Modifier
                         .rotate(rotationAngle)
                         .align(Alignment.Center)
-                        .size(26.dp)
+                        .size(48.dp)
                 )
             }
 
@@ -667,7 +667,7 @@ fun Controls(
                         binder.player.forceSeekToNext()
                         if (effectRotationEnabled) isRotated = !isRotated
                     }
-                    .background( colorPalette.background2 )
+                    //.background( colorPalette.background2 )
                     .width(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.width.dp else playerPlayButtonType.width.dp)
                     .height(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.height.dp else playerPlayButtonType.height.dp)
             ) {
@@ -679,7 +679,7 @@ fun Controls(
                     modifier = Modifier
                         .rotate(rotationAngle)
                         .align(Alignment.Center)
-                        .size(26.dp)
+                        .size(36.dp)
                 )
             }
 

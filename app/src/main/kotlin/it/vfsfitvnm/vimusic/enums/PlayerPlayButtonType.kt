@@ -9,17 +9,17 @@ enum class PlayerPlayButtonType {
     val height: Int
         get() = when (this) {
             Default -> 60
-            Rectangular -> 80
+            Rectangular -> 90
             CircularRibbed -> 90
-            Square -> 80
+            Square -> 90
         }
 
     val width: Int
         get() = when (this) {
             Default -> 60
-            Rectangular -> 110
+            Rectangular -> 120
             CircularRibbed -> 90
-            Square -> 80
+            Square -> 90
 
         }
 }
