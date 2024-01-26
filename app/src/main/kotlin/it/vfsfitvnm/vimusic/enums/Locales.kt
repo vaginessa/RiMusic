@@ -12,7 +12,6 @@ enum class Languages {
     Czech,
     Finnish,
     French,
-    //FrenchEmo,
     German,
     Greek,
     Hebrew,
@@ -56,7 +55,6 @@ enum class Languages {
             Hungarian -> "hu"
             Spanish -> "es"
             French -> "fr"
-            //FrenchEmo -> "fr-FR"
             Odia -> "or"
             Persian -> "fa"
             Polish -> "pl"
