@@ -567,9 +567,9 @@ fun Controls(
                 modifier = Modifier
                     .clip(RoundedCornerShape(playPauseRoundness))
                     .clickable {
+                        if (effectRotationEnabled) isRotated = !isRotated
                         binder.player.forceSeekToPrevious()
                         //binder.player.seekToPreviousMediaItem()
-                        if (effectRotationEnabled) isRotated = !isRotated
                     }
                     //.background( colorPalette.background2 )
                     .width(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.width.dp else playerPlayButtonType.width.dp)
@@ -579,7 +579,7 @@ fun Controls(
                 Image(
                     painter = painterResource(R.drawable.play_skip_back),
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(colorPalette.iconButtonPlayer),
+                    colorFilter = ColorFilter.tint(colorPalette.collapsedPlayerProgressBar), //ColorFilter.tint(colorPalette.iconButtonPlayer),
                     modifier = Modifier
                         .rotate(rotationAngle)
                         .align(Alignment.Center)
@@ -619,7 +619,7 @@ fun Controls(
                     }
                     //.background(if (uiType != UiType.RiMusic) colorPalette.background3 else colorPalette.background0)
                     .background(
-                        if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed && colorPaletteName == ColorPaletteName.Dynamic) colorPalette.background1 else colorPalette.background2
+                        if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed && colorPaletteName == ColorPaletteName.Dynamic) colorPalette.background1 else colorPalette.background0
                     )
                     .width(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.width.dp else playerPlayButtonType.width.dp)
                     .height(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.height.dp else playerPlayButtonType.height.dp)
@@ -635,13 +635,13 @@ fun Controls(
                 )
 
                 Image(
-                    painter = painterResource(if (shouldBePlaying) R.drawable.new_pause_button else R.drawable.new_play_button),
+                    painter = painterResource(if (shouldBePlaying) R.drawable.pause else R.drawable.play),
                     contentDescription = null,
-                    colorFilter = if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed) ColorFilter.tint(colorPalette.iconButtonPlayer) else ColorFilter.tint(colorPalette.text),
+                    colorFilter = ColorFilter.tint(colorPalette.collapsedPlayerProgressBar), //if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed) ColorFilter.tint(colorPalette.iconButtonPlayer) else ColorFilter.tint(colorPalette.text),
                     modifier = Modifier
                         .rotate(rotationAngle)
                         .align(Alignment.Center)
-                        .size(48.dp)
+                        .size(42.dp)
                 )
             }
 
@@ -664,8 +664,8 @@ fun Controls(
                 modifier = Modifier
                     .clip(RoundedCornerShape(playPauseRoundness))
                     .clickable {
-                        binder.player.forceSeekToNext()
                         if (effectRotationEnabled) isRotated = !isRotated
+                        binder.player.forceSeekToNext()
                     }
                     //.background( colorPalette.background2 )
                     .width(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.width.dp else playerPlayButtonType.width.dp)
@@ -675,7 +675,7 @@ fun Controls(
                 Image(
                     painter = painterResource(R.drawable.play_skip_forward),
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(colorPalette.iconButtonPlayer),
+                    colorFilter = ColorFilter.tint(colorPalette.collapsedPlayerProgressBar), //ColorFilter.tint(colorPalette.iconButtonPlayer),
                     modifier = Modifier
                         .rotate(rotationAngle)
                         .align(Alignment.Center)
