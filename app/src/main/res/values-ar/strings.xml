@@ -343,4 +343,6 @@
     <string name="action_bar_show_lyrics_button">Show Lyrics button</string>
     <string name="action_bar_show_arrow_button">Show Arrow button</string>
     <string name="lang_finnish">Finnish</string>
+    <string name="listening_time">Listening time</string>
+    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Shows the number of songs heard and their listening time</string>
 </resources>
