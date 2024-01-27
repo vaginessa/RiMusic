@@ -263,8 +263,8 @@
     <string name="custom_cache_size">Benutzerdefinierte Zwischenspeichergröße</string>
     <string name="listen_on">Hören auf</string>
     <string name="error_local_music_not_found">Lokale Musikdatei nicht gefunden</string>
-    <string name="bodied_bar">Bodied Bar</string>
-    <string name="pin_bar">Pin Bar</string>
+    <string name="bodied_bar">Breite Leiste</string>
+    <string name="pin_bar">Erweiternde Leiste</string>
     <string name="rectangular">Rechteck</string>
     <string name="square">Quadrat</string>
     <string name="circular_ribbed">Gerippter Kreis</string>
@@ -333,7 +333,7 @@
     <string name="cover">Cover</string>
     <string name="lang_japanese">Japanese</string>
     <string name="paste_or_type_a_valid_url">Füge eine gültige URL ein</string>
-    <string name="you_can_put_a_complete_link">You can put a complete link of a playlist, an album, a channel or a single song on YouTube or YouTube Music</string>
+    <string name="you_can_put_a_complete_link">Ein vollständiger Link zu einer Wiedergabeliste, einem Album, einem Kanal oder einem einzelnen Song auf YouTube oder YouTube Music kann gesetzt werden</string>
     <string name="go_to_link">Gehe zu Link</string>
     <string name="action_bar_button">AKTIONSLEISTE</string>
     <string name="action_bar_show_download_button">Herunterladen-Schaltfläche anzeigen</string>
@@ -343,6 +343,6 @@
     <string name="action_bar_show_lyrics_button">Songtext-Schaltfläche anzeigen</string>
     <string name="action_bar_show_arrow_button">Pfeil-Schaltfläche anzeigen</string>
     <string name="lang_finnish">Finnish</string>
-    <string name="listening_time">Listening time</string>
-    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Shows the number of songs heard and their listening time</string>
+    <string name="listening_time">Hördauer</string>
+    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Zeigt die Hördauer und die Anzahl der gehörten Titel an</string>
 </resources>
