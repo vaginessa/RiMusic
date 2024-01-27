@@ -333,7 +333,7 @@
     <string name="cover">Kapak</string>
     <string name="lang_japanese">Japonca (日本語)</string>
     <string name="paste_or_type_a_valid_url">Geçerli bir URL yapıştırın veya yazın</string>
-    <string name="you_can_put_a_complete_link">YouTube veya YouTube Music\'ten bir oynatma listesinin, albümün, kanalın veya tek bir şarkının bağlantısını bırakabilirsiniz</string>
+    <string name="you_can_put_a_complete_link">YouTube veya YouTube Music\'ten bir oynatma listesinin, albümün, kanalın veya tek bir şarkının bağlantısını ekleyebilirsiniz</string>
     <string name="go_to_link">Bağlantıya git</string>
     <string name="action_bar_button">EYLEM ÇUBUĞU DÜĞMESİ</string>
     <string name="action_bar_show_download_button">İndirme düğmesini göster</string>
