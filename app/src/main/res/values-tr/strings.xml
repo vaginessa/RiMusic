@@ -343,6 +343,6 @@
     <string name="action_bar_show_lyrics_button">Şarkı sözleri düğmesini göster</string>
     <string name="action_bar_show_arrow_button">Ok düğmesini göster</string>
     <string name="lang_finnish">Fince (Finnish)</string>
-    <string name="listening_time">Listening time</string>
-    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Shows the number of songs heard and their listening time</string>
+    <string name="listening_time">Dinleme zamanı</string>
+    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Dinlediğin şarkı sayısını ve dinlenme zamanını gösterir</string>
 </resources>
