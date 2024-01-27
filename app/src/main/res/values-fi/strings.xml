@@ -122,7 +122,7 @@
     <string name="autoadjust_the_volume">Adjust the volume to a fixed level</string>
     <string name="interact_with_the_system_equalizer">Interact with the system equalizer</string>
     <string name="about">About</string>
-    <string name="more_of">More of</string>
+    <string name="more_of">Lisää artistilta</string>
     <string name="sleep_timer">Uniajastin</string>
     <string name="left">%1$s left</string>
     <string name="set">Set</string>
@@ -218,8 +218,8 @@
     <string name="stop">Stop</string>
     <string name="preferences">PREFERENCES</string>
     <string name="it_seems_that_youtube_music_is_not_installed">It seems that YouTube Music is not installed!</string>
-    <string name="listen_on_youtube">Listen on YouTube</string>
-    <string name="listen_on_youtube_music">Listen on YouTube Music</string>
+    <string name="listen_on_youtube">Kuuntele YouTubessa</string>
+    <string name="listen_on_youtube_music">Kuuntele YouTube Musicissa</string>
     <string name="on_device">On device</string>
     <string name="open_settings">Avaa asetukset</string>
     <string name="permission_declined_grant_media_permissions">Permission declined, please grant media permissions in the settings of your device.</string>
@@ -244,7 +244,7 @@
     <string name="visualizer">Visualizer</string>
     <string name="visualizer_require_mic_permission">Visualizer REQUIRE MIC PERMISSION</string>
     <string name="restart_app_please">Käynnistä sovellus uudelleen.</string>
-    <string name="listen_on_piped">Listen on Piped</string>
+    <string name="listen_on_piped">Kuuntele Pipedissa</string>
     <string name="listen_on_invidious">Listen on Invidious</string>
     <string name="disable_horizontal_swipe">Disable horizontal swipe</string>
     <string name="disable_song_switching_via_swipe">Disable song switching via swipe</string>
@@ -325,7 +325,7 @@
     <string name="disable_if_you_do_not_want_to_see">Poista käytöstä, jos et halua nähdä</string>
     <string name="lang_hebrew">heprea</string>
     <string name="customize_album">Customize album</string>
-    <string name="update_title">Update Title</string>
+    <string name="update_title">Muuta nimi</string>
     <string name="update_authors">Update Authors</string>
     <string name="update_cover">Update Cover</string>
     <string name="title">Title</string>
@@ -343,6 +343,6 @@
     <string name="action_bar_show_lyrics_button">Show Lyrics button</string>
     <string name="action_bar_show_arrow_button">Show Arrow button</string>
     <string name="lang_finnish">suomi</string>
-    <string name="listening_time">Listening time</string>
-    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Shows the number of songs heard and their listening time</string>
+    <string name="listening_time">Kuunteluaika</string>
+    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Näyttää montako kappaletta on kuunneltu ja niiden keston</string>
 </resources>
