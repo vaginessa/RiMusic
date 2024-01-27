@@ -64,7 +64,7 @@
     <string name="request_a_feature_or_suggest_an_idea">Request a feature or suggest an idea</string>
     <string name="appearance">Appearance</string>
     <string name="colors">COLORS</string>
-    <string name="theme">Theme</string>
+    <string name="theme">Teema</string>
     <string name="theme_mode">Theme mode</string>
     <string name="shapes">SHAPES</string>
     <string name="thumbnail_roundness">Thumbnail roundness</string>
@@ -110,7 +110,7 @@
     <string name="invincible_service">Invincible service</string>
     <string name="turning_off_battery_optimizations_is_not_enough">When turning off battery optimizations is not enough</string>
     <string name="player_audio"><![CDATA[Player & Audio]]></string>
-    <string name="player">Player</string>
+    <string name="player">Soitin</string>
     <string name="persistent_queue">Persistent queue</string>
     <string name="save_and_restore_playing_songs">Save and restore playing songs</string>
     <string name="resume_playback">Resume playback</string>
@@ -123,7 +123,7 @@
     <string name="interact_with_the_system_equalizer">Interact with the system equalizer</string>
     <string name="about">About</string>
     <string name="more_of">More of</string>
-    <string name="sleep_timer">Sleep timer</string>
+    <string name="sleep_timer">Uniajastin</string>
     <string name="left">%1$s left</string>
     <string name="set">Set</string>
     <string name="confirm">Confirm</string>
@@ -155,7 +155,7 @@
     <string name="tips">Tips</string>
     <string name="quick_pics_and_tips">Quick Pics and Tips</string>
     <string name="is_min_list_time_for_tips_or_quick_pics">It\'s the minimum listening time, to include the song as a possible Tips or Quick Pics</string>
-    <string name="min_listening_time">Min listening time</string>
+    <string name="min_listening_time">Minimi kuunteluaika</string>
     <string name="player_thumbnail_size">Thumbnail Size</string>
     <string name="restarting_rimusic_is_required">Uudelleenkäynnistys vaaditaan</string>
     <string name="size_name">Koko</string>
@@ -291,7 +291,7 @@
     <string name="catalan">katalaani</string>
     <string name="disable_scrolling_text">Poista vieritysteksti käytöstä</string>
     <string name="scrolling_text_is_used_for_long_texts">Vieritystekstiä käytetään pitkiin teksteihin</string>
-    <string name="audio_quality_format">Audio quality Format</string>
+    <string name="audio_quality_format">Äänenlaatu</string>
     <string name="persian">Persian</string>
     <string name="hungarian">unkari</string>
     <string name="korean">korea</string>
@@ -342,7 +342,7 @@
     <string name="action_bar_show_shuffle_button">Show Shuffle button</string>
     <string name="action_bar_show_lyrics_button">Show Lyrics button</string>
     <string name="action_bar_show_arrow_button">Show Arrow button</string>
-    <string name="lang_finnish">Finnish</string>
+    <string name="lang_finnish">suomi</string>
     <string name="listening_time">Listening time</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Shows the number of songs heard and their listening time</string>
 </resources>
