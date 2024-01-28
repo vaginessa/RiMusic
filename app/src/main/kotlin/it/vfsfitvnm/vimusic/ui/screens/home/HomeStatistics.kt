@@ -40,6 +40,7 @@ import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
+import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -69,6 +70,18 @@ fun HomeStatistics(
     }
 
     if (isCreatingANewPlaylist) {
+        InputTextDialog(
+            onDismiss = { isCreatingANewPlaylist = false },
+            title = stringResource(R.string.enter_the_playlist_name),
+            value = "",
+            placeholder = stringResource(R.string.enter_the_playlist_name),
+            setValue = { text ->
+                query {
+                    Database.insert(Playlist(name = text))
+                }
+            }
+        )
+        /*
         TextFieldDialog(
             hintText = stringResource(R.string.enter_the_playlist_name),
             onDismiss = {
@@ -80,6 +93,7 @@ fun HomeStatistics(
                 }
             }
         )
+         */
     }
 
     var sortBy by rememberPreference(playlistSortByKey, PlaylistSortBy.DateAdded)

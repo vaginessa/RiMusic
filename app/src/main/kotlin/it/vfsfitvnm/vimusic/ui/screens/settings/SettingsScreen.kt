@@ -29,7 +29,10 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.routing.RouteHandler
+import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
 import it.vfsfitvnm.vimusic.ui.components.themed.Switch
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
@@ -302,6 +305,17 @@ fun TextDialogSettingEntry(
     //val context = LocalContext.current
 
     if (showDialog) {
+        InputTextDialog(
+            onDismiss = { showDialog = false },
+            title = title,
+            value = currentText,
+            placeholder = title,
+            setValue = {
+                onTextSave(it)
+                //context.toast("Preference Saved")
+            }
+        )
+        /*
         TextFieldDialog(hintText = title ,
             onDismiss = { showDialog = false },
             onDone ={ value ->
@@ -311,6 +325,7 @@ fun TextDialogSettingEntry(
             //doneText = "Save",
             initialTextInput = currentText
         )
+         */
     }
     SettingsEntry(
         title = title,

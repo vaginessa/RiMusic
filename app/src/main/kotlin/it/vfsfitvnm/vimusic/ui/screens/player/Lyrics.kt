@@ -61,9 +61,11 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Lyrics
+import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.Menu
 import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
@@ -218,6 +220,25 @@ fun Lyrics(
 
 
         if (isEditing) {
+            InputTextDialog(
+                onDismiss = { isEditing = false },
+                title = stringResource(R.string.enter_the_lyrics),
+                value = text ?: "",
+                placeholder = stringResource(R.string.enter_the_lyrics),
+                setValue = {
+                    query {
+                        ensureSongInserted()
+                        Database.upsert(
+                            Lyrics(
+                                songId = mediaId,
+                                fixed = if (isShowingSynchronizedLyrics) lyrics?.fixed else it,
+                                synced = if (isShowingSynchronizedLyrics) it else lyrics?.synced,
+                            )
+                        )
+                    }
+                }
+            )
+            /*
             TextFieldDialog(
                 hintText = stringResource(R.string.enter_the_lyrics),
                 initialTextInput = text ?: "",
@@ -238,6 +259,7 @@ fun Lyrics(
                     }
                 }
             )
+             */
         }
 
         if (isShowingSynchronizedLyrics) {

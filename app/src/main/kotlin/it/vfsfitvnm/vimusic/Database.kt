@@ -431,6 +431,18 @@ interface Database {
     @Query("SELECT * FROM Playlist WHERE id = :id")
     fun playlistWithSongs(id: Long): Flow<PlaylistWithSongs?>
 
+    @RewriteQueriesToDropUnusedColumns
+    @Transaction
+    @Query(
+        """
+        SELECT * FROM SortedSongPlaylistMap SPLM
+        INNER JOIN Song on Song.id = SPLM.songId
+        WHERE playlistId = :id
+        ORDER BY SPLM.position
+        """
+    )
+    fun playlistSongs(id: Long): Flow<List<Song>?>
+
 
     @Transaction
     @Query("SELECT SP.position FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY SP.position DESC")
@@ -599,7 +611,7 @@ interface Database {
     @Query("SELECT Song.*, contentLength FROM Song JOIN Format ON id = songId WHERE contentLength IS NOT NULL AND totalPlayTimeMs > 0 ORDER BY Song.ROWID DESC")
     fun songsWithContentLength(): Flow<List<SongWithContentLength>>
 
-
+    @Transaction
     @Query("""
         UPDATE SongPlaylistMap SET position = 
           CASE 

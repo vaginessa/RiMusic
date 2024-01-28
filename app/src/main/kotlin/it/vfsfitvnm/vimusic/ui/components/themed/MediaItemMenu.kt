@@ -431,6 +431,17 @@ fun MediaItemMenu(
             }
 
             if (isCreatingNewPlaylist && onAddToPlaylist != null) {
+                InputTextDialog(
+                    onDismiss = { isCreatingNewPlaylist = false },
+                    title = stringResource(R.string.enter_the_playlist_name),
+                    value = "",
+                    placeholder = stringResource(R.string.enter_the_playlist_name),
+                    setValue = { text ->
+                        onDismiss()
+                        onAddToPlaylist(Playlist(name = text), 0)
+                    }
+                )
+                /*
                 TextFieldDialog(
                     hintText = "Enter the playlist name",
                     onDismiss = { isCreatingNewPlaylist = false },
@@ -439,6 +450,7 @@ fun MediaItemMenu(
                         onAddToPlaylist(Playlist(name = text), 0)
                     }
                 )
+                 */
             }
 
             BackHandler {
