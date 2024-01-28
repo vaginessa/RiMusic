@@ -70,6 +70,7 @@ import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.compose.reordering.draggedItem
 import it.vfsfitvnm.compose.reordering.rememberReorderingState
 import it.vfsfitvnm.compose.reordering.reorder
+import it.vfsfitvnm.compose.reordering.animateItemPlacement
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.BrowseBody
 import it.vfsfitvnm.innertube.models.bodies.NextBody
@@ -83,6 +84,7 @@ import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
+import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
@@ -97,6 +99,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InPlaylistMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.Menu
 import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
@@ -250,6 +253,18 @@ fun LocalPlaylistSongs(
     }
 
     if (isRenaming) {
+        InputTextDialog(
+            onDismiss = { isRenaming = false },
+            title = stringResource(R.string.enter_the_playlist_name),
+            value = playlistPreview?.playlist?.name ?: "",
+            placeholder = stringResource(R.string.enter_the_playlist_name),
+            setValue = { text ->
+                query {
+                    playlistPreview?.playlist?.copy(name = text)?.let(Database::update)
+                }
+            }
+        )
+        /*
         TextFieldDialog(
             hintText = stringResource(R.string.enter_the_playlist_name),
             initialTextInput = playlistPreview?.playlist?.name ?: "",
@@ -260,6 +275,8 @@ fun LocalPlaylistSongs(
                 }
             }
         )
+
+         */
     }
 
     var isDeleting by rememberSaveable {
@@ -556,11 +573,18 @@ fun LocalPlaylistSongs(
                         }
                     )
 
+
                     HeaderIconButton(
                         icon = if (isReorderDisabled) R.drawable.locked else R.drawable.unlocked,
                         enabled = playlistSongs.isNotEmpty() == true,
                         color = if (playlistSongs.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { isReorderDisabled = !isReorderDisabled }
+                        onClick = {
+                            if (sortBy == PlaylistSongSortBy.Position && sortOrder == SortOrder.Ascending) {
+                                isReorderDisabled = !isReorderDisabled
+                            } else {
+                                context.toast("Playlist sorting only possible for ascending position")
+                            }
+                        }
                     )
 
                     HeaderIconButton(
@@ -821,7 +845,6 @@ fun LocalPlaylistSongs(
             itemsIndexed(
                 //items = playlistWithSongs?.songs ?: emptyList(),
                 items = playlistSongs ?: emptyList(),
-
                 key = { _, song -> song.id },
                 contentType = { _, song -> song },
             ) { index, song ->
@@ -944,7 +967,7 @@ fun LocalPlaylistSongs(
                                         }
                                 }
                             )
-                            //.animateItemPlacement(state = reorderingState)
+                            //.animateItemPlacement(reorderingState)
                             .draggedItem(reorderingState = reorderingState, index = index)
                     )
 

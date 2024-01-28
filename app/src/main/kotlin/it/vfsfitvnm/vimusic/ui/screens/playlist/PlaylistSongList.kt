@@ -224,31 +224,6 @@ fun PlaylistSongList(
                 }
             }
         )
-        /*
-        TextFieldDialog(
-            hintText = stringResource(R.string.enter_the_playlist_name),
-            initialTextInput = playlistPage?.title ?: "",
-            onDismiss = { isImportingPlaylist = false },
-            onDone = { text ->
-                query {
-                    transaction {
-                        val playlistId = Database.insert(Playlist(name = text, browseId = browseId))
-
-                        playlistPage?.songsPage?.items
-                            ?.map(Innertube.SongItem::asMediaItem)
-                            ?.onEach(Database::insert)
-                            ?.mapIndexed { index, mediaItem ->
-                                SongPlaylistMap(
-                                    songId = mediaItem.mediaId,
-                                    playlistId = playlistId,
-                                    position = index
-                                )
-                            }?.let(Database::insertSongPlaylistMaps)
-                    }
-                }
-            }
-        )
-         */
     }
 
     val headerContent: @Composable () -> Unit = {

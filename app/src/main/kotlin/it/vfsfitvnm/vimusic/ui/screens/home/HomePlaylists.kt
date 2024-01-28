@@ -38,6 +38,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.compose.persist.persistList
+import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
@@ -49,12 +50,15 @@ import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
+import it.vfsfitvnm.vimusic.models.SongPlaylistMap
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
+import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -62,6 +66,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
+import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskDownloadCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.playlistSortByKey
@@ -100,12 +105,12 @@ fun HomePlaylists(
     )
 
     if (isCreatingANewPlaylist) {
-        TextFieldDialog(
-            hintText = stringResource(R.string.enter_the_playlist_name),
-            onDismiss = {
-                isCreatingANewPlaylist = false
-            },
-            onDone = { text ->
+        InputTextDialog(
+            onDismiss = { isCreatingANewPlaylist = false },
+            title = stringResource(R.string.enter_the_playlist_name),
+            value = "",
+            placeholder = stringResource(R.string.enter_the_playlist_name),
+            setValue = { text ->
                 query {
                     Database.insert(Playlist(name = text))
                 }
