@@ -21,18 +21,14 @@ class AnimatablesPool<T, V : AnimationVector>(
         require(size > 0)
     }
 
-    suspend fun acquire(): Animatable<T, V>? {
-        return mutex.withLock {
-            if (values.isNotEmpty()) values.removeFirst() else null
-        }
+    suspend fun acquire() = mutex.withLock {
+        if (values.isNotEmpty()) values.removeFirst() else null
     }
 
-    suspend fun release(animatable: Animatable<T, V>) {
-        mutex.withLock {
-            if (values.size < size) {
-                animatable.snapTo(initialValue)
-                values.add(animatable)
-            }
+    suspend fun release(animatable: Animatable<T, V>) = mutex.withLock {
+        if (values.size < size) {
+            animatable.snapTo(initialValue)
+            values.add(animatable)
         }
     }
 }

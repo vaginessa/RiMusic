@@ -2,11 +2,13 @@ package it.vfsfitvnm.vimusic.ui.components.themed
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.togetherWith
 import androidx.compose.animation.with
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.ColumnScope
@@ -54,8 +56,8 @@ fun Scaffold(
             targetState = tabIndex,
             transitionSpec = {
                 val slideDirection = when (targetState > initialState) {
-                    true -> AnimatedContentScope.SlideDirection.Right
-                    false -> AnimatedContentScope.SlideDirection.Left
+                    true -> AnimatedContentTransitionScope.SlideDirection.Up
+                    false -> AnimatedContentTransitionScope.SlideDirection.Down
                 }
 
                 val animationSpec = spring(
@@ -64,10 +66,10 @@ fun Scaffold(
                     visibilityThreshold = IntOffset.VisibilityThreshold
                 )
 
-                slideIntoContainer(slideDirection, animationSpec) with
+                slideIntoContainer(slideDirection, animationSpec) togetherWith
                         slideOutOfContainer(slideDirection, animationSpec)
             },
-            content = content
+            content = content, label = ""
         )
     }
 }
@@ -116,8 +118,8 @@ fun Scaffold3(
             targetState = tabIndex,
             transitionSpec = {
                 val slideDirection = when (targetState > initialState) {
-                    true -> AnimatedContentScope.SlideDirection.Right
-                    false -> AnimatedContentScope.SlideDirection.Left
+                    true -> AnimatedContentTransitionScope.SlideDirection.Up
+                    false -> AnimatedContentTransitionScope.SlideDirection.Down
                 }
 
                 val animationSpec = spring(
@@ -126,10 +128,10 @@ fun Scaffold3(
                     visibilityThreshold = IntOffset.VisibilityThreshold
                 )
 
-                slideIntoContainer(slideDirection, animationSpec) with
+                slideIntoContainer(slideDirection, animationSpec) togetherWith
                         slideOutOfContainer(slideDirection, animationSpec)
             },
-            content = content
+            content = content, label = ""
         )
     }
 }

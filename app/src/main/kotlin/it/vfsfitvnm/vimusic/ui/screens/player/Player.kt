@@ -520,10 +520,10 @@ fun Player(
             mutableStateOf(false)
         }
 
-        var thumbnailTapEnabled by rememberPreference(thumbnailTapEnabledKey, false)
+        val thumbnailTapEnabled by rememberPreference(thumbnailTapEnabledKey, false)
 
         val playerBottomSheetState = rememberBottomSheetState(
-            80.dp + horizontalBottomPaddingValues.calculateBottomPadding(),
+            60.dp + horizontalBottomPaddingValues.calculateBottomPadding(),
             layoutState.expandedBound
         )
 
@@ -750,7 +750,7 @@ fun Player(
                 */
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    horizontalArrangement = Arrangement.SpaceBetween, //Arrangement.SpaceEvenly,
                     modifier = Modifier
                         .align(Alignment.Center)
                         .padding(horizontal = 8.dp)

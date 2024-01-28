@@ -71,7 +71,7 @@ import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
-import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
+//import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
 import it.vfsfitvnm.vimusic.utils.UpdateYoutubeAlbum
 import it.vfsfitvnm.vimusic.utils.UpdateYoutubeArtist
 import it.vfsfitvnm.vimusic.utils.asMediaItem
@@ -215,7 +215,7 @@ fun StatisticsPage(
         } else {
             0.9f
         }
-
+/*
         val snapLayoutInfoProvider = remember(quickPicksLazyGridState) {
             SnapLayoutInfoProvider(
                 lazyGridState = quickPicksLazyGridState,
@@ -224,7 +224,7 @@ fun StatisticsPage(
                 }
             )
         }
-
+*/
         val itemInHorizontalGridWidth = maxWidth * quickPicksLazyGridItemWidthFactor
 
         Column(
@@ -287,7 +287,7 @@ fun StatisticsPage(
                 LazyHorizontalGrid(
                     state = quickPicksLazyGridState,
                     rows = GridCells.Fixed(2),
-                    flingBehavior = rememberSnapFlingBehavior(snapLayoutInfoProvider),
+                    //flingBehavior = rememberSnapFlingBehavior(snapLayoutInfoProvider),
                     contentPadding = endPaddingValues,
                     modifier = Modifier
                         .fillMaxWidth()

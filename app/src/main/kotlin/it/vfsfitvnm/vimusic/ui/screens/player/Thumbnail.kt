@@ -2,6 +2,7 @@ package it.vfsfitvnm.vimusic.ui.screens.player
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
@@ -125,8 +126,9 @@ fun Thumbnail(
         targetState = window,
         transitionSpec = {
             val duration = 500
-            val slideDirection =
-                if (targetState.firstPeriodIndex > initialState.firstPeriodIndex) AnimatedContentScope.SlideDirection.Left else AnimatedContentScope.SlideDirection.Right
+            val slideDirection = if (targetState.firstPeriodIndex > initialState.firstPeriodIndex)
+                AnimatedContentTransitionScope.SlideDirection.Left
+            else AnimatedContentTransitionScope.SlideDirection.Right
 
             ContentTransform(
                 targetContentEnter = slideIntoContainer(
@@ -150,7 +152,7 @@ fun Thumbnail(
                 sizeTransform = SizeTransform(clip = false)
             )
         },
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center, label = ""
     ) { currentWindow ->
         Box(
             modifier = modifier

@@ -6,14 +6,14 @@ plugins {
 
 android {
     android.buildFeatures.buildConfig=true
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "it.fast4x.rimusic"
         minSdk = 21
-        targetSdk = 33
-        versionCode = 15
-        versionName = "0.6.19"
+        targetSdk = 34
+        versionCode = 16
+        versionName = "0.6.19.1"
         buildConfigField("String", "VERSION_NAME", "\"$versionName\"")
     }
 
@@ -111,7 +111,7 @@ dependencies {
     implementation(libs.exoplayer)
 
     implementation(libs.room)
-    implementation("androidx.media3:media3-datasource-okhttp:1.1.1")
+    implementation("androidx.media3:media3-datasource-okhttp:1.2.1")
     kapt(libs.room.compiler)
 
     implementation(projects.innertube)
@@ -126,7 +126,7 @@ dependencies {
     // For loading and tinting drawables on older versions of the platform
     implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
 
-    implementation("androidx.compose.material:material:1.1.0")
+    implementation("androidx.compose.material:material:1.6.0")
 
     implementation("com.github.therealbush:translator:1.0.2")
 

@@ -64,6 +64,7 @@ import kotlinx.coroutines.flow.Flow
 interface Database {
     companion object : Database by DatabaseInitializer.Instance.database
 
+    @Transaction
     @Query("UPDATE Song SET title = :title WHERE id = :id")
     fun updateSongTitle(id: String, title: String): Int
     @Query("UPDATE Album SET thumbnailUrl = :thumb WHERE id = :id")
@@ -986,16 +987,19 @@ abstract class DatabaseInitializer protected constructor() : RoomDatabase() {
 object Converters {
 
     @TypeConverter
+    @JvmStatic
     fun fromString(stringListString: String): List<String> {
         return stringListString.split(",").map { it }
     }
 
     @TypeConverter
+    @JvmStatic
     fun toString(stringList: List<String>): String {
         return stringList.joinToString(separator = ",")
     }
 
     @TypeConverter
+    @JvmStatic
     @UnstableApi
     fun mediaItemFromByteArray(value: ByteArray?): MediaItem? {
         return value?.let { byteArray ->
@@ -1012,6 +1016,7 @@ object Converters {
     }
 
     @TypeConverter
+    @JvmStatic
     @UnstableApi
     fun mediaItemToByteArray(mediaItem: MediaItem?): ByteArray? {
         return mediaItem?.toBundle()?.let { persistableBundle ->
@@ -1025,6 +1030,7 @@ object Converters {
     }
 }
 
+@Suppress("UnusedReceiverParameter")
 val Database.internal: RoomDatabase
     get() = DatabaseInitializer.Instance
 

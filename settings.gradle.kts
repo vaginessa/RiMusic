@@ -11,14 +11,14 @@ dependencyResolutionManagement {
 
     versionCatalogs {
         create("libs") {
-            version("kotlin", "1.7.20")
+            version("kotlin", "1.9.22")
+            version("compose-compiler", "1.5.8")
+            version("compose", "1.6.0")
+
             plugin("kotlin-serialization","org.jetbrains.kotlin.plugin.serialization").versionRef("kotlin")
 
-            library("kotlin-coroutines","org.jetbrains.kotlinx", "kotlinx-coroutines-core").version("1.6.4")
+            library("kotlin-coroutines","org.jetbrains.kotlinx", "kotlinx-coroutines-core").version("1.7.3")
 
-            version("compose-compiler", "1.3.2")
-
-            version("compose", "1.3.0-rc01")
             library("compose-foundation", "androidx.compose.foundation", "foundation").versionRef("compose")
             library("compose-ui", "androidx.compose.ui", "ui").versionRef("compose")
             library("compose-ui-util", "androidx.compose.ui", "ui-util").versionRef("compose")
@@ -26,7 +26,7 @@ dependencyResolutionManagement {
 
             library("compose-shimmer", "com.valentinilk.shimmer", "compose-shimmer").version("1.0.3")
 
-            library("compose-activity", "androidx.activity", "activity-compose").version("1.6.1")
+            library("compose-activity", "androidx.activity", "activity-compose").versionRef("compose")  //.version("1.6.1")
 
             library("compose-coil", "io.coil-kt", "coil-compose").version("2.2.2")
 
@@ -49,7 +49,7 @@ dependencyResolutionManagement {
 
             library("palette", "androidx.palette", "palette").version("1.0.0")
 
-            library("desugaring", "com.android.tools", "desugar_jdk_libs").version("1.1.5")
+            library("desugaring", "com.android.tools", "desugar_jdk_libs").version("2.0.4")
         }
 
         create("testLibs") {

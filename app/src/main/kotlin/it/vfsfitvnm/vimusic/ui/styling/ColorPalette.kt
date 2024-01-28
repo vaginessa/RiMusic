@@ -91,14 +91,14 @@ val PureBlackColorPalette = DefaultDarkColorPalette.copy(
     background1 = Color.Black,
     background2 = Color.Black,
 
-)
+    )
 
 val ModernBlackColorPalette = DefaultDarkColorPalette.copy(
     background0 = Color.Black,
     background1 = Color.Black,
-    background2 = DefaultDarkColorPalette.background2, // Color.Black,
-    background3 = DefaultDarkColorPalette.accent,
-
+    //background2 = DefaultDarkColorPalette.background2, // Color.Black,
+    background2 = Color.Black,
+    background3 = DefaultDarkColorPalette.accent
 )
 
 

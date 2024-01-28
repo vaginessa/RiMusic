@@ -17,11 +17,12 @@ fun Modifier.draggedItem(
             Orientation.Horizontal -> IntOffset(reorderingState.offset.value, 0)
         }
     }.zIndex(1f)
+
     else -> offset {
-        val offset =  when (index) {
+        val offset = when (index) {
             in reorderingState.indexesToAnimate -> reorderingState.indexesToAnimate.getValue(index).value
             in (reorderingState.draggingIndex + 1)..reorderingState.reachedIndex -> -reorderingState.draggingItemSize
-            in reorderingState.reachedIndex until reorderingState.draggingIndex -> reorderingState.draggingItemSize
+            in reorderingState.reachedIndex..<reorderingState.draggingIndex -> reorderingState.draggingItemSize
             else -> 0
         }
         when (reorderingState.lazyListState.layoutInfo.orientation) {

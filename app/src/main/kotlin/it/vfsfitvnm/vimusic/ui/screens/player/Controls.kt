@@ -78,6 +78,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.ScrollText
 import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
+import it.vfsfitvnm.vimusic.ui.styling.DefaultDarkColorPalette
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.collapsedPlayerProgressBar
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
@@ -378,10 +379,12 @@ fun Controls(
 
         }
 
+
         Spacer(
             modifier = Modifier
-                .height(30.dp)
+                .height(20.dp)
         )
+
 
         if (playerTimelineType != PlayerTimelineType.Default && playerTimelineType != PlayerTimelineType.Wavy)
             SeekBarCustom(
@@ -527,7 +530,7 @@ fun Controls(
 
         Spacer(
             modifier = Modifier
-                .weight(1f)
+                .weight(0.5f)
         )
 
         Row(
@@ -562,7 +565,7 @@ fun Controls(
                         .padding(10.dp)
                         .size(26.dp)
                 )
-
+/*
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(playPauseRoundness))
@@ -586,10 +589,11 @@ fun Controls(
                         .size(36.dp)
                 )
             }
-            /*
+            */
+
             IconButton(
                 icon = R.drawable.play_skip_back,
-                color = colorPalette.iconButtonPlayer,
+                color = colorPalette.collapsedPlayerProgressBar, //colorPalette.iconButtonPlayer,
                 onClick = {
                     binder.player.forceSeekToPrevious()
                     //binder.player.seekToPreviousMediaItem()
@@ -601,7 +605,7 @@ fun Controls(
                     .padding(10.dp)
                     .size(26.dp)
             )
-             */
+
 
             Box(
                 modifier = Modifier
@@ -619,7 +623,13 @@ fun Controls(
                     }
                     //.background(if (uiType != UiType.RiMusic) colorPalette.background3 else colorPalette.background0)
                     .background(
-                        if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed && colorPaletteName == ColorPaletteName.Dynamic) colorPalette.background1 else colorPalette.background0
+                        colorPalette.background2
+                        //if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed && colorPaletteName == ColorPaletteName.Dynamic) colorPalette.background1 else colorPalette.background0
+                        /*
+                        if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed && colorPaletteName == ColorPaletteName.Dynamic) colorPalette.background1
+                        else
+                            if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed && colorPaletteName == ColorPaletteName.ModernBlack) colorPalette.background2 else DefaultDarkColorPalette.background2
+                        */
                     )
                     .width(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.width.dp else playerPlayButtonType.width.dp)
                     .height(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.height.dp else playerPlayButtonType.height.dp)
@@ -627,7 +637,7 @@ fun Controls(
                 if (uiType == UiType.RiMusic && playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
                 Image(
                     painter = painterResource(R.drawable.a13shape),
-                    colorFilter = ColorFilter.tint(colorPalette.background2),
+                    colorFilter = ColorFilter.tint( if (colorPaletteName == ColorPaletteName.ModernBlack) DefaultDarkColorPalette.background2 else colorPalette.background2),
                     modifier = Modifier.fillMaxSize()
                         .rotate(rotationAngle),
                     contentDescription = "Background Image",
@@ -641,15 +651,15 @@ fun Controls(
                     modifier = Modifier
                         .rotate(rotationAngle)
                         .align(Alignment.Center)
-                        .size(42.dp)
+                        .size(30.dp)
                 )
             }
 
 
-            /*
+
             IconButton(
                 icon = R.drawable.play_skip_forward,
-                color = colorPalette.iconButtonPlayer,
+                color = colorPalette.collapsedPlayerProgressBar, //colorPalette.iconButtonPlayer,
                 onClick = {
                     binder.player.forceSeekToNext()
                     if (effectRotationEnabled) isRotated = !isRotated
@@ -659,7 +669,7 @@ fun Controls(
                     .padding(10.dp)
                     .size(26.dp)
             )
-             */
+            /*
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(playPauseRoundness))
@@ -682,6 +692,7 @@ fun Controls(
                         .size(36.dp)
                 )
             }
+             */
 
             if (uiType != UiType.RiMusic)
             IconButton(

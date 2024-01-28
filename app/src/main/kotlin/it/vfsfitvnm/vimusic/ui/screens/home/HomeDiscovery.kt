@@ -65,7 +65,7 @@ import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
-import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
+//import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.isLandscape
@@ -123,7 +123,7 @@ fun HomeDiscovery(
 
     BoxWithConstraints {
         val moodItemWidthFactor = if (isLandscape && maxWidth * 0.475f >= 320.dp) 0.475f else 0.9f
-
+/*
         val snapLayoutInfoProvider = remember(lazyGridState) {
             SnapLayoutInfoProvider(
                 lazyGridState = lazyGridState,
@@ -141,7 +141,7 @@ fun HomeDiscovery(
                 }
             )
         }
-
+*/
         //val itemWidth = maxWidth * moodItemWidthFactor
 
         Column(
@@ -235,7 +235,7 @@ fun HomeDiscovery(
                     LazyHorizontalGrid(
                         state = lazyGridState,
                         rows = GridCells.Fixed(8),
-                        flingBehavior = rememberSnapFlingBehavior(snapLayoutInfoProvider),
+                        //flingBehavior = rememberSnapFlingBehavior(snapLayoutInfoProvider),
                         contentPadding = endPaddingValues,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -275,7 +275,7 @@ fun HomeDiscovery(
                 LazyHorizontalGrid(
                     state = lazyGridState,
                     rows = GridCells.Fixed(4),
-                    flingBehavior = rememberSnapFlingBehavior(snapLayoutInfoProvider),
+                    //flingBehavior = rememberSnapFlingBehavior(snapLayoutInfoProvider),
                     contentPadding = endPaddingValues,
                     modifier = Modifier
                         .fillMaxWidth()

@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
     @ExperimentalMaterialApi
     @ExperimentalTextApi
     @UnstableApi
-    @androidx.annotation.OptIn(androidx.core.os.BuildCompat.PrereleaseSdkCheck::class)
+    //@androidx.annotation.OptIn(androidx.core.os.BuildCompat.PrereleaseSdkCheck::class)
     @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
     @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {

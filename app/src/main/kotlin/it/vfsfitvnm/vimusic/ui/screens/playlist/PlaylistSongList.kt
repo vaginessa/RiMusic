@@ -83,6 +83,8 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderPlaceholder
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
+import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.InputTextField
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
@@ -198,6 +200,31 @@ fun PlaylistSongList(
     }
 
     if (isImportingPlaylist) {
+        InputTextDialog(
+            onDismiss = { isImportingPlaylist = false },
+            title = stringResource(R.string.enter_the_playlist_name),
+            value = playlistPage?.title ?: "",
+            placeholder = "https://........",
+            setValue = { text ->
+                query {
+                    transaction {
+                        val playlistId = Database.insert(Playlist(name = text, browseId = browseId))
+
+                        playlistPage?.songsPage?.items
+                            ?.map(Innertube.SongItem::asMediaItem)
+                            ?.onEach(Database::insert)
+                            ?.mapIndexed { index, mediaItem ->
+                                SongPlaylistMap(
+                                    songId = mediaItem.mediaId,
+                                    playlistId = playlistId,
+                                    position = index
+                                )
+                            }?.let(Database::insertSongPlaylistMaps)
+                    }
+                }
+            }
+        )
+        /*
         TextFieldDialog(
             hintText = stringResource(R.string.enter_the_playlist_name),
             initialTextInput = playlistPage?.title ?: "",
@@ -221,6 +248,7 @@ fun PlaylistSongList(
                 }
             }
         )
+         */
     }
 
     val headerContent: @Composable () -> Unit = {
