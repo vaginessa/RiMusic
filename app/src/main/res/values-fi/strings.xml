@@ -55,7 +55,7 @@
     <string name="error">Tapahtui virhe.</string>
     <string name="enter_a_name">Enter a name</string>
     <string name="online">Online</string>
-    <string name="no_results_found">No results found. Please try a different query or category</string>
+    <string name="no_results_found">Tuloksia ei löytynyt. Ole hyvä ja kokeile eri hakua tai kategoriaa</string>
     <string name="videos">Videos</string>
     <string name="featured">Featured</string>
     <string name="view_the_source_code">Näytä lähdekoodi</string>
