@@ -296,10 +296,10 @@
     <string name="hungarian">unkari</string>
     <string name="korean">korea</string>
     <string name="background_player">"BACKGROUND PLAYER "</string>
-    <string name="show_favorite_button">Show Favorite button</string>
-    <string name="show_favorite_button_in_lock_screen_and_notification_area">Show Favorite button in lock screen and notification area</string>
+    <string name="show_favorite_button">Näytä Suosikki -nappi</string>
+    <string name="show_favorite_button_in_lock_screen_and_notification_area">Näytä Suosikki -nappi lukitusnäytössä ja ilmoituksissa</string>
     <string name="show_download_button">Näytä Lataa -nappi</string>
-    <string name="show_download_button_in_lock_screen_and_notification_area">Show Download button in lock screen and notification area</string>
+    <string name="show_download_button_in_lock_screen_and_notification_area">Näytä Lataa -nappi lukitusnäytössä ja ilmoituksissa</string>
     <string name="by_most_played_song">By Most played song</string>
     <string name="by_last_played_song">By Last played song</string>
     <string name="audio_quality_automatic">Automatic</string>
@@ -330,8 +330,8 @@
     <string name="update_cover">Update Cover</string>
     <string name="title">Title</string>
     <string name="authors">Authors</string>
-    <string name="cover">Cover</string>
-    <string name="lang_japanese">Japanese</string>
+    <string name="cover">Kansi</string>
+    <string name="lang_japanese">japani</string>
     <string name="paste_or_type_a_valid_url">Liitä tai kirjoita kelvollinen url</string>
     <string name="you_can_put_a_complete_link">You can put a complete link of a playlist, an album, a channel or a single song on YouTube or YouTube Music</string>
     <string name="go_to_link">Go to link</string>
