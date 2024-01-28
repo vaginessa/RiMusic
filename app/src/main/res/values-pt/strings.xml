@@ -343,6 +343,6 @@
     <string name="action_bar_show_lyrics_button">Mostrar botão de Letras</string>
     <string name="action_bar_show_arrow_button">Mostrar botão da seta</string>
     <string name="lang_finnish">Finés (Suomalainen)</string>
-    <string name="listening_time">Listening time</string>
-    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Shows the number of songs heard and their listening time</string>
+    <string name="listening_time">Tempo de escuta</string>
+    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Mostra o número de músicas ouvidas e seu tempo de escuta</string>
 </resources>

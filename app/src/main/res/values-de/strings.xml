@@ -263,8 +263,8 @@
     <string name="custom_cache_size">Benutzerdefinierte Zwischenspeichergröße</string>
     <string name="listen_on">Hören auf</string>
     <string name="error_local_music_not_found">Lokale Musikdatei nicht gefunden</string>
-    <string name="bodied_bar">Bodied Bar</string>
-    <string name="pin_bar">Pin Bar</string>
+    <string name="bodied_bar">Breite Leiste</string>
+    <string name="pin_bar">Erweiternde Leiste</string>
     <string name="rectangular">Rechteck</string>
     <string name="square">Quadrat</string>
     <string name="circular_ribbed">Gerippter Kreis</string>
@@ -292,9 +292,9 @@
     <string name="disable_scrolling_text">Lauftext deaktivieren</string>
     <string name="scrolling_text_is_used_for_long_texts">Lauftext wird für lange Texte verwendet</string>
     <string name="audio_quality_format">Audioqualität</string>
-    <string name="persian">Persian</string>
-    <string name="hungarian">Hungarian</string>
-    <string name="korean">Korean</string>
+    <string name="persian">Persisch (فارسی)</string>
+    <string name="hungarian">Ungarisch (Magyar)</string>
+    <string name="korean">Koreanisch (한국어 / 조선말)</string>
     <string name="background_player">"Hintergrund Player"</string>
     <string name="show_favorite_button">Schaltfläche \"Favoriten\" anzeigen</string>
     <string name="show_favorite_button_in_lock_screen_and_notification_area">Favoriten-Schaltfläche im Sperrbildschirm und Benachrichtigungsbereich anzeigen</string>
@@ -306,15 +306,15 @@
     <string name="statistics_songs_heard">gehörte Lieder</string>
     <string name="statistics_of_time_taken">Statistik </string>
     <string name="statistics_max_number_of_items">Max. Anzahl der Elemente</string>
-    <string name="arabic">Arabic</string>
-    <string name="chinese_simplified">Chinese Simplified</string>
-    <string name="chinese_traditional">Chinese Traditional</string>
+    <string name="arabic">Arabisch (اَلْعَرَبِيَّة)</string>
+    <string name="chinese_simplified">Chinesisch vereinfacht (汉字)</string>
+    <string name="chinese_traditional">Chinesisch traditionell (繁體字)</string>
     <string name="do_you_really_want_to_download_all">Willst du wirklich alle herunterladen?</string>
     <string name="add_all_in_playlist">Alle zur Wiedergabeliste hinzufügen</string>
     <string name="add_in_playlist">Zur Wiedergabeliste hinzufügen</string>
     <string name="add_selected_in_playlist">Auswahl zur Wiedergabeliste hinzufügen</string>
     <string name="import_playlist">Wiedergabeliste importieren</string>
-    <string name="lang_ukrainian">Ukrainian</string>
+    <string name="lang_ukrainian">Ukrainisch (українська)</string>
     <string name="proxy">PROXY</string>
     <string name="enable_proxy">Proxy aktivieren</string>
     <string name="proxy_mode">Proxy-Modus</string>
@@ -323,7 +323,7 @@
     <string name="proxy_port">Proxy-Port</string>
     <string name="set_proxy_port">Proxy-Port festlegen</string>
     <string name="disable_if_you_do_not_want_to_see">Deaktiviere diese Option, wenn Du Folgendes nicht sehen möchtest</string>
-    <string name="lang_hebrew">Hebrew</string>
+    <string name="lang_hebrew">Hebräisch (עִבְרִית)</string>
     <string name="customize_album">Album anpassen</string>
     <string name="update_title">Titel aktualisieren</string>
     <string name="update_authors">Interpreten aktualisieren</string>
@@ -331,9 +331,9 @@
     <string name="title">Titel</string>
     <string name="authors">Interpreten</string>
     <string name="cover">Cover</string>
-    <string name="lang_japanese">Japanese</string>
+    <string name="lang_japanese">Japanisch (日本語)</string>
     <string name="paste_or_type_a_valid_url">Füge eine gültige URL ein</string>
-    <string name="you_can_put_a_complete_link">You can put a complete link of a playlist, an album, a channel or a single song on YouTube or YouTube Music</string>
+    <string name="you_can_put_a_complete_link">Ein vollständiger Link zu einer Wiedergabeliste, einem Album, einem Kanal oder einem einzelnen Song auf YouTube oder YouTube Music kann gesetzt werden</string>
     <string name="go_to_link">Gehe zu Link</string>
     <string name="action_bar_button">AKTIONSLEISTE</string>
     <string name="action_bar_show_download_button">Herunterladen-Schaltfläche anzeigen</string>
@@ -342,7 +342,7 @@
     <string name="action_bar_show_shuffle_button">Zufallswiedergabe-Schaltfläche anzeigen</string>
     <string name="action_bar_show_lyrics_button">Songtext-Schaltfläche anzeigen</string>
     <string name="action_bar_show_arrow_button">Pfeil-Schaltfläche anzeigen</string>
-    <string name="lang_finnish">Finnish</string>
-    <string name="listening_time">Listening time</string>
-    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Shows the number of songs heard and their listening time</string>
+    <string name="lang_finnish">Finnisch (Suomi)</string>
+    <string name="listening_time">Hördauer</string>
+    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Zeigt die Hördauer und die Anzahl der gehörten Titel an</string>
 </resources>
