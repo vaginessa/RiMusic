@@ -33,7 +33,11 @@ fun ScrollText (
             scrollState.maxValue,
             animationSpec = tween(10000, 200, easing = CubicBezierEasing(0f, 0f, 0f, 0f))
         )
-        scrollState.scrollTo(0)
+        scrollState.animateScrollTo(
+            0,
+            animationSpec = tween(10000, 200, easing = CubicBezierEasing(0f, 0f, 0f, 0f))
+        )
+
         shouldAnimated = !shouldAnimated
     }
     BasicText(
