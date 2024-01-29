@@ -99,12 +99,15 @@ import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.completed
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
+import it.vfsfitvnm.vimusic.utils.durationTextToMillis
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
+import it.vfsfitvnm.vimusic.utils.formatAsTime
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
+import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -197,6 +200,12 @@ fun PlaylistSongList(
 
     var showPlaylistSelectDialog by remember {
         mutableStateOf(false)
+    }
+
+    var totalPlayTimes = 0L
+    playlistPage?.songsPage?.items?.forEach {
+        totalPlayTimes += it.durationText?.let { it1 ->
+            durationTextToMillis(it1) }?.toLong() ?: 0
     }
 
     if (isImportingPlaylist) {
@@ -530,6 +539,21 @@ fun PlaylistSongList(
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         headerContent()
                         if (!isLandscape) thumbnailContent()
+
+                        playlistPage?.title?.let {
+                            BasicText(
+                                text = it,
+                                style = typography.xs.semiBold,
+                                maxLines = 1
+                            )
+                        }
+                        BasicText(
+                            text = playlistPage?.songsPage?.items?.size.toString() + " "
+                                    +stringResource(R.string.songs)
+                                    + " - " + formatAsTime(totalPlayTimes),
+                            style = typography.xxs.medium,
+                            maxLines = 1
+                        )
                     }
                 }
 

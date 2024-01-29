@@ -74,12 +74,15 @@ import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
+import it.vfsfitvnm.vimusic.utils.durationTextToMillis
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
+import it.vfsfitvnm.vimusic.utils.formatAsTime
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
+import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.toast
@@ -165,6 +168,11 @@ fun AlbumSongs(
     }
     var isCreatingNewPlaylist by rememberSaveable {
         mutableStateOf(false)
+    }
+    var totalPlayTimes = 0L
+    songs.forEach {
+        totalPlayTimes += it.durationText?.let { it1 ->
+            durationTextToMillis(it1) }?.toLong() ?: 0
     }
 
     LayoutWithAdaptiveThumbnail(thumbnailContent = thumbnailContent) {
@@ -485,6 +493,21 @@ fun AlbumSongs(
                         if (!isLandscape) {
                             thumbnailContent()
                         }
+
+                        album?.title?.let {
+                            BasicText(
+                                text = it,
+                                style = typography.xs.semiBold,
+                                maxLines = 1
+                            )
+                        }
+                        BasicText(
+                            text = songs.size.toString() + " "
+                                    +stringResource(R.string.songs)
+                                    + " - " + formatAsTime(totalPlayTimes),
+                            style = typography.xxs.medium,
+                            maxLines = 1
+                        )
                     }
                 }
 
