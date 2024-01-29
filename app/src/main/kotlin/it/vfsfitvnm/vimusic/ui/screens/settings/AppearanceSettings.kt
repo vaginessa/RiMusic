@@ -160,6 +160,7 @@ fun AppearanceSettings() {
                     playerTimelineType = PlayerTimelineType.Default
                     playerVisualizerType = PlayerVisualizerType.Disabled
                     playerThumbnailSize = PlayerThumbnailSize.Medium
+                    thumbnailTapEnabled = true
                 } else {
                     disablePlayerHorizontalSwipe = false
                     disableIconButtonOnTop = false
