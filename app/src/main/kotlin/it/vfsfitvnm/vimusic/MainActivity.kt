@@ -121,6 +121,7 @@ import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid8
+import it.vfsfitvnm.vimusic.utils.isKeepScreenOnEnabledKey
 import it.vfsfitvnm.vimusic.utils.isProxyEnabledKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
@@ -217,11 +218,12 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-
         val launchedFromNotification = intent?.extras?.getBoolean("expandPlayerBottomSheet") == true
 
         with(preferences){
+            if(getBoolean(isKeepScreenOnEnabledKey,false)) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            }
             if(getBoolean(isProxyEnabledKey,false)) {
                 val hostName = getString(proxyHostnameKey,null)
                 val proxyPort = getInt(proxyPortKey, 8080)

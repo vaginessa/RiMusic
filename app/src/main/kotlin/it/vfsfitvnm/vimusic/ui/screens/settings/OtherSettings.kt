@@ -41,6 +41,7 @@ import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid12
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isIgnoringBatteryOptimizations
 import it.vfsfitvnm.vimusic.utils.isInvincibilityEnabledKey
+import it.vfsfitvnm.vimusic.utils.isKeepScreenOnEnabledKey
 import it.vfsfitvnm.vimusic.utils.isProxyEnabledKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.proxyHostnameKey
@@ -100,6 +101,8 @@ fun OtherSettings() {
     var proxyPort by rememberPreference(proxyPortKey, 1080)
     var proxyMode by rememberPreference(proxyModeKey, Proxy.Type.HTTP)
 
+    var isKeepScreenOnEnabled by rememberPreference(isKeepScreenOnEnabledKey, false)
+
     Column(
         modifier = Modifier
             .background(colorPalette.background0)
@@ -149,6 +152,19 @@ fun OtherSettings() {
                     onTextSave = { proxyPort = it.toIntOrNull() ?: 1080 })
             }
         }
+
+        SettingsGroupSpacer()
+
+        SettingsEntryGroupText("Screen")
+
+        SwitchSettingEntry(
+            title = "Keep screen on",
+            text = "Prevents screen timeout",
+            isChecked = isKeepScreenOnEnabled,
+            onCheckedChange = { isKeepScreenOnEnabled = it }
+        )
+
+        SettingsGroupSpacer()
 
         SettingsEntryGroupText(title = stringResource(R.string.android_auto))
 
