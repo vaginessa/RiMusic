@@ -289,12 +289,14 @@ fun SongItem(
 
                     BasicText(
                         text = title ?: "",
-                        //style = typography.xs.semiBold,
+                        style = typography.xs.semiBold,
+                        /*
                         style = TextStyle(
                             color = if (isRecommended) colorPalette.accent else colorPalette.text,
                             fontStyle = typography.xs.semiBold.fontStyle,
                             fontSize = typography.xs.semiBold.fontSize
                         ),
+                         */
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
