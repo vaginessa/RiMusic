@@ -30,11 +30,11 @@ dependencyResolutionManagement {
 
             library("compose-coil", "io.coil-kt", "coil-compose").version("2.2.2")
 
-            version("room", "2.5.0-beta01")
+            version("room", "2.6.0")
             library("room", "androidx.room", "room-ktx").versionRef("room")
             library("room-compiler", "androidx.room", "room-compiler").versionRef("room")
 
-            version("media3", "1.1.1")
+            version("media3", "1.2.1")
             library("exoplayer", "androidx.media3", "media3-exoplayer").versionRef("media3")
 
             version("ktor", "2.3.0")

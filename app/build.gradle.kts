@@ -111,28 +111,19 @@ dependencies {
     implementation(libs.exoplayer)
 
     implementation(libs.room)
-    implementation("androidx.media3:media3-datasource-okhttp:1.2.1")
     kapt(libs.room.compiler)
 
     implementation(projects.innertube)
     implementation(projects.kugou)
 
-    implementation("androidx.core:core-splashscreen:1.0.0-beta02")
-
-    
-    val appcompat_version = "1.6.1"
-
-    implementation("androidx.appcompat:appcompat:$appcompat_version")
-    // For loading and tinting drawables on older versions of the platform
-    implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
-
+    val appcompatVersion = "1.6.1"
+    implementation("androidx.appcompat:appcompat:$appcompatVersion")
+    implementation("androidx.appcompat:appcompat-resources:$appcompatVersion")
+    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation("androidx.media3:media3-datasource-okhttp:1.2.1")
     implementation("androidx.compose.material:material:1.6.0")
-
     implementation("com.github.therealbush:translator:1.0.2")
 
-    //implementation("androidx.compose.foundation:foundation:1.4.0")
-    // Fix Duplicate class
-    //implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
-
+    //End
     coreLibraryDesugaring(libs.desugaring)
 }
