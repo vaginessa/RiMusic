@@ -355,6 +355,7 @@ fun MediaItemMenu(
 
     downloadState = getDownloadState(mediaItem.mediaId)
     val isDownloaded = if (!isLocal) downloadedStateMedia(mediaItem.mediaId) else true
+    /*
     var artistsList by persistList<Artist?>("home/artists")
     var artistIds = remember { mutableListOf("") }
 
@@ -371,6 +372,7 @@ fun MediaItemMenu(
             Database.getArtistsList(artistIds).collect { artistsList = it }
         }
     }
+    */
     LaunchedEffect(Unit, mediaItem.mediaId) {
         Database.likedAt(mediaItem.mediaId).collect { likedAt = it }
     }
@@ -555,8 +557,10 @@ fun MediaItemMenu(
 
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         IconButton(
-                            icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
-                            color = colorPalette.favoritesIcon,
+                            //icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
+                            icon = R.drawable.heart,
+                            //color = colorPalette.favoritesIcon,
+                            color = if (likedAt == null) colorPalette.textDisabled else colorPalette.text,
                             onClick = {
                                 query {
                                     if (Database.like(
@@ -585,7 +589,7 @@ fun MediaItemMenu(
                     }
 
                 }
-
+/*
                 if (artistsList.isNotEmpty())
                     Row(
                         horizontalArrangement = Arrangement.Center,
@@ -631,26 +635,13 @@ fun MediaItemMenu(
                         .height(1.dp)
                         .fillMaxWidth(1f)
                 )
-
+*/
                 Spacer(
                     modifier = Modifier
                         .height(8.dp)
                 )
 
-                /*
-                onStartRadio?.let { onStartRadio ->
-                    MenuEntry(
-                        icon = R.drawable.radio,
-                        text = stringResource(R.string.start_radio),
-                        onClick = {
-                            onDismiss()
-                            onStartRadio()
-                        }
-                    )
-                }
-                 */
-
-                if (!isLocal && songSaved > 0) {
+                  if (!isLocal && songSaved > 0) {
                     MenuEntry(
                         icon = R.drawable.pencil,
                         text = stringResource(R.string.update_title),
