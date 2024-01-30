@@ -485,17 +485,6 @@ fun Controls(
                 shape = RoundedCornerShape(8.dp)
             )
         }
-/*
-            AnimatedVisibility(
-                durationVisible,
-                enter = fadeIn() + expandVertically { -it },
-                exit = fadeOut() + shrinkVertically { -it }) {
-                Column {
-                    Spacer(Modifier.height(8.dp))
-                    Duration(animatedPosition.value, media.duration)
-                }
-            }
-*/
 
 
         Spacer(
@@ -504,7 +493,6 @@ fun Controls(
         )
 
 
-        //if (!durationVisible)
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -565,31 +553,7 @@ fun Controls(
                         .padding(10.dp)
                         .size(26.dp)
                 )
-/*
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(playPauseRoundness))
-                    .clickable {
-                        if (effectRotationEnabled) isRotated = !isRotated
-                        binder.player.forceSeekToPrevious()
-                        //binder.player.seekToPreviousMediaItem()
-                    }
-                    //.background( colorPalette.background2 )
-                    .width(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.width.dp else playerPlayButtonType.width.dp)
-                    .height(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.height.dp else playerPlayButtonType.height.dp)
-            ) {
 
-                Image(
-                    painter = painterResource(R.drawable.play_skip_back),
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(colorPalette.collapsedPlayerProgressBar), //ColorFilter.tint(colorPalette.iconButtonPlayer),
-                    modifier = Modifier
-                        .rotate(rotationAngle)
-                        .align(Alignment.Center)
-                        .size(36.dp)
-                )
-            }
-            */
 
             IconButton(
                 icon = R.drawable.play_skip_back,
@@ -623,13 +587,14 @@ fun Controls(
                     }
                     //.background(if (uiType != UiType.RiMusic) colorPalette.background3 else colorPalette.background0)
                     .background(
-                        colorPalette.background2
-                        //if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed && colorPaletteName == ColorPaletteName.Dynamic) colorPalette.background1 else colorPalette.background0
-                        /*
-                        if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed && colorPaletteName == ColorPaletteName.Dynamic) colorPalette.background1
-                        else
-                            if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed && colorPaletteName == ColorPaletteName.ModernBlack) colorPalette.background2 else DefaultDarkColorPalette.background2
-                        */
+                        when (colorPaletteName) {
+                            ColorPaletteName.Dynamic, ColorPaletteName.Default ->
+                                if(playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
+                                    colorPalette.background1 else colorPalette.background2
+                            ColorPaletteName.PureBlack, ColorPaletteName.ModernBlack ->
+                                if(playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
+                                    colorPalette.background1 else colorPalette.background4
+                        }
                     )
                     .width(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.width.dp else playerPlayButtonType.width.dp)
                     .height(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.height.dp else playerPlayButtonType.height.dp)
@@ -637,7 +602,12 @@ fun Controls(
                 if (uiType == UiType.RiMusic && playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
                 Image(
                     painter = painterResource(R.drawable.a13shape),
-                    colorFilter = ColorFilter.tint( if (colorPaletteName == ColorPaletteName.ModernBlack) DefaultDarkColorPalette.background2 else colorPalette.background2),
+                    colorFilter = ColorFilter.tint(
+                        when (colorPaletteName) {
+                            ColorPaletteName.PureBlack, ColorPaletteName.ModernBlack -> colorPalette.background4
+                            else -> colorPalette.background2
+                        }
+                    ),
                     modifier = Modifier.fillMaxSize()
                         .rotate(rotationAngle),
                     contentDescription = "Background Image",
