@@ -221,7 +221,9 @@ fun Controls(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .padding(horizontal = 10.dp)
+                .fillMaxWidth()
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -273,8 +275,10 @@ fun Controls(
 
             if (uiType != UiType.ViMusic)
             IconButton(
-                color = colorPalette.favoritesIcon,
-                icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
+                color = if (likedAt == null) colorPalette.textDisabled else colorPalette.text,
+                //color = colorPalette.favoritesIcon,
+                icon = R.drawable.heart,
+                //icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
                 onClick = {
                     val currentMediaItem = binder.player.currentMediaItem
                     query {
@@ -308,7 +312,9 @@ fun Controls(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = if (uiType != UiType.ViMusic) Arrangement.Start else Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .padding(horizontal = 10.dp)
+                .fillMaxWidth()
         ) {
 
 
@@ -386,106 +392,115 @@ fun Controls(
         )
 
 
-        if (playerTimelineType != PlayerTimelineType.Default && playerTimelineType != PlayerTimelineType.Wavy)
-            SeekBarCustom(
-                type = playerTimelineType,
-                value = scrubbingPosition ?: position,
-                minimumValue = 0,
-                maximumValue = duration,
-                onDragStart = {
-                    scrubbingPosition = it
-                },
-                onDrag = { delta ->
-                    scrubbingPosition = if (duration != C.TIME_UNSET) {
-                        scrubbingPosition?.plus(delta)?.coerceIn(0, duration)
-                    } else {
-                        null
-                    }
-                },
-                onDragEnd = {
-                    scrubbingPosition?.let(binder.player::seekTo)
-                    scrubbingPosition = null
-                },
-                color = colorPalette.collapsedPlayerProgressBar,
-                backgroundColor = colorPalette.textSecondary,
-                shape = RoundedCornerShape(8.dp),
-            )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .padding(horizontal = 10.dp)
+                .fillMaxWidth()
+        ) {
 
-        if (playerTimelineType == PlayerTimelineType.Default)
-        SeekBar(
-            value = scrubbingPosition ?: position,
-            minimumValue = 0,
-            maximumValue = duration,
-            onDragStart = {
-                scrubbingPosition = it
-            },
-            onDrag = { delta ->
-                scrubbingPosition = if (duration != C.TIME_UNSET) {
-                    scrubbingPosition?.plus(delta)?.coerceIn(0, duration)
-                } else {
-                    null
-                }
-            },
-            onDragEnd = {
-                scrubbingPosition?.let(binder.player::seekTo)
-                scrubbingPosition = null
-            },
-            color = colorPalette.collapsedPlayerProgressBar,
-            backgroundColor = colorPalette.textSecondary,
-            shape = RoundedCornerShape(8.dp),
-        )
+            if (playerTimelineType != PlayerTimelineType.Default && playerTimelineType != PlayerTimelineType.Wavy)
+                SeekBarCustom(
+                    type = playerTimelineType,
+                    value = scrubbingPosition ?: position,
+                    minimumValue = 0,
+                    maximumValue = duration,
+                    onDragStart = {
+                        scrubbingPosition = it
+                    },
+                    onDrag = { delta ->
+                        scrubbingPosition = if (duration != C.TIME_UNSET) {
+                            scrubbingPosition?.plus(delta)?.coerceIn(0, duration)
+                        } else {
+                            null
+                        }
+                    },
+                    onDragEnd = {
+                        scrubbingPosition?.let(binder.player::seekTo)
+                        scrubbingPosition = null
+                    },
+                    color = colorPalette.collapsedPlayerProgressBar,
+                    backgroundColor = colorPalette.textSecondary,
+                    shape = RoundedCornerShape(8.dp)
+                )
+
+            if (playerTimelineType == PlayerTimelineType.Default)
+                SeekBar(
+                    value = scrubbingPosition ?: position,
+                    minimumValue = 0,
+                    maximumValue = duration,
+                    onDragStart = {
+                        scrubbingPosition = it
+                    },
+                    onDrag = { delta ->
+                        scrubbingPosition = if (duration != C.TIME_UNSET) {
+                            scrubbingPosition?.plus(delta)?.coerceIn(0, duration)
+                        } else {
+                            null
+                        }
+                    },
+                    onDragEnd = {
+                        scrubbingPosition?.let(binder.player::seekTo)
+                        scrubbingPosition = null
+                    },
+                    color = colorPalette.collapsedPlayerProgressBar,
+                    backgroundColor = colorPalette.textSecondary,
+                    shape = RoundedCornerShape(8.dp),
+                )
 
 
 
 
-        if (playerTimelineType == PlayerTimelineType.Wavy) {
-            SeekBarWaved(
-                position = { animatedPosition.value },
-                range = 0f..media.duration.toFloat(),
-                onSeekStarted = {
-                    scrubbingPosition = it.toLong()
+            if (playerTimelineType == PlayerTimelineType.Wavy) {
+                SeekBarWaved(
+                    position = { animatedPosition.value },
+                    range = 0f..media.duration.toFloat(),
+                    onSeekStarted = {
+                        scrubbingPosition = it.toLong()
 
-                    //isSeeking = true
-                    scope.launch {
-                        animatedPosition.animateTo(it)
-                    }
-
-                },
-                onSeek = { delta ->
-                    scrubbingPosition = if (duration != C.TIME_UNSET) {
-                        scrubbingPosition?.plus(delta)?.coerceIn(0F, duration.toFloat())?.toLong()
-                    } else {
-                        null
-                    }
-
-                    if (media.duration != C.TIME_UNSET) {
                         //isSeeking = true
                         scope.launch {
-                            animatedPosition.snapTo(
-                                animatedPosition.value.plus(delta)
-                                    .coerceIn(0f, media.duration.toFloat())
-                            )
+                            animatedPosition.animateTo(it)
                         }
-                    }
 
-                },
-                onSeekFinished = {
-                    scrubbingPosition?.let(binder.player::seekTo)
-                    scrubbingPosition = null
-                    /*
+                    },
+                    onSeek = { delta ->
+                        scrubbingPosition = if (duration != C.TIME_UNSET) {
+                            scrubbingPosition?.plus(delta)?.coerceIn(0F, duration.toFloat())
+                                ?.toLong()
+                        } else {
+                            null
+                        }
+
+                        if (media.duration != C.TIME_UNSET) {
+                            //isSeeking = true
+                            scope.launch {
+                                animatedPosition.snapTo(
+                                    animatedPosition.value.plus(delta)
+                                        .coerceIn(0f, media.duration.toFloat())
+                                )
+                            }
+                        }
+
+                    },
+                    onSeekFinished = {
+                        scrubbingPosition?.let(binder.player::seekTo)
+                        scrubbingPosition = null
+                        /*
                     isSeeking = false
                     animatedPosition.let {
                         binder.player.seekTo(it.targetValue.toLong())
                     }
                      */
-                },
-                color = colorPalette.collapsedPlayerProgressBar,
-                isActive = binder.player.isPlaying,
-                backgroundColor = colorPalette.textSecondary,
-                shape = RoundedCornerShape(8.dp)
-            )
+                    },
+                    color = colorPalette.collapsedPlayerProgressBar,
+                    isActive = binder.player.isPlaying,
+                    backgroundColor = colorPalette.textSecondary,
+                    shape = RoundedCornerShape(8.dp)
+                )
+            }
         }
-
 
         Spacer(
             modifier = Modifier
@@ -494,7 +509,7 @@ fun Controls(
 
 
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
@@ -508,7 +523,7 @@ fun Controls(
 
             if (duration != C.TIME_UNSET) {
                 BasicText(
-                    text = formatAsDuration(duration),
+                    text = " - " + formatAsDuration(duration),
                     style = typography.xxs.semiBold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
