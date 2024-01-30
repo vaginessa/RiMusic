@@ -85,6 +85,9 @@ interface Database {
     @RewriteQueriesToDropUnusedColumns
     fun getSongsList(idsList: List<String>): Flow<List<Song>>
 
+    @Query("SELECT thumbnailUrl FROM Song WHERE id in (:idsList) ")
+    fun getSongsListThumbnailUrls(idsList: List<String>): Flow<List<String?>>
+
     @Transaction
     @Query("SELECT * FROM Song WHERE ROWID='wooowww' ")
     @RewriteQueriesToDropUnusedColumns
@@ -180,6 +183,9 @@ interface Database {
         }
     }
 
+    @Query("SELECT thumbnailUrl FROM Song WHERE likedAt IS NOT NULL AND id NOT LIKE '$LOCAL_KEY_PREFIX%'  LIMIT 4")
+    fun preferitesThumbnailUrls(): Flow<List<String?>>
+
     @Transaction
     //@Query("SELECT Song.*, contentLength FROM Song JOIN Format ON id = songId WHERE songId = :songId and (contentLength = totalPlayTimeMs)")
     @Query("SELECT Song.*, contentLength FROM Song JOIN Format ON id = songId WHERE songId = :songId")
@@ -226,6 +232,9 @@ interface Database {
 
         }
     }
+
+    @Query("SELECT thumbnailUrl FROM Song JOIN Format ON id = songId WHERE contentLength IS NOT NULL AND totalPlayTimeMs > 0  LIMIT 4")
+    fun offlineThumbnailUrls(): Flow<List<String?>>
 
 
     @Transaction

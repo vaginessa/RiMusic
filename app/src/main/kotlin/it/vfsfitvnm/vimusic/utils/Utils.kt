@@ -151,7 +151,9 @@ fun String?.thumbnail(size: Int): String? {
         else -> this
     }
 }
-
+fun String?.thumbnail(): String? {
+    return this
+}
 fun Uri?.thumbnail(size: Int): Uri? {
     return toString().thumbnail(size)?.toUri()
 }
