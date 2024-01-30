@@ -97,7 +97,6 @@ dependencies {
     implementation(projects.composePersist)
     implementation(projects.composeRouting)
     implementation(projects.composeReordering)
-
     implementation(libs.compose.activity)
     implementation(libs.compose.foundation)
     implementation(libs.compose.ui)
@@ -105,14 +104,10 @@ dependencies {
     implementation(libs.compose.ripple)
     implementation(libs.compose.shimmer)
     implementation(libs.compose.coil)
-
     implementation(libs.palette)
-
     implementation(libs.exoplayer)
-
     implementation(libs.room)
     kapt(libs.room.compiler)
-
     implementation(projects.innertube)
     implementation(projects.kugou)
 
