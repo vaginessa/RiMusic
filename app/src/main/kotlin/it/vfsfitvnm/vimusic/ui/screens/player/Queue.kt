@@ -464,16 +464,16 @@ fun Queue(
                     .padding(horizontalBottomPaddingValues)
                     .height(40.dp) //bottom bar queue
             ) {
-                /*
                 Image(
-                    painter = painterResource(R.drawable.chevron_down),
+                    painter = painterResource(R.drawable.horizontal_bold_line),
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(colorPalette.text),
                     modifier = Modifier
+                        .absoluteOffset(0.dp,-10.dp)
                         .align(Alignment.TopCenter)
-                        .size(18.dp)
+                        .size(30.dp)
                 )
-                 */
+
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
