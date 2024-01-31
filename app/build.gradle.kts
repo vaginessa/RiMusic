@@ -12,8 +12,8 @@ android {
         applicationId = "it.fast4x.rimusic"
         minSdk = 21
         targetSdk = 34
-        versionCode = 16
-        versionName = "0.6.19.1"
+        versionCode = 17
+        versionName = "0.6.20"
         buildConfigField("String", "VERSION_NAME", "\"$versionName\"")
     }
 
@@ -118,6 +118,7 @@ dependencies {
     implementation("androidx.media3:media3-datasource-okhttp:1.2.1")
     implementation("androidx.compose.material:material:1.6.0")
     implementation("com.github.therealbush:translator:1.0.2")
+    implementation("io.github.azhon:appupdate:4.3.2")
 
     //End
     coreLibraryDesugaring(libs.desugaring)

@@ -97,7 +97,7 @@ fun  UiSettings() {
     val activityResultLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
 
-    val newVersion = isAvailableUpdate()
+    //val newVersion = isAvailableUpdate()
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
         ThumbnailRoundness.Heavy
@@ -131,7 +131,7 @@ fun  UiSettings() {
             onClick = {}
         )
 
-
+/*
         SettingsGroupSpacer()
         if (newVersion != "") {
             //SettingsEntryGroupText(title = "Update available")
@@ -159,6 +159,8 @@ fun  UiSettings() {
 
             )
         }
+
+ */
 
         SettingsGroupSpacer()
         SettingsEntryGroupText(title = stringResource(R.string.languages))

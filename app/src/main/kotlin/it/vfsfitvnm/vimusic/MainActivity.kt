@@ -72,6 +72,8 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
+import com.azhon.appupdate.manager.DownloadManager
+import com.azhon.appupdate.util.ApkUtil.Companion.getVersionCode
 import com.valentinilk.shimmer.LocalShimmerTheme
 import com.valentinilk.shimmer.defaultShimmerTheme
 import it.vfsfitvnm.compose.persist.PersistMap
@@ -150,6 +152,7 @@ import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import org.json.JSONException
+import org.json.JSONObject
 import java.io.File
 import java.net.Proxy
 
@@ -163,6 +166,10 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
     var request = OkHttpRequest(client)
 
     var isConnected = false
+    var updatedProductName = ""
+    var updatedVersionName = ""
+    var updatedVersionCode = 0
+
 
 
     private val serviceConnection = object : ServiceConnection {
@@ -240,18 +247,20 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
         setContent {
 
+            val urlVersion = "https://raw.githubusercontent.com/fast4x/RiMusic/master/updatedVersion/updatedVersion.ver"
+            val urlVersionCode = "https://raw.githubusercontent.com/fast4x/RiMusic/master/updatedVersion/updatedVersionCode.ver"
+            //val urlVersionCode = "https://rimusic.xyz/update/updatedVersionCode.ver"
 
-            val url = "https://raw.githubusercontent.com/fast4x/RiMusic/master/updatedVersion/updatedVersion.ver"
-            /*  */
-            request.GET(url, object: Callback {
+            request.GET(urlVersion, object: Callback {
                 override fun onResponse(call: Call, response: Response) {
                     val responseData = response.body?.string()
                     runOnUiThread{
                         try {
+                            isConnected = true
                             val newVersion = responseData.let { it.toString() }
                             val file = File(filesDir, "RiMusicUpdatedVersion.ver")
                             file.writeText(newVersion)
-                            isConnected = true
+
                             //this@MainActivity
                         } catch (e: JSONException) {
                             e.printStackTrace()
@@ -265,6 +274,53 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                 }
             })
 
+            request.GET(urlVersionCode, object: Callback {
+                override fun onResponse(call: Call, response: Response) {
+                    val responseData = response.body?.string()
+                    runOnUiThread{
+                        try {
+                            val json = responseData?.let { JSONObject(it) }
+                            if (json != null) {
+                                updatedProductName = json.getString("productName")
+                                updatedVersionName = json.getString("versionName")
+                                updatedVersionCode = json.getInt("versionCode")
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    }
+
+                }
+
+                override fun onFailure(call: Call, e: java.io.IOException) {
+                    Log.d("UpdatedVersionCode","Check failure")
+                }
+            })
+
+
+            if (isConnected && updatedVersionCode > 0) {
+                val manager = DownloadManager.Builder(this).run {
+                    apkUrl("https://github.com/fast4x/RiMusic/releases/download/v${BuildConfig.VERSION_NAME}/app-release.apk")
+                    //apkUrl("https://rimusic.xyz/update/v${BuildConfig.VERSION_NAME}/app-release.apk")
+                    apkName("app-release.apk")
+                    smallIcon(R.mipmap.ic_launcher)
+                    //If this parameter is set, it will automatically determine whether to show dialog
+                    apkVersionCode(updatedVersionCode) //with Int.MIN_VALUE start download immediately
+                    apkVersionName(updatedVersionName)
+                    //apkSize("5MB")
+                    apkDescription(getString(R.string.update_now))
+                    //Optional parameters...
+                    showNewerToast(false)
+                    enableLog(false)
+                    jumpInstallPage(true)
+                    //dialogButtonTextColor(Color.Green)
+                    showNotification(true)
+                    showBgdToast(false)
+                    forcedUpgrade(false)
+                    build()
+                }
+                manager.download()
+            }
 
 
             val coroutineScope = rememberCoroutineScope()

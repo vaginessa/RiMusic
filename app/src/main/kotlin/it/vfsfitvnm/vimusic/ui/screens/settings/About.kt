@@ -50,7 +50,7 @@ fun About() {
         ThumbnailRoundness.Heavy
     )
 
-    val newVersion = isAvailableUpdate()
+    //val newVersion = isAvailableUpdate()
     //val newVersion = ""
 
     Column(
@@ -84,7 +84,7 @@ fun About() {
 
                 )
         }
-
+        /*
         if (newVersion != "") {
             //SettingsEntryGroupText(title = "Update available")
             SettingsEntry(
@@ -111,6 +111,7 @@ fun About() {
 
             )
         }
+         */
 
         SettingsGroupSpacer()
 

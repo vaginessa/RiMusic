@@ -66,7 +66,7 @@ fun HomeScreen(
     onPlaylistUrl: (String) -> Unit
 ) {
     val (colorPalette, typography) = LocalAppearance.current
-    var newVersion = ""
+    //var newVersion = ""
     var showNewversionDialog by remember { mutableStateOf(true) }
     val uriHandler = LocalUriHandler.current
 
@@ -176,7 +176,8 @@ fun HomeScreen(
 
 
             Scaffold(
-                topIconButtonId = if (newVersion == "") R.drawable.settings else R.drawable.update,
+                //topIconButtonId = if (newVersion == "") R.drawable.settings else R.drawable.update,
+                topIconButtonId = R.drawable.settings,
                 onTopIconButtonClick = { settingsRoute() },
                 topIconButton2Id = R.drawable.stats_chart,
                 onTopIconButton2Click = { statisticsTypeRoute(StatisticsType.Today) },
@@ -247,7 +248,7 @@ fun HomeScreen(
         }
     }
 
-    newVersion =  isAvailableUpdate()
+    //newVersion =  isAvailableUpdate()
 
     /*
 if (showNewversionDialog)

@@ -57,7 +57,7 @@
     <string name="online">Συνδεδεμένο</string>
     <string name="no_results_found">Δεν βρέθηκαν αποτελέσματα. Δοκιμάστε διαφορετικές λέξεις-κλειδιά ή κατηγορίες</string>
     <string name="videos">Βίντεο</string>
-    <string name="featured">﻿Προτεινόμενα</string>
+    <string name="featured">Προτεινόμενα</string>
     <string name="view_the_source_code">Προβολή Πηγαίου Κώδικα</string>
     <string name="report_an_issue">Αναφορά προβλήματος</string>
     <string name="you_will_be_redirected_to_github">Θα μεταφερθείτε στο GitHub</string>
@@ -345,4 +345,18 @@
     <string name="lang_finnish">Finnish</string>
     <string name="listening_time">Listening time</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Shows the number of songs heard and their listening time</string>
+    <string name="app_update_latest_version">Currently the latest version!</string>
+    <string name="app_update_start_download">Start download</string>
+    <string name="app_update_start_download_hint">You can check the download progress later</string>
+    <string name="app_update_start_downloading">Downloading new version</string>
+    <string name="app_update_download_completed">Download completed</string>
+    <string name="app_update_click_hint">Click to install</string>
+    <string name="app_update_download_error">Download error</string>
+    <string name="app_update_continue_downloading">Click to continue downloading</string>
+    <string name="app_update_background_downloading">Downloading new version in the background…</string>
+    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
+    <string name="app_update_dialog_new_size">New version size：%s</string>
+    <string name="app_update_update">Update</string>
+    <string name="app_update_close">Close</string>
+    <string name="update_now">Update Now</string>
 </resources>

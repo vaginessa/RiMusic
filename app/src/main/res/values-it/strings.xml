@@ -345,4 +345,18 @@
     <string name="lang_finnish">Finlandese</string>
     <string name="listening_time">Tempo di ascolto</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Mostra il numero di canzoni ascoltate ed il tempo impiegato</string>
+    <string name="app_update_latest_version">Attualmente l\'ultima versione!</string>
+    <string name="app_update_start_download">Avvia download</string>
+    <string name="app_update_start_download_hint">Puoi controllare l\'avanzamento del download in un secondo momento</string>
+    <string name="app_update_start_downloading">Scaricare la nuova versione</string>
+    <string name="app_update_download_completed">Download completato</string>
+    <string name="app_update_click_hint">Clicca per installare</string>
+    <string name="app_update_download_error">Download in errore</string>
+    <string name="app_update_continue_downloading">Clicca per continuare con il download</string>
+    <string name="app_update_background_downloading">Scaricare la nuova versione in background…</string>
+    <string name="app_update_dialog_new">La nuova versione %s può essere scaricata!</string>
+    <string name="app_update_dialog_new_size">Dimensione della nuova versione：%s</string>
+    <string name="app_update_update">Aggiorna</string>
+    <string name="app_update_close">Chiudi</string>
+    <string name="update_now">Aggiorna adesso</string>
 </resources>
