@@ -78,9 +78,9 @@
     <string name="use_song_cover_on_lockscreen">ロック画面の壁紙として再生曲のカバーを使用する</string>
     <string name="cache">キャッシュ</string>
     <string name="cache_cleared">キャッシュの空き容量がなくなると、アクセスの古い順からクリアされていきます</string>
-    <string name="image_cache">画像キャッシュ</string>
+    <string name="image_cache">画像のキャッシュ</string>
     <string name="max_size">最大サイズ</string>
-    <string name="song_cache">楽曲キャッシュ</string>
+    <string name="song_cache">楽曲のキャッシュ</string>
     <string name="database">データベース</string>
     <string name="reset_quick_picks">Quick picksをリセット</string>
     <string name="quick_picks_are_cleared">Quick picksを消去しました</string>
