@@ -82,6 +82,8 @@ import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.BrowseBody
 import it.vfsfitvnm.innertube.requests.playlistPage
 import it.vfsfitvnm.innertube.requests.song
+import it.vfsfitvnm.innertube.utils.LocalePreferenceItem
+import it.vfsfitvnm.innertube.utils.LocalePreferences
 import it.vfsfitvnm.innertube.utils.ProxyPreferenceItem
 import it.vfsfitvnm.innertube.utils.ProxyPreferences
 import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
@@ -123,6 +125,7 @@ import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid8
+import it.vfsfitvnm.vimusic.utils.isEnabledDiscoveryLangCodeKey
 import it.vfsfitvnm.vimusic.utils.isKeepScreenOnEnabledKey
 import it.vfsfitvnm.vimusic.utils.isProxyEnabledKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
@@ -155,6 +158,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
 import java.net.Proxy
+import java.util.Locale
 
 
 @UnstableApi
@@ -239,6 +243,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                     ProxyPreferences.preference = ProxyPreferenceItem(hName,proxyPort,proxyMode)
                 }
             }
+            if(getBoolean(isEnabledDiscoveryLangCodeKey,true))
+            LocalePreferences.preference = LocalePreferenceItem(Locale.getDefault().toLanguageTag(),"")
         }
 
         //Log.d("mediaItemLang",LocaleListCompat.getDefault().get(0).toString())

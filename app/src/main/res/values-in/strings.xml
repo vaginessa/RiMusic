@@ -360,4 +360,6 @@ Saat cache kehabisan ruang kosong, lagu &amp; gambar yang sudah lama tidak diaks
     <string name="app_update_update">Update</string>
     <string name="app_update_close">Close</string>
     <string name="update_now">Update Now</string>
+    <string name="enable_language_in_discovery">Enable language in Discovery</string>
+    <string name="if_possible_allows_discovery_content_language">If possible, it allows to receive Discovery content in your own language.</string>
 </resources>

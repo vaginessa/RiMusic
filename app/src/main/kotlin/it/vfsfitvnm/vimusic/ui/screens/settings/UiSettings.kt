@@ -50,6 +50,7 @@ import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isAvailableUpdate
+import it.vfsfitvnm.vimusic.utils.isEnabledDiscoveryLangCodeKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.maxStatisticsItemsKey
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
@@ -110,6 +111,8 @@ fun  UiSettings() {
     )
 
     var showStatsListeningTime by rememberPreference(showStatsListeningTimeKey,   true)
+
+    var isEnabledDiscoveryLangCode by rememberPreference(isEnabledDiscoveryLangCodeKey,   true)
 
     Column(
         modifier = Modifier
@@ -207,6 +210,16 @@ fun  UiSettings() {
                 }
             }
         )
+
+        SwitchSettingEntry(
+            title = stringResource(R.string.enable_language_in_discovery),
+            text = stringResource(R.string.if_possible_allows_discovery_content_language),
+            isChecked = isEnabledDiscoveryLangCode,
+            onCheckedChange = {
+                isEnabledDiscoveryLangCode = it
+            }
+        )
+        SettingsDescription(text = stringResource(R.string.restarting_rimusic_is_required))
 
         SettingsGroupSpacer()
         SettingsEntryGroupText(stringResource(R.string.player))
