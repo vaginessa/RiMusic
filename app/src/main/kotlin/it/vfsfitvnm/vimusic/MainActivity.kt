@@ -244,7 +244,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                 }
             }
             if(getBoolean(isEnabledDiscoveryLangCodeKey,true))
-            LocalePreferences.preference = LocalePreferenceItem(Locale.getDefault().toLanguageTag(),"")
+                LocalePreferences.preference = LocalePreferenceItem(Locale.getDefault().toLanguageTag(),"")
         }
 
         //Log.d("mediaItemLang",LocaleListCompat.getDefault().get(0).toString())
