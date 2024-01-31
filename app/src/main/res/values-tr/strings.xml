@@ -345,8 +345,6 @@
     <string name="lang_finnish">Fince (Finnish)</string>
     <string name="listening_time">Dinleme süresi</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Dinlediğiniz şarkı sayısını ve dinlenme süresini gösterir</string>
-    <string name="listening_time">Dinleme zamanı</string>
-    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Dinlediğin şarkı sayısını ve dinlenme zamanını gösterir</string>
     <string name="app_update_latest_version">Currently the latest version!</string>
     <string name="app_update_start_download">Start download</string>
     <string name="app_update_start_download_hint">You can check the download progress later</string>
