@@ -122,7 +122,7 @@ fun Controls(
     modifier: Modifier = Modifier
 ) {
     val (colorPalette, typography) = LocalAppearance.current
-    var colorPaletteName by rememberPreference(colorPaletteNameKey, ColorPaletteName.PureBlack)
+    var colorPaletteName by rememberPreference(colorPaletteNameKey, ColorPaletteName.ModernBlack)
 
     val binder = LocalPlayerServiceBinder.current
     binder?.player ?: return

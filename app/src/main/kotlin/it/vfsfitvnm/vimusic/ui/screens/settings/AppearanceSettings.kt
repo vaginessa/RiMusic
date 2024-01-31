@@ -80,7 +80,7 @@ fun AppearanceSettings() {
     val context = LocalContext.current
     val coroutineScope = CoroutineScope(Dispatchers.IO) + Job()
 
-    var colorPaletteName by rememberPreference(colorPaletteNameKey, ColorPaletteName.PureBlack)
+    var colorPaletteName by rememberPreference(colorPaletteNameKey, ColorPaletteName.ModernBlack)
     var colorPaletteMode by rememberPreference(colorPaletteModeKey, ColorPaletteMode.System)
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
