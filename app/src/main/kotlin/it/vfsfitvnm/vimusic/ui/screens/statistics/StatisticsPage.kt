@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -288,7 +289,7 @@ fun StatisticsPage(
                 LazyHorizontalGrid(
                     state = quickPicksLazyGridState,
                     rows = GridCells.Fixed(2),
-                    //flingBehavior = rememberSnapFlingBehavior(snapLayoutInfoProvider),
+                    flingBehavior = ScrollableDefaults.flingBehavior(),
                     contentPadding = endPaddingValues,
                     modifier = Modifier
                         .fillMaxWidth()

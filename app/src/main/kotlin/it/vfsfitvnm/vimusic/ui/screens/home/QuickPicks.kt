@@ -1,12 +1,14 @@
 package it.vfsfitvnm.vimusic.ui.screens.home
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -30,16 +32,23 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -103,7 +112,11 @@ import it.vfsfitvnm.vimusic.utils.showNewAlbumsArtistsKey
 import it.vfsfitvnm.vimusic.utils.showPlaylistMightLikeKey
 import it.vfsfitvnm.vimusic.utils.showRelatedAlbumsKey
 import it.vfsfitvnm.vimusic.utils.showSimilarArtistsKey
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @ExperimentalMaterialApi
 @ExperimentalTextApi
@@ -145,27 +158,37 @@ fun QuickPicks(
     val showNewAlbumsArtists by rememberPreference(showNewAlbumsArtistsKey, true)
     val showPlaylistMightLike by rememberPreference(showPlaylistMightLikeKey, true)
 
-
     LaunchedEffect(Unit) {
-        when (playEventType) {
-            PlayEventsType.MostPlayed ->
-            Database.trending().distinctUntilChanged().collect { songs ->
-                val song = songs.firstOrNull()
-                if (relatedPageResult == null || trending?.id != song?.id) {
-                    relatedPageResult = Innertube.relatedPage(NextBody(videoId = (song?.id ?: "HZnNt9nnEhw")))
-                }
-                trending = song
+            when (playEventType) {
+                PlayEventsType.MostPlayed ->
+                    Database.trending().distinctUntilChanged().collect { songs ->
+                        val song = songs.firstOrNull()
+                        if (relatedPageResult == null || trending?.id != song?.id) {
+                            relatedPageResult = Innertube.relatedPage(
+                                NextBody(
+                                    videoId = (song?.id ?: "HZnNt9nnEhw")
+                                )
+                            )
+                        }
+                        trending = song
+                    }
+
+                PlayEventsType.LastPlayed ->
+                    Database.lastPlayed().distinctUntilChanged().collect { songs ->
+                        val song = songs.firstOrNull()
+                        if (relatedPageResult == null || trending?.id != song?.id) {
+                            relatedPageResult =
+                                Innertube.relatedPage(
+                                    NextBody(
+                                        videoId = (song?.id ?: "HZnNt9nnEhw")
+                                    )
+                                )
+                        }
+                        trending = song
+                    }
             }
-            PlayEventsType.LastPlayed ->
-            Database.lastPlayed().distinctUntilChanged().collect { songs ->
-                val song = songs.firstOrNull()
-                if (relatedPageResult == null || trending?.id != song?.id) {
-                    relatedPageResult =
-                        Innertube.relatedPage(NextBody(videoId = (song?.id ?: "HZnNt9nnEhw")))
-                }
-                trending = song
-            }
-        }
+        //refreshingData = false
+        Log.d("mediaItemRefresh","refreshedData")
     }
 
     LaunchedEffect(Unit) {
@@ -174,8 +197,18 @@ fun QuickPicks(
     LaunchedEffect(Unit) {
         Database.preferitesArtistsByName().collect { preferitesArtists = it }
     }
-
-
+/*
+    val refreshScope = rememberCoroutineScope()
+    var refreshing by remember { mutableStateOf(false) }
+    var refreshingData by remember { mutableStateOf(false) }
+    fun refresh() = refreshScope.launch {
+        refreshing = true
+        delay(1500)
+        refreshing = false
+        Log.d("mediaItemRefresh","refresh")
+    }
+    val refreshState = rememberPullRefreshState(refreshing, ::refresh)
+*/
     val songThumbnailSizeDp = Dimensions.thumbnails.song
     val songThumbnailSizePx = songThumbnailSizeDp.px
     val albumThumbnailSizeDp = 108.dp
@@ -197,22 +230,15 @@ fun QuickPicks(
 
 
 
-    BoxWithConstraints {
+    BoxWithConstraints (
+        //modifier = Modifier.pullRefresh(refreshState)
+    ) {
         val quickPicksLazyGridItemWidthFactor = if (isLandscape && maxWidth * 0.475f >= 320.dp) {
             0.475f
         } else {
             0.9f
         }
-/*
-        val snapLayoutInfoProvider = remember(quickPicksLazyGridState) {
-            SnapLayoutInfoProvider(
-                lazyGridState = quickPicksLazyGridState,
-                positionInLayout = { layoutSize, itemSize ->
-                    (layoutSize * quickPicksLazyGridItemWidthFactor / 2f - itemSize / 2f)
-                }
-            )
-        }
-*/
+
         val itemInHorizontalGridWidth = maxWidth * quickPicksLazyGridItemWidthFactor
 
         Column(
@@ -256,7 +282,7 @@ fun QuickPicks(
                 LazyHorizontalGrid(
                     state = quickPicksLazyGridState,
                     rows = GridCells.Fixed(4),
-                    //flingBehavior = rememberSnapFlingBehavior(snapLayoutInfoProvider),
+                    flingBehavior = ScrollableDefaults.flingBehavior(),
                     contentPadding = endPaddingValues,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -617,8 +643,12 @@ fun QuickPicks(
             onClick = onSearchClick
         )
 
-
-
+        /*
+        PullRefreshIndicator(
+            refreshing, refreshState,
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
+        */
 
 
     }
