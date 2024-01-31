@@ -300,7 +300,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
             if (isConnected && updatedVersionCode > 0) {
                 val manager = DownloadManager.Builder(this).run {
-                    apkUrl("https://github.com/fast4x/RiMusic/releases/download/v${BuildConfig.VERSION_NAME}/app-release.apk")
+                    apkUrl("https://github.com/fast4x/RiMusic/releases/download/v${updatedVersionName}/app-release.apk")
                     //apkUrl("https://rimusic.xyz/update/v${BuildConfig.VERSION_NAME}/app-release.apk")
                     apkName("app-release.apk")
                     smallIcon(R.mipmap.ic_launcher)
