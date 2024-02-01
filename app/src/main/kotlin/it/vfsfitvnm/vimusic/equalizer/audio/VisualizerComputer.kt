@@ -45,8 +45,8 @@ class VisualizerComputer {
                 //onData(VisualizerData(bytes = process(fft), resolution = resolution))
             }
 
-            var captureCounter = 0
-            var start: Long? = null
+            //var captureCounter = 0
+            //var start: Long? = null
             var lastDataTimestamp: Long? = null
 
             @UnstableApi
@@ -58,8 +58,8 @@ class VisualizerComputer {
                 val now = System.currentTimeMillis()
                 //Check
 
-                if (start == null) start = now
-                captureCounter++
+                //if (start == null) start = now
+                //captureCounter++
                 /*
                 if (captureCounter % 100 == 0) Log.e(
                     "COUNTER",
@@ -76,7 +76,7 @@ class VisualizerComputer {
                             rawWaveform = waveform.clone(),
                             captureSize = CAPTURE_SIZE,
                             samplingRate = samplingRate,
-                            durationSinceLastData = 0//if (durationSinceLastData < 200) durationSinceLastData else 0
+                            durationSinceLastData = if (durationSinceLastData < 200) durationSinceLastData else 0
                         )
                     )
                     lastDataTimestamp = now
@@ -96,7 +96,7 @@ class VisualizerComputer {
                     visualizerCallback(onData),
                     Visualizer.getMaxCaptureRate(),
                     true,
-                    true
+                    false
                 )
                 enabled = true // Configuration is done, can enable now...
             }
