@@ -78,7 +78,7 @@
     <string name="use_song_cover_on_lockscreen">Gunakan gambar sampul lagu yang sedang diputar sebagai wallpaper layar kunci</string>
     <string name="cache">Cache</string>
     <string name="cache_cleared">Cache adalah penyimpanan sementara.\n
-Saat cache kehabisan ruang kosong, lagu &amp; gambar yang sudah lama tidak diakses akan dihapus</string>
+Saat cache kehabisan ruang kosong, lagu dan gambar yang sudah lama tidak diakses akan dihapus</string>
     <string name="image_cache">CACHE GAMBAR</string>
     <string name="max_size">Ukuran maksimal</string>
     <string name="song_cache">CACHE LAGU</string>
