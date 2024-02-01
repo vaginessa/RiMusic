@@ -161,7 +161,7 @@ fun QuickPicks(
     LaunchedEffect(Unit) {
             when (playEventType) {
                 PlayEventsType.MostPlayed ->
-                    Database.trending().distinctUntilChanged().collect { songs ->
+                    Database.trendingReal().distinctUntilChanged().collect { songs ->
                         val song = songs.firstOrNull()
                         if (relatedPageResult == null || trending?.id != song?.id) {
                             relatedPageResult = Innertube.relatedPage(
