@@ -13,7 +13,7 @@
     <string name="remove_from_queue">Remove from queue</string>
     <string name="remove_from_playlist">Remove from playlist</string>
     <string name="hide">Hide</string>
-    <string name="hide_from_quick_picks">Hide from \"Quick picks\"</string>
+    <string name="hide_from_quick_picks">Hide from Quick picks</string>
     <string name="related_albums">Related albums</string>
     <string name="similar_artists">Similar artists</string>
     <string name="playlists_you_might_like">Playlists you might like</string>
@@ -153,8 +153,8 @@
     <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">The returned video id doesn\'t match the requested one</string>
     <string name="error_an_unknown_playback_error_has_occurred">An unknown playback error has occurred</string>
     <string name="tips">Tips</string>
-    <string name="quick_pics_and_tips">Quick Pics and Tips</string>
-    <string name="is_min_list_time_for_tips_or_quick_pics">It\'s the minimum listening time, to include the song as a possible Tips or Quick Pics</string>
+    <string name="quick_pics_and_tips">Quick Picks and Tips</string>
+    <string name="is_min_list_time_for_tips_or_quick_pics">It\'s the minimum listening time, to include the song as a possible Tips or Quick Picks</string>
     <string name="min_listening_time">Min listening time</string>
     <string name="player_thumbnail_size">Thumbnail Size</string>
     <string name="restarting_rimusic_is_required">Restarting is required</string>
@@ -335,7 +335,7 @@
     <string name="paste_or_type_a_valid_url">Paste or type a valid url</string>
     <string name="you_can_put_a_complete_link">You can put a complete link of a playlist, an album, a channel or a single song on YouTube or YouTube Music</string>
     <string name="go_to_link">Go to link</string>
-    <string name="action_bar_button">ACTION BAR BUTTON</string>
+    <string name="action_bar_button">PLAYER ACTION BAR</string>
     <string name="action_bar_show_download_button">Show Download Button</string>
     <string name="action_bar_show_add_to_playlist_button">Show Add to playlist button</string>
     <string name="action_bar_show_loop_button">Show Loop button</string>
