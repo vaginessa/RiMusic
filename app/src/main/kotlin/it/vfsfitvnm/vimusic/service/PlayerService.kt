@@ -47,6 +47,8 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DataSpec
+import androidx.media3.datasource.DefaultDataSource
+import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.ResolvingDataSource
 import androidx.media3.datasource.cache.Cache
 import androidx.media3.datasource.cache.CacheDataSource
@@ -124,6 +126,7 @@ import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.volumeNormalizationKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -297,6 +300,7 @@ class PlayerService : InvincibleService(),
 
     private val mediaDownloadedItemState = MutableStateFlow<MediaItem?>(null)
 
+    @ExperimentalCoroutinesApi
     @FlowPreview
     private val isDownloadedState = mediaDownloadedItemState
         .flatMapMerge { item ->
@@ -311,6 +315,7 @@ class PlayerService : InvincibleService(),
 
     private val mediaCachedItemState = MutableStateFlow<MediaItem?>(null)
 
+    @ExperimentalCoroutinesApi
     @FlowPreview
     private val isCachedState = mediaCachedItemState
         .flatMapMerge { item ->
@@ -1009,6 +1014,7 @@ class PlayerService : InvincibleService(),
         }
     }
 
+    @FlowPreview
     override fun notification(): Notification? {
         if (player.currentMediaItem == null) return null
 
@@ -1161,17 +1167,18 @@ class PlayerService : InvincibleService(),
         upstreamDataSourceFactory = CacheDataSource.Factory()
             .setCache(cache)
             .setUpstreamDataSourceFactory(
-                OkHttpDataSource.Factory(okHttpClient())
-                    .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
-                /*
                 DefaultDataSource.Factory(
                     this,
+                    OkHttpDataSource.Factory(okHttpClient())
+                        .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
+                    /*
                     DefaultHttpDataSource.Factory()
                         .setConnectTimeoutMs(16000)
                         .setReadTimeoutMs(8000)
                         .setUserAgent("Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0")
+
+                     */
                 )
-                 */
             )
     ) { !it.isLocal }
 

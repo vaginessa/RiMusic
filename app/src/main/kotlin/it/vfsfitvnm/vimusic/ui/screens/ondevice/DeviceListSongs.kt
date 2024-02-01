@@ -7,6 +7,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -172,7 +173,7 @@ fun DeviceListSongs(
 
     val sortOrderIconRotation by animateFloatAsState(
         targetValue = if (sortOrder == SortOrder.Ascending) 0f else 180f,
-        animationSpec = tween(durationMillis = 400, easing = LinearEasing)
+        animationSpec = tween(durationMillis = 400, easing = LinearEasing), label = ""
     )
 
     var thumbnailRoundness by rememberPreference(
@@ -190,17 +191,16 @@ fun DeviceListSongs(
     }
 
     val activity = LocalContext.current as Activity
-    //VisualizerComputer.setupPermissions( LocalContext.current as Activity)
     if (ContextCompat.checkSelfPermission(
             activity,
-            if (isAtLeastAndroid13) Manifest.permission.READ_MEDIA_AUDIO
+            if (Build.VERSION.SDK_INT >= 33) Manifest.permission.READ_MEDIA_AUDIO
             else Manifest.permission.READ_EXTERNAL_STORAGE
         ) != PackageManager.PERMISSION_GRANTED
     ) {
         LocalContext.current.toast("On device require read media permission, grant please.")
         ActivityCompat.requestPermissions(
             activity,
-            arrayOf(if (isAtLeastAndroid13) Manifest.permission.READ_MEDIA_AUDIO
+            arrayOf(if (Build.VERSION.SDK_INT >= 33) Manifest.permission.READ_MEDIA_AUDIO
             else Manifest.permission.READ_EXTERNAL_STORAGE), 41
         )
     } else {
@@ -422,7 +422,6 @@ fun DeviceListSongs(
                 key = { _, song -> song.id },
                 contentType = { _, song -> song },
             ) { index, song ->
-
 /*
                 Log.d("mediaItemUri",
                 ContentUris.withAppendedId(
@@ -432,8 +431,6 @@ fun DeviceListSongs(
                 )
 
 */
-
-
                 SongItem(
                     song = song,
                     isDownloaded = true,
