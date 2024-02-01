@@ -103,7 +103,7 @@
     <string name="history_is_empty">History is empty</string>
     <string name="service_lifetime">SERVICE LIFETIME</string>
     <string name="battery_optimizations_applied">If battery optimizations are applied, the playback notification can suddenly disappear when paused.</string>
-    <string name="is_android12">Since Android 12, disabling battery optimizations is required for the \"Invincible service\" option to take effect.</string>
+    <string name="is_android12">Since Android 12, disabling battery optimizations is required for the \"Invisible service\" option to take effect.</string>
     <string name="ignore_battery_optimizations">Ignore battery optimizations</string>
     <string name="already_unrestricted">Already unrestricted</string>
     <string name="disable_background_restrictions">Disable background restrictions</string>
@@ -135,11 +135,11 @@
     <string name="delete_playback_events">Delete %1$s playback events</string>
     <string name="existing_data_will_be_overwritten">Existing data will be overwritten.\n%1$s will automatically close itself after restoring the database.</string>
     <string name="on_queue">on queue</string>
-    <string name="folder_cache">FOLDER CACHE</string>
+    <string name="folder_cache">CACHE FOLDER</string>
     <string name="cache_reset_by_clicking_button">Attention by clicking on the button below, the cache location folder will be reset to the default</string>
-    <string name="cache_location_folder">Location folder</string>
-    <string name="custom_cache_from_android_10_may_not_be_available">From Android 10, this feature may not be available</string>
-    <string name="reset_cache_location_folder">RESET CACHE LOCATION FOLDER</string>
+    <string name="cache_location_folder">Folder location</string>
+    <string name="custom_cache_from_android_10_may_not_be_available">Since Android 10, this feature may not be available</string>
+    <string name="reset_cache_location_folder">RESET CACHE FOLDER LOCATION</string>
     <string name="used">" used"</string>
     <string name="close_background_player">Close background player</string>
     <string name="when_app_swipe_out_from_task_manager">When app swipe out from task manager</string>
@@ -180,7 +180,7 @@
     <string name="all">All</string>
     <string name="most_played_songs">Most played songs</string>
     <string name="most_listened_artists">Most listened artists</string>
-    <string name="most_albums_listened">Most albums listened</string>
+    <string name="most_albums_listened">Most listened albums</string>
     <string name="most_played_playlists">Most played playlists</string>
     <string name="languages">Languages</string>
     <string name="app_language">App language</string>
@@ -237,7 +237,7 @@
     <string name="vt_double_side">Double side</string>
     <string name="vt_double_side_circular">Double side circular</string>
     <string name="vt_full">Full</string>
-    <string name="new_albums_of_your_artists">New albums of your artists</string>
+    <string name="new_albums_of_your_artists">New albums from your artists</string>
     <string name="timeline">Timeline</string>
     <string name="song_cache_by_player">SONG CACHE (by Player)</string>
     <string name="song_cache_by_download">SONG CACHE (by Download)</string>
@@ -288,7 +288,7 @@
     <string name="enqueue_all">Enqueue all</string>
     <string name="enqueue_selected">Enqueue selected</string>
     <string name="greek">Greek</string>
-    <string name="catalan">Catalan</string>
+    <string name="catalan">Catalan (Catalá)</string>
     <string name="disable_scrolling_text">Disable scrolling text</string>
     <string name="scrolling_text_is_used_for_long_texts">Scrolling text is used for long texts</string>
     <string name="audio_quality_format">Audio quality Format</string>
@@ -310,9 +310,9 @@
     <string name="chinese_simplified">Chinese Simplified (汉语)</string>
     <string name="chinese_traditional">Chinese Traditional (漢語)</string>
     <string name="do_you_really_want_to_download_all">Do you really want to download all?</string>
-    <string name="add_all_in_playlist">Add all in playlist</string>
-    <string name="add_in_playlist">Add in playlist</string>
-    <string name="add_selected_in_playlist">Add selected in playlist</string>
+    <string name="add_all_in_playlist">Add all to existing playlist</string>
+    <string name="add_in_playlist">Add to existing playlist</string>
+    <string name="add_selected_in_playlist">Add selected to existing playlist</string>
     <string name="import_playlist">Import playlist</string>
     <string name="lang_ukrainian">Ukrainian</string>
     <string name="proxy">PROXY</string>
@@ -325,9 +325,9 @@
     <string name="disable_if_you_do_not_want_to_see">Disable if you do not want to see</string>
     <string name="lang_hebrew">Hebrew (עִברִית)</string>
     <string name="customize_album">Customize album</string>
-    <string name="update_title">Update Title</string>
-    <string name="update_authors">Update Authors</string>
-    <string name="update_cover">Update Cover</string>
+    <string name="update_title">Change Title</string>
+    <string name="update_authors">Change Authors name</string>
+    <string name="update_cover">Change Cover</string>
     <string name="title">Title</string>
     <string name="authors">Authors</string>
     <string name="cover">Cover</string>
