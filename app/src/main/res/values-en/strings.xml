@@ -361,4 +361,6 @@
     <string name="update_now">Update Now</string>
     <string name="enable_language_in_discovery">Enable language in Discovery</string>
     <string name="if_possible_allows_discovery_content_language">If possible, it allows to receive Discovery content in your own language.</string>
+    <string name="set_to">Set to</string>
+    <string name="end_of_song">end of song</string>
 </resources>
