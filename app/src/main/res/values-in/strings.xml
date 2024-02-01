@@ -13,7 +13,7 @@
     <string name="remove_from_queue">Hapus dari antrean</string>
     <string name="remove_from_playlist">Hapus dari daftar putar</string>
     <string name="hide">Sembunyikan</string>
-    <string name="hide_from_quick_picks">Sembunyikan dari \"Pilihan cepat\"</string>
+    <string name="hide_from_quick_picks">Sembunyikan dari Pilihan cepat</string>
     <string name="related_albums">Album terkait</string>
     <string name="similar_artists">Artis yang serupa</string>
     <string name="playlists_you_might_like">Daftar putar yang mungkin anda sukai</string>
@@ -76,8 +76,8 @@
     <string name="lockscreen">LAYAR KUNCI</string>
     <string name="show_song_cover">Tampilkan gambar sampul lagu</string>
     <string name="use_song_cover_on_lockscreen">Gunakan gambar sampul lagu yang sedang diputar sebagai wallpaper layar kunci</string>
-    <string name="cache">Penyimpanan sementara</string>
-    <string name="cache_cleared">Cache adalah penyimpanan sementara.
+    <string name="cache">Cache</string>
+    <string name="cache_cleared">Cache adalah penyimpanan sementara.\n
 Saat cache kehabisan ruang kosong, lagu &amp; gambar yang sudah lama tidak diakses akan dihapus</string>
     <string name="image_cache">CACHE GAMBAR</string>
     <string name="max_size">Ukuran maksimal</string>
@@ -101,7 +101,7 @@ Saat cache kehabisan ruang kosong, lagu &amp; gambar yang sudah lama tidak diaks
     <string name="pause_search_history">Nonaktifkan riwayat penelusuran</string>
     <string name="neither_save_new_searched_query">Jangan simpan kueri penelusuran baru ataupun memperlihatkan riwayat penelusuran</string>
     <string name="clear_search_history">Kosongkan riwayat penelusuran</string>
-    <string name="history_is_empty">Kosong</string>
+    <string name="history_is_empty">Tidak ada riwayat penelusuran</string>
     <string name="service_lifetime">MASA PAKAI LAYANAN</string>
     <string name="battery_optimizations_applied">Jika pengoptimalan baterai diterapkan, notifikasi pemutaran bisa menghilang secara tiba-tiba saat terjeda.</string>
     <string name="is_android12">Sejak Android 12, menonaktifkan pengoptimalan baterai diperlukan agar opsi \"Layanan yang tidak terhentikan\" dapat diterapkan.</string>
@@ -126,7 +126,7 @@ Saat cache kehabisan ruang kosong, lagu &amp; gambar yang sudah lama tidak diaks
     <string name="more_of">Tentang</string>
     <string name="sleep_timer">Pengatur waktu tidur</string>
     <string name="left">Tersisa %1$s</string>
-    <string name="set">Set</string>
+    <string name="set">Atur</string>
     <string name="confirm">Ya</string>
     <string name="show">Tampilkan</string>
     <string name="unsynchronized_lyrics">lirik (subtitle)</string>
@@ -296,9 +296,9 @@ Saat cache kehabisan ruang kosong, lagu &amp; gambar yang sudah lama tidak diaks
     <string name="persian">فارسی</string>
     <string name="hungarian">Magyar</string>
     <string name="korean">한국어</string>
-    <string name="background_player">"PEMUTAR LATAR BELAKANG "</string>
+    <string name="background_player">"PEMUTAR LATAR BELAKANG"</string>
     <string name="show_favorite_button">Tampilkan tombol Favorit</string>
-    <string name="show_favorite_button_in_lock_screen_and_notification_area">Tampilkan tombol Suka di dalam layar kunci dan notifikasi</string>
+    <string name="show_favorite_button_in_lock_screen_and_notification_area">Tampilkan tombol Favorit di dalam layar kunci dan notifikasi</string>
     <string name="show_download_button">Tampilkan tombol Unduh</string>
     <string name="show_download_button_in_lock_screen_and_notification_area">Tampilkan tombol Unduh di dalam layar kunci dan notifikasi</string>
     <string name="by_most_played_song">Dari lagu yang paling banyak diputar</string>
@@ -315,7 +315,7 @@ Saat cache kehabisan ruang kosong, lagu &amp; gambar yang sudah lama tidak diaks
     <string name="add_in_playlist">Tambahkan ke daftar putar yang ada</string>
     <string name="add_selected_in_playlist">Tambahkan terpilih ke daftar putar yang ada</string>
     <string name="import_playlist">Impor daftar putar</string>
-    <string name="lang_ukrainian">Ukrainian</string>
+    <string name="lang_ukrainian">Ukrainan</string>
     <string name="proxy">PROXY</string>
     <string name="enable_proxy">Aktifkan Proxy</string>
     <string name="proxy_mode">Mode Proxy</string>
