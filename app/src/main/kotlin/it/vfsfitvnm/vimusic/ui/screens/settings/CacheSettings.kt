@@ -61,7 +61,7 @@ fun CacheSettings() {
     )
     var exoPlayerDiskCacheMaxSize by rememberPreference(
         exoPlayerDiskCacheMaxSizeKey,
-        ExoPlayerDiskCacheMaxSize.`2GB`
+        ExoPlayerDiskCacheMaxSize.`32MB`
     )
 
     var exoPlayerDiskDownloadCacheMaxSize by rememberPreference(
