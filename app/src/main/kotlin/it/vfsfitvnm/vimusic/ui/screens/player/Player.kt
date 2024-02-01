@@ -456,7 +456,7 @@ fun Player(
                         modifier = Modifier
                             .rotate(rotationAngle)
                             .padding(horizontal = 2.dp, vertical = 8.dp)
-                            .size(28.dp)
+                            .size(24.dp)
                     )
 
                     Box(
@@ -497,7 +497,7 @@ fun Player(
                         modifier = Modifier
                             .rotate(rotationAngle)
                             .padding(horizontal = 2.dp, vertical = 8.dp)
-                            .size(28.dp)
+                            .size(24.dp)
                     )
                 }
 
