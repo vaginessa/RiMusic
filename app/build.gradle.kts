@@ -120,6 +120,7 @@ dependencies {
     implementation("com.github.therealbush:translator:1.0.2")
     implementation("io.github.azhon:appupdate:4.3.2")
 
+
     //End
     coreLibraryDesugaring(libs.desugaring)
 }
