@@ -12,8 +12,8 @@ android {
         applicationId = "it.fast4x.rimusic"
         minSdk = 21
         targetSdk = 34
-        versionCode = 15
-        versionName = "0.6.19"
+        versionCode = 16
+        versionName = "0.6.20"
         buildConfigField("String", "VERSION_NAME", "\"$versionName\"")
     }
 
@@ -51,10 +51,6 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        //sourceCompatibility = JavaVersion.VERSION_1_8
-        //targetCompatibility = JavaVersion.VERSION_1_8
-        //sourceCompatibility = JavaVersion.VERSION_11
-        //targetCompatibility = JavaVersion.VERSION_11
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -65,8 +61,6 @@ android {
 
     kotlinOptions {
         freeCompilerArgs += "-Xcontext-receivers"
-        //jvmTarget = "1.8"
-        //jvmTarget = "11"
         jvmTarget = "17"
     }
 
