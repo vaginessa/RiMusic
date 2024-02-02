@@ -178,10 +178,10 @@
     <string name="_6_month">6 Kuukautta</string>
     <string name="_1_year">1 vuosi</string>
     <string name="all">Kaikki</string>
-    <string name="most_played_songs">eniten soitettua kappaletta</string>
-    <string name="most_listened_artists">eniten kuunneltua artistia</string>
+    <string name="most_played_songs">Eniten soitetut kappaleet</string>
+    <string name="most_listened_artists">Eniten kuunnellut artistit</string>
     <string name="most_albums_listened">eniten kuunneltua albumia</string>
-    <string name="most_played_playlists">eniten soitettua soittolistaa</string>
+    <string name="most_played_playlists">Eniten soitetut soittolistat</string>
     <string name="languages">Kielet</string>
     <string name="app_language">Sovelluksen kieli</string>
     <string name="in_alphabetical_order">Aakkosjärjestyksessä:</string>
