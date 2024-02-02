@@ -153,6 +153,7 @@
 - [**Rubik** Font](https://fonts.google.com/specimen/Rubik): Rubik is RiMusic's default font.
 - [**Poppins** Font](https://fonts.google.com/specimen/Poppins): Poppins is ViMusic's default font.
 - [**Translator**](https://github.com/therealbush/translator): A simple and free Google Translate library for Kotlin/JVM and Java.
+- [**AppUpdate**](https://github.com/azhon/AppUpdate): Android App update library
 
 
 ## ❗ Disclaimer
