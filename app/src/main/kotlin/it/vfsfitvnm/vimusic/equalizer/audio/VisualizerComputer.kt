@@ -76,7 +76,7 @@ class VisualizerComputer {
                             rawWaveform = waveform.clone(),
                             captureSize = CAPTURE_SIZE,
                             samplingRate = samplingRate,
-                            durationSinceLastData = if (durationSinceLastData < 200) durationSinceLastData else 0
+                            durationSinceLastData = 0 //if (durationSinceLastData < 200) durationSinceLastData else 0
                         )
                     )
                     lastDataTimestamp = now
@@ -91,7 +91,7 @@ class VisualizerComputer {
                 enabled = false // All configuration have to be done in a disabled state
                 captureSize = CAPTURE_SIZE
                 scalingMode = Visualizer.SCALING_MODE_NORMALIZED //Check
-                measurementMode = Visualizer.MEASUREMENT_MODE_NONE // Check
+                measurementMode = Visualizer.ERROR_NO_MEMORY // Check
                 setDataCaptureListener(
                     visualizerCallback(onData),
                     Visualizer.getMaxCaptureRate(),
