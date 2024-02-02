@@ -245,7 +245,7 @@
     <string name="visualizer_require_mic_permission">Visualisointi VAATII LUVAN KÄYTTÄÄ MIKROFONIA</string>
     <string name="restart_app_please">Käynnistä sovellus uudelleen.</string>
     <string name="listen_on_piped">Kuuntele Pipedissa</string>
-    <string name="listen_on_invidious">Listen on Invidious</string>
+    <string name="listen_on_invidious">Kuuntele Invidiousissa</string>
     <string name="disable_horizontal_swipe">Poista vaaka-pyyhkäisy käytöstä</string>
     <string name="disable_song_switching_via_swipe">Poista kappaleen vaihtaminen pyyhkäisemällä</string>
     <string name="interface_in_use">Käyttöliittymä käytössä</string>
