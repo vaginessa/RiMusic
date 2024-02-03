@@ -28,14 +28,18 @@ import it.vfsfitvnm.vimusic.BuildConfig
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.service.LOCAL_KEY_PREFIX
 import it.vfsfitvnm.vimusic.service.isLocal
+import it.vfsfitvnm.vimusic.ui.components.themed.NewVersionDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import org.json.JSONException
+import org.json.JSONObject
 import java.io.File
 import java.net.InetSocketAddress
 import java.net.Proxy
@@ -207,6 +211,30 @@ suspend fun Result<Innertube.PlaylistOrAlbumPage>.completed(
     }
 
     return Result.success(playlistPage)
+}
+
+@Composable
+fun CheckAvailableNewVersion(
+    onDismiss: () -> Unit
+) {
+    var updatedProductName = ""
+    var updatedVersionName = ""
+    var updatedVersionCode = 0
+    val file = File(LocalContext.current.filesDir, "RiMusicUpdatedVersion.ver")
+    if (file.exists()) {
+        val json = JSONObject(file.readText())
+        updatedProductName = json.getString("productName")
+        updatedVersionName = json.getString("versionName")
+        updatedVersionCode = json.getInt("versionCode")
+    }
+
+    //if (updatedVersionCode > BuildConfig.VERSION_CODE)
+        NewVersionDialog(
+            updatedVersionName = updatedVersionName,
+            updatedVersionCode = updatedVersionCode,
+            updatedProductName = updatedProductName,
+            onDismiss = onDismiss
+        )
 }
 
 @Composable

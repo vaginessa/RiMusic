@@ -11,7 +11,6 @@ import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.media3.common.util.UnstableApi
@@ -48,9 +47,8 @@ import it.vfsfitvnm.vimusic.ui.screens.searchresult.SearchResultScreen
 import it.vfsfitvnm.vimusic.ui.screens.settings.SettingsScreen
 import it.vfsfitvnm.vimusic.ui.screens.settingsRoute
 import it.vfsfitvnm.vimusic.ui.screens.statisticsTypeRoute
-import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.utils.CheckAvailableNewVersion
 import it.vfsfitvnm.vimusic.utils.homeScreenTabIndexKey
-import it.vfsfitvnm.vimusic.utils.isAvailableUpdate
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -65,14 +63,18 @@ import it.vfsfitvnm.vimusic.utils.rememberPreference
 fun HomeScreen(
     onPlaylistUrl: (String) -> Unit
 ) {
+    /*
     val (colorPalette, typography) = LocalAppearance.current
     //var newVersion = ""
-    var showNewversionDialog by remember { mutableStateOf(true) }
+
     val uriHandler = LocalUriHandler.current
+    */
+    var showNewversionDialog by remember {
+        mutableStateOf(true)
+    }
 
     val saveableStateHolder = rememberSaveableStateHolder()
-    //var setDefaultTab = remember { mutableStateOf(true) }
-    //val context = LocalContext.current
+
 
     PersistMapCleanup("home/")
 
@@ -250,13 +252,20 @@ fun HomeScreen(
 
     //newVersion =  isAvailableUpdate()
 
-    /*
+    if (showNewversionDialog)
+    CheckAvailableNewVersion(
+        onDismiss = { showNewversionDialog = false }
+    )
+
+
+
+/*
 if (showNewversionDialog)
     DefaultDialog(
         onDismiss = { showNewversionDialog = false },
         content = {
             BasicText(
-                text = "New version available $newVersion",
+                text = "New version available $activity.",
                 style = typography.s.bold.copy(color = colorPalette.text),
             )
             Spacer(modifier = Modifier.height(20.dp))
@@ -279,5 +288,6 @@ if (showNewversionDialog)
         }
 
     )
-*/
+ */
+
 }

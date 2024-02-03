@@ -4,6 +4,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -47,6 +48,8 @@ import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
@@ -57,9 +60,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.graphics.ColorFilter
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.shimmer
 import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.drawCircle
@@ -738,4 +743,103 @@ inline fun GenericDialog(
             }
         }
     }
+}
+@Composable
+fun NewVersionDialog (
+    updatedProductName: String,
+    updatedVersionName: String,
+    updatedVersionCode: Int,
+    onDismiss: () -> Unit
+) {
+    val (colorPalette, typography) = LocalAppearance.current
+    val uriHandler = LocalUriHandler.current
+    DefaultDialog(
+        onDismiss = { onDismiss() },
+        content = {
+            BasicText(
+                text = "Update available",
+                style = typography.s.bold.copy(color = colorPalette.text),
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            BasicText(
+                text = String.format(stringResource(R.string.app_update_dialog_new),updatedVersionName),
+                style = typography.xs.bold.copy(color = colorPalette.text),
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            BasicText(
+                text = "Actions you can do:",
+                style = typography.xs.semiBold.copy(color = colorPalette.textSecondary),
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(bottom = 20.dp)
+                    .fillMaxWidth()
+            ) {
+                BasicText(
+                    text = "Open the Github releases web page and download latest version",
+                    style = typography.xs.semiBold.copy(color = colorPalette.textSecondary),
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.fillMaxWidth(0.8f)
+                )
+                Image(
+                    painter = painterResource(R.drawable.globe),
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(colorPalette.shimmer),
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clickable {
+                            onDismiss()
+                            uriHandler.openUri("https://github.com/fast4x/RiMusic/releases/latest")
+                        }
+                )
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(bottom = 20.dp)
+                    .fillMaxWidth()
+            ) {
+                BasicText(
+                    text = "Download latest version from Github, you will find the file in the notification area and you can install by clicking on it",
+                    style = typography.xs.semiBold.copy(color = colorPalette.textSecondary),
+                    maxLines = 4,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.fillMaxWidth(0.8f)
+                )
+                Image(
+                    painter = painterResource(R.drawable.downloaded),
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(colorPalette.shimmer),
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clickable {
+                            onDismiss()
+                            uriHandler.openUri("https://github.com/fast4x/RiMusic/releases/download/v$updatedVersionName/app-release.apk")
+                        }
+                )
+            }
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(bottom = 20.dp)
+                    .fillMaxWidth()
+            ) {
+                BasicText(
+                    text = "F-Droid Users can wait for the update from F-Droid",
+                    style = typography.s.semiBold.copy(color = colorPalette.textSecondary),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
+
+    )
 }

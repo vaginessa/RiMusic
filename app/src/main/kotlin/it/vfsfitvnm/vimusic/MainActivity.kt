@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
@@ -72,8 +73,6 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
-import com.azhon.appupdate.manager.DownloadManager
-import com.azhon.appupdate.util.ApkUtil.Companion.getVersionCode
 import com.valentinilk.shimmer.LocalShimmerTheme
 import com.valentinilk.shimmer.defaultShimmerTheme
 import it.vfsfitvnm.compose.persist.PersistMap
@@ -97,6 +96,8 @@ import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetMenu
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.rememberBottomSheetState
+import it.vfsfitvnm.vimusic.ui.components.themed.DefaultDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.NewVersionDialog
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
 import it.vfsfitvnm.vimusic.ui.screens.home.HomeScreen
@@ -201,7 +202,6 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
     @ExperimentalMaterialApi
     @ExperimentalTextApi
     @UnstableApi
-    //@androidx.annotation.OptIn(androidx.core.os.BuildCompat.PrereleaseSdkCheck::class)
     @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
     @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -253,10 +253,10 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
 
         setContent {
 
-            val urlVersion = "https://raw.githubusercontent.com/fast4x/RiMusic/master/updatedVersion/updatedVersion.ver"
+            //val urlVersion = "https://raw.githubusercontent.com/fast4x/RiMusic/master/updatedVersion/updatedVersion.ver"
             val urlVersionCode = "https://raw.githubusercontent.com/fast4x/RiMusic/master/updatedVersion/updatedVersionCode.ver"
             //val urlVersionCode = "https://rimusic.xyz/update/updatedVersionCode.ver"
-
+            /*
             request.GET(urlVersion, object: Callback {
                 override fun onResponse(call: Call, response: Response) {
                     val responseData = response.body?.string()
@@ -266,8 +266,6 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             val newVersion = responseData.let { it.toString() }
                             val file = File(filesDir, "RiMusicUpdatedVersion.ver")
                             file.writeText(newVersion)
-
-                            //this@MainActivity
                         } catch (e: JSONException) {
                             e.printStackTrace()
                         }
@@ -279,6 +277,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                     Log.d("UpdatedVersion","Check failure")
                 }
             })
+            */
 
             request.GET(urlVersionCode, object: Callback {
                 override fun onResponse(call: Call, response: Response) {
@@ -287,9 +286,11 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                         try {
                             val json = responseData?.let { JSONObject(it) }
                             if (json != null) {
-                                updatedProductName = json.getString("productName")
-                                updatedVersionName = json.getString("versionName")
-                                updatedVersionCode = json.getInt("versionCode")
+                                //updatedProductName = json.getString("productName")
+                                //updatedVersionName = json.getString("versionName")
+                                //updatedVersionCode = json.getInt("versionCode")
+                                val file = File(filesDir, "RiMusicUpdatedVersion.ver")
+                                file.writeText(json.toString())
                             }
                         } catch (e: JSONException) {
                             e.printStackTrace()
@@ -304,6 +305,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
             })
 
 
+/*
             if (isConnected && updatedVersionCode > 0) {
                 val manager = DownloadManager.Builder(this).run {
                     apkUrl("https://github.com/fast4x/RiMusic/releases/download/v${updatedVersionName}/app-release.apk")
@@ -327,6 +329,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                 }
                 manager.download()
             }
+ */
 
 
             val coroutineScope = rememberCoroutineScope()
@@ -643,6 +646,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                 //VisualizerComputer.setupPermissions(this@MainActivity)
                 //if (isConnected)
                 InitDownloader()
+
             }
         }
 
