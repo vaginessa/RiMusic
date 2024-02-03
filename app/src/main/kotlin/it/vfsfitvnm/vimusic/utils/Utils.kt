@@ -228,7 +228,7 @@ fun CheckAvailableNewVersion(
         updatedVersionCode = json.getInt("versionCode")
     }
 
-    //if (updatedVersionCode > BuildConfig.VERSION_CODE)
+    if (updatedVersionCode > BuildConfig.VERSION_CODE)
         NewVersionDialog(
             updatedVersionName = updatedVersionName,
             updatedVersionCode = updatedVersionCode,
