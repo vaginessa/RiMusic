@@ -253,9 +253,9 @@ fun HomeScreen(
     //newVersion =  isAvailableUpdate()
 
     if (showNewversionDialog)
-    CheckAvailableNewVersion(
-        onDismiss = { showNewversionDialog = false }
-    )
+        CheckAvailableNewVersion(
+            onDismiss = { showNewversionDialog = false }
+        )
 
 
 
