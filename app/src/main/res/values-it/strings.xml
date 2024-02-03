@@ -359,8 +359,8 @@
     <string name="app_update_update">Aggiorna</string>
     <string name="app_update_close">Chiudi</string>
     <string name="update_now">Aggiorna adesso</string>
-    <string name="enable_language_in_discovery">Enable language in Discovery</string>
-    <string name="if_possible_allows_discovery_content_language">If possible, it allows to receive Discovery content in your own language.</string>
-    <string name="set_to">Set to</string>
-    <string name="end_of_song">end of song</string>
+    <string name="enable_language_in_discovery">Abilita lingua in Scopri</string>
+    <string name="if_possible_allows_discovery_content_language">Se possibile, permette di ricevere contenuti in Scopri nella propria lingua.</string>
+    <string name="set_to">Imposta a</string>
+    <string name="end_of_song">fine del brano</string>
 </resources>
