@@ -241,7 +241,7 @@
     <string name="timeline">Zeitachse</string>
     <string name="song_cache_by_player">Song-Zwischenspeicher</string>
     <string name="song_cache_by_download">Download-Speicher</string>
-    <string name="visualizer">Vorschau</string>
+    <string name="visualizer">Visualizer</string>
     <string name="visualizer_require_mic_permission">Visualizer erfordert Mikrofonberechtigung</string>
     <string name="restart_app_please">Starte bitte die App neu.</string>
     <string name="listen_on_piped">Auf Piped hören</string>
@@ -345,7 +345,7 @@
     <string name="lang_finnish">Finnisch (Suomi)</string>
     <string name="listening_time">Hördauer</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Zeigt die Hördauer und die Anzahl der gehörten Titel an</string>
-    <string name="app_update_latest_version">Currently the latest version!</string>
+    <string name="app_update_latest_version">Es ist bereits die aktuellste Version installiert!</string>
     <string name="app_update_start_download">Download starten</string>
     <string name="app_update_start_download_hint">Du kannst den Download-Fortschritt später überprüfen</string>
     <string name="app_update_start_downloading">Neue Version herunterladen</string>
