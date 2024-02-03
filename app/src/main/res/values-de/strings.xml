@@ -360,7 +360,7 @@
     <string name="app_update_close">Schließen</string>
     <string name="update_now">Jetzt aktualisieren</string>
     <string name="enable_language_in_discovery">Sprache in Discovery aktivieren</string>
-    <string name="if_possible_allows_discovery_content_language">Wenn möglich, können Sie Discovery Inhalte in Ihrer eigenen Sprache empfangen.</string>
+    <string name="if_possible_allows_discovery_content_language">Wenn möglich, können die Inhalte von Discovery in der eingestellten Sprache empfangen werden.</string>
     <string name="set_to">Festlegen auf</string>
     <string name="end_of_song">Ende des Liedes</string>
 </resources>
