@@ -63,6 +63,7 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.compose.persist.persist
@@ -240,7 +241,7 @@ fun LocalPlaylistSongs(
         lazyListState = lazyListState,
         key = playlistSongs,
         onDragEnd = { fromIndex, toIndex ->
-            //Log.d("reorder","playlist $playlistId, $fromIndex, $toIndex")
+            Log.d("mediaItem","reoder playlist $playlistId, from $fromIndex, to $toIndex")
             query {
                 Database.move(playlistId, fromIndex, toIndex)
             }
@@ -843,7 +844,6 @@ fun LocalPlaylistSongs(
             }
 
             itemsIndexed(
-                //items = playlistWithSongs?.songs ?: emptyList(),
                 items = playlistSongs ?: emptyList(),
                 key = { _, song -> song.id },
                 contentType = { _, song -> song },

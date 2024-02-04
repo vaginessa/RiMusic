@@ -23,6 +23,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -173,6 +174,9 @@ fun AlbumSongs(
     songs.forEach {
         totalPlayTimes += it.durationText?.let { it1 ->
             durationTextToMillis(it1) }?.toLong() ?: 0
+    }
+    var position by remember {
+        mutableIntStateOf(0)
     }
 
     LayoutWithAdaptiveThumbnail(thumbnailContent = thumbnailContent) {
@@ -348,34 +352,33 @@ fun AlbumSongs(
                                     values = playlistPreviews.map {
                                         Info(
                                             it.playlist.id.toString(),
-                                            "${it.playlist.name} \n ${it.songCount} ${stringResource(R.string.songs)}"
+                                            "${it.playlist.name} \n ${it.songCount} ${stringResource(R.string.songs)}",
+                                            it.songCount
                                         )
                                     },
                                     onValueSelected = {
-                                        var position = 0
-                                        query {
-                                            position =
-                                                Database.getSongMaxPositionToPlaylist(it.toLong())
-                                            //Log.d("mediaItemMaxPos", position.toString())
-                                        }
-                                        if (position > 0) position++
+                                        position = playlistPreviews.firstOrNull { playlistPreview ->
+                                            playlistPreview.playlist.id == it.toLong()
+                                        }?.songCount?.minus(1) ?: 0
+                                        //Log.d("mediaItem", " maxPos in Playlist $it ${position}")
+                                        if (position > 0) position++ else position = 0
+                                        //Log.d("mediaItem", "next initial pos ${position}")
                                         if (listMediaItems.isEmpty()) {
-                                        songs.forEachIndexed { position, song ->
-                                            //Log.d("mediaItemMaxPos", position.toString())
+                                        songs.forEachIndexed { index, song ->
                                             transaction {
                                                 Database.insert(song.asMediaItem)
                                                 Database.insert(
                                                     SongPlaylistMap(
                                                         songId = song.asMediaItem.mediaId,
                                                         playlistId = it.toLong(),
-                                                        position = position
+                                                        position = position + index
                                                     )
                                                 )
                                             }
-                                            //Log.d("mediaItemPos", "add position $position")
+                                            //Log.d("mediaItemPos", "added position ${position + index}")
                                         }
                                     } else {
-                                            listMediaItems.forEachIndexed { position, song ->
+                                            listMediaItems.forEachIndexed { index, song ->
                                                 //Log.d("mediaItemMaxPos", position.toString())
                                                 transaction {
                                                     Database.insert(song)
@@ -383,7 +386,7 @@ fun AlbumSongs(
                                                         SongPlaylistMap(
                                                             songId = song.mediaId,
                                                             playlistId = it.toLong(),
-                                                            position = position
+                                                            position = position + index
                                                         )
                                                     )
                                                 }
