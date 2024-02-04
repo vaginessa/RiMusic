@@ -188,6 +188,7 @@ fun About() {
                     "teddysulaimanGL \n"+
                     "TheCreeperDuck \n"+
                     "TsyQax \n"+
+                    "VINULA2007 \n" +
                     "Vladimir \n"
         )
 

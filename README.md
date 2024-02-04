@@ -72,6 +72,7 @@
 - **Romanian:** thanks to [OrangeZXZ](https://github.com/OrangeZxZ)
 - **Russian:** thanks to [kptmx](https://crowdin.com/profile/kptmx) and [Crayz310](https://github.com/Crayz310) and [Vladimir](https://crowdin.com/profile/vladimir15426) and [@siggi1984](https://github.com/siggi1984)
 - **Spanish:** thanks to [Corotyest](https://crowdin.com/profile/corotyest) and [DanielSevillano](https://github.com/DanielSevillano) and [Fabian Urra](https://crowdin.com/profile/nsagcl)
+- **Sinhala:** thanks to [VINULA2007](https://crowdin.com/profile/VINULA2007)
 - **Turkish:** thanks to [abfreeman](https://github.com/abfreeman) and [2010furs](https://github.com/2010furs) and [Muha Aliss](https://crowdin.com/profile/muhaaliss)
 - **Ukrainian:** thanks to [Crayz310](https://github.com/Crayz310) 
 - **Vietnamese:** thanks to [teaminh](https://crowdin.com/profile/teaminh)
@@ -131,6 +132,7 @@
 - [teddysulaimanGL](https://github.com/teddysulaimanGL)
 - [TheCreeperDuck](https://crowdin.com/profile/thecreeperduck)
 - [TsyQax](https://crowdin.com/profile/TsyQax)
+- [VINULA2007](https://crowdin.com/profile/VINULA2007)
 - [Vladimir](https://crowdin.com/profile/vladimir15426)
 
 
