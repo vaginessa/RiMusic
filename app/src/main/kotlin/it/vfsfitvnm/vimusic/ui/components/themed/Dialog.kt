@@ -605,19 +605,8 @@ inline fun InputTextDialog(
 
                 TextField(
                     modifier = Modifier
-                        //.padding(horizontal = 30.dp)
-                        .fillMaxWidth(0.7f)
-                        .fillMaxHeight(0.8f),
-                    /*
-                    .border(
-                        BorderStroke(
-                            width = 1.dp,
-                            color = if (txtFieldError.value.isEmpty()) colorPalette.textDisabled else colorPalette.red
-                        ),
-
-                        shape = thumbnailShape
-                    ),
-                     */
+                        .fillMaxWidth(0.9f),
+                    maxLines = 30,
                     colors = TextFieldDefaults.textFieldColors(
                         placeholderColor = colorPalette.textDisabled,
                         cursorColor = colorPalette.text,
@@ -644,8 +633,6 @@ inline fun InputTextDialog(
                         )
 
  */
-
-
                     },
                     placeholder = { Text(text = placeholder) },
                     value = txtField.value,
@@ -655,7 +642,7 @@ inline fun InputTextDialog(
                     })
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             /*
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,

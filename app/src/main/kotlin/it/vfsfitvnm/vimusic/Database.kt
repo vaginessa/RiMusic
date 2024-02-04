@@ -435,6 +435,9 @@ interface Database {
     @Query("SELECT max(position) maxPos FROM SongPlaylistMap WHERE playlistId = :id")
     fun getSongMaxPositionToPlaylist(id: Long): Int
 
+    @Transaction
+    @Query("SELECT max(position) maxPos FROM SongPlaylistMap WHERE playlistId = :id")
+    fun updateSongMaxPositionToPlaylist(id: Long): Int
 
     @Transaction
     @Query("SELECT * FROM Playlist WHERE id = :id")
@@ -631,6 +634,10 @@ interface Database {
         WHERE playlistId = :playlistId AND position BETWEEN MIN(:fromPosition,:toPosition) and MAX(:fromPosition,:toPosition)
     """)
     fun move(playlistId: Long, fromPosition: Int, toPosition: Int)
+
+    @Transaction
+    @Query("UPDATE SongPlaylistMap SET position = :toPosition WHERE playlistId = :playlistId and songId = :songId")
+    fun updateSongPosition(playlistId: Long, songId: String, toPosition: Int)
 
     @Query("DELETE FROM SongPlaylistMap WHERE playlistId = :id")
     fun clearPlaylist(id: Long)

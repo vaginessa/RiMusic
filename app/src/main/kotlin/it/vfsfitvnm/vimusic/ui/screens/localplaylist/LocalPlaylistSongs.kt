@@ -265,19 +265,6 @@ fun LocalPlaylistSongs(
                 }
             }
         )
-        /*
-        TextFieldDialog(
-            hintText = stringResource(R.string.enter_the_playlist_name),
-            initialTextInput = playlistPreview?.playlist?.name ?: "",
-            onDismiss = { isRenaming = false },
-            onDone = { text ->
-                query {
-                    playlistPreview?.playlist?.copy(name = text)?.let(Database::update)
-                }
-            }
-        )
-
-         */
     }
 
     var isDeleting by rememberSaveable {
@@ -293,6 +280,26 @@ fun LocalPlaylistSongs(
                     playlistPreview?.playlist?.let(Database::delete)
                 }
                 onDelete()
+            }
+        )
+    }
+
+    var isRenumbering by rememberSaveable {
+        mutableStateOf(false)
+    }
+    if (isRenumbering) {
+        ConfirmationDialog(
+            text = "Do you really want to renumbering positions in this playlist?",
+            onDismiss = { isRenumbering = false },
+            onConfirm = {
+                query {
+                    playlistSongs.forEachIndexed { index, song ->
+                        playlistPreview?.playlist?.let {
+                            Database.updateSongPosition( it.id, song.id, index )
+                        }
+                    }
+                }
+
             }
         )
     }
@@ -639,6 +646,15 @@ fun LocalPlaylistSongs(
                                         onClick = {
                                             menuState.hide()
                                             isRenaming = true
+                                        }
+                                    )
+
+                                    MenuEntry(
+                                        icon = R.drawable.position,
+                                        text = "Renumber positions",
+                                        onClick = {
+                                            menuState.hide()
+                                            isRenumbering = true
                                         }
                                     )
 
