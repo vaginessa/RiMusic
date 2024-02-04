@@ -183,6 +183,7 @@ fun  UiSettings() {
                     Languages.ChineseSimplified -> stringResource(R.string.chinese_simplified)
                     Languages.ChineseTraditional -> stringResource(R.string.chinese_traditional)
                     Languages.Czech -> stringResource(R.string.czech)
+                    Languages.Dutch -> stringResource(R.string.lang_dutch)
                     Languages.English -> stringResource(R.string.english)
                     Languages.Esperanto -> stringResource(R.string.esperanto)
                     Languages.Finnish -> stringResource(R.string.lang_finnish)

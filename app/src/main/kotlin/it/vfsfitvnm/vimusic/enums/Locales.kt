@@ -10,6 +10,7 @@ enum class Languages {
     ChineseSimplified,
     ChineseTraditional,
     Czech,
+    Dutch,
     Finnish,
     French,
     German,
@@ -41,6 +42,7 @@ enum class Languages {
             Catalan -> "ca"
             ChineseSimplified -> "zh-CN"
             ChineseTraditional -> "zh-TW"
+            Dutch -> "nl"
             English -> "en"
             Esperanto -> "eo"
             Finnish -> "fi"

@@ -365,4 +365,5 @@
     <string name="end_of_song">konec skladby</string>
     <string name="restore_completed">Restore completed!</string>
     <string name="click_to_close">Click to close</string>
+    <string name="lang_dutch">Dutch</string>
 </resources>

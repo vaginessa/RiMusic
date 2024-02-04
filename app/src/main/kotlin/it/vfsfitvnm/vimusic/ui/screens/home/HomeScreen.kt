@@ -63,12 +63,6 @@ import it.vfsfitvnm.vimusic.utils.rememberPreference
 fun HomeScreen(
     onPlaylistUrl: (String) -> Unit
 ) {
-    /*
-    val (colorPalette, typography) = LocalAppearance.current
-    //var newVersion = ""
-
-    val uriHandler = LocalUriHandler.current
-    */
     var showNewversionDialog by remember {
         mutableStateOf(true)
     }
@@ -250,44 +244,9 @@ fun HomeScreen(
         }
     }
 
-    //newVersion =  isAvailableUpdate()
-
     if (showNewversionDialog)
         CheckAvailableNewVersion(
             onDismiss = { showNewversionDialog = false }
         )
-
-
-
-/*
-if (showNewversionDialog)
-    DefaultDialog(
-        onDismiss = { showNewversionDialog = false },
-        content = {
-            BasicText(
-                text = "New version available $activity.",
-                style = typography.s.bold.copy(color = colorPalette.text),
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            BasicText(
-                text = "Click icon to open the release page.",
-                style = typography.xs.semiBold.copy(color = colorPalette.textSecondary),
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Image(
-                painter = painterResource(R.drawable.direct_download),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(colorPalette.shimmer),
-                modifier = Modifier
-                    .size(40.dp)
-                    .clickable {
-                        showNewversionDialog = false
-                        uriHandler.openUri("https://github.com/fast4x/RiMusic/releases")
-                    }
-            )
-        }
-
-    )
- */
 
 }

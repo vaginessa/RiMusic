@@ -304,34 +304,6 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                 }
             })
 
-
-/*
-            if (isConnected && updatedVersionCode > 0) {
-                val manager = DownloadManager.Builder(this).run {
-                    apkUrl("https://github.com/fast4x/RiMusic/releases/download/v${updatedVersionName}/app-release.apk")
-                    //apkUrl("https://rimusic.xyz/update/v${BuildConfig.VERSION_NAME}/app-release.apk")
-                    apkName("app-release.apk")
-                    smallIcon(R.mipmap.ic_launcher)
-                    //If this parameter is set, it will automatically determine whether to show dialog
-                    apkVersionCode(updatedVersionCode) //with Int.MIN_VALUE start download immediately
-                    apkVersionName(updatedVersionName)
-                    //apkSize("5MB")
-                    apkDescription(getString(R.string.update_now))
-                    //Optional parameters...
-                    showNewerToast(false)
-                    enableLog(false)
-                    jumpInstallPage(true)
-                    //dialogButtonTextColor(Color.Green)
-                    showNotification(true)
-                    showBgdToast(false)
-                    forcedUpgrade(false)
-                    build()
-                }
-                manager.download()
-            }
- */
-
-
             val coroutineScope = rememberCoroutineScope()
             val isSystemInDarkTheme = isSystemInDarkTheme()
 
