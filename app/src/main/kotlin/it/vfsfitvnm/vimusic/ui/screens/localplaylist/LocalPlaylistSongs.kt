@@ -82,6 +82,7 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
+import it.vfsfitvnm.vimusic.enums.RecommendationsNumber
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
@@ -128,6 +129,7 @@ import it.vfsfitvnm.vimusic.utils.isRecommendationEnabledKey
 import it.vfsfitvnm.vimusic.utils.launchYouTubeMusic
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.playlistSongSortByKey
+import it.vfsfitvnm.vimusic.utils.recommendationsNumberKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.reorderInQueueEnabledKey
 import it.vfsfitvnm.vimusic.utils.secondary
@@ -177,6 +179,7 @@ fun LocalPlaylistSongs(
     }
 
     //**** SMART RECOMMENDATION
+    val recommendationsNumber by rememberPreference(recommendationsNumberKey,   RecommendationsNumber.`5`)
     var isRecommendationEnabled by rememberPreference(isRecommendationEnabledKey, false)
     var relatedSongsRecommendationResult by persist<Result<Innertube.RelatedSongs?>?>(tag = "home/relatedSongsResult")
     var songBaseRecommendation by persist<Song?>("home/songBaseRecommendation")
@@ -198,7 +201,7 @@ fun LocalPlaylistSongs(
         //val numRelated = relatedSongsResult?.getOrNull()?.songs?.size ?: 0
         //val relatedMax = playlistSongs.size
         if (relatedSongsRecommendationResult != null) {
-            for (index in 0..19) {
+            for (index in 0..recommendationsNumber.number) {
                 positionsRecommendationList.add((0..playlistSongs.size).random())
             }
         }

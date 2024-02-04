@@ -79,6 +79,7 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
+import it.vfsfitvnm.vimusic.enums.RecommendationsNumber
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
@@ -116,6 +117,7 @@ import it.vfsfitvnm.vimusic.utils.formatAsTime
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isRecommendationEnabledKey
 import it.vfsfitvnm.vimusic.utils.manageDownload
+import it.vfsfitvnm.vimusic.utils.recommendationsNumberKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -233,6 +235,7 @@ fun BuiltInPlaylistSongs(
     }
 
     //**** SMART RECOMMENDATION
+    val recommendationsNumber by rememberPreference(recommendationsNumberKey,   RecommendationsNumber.`5`)
     var isRecommendationEnabled by rememberPreference(isRecommendationEnabledKey, false)
     var relatedSongsRecommendationResult by persist<Result<Innertube.RelatedSongs?>?>(tag = "home/relatedSongsResult")
     var songBaseRecommendation by persist<Song?>("home/songBaseRecommendation")
@@ -248,7 +251,7 @@ fun BuiltInPlaylistSongs(
 
 
         if (relatedSongsRecommendationResult != null) {
-            for (index in 0..19) {
+            for (index in 0..recommendationsNumber.number) {
                 positionsRecommendationList.add((0..songs.size).random())
             }
         }
