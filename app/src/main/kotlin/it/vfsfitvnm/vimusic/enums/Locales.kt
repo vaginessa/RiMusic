@@ -29,6 +29,7 @@ enum class Languages {
     Romanian,
     //RomanianEmo,
     Russian,
+    Sinhala,
     Spanish,
     Turkish,
     Ukrainian,
@@ -65,6 +66,7 @@ enum class Languages {
             Romanian -> "ro"
             //RomanianEmo -> "ro-RO"
             Russian -> "ru"
+            Sinhala -> "si"
             Turkish -> "tr"
             Ukrainian -> "uk"
             Vietnamese -> "vi"
