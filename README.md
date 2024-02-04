@@ -125,6 +125,7 @@
 - [OrangeZXZ](https://github.com/OrangeZxZ)
 - [RegularWater](https://crowdin.com/profile/RegularWater)
 - [roklc](https://github.com/roklc)
+- [Seryoga1984](https://crowdin.com/profile/Seryoga1984)
 - [SharkChan0622](https://github.com/SharkChan0622)
 - [Shilave malay](https://crowdin.com/profile/Bash.boy)
 - [siggi1984](https://github.com/siggi1984)
