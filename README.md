@@ -51,6 +51,7 @@
 - **Chinese Simplified:** thanks to [SharkChan0622](https://github.com/SharkChan0622)
 - **Chinese Traditional:** thanks to [SharkChan0622](https://github.com/SharkChan0622)
 - **Czech:** thanks to [ikanakova](https://github.com/ikanakova) and [JZITNIK-github](https://github.com/JZITNIK-github)
+- **Dutch:** thanks to [BabyBenefactor](https://crowdin.com/profile/BabyBenefactor)
 - **English:** thanks to [fast4x](https://github.com/fast4x)
 - **Esperanto:** thanks to [kjev666](https://github.com/kjev666)
 - **Finnish:** thanks to [rikalaj](https://crowdin.com/profile/rikalaj)
@@ -100,6 +101,7 @@
 - [abfreeman](https://github.com/abfreeman)
 - [Adam Kop](https://crowdin.com/profile/damianadam000)
 - [Ahmad Al Juwaisri](https://crowdin.com/profile/juwaisri)
+- [BabyBenefactor](https://crowdin.com/profile/BabyBenefactor)
 - [Conk](https://crowdin.com/profile/conk)
 - [Corotyest](https://crowdin.com/profile/corotyest)
 - [Crayz310](https://github.com/Crayz310)
@@ -153,7 +155,6 @@
 - [**Rubik** Font](https://fonts.google.com/specimen/Rubik): Rubik is RiMusic's default font.
 - [**Poppins** Font](https://fonts.google.com/specimen/Poppins): Poppins is ViMusic's default font.
 - [**Translator**](https://github.com/therealbush/translator): A simple and free Google Translate library for Kotlin/JVM and Java.
-- [**AppUpdate**](https://github.com/azhon/AppUpdate): Android App update library
 
 
 ## ❗ Disclaimer
