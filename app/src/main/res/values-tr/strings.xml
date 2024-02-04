@@ -129,14 +129,14 @@
     <string name="confirm">Onayla</string>
     <string name="show">Göster</string>
     <string name="unsynchronized_lyrics">senkronize edilmemiş sözler</string>
-    <string name="synchronized_lyrics">senkronize sözler</string>
+    <string name="synchronized_lyrics">senkron sözler</string>
     <string name="provided_by">Sağlayıcı</string>
     <string name="cleanup">TEMİZLE</string>
     <string name="delete_playback_events">%1$s oynatma olayını sil</string>
     <string name="existing_data_will_be_overwritten">Mevcut verilerin üzerine yazılacak.\n%1$s veritabanını geri yükledikten sonra otomatik olarak kendini kapatacaktır.</string>
     <string name="on_queue">sırada</string>
     <string name="folder_cache">ÖNBELLEK KLASÖRÜ</string>
-    <string name="cache_reset_by_clicking_button">Dikkat, aşağıdaki butona tıkladığınızda önbellek klasörü konumu varsayılana sıfırlanacaktır</string>
+    <string name="cache_reset_by_clicking_button">Dikkat, aşağıdaki butona tıklandığında önbellek klasör konumu varsayılana sıfırlanacaktır</string>
     <string name="cache_location_folder">Klasör konumu</string>
     <string name="custom_cache_from_android_10_may_not_be_available">Android 10\'dan itibaren bu özellik kullanılamayabilir</string>
     <string name="reset_cache_location_folder">ÖNBELLEK KLASÖRÜ KONUMUNU SIFIRLA</string>
@@ -144,7 +144,7 @@
     <string name="close_background_player">Arka plan oynatıcısını kapat</string>
     <string name="when_app_swipe_out_from_task_manager">Uygulama görev yöneticisinden dışarı kaydırıldığında</string>
     <string name="opening_url">yükleniyor...</string>
-    <string name="an_error_has_occurred_while_fetching_the_lyrics">Şarkı sözleri indirilirken bir hata oluştu</string>
+    <string name="an_error_has_occurred_while_fetching_the_lyrics">Sözler indirilirken bir hata oluştu</string>
     <string name="are_not_available_for_this_song">bu şarkı için mevcut değil</string>
     <string name="error_a_network_error_has_occurred">Bir ağ hatası oluştu</string>
     <string name="error_couldn_t_find_a_playable_audio_format">Oynatılabilir bir ses biçimi bulunamadı</string>
@@ -212,7 +212,7 @@
     <string name="new_albums">Yeni albümler</string>
     <string name="moods_and_genres">Ruh Halleri ve Türler</string>
     <string name="search_queries">" arama sorguları"</string>
-    <string name="not_find_battery_optimization_settings">Pil optimizasyonu ayarları bulunamadı, lütfen manuel olarak izin verilenler listesine alın</string>
+    <string name="not_find_battery_optimization_settings">Pil optimizasyonu ayarları bulunamadı, lütfen manuel olarak beyaz listeye ekle</string>
     <string name="search">Ara</string>
     <string name="no">Hayır</string>
     <string name="stop">Durdur</string>
@@ -222,13 +222,13 @@
     <string name="listen_on_youtube_music">YouTube Music ile dinle</string>
     <string name="on_device">Cihazdakiler</string>
     <string name="open_settings">Ayarları aç</string>
-    <string name="permission_declined_grant_media_permissions">İzin reddedildi, lütfen cihaz ayarlarından medyaya erişim izni verin.</string>
+    <string name="permission_declined_grant_media_permissions">İzin reddedildi, lütfen cihaz ayarlarından medyaya erişim izni ver.</string>
     <string name="wavy_timeline">Dalgalı</string>
     <string name="enable_wavy_timeline">Dalgalı zaman çizgisini etkinleştir</string>
     <string name="play_next">Bundan sonra oynat</string>
     <string name="toggle_lyrics">Şarkı sözlerini aç/kapat</string>
     <string name="by_tapping_on_the_thumbnail">Küçük resme dokunarak</string>
-    <string name="require_mic_permission">Görselleştirici efekti mikrofon izni gerektirir, lütfen izin verin.</string>
+    <string name="require_mic_permission">Görselleştirici efekti mikrofon izni gerektirir, lütfen izin ver.</string>
     <string name="vt_fancy">Süslü</string>
     <string name="vt_circular">Dairesel</string>
     <string name="vt_disabled">Devre dışı</string>
@@ -243,7 +243,7 @@
     <string name="song_cache_by_download">ŞARKI ÖNBELLEĞİ (İndirme)</string>
     <string name="visualizer">Görselleştirme</string>
     <string name="visualizer_require_mic_permission">Görselleştirici MİKROFON İZNİ GEREKTİRİR</string>
-    <string name="restart_app_please">Lütfen uygulamayı yeniden başlatın.</string>
+    <string name="restart_app_please">Lütfen uygulamayı yeniden başlat.</string>
     <string name="listen_on_piped">Piped ile dinle</string>
     <string name="listen_on_invidious">Invidious ile dinle</string>
     <string name="disable_horizontal_swipe">Yatay kaydırmayı devre dışı bırak</string>
@@ -281,7 +281,7 @@
     <string name="audio_quality_format_medium">Orta</string>
     <string name="audio_quality_format_low">Düşük</string>
     <string name="audio_quality_format_unknown">Bilinmeyen</string>
-    <string name="do_you_really_want_to_delete_download">İndirilen dosyayı silmek istediğinize emin misiniz?</string>
+    <string name="do_you_really_want_to_delete_download">İndirilen dosyayı silmek istediğine emin misin?</string>
     <string name="remove_all">Hepsini sil</string>
     <string name="remove_selected">Seçilenleri kaldır</string>
     <string name="clear_queue">Sırayı temizle</string>
@@ -309,7 +309,7 @@
     <string name="arabic">Arapça (Arabic)</string>
     <string name="chinese_simplified">Basitleştirilmiş Çince (Chinese Simplified)</string>
     <string name="chinese_traditional">Geleneksel Çince (Chinese Traditional)</string>
-    <string name="do_you_really_want_to_download_all">Tümünü indirmek istediğinize emin misiniz?</string>
+    <string name="do_you_really_want_to_download_all">Tümünü indirmek istediğine emin misin?</string>
     <string name="add_all_in_playlist">Tümünü oynatma listesine ekle</string>
     <string name="add_in_playlist">Oynatma listesine ekle</string>
     <string name="add_selected_in_playlist">Seçilenleri oynatma listesine ekle</string>
@@ -322,7 +322,7 @@
     <string name="set_proxy_hostname">Proxy sunucu adı ayarla</string>
     <string name="proxy_port">Proxy Portu</string>
     <string name="set_proxy_port">Proxy portunu ayarla</string>
-    <string name="disable_if_you_do_not_want_to_see">Görmek istemiyorsanız devre dışı bırakın</string>
+    <string name="disable_if_you_do_not_want_to_see">Görmek istemiyorsan devre dışı bırak</string>
     <string name="lang_hebrew">Hebrew</string>
     <string name="customize_album">Albümü özelleştir</string>
     <string name="update_title">Şarkı Adını Güncelle</string>
