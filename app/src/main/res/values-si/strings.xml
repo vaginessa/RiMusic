@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cancel">Cancel</string>
-    <string name="done">Done</string>
-    <string name="hidesong">Do you really want to hide this song? Its playback time and cache will be wiped.\nThis action is irreversible.</string>
-    <string name="new_playlist">New playlist</string>
-    <string name="start_radio">Start radio</string>
-    <string name="equalizer">Equalizer</string>
-    <string name="stop_sleep_timer">Do you want to stop the sleep timer?</string>
-    <string name="set_sleep_timer">Set sleep timer</string>
-    <string name="add_to_playlist">Add to playlist</string>
-    <string name="go_to_album">Go to album</string>
-    <string name="remove_from_queue">Remove from queue</string>
+    <string name="cancel">අවලංගු කරන්න</string>
+    <string name="done">අවසන්</string>
+    <string name="hidesong">ඔබට මෙම සින්දුව සැඟවීමට අවශ්‍යද? එය ඇසූ කාලය මකාදැමෙන අතර කැෂයෙන්ද ඉවත් වේ.\nමෙය ආපසු හැරවීමට නොහැකි යි.</string>
+    <string name="new_playlist">නව ධාවන ලැයිස්තුවක්</string>
+    <string name="start_radio">රේඩියෝව ආරම්ඹ කරන්න</string>
+    <string name="equalizer">සංඛ්යාත පාලකය</string>
+    <string name="stop_sleep_timer">ඔබ ස්ලීප් ටයිමරය නවත්වනවාද?</string>
+    <string name="set_sleep_timer">Sleep Timer සකසන්න</string>
+    <string name="add_to_playlist">ධාවන ලැයිස්තුවට එක් කරන්න</string>
+    <string name="go_to_album">ඇල්බමය වෙත යන්න</string>
+    <string name="remove_from_queue">පෙළෙන් ඉවත් කරන්න</string>
     <string name="remove_from_playlist">Remove from playlist</string>
     <string name="hide">Hide</string>
     <string name="hide_from_quick_picks">Hide from \"Quick picks\"</string>
