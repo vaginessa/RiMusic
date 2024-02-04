@@ -181,6 +181,7 @@ fun About() {
                     "RegularWater \n"+
                     "rikalaj \n" +
                     "roklc \n"+
+                    "Seryoga1984 \n" +
                     "SharkChan0622 \n"+
                     "Shilave malay \n"+
                     "siggi1984 \n"+
