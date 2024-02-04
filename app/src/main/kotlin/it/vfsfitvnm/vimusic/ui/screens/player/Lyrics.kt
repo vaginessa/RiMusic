@@ -4,6 +4,7 @@ package it.vfsfitvnm.vimusic.ui.screens.player
 import android.app.SearchManager
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -117,6 +118,7 @@ fun Lyrics(
         val context = LocalContext.current
         val menuState = LocalMenuState.current
         val currentView = LocalView.current
+        val binder = LocalPlayerServiceBinder.current
 
         var isShowingSynchronizedLyrics by rememberPreference(isShowingSynchronizedLyricsKey, false)
 
@@ -357,7 +359,7 @@ fun Lyrics(
 
                     LazyColumn(
                         state = lazyListState,
-                        userScrollEnabled = false,
+                        userScrollEnabled = true,
                         contentPadding = PaddingValues(vertical = size / 2),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
@@ -388,6 +390,10 @@ fun Lyrics(
                                 style = typography.m.center.medium.color(if (index == synchronizedLyrics.index) PureBlackColorPalette.text else PureBlackColorPalette.textDisabled),
                                 modifier = Modifier
                                     .padding(vertical = 4.dp, horizontal = 32.dp)
+                                    .clickable {
+                                        Log.d("mediaItem","${sentence.first}")
+                                        binder?.player?.seekTo(sentence.first)
+                                    }
                             )
                         }
                     }
