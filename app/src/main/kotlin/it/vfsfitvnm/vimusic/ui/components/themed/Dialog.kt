@@ -780,7 +780,7 @@ fun NewVersionDialog (
             ) {
                 BasicText(
                     text = "Open the Github releases web page and download latest version",
-                    style = typography.xs.semiBold.copy(color = colorPalette.textSecondary),
+                    style = typography.xxs.semiBold.copy(color = colorPalette.textSecondary),
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.fillMaxWidth(0.8f)
@@ -807,7 +807,7 @@ fun NewVersionDialog (
             ) {
                 BasicText(
                     text = "Download latest version from Github, you will find the file in the notification area and you can install by clicking on it",
-                    style = typography.xs.semiBold.copy(color = colorPalette.textSecondary),
+                    style = typography.xxs.semiBold.copy(color = colorPalette.textSecondary),
                     maxLines = 4,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.fillMaxWidth(0.8f)
@@ -832,9 +832,9 @@ fun NewVersionDialog (
                     .fillMaxWidth()
             ) {
                 BasicText(
-                    text = "F-Droid Users can wait for the update from F-Droid",
-                    style = typography.s.semiBold.copy(color = colorPalette.textSecondary),
-                    maxLines = 2,
+                    text = "F-Droid users can wait for the update from F-Droid, which usually arrives within a few hours with the IzzyOnDroid repo, and a few days with F-Droid.org's repo.",
+                    style = typography.xxs.semiBold.copy(color = colorPalette.textSecondary),
+                    maxLines = 4,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.fillMaxWidth()
                 )
