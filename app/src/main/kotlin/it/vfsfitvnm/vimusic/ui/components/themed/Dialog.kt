@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -605,7 +606,8 @@ inline fun InputTextDialog(
                 TextField(
                     modifier = Modifier
                         //.padding(horizontal = 30.dp)
-                        .fillMaxWidth(0.7f),
+                        .fillMaxWidth(0.7f)
+                        .fillMaxHeight(0.8f),
                     /*
                     .border(
                         BorderStroke(
@@ -653,7 +655,7 @@ inline fun InputTextDialog(
                     })
             }
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             /*
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
