@@ -432,6 +432,7 @@ fun Queue(
                     }
                 }
 
+                /*
                 if(uiType == UiType.ViMusic)
                 FloatingActionsContainerWithScrollToTop(
                     lazyListState = reorderingState.lazyListState,
@@ -446,7 +447,9 @@ fun Queue(
                         }
                     }
                 )
+                */
 
+                FloatingActionsContainerWithScrollToTop(lazyListState = reorderingState.lazyListState)
 
             }
 

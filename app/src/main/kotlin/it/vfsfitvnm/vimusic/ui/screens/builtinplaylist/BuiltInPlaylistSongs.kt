@@ -85,6 +85,7 @@ import it.vfsfitvnm.vimusic.service.DownloadUtil
 import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.IconInfo
@@ -112,7 +113,6 @@ import it.vfsfitvnm.vimusic.utils.isRecommendationEnabledKey
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.recommendationsNumberKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
-import it.vfsfitvnm.vimusic.utils.scrollingInfo
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.songSortByKey
@@ -122,6 +122,7 @@ import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation", "StateFlowValueCalledInComposition")
@@ -721,21 +722,24 @@ fun BuiltInPlaylistSongs(
             }
 
             }
-        }
 
-    /*
-        FloatingActionsContainerWithScrollToTop(
-            lazyListState = lazyListState,
-            iconId = R.drawable.shuffle,
-            onClick = {
-                if (songs.isNotEmpty()) {
-                    binder?.stopRadio()
-                    binder?.player?.forcePlayFromBeginning(
-                        songs.shuffled().map(Song::asMediaItem)
-                    )
+        FloatingActionsContainerWithScrollToTop(lazyListState = lazyListState)
+
+/*
+            FloatingActionsContainerWithScrollToTop(
+                lazyListState = lazyListState,
+                iconId = R.drawable.shuffle,
+                onClick = {
+                    if (songs.isNotEmpty()) {
+                        binder?.stopRadio()
+                        binder?.player?.forcePlayFromBeginning(
+                            songs.shuffled().map(Song::asMediaItem)
+                        )
+                    }
                 }
-            }
-        )
+            )
 */
+
+    }
 
 }

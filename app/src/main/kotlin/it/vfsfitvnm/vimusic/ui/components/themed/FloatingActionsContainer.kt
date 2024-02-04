@@ -129,7 +129,7 @@ fun BoxScope.FloatingActions(
     ) {
         onScrollToTop?.let {
             transition.AnimatedVisibility(
-                visible = { it?.isScrollingDown == false && it.isFar },
+                visible = { it?.isScrollingDown == true}, //{ it?.isScrollingDown == false && it.isFar },
                 enter = slideInVertically(tween(500, if (iconId == null) 0 else 100)) { it },
                 exit = slideOutVertically(tween(500, 0)) { it },
             ) {
@@ -141,7 +141,7 @@ fun BoxScope.FloatingActions(
                             onScrollToTop()
                         }
                     },
-                    enabled = transition.targetState?.isScrollingDown == false && transition.targetState?.isFar == true,
+                    enabled = transition.targetState?.isScrollingDown == true, //transition.targetState?.isScrollingDown == false && transition.targetState?.isFar == true,
                     iconId = R.drawable.chevron_up,
                     modifier = Modifier
                         .padding(bottom = 16.dp)

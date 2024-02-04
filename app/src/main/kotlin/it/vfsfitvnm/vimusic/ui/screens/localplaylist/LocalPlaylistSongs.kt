@@ -991,6 +991,8 @@ fun LocalPlaylistSongs(
             }
         }
 
+        FloatingActionsContainerWithScrollToTop(lazyListState = lazyListState)
+
         if(uiType == UiType.ViMusic)
         FloatingActionsContainerWithScrollToTop(
             lazyListState = lazyListState,
