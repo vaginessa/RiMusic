@@ -289,7 +289,7 @@ fun LocalPlaylistSongs(
     }
     if (isRenumbering) {
         ConfirmationDialog(
-            text = "Do you really want to renumbering positions in this playlist?",
+            text = stringResource(R.string.do_you_really_want_to_renumbering_positions_in_this_playlist),
             onDismiss = { isRenumbering = false },
             onConfirm = {
                 query {
@@ -651,7 +651,7 @@ fun LocalPlaylistSongs(
 
                                     MenuEntry(
                                         icon = R.drawable.position,
-                                        text = "Renumber positions",
+                                        text = stringResource(R.string.renumber_songs_positions),
                                         onClick = {
                                             menuState.hide()
                                             isRenumbering = true

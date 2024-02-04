@@ -174,6 +174,15 @@ fun DatabaseSettings() {
         )
     }
 
+    var clearEvents by remember { mutableStateOf(false) }
+    if (clearEvents) {
+        ConfirmationDialog(
+            text = stringResource(R.string.do_you_really_want_to_delete_all_playback_events),
+            onDismiss = { clearEvents = false },
+            onConfirm = { query(Database::clearEvents) }
+        )
+    }
+
     Column(
         modifier = Modifier
             .background(colorPalette.background0)
@@ -204,7 +213,7 @@ fun DatabaseSettings() {
                 stringResource(R.string.quick_picks_are_cleared)
             },
             isEnabled = eventsCount > 0,
-            onClick = { query(Database::clearEvents) }
+            onClick = { clearEvents = true }
         )
 
         SettingsGroupSpacer()
