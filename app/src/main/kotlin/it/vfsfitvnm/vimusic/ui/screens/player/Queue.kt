@@ -8,9 +8,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
@@ -129,8 +131,6 @@ fun Queue(
         state = layoutState,
         modifier = modifier,
         collapsedContent = {
-
-
             Box(
                 modifier = Modifier
                     .drawBehind { drawRect(backgroundColorProvider()) }
@@ -212,11 +212,6 @@ fun Queue(
 
         val musicBarsTransition = updateTransition(targetState = mediaItemIndex, label = "")
 
-        /*
-        var isReorderDisabled by rememberSaveable {
-            mutableStateOf(false)
-        }
-         */
         var isReorderDisabled by rememberPreference(reorderInQueueEnabledKey, defaultValue = true)
 
         var downloadState by remember {
@@ -246,6 +241,7 @@ fun Queue(
                         .drawBehind { drawRect(backgroundColorProvider()) }
                         .fillMaxSize()
                         .padding(horizontalBottomPaddingValues)
+
                 ) {
                     Image(
                         painter = painterResource(R.drawable.horizontal_bold_line),
@@ -460,9 +456,9 @@ fun Queue(
                     .clickable(onClick = layoutState::collapseSoft)
                     .background(colorPalette.background1)
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 8.dp)
+                    .padding(horizontal = 8.dp)
                     .padding(horizontalBottomPaddingValues)
-                    .height(40.dp) //bottom bar queue
+                    .height(60.dp) //bottom bar queue
             ) {
                 Image(
                     painter = painterResource(R.drawable.horizontal_bold_line),

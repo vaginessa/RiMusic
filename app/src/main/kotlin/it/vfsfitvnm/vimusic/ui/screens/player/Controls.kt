@@ -155,7 +155,7 @@ fun Controls(
     var isRotated by rememberSaveable { mutableStateOf(false) }
     val rotationAngle by animateFloatAsState(
         targetValue = if (isRotated) 360F else 0f,
-        animationSpec = tween(durationMillis = 200)
+        animationSpec = tween(durationMillis = 200), label = ""
     )
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
     var disableScrollingText by rememberPreference(disableScrollingTextKey, false)
@@ -509,9 +509,10 @@ fun Controls(
 
 
         Row(
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
+                .padding(horizontal = 10.dp)
                 .fillMaxWidth()
         ) {
             BasicText(
@@ -523,7 +524,7 @@ fun Controls(
 
             if (duration != C.TIME_UNSET) {
                 BasicText(
-                    text = " - " + formatAsDuration(duration),
+                    text = formatAsDuration(duration),
                     style = typography.xxs.semiBold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

@@ -724,30 +724,7 @@ fun Player(
             content = {
 
                 val context = LocalContext.current
-                /*
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Start,
-                                    modifier = Modifier
-                                        .align(Alignment.CenterStart)
-                                        .padding(horizontal = 4.dp)
 
-                                ) {
-                /*
-                                    ScrollText(
-                                        text = nextmediaItemtitle ?: "",
-                                        style = TextStyle(
-                                            color = colorPalette.text,
-                                            fontStyle = typography.xs.bold.fontStyle,
-                                            fontSize = typography.xs.fontSize
-                                        ),
-                                        onClick = { }
-                                    )
-
-                 */
-
-                                }
-                */
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween, //Arrangement.SpaceEvenly,
@@ -774,7 +751,7 @@ fun Player(
                                 )
                             },
                             modifier = Modifier
-                                .padding(horizontal = 4.dp)
+                                //.padding(horizontal = 4.dp)
                                 .size(24.dp)
                         )
 
@@ -821,7 +798,7 @@ fun Player(
                                 color = colorPalette.text,
                                 onClick = { showPlaylistSelectDialog = true },
                                 modifier = Modifier
-                                    .padding(horizontal = 4.dp)
+                                    //.padding(horizontal = 4.dp)
                                     .size(24.dp)
                             )
 
@@ -836,7 +813,7 @@ fun Player(
                                 if (effectRotationEnabled) isRotated = !isRotated
                             },
                             modifier = Modifier
-                                .padding(horizontal = 4.dp)
+                                //.padding(horizontal = 4.dp)
                                 .size(24.dp)
                         )
 
@@ -922,7 +899,7 @@ fun Player(
                                     }
                                 },
                                 modifier = Modifier
-                                    .padding(horizontal = 4.dp)
+                                    //.padding(horizontal = 4.dp)
                                     .size(24.dp)
                             )
                         }
@@ -952,7 +929,7 @@ fun Player(
                                 }
                             },
                             modifier = Modifier
-                                .padding(horizontal = 4.dp)
+                                //.padding(horizontal = 4.dp)
                                 .size(24.dp)
                         )
 
