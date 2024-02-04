@@ -142,12 +142,12 @@ fun OtherSettings() {
                 )
                 TextDialogSettingEntry(
                     title = stringResource(R.string.proxy_host),
-                    text = stringResource(R.string.set_proxy_hostname),
+                    text = proxyHost, //stringResource(R.string.set_proxy_hostname),
                     currentText = proxyHost,
                     onTextSave = { proxyHost = it })
                 TextDialogSettingEntry(
                     title = stringResource(R.string.proxy_port),
-                    text = stringResource(R.string.set_proxy_port),
+                    text = proxyPort.toString(), //stringResource(R.string.set_proxy_port),
                     currentText = proxyPort.toString(),
                     onTextSave = { proxyPort = it.toIntOrNull() ?: 1080 })
             }
