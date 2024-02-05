@@ -42,10 +42,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ViMusic.NoActionBar"
-        tools:replace="android:label"
         android:requestLegacyExternalStorage="true"
-        android:enableOnBackInvokedCallback="true"
-        tools:targetApi="tiramisu">
+        android:enableOnBackInvokedCallback="true">
 
 
         <activity
@@ -125,13 +123,13 @@
             android:exported="false"
             android:foregroundServiceType="mediaPlayback"
             android:enabled="true"
-            android:stopWithTask="false"
-            >
+            android:stopWithTask="false">
         </service>
 
         <service android:name=".service.PlayerMediaBrowserService"
-            android:exported="false"
-            android:enabled="false">
+            android:exported="true"
+            android:enabled="false"
+            tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService"/>
             </intent-filter>
