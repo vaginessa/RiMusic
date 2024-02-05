@@ -189,7 +189,9 @@ fun ConfirmationDialog(
     modifier: Modifier = Modifier,
     cancelText: String = stringResource(R.string.cancel),
     confirmText: String = stringResource(R.string.confirm),
-    onCancel: () -> Unit = onDismiss
+    onCancel: () -> Unit = onDismiss,
+    cancelBackgroundPrimary: Boolean = false,
+    confirmBackgroundPrimary: Boolean = true
 ) {
     val (_, typography) = LocalAppearance.current
 
@@ -211,13 +213,13 @@ fun ConfirmationDialog(
         ) {
             DialogTextButton(
                 text = cancelText,
-                primary = false,
+                primary = cancelBackgroundPrimary,
                 onClick = onCancel
             )
 
             DialogTextButton(
                 text = confirmText,
-                primary = true,
+                primary = confirmBackgroundPrimary,
                 onClick = {
                     onConfirm()
                     //onDismiss()

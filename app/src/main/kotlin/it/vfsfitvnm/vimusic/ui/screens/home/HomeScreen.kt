@@ -262,6 +262,7 @@ fun HomeScreen(
                     stringResource(R.string.you_can_still_turn_it_on_or_off_from_the_settings),
             confirmText = stringResource(R.string.enable),
             cancelText = stringResource(R.string.don_t_enable),
+            cancelBackgroundPrimary = true,
             onCancel = { checkUpdateState = CheckUpdateState.Disabled },
             onDismiss = { checkUpdateState = CheckUpdateState.Disabled },
             onConfirm = { checkUpdateState = CheckUpdateState.Enabled },
