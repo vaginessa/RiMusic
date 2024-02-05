@@ -355,13 +355,13 @@ Saat cache kehabisan ruang kosong, lagu dan gambar yang sudah lama tidak diakses
     <string name="app_update_download_error">Kesalahan pengunduhan</string>
     <string name="app_update_continue_downloading">Tekan untuk melanjutkan pengunduhan</string>
     <string name="app_update_background_downloading">Mengunduh versi terbaru di latar belakang…</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
-    <string name="app_update_dialog_new_size">New version size：%s</string>
+    <string name="app_update_dialog_new">Versi terbaru (%s) dapat diunduh!</string>
+    <string name="app_update_dialog_new_size">Ukuran versi terbaru：%s</string>
     <string name="app_update_update">Perbarui</string>
-    <string name="app_update_close">Close</string>
+    <string name="app_update_close">Tutup</string>
     <string name="update_now">Perbarui sekarang</string>
     <string name="enable_language_in_discovery">Aktifkan bahasa untuk Jelajah</string>
     <string name="if_possible_allows_discovery_content_language">Sesuaikan konten Jelajah sesuai dengan bahasa anda.</string>
     <string name="set_to">Set to</string>
-    <string name="end_of_song">end of song</string>
+    <string name="end_of_song">akhir dari lagu</string>
 </resources>
