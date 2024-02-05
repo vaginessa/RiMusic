@@ -154,31 +154,7 @@ fun HomeScreen(
                 defaultValue = 0
             )
 
-/*
-            var (navTabIndex) = rememberPreference(
-                indexNavigationTabKey,
-                NavigationTab.Default
-            )
-*/
-
-
-            //setDefaultTab.value = navTabIndex.index < 100
-
-            //countCall.value = countCall.value.inc()
-            //Log.d("routeHome","DefaultTab ${setDefaultTab.value} tabIndex ${tabIndex} navTabIndex ${navTabIndex.index}")
-/*
-            if (setDefaultTab.value == true) {
-                Log.d("routeHomeIfCheck","setHome ${setDefaultTab} tabIndex ${tabIndex} navTabIndex ${navTabIndex.index}")
-                tabIndex = navTabIndex.index
-                setDefaultTab.value = false
-            }
-*/
-
-            //Log.d("updatedversion","newVersion $newVersion version ${BuildConfig.VERSION_NAME}")
-
-
             Scaffold(
-                //topIconButtonId = if (newVersion == "") R.drawable.settings else R.drawable.update,
                 topIconButtonId = R.drawable.settings,
                 onTopIconButtonClick = { settingsRoute() },
                 topIconButton2Id = R.drawable.stats_chart,
