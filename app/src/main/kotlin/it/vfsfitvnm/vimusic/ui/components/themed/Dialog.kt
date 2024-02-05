@@ -211,7 +211,7 @@ fun ConfirmationDialog(
         ) {
             DialogTextButton(
                 text = cancelText,
-                primary = true,
+                primary = false,
                 onClick = onCancel
             )
 
