@@ -154,8 +154,8 @@
     <string name="error_an_unknown_playback_error_has_occurred">An unknown playback error has occurred</string>
     <string name="tips">Tips</string>
     <string name="quick_pics_and_tips">Quick Picks and Tips</string>
-    <string name="is_min_list_time_for_tips_or_quick_pics">It\'s the minimum listening time, to include the song as a possible Tips or Quick Picks</string>
-    <string name="min_listening_time">Min listening time</string>
+    <string name="is_min_list_time_for_tips_or_quick_pics">Minimum playback duration for a song to be suggested in Quick picks</string>
+    <string name="min_listening_time">Min playback duration</string>
     <string name="player_thumbnail_size">Thumbnail Size</string>
     <string name="restarting_rimusic_is_required">Restarting is required</string>
     <string name="size_name">Size</string>
@@ -304,7 +304,7 @@
     <string name="by_last_played_song">By Last played song</string>
     <string name="audio_quality_automatic">Automatic</string>
     <string name="statistics_songs_heard">songs heard</string>
-    <string name="statistics_of_time_taken">of time taken</string>
+    <string name="statistics_of_time_taken">time spent</string>
     <string name="statistics_max_number_of_items">Max number of items</string>
     <string name="arabic">Arabic (العربية)</string>
     <string name="chinese_simplified">Chinese Simplified (汉语)</string>
@@ -343,8 +343,8 @@
     <string name="action_bar_show_lyrics_button">Show Lyrics button</string>
     <string name="action_bar_show_arrow_button">Show Arrow button</string>
     <string name="lang_finnish">Finnish (Suomalainen)</string>
-    <string name="listening_time">Listening time</string>
-    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Shows the number of songs heard and their listening time</string>
+    <string name="listening_time">Playback duration</string>
+    <string name="shows_the_number_of_songs_heard_and_their_listening_time">Show total number of songs heard and playback duration</string>
     <string name="app_update_latest_version">Currently the latest version!</string>
     <string name="app_update_start_download">Start download</string>
     <string name="app_update_start_download_hint">You can check the download progress later</string>
