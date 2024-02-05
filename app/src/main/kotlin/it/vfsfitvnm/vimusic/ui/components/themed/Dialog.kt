@@ -219,7 +219,7 @@ fun ConfirmationDialog(
                 primary = true,
                 onClick = {
                     onConfirm()
-                    onDismiss()
+                    //onDismiss()
                 }
             )
         }
@@ -746,17 +746,17 @@ fun NewVersionDialog (
         onDismiss = { onDismiss() },
         content = {
             BasicText(
-                text = "Update available",
+                text = stringResource(R.string.update_available),
                 style = typography.s.bold.copy(color = colorPalette.text),
             )
             Spacer(modifier = Modifier.height(10.dp))
             BasicText(
                 text = String.format(stringResource(R.string.app_update_dialog_new),updatedVersionName),
-                style = typography.xs.bold.copy(color = colorPalette.text),
+                style = typography.xs.semiBold.copy(color = colorPalette.text),
             )
             Spacer(modifier = Modifier.height(10.dp))
             BasicText(
-                text = "Actions you can do:",
+                text = stringResource(R.string.actions_you_can_do),
                 style = typography.xs.semiBold.copy(color = colorPalette.textSecondary),
             )
             Spacer(modifier = Modifier.height(10.dp))
@@ -768,7 +768,7 @@ fun NewVersionDialog (
                     .fillMaxWidth()
             ) {
                 BasicText(
-                    text = "Open the Github releases web page and download latest version",
+                    text = stringResource(R.string.open_the_github_releases_web_page_and_download_latest_version),
                     style = typography.xxs.semiBold.copy(color = colorPalette.textSecondary),
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
@@ -795,7 +795,7 @@ fun NewVersionDialog (
                     .fillMaxWidth()
             ) {
                 BasicText(
-                    text = "Download latest version from Github, you will find the file in the notification area and you can install by clicking on it",
+                    text = stringResource(R.string.download_latest_version_from_github_you_will_find_the_file_in_the_notification_area_and_you_can_install_by_clicking_on_it),
                     style = typography.xxs.semiBold.copy(color = colorPalette.textSecondary),
                     maxLines = 4,
                     overflow = TextOverflow.Ellipsis,
@@ -809,7 +809,7 @@ fun NewVersionDialog (
                         .size(30.dp)
                         .clickable {
                             onDismiss()
-                            uriHandler.openUri("https://github.com/fast4x/RiMusic/releases/download/v$updatedVersionName/app-release.apk")
+                            uriHandler.openUri("https://github.com/fast4x/RiMusic/releases/download/$updatedVersionName/app-release.apk")
                         }
                 )
             }
@@ -821,7 +821,7 @@ fun NewVersionDialog (
                     .fillMaxWidth()
             ) {
                 BasicText(
-                    text = "F-Droid users can wait for the update from F-Droid, which usually arrives within a few hours with the IzzyOnDroid repo, and a few days with F-Droid.org's repo.",
+                    text = stringResource(R.string.f_droid_users_can_wait_for_the_update_info),
                     style = typography.xxs.semiBold.copy(color = colorPalette.textSecondary),
                     maxLines = 4,
                     overflow = TextOverflow.Ellipsis,

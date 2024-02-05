@@ -86,6 +86,7 @@ import it.vfsfitvnm.innertube.utils.LocalePreferences
 import it.vfsfitvnm.innertube.utils.ProxyPreferenceItem
 import it.vfsfitvnm.innertube.utils.ProxyPreferences
 import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
+import it.vfsfitvnm.vimusic.enums.CheckUpdateState
 import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.FontType
@@ -115,6 +116,7 @@ import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.audioQualityFormatKey
+import it.vfsfitvnm.vimusic.utils.checkUpdateStateKey
 import it.vfsfitvnm.vimusic.utils.closeWithBackButtonKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
@@ -247,62 +249,33 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                 LocalePreferences.preference = LocalePreferenceItem(Locale.getDefault().toLanguageTag(),"")
         }
 
-        //Log.d("mediaItemLang",LocaleListCompat.getDefault().get(0).toString())
-        //Innertube.localeHl = LocaleListCompat.getDefault().get(0).toString()
-        //Log.d("mediaItemLang",LocaleListCompat.getDefault().get(0).toString()+" > "+Innertube.localeHl)
-
         setContent {
 
-            //val urlVersion = "https://raw.githubusercontent.com/fast4x/RiMusic/master/updatedVersion/updatedVersion.ver"
-            val urlVersionCode = "https://raw.githubusercontent.com/fast4x/RiMusic/master/updatedVersion/updatedVersionCode.ver"
-            //val urlVersionCode = "https://rimusic.xyz/update/updatedVersionCode.ver"
-            /*
-            request.GET(urlVersion, object: Callback {
-                override fun onResponse(call: Call, response: Response) {
-                    val responseData = response.body?.string()
-                    runOnUiThread{
-                        try {
-                            isConnected = true
-                            val newVersion = responseData.let { it.toString() }
-                            val file = File(filesDir, "RiMusicUpdatedVersion.ver")
-                            file.writeText(newVersion)
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                        }
-                    }
-
-                }
-
-                override fun onFailure(call: Call, e: java.io.IOException) {
-                    Log.d("UpdatedVersion","Check failure")
-                }
-            })
-            */
-
-            request.GET(urlVersionCode, object: Callback {
-                override fun onResponse(call: Call, response: Response) {
-                    val responseData = response.body?.string()
-                    runOnUiThread{
-                        try {
-                            val json = responseData?.let { JSONObject(it) }
-                            if (json != null) {
-                                //updatedProductName = json.getString("productName")
-                                //updatedVersionName = json.getString("versionName")
-                                //updatedVersionCode = json.getInt("versionCode")
-                                val file = File(filesDir, "RiMusicUpdatedVersion.ver")
-                                file.writeText(json.toString())
+            if (preferences.getEnum(checkUpdateStateKey, CheckUpdateState.Ask) == CheckUpdateState.Enabled) {
+                val urlVersionCode =
+                    "https://raw.githubusercontent.com/fast4x/RiMusic/master/updatedVersion/updatedVersionCode.ver"
+                //val urlVersionCode = "https://rimusic.xyz/update/updatedVersionCode.ver"
+                request.GET(urlVersionCode, object : Callback {
+                    override fun onResponse(call: Call, response: Response) {
+                        val responseData = response.body?.string()
+                        runOnUiThread {
+                            try {
+                                if (responseData != null) {
+                                    val file = File(filesDir, "RiMusicUpdatedVersionCode.ver")
+                                    file.writeText(responseData.toString())
+                                }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
                             }
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
                         }
+
                     }
 
-                }
-
-                override fun onFailure(call: Call, e: java.io.IOException) {
-                    Log.d("UpdatedVersionCode","Check failure")
-                }
-            })
+                    override fun onFailure(call: Call, e: java.io.IOException) {
+                        Log.d("UpdatedVersionCode", "Check failure")
+                    }
+                })
+            }
 
             val coroutineScope = rememberCoroutineScope()
             val isSystemInDarkTheme = isSystemInDarkTheme()

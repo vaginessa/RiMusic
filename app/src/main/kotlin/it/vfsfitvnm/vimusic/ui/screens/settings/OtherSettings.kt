@@ -33,10 +33,12 @@ import androidx.compose.ui.res.stringResource
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.CheckUpdateState
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.PlayerMediaBrowserService
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.utils.checkUpdateStateKey
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid12
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isIgnoringBatteryOptimizations
@@ -103,6 +105,8 @@ fun OtherSettings() {
 
     var isKeepScreenOnEnabled by rememberPreference(isKeepScreenOnEnabledKey, false)
 
+    var checkUpdateState by rememberPreference(checkUpdateStateKey, CheckUpdateState.Disabled)
+
     Column(
         modifier = Modifier
             .background(colorPalette.background0)
@@ -123,6 +127,15 @@ fun OtherSettings() {
             onClick = {}
         )
 
+        SettingsEntryGroupText(title = stringResource(R.string.check_update))
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.enable_check_for_update),
+            selectedValue = checkUpdateState,
+            onValueSelected = { checkUpdateState = it },
+            valueText = { it.name }
+        )
+        SettingsDescription(text = stringResource(R.string.when_enabled_a_new_version_is_checked_and_notified_during_startup))
+        SettingsGroupSpacer()
 
         SettingsEntryGroupText(title = stringResource(R.string.proxy))
         SettingsDescription(text = stringResource(R.string.restarting_rimusic_is_required))

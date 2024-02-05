@@ -88,6 +88,7 @@ const val showButtonPlayerShuffleKey = "showButtonPlayerShuffle"
 const val isKeepScreenOnEnabledKey = "isKeepScreenOnEnabled"
 const val isEnabledDiscoveryLangCodeKey = "isEnabledDiscoveryLangCode"
 const val recommendationsNumberKey = "recommendationsNumber"
+const val checkUpdateStateKey = "checkUpdateState"
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,

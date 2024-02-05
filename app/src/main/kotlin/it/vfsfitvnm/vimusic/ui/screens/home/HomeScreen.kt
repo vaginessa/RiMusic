@@ -24,10 +24,12 @@ import it.vfsfitvnm.compose.routing.isUnknown
 import it.vfsfitvnm.compose.routing.isUnstacking
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.CheckUpdateState
 import it.vfsfitvnm.vimusic.enums.StatisticsType
 import it.vfsfitvnm.vimusic.models.SearchQuery
 import it.vfsfitvnm.vimusic.models.toUiMood
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
 import it.vfsfitvnm.vimusic.ui.screens.albumRoute
 import it.vfsfitvnm.vimusic.ui.screens.artistRoute
@@ -48,7 +50,9 @@ import it.vfsfitvnm.vimusic.ui.screens.settings.SettingsScreen
 import it.vfsfitvnm.vimusic.ui.screens.settingsRoute
 import it.vfsfitvnm.vimusic.ui.screens.statisticsTypeRoute
 import it.vfsfitvnm.vimusic.utils.CheckAvailableNewVersion
+import it.vfsfitvnm.vimusic.utils.checkUpdateStateKey
 import it.vfsfitvnm.vimusic.utils.homeScreenTabIndexKey
+import it.vfsfitvnm.vimusic.utils.isInvincibilityEnabledKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -66,6 +70,8 @@ fun HomeScreen(
     var showNewversionDialog by remember {
         mutableStateOf(true)
     }
+
+    var checkUpdateState by rememberPreference(checkUpdateStateKey, CheckUpdateState.Disabled)
 
     val saveableStateHolder = rememberSaveableStateHolder()
 
@@ -244,9 +250,21 @@ fun HomeScreen(
         }
     }
 
-    if (showNewversionDialog)
+    if (showNewversionDialog && checkUpdateState == CheckUpdateState.Enabled)
         CheckAvailableNewVersion(
             onDismiss = { showNewversionDialog = false }
         )
 
+    if (checkUpdateState == CheckUpdateState.Ask)
+        ConfirmationDialog(
+            text = stringResource(R.string.check_at_github_for_updates) + "\n\n" +
+                    stringResource(R.string.when_an_update_is_available_you_will_be_asked_if_you_want_to_install_info) + "\n\n" +
+                    stringResource(R.string.you_can_still_turn_it_on_or_off_from_the_settings),
+            confirmText = stringResource(R.string.enable),
+            cancelText = stringResource(R.string.don_t_enable),
+            onCancel = { checkUpdateState = CheckUpdateState.Disabled },
+            onDismiss = { checkUpdateState = CheckUpdateState.Disabled },
+            onConfirm = { checkUpdateState = CheckUpdateState.Enabled },
+        )
+    
 }

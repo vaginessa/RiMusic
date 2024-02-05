@@ -220,12 +220,17 @@ fun CheckAvailableNewVersion(
     var updatedProductName = ""
     var updatedVersionName = ""
     var updatedVersionCode = 0
-    val file = File(LocalContext.current.filesDir, "RiMusicUpdatedVersion.ver")
+    val file = File(LocalContext.current.filesDir, "RiMusicUpdatedVersionCode.ver")
     if (file.exists()) {
-        val json = JSONObject(file.readText())
-        updatedProductName = json.getString("productName")
-        updatedVersionName = json.getString("versionName")
-        updatedVersionCode = json.getInt("versionCode")
+        val dataText = file.readText().substring(0, file.readText().length - 1).split("-")
+        updatedVersionCode =
+            try {
+                dataText.first().toInt()
+            } catch (e: Exception) {
+                0
+            }
+        updatedVersionName = if(dataText.size == 3) dataText[1] else ""
+        updatedProductName =  if(dataText.size == 3) dataText[2] else ""
     }
 
     if (updatedVersionCode > BuildConfig.VERSION_CODE)
