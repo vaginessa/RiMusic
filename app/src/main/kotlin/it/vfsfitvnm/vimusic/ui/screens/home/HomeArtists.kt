@@ -86,7 +86,7 @@ fun HomeArtistList(
 
     val sortOrderIconRotation by animateFloatAsState(
         targetValue = if (sortOrder == SortOrder.Ascending) 0f else 180f,
-        animationSpec = tween(durationMillis = 400, easing = LinearEasing)
+        animationSpec = tween(durationMillis = 400, easing = LinearEasing), label = ""
     )
 
     val lazyGridState = rememberLazyGridState()
@@ -179,6 +179,8 @@ fun HomeArtistList(
                 )
             }
         }
+
+        FloatingActionsContainerWithScrollToTop(lazyGridState = lazyGridState)
 
         if(uiType == UiType.ViMusic)
         FloatingActionsContainerWithScrollToTop(

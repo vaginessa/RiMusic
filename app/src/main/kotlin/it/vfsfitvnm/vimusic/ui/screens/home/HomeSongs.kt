@@ -440,6 +440,8 @@ fun  HomeSongs(
             }
         }
 
+        FloatingActionsContainerWithScrollToTop(lazyListState = lazyListState)
+
         if(uiType == UiType.ViMusic)
         FloatingActionsContainerWithScrollToTop(
             lazyListState = lazyListState,
