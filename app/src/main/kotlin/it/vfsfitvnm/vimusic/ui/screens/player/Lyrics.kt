@@ -142,7 +142,7 @@ fun Lyrics(
             mutableStateOf(false)
         }
 
-        var languageApp  by rememberPreference(languageAppKey, Languages.English)
+        val languageApp  by rememberPreference(languageAppKey, Languages.English)
         val languageDestination = when (languageApp){
             Languages.Arabic -> Language.ARABIC
             Languages.Bashkir -> Language.BASQUE
