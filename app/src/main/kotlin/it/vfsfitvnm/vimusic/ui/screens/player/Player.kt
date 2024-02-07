@@ -180,7 +180,7 @@ fun Player(
     var isRotated by rememberSaveable { mutableStateOf(false) }
     val rotationAngle by animateFloatAsState(
         targetValue = if (isRotated) 360F else 0f,
-        animationSpec = tween(durationMillis = 200)
+        animationSpec = tween(durationMillis = 200), label = ""
     )
 
     var playerVisualizerType by rememberPreference(

@@ -220,7 +220,10 @@ fun Thumbnail(
                         else -> unknownplaybackerror
                     }
                 },
-                onDismiss = player::prepare
+                onDismiss = {
+                    //player::prepare
+                    player.stop()
+                }
             )
         }
     }
