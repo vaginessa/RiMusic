@@ -194,6 +194,7 @@ fun  UiSettings() {
                     Languages.German -> stringResource(R.string.german)
                     Languages.Greek -> stringResource(R.string.greek)
                     Languages.Hebrew -> stringResource(R.string.lang_hebrew)
+                    Languages.Hindi -> stringResource(R.string.lang_hindi)
                     Languages.Hungarian -> stringResource(R.string.hungarian)
                     Languages.Indonesian -> stringResource(R.string.indonesian)
                     Languages.Japanese -> stringResource(R.string.lang_japanese)

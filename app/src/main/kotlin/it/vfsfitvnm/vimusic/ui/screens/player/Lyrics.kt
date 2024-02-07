@@ -62,6 +62,7 @@ import it.vfsfitvnm.kugou.KuGou
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.models.Lyrics
 import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.query
@@ -81,6 +82,7 @@ import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.getHttpClient
 import it.vfsfitvnm.vimusic.utils.isShowingSynchronizedLyricsKey
+import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.toast
@@ -140,9 +142,45 @@ fun Lyrics(
             mutableStateOf(false)
         }
 
-        //var languageApp  by rememberPreference(languageAppKey, Languages.English)
+        var languageApp  by rememberPreference(languageAppKey, Languages.English)
+        val languageDestination = when (languageApp){
+            Languages.Arabic -> Language.ARABIC
+            Languages.Bashkir -> Language.BASQUE
+            Languages.Catalan -> Language.CATALAN
+            Languages.ChineseSimplified -> Language.CHINESE_SIMPLIFIED
+            Languages.ChineseTraditional -> Language.CHINESE_TRADITIONAL
+            Languages.Czech -> Language.CZECH
+            Languages.Dutch -> Language.DUTCH
+            Languages.English -> Language.ENGLISH
+            Languages.Esperanto -> Language.ESPERANTO
+            Languages.Finnish -> Language.FINNISH
+            Languages.French -> Language.FRENCH
+            Languages.German -> Language.GERMAN
+            Languages.Greek -> Language.GREEK
+            Languages.Hebrew -> Language.HEBREW_HE
+            Languages.Hindi -> Language.HINDI
+            Languages.Hungarian -> Language.HUNGARIAN
+            Languages.Indonesian -> Language.INDONESIAN
+            Languages.Japanese -> Language.JAPANESE
+            Languages.Korean -> Language.KOREAN
+            Languages.Italian -> Language.ITALIAN
+            Languages.Odia -> Language.ODIA
+            Languages.Persian -> Language.PERSIAN
+            Languages.Polish -> Language.POLISH
+            Languages.PortugueseBrazilian -> Language.PORTUGUESE
+            Languages.Portuguese -> Language.PORTUGUESE
+            Languages.Romanian -> Language.ROMANIAN
+            Languages.Russian -> Language.RUSSIAN
+            Languages.Sinhala -> Language.SINHALA
+            Languages.Spanish -> Language.SPANISH
+            Languages.Turkish -> Language.TURKISH
+            Languages.Ukrainian -> Language.UKRAINIAN
+            Languages.Vietnamese -> Language.VIETNAMESE
+            else -> Language.ENGLISH
+        }
         //val systemLocale = LocaleListCompat.getDefault().get(0).toString()
         //val systemLangCode = AppCompatDelegate.getApplicationLocales().get(0).toString()
+        /*
         val systemLocale = Locale.getDefault().getLanguage()
 
         val languageDestination = when (systemLocale) {
@@ -159,6 +197,7 @@ fun Lyrics(
                 Language.ENGLISH
             }
         }
+         */
 
         var translateEnabled by remember {
             mutableStateOf(false)

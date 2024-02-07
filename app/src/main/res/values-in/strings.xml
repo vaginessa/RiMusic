@@ -384,4 +384,5 @@ Saat cache kehabisan ruang kosong, lagu dan gambar yang sudah lama tidak diakses
     <string name="you_can_still_turn_it_on_or_off_from_the_settings">You can still turn it on, or off, from the settings.</string>
     <string name="enable">Enable</string>
     <string name="don_t_enable">Don\'t enable</string>
+    <string name="lang_hindi">Hindi</string>
 </resources>

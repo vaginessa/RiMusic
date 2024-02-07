@@ -16,6 +16,7 @@ enum class Languages {
     German,
     Greek,
     Hebrew,
+    Hindi,
     Hungarian,
     Italian,
     Indonesian,
@@ -55,6 +56,7 @@ enum class Languages {
             German -> "de"
             Greek -> "el"
             Hebrew -> "he"
+            Hindi -> "hi"
             Hungarian -> "hu"
             Spanish -> "es"
             French -> "fr"
