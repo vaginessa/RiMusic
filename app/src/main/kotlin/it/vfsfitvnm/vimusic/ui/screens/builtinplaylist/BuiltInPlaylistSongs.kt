@@ -44,6 +44,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -123,6 +124,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
+import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation", "StateFlowValueCalledInComposition")
@@ -292,6 +294,26 @@ fun BuiltInPlaylistSongs(
                             shape = thumbnailRoundness.shape()
                         )
                 ) {
+                    if (songs.isEmpty())
+                    PlaylistItem(
+                        icon = when (builtInPlaylist) {
+                            BuiltInPlaylist.Favorites -> R.drawable.heart
+                            BuiltInPlaylist.Downloaded -> R.drawable.downloaded
+                            BuiltInPlaylist.Offline -> R.drawable.sync
+                        },
+                        colorTint = colorPalette.favoritesIcon,
+                        name = when (builtInPlaylist) {
+                            BuiltInPlaylist.Favorites -> stringResource(R.string.favorites)
+                            BuiltInPlaylist.Downloaded -> stringResource(R.string.downloaded)
+                            BuiltInPlaylist.Offline -> stringResource(R.string.cached)
+                        },
+                        songCount = null,
+                        thumbnailSizeDp = playlistThumbnailSizeDp,
+                        alternative = false,
+                        modifier = Modifier
+                    )
+
+                    if (songs.isNotEmpty())
                     PlaylistItem(
                         thumbnailContent = {
                             if (thumbnails.toSet().size == 1) {
