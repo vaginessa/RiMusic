@@ -32,7 +32,7 @@
 - Audio skip silence
 - Android Auto support
 - Android TV support
-- Check for Updates
+- Check for Updates, enable/disable it by settings
 
 ## 📷 Screenshots
 <div align="center">
@@ -56,18 +56,19 @@
 - **Esperanto:** thanks to [kjev666](https://github.com/kjev666)
 - **Finnish:** thanks to [rikalaj](https://crowdin.com/profile/rikalaj)
 - **French:** thanks to [NEVARLeVrai](https://github.com/NEVARLeVrai)
-- **German:** thanks to [Seryoga1984](https://crowdin.com/profile/Seryoga1984) and [Conk](https://crowdin.com/profile/conk) and [siggi1984](https://github.com/siggi1984)
+- **German:** thanks to [Lolozweipunktnull](https://crowdin.com/profile/Lolozweipunktnull) and [Seryoga1984](https://crowdin.com/profile/Seryoga1984) and [Conk](https://crowdin.com/profile/conk) and [siggi1984](https://github.com/siggi1984)
 - **Greek:** thanks to [Marinkas](https://github.com/Marinkas)
 - **Hebrew:** thanks to [TheCreeperDuck](https://crowdin.com/profile/thecreeperduck)
+- **Hindi:** thanks to [Th3-C0der](https://crowdin.com/profile/Th3-C0der)
 - **Hungarìan:** thanks to [Ndvok](https://crowdin.com/profile/ndvok)
 - **Italian:** thanks to [fast4x](https://github.com/fast4x)
 - **Indonesian:** thanks to [teddysulaimanGL](https://github.com/teddysulaimanGL) and [Fausta Ahmad](https://crowdin.com/profile/faustaahmad)  
 - **Japanese:** thanks to [Mid_Vur_Shaan](https://crowdin.com/profile/Mid_Vur_Shaan)
-- **Korean:** thanks to [TsyQax](https://crowdin.com/profile/TsyQax)
+- **Korean:** thanks to [ZeroZero00](https://crowdin.com/profile/ZeroZero00) and [TsyQax](https://crowdin.com/profile/TsyQax)
 - **Odia:** thanks to [Get100percent](https://github.com/Get100percent)
 - **Persian:** thanks to [CUMOON](https://github.com/CUMOON)
 - **Polish:** thanks to [AntoniNowak](https://crowdin.com/profile/AntoniNowak) and [roklc](https://github.com/roklc) and [Adam Kop](https://crowdin.com/profile/damianadam000)
-- **Portuguese:** thanks to [NEVARLeVrai](https://github.com/NEVARLeVrai)
+- **Portuguese:** thanks to [ManuelCoimbra](https://crowdin.com/profile/ManuelCoimbra) and [NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **Portuguese, Brazilian:** thanks to [RegularWater](https://crowdin.com/profile/RegularWater) and [NEVARLeVrai](https://github.com/NEVARLeVrai)
 - **Romanian:** thanks to [OrangeZXZ](https://github.com/OrangeZxZ)
 - **Russian:** thanks to [kptmx](https://crowdin.com/profile/kptmx) and [Crayz310](https://github.com/Crayz310) and [Vladimir](https://crowdin.com/profile/vladimir15426) and [@siggi1984](https://github.com/siggi1984)
@@ -117,6 +118,8 @@
 - [JZITNIK-github](https://github.com/JZITNIK-github)
 - [kjev666](https://github.com/kjev666)
 - [kptmx](https://crowdin.com/profile/kptmx)
+- [Lolozweipunktnull](https://crowdin.com/profile/Lolozweipunktnull)
+- [ManuelCoimbra](https://crowdin.com/profile/ManuelCoimbra)
 - [Marinkas](https://github.com/Marinkas)
 - [Muha Aliss](https://crowdin.com/profile/muhaaliss)
 - [Mid_Vur_Shaan](https://crowdin.com/profile/Mid_Vur_Shaan)
@@ -131,10 +134,12 @@
 - [siggi1984](https://github.com/siggi1984)
 - [teaminh](https://crowdin.com/profile/teaminh)
 - [teddysulaimanGL](https://github.com/teddysulaimanGL)
+- [Th3-C0der](https://crowdin.com/profile/Th3-C0der)
 - [TheCreeperDuck](https://crowdin.com/profile/thecreeperduck)
 - [TsyQax](https://crowdin.com/profile/TsyQax)
 - [VINULA2007](https://crowdin.com/profile/VINULA2007)
 - [Vladimir](https://crowdin.com/profile/vladimir15426)
+- [ZeroZero00](https://crowdin.com/profile/ZeroZero00)
 
 
 

@@ -45,11 +45,12 @@ fun About() {
     val (colorPalette, typography) = LocalAppearance.current
     val uriHandler = LocalUriHandler.current
 
+    /*
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
         ThumbnailRoundness.Heavy
     )
-
+    */
     //val newVersion = isAvailableUpdate()
     //val newVersion = ""
 
@@ -172,6 +173,8 @@ fun About() {
                     "JZITNIK-github \n"+
                     "kjev666 \n"+
                     "kptmx \n"+
+                    "Lolozweipunktnull \n" +
+                    "ManuelCoimbra) \n" +
                     "Marinkas \n"+
                     "Mid_Vur_Shaan \n" +
                     "Muha Aliss \n"+
@@ -187,10 +190,12 @@ fun About() {
                     "siggi1984 \n"+
                     "teaminh \n"+
                     "teddysulaimanGL \n"+
+                    "Th3-C0der \n" +
                     "TheCreeperDuck \n"+
                     "TsyQax \n"+
                     "VINULA2007 \n" +
-                    "Vladimir \n"
+                    "Vladimir \n" +
+                    "ZeroZero00 \n"
         )
 
         SettingsTopDescription( text ="Developer / Designer:")
