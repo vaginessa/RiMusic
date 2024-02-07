@@ -345,7 +345,7 @@
     <string name="lang_finnish">Finés (Suomalainen)</string>
     <string name="listening_time">Tempo de escuta</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Mostra o número de músicas ouvidas e seu tempo de escuta</string>
-    <string name="app_update_latest_version">Currently the latest version!</string>
+    <string name="app_update_latest_version">No momento, na versão mais recente!</string>
     <string name="app_update_start_download">Start download</string>
     <string name="app_update_start_download_hint">You can check the download progress later</string>
     <string name="app_update_start_downloading">Downloading new version</string>
@@ -354,7 +354,7 @@
     <string name="app_update_download_error">Download error</string>
     <string name="app_update_continue_downloading">Click to continue downloading</string>
     <string name="app_update_background_downloading">Downloading new version in the background…</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
+    <string name="app_update_dialog_new">A nova versão %s pode ser transferida!</string>
     <string name="app_update_dialog_new_size">New version size：%s</string>
     <string name="app_update_update">Update</string>
     <string name="app_update_close">Close</string>
