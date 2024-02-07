@@ -131,7 +131,8 @@ object Innertube {
         val authors: List<Info<NavigationEndpoint.Endpoint.Browse>>?,
         val album: Info<NavigationEndpoint.Endpoint.Browse>?,
         val durationText: String?,
-        override val thumbnail: Thumbnail?
+        override val thumbnail: Thumbnail?,
+        val explicit: Boolean = false
     ) : Item() {
         override val key get() = info!!.endpoint!!.videoId!!
 

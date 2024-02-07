@@ -54,6 +54,11 @@ fun Innertube.SongItem.Companion.from(renderer: MusicResponsiveListItemRenderer)
             ?.musicThumbnailRenderer
             ?.thumbnail
             ?.thumbnails
-            ?.firstOrNull()
+            ?.firstOrNull(),
+        explicit = renderer
+            .badges
+            ?.find {
+                it.musicInlineBadgeRenderer.icon.iconType == "MUSIC_EXPLICIT_BADGE"
+           } != null,
     ).takeIf { it.info?.endpoint?.videoId != null }
 }

@@ -49,7 +49,7 @@ fun SongItem(
 ) {
     SongItem(
         thumbnailUrl = song.thumbnail?.size(thumbnailSizePx),
-        title = song.info?.name,
+        title = if (song.explicit) "E-" + song.info?.name else song.info?.name,
         authors = song.authors?.joinToString("") { it.name ?: "" },
         duration = song.durationText,
         thumbnailSizeDp = thumbnailSizeDp,
