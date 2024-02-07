@@ -125,6 +125,7 @@ import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.fontTypeKey
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getEnum
+import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid8
@@ -384,7 +385,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             showButtonPlayerDownloadKey,
                             showButtonPlayerLoopKey,
                             showButtonPlayerLyricsKey,
-                            showButtonPlayerShuffleKey
+                            showButtonPlayerShuffleKey,
+                            //indexNavigationTabKey
                             -> {
                                 this@MainActivity.recreate()
                             }

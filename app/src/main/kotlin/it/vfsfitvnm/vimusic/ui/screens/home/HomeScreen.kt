@@ -25,6 +25,7 @@ import it.vfsfitvnm.compose.routing.isUnstacking
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.CheckUpdateState
+import it.vfsfitvnm.vimusic.enums.HomeScreenTabs
 import it.vfsfitvnm.vimusic.enums.StatisticsType
 import it.vfsfitvnm.vimusic.models.SearchQuery
 import it.vfsfitvnm.vimusic.models.toUiMood
@@ -51,11 +52,14 @@ import it.vfsfitvnm.vimusic.ui.screens.settingsRoute
 import it.vfsfitvnm.vimusic.ui.screens.statisticsTypeRoute
 import it.vfsfitvnm.vimusic.utils.CheckAvailableNewVersion
 import it.vfsfitvnm.vimusic.utils.checkUpdateStateKey
+import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.homeScreenTabIndexKey
+import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.isInvincibilityEnabledKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+
 
 @ExperimentalMaterialApi
 @ExperimentalTextApi
@@ -74,6 +78,8 @@ fun HomeScreen(
     var checkUpdateState by rememberPreference(checkUpdateStateKey, CheckUpdateState.Disabled)
 
     val saveableStateHolder = rememberSaveableStateHolder()
+
+    val preferences = LocalContext.current.preferences
 
 
     PersistMapCleanup("home/")
@@ -148,11 +154,15 @@ fun HomeScreen(
         }
 
         host {
-
+/*
             var (tabIndex, onTabChanged) = rememberPreference(
                 homeScreenTabIndexKey,
-                defaultValue = 0
+                0
             )
+ */
+            var (tabIndex, onTabChanged) = remember {
+                mutableStateOf(preferences.getEnum(indexNavigationTabKey, HomeScreenTabs.QuickPics).index)
+            }
 
             Scaffold(
                 topIconButtonId = R.drawable.settings,

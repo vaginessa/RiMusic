@@ -6,7 +6,6 @@ import android.media.audiofx.AudioEffect
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -14,20 +13,14 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.core.os.BuildCompat
 import androidx.core.os.LocaleListCompat
 import androidx.media3.common.util.UnstableApi
@@ -38,30 +31,26 @@ import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
 import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.MaxStatisticsItems
-import it.vfsfitvnm.vimusic.enums.PlayEventsType
+import it.vfsfitvnm.vimusic.enums.HomeScreenTabs
 import it.vfsfitvnm.vimusic.enums.RecommendationsNumber
-import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
-import it.vfsfitvnm.vimusic.ui.styling.shimmer
-import it.vfsfitvnm.vimusic.utils.SwipeToReveal
 import it.vfsfitvnm.vimusic.utils.audioQualityFormatKey
 import it.vfsfitvnm.vimusic.utils.closeWithBackButtonKey
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
+import it.vfsfitvnm.vimusic.utils.homeScreenTabIndexKey
+import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
-import it.vfsfitvnm.vimusic.utils.isAvailableUpdate
 import it.vfsfitvnm.vimusic.utils.isEnabledDiscoveryLangCodeKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.maxStatisticsItemsKey
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
-import it.vfsfitvnm.vimusic.utils.playEventsTypeKey
 import it.vfsfitvnm.vimusic.utils.recommendationsNumberKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.resumePlaybackWhenDeviceConnectedKey
 import it.vfsfitvnm.vimusic.utils.showStatsListeningTimeKey
 import it.vfsfitvnm.vimusic.utils.skipSilenceKey
-import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.utils.volumeNormalizationKey
 
@@ -100,13 +89,6 @@ fun  UiSettings() {
     val activityResultLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
 
-    //val newVersion = isAvailableUpdate()
-    var thumbnailRoundness by rememberPreference(
-        thumbnailRoundnessKey,
-        ThumbnailRoundness.Heavy
-    )
-    val uriHandler = LocalUriHandler.current
-
     var maxStatisticsItems by rememberPreference(
         maxStatisticsItemsKey,
         MaxStatisticsItems.`10`
@@ -116,6 +98,17 @@ fun  UiSettings() {
 
     var isEnabledDiscoveryLangCode by rememberPreference(isEnabledDiscoveryLangCodeKey,   true)
     var recommendationsNumber by rememberPreference(recommendationsNumberKey,   RecommendationsNumber.`5`)
+
+
+    var indexNavigationTab by rememberPreference(
+        indexNavigationTabKey,
+        HomeScreenTabs.QuickPics
+    )
+
+    var tabIndex = rememberPreference(
+        homeScreenTabIndexKey,
+        HomeScreenTabs.QuickPics.index
+    )
 
     Column(
         modifier = Modifier
@@ -136,37 +129,6 @@ fun  UiSettings() {
             modifier = Modifier,
             onClick = {}
         )
-
-/*
-        SettingsGroupSpacer()
-        if (newVersion != "") {
-            //SettingsEntryGroupText(title = "Update available")
-            SettingsEntry(
-                title = "New version $newVersion",
-                text = "Click here to open page",
-                onClick = {
-                    uriHandler.openUri("https://github.com/fast4x/RiMusic/releases/latest")
-                    //uriHandler.openUri("https://github.com/fast4x/RiMusic/releases/tag/v0.6.9")
-                },
-                trailingContent = {
-                    Image(
-                        painter = painterResource(R.drawable.update),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(colorPalette.shimmer),
-                        modifier = Modifier
-                            .size(34.dp)
-                    )
-                },
-                modifier = Modifier
-                    .background(
-                        color = colorPalette.background4,
-                        shape = thumbnailRoundness.shape()
-                    )
-
-            )
-        }
-
- */
 
         SettingsGroupSpacer()
         SettingsEntryGroupText(title = stringResource(R.string.languages))
@@ -226,6 +188,24 @@ fun  UiSettings() {
             }
         )
         SettingsDescription(text = stringResource(R.string.restarting_rimusic_is_required))
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.default_page),
+            selectedValue = indexNavigationTab,
+            onValueSelected = {indexNavigationTab = it},
+            valueText = {
+                when (it) {
+                    HomeScreenTabs.QuickPics -> stringResource(R.string.quick_picks)
+                    HomeScreenTabs.Songs -> stringResource(R.string.songs)
+                    HomeScreenTabs.Albums -> stringResource(R.string.albums)
+                    HomeScreenTabs.Artists -> stringResource(R.string.artists)
+                    HomeScreenTabs.Library -> stringResource(R.string.library)
+                    HomeScreenTabs.Discovery -> stringResource(R.string.discovery)
+                }
+            }
+        )
+
+
 
         SettingsGroupSpacer()
         SettingsEntryGroupText(stringResource(R.string.player))

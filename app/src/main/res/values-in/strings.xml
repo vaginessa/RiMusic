@@ -385,4 +385,5 @@ Saat cache kehabisan ruang kosong, lagu dan gambar yang sudah lama tidak diakses
     <string name="enable">Enable</string>
     <string name="don_t_enable">Don\'t enable</string>
     <string name="lang_hindi">Hindi</string>
+    <string name="default_page">Default page</string>
 </resources>
