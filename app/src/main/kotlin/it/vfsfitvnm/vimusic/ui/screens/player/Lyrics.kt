@@ -496,6 +496,7 @@ fun Lyrics(
                     .size(24.dp)
             )
 
+
             IconButton(
                 icon = R.drawable.translate,
                 color = if (translateEnabled == true) colorPalette.text else colorPalette.textDisabled,
