@@ -26,12 +26,17 @@ import android.media.session.PlaybackState
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.media.MediaDescriptionCompat
+import android.support.v4.media.MediaMetadataCompat
+import android.support.v4.media.session.MediaSessionCompat
+import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateUtils
 import androidx.annotation.OptIn
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.app.NotificationCompat
+import androidx.media.app.NotificationCompat as NotificatiomCompatMediaStyle
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startForegroundService
 import androidx.core.content.getSystemService
@@ -172,35 +177,35 @@ class PlayerService : InvincibleService(),
     PlaybackStatsListener.Callback,
     SharedPreferences.OnSharedPreferenceChangeListener {
     private val coroutineScope = CoroutineScope(Dispatchers.IO) + Job()
-    private lateinit var mediaSession: MediaSession
+    private lateinit var mediaSession: MediaSessionCompat
     private lateinit var cache: SimpleCache
     private lateinit var player: ExoPlayer
     private lateinit var downloadCache: SimpleCache
 
     private val stateBuilderWithoutCustomAction
-        get() = PlaybackState.Builder().setActions(
-            PlaybackState.ACTION_PLAY or
-                    PlaybackState.ACTION_PAUSE or
-                    PlaybackState.ACTION_PLAY_PAUSE or
-                    PlaybackState.ACTION_STOP or
-                    PlaybackState.ACTION_SKIP_TO_PREVIOUS or
-                    PlaybackState.ACTION_SKIP_TO_NEXT or
-                    PlaybackState.ACTION_SKIP_TO_QUEUE_ITEM or
-                    PlaybackState.ACTION_SEEK_TO or
-                    PlaybackState.ACTION_REWIND
+        get() = PlaybackStateCompat.Builder().setActions(
+            PlaybackStateCompat.ACTION_PLAY or
+                    PlaybackStateCompat.ACTION_PAUSE or
+                    PlaybackStateCompat.ACTION_PLAY_PAUSE or
+                    PlaybackStateCompat.ACTION_STOP or
+                    PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
+                    PlaybackStateCompat.ACTION_SKIP_TO_NEXT or
+                    PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM or
+                    PlaybackStateCompat.ACTION_SEEK_TO or
+                    PlaybackStateCompat.ACTION_REWIND
         )
 
     private val stateBuilder
-        get() = PlaybackState.Builder().setActions(
-            PlaybackState.ACTION_PLAY or
-                    PlaybackState.ACTION_PAUSE or
-                    PlaybackState.ACTION_PLAY_PAUSE or
-                    PlaybackState.ACTION_STOP or
-                    PlaybackState.ACTION_SKIP_TO_PREVIOUS or
-                    PlaybackState.ACTION_SKIP_TO_NEXT or
-                    PlaybackState.ACTION_SKIP_TO_QUEUE_ITEM or
-                    PlaybackState.ACTION_SEEK_TO or
-                    PlaybackState.ACTION_REWIND
+        get() = PlaybackStateCompat.Builder().setActions(
+            PlaybackStateCompat.ACTION_PLAY or
+                    PlaybackStateCompat.ACTION_PAUSE or
+                    PlaybackStateCompat.ACTION_PLAY_PAUSE or
+                    PlaybackStateCompat.ACTION_STOP or
+                    PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
+                    PlaybackStateCompat.ACTION_SKIP_TO_NEXT or
+                    PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM or
+                    PlaybackStateCompat.ACTION_SEEK_TO or
+                    PlaybackStateCompat.ACTION_REWIND
         ).addCustomAction(
             /* action = */ "DOWNLOAD",
             /* name   = */
@@ -215,16 +220,16 @@ class PlayerService : InvincibleService(),
         )
 
     private val stateBuilderWithDownloadOnly
-        get() = PlaybackState.Builder().setActions(
-            PlaybackState.ACTION_PLAY or
-                    PlaybackState.ACTION_PAUSE or
-                    PlaybackState.ACTION_PLAY_PAUSE or
-                    PlaybackState.ACTION_STOP or
-                    PlaybackState.ACTION_SKIP_TO_PREVIOUS or
-                    PlaybackState.ACTION_SKIP_TO_NEXT or
-                    PlaybackState.ACTION_SKIP_TO_QUEUE_ITEM or
-                    PlaybackState.ACTION_SEEK_TO or
-                    PlaybackState.ACTION_REWIND
+        get() = PlaybackStateCompat.Builder().setActions(
+            PlaybackStateCompat.ACTION_PLAY or
+                    PlaybackStateCompat.ACTION_PAUSE or
+                    PlaybackStateCompat.ACTION_PLAY_PAUSE or
+                    PlaybackStateCompat.ACTION_STOP or
+                    PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
+                    PlaybackStateCompat.ACTION_SKIP_TO_NEXT or
+                    PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM or
+                    PlaybackStateCompat.ACTION_SEEK_TO or
+                    PlaybackStateCompat.ACTION_REWIND
         ).addCustomAction(
             /* action = */ "DOWNLOAD",
             /* name   = */
@@ -235,16 +240,16 @@ class PlayerService : InvincibleService(),
         )
 
     private val stateBuilderWithLikeOnly
-        get() = PlaybackState.Builder().setActions(
-            PlaybackState.ACTION_PLAY or
-                    PlaybackState.ACTION_PAUSE or
-                    PlaybackState.ACTION_PLAY_PAUSE or
-                    PlaybackState.ACTION_STOP or
-                    PlaybackState.ACTION_SKIP_TO_PREVIOUS or
-                    PlaybackState.ACTION_SKIP_TO_NEXT or
-                    PlaybackState.ACTION_SKIP_TO_QUEUE_ITEM or
-                    PlaybackState.ACTION_SEEK_TO or
-                    PlaybackState.ACTION_REWIND
+        get() = PlaybackStateCompat.Builder().setActions(
+            PlaybackStateCompat.ACTION_PLAY or
+                    PlaybackStateCompat.ACTION_PAUSE or
+                    PlaybackStateCompat.ACTION_PLAY_PAUSE or
+                    PlaybackStateCompat.ACTION_STOP or
+                    PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
+                    PlaybackStateCompat.ACTION_SKIP_TO_NEXT or
+                    PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM or
+                    PlaybackStateCompat.ACTION_SEEK_TO or
+                    PlaybackStateCompat.ACTION_REWIND
         ).addCustomAction(
             /* action = */ "LIKE",
             /* name   = */ "Like",
@@ -253,7 +258,7 @@ class PlayerService : InvincibleService(),
 
     private val playbackStateMutex = Mutex()
 
-    private val metadataBuilder = MediaMetadata.Builder()
+    private val metadataBuilder = MediaMetadataCompat.Builder()
 
     private var notificationManager: NotificationManager? = null
 
@@ -453,8 +458,8 @@ class PlayerService : InvincibleService(),
 
 
 
-        mediaSession = MediaSession(baseContext, "PlayerService")
-        mediaSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS or MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS)
+        mediaSession = MediaSessionCompat(baseContext, "PlayerService")
+        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
         mediaSession.setCallback(SessionCallback(player))
         if (showLikeButton && showDownloadButton)
             mediaSession.setPlaybackState(stateBuilder.build())
@@ -666,7 +671,7 @@ class PlayerService : InvincibleService(),
     }
 
     private fun updateMediaSessionQueue(timeline: Timeline) {
-        val builder = MediaDescription.Builder()
+        val builder = MediaDescriptionCompat.Builder()
 
         val currentMediaItemIndex = player.currentMediaItemIndex
         val lastIndex = timeline.windowCount - 1
@@ -687,7 +692,7 @@ class PlayerService : InvincibleService(),
         mediaSession.setQueue(
             List(endIndex - startIndex + 1) { index ->
                 val mediaItem = timeline.getWindow(index + startIndex, Timeline.Window()).mediaItem
-                MediaSession.QueueItem(
+                MediaSessionCompat.QueueItem(
                     builder
                         .setMediaId(mediaItem.mediaId)
                         .setTitle(mediaItem.mediaMetadata.title)
@@ -803,11 +808,11 @@ class PlayerService : InvincibleService(),
         val bitmap =
             if (isAtLeastAndroid13 || isShowingThumbnailInLockscreen) bitmapProvider.bitmap else null
 
-        metadataBuilder.putBitmap(MediaMetadata.METADATA_KEY_ART, bitmap)
+        metadataBuilder.putBitmap(MediaMetadataCompat.METADATA_KEY_ART, bitmap)
 
         if (isAtLeastAndroid13 && player.currentMediaItemIndex == 0) {
             metadataBuilder.putText(
-                MediaMetadata.METADATA_KEY_TITLE,
+                MediaMetadataCompat.METADATA_KEY_TITLE,
                 "${player.mediaMetadata.title} "
             )
         }
@@ -909,11 +914,11 @@ class PlayerService : InvincibleService(),
 
     private val Player.androidPlaybackState
         get() = when (playbackState) {
-            Player.STATE_BUFFERING -> if (playWhenReady) PlaybackState.STATE_BUFFERING else PlaybackState.STATE_PAUSED
-            Player.STATE_READY -> if (playWhenReady) PlaybackState.STATE_PLAYING else PlaybackState.STATE_PAUSED
-            Player.STATE_ENDED -> PlaybackState.STATE_STOPPED
-            Player.STATE_IDLE -> PlaybackState.STATE_NONE
-            else -> PlaybackState.STATE_NONE
+            Player.STATE_BUFFERING -> if (playWhenReady) PlaybackStateCompat.STATE_BUFFERING else PlaybackStateCompat.STATE_PAUSED
+            Player.STATE_READY -> if (playWhenReady) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED
+            Player.STATE_ENDED -> PlaybackStateCompat.STATE_STOPPED
+            Player.STATE_IDLE -> PlaybackStateCompat.STATE_NONE
+            else -> PlaybackStateCompat.STATE_NONE
         }
 
     // legacy behavior may cause inconsistencies, but not available on sdk 24 or lower
@@ -921,10 +926,10 @@ class PlayerService : InvincibleService(),
     override fun onEvents(player: Player, events: Player.Events) {
         if (player.duration != C.TIME_UNSET) mediaSession.setMetadata(
             metadataBuilder
-                .putText(MediaMetadata.METADATA_KEY_TITLE, player.mediaMetadata.title)
-                .putText(MediaMetadata.METADATA_KEY_ARTIST, player.mediaMetadata.artist)
-                .putText(MediaMetadata.METADATA_KEY_ALBUM, player.mediaMetadata.albumTitle)
-                .putLong(MediaMetadata.METADATA_KEY_DURATION, player.duration)
+                .putText(MediaMetadataCompat.METADATA_KEY_TITLE, player.mediaMetadata.title)
+                .putText(MediaMetadataCompat.METADATA_KEY_ARTIST, player.mediaMetadata.artist)
+                .putText(MediaMetadataCompat.METADATA_KEY_ALBUM, player.mediaMetadata.albumTitle)
+                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, player.duration)
                 .build()
         )
 
@@ -1028,9 +1033,9 @@ class PlayerService : InvincibleService(),
         val mediaMetadata = player.mediaMetadata
 
         val builder = if (isAtLeastAndroid8) {
-            Notification.Builder(applicationContext, NotificationChannelId)
+            NotificationCompat.Builder(applicationContext, NotificationChannelId)
         } else {
-            Notification.Builder(applicationContext)
+            NotificationCompat.Builder(applicationContext)
         }
             .setContentTitle(mediaMetadata.title)
             .setContentText(mediaMetadata.artist)
@@ -1048,10 +1053,10 @@ class PlayerService : InvincibleService(),
                 putExtra("expandPlayerBottomSheet", true)
             })
             .setDeleteIntent(broadCastPendingIntent<NotificationDismissReceiver>())
-            .setVisibility(Notification.VISIBILITY_PUBLIC)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
             .setStyle(
-                Notification.MediaStyle()
+                androidx.media.app.NotificationCompat.MediaStyle()
                     .setShowActionsInCompactView(0, 1, 2)
                     .setMediaSession(mediaSession.sessionToken)
             )
@@ -1426,7 +1431,7 @@ class PlayerService : InvincibleService(),
 
     }.let { }
 
-    private inner class SessionCallback(private val player: Player) : MediaSession.Callback() {
+    private inner class SessionCallback(private val player: Player) : MediaSessionCompat.Callback() {
         override fun onPlay() = player.play()
         override fun onPause() = player.pause()
         override fun onSkipToPrevious() = runCatching(player::forceSeekToPrevious).let { }

@@ -4,15 +4,19 @@ import android.content.ComponentName
 import android.content.ContentResolver
 import android.content.Context
 import android.content.ServiceConnection
+import android.media.browse.MediaBrowser
 import android.media.session.MediaSession
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.os.Process
 import android.service.media.MediaBrowserService
+import android.support.v4.media.MediaBrowserCompat
+import android.support.v4.media.session.MediaSessionCompat
 import androidx.annotation.DrawableRes
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import androidx.media.MediaBrowserServiceCompat
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.cache.Cache
@@ -33,10 +37,14 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import android.media.MediaDescription as BrowserMediaDescription
-import android.media.browse.MediaBrowser.MediaItem as BrowserMediaItem
+//import android.support.v4.media.MediaBrowserCompat as BrowserMediaDescription
+import android.support.v4.media.MediaBrowserCompat.MediaItem //as BrowserMediaItem
+import android.support.v4.media.MediaDescriptionCompat
 
-class PlayerMediaBrowserService : MediaBrowserService(), ServiceConnection {
+//import android.media.MediaDescription as BrowserMediaDescription
+//import android.media.browse.MediaBrowser.MediaItem as BrowserMediaItem
+
+class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection {
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private var lastSongs = emptyList<Song>()
 
@@ -79,7 +87,7 @@ class PlayerMediaBrowserService : MediaBrowserService(), ServiceConnection {
         }
     }
 
-    override fun onLoadChildren(parentId: String, result: Result<MutableList<BrowserMediaItem>>) {
+     override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaItem>>) {
         runBlocking(Dispatchers.IO) {
             result.sendResult(
                 when (parentId) {
@@ -130,101 +138,101 @@ class PlayerMediaBrowserService : MediaBrowserService(), ServiceConnection {
         .build()
 
     private val shuffleBrowserMediaItem
-        inline get() = BrowserMediaItem(
-            BrowserMediaDescription.Builder()
+        inline get() = MediaItem(
+            MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.shuffle)
                 .setTitle("Shuffle")
                 .setIconUri(uriFor(R.drawable.shuffle))
                 .build(),
-            BrowserMediaItem.FLAG_PLAYABLE
+            MediaItem.FLAG_PLAYABLE
         )
 
     private val songsBrowserMediaItem
-        inline get() = BrowserMediaItem(
-            BrowserMediaDescription.Builder()
+        inline get() = MediaItem(
+            MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.songs)
                 .setTitle("Songs")
                 .setIconUri(uriFor(R.drawable.musical_notes))
                 .build(),
-            BrowserMediaItem.FLAG_BROWSABLE
+            MediaItem.FLAG_BROWSABLE
         )
 
 
     private val playlistsBrowserMediaItem
-        inline get() = BrowserMediaItem(
-            BrowserMediaDescription.Builder()
+        inline get() = MediaItem(
+            MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.playlists)
                 .setTitle("Playlists")
                 .setIconUri(uriFor(R.drawable.playlist))
                 .build(),
-            BrowserMediaItem.FLAG_BROWSABLE
+            MediaItem.FLAG_BROWSABLE
         )
 
     private val albumsBrowserMediaItem
-        inline get() = BrowserMediaItem(
-            BrowserMediaDescription.Builder()
+        inline get() = MediaItem(
+            MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.albums)
                 .setTitle("Albums")
                 .setIconUri(uriFor(R.drawable.disc))
                 .build(),
-            BrowserMediaItem.FLAG_BROWSABLE
+            MediaItem.FLAG_BROWSABLE
         )
 
     private val favoritesBrowserMediaItem
-        inline get() = BrowserMediaItem(
-            BrowserMediaDescription.Builder()
+        inline get() = MediaItem(
+            MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.favorites)
                 .setTitle("Favorites")
                 .setIconUri(uriFor(R.drawable.heart))
                 .build(),
-            BrowserMediaItem.FLAG_PLAYABLE
+            MediaItem.FLAG_PLAYABLE
         )
 
     private val offlineBrowserMediaItem
-        inline get() = BrowserMediaItem(
-            BrowserMediaDescription.Builder()
+        inline get() = MediaItem(
+            MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.offline)
                 .setTitle("Offline")
                 .setIconUri(uriFor(R.drawable.airplane))
                 .build(),
-            BrowserMediaItem.FLAG_PLAYABLE
+            MediaItem.FLAG_PLAYABLE
         )
 
     private val Song.asBrowserMediaItem
-        inline get() = BrowserMediaItem(
-            BrowserMediaDescription.Builder()
+        inline get() = MediaItem(
+            MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.forSong(id))
                 .setTitle(title)
                 .setSubtitle(artistsText)
                 .setIconUri(thumbnailUrl?.toUri())
                 .build(),
-            BrowserMediaItem.FLAG_PLAYABLE
+            MediaItem.FLAG_PLAYABLE
         )
 
     private val PlaylistPreview.asBrowserMediaItem
-        inline get() = BrowserMediaItem(
-            BrowserMediaDescription.Builder()
+        inline get() = MediaItem(
+            MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.forPlaylist(playlist.id))
                 .setTitle(playlist.name)
                 .setSubtitle("$songCount songs")
                 .setIconUri(uriFor(R.drawable.playlist))
                 .build(),
-            BrowserMediaItem.FLAG_PLAYABLE
+            MediaItem.FLAG_PLAYABLE
         )
 
     private val Album.asBrowserMediaItem
-        inline get() = BrowserMediaItem(
-            BrowserMediaDescription.Builder()
+        inline get() = MediaItem(
+            MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.forAlbum(id))
                 .setTitle(title)
                 .setSubtitle(authorsText)
                 .setIconUri(thumbnailUrl?.toUri())
                 .build(),
-            BrowserMediaItem.FLAG_PLAYABLE
+            MediaItem.FLAG_PLAYABLE
         )
 
     private inner class SessionCallback(private val player: Player, private val cache: Cache) :
-        MediaSession.Callback() {
+        MediaSessionCompat.Callback() {
         override fun onPlay() = player.play()
         override fun onPause() = player.pause()
         override fun onSkipToPrevious() = player.forceSeekToPrevious()

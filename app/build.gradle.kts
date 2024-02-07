@@ -110,6 +110,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat-resources:$appcompatVersion")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.media3:media3-datasource-okhttp:1.2.1")
+    implementation("androidx.media:media:1.7.0")
+    implementation("androidx.media3:media3-session:1.2.1")
     implementation("androidx.compose.material:material:1.6.0")
     implementation("com.github.therealbush:translator:1.0.2")
 
