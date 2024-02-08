@@ -35,8 +35,8 @@ fun DialogTextButton(
         style = typography.xs.medium.color(textColor),
         modifier = modifier
             .clip(RoundedCornerShape(36.dp))
-            //.background(if (primary) colorPalette.accent else Color.Transparent)
-            .background(if (primary) colorPalette.accent else colorPalette.background4)
+            .background(if (primary) colorPalette.accent else Color.Transparent)
+            //.background(if (primary) colorPalette.accent else colorPalette.background4)
             .clickable(enabled = enabled, onClick = onClick)
             .padding(horizontal = 20.dp, vertical = 16.dp)
     )
