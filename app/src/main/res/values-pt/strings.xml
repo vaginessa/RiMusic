@@ -4,7 +4,7 @@
     <string name="done">Terminar</string>
     <string name="hidesong">Tem a certeza que quer esconder esta música? O tempo de reprodução e o cache serão apagados.\n Esta ação é irreversível.</string>
     <string name="new_playlist">Nova playlist</string>
-    <string name="start_radio">Começar rádio</string>
+    <string name="start_radio">Iniciar rádio</string>
     <string name="equalizer">Equalizador</string>
     <string name="stop_sleep_timer">Quer parar o temporizador do sono?</string>
     <string name="set_sleep_timer">Definir temporizador de sono</string>
@@ -73,7 +73,7 @@
     <string name="use_font_by_the_system">Usar a fonte aplicada pelo sistema</string>
     <string name="apply_font_padding">Aplicar preenchimento na fonte</string>
     <string name="add_spacing_around_texts">Adicionar espaçamento em torno dos textos</string>
-    <string name="lockscreen">LOCKSCREEN</string>
+    <string name="lockscreen">ECRÃ DE BLOQUEIO</string>
     <string name="show_song_cover">Mostrar capa da música</string>
     <string name="use_song_cover_on_lockscreen">Use a capa da música de reprodução como papel de parede da tela de bloqueio</string>
     <string name="cache">Em cache</string>
@@ -132,7 +132,7 @@
     <string name="synchronized_lyrics">letras sincronizadas</string>
     <string name="provided_by">Fornecida por</string>
     <string name="cleanup">LIMPAR</string>
-    <string name="delete_playback_events">Excluir eventos %1$s de reprodução</string>
+    <string name="delete_playback_events">Excluir %1$s eventos de reprodução</string>
     <string name="existing_data_will_be_overwritten">Os dados existentes serão substituídos.\n %1$s será automaticamente fechado após a restauração do banco de dados.</string>
     <string name="on_queue">na fila</string>
     <string name="folder_cache">PASTA DA CACHE</string>
@@ -213,7 +213,7 @@
     <string name="moods_and_genres">Estados e géneros</string>
     <string name="search_queries">" consultas de pesquisa"</string>
     <string name="not_find_battery_optimization_settings">Não foi possível encontrar configurações de otimização de bateria, por favor whitelist manualmente</string>
-    <string name="search">Pesquisa...</string>
+    <string name="search">Pesquisar</string>
     <string name="no">Não</string>
     <string name="stop">Pausa</string>
     <string name="preferences">PREFERÊNCIAS</string>
@@ -261,7 +261,7 @@
     <string name="value_must_be_greater_than">"Valor deve ser superior a "</string>
     <string name="custom">Personalizado</string>
     <string name="custom_cache_size">Tamanho do cache personalizado</string>
-    <string name="listen_on">Escutar no</string>
+    <string name="listen_on">Ouvir no</string>
     <string name="error_local_music_not_found">Ficheiro de música local não encontrado</string>
     <string name="bodied_bar">Muito grande</string>
     <string name="pin_bar">Largo</string>
@@ -332,7 +332,7 @@
     <string name="authors">Autores</string>
     <string name="cover">Bolsa</string>
     <string name="lang_japanese">Japonês (日本語)</string>
-    <string name="paste_or_type_a_valid_url">Colar ou digite uma Url válida</string>
+    <string name="paste_or_type_a_valid_url">Cole ou digite um URL válido</string>
     <string name="you_can_put_a_complete_link">Pode colocar um link completo duma playlist, dum álbum, dum canal, ou duma música no YouTube ou no YouTube Music</string>
     <string name="go_to_link">Ir para o link</string>
     <string name="action_bar_button">BOTÃO DE AÇÃO</string>
