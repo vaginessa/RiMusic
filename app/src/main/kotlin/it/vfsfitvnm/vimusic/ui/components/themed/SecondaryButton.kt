@@ -28,7 +28,7 @@ fun SecondaryButton(
         modifier = modifier
             //.clip(CircleShape)
             .clickable(enabled = enabled, onClick = onClick)
-            .background(colorPalette.primaryButton)
+            //.background(colorPalette.primaryButton)
             .size(36.dp)
     ) {
         Image(
