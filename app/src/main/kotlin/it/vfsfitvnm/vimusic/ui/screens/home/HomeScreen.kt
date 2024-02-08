@@ -154,15 +154,16 @@ fun HomeScreen(
         }
 
         host {
-/*
-            var (tabIndex, onTabChanged) = rememberPreference(
-                homeScreenTabIndexKey,
-                0
-            )
- */
-            var (tabIndex, onTabChanged) = remember {
-                mutableStateOf(preferences.getEnum(indexNavigationTabKey, HomeScreenTabs.QuickPics).index)
-            }
+
+            var (tabIndex, onTabChanged) =
+                if (preferences.getEnum(indexNavigationTabKey, HomeScreenTabs.Default) == HomeScreenTabs.Default)
+                    rememberPreference(
+                        homeScreenTabIndexKey,
+                        HomeScreenTabs.QuickPics.index
+                    ) else
+                    remember {
+                        mutableStateOf(preferences.getEnum(indexNavigationTabKey, HomeScreenTabs.QuickPics).index)
+                    }
 
             Scaffold(
                 topIconButtonId = R.drawable.settings,

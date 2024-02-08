@@ -99,17 +99,6 @@ fun  UiSettings() {
     var isEnabledDiscoveryLangCode by rememberPreference(isEnabledDiscoveryLangCodeKey,   true)
     var recommendationsNumber by rememberPreference(recommendationsNumberKey,   RecommendationsNumber.`5`)
 
-
-    var indexNavigationTab by rememberPreference(
-        indexNavigationTabKey,
-        HomeScreenTabs.QuickPics
-    )
-
-    var tabIndex = rememberPreference(
-        homeScreenTabIndexKey,
-        HomeScreenTabs.QuickPics.index
-    )
-
     Column(
         modifier = Modifier
             .background(colorPalette.background0)
@@ -188,24 +177,6 @@ fun  UiSettings() {
             }
         )
         SettingsDescription(text = stringResource(R.string.restarting_rimusic_is_required))
-
-        EnumValueSelectorSettingsEntry(
-            title = stringResource(R.string.default_page),
-            selectedValue = indexNavigationTab,
-            onValueSelected = {indexNavigationTab = it},
-            valueText = {
-                when (it) {
-                    HomeScreenTabs.QuickPics -> stringResource(R.string.quick_picks)
-                    HomeScreenTabs.Songs -> stringResource(R.string.songs)
-                    HomeScreenTabs.Albums -> stringResource(R.string.albums)
-                    HomeScreenTabs.Artists -> stringResource(R.string.artists)
-                    HomeScreenTabs.Library -> stringResource(R.string.library)
-                    HomeScreenTabs.Discovery -> stringResource(R.string.discovery)
-                }
-            }
-        )
-
-
 
         SettingsGroupSpacer()
         SettingsEntryGroupText(stringResource(R.string.player))

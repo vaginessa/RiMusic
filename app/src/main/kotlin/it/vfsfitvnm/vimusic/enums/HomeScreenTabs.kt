@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.enums
 
 enum class HomeScreenTabs {
+    Default,
     QuickPics,
     Songs,
     Artists,
@@ -12,6 +13,7 @@ enum class HomeScreenTabs {
 
     val index: Int
         get() = when (this) {
+            Default -> 100
             QuickPics -> 0
             Songs -> 1
             Artists -> 2

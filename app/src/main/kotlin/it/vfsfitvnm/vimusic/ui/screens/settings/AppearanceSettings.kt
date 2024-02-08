@@ -26,6 +26,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.FontType
+import it.vfsfitvnm.vimusic.enums.HomeScreenTabs
 import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
@@ -43,6 +44,7 @@ import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
 import it.vfsfitvnm.vimusic.utils.disableScrollingTextKey
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.fontTypeKey
+import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid13
 import it.vfsfitvnm.vimusic.utils.isShowingThumbnailInLockscreenKey
 import it.vfsfitvnm.vimusic.utils.lastPlayerPlayButtonTypeKey
@@ -118,6 +120,11 @@ fun AppearanceSettings() {
     var showButtonPlayerLoop by rememberPreference(showButtonPlayerLoopKey, true)
     var showButtonPlayerLyrics by rememberPreference(showButtonPlayerLyricsKey, true)
     var showButtonPlayerShuffle by rememberPreference(showButtonPlayerShuffleKey, true)
+
+    var indexNavigationTab by rememberPreference(
+        indexNavigationTabKey,
+        HomeScreenTabs.QuickPics
+    )
 
 
     Column(
@@ -201,6 +208,24 @@ fun AppearanceSettings() {
                     ColorPaletteMode.Dark -> stringResource(R.string.dark)
                     ColorPaletteMode.Light -> stringResource(R.string._light)
                     ColorPaletteMode.System -> stringResource(R.string.system)
+                }
+            }
+        )
+
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.default_page),
+            selectedValue = indexNavigationTab,
+            onValueSelected = {indexNavigationTab = it},
+            valueText = {
+                when (it) {
+                    HomeScreenTabs.Default -> stringResource(R.string._default)
+                    HomeScreenTabs.QuickPics -> stringResource(R.string.quick_picks)
+                    HomeScreenTabs.Songs -> stringResource(R.string.songs)
+                    HomeScreenTabs.Albums -> stringResource(R.string.albums)
+                    HomeScreenTabs.Artists -> stringResource(R.string.artists)
+                    HomeScreenTabs.Library -> stringResource(R.string.library)
+                    HomeScreenTabs.Discovery -> stringResource(R.string.discovery)
                 }
             }
         )
