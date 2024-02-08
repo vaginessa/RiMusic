@@ -24,7 +24,7 @@
     <string name="playlists">Oynatma listeleri</string>
     <string name="favorites">Favoriler</string>
     <string name="quick_picks">Hızlı Seçimler</string>
-    <string name="songs">Şarkılar</string>
+    <string name="songs">Şarkı</string>
     <string name="other_versions">Diğer versiyonlar</string>
     <string name="album_no_alternative_version">Bu albümün alternatif versiyonu yok</string>
     <string name="enqueue">Sıraya ekle</string>
