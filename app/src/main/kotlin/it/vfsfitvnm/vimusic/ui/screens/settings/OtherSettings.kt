@@ -168,11 +168,11 @@ fun OtherSettings() {
 
         SettingsGroupSpacer()
 
-        SettingsEntryGroupText("Screen")
+        SettingsEntryGroupText(stringResource(R.string.screen))
 
         SwitchSettingEntry(
-            title = "Keep screen on",
-            text = "Prevents screen timeout",
+            title = stringResource(R.string.keep_screen_on),
+            text = stringResource(R.string.prevents_screen_timeout),
             isChecked = isKeepScreenOnEnabled,
             onCheckedChange = { isKeepScreenOnEnabled = it }
         )
