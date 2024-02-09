@@ -29,7 +29,7 @@ RiMusic is a multilingual Android application for streaming music from YouTube M
 - Audio skip silence
 - Android Auto support
 - Android TV support
-- Check for Updates
+- Check for Updates, enable/disable it by settings
 
 Visit it on Github
 https://github.com/fast4x/RiMusic
