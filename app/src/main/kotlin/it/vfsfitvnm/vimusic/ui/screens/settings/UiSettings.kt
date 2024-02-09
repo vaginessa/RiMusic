@@ -212,20 +212,6 @@ fun  UiSettings() {
         )
         SettingsDescription(text = stringResource(R.string.is_min_list_time_for_tips_or_quick_pics))
 
-        /*
-        EnumValueSelectorSettingsEntry(
-            title = stringResource(R.string.tips),
-            selectedValue = playEventType,
-            onValueSelected = { playEventType = it },
-            valueText = {
-                when (it) {
-                    PlayEventsType.MostPlayed -> stringResource(R.string.by_most_played_song)
-                    PlayEventsType.LastPlayed -> stringResource(R.string.by_last_played_song)
-                }
-            }
-        )
-        */
-
         SwitchSettingEntry(
             title = stringResource(R.string.persistent_queue),
             text = stringResource(R.string.save_and_restore_playing_songs),
