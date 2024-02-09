@@ -152,7 +152,7 @@
     <string name="error_this_song_cannot_be_played_due_to_server_restrictions">Dit nummer kan niet worden afgespeeld vanwege de server beperkingen</string>
     <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">Het geretourneerde video-id komt niet overeen met de gevraagde</string>
     <string name="error_an_unknown_playback_error_has_occurred">Er is een onbekende afspeelfout opgetreden</string>
-    <string name="tips">Tips</string>
+    <string name="tips">Snelle keuzes</string>
     <string name="quick_pics_and_tips">Snelle keuzes en Tips</string>
     <string name="is_min_list_time_for_tips_or_quick_pics">De minimale tijd om het nummer toe te voegen als een mogelijke Tips of Snelle Keuze</string>
     <string name="min_listening_time">Min. luistertijd</string>
