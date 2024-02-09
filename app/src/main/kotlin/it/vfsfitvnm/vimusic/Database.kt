@@ -455,49 +455,44 @@ interface Database {
     )
     fun playlistSongs(id: Long): Flow<List<Song>?>
 
-
     @Transaction
-    @Query("SELECT SP.position FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY SP.position DESC")
-    fun songsPositionPlaylistDesc(id: Long): Flow<List<Int>>
-
-    @Transaction
-    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.artistsText COLLATE NOCASE ASC")
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id ORDER BY S.artistsText COLLATE NOCASE ASC")
     fun songsPlaylistByArtistAsc(id: Long): Flow<List<Song>>
     @Transaction
-    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.artistsText COLLATE NOCASE DESC")
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id ORDER BY S.artistsText COLLATE NOCASE DESC")
     fun songsPlaylistByArtistDesc(id: Long): Flow<List<Song>>
     @Transaction
-    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.title COLLATE NOCASE ASC")
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id ORDER BY S.title COLLATE NOCASE ASC")
     fun songsPlaylistByTitleAsc(id: Long): Flow<List<Song>>
     @Transaction
-    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.title COLLATE NOCASE DESC")
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id ORDER BY S.title COLLATE NOCASE DESC")
     fun songsPlaylistByTitleDesc(id: Long): Flow<List<Song>>
     @Transaction
-    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY SP.position")
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id ORDER BY SP.position")
     fun songsPlaylistByPositionAsc(id: Long): Flow<List<Song>>
     @Transaction
-    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY SP.position DESC")
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id ORDER BY SP.position DESC")
     fun songsPlaylistByPositionDesc(id: Long): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.totalPlayTimeMs")
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id ORDER BY S.totalPlayTimeMs")
     fun songsPlaylistByPlayTimeAsc(id: Long): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY S.totalPlayTimeMs DESC")
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id ORDER BY S.totalPlayTimeMs DESC")
     fun songsPlaylistByPlayTimeDesc(id: Long): Flow<List<Song>>
 
     @Transaction
     @Query("SELECT DISTINCT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId " +
             "LEFT JOIN Event E ON E.songId=S.id " +
-            "WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "WHERE SP.playlistId=:id " +
             "ORDER BY E.timestamp")
     fun songsPlaylistByDatePlayedAsc(id: Long): Flow<List<Song>>
 
     @Transaction
     @Query("SELECT DISTINCT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId " +
             "LEFT JOIN Event E ON E.songId=S.id " +
-            "WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "WHERE SP.playlistId=:id " +
             "ORDER BY E.timestamp DESC")
     fun songsPlaylistByDatePlayedDesc(id: Long): Flow<List<Song>>
 
@@ -505,7 +500,7 @@ interface Database {
     @Query("SELECT DISTINCT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId " +
             "LEFT JOIN songalbummap SA ON SA.songId=SP.songId " +
             "LEFT JOIN Album A ON A.Id=SA.albumId " +
-            "WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "WHERE SP.playlistId=:id " +
             "ORDER BY CAST(A.year AS INTEGER) DESC")
     fun songsPlaylistByAlbumYearDesc(id: Long): Flow<List<Song>>
 
@@ -513,7 +508,7 @@ interface Database {
     @Query("SELECT DISTINCT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId " +
             "LEFT JOIN songalbummap SA ON SA.songId=SP.songId " +
             "LEFT JOIN Album A ON A.Id=SA.albumId " +
-            "WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "WHERE SP.playlistId=:id " +
             "ORDER BY CAST(A.year AS INTEGER)")
     fun songsPlaylistByAlbumYearAsc(id: Long): Flow<List<Song>>
 

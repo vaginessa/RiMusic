@@ -123,7 +123,7 @@ fun AppearanceSettings() {
 
     var indexNavigationTab by rememberPreference(
         indexNavigationTabKey,
-        HomeScreenTabs.QuickPics
+        HomeScreenTabs.Default
     )
 
 
