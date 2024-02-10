@@ -102,6 +102,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.InPlaylistMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.Menu
 import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
+import it.vfsfitvnm.vimusic.ui.components.themed.MusicBarsShow
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -329,6 +330,14 @@ fun LocalPlaylistSongs(
         mutableStateOf(false)
     }
 
+    var scrollToNowPlaying by remember {
+        mutableStateOf(false)
+    }
+
+    var nowPlayingItem by remember {
+        mutableStateOf(-1)
+    }
+
     /*
         var allDownloaded by remember { mutableStateOf(false) }
         var listDownloadedMedia = remember{ mutableListOf<Song>() }
@@ -434,42 +443,27 @@ fun LocalPlaylistSongs(
                         .fillMaxWidth()
                 ) {
 
-                        /*
-                    HeaderInfo(
-                        title = "${playlistWithSongs?.songs?.size} (${formatAsTime(totalPlayTimes)})",
-                        icon = painterResource(R.drawable.musical_notes),
-                        spacer = 0
+                    HeaderIconButton(
+                        icon = R.drawable.locate,
+                        color = colorPalette.text,
+                        onClick = {
+                            nowPlayingItem = -1
+                            scrollToNowPlaying = false
+                            playlistSongs
+                                .forEachIndexed{ index, song ->
+                                    if (song.asMediaItem.mediaId == binder?.player?.currentMediaItem?.mediaId)
+                                        nowPlayingItem = index
+                                }
+
+                            scrollToNowPlaying = true
+                        }
                     )
+                    LaunchedEffect(scrollToNowPlaying) {
+                        if (scrollToNowPlaying)
+                        lazyListState.scrollToItem(nowPlayingItem,1)
+                        scrollToNowPlaying = false
+                    }
 
-
-                    Spacer(
-                        modifier = Modifier
-                            .weight(1f)
-                    )
-                    */
-
-                    /*
-                                        LaunchedEffect(listDownloadedMedia) {
-                                            if (playlistWithSongs?.songs?.size == listDownloadedMedia.size) allDownloaded = true
-                                            else allDownloaded = false
-                                        }
-
-
-                                                if (allDownloaded) {
-                                                    HeaderIconButton(
-                                                        icon = R.drawable.downloaded,
-                                                        color = colorPalette.text,
-                                                        onClick = { allDownloaded = !allDownloaded }
-                                                    )
-                                                } else {
-                                                    HeaderIconButton(
-                                                        icon = R.drawable.download,
-                                                        color = colorPalette.text,
-                                                        onClick = { allDownloaded = !allDownloaded }
-                                                    )
-                                                }
-
-                     */
 
 
                     HeaderIconButton(
@@ -945,24 +939,32 @@ fun LocalPlaylistSongs(
                                 )
                             }
                         },
-                        onThumbnailContent = if (sortBy == PlaylistSongSortBy.PlayTime) ({
-                            BasicText(
-                                text = song.formattedTotalPlayTime,
-                                style = typography.xxs.semiBold.center.color(colorPalette.onOverlay),
-                                maxLines = 2,
-                                overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(
-                                        brush = Brush.verticalGradient(
-                                            colors = listOf(Color.Transparent, colorPalette.overlay)
-                                        ),
-                                        shape = thumbnailShape
-                                    )
-                                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                                    .align(Alignment.BottomCenter)
-                            )
-                        }) else null,
+                        onThumbnailContent = {
+                            if (sortBy == PlaylistSongSortBy.PlayTime) {
+                                BasicText(
+                                    text = song.formattedTotalPlayTime,
+                                    style = typography.xxs.semiBold.center.color(colorPalette.onOverlay),
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            brush = Brush.verticalGradient(
+                                                colors = listOf(
+                                                    Color.Transparent,
+                                                    colorPalette.overlay
+                                                )
+                                            ),
+                                            shape = thumbnailShape
+                                        )
+                                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                                        .align(Alignment.BottomCenter)
+                                )
+                            }
+
+                            if (nowPlayingItem > -1)
+                                MusicBarsShow(song.asMediaItem.mediaId)
+                        },
                         modifier = Modifier
                             .combinedClickable(
                                 onLongClick = {
