@@ -368,7 +368,7 @@
     <string name="lang_dutch">네덜란드어</string>
     <string name="do_you_really_want_to_renumbering_positions_in_this_playlist">이 재생목록의 위치를 바꾸고 싶으신가요?</string>
     <string name="renumber_songs_positions">재생목록 위치 변경</string>
-    <string name="do_you_really_want_to_delete_all_playback_events">모든 재생 이벤트를 정말로 삭제하시겠습니까?</string>
+    <string name="do_you_really_want_to_delete_all_playback_events">정말로 모든 재생 이벤트를 삭제하실건가요?</string>
     <string name="lang_sinhala">싱할라어</string>
     <string name="update_available">업데이트 가능</string>
     <string name="actions_you_can_do">할 수 있는 작업:</string>
