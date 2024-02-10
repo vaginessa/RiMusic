@@ -124,6 +124,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
+import it.vfsfitvnm.vimusic.ui.components.themed.MusicBarsShow
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 
 @ExperimentalTextApi
@@ -254,7 +255,13 @@ fun BuiltInPlaylistSongs(
         //**** SMART RECOMMENDATION
     }
 
+    var scrollToNowPlaying by remember {
+        mutableStateOf(false)
+    }
 
+    var nowPlayingItem by remember {
+        mutableStateOf(-1)
+    }
 
     Box {
         LazyColumn(
@@ -397,10 +404,34 @@ fun BuiltInPlaylistSongs(
                 ) {
 
 
+                    HeaderIconButton(
+                        icon = R.drawable.locate,
+                        enabled = songs.isNotEmpty(),
+                        color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
+                        onClick = {
+                            nowPlayingItem = -1
+                            scrollToNowPlaying = false
+                            songs
+                                .forEachIndexed{ index, song ->
+                                    if (song.asMediaItem.mediaId == binder?.player?.currentMediaItem?.mediaId)
+                                        nowPlayingItem = index
+                                }
+
+                            if (nowPlayingItem > -1)
+                                scrollToNowPlaying = true
+                        }
+                    )
+                    LaunchedEffect(scrollToNowPlaying) {
+                        if (scrollToNowPlaying)
+                            lazyListState.scrollToItem(nowPlayingItem,1)
+                        scrollToNowPlaying = false
+                    }
+
                     if (builtInPlaylist == BuiltInPlaylist.Favorites) {
                         HeaderIconButton(
                             icon = R.drawable.downloaded,
-                            color = colorPalette.text,
+                            enabled = songs.isNotEmpty(),
+                            color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
                             onClick = {
                                 showConfirmDownloadAllDialog = true
                             }
@@ -432,7 +463,8 @@ fun BuiltInPlaylistSongs(
                     if (builtInPlaylist == BuiltInPlaylist.Favorites || builtInPlaylist == BuiltInPlaylist.Downloaded) {
                         HeaderIconButton(
                             icon = R.drawable.download,
-                            color = colorPalette.text,
+                            enabled = songs.isNotEmpty(),
+                            color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
                             onClick = {
                                 showConfirmDeleteDownloadDialog = true
                             }
@@ -696,24 +728,28 @@ fun BuiltInPlaylistSongs(
                     downloadState = downloadState,
                     thumbnailSizeDp = thumbnailSizeDp,
                     thumbnailSizePx = thumbnailSizePx,
-                    onThumbnailContent = if (sortBy == SongSortBy.PlayTime) ({
-                        BasicText(
-                            text = song.formattedTotalPlayTime,
-                            style = typography.xxs.semiBold.center.color(colorPalette.onOverlay),
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(
-                                    brush = Brush.verticalGradient(
-                                        colors = listOf(Color.Transparent, colorPalette.overlay)
-                                    ),
-                                    shape = thumbnailShape
-                                )
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
-                                .align(Alignment.BottomCenter)
-                        )
-                    }) else null,
+                    onThumbnailContent = {
+                        if (sortBy == SongSortBy.PlayTime) {
+                            BasicText(
+                                text = song.formattedTotalPlayTime,
+                                style = typography.xxs.semiBold.center.color(colorPalette.onOverlay),
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(
+                                        brush = Brush.verticalGradient(
+                                            colors = listOf(Color.Transparent, colorPalette.overlay)
+                                        ),
+                                        shape = thumbnailShape
+                                    )
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                                    .align(Alignment.BottomCenter)
+                            )
+                        }
+                        if (nowPlayingItem > -1)
+                            MusicBarsShow(song.asMediaItem.mediaId)
+                    },
                     modifier = Modifier
                         .combinedClickable(
                             onLongClick = {

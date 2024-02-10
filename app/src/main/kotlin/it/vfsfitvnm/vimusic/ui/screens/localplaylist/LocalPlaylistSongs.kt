@@ -445,7 +445,8 @@ fun LocalPlaylistSongs(
 
                     HeaderIconButton(
                         icon = R.drawable.locate,
-                        color = colorPalette.text,
+                        enabled = playlistSongs.isNotEmpty(),
+                        color = if (playlistSongs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
                         onClick = {
                             nowPlayingItem = -1
                             scrollToNowPlaying = false
@@ -455,7 +456,8 @@ fun LocalPlaylistSongs(
                                         nowPlayingItem = index
                                 }
 
-                            scrollToNowPlaying = true
+                            if (nowPlayingItem > -1)
+                                scrollToNowPlaying = true
                         }
                     )
                     LaunchedEffect(scrollToNowPlaying) {
@@ -468,7 +470,8 @@ fun LocalPlaylistSongs(
 
                     HeaderIconButton(
                         icon = R.drawable.downloaded,
-                        color = colorPalette.text,
+                        enabled = playlistSongs.isNotEmpty(),
+                        color = if (playlistSongs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
                         onClick = {
                             showConfirmDownloadAllDialog = true
                         }
@@ -510,7 +513,8 @@ fun LocalPlaylistSongs(
 
                     HeaderIconButton(
                         icon = R.drawable.download,
-                        color = colorPalette.text,
+                        enabled = playlistSongs.isNotEmpty(),
+                        color = if (playlistSongs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
                         onClick = {
                             showConfirmDeleteDownloadDialog = true
 
@@ -540,8 +544,8 @@ fun LocalPlaylistSongs(
 
                     HeaderIconButton(
                         icon = R.drawable.enqueue,
-                        enabled = playlistSongs.isNotEmpty() == true,
-                        color = if (playlistSongs.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
+                        enabled = playlistSongs.isNotEmpty(),
+                        color = if (playlistSongs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
                         onClick = {
                             playlistSongs
                                 .map(Song::asMediaItem)
