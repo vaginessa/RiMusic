@@ -49,14 +49,15 @@ fun SongItem(
 ) {
     SongItem(
         thumbnailUrl = song.thumbnail?.size(thumbnailSizePx),
-        title = if (song.explicit) "E-" + song.info?.name else song.info?.name,
+        title = song.info?.name,
         authors = song.authors?.joinToString("") { it.name ?: "" },
         duration = song.durationText,
         thumbnailSizeDp = thumbnailSizeDp,
         modifier = modifier,
         isDownloaded = isDownloaded,
         onDownloadClick = onDownloadClick,
-        downloadState = downloadState
+        downloadState = downloadState,
+        isExplicit = song.explicit
     )
 }
 
@@ -133,7 +134,8 @@ fun SongItem(
     isDownloaded: Boolean,
     onDownloadClick: () -> Unit,
     downloadState: Int,
-    isRecommended: Boolean = false
+    isRecommended: Boolean = false,
+    isExplicit: Boolean = false
 ) {
     SongItem(
         title = title,
@@ -157,7 +159,8 @@ fun SongItem(
         isDownloaded = isDownloaded,
         onDownloadClick = onDownloadClick,
         downloadState = downloadState,
-        isRecommended = isRecommended
+        isRecommended = isRecommended,
+        isExplicit = isExplicit
     )
 }
 
@@ -258,7 +261,8 @@ fun SongItem(
     isDownloaded: Boolean,
     onDownloadClick: () -> Unit,
     downloadState: Int,
-    isRecommended: Boolean = false
+    isRecommended: Boolean = false,
+    isExplicit: Boolean = false
 ) {
     val (colorPalette, typography) = LocalAppearance.current
 
@@ -287,6 +291,16 @@ fun SongItem(
                                 .size(18.dp)
                         )
 
+                    if (isExplicit)
+                        IconButton(
+                            icon = R.drawable.explicit,
+                            color = colorPalette.text,
+                            enabled = true,
+                            onClick = {},
+                            modifier = Modifier
+                                .size(18.dp)
+                        )
+
                     BasicText(
                         text = title ?: "",
                         style = typography.xs.semiBold,
@@ -305,13 +319,23 @@ fun SongItem(
 
                     it()
                 }
-            } ?: BasicText(
-                    text = title ?: "",
-                    style = typography.xs.semiBold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                 )
-
+            } ?: Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (isExplicit)
+                        IconButton(
+                            icon = R.drawable.explicit,
+                            color = colorPalette.text,
+                            enabled = true,
+                            onClick = {},
+                            modifier = Modifier
+                                .size(18.dp)
+                        )
+                    BasicText(
+                        text = title ?: "",
+                        style = typography.xs.semiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
 
 
             Row(verticalAlignment = Alignment.CenterVertically) {
