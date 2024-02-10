@@ -385,7 +385,7 @@
     <string name="don_t_enable">Nicht aktivieren</string>
     <string name="lang_hindi">Hindi</string>
     <string name="default_page">Standard-Seite</string>
-    <string name="screen">Screen</string>
-    <string name="keep_screen_on">Keep screen on</string>
-    <string name="prevents_screen_timeout">Prevents screen timeout</string>
+    <string name="screen">Bildschirm</string>
+    <string name="keep_screen_on">Bildschirm eingeschaltet lassen</string>
+    <string name="prevents_screen_timeout">Verhindert Bildschirm-Timeout</string>
 </resources>
