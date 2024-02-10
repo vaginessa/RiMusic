@@ -89,6 +89,7 @@ const val isKeepScreenOnEnabledKey = "isKeepScreenOnEnabled"
 const val isEnabledDiscoveryLangCodeKey = "isEnabledDiscoveryLangCode"
 const val recommendationsNumberKey = "recommendationsNumber"
 const val checkUpdateStateKey = "checkUpdateState"
+const val showButtonPlayerSleepTimerKey = "showButtonPlayerSleepTimer"
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,

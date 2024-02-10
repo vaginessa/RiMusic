@@ -145,6 +145,7 @@ import it.vfsfitvnm.vimusic.utils.showButtonPlayerDownloadKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerLoopKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerLyricsKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerShuffleKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerSleepTimerKey
 import it.vfsfitvnm.vimusic.utils.showLikeButtonBackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.useSystemFontKey
@@ -375,7 +376,6 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             }
 
                             effectRotationKey, playerThumbnailSizeKey,
-                            //exoPlayerDiskCacheMaxSizeKey,
                             playerVisualizerTypeKey,
                             UiTypeKey,
                             disablePlayerHorizontalSwipeKey,
@@ -386,7 +386,7 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             showButtonPlayerLoopKey,
                             showButtonPlayerLyricsKey,
                             showButtonPlayerShuffleKey,
-                            //indexNavigationTabKey
+                            showButtonPlayerSleepTimerKey
                             -> {
                                 this@MainActivity.recreate()
                             }

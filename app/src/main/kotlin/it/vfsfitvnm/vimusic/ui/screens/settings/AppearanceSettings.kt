@@ -62,6 +62,7 @@ import it.vfsfitvnm.vimusic.utils.showButtonPlayerDownloadKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerLoopKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerLyricsKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerShuffleKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerSleepTimerKey
 import it.vfsfitvnm.vimusic.utils.showDownloadButtonBackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.showLikeButtonBackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
@@ -120,6 +121,7 @@ fun AppearanceSettings() {
     var showButtonPlayerLoop by rememberPreference(showButtonPlayerLoopKey, true)
     var showButtonPlayerLyrics by rememberPreference(showButtonPlayerLyricsKey, true)
     var showButtonPlayerShuffle by rememberPreference(showButtonPlayerShuffleKey, true)
+    var showButtonPlayerSleepTimer by rememberPreference(showButtonPlayerSleepTimerKey, false)
 
     var indexNavigationTab by rememberPreference(
         indexNavigationTabKey,
@@ -392,6 +394,13 @@ fun AppearanceSettings() {
             text = "",
             isChecked = showButtonPlayerLyrics,
             onCheckedChange = { showButtonPlayerLyrics = it }
+        )
+
+        SwitchSettingEntry(
+            title = stringResource(R.string.action_bar_show_sleep_timer_button),
+            text = "",
+            isChecked = showButtonPlayerSleepTimer,
+            onCheckedChange = { showButtonPlayerSleepTimer = it }
         )
 
         SwitchSettingEntry(

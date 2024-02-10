@@ -389,4 +389,5 @@ Saat cache kehabisan ruang kosong, lagu dan gambar yang sudah lama tidak diakses
     <string name="screen">Screen</string>
     <string name="keep_screen_on">Keep screen on</string>
     <string name="prevents_screen_timeout">Prevents screen timeout</string>
+    <string name="action_bar_show_sleep_timer_button">Show Sleep Timer button</string>
 </resources>

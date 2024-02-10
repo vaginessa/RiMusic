@@ -34,12 +34,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
 import androidx.compose.runtime.remember
@@ -47,6 +49,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
@@ -88,8 +91,12 @@ import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.rememberBottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.themed.BaseMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.CircularSlider
+import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.DefaultDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.DownloadStateIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
 import it.vfsfitvnm.vimusic.ui.screens.homeRoute
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -104,6 +111,7 @@ import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
+import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
@@ -121,6 +129,7 @@ import it.vfsfitvnm.vimusic.utils.showButtonPlayerDownloadKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerLoopKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerLyricsKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerShuffleKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerSleepTimerKey
 import it.vfsfitvnm.vimusic.utils.shuffleQueue
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.thumbnailTapEnabledKey
@@ -128,6 +137,7 @@ import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
 import kotlin.math.absoluteValue
 
@@ -142,7 +152,6 @@ fun Player(
     layoutState: BottomSheetState,
     modifier: Modifier = Modifier,
 ) {
-    //val context = LocalContext.current
     val menuState = LocalMenuState.current
 
     val uiType by rememberPreference(UiTypeKey, UiType.RiMusic)
@@ -337,6 +346,7 @@ fun Player(
     val showButtonPlayerLoop by rememberPreference(showButtonPlayerLoopKey, true)
     val showButtonPlayerLyrics by rememberPreference(showButtonPlayerLyricsKey, true)
     val showButtonPlayerShuffle by rememberPreference(showButtonPlayerShuffleKey, true)
+    val showButtonPlayerSleepTimer by rememberPreference(showButtonPlayerSleepTimerKey, false)
 
     val playlistPreviews by remember {
         Database.playlistPreviews(PlaylistSortBy.Name, SortOrder.Ascending)
@@ -344,6 +354,168 @@ fun Player(
 
     var showPlaylistSelectDialog by remember {
         mutableStateOf(false)
+    }
+
+    var isShowingSleepTimerDialog by remember {
+        mutableStateOf(false)
+    }
+
+    val sleepTimerMillisLeft by (binder?.sleepTimerMillisLeft
+        ?: flowOf(null))
+        .collectAsState(initial = null)
+
+    //val positionAndDuration = binder.player.positionAndDurationState()
+
+    var timeRemaining by remember { mutableIntStateOf(0) }
+
+    if (positionAndDuration != null) {
+        timeRemaining = positionAndDuration.second.toInt() - positionAndDuration.first.toInt()
+    }
+
+    var showCircularSlider by remember {
+        mutableStateOf(false)
+    }
+
+    if (isShowingSleepTimerDialog) {
+        if (sleepTimerMillisLeft != null) {
+            ConfirmationDialog(
+                text = stringResource(R.string.stop_sleep_timer),
+                cancelText = stringResource(R.string.no),
+                confirmText = stringResource(R.string.stop),
+                onDismiss = { isShowingSleepTimerDialog = false },
+                onConfirm = {
+                    binder.cancelSleepTimer()
+                    //onDismiss()
+                }
+            )
+        } else {
+            DefaultDialog(
+                onDismiss = { isShowingSleepTimerDialog = false }
+            ) {
+                var amount by remember {
+                    mutableStateOf(1)
+                }
+
+                BasicText(
+                    text = stringResource(R.string.set_sleep_timer),
+                    style = typography.s.semiBold,
+                    modifier = Modifier
+                        .padding(vertical = 8.dp, horizontal = 24.dp)
+                )
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(
+                        space = 16.dp,
+                        alignment = Alignment.CenterHorizontally
+                    ),
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                ) {
+                    if (!showCircularSlider) {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .alpha(if (amount <= 1) 0.5f else 1f)
+                                .clip(CircleShape)
+                                .clickable(enabled = amount > 1) { amount-- }
+                                .size(48.dp)
+                                .background(colorPalette.background0)
+                        ) {
+                            BasicText(
+                                text = "-",
+                                style = typography.xs.semiBold
+                            )
+                        }
+
+                        Box(contentAlignment = Alignment.Center) {
+                            BasicText(
+                                text = stringResource(
+                                    R.string.left,
+                                    formatAsDuration(amount * 5 * 60 * 1000L)
+                                ),
+                                style = typography.s.semiBold,
+                                modifier = Modifier
+                                    .clickable {
+                                        showCircularSlider = !showCircularSlider
+                                    }
+                            )
+                        }
+
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .alpha(if (amount >= 60) 0.5f else 1f)
+                                .clip(CircleShape)
+                                .clickable(enabled = amount < 60) { amount++ }
+                                .size(48.dp)
+                                .background(colorPalette.background0)
+                        ) {
+                            BasicText(
+                                text = "+",
+                                style = typography.xs.semiBold
+                            )
+                        }
+
+                    } else {
+                        CircularSlider(
+                            stroke = 40f,
+                            thumbColor = colorPalette.accent,
+                            text = formatAsDuration(amount * 5 * 60 * 1000L),
+                            modifier = Modifier
+                                .size(300.dp),
+                            onChange = {
+                                amount = (it * 120).toInt()
+                            }
+                        )
+                    }
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier
+                        .padding(bottom = 20.dp)
+                        .fillMaxWidth()
+                ) {
+                    SecondaryTextButton(
+                        text = stringResource(R.string.set_to) + " "
+                                + formatAsDuration(timeRemaining.toLong())
+                                + " " + stringResource(R.string.end_of_song),
+                        onClick = {
+                            binder?.startSleepTimer(timeRemaining.toLong())
+                            isShowingSleepTimerDialog = false
+                        }
+                    )
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+
+                    IconButton(
+                        onClick = { showCircularSlider = !showCircularSlider },
+                        icon = R.drawable.time,
+                        color = colorPalette.text
+                    )
+                    IconButton(
+                        onClick = { isShowingSleepTimerDialog = false },
+                        icon = R.drawable.close,
+                        color = colorPalette.text
+                    )
+                    IconButton(
+                        enabled = amount > 0,
+                        onClick = {
+                            binder?.startSleepTimer(amount * 5 * 60 * 1000L)
+                            isShowingSleepTimerDialog = false
+                        },
+                        icon = R.drawable.checkmark,
+                        color = colorPalette.accent
+                    )
+                }
+            }
+        }
     }
 
     OnGlobalRoute {
@@ -829,20 +1001,6 @@ fun Player(
                             modifier = Modifier
                                 .size(24.dp),
                         )
-                        /*
-                                                IconButton(
-                                                    icon = R.drawable.song_lyrics,
-                                                    color = colorPalette.text,
-                                                    enabled = true,
-                                                    onClick = {
-                                                        lyricsBottomSheetState.expandSoft()
-                                                        Log.d("mediaItemLyrics","full click")
-                                                    },
-                                                    modifier = Modifier
-                                                        .size(24.dp),
-                                                )
-
-                         */
 
                         if(showButtonPlayerLyrics)
                         IconButton(
@@ -871,6 +1029,17 @@ fun Player(
                                     .size(24.dp)
                             )
 
+                        if (showButtonPlayerSleepTimer)
+                        IconButton(
+                            icon = R.drawable.alarm,
+                            color = if (sleepTimerMillisLeft != null) colorPalette.text else colorPalette.textDisabled,
+                            enabled = true,
+                            onClick = {
+                                isShowingSleepTimerDialog = true
+                            },
+                            modifier = Modifier
+                                .size(24.dp),
+                        )
 
                         if(showButtonPlayerArrow)
                         IconButton(
@@ -883,6 +1052,7 @@ fun Player(
                             modifier = Modifier
                                 .size(24.dp),
                         )
+
 
                         if (isLandscape) {
                             IconButton(
