@@ -320,6 +320,16 @@ fun SongItem(
                     it()
                 }
             } ?: Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (isRecommended)
+                        IconButton(
+                            icon = R.drawable.smart_shuffle,
+                            color = colorPalette.accent,
+                            enabled = true,
+                            onClick = {},
+                            modifier = Modifier
+                                .size(18.dp)
+                        )
+
                     if (isExplicit)
                         IconButton(
                             icon = R.drawable.explicit,
