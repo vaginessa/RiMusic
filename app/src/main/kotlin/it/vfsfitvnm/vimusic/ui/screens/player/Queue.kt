@@ -138,7 +138,7 @@ fun Queue(
                     .padding(horizontalBottomPaddingValues)
             ) {
                 Image(
-                    painter = painterResource(R.drawable.horizontal_bold_line),
+                    painter = painterResource(R.drawable.horizontal_bold_line_rounded),
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(colorPalette.text),
                     modifier = Modifier
@@ -244,7 +244,7 @@ fun Queue(
 
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.horizontal_bold_line),
+                        painter = painterResource(R.drawable.horizontal_bold_line_rounded),
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(colorPalette.text),
                         modifier = Modifier
@@ -464,7 +464,7 @@ fun Queue(
                     .height(60.dp) //bottom bar queue
             ) {
                 Image(
-                    painter = painterResource(R.drawable.horizontal_bold_line),
+                    painter = painterResource(R.drawable.horizontal_bold_line_rounded),
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(colorPalette.text),
                     modifier = Modifier
