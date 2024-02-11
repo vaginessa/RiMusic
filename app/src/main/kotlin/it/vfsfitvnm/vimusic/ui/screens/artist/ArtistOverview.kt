@@ -17,12 +17,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +52,7 @@ import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
@@ -67,10 +70,17 @@ import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getDownloadState
+import it.vfsfitvnm.vimusic.utils.getHttpClient
+import it.vfsfitvnm.vimusic.utils.languageDestination
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import me.bush.translator.Language
+import me.bush.translator.Translator
+
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
 @UnstableApi
@@ -118,6 +128,13 @@ fun ArtistOverview(
     var showConfirmDownloadAllDialog by remember {
         mutableStateOf(false)
     }
+
+    var translateEnabled by remember {
+        mutableStateOf(false)
+    }
+
+    val translator = Translator(getHttpClient())
+    val languageDestination = languageDestination()
 
     LayoutWithAdaptiveThumbnail(thumbnailContent = thumbnailContent) {
         Box {
@@ -422,6 +439,17 @@ fun ArtistOverview(
                                 .padding(vertical = 16.dp, horizontal = 8.dp)
                                 .padding(endPaddingValues)
                         ) {
+                            IconButton(
+                                icon = R.drawable.translate,
+                                color = if (translateEnabled == true) colorPalette.text else colorPalette.textDisabled,
+                                enabled = true,
+                                onClick = {
+                                    translateEnabled = !translateEnabled
+                                },
+                                modifier = Modifier
+                                    .padding(all = 8.dp)
+                                    .size(18.dp)
+                            )
                             BasicText(
                                 text = "“",
                                 style = typography.xxl.semiBold,
@@ -430,12 +458,37 @@ fun ArtistOverview(
                                     .align(Alignment.Top)
                             )
 
+                            var translatedText by remember { mutableStateOf("") }
+                            val nonTranslatedText by remember { mutableStateOf(
+                                    if (attributionsIndex == -1) {
+                                        description
+                                    } else {
+                                        description.substring(0, attributionsIndex)
+                                    }
+                                )
+                            }
+
+
+                            if (translateEnabled == true) {
+                                LaunchedEffect(Unit) {
+                                    val result = withContext(Dispatchers.IO) {
+                                        try {
+                                            translator.translate(
+                                                nonTranslatedText,
+                                                languageDestination,
+                                                Language.AUTO
+                                            ).translatedText
+                                        } catch (e: Exception) {
+                                            e.printStackTrace()
+                                        }
+                                    }
+                                    translatedText =
+                                        if (result.toString() == "kotlin.Unit") "" else result.toString()
+                                }
+                            } else translatedText = nonTranslatedText
+
                             BasicText(
-                                text = if (attributionsIndex == -1) {
-                                    description
-                                } else {
-                                    description.substring(0, attributionsIndex)
-                                },
+                                text = translatedText,
                                 style = typography.xxs.secondary,
                                 modifier = Modifier
                                     .padding(horizontal = 8.dp)

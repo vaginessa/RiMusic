@@ -1,6 +1,5 @@
 package it.vfsfitvnm.vimusic.ui.screens.player
 
-//import com.google.mlkit.nl.translate.TranslateLanguage
 import android.app.SearchManager
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -83,6 +82,7 @@ import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.getHttpClient
 import it.vfsfitvnm.vimusic.utils.isShowingSynchronizedLyricsKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
+import it.vfsfitvnm.vimusic.utils.languageDestination
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.toast
@@ -142,7 +142,10 @@ fun Lyrics(
             mutableStateOf(false)
         }
 
+        val languageDestination = languageDestination()
+        /*
         val languageApp  by rememberPreference(languageAppKey, Languages.English)
+
         val languageDestination = when (languageApp){
             Languages.Arabic -> Language.ARABIC
             Languages.Bashkir -> Language.BASQUE
@@ -178,6 +181,7 @@ fun Lyrics(
             Languages.Vietnamese -> Language.VIETNAMESE
             else -> Language.ENGLISH
         }
+         */
         //val systemLocale = LocaleListCompat.getDefault().get(0).toString()
         //val systemLangCode = AppCompatDelegate.getApplicationLocales().get(0).toString()
         /*
