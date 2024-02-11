@@ -146,7 +146,7 @@ fun SearchResultScreen(query: String, onSearchAgain: () -> Unit) {
                                 emptyItemsText = emptyItemsText,
                                 headerContent = headerContent,
                                 itemContent = { song ->
-                                    Log.d("mediaItem",song.toString())
+                                    //Log.d("mediaItem",song.toString())
                                     downloadState = getDownloadState(song.asMediaItem.mediaId)
                                     val isDownloaded = downloadedStateMedia(song.asMediaItem.mediaId)
                                     SongItem(

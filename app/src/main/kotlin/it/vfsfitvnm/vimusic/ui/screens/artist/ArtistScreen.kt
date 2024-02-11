@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import com.valentinilk.shimmer.shimmer
@@ -121,6 +122,8 @@ fun ArtistScreen(browseId: String) {
                 }
             }
     }
+
+    Log.d("mediaItem","subscribers "+artistPage?.subscriberCountText)
 
     RouteHandler(listenToGlobalEmitter = true) {
         globalRoutes()

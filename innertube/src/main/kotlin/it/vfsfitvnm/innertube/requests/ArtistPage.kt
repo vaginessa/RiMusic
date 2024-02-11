@@ -47,6 +47,13 @@ suspend fun Innertube.artistPage(body: BrowseBody): Result<Innertube.ArtistPage>
                 ?.musicImmersiveHeaderRenderer
                 ?.description
                 ?.text,
+            subscriberCountText = response
+                .header
+                ?.musicImmersiveHeaderRenderer
+                ?.subscriptionButton
+                ?.subscribeButtonRenderer
+                ?.subscriberCountText
+                ?.text,
             thumbnail = (response
                 .header
                 ?.musicImmersiveHeaderRenderer

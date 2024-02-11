@@ -403,4 +403,5 @@ Saat cache kehabisan ruang kosong, lagu dan gambar yang sudah lama tidak diakses
     <string name="sort_songs_number">Songs Number</string>
     <string name="follow">Follow</string>
     <string name="following">Following</string>
+    <string name="artist_subscribers">%s subscribers</string>
 </resources>

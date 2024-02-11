@@ -235,6 +235,14 @@ fun ArtistOverview(
 
                 thumbnailContent()
 
+                youtubeArtistPage?.subscriberCountText ?.let {
+                    BasicText(
+                        text = String.format(stringResource(R.string.artist_subscribers),it),
+                        style = typography.xs.semiBold,
+                        maxLines = 1
+                    )
+                }
+
                 if (youtubeArtistPage != null) {
                     youtubeArtistPage.songs?.let { songs ->
                         Row(

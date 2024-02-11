@@ -200,6 +200,7 @@ object Innertube {
     data class ArtistPage(
         val name: String?,
         val description: String?,
+        val subscriberCountText: String?,
         val thumbnail: Thumbnail?,
         val shuffleEndpoint: NavigationEndpoint.Endpoint.Watch?,
         val radioEndpoint: NavigationEndpoint.Endpoint.Watch?,
