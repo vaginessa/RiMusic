@@ -449,7 +449,7 @@ fun Queue(
                 )
                 */
 
-                FloatingActionsContainerWithScrollToTop(lazyListState = reorderingState.lazyListState)
+                //FloatingActionsContainerWithScrollToTop(lazyListState = reorderingState.lazyListState)
 
             }
 
@@ -613,5 +613,6 @@ fun Queue(
                 }
             }
         }
+        FloatingActionsContainerWithScrollToTop(lazyListState = reorderingState.lazyListState)
     }
 }
