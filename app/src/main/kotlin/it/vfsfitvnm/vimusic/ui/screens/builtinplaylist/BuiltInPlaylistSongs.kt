@@ -75,6 +75,7 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
+import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
 import it.vfsfitvnm.vimusic.enums.RecommendationsNumber
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
@@ -125,6 +126,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.MusicBarsShow
+import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 
 @ExperimentalTextApi
@@ -262,6 +264,11 @@ fun BuiltInPlaylistSongs(
     var nowPlayingItem by remember {
         mutableStateOf(-1)
     }
+
+    var showSortTypeSelectDialog by remember {
+        mutableStateOf(false)
+    }
+
 
     Box {
         LazyColumn(
@@ -533,7 +540,7 @@ fun BuiltInPlaylistSongs(
 
                 Row (
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.Bottom,
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         //.requiredHeight(30.dp)
                         .padding(all = 10.dp)
@@ -551,6 +558,40 @@ fun BuiltInPlaylistSongs(
                     )
                     if (builtInPlaylist != BuiltInPlaylist.Downloaded) {
 
+                        BasicText(
+                            text = when (sortBy) {
+                                SongSortBy.Title -> stringResource(R.string.sort_title)
+                                SongSortBy.DatePlayed -> stringResource(R.string.sort_date_played)
+                                SongSortBy.PlayTime -> stringResource(R.string.sort_listening_time)
+                                SongSortBy.DateAdded -> stringResource(R.string.sort_date_added)
+                            },
+                            style = typography.xs.semiBold,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .clickable {
+                                    showSortTypeSelectDialog = true
+                                }
+                        )
+
+                        if (showSortTypeSelectDialog)
+                            ValueSelectorDialog(
+                                onDismiss = { showSortTypeSelectDialog = false },
+                                title = "Order",
+                                selectedValue = sortBy,
+                                values = enumValues<SongSortBy>().toList(),
+                                onValueSelected = { sortBy = it },
+                                valueText = {
+                                    when (it) {
+                                        SongSortBy.Title -> stringResource(R.string.sort_title)
+                                        SongSortBy.DatePlayed -> stringResource(R.string.sort_date_played)
+                                        SongSortBy.PlayTime -> stringResource(R.string.sort_listening_time)
+                                        SongSortBy.DateAdded -> stringResource(R.string.sort_date_added)
+                                    }
+                                }
+                            )
+
+                        /*
                         if (builtInPlaylist == BuiltInPlaylist.Favorites)
                             HeaderIconButton(
                                 icon = R.drawable.up_right_arrow,
@@ -575,6 +616,7 @@ fun BuiltInPlaylistSongs(
                             color = if (sortBy == SongSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
                             onClick = { sortBy = SongSortBy.DateAdded }
                         )
+                         */
 
                         /*
                         Spacer(

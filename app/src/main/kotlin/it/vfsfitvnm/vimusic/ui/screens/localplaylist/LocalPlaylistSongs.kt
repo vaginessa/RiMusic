@@ -80,11 +80,13 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
 import it.vfsfitvnm.vimusic.enums.RecommendationsNumber
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
+import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
@@ -103,8 +105,11 @@ import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.Menu
 import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
 import it.vfsfitvnm.vimusic.ui.components.themed.MusicBarsShow
+import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
+import it.vfsfitvnm.vimusic.ui.screens.settings.EnumValueSelectorSettingsEntry
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
@@ -336,6 +341,10 @@ fun LocalPlaylistSongs(
 
     var nowPlayingItem by remember {
         mutableStateOf(-1)
+    }
+
+    var showSortTypeSelectDialog by remember {
+        mutableStateOf(false)
     }
 
     /*
@@ -719,7 +728,7 @@ fun LocalPlaylistSongs(
                 /*        */
                 Row (
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.Bottom,
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         //.requiredHeight(30.dp)
                         .padding(all = 10.dp)
@@ -737,6 +746,44 @@ fun LocalPlaylistSongs(
                             .weight(1f)
                     )
 
+                    BasicText(
+                        text = when (sortBy) {
+                            PlaylistSongSortBy.AlbumYear -> stringResource(R.string.sort_album_year)
+                            PlaylistSongSortBy.Position -> stringResource(R.string.sort_position)
+                            PlaylistSongSortBy.Title -> stringResource(R.string.sort_title)
+                            PlaylistSongSortBy.DatePlayed -> stringResource(R.string.sort_date_played)
+                            PlaylistSongSortBy.Artist -> stringResource(R.string.sort_artist)
+                            PlaylistSongSortBy.PlayTime -> stringResource(R.string.sort_listening_time)
+                        },
+                        style = typography.xs.semiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .clickable {
+                                showSortTypeSelectDialog = true
+                            }
+                    )
+
+                    if (showSortTypeSelectDialog)
+                        ValueSelectorDialog(
+                            onDismiss = { showSortTypeSelectDialog = false },
+                            title = "Sort order",
+                            selectedValue = sortBy,
+                            values = enumValues<PlaylistSongSortBy>().toList(),
+                            onValueSelected = { sortBy = it },
+                            valueText = {
+                                when (it) {
+                                    PlaylistSongSortBy.AlbumYear -> stringResource(R.string.sort_album_year)
+                                    PlaylistSongSortBy.Position -> stringResource(R.string.sort_position)
+                                    PlaylistSongSortBy.Title -> stringResource(R.string.sort_title)
+                                    PlaylistSongSortBy.DatePlayed -> stringResource(R.string.sort_date_played)
+                                    PlaylistSongSortBy.Artist -> stringResource(R.string.sort_artist)
+                                    PlaylistSongSortBy.PlayTime -> stringResource(R.string.sort_listening_time)
+                                }
+                            }
+                        )
+
+                    /*
                     HeaderIconButton(
                         icon = R.drawable.calendar,
                         color = if (sortBy == PlaylistSongSortBy.AlbumYear) colorPalette.text else colorPalette.textDisabled,
@@ -772,6 +819,7 @@ fun LocalPlaylistSongs(
                         color = if (sortBy == PlaylistSongSortBy.Artist) colorPalette.text else colorPalette.textDisabled,
                         onClick = { sortBy = PlaylistSongSortBy.Artist }
                     )
+                     */
 
                     HeaderIconButton(
                         icon = R.drawable.arrow_up,

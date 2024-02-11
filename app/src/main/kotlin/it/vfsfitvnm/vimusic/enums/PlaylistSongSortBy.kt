@@ -1,11 +1,22 @@
 package it.vfsfitvnm.vimusic.enums
 
 enum class PlaylistSongSortBy {
-    PlayTime,
-    Title,
+    AlbumYear,
     Artist,
-    Position,
     DatePlayed,
-    AlbumYear
+    PlayTime,
+    Position,
+    Title;
+
+    val index: Int
+        get() = when (this) {
+            AlbumYear -> 0
+            Artist -> 1
+            DatePlayed -> 2
+            PlayTime -> 3
+            Position -> 4
+            Title -> 5
+    }
+
 
 }
