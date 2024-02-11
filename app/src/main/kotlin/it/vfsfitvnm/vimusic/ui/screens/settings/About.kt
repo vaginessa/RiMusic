@@ -166,11 +166,11 @@ fun About() {
         SettingsTopDescription( text =
             "25huizengek1 \n"+
                 "Craeckie \n"+
-                "fast4x \n"+
-                "ikanakova \n"+
-                "locxter \n"+
                 "DanielSevillano \n"+
-                "roklc \n"+
+                "Fast4x \n"+
+                "Ikanakova \n"+
+                "Locxter \n"+
+                "Roklc \n"+
                 "SuhasDissa \n"
         )
     }
