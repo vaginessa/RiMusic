@@ -159,6 +159,7 @@ fun About() {
                     "TsyQax \n"+
                     "VINULA2007 \n" +
                     "Vladimir \n" +
+                    "Zan1456 \n" +
                     "ZeroZero00 \n"
         )
 

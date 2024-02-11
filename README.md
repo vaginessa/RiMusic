@@ -60,7 +60,7 @@
 - **Greek:** thanks to [Marinkas](https://github.com/Marinkas)
 - **Hebrew:** thanks to [TheCreeperDuck](https://crowdin.com/profile/thecreeperduck)
 - **Hindi:** thanks to [Sharunkumar](https://crowdin.com/profile/sharunkumar) and [Th3-C0der](https://github.com/Th3-C0der)
-- **Hungarìan:** thanks to [Ndvok](https://crowdin.com/profile/ndvok)
+- **Hungarìan:** thanks to [Zan1456](https://crowdin.com/profile/Zan1456) and [Ndvok](https://crowdin.com/profile/ndvok)
 - **Italian:** thanks to [fast4x](https://github.com/fast4x)
 - **Indonesian:** thanks to [teddysulaimanGL](https://github.com/teddysulaimanGL) and [Fausta Ahmad](https://crowdin.com/profile/faustaahmad)  
 - **Japanese:** thanks to [Mid_Vur_Shaan](https://crowdin.com/profile/Mid_Vur_Shaan)
@@ -140,6 +140,7 @@
 - [TsyQax](https://crowdin.com/profile/TsyQax)
 - [VINULA2007](https://crowdin.com/profile/VINULA2007)
 - [Vladimir](https://crowdin.com/profile/vladimir15426)
+- [Zan1456](https://crowdin.com/profile/Zan1456)
 - [ZeroZero00](https://crowdin.com/profile/ZeroZero00)
 
 
