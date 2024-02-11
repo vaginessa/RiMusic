@@ -59,6 +59,7 @@
 - **German:** thanks to [Lolozweipunktnull](https://crowdin.com/profile/Lolozweipunktnull) and [Seryoga1984](https://crowdin.com/profile/Seryoga1984) and [Conk](https://crowdin.com/profile/conk) and [siggi1984](https://github.com/siggi1984)
 - **Greek:** thanks to [Marinkas](https://github.com/Marinkas)
 - **Hebrew:** thanks to [TheCreeperDuck](https://crowdin.com/profile/thecreeperduck)
+- **Hindi:** thanks to [Th3-C0der](https://github.com/Th3-C0der)
 - **Hindi:** thanks to [Sharunkumar](https://crowdin.com/profile/sharunkumar) and [Th3-C0der](https://github.com/Th3-C0der)
 - **Hungarìan:** thanks to [Zan1456](https://crowdin.com/profile/Zan1456) and [Ndvok](https://crowdin.com/profile/ndvok)
 - **Italian:** thanks to [fast4x](https://github.com/fast4x)
