@@ -404,4 +404,5 @@ Saat cache kehabisan ruang kosong, lagu dan gambar yang sudah lama tidak diakses
     <string name="follow">Follow</string>
     <string name="following">Following</string>
     <string name="artist_subscribers">%s subscribers</string>
+    <string name="but_these_updates_would_not_go_through">But these updates would not go through the additional screening performed at e.g. IzzyOnDroid or F-Droid.</string>
 </resources>

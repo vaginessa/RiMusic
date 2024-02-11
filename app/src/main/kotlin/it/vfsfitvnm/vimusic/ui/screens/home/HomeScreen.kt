@@ -246,6 +246,7 @@ fun HomeScreen(
         ConfirmationDialog(
             text = stringResource(R.string.check_at_github_for_updates) + "\n\n" +
                     stringResource(R.string.when_an_update_is_available_you_will_be_asked_if_you_want_to_install_info) + "\n\n" +
+                    stringResource(R.string.but_these_updates_would_not_go_through) + "\n\n" +
                     stringResource(R.string.you_can_still_turn_it_on_or_off_from_the_settings),
             confirmText = stringResource(R.string.enable),
             cancelText = stringResource(R.string.don_t_enable),
