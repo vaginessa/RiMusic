@@ -575,6 +575,7 @@ inline fun InputTextDialog(
     noinline onDismiss: () -> Unit,
     title: String,
     value: String,
+    setValueRequireNotNull: Boolean = true,
     placeholder: String,
     crossinline setValue: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -671,14 +672,14 @@ inline fun InputTextDialog(
                 DialogTextButton(
                     text = stringResource(R.string.confirm),
                     onClick = {
-                        if (txtField.value.isEmpty()) {
+                        if (txtField.value.isEmpty() && setValueRequireNotNull) {
                             txtFieldError.value = value_cannot_empty
                             return@DialogTextButton
                         }
-                        if (txtField.value.isNotEmpty()) {
+                        //if (txtField.value.isNotEmpty() && !setValueRequireNotNull) {
                             setValue(txtField.value)
                             onDismiss()
-                        }
+                        //}
                     }
                 )
 

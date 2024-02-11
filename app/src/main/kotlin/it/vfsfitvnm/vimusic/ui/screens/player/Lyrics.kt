@@ -264,6 +264,7 @@ fun Lyrics(
         if (isEditing) {
             InputTextDialog(
                 onDismiss = { isEditing = false },
+                setValueRequireNotNull = false,
                 title = stringResource(R.string.enter_the_lyrics),
                 value = text ?: "",
                 placeholder = stringResource(R.string.enter_the_lyrics),
