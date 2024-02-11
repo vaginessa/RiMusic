@@ -45,15 +45,6 @@ fun About() {
     val (colorPalette, typography) = LocalAppearance.current
     val uriHandler = LocalUriHandler.current
 
-    /*
-    var thumbnailRoundness by rememberPreference(
-        thumbnailRoundnessKey,
-        ThumbnailRoundness.Heavy
-    )
-    */
-    //val newVersion = isAvailableUpdate()
-    //val newVersion = ""
-
     Column(
         modifier = Modifier
             .background(colorPalette.background0)
@@ -85,34 +76,6 @@ fun About() {
 
                 )
         }
-        /*
-        if (newVersion != "") {
-            //SettingsEntryGroupText(title = "Update available")
-            SettingsEntry(
-                title = "New version $newVersion",
-                text = "Click here to open page",
-                onClick = {
-                    uriHandler.openUri("https://github.com/fast4x/RiMusic/releases/latest")
-                    //uriHandler.openUri("https://github.com/fast4x/RiMusic/releases/tag/v0.6.9")
-                },
-                trailingContent = {
-                    Image(
-                        painter = painterResource(R.drawable.update),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(colorPalette.shimmer),
-                        modifier = Modifier
-                            .size(34.dp)
-                    )
-                },
-                modifier = Modifier
-                    .background(
-                        color = colorPalette.background4,
-                        shape = thumbnailRoundness.shape()
-                    )
-
-            )
-        }
-         */
 
         SettingsGroupSpacer()
 
@@ -169,10 +132,10 @@ fun About() {
                     "fast4x \n"+
                     "Fausta Ahmad \n"+
                     "Get100percent \n"+
-                    "ikanakova \n"+
+                    "Ikanakova \n"+
                     "JZITNIK-github \n"+
-                    "kjev666 \n"+
-                    "kptmx \n"+
+                    "Kjev666 \n"+
+                    "Kptmx \n"+
                     "Lolozweipunktnull \n" +
                     "ManuelCoimbra) \n" +
                     "Marinkas \n"+
@@ -182,14 +145,15 @@ fun About() {
                     "NEVARLeVrai \n"+
                     "OrangeZXZ \n"+
                     "RegularWater \n"+
-                    "rikalaj \n" +
-                    "roklc \n"+
+                    "Rikalaj \n" +
+                    "Roklc \n"+
                     "Seryoga1984 \n" +
                     "SharkChan0622 \n"+
+                    "Sharunkumar \n" +
                     "Shilave malay \n"+
-                    "siggi1984 \n"+
-                    "teaminh \n"+
-                    "teddysulaimanGL \n"+
+                    "Siggi1984 \n"+
+                    "Teaminh \n"+
+                    "TeddysulaimanGL \n"+
                     "Th3-C0der \n" +
                     "TheCreeperDuck \n"+
                     "TsyQax \n"+
