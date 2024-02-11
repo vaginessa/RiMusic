@@ -17,6 +17,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -575,15 +576,26 @@ fun Controls(
                 icon = R.drawable.play_skip_back,
                 color = colorPalette.collapsedPlayerProgressBar, //colorPalette.iconButtonPlayer,
                 onClick = {
+                    /*
                     binder.player.forceSeekToPrevious()
                     //binder.player.seekToPreviousMediaItem()
                     if (effectRotationEnabled) isRotated = !isRotated
+                     */
                 },
                 modifier = Modifier
                     .rotate(rotationAngle)
                     //.weight(1f)
                     .padding(10.dp)
                     .size(26.dp)
+                    .combinedClickable(
+                        onClick = {
+                            binder.player.forceSeekToPrevious()
+                            if (effectRotationEnabled) isRotated = !isRotated
+                        },
+                        onLongClick = {
+                            binder.player.seekTo(position-10000)
+                        }
+                    )
             )
 
 
@@ -647,13 +659,24 @@ fun Controls(
                 icon = R.drawable.play_skip_forward,
                 color = colorPalette.collapsedPlayerProgressBar, //colorPalette.iconButtonPlayer,
                 onClick = {
+                    /*
                     binder.player.forceSeekToNext()
                     if (effectRotationEnabled) isRotated = !isRotated
+                     */
                 },
                 modifier = Modifier
                     .rotate(rotationAngle)
                     .padding(10.dp)
                     .size(26.dp)
+                    .combinedClickable(
+                        onClick = {
+                            binder.player.forceSeekToNext()
+                            if (effectRotationEnabled) isRotated = !isRotated
+                        },
+                        onLongClick = {
+                            binder.player.seekTo(position+10000)
+                        }
+                    )
             )
             /*
             Box(
