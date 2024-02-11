@@ -123,8 +123,6 @@ fun ArtistScreen(browseId: String) {
             }
     }
 
-    Log.d("mediaItem","subscribers "+artistPage?.subscriberCountText)
-
     RouteHandler(listenToGlobalEmitter = true) {
         globalRoutes()
 

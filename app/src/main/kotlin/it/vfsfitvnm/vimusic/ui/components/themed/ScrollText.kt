@@ -31,12 +31,12 @@ fun ScrollText (
     LaunchedEffect(shouldAnimated) {
         scrollState.animateScrollTo(
             scrollState.maxValue,
-            animationSpec = tween(10000, 200, easing = CubicBezierEasing(0f, 0f, 0f, 0f))
+            animationSpec = tween(10000, 300, easing = CubicBezierEasing(0f, 0f, 0f, 0f))
         )
 
         scrollState.animateScrollTo(
             0,
-            animationSpec = tween(10000, 200, easing = CubicBezierEasing(0f, 0f, 0f, 0f))
+            animationSpec = tween(10000, 300, easing = CubicBezierEasing(0f, 0f, 0f, 0f))
         )
 
         shouldAnimated = !shouldAnimated

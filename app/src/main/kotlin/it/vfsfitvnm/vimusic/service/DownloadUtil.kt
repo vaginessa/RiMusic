@@ -94,7 +94,10 @@ object DownloadUtil {
         val dataSourceFactory = ResolvingDataSource.Factory(createCacheDataSource(context)) { dataSpec ->
             val videoId = dataSpec.key ?: error("A key must be set")
             //val chunkLength = 1024 * 1024L
-            val chunkLength = 10000 * 1024L
+            //val chunkLength = 10000 * 1024L
+            //val chunkLength = 30000 * 1024L
+            val chunkLength = 180000 * 1024L
+            //val chunkLength = if (dataSpec.length >= 0) dataSpec.length else 1
             val ringBuffer = RingBuffer<Pair<String, Uri>?>(2) { null }
 
             if (cache.isCached(videoId, dataSpec.position, chunkLength)) {
