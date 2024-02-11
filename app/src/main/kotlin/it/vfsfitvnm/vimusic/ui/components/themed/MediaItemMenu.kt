@@ -88,6 +88,7 @@ import it.vfsfitvnm.vimusic.utils.durationToMillis
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
+import it.vfsfitvnm.vimusic.utils.formatAsTime
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.medium
@@ -100,6 +101,10 @@ import it.vfsfitvnm.vimusic.utils.thumbnail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.LocalTime.now
+import java.time.format.DateTimeFormatter
 import kotlin.math.absoluteValue
 
 @ExperimentalTextApi
@@ -736,6 +741,8 @@ fun MediaItemMenu(
                         timeRemaining = positionAndDuration.value.second.toInt() - positionAndDuration.value.first.toInt()
                     }
 
+                    val timeToStop = System.currentTimeMillis()
+
                     if (isShowingSleepTimerDialog) {
                         if (sleepTimerMillisLeft != null) {
                             ConfirmationDialog(
@@ -888,7 +895,11 @@ fun MediaItemMenu(
                                     text = stringResource(
                                         R.string.left,
                                         formatAsDuration(it)
-                                    ),
+                                    ) + " / " +
+                                            now()
+                                                .plusSeconds(it / 1000)
+                                                .format(DateTimeFormatter.ofPattern("HH:mm:ss")) + " " +
+                                            stringResource(R.string.sleeptimer_stop),
                                     style = typography.xxs.medium,
                                     modifier = modifier
                                         .background(
