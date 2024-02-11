@@ -180,7 +180,7 @@ fun Thumbnail(
                     .fillMaxSize()
             )
 
-            if (!currentWindow.mediaItem.isLocal)
+            //if (!currentWindow.mediaItem.isLocal)
                 Lyrics(
                 mediaId = currentWindow.mediaItem.mediaId,
                 isDisplayed = isShowingLyrics && error == null,
