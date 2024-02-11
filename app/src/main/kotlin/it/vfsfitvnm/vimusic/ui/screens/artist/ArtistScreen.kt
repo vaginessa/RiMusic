@@ -46,6 +46,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderPlaceholder
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
+import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.components.themed.adaptiveThumbnailContent
 import it.vfsfitvnm.vimusic.ui.items.AlbumItem
 import it.vfsfitvnm.vimusic.ui.items.AlbumItemPlaceholder
@@ -151,6 +152,24 @@ fun ArtistScreen(browseId: String) {
                                     .weight(1f)
                             )
 
+                            SecondaryTextButton(
+                                text = if (artist?.bookmarkedAt == null) stringResource(R.string.follow) else stringResource(
+                                    R.string.following
+                                ),
+                                onClick = {
+                                    val bookmarkedAt =
+                                        if (artist?.bookmarkedAt == null) System.currentTimeMillis() else null
+
+                                    query {
+                                        artist
+                                            ?.copy(bookmarkedAt = bookmarkedAt)
+                                            ?.let(Database::update)
+                                    }
+                                },
+                                alternative = if (artist?.bookmarkedAt == null) true else false
+                            )
+
+                            /*
                             HeaderIconButton(
                                 icon = if (artist?.bookmarkedAt == null) {
                                     R.drawable.bookmark_outline
@@ -169,6 +188,7 @@ fun ArtistScreen(browseId: String) {
                                     }
                                 }
                             )
+                             */
 
                             HeaderIconButton(
                                 icon = R.drawable.share_social,

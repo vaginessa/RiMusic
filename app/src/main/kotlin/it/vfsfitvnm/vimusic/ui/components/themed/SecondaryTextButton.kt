@@ -1,6 +1,8 @@
 package it.vfsfitvnm.vimusic.ui.components.themed
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,5 +34,6 @@ fun SecondaryTextButton(
             .background(if (alternative) colorPalette.background0 else colorPalette.primaryButton)
             .padding(all = 8.dp)
             .padding(horizontal = 8.dp)
+
     )
 }
