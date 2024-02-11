@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -36,12 +37,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.AlbumSortBy
 import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskDownloadCacheMaxSize
@@ -60,6 +63,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -142,6 +146,10 @@ fun HomePlaylists(
         .padding(top = 24.dp, bottom = 8.dp)
         .padding(endPaddingValues)
 
+    var showSortTypeSelectDialog by remember {
+        mutableStateOf(false)
+    }
+
     val lazyGridState = rememberLazyGridState()
 
     Box {
@@ -188,6 +196,43 @@ fun HomePlaylists(
                         onClick = { isCreatingANewPlaylist = true }
                     )
 
+                    Spacer(
+                        modifier = Modifier
+                            .weight(1f)
+                    )
+
+                    BasicText(
+                        text = when (sortBy) {
+                            PlaylistSortBy.Name -> stringResource(R.string.sort_name)
+                            PlaylistSortBy.SongCount -> stringResource(R.string.sort_songs_number)
+                            PlaylistSortBy.DateAdded -> stringResource(R.string.sort_date_added)
+                        },
+                        style = typography.xs.semiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .clickable {
+                                showSortTypeSelectDialog = true
+                            }
+                    )
+
+                    if (showSortTypeSelectDialog)
+                        ValueSelectorDialog(
+                            onDismiss = { showSortTypeSelectDialog = false },
+                            title = stringResource(R.string.sorting_order),
+                            selectedValue = sortBy,
+                            values = enumValues<PlaylistSortBy>().toList(),
+                            onValueSelected = { sortBy = it },
+                            valueText = {
+                                when (it) {
+                                    PlaylistSortBy.Name -> stringResource(R.string.sort_name)
+                                    PlaylistSortBy.SongCount -> stringResource(R.string.sort_songs_number)
+                                    PlaylistSortBy.DateAdded -> stringResource(R.string.sort_date_added)
+                                }
+                            }
+                        )
+
+                    /*
                     HeaderIconButton(
                         icon = R.drawable.medical,
                         color = if (sortBy == PlaylistSortBy.SongCount) colorPalette.text else colorPalette.textDisabled,
@@ -210,6 +255,7 @@ fun HomePlaylists(
                         modifier = Modifier
                             .width(2.dp)
                     )
+                     */
 
                     HeaderIconButton(
                         icon = R.drawable.arrow_up,

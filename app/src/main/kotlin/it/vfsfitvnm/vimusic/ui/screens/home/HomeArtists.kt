@@ -24,10 +24,13 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -35,11 +38,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.AlbumSortBy
 import it.vfsfitvnm.vimusic.enums.ArtistSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.UiType
@@ -49,6 +54,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
+import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
 import it.vfsfitvnm.vimusic.ui.items.ArtistItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -57,6 +63,7 @@ import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.artistSortByKey
 import it.vfsfitvnm.vimusic.utils.artistSortOrderKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.semiBold
 
 @ExperimentalMaterialApi
 @SuppressLint("SuspiciousIndentation")
@@ -88,6 +95,10 @@ fun HomeArtistList(
         targetValue = if (sortOrder == SortOrder.Ascending) 0f else 180f,
         animationSpec = tween(durationMillis = 400, easing = LinearEasing), label = ""
     )
+
+    var showSortTypeSelectDialog by remember {
+        mutableStateOf(false)
+    }
 
     val lazyGridState = rememberLazyGridState()
 
@@ -138,6 +149,36 @@ fun HomeArtistList(
                         modifier = Modifier
                             .weight(1f)
                     )
+
+                    BasicText(
+                        text = when (sortBy) {
+                            ArtistSortBy.Name -> stringResource(R.string.sort_name)
+                            ArtistSortBy.DateAdded -> stringResource(R.string.sort_date_added)
+                        },
+                        style = typography.xs.semiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .clickable {
+                                showSortTypeSelectDialog = true
+                            }
+                    )
+
+                    if (showSortTypeSelectDialog)
+                        ValueSelectorDialog(
+                            onDismiss = { showSortTypeSelectDialog = false },
+                            title = stringResource(R.string.sorting_order),
+                            selectedValue = sortBy,
+                            values = enumValues<ArtistSortBy>().toList(),
+                            onValueSelected = { sortBy = it },
+                            valueText = {
+                                when (it) {
+                                    ArtistSortBy.Name -> stringResource(R.string.sort_name)
+                                    ArtistSortBy.DateAdded -> stringResource(R.string.sort_date_added)
+                                }
+                            }
+                        )
+                    /*
                     HeaderIconButton(
                         icon = R.drawable.text,
                         color = if (sortBy == ArtistSortBy.Name) colorPalette.text else colorPalette.textDisabled,
@@ -154,6 +195,7 @@ fun HomeArtistList(
                         modifier = Modifier
                             .width(2.dp)
                     )
+                     */
 
                     HeaderIconButton(
                         icon = R.drawable.arrow_up,

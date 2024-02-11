@@ -577,7 +577,7 @@ fun BuiltInPlaylistSongs(
                         if (showSortTypeSelectDialog)
                             ValueSelectorDialog(
                                 onDismiss = { showSortTypeSelectDialog = false },
-                                title = "Order",
+                                title = stringResource(R.string.sorting_order),
                                 selectedValue = sortBy,
                                 values = enumValues<SongSortBy>().toList(),
                                 onValueSelected = { sortBy = it },

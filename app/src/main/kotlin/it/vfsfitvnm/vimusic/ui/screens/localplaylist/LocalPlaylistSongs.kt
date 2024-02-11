@@ -767,7 +767,7 @@ fun LocalPlaylistSongs(
                     if (showSortTypeSelectDialog)
                         ValueSelectorDialog(
                             onDismiss = { showSortTypeSelectDialog = false },
-                            title = "Sort order",
+                            title = stringResource(R.string.sorting_order),
                             selectedValue = sortBy,
                             values = enumValues<PlaylistSongSortBy>().toList(),
                             onValueSelected = { sortBy = it },

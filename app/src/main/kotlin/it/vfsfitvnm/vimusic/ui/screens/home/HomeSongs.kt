@@ -10,6 +10,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -77,6 +78,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -185,8 +187,12 @@ fun  HomeSongs(
 
     val sortOrderIconRotation by animateFloatAsState(
         targetValue = if (sortOrder == SortOrder.Ascending) 0f else 180f,
-        animationSpec = tween(durationMillis = 400, easing = LinearEasing)
+        animationSpec = tween(durationMillis = 400, easing = LinearEasing), label = ""
     )
+
+    var showSortTypeSelectDialog by remember {
+        mutableStateOf(false)
+    }
 
     val lazyListState = rememberLazyListState()
 
@@ -238,6 +244,45 @@ fun  HomeSongs(
                             iconSize = 24.dp
                         )
 
+                    Spacer(
+                        modifier = Modifier
+                            .weight(1f)
+                    )
+
+                    BasicText(
+                        text = when (sortBy) {
+                            SongSortBy.Title -> stringResource(R.string.sort_title)
+                            SongSortBy.DatePlayed -> stringResource(R.string.sort_date_played)
+                            SongSortBy.PlayTime -> stringResource(R.string.sort_listening_time)
+                            SongSortBy.DateAdded -> stringResource(R.string.sort_date_added)
+                        },
+                        style = typography.xs.semiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .clickable {
+                                showSortTypeSelectDialog = true
+                            }
+                    )
+
+                    if (showSortTypeSelectDialog)
+                        ValueSelectorDialog(
+                            onDismiss = { showSortTypeSelectDialog = false },
+                            title = stringResource(R.string.sorting_order),
+                            selectedValue = sortBy,
+                            values = enumValues<SongSortBy>().toList(),
+                            onValueSelected = { sortBy = it },
+                            valueText = {
+                                when (it) {
+                                    SongSortBy.Title -> stringResource(R.string.sort_title)
+                                    SongSortBy.DatePlayed -> stringResource(R.string.sort_date_played)
+                                    SongSortBy.PlayTime -> stringResource(R.string.sort_listening_time)
+                                    SongSortBy.DateAdded -> stringResource(R.string.sort_date_added)
+                                }
+                            }
+                        )
+
+                        /*
                         HeaderIconButton(
                             icon = R.drawable.up_right_arrow,
                             color = if (sortBy == SongSortBy.DatePlayed) colorPalette.text else colorPalette.textDisabled,
@@ -261,6 +306,8 @@ fun  HomeSongs(
                             color = if (sortBy == SongSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
                             onClick = { sortBy = SongSortBy.DateAdded }
                         )
+
+                         */
 /*
                         Spacer(
                             modifier = Modifier
