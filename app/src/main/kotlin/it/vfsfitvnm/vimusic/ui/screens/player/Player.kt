@@ -96,6 +96,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.DefaultDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.DownloadStateIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.PlayerMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
 import it.vfsfitvnm.vimusic.ui.screens.homeRoute
@@ -808,7 +809,7 @@ fun Player(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .fillMaxWidth(0.9f)
                             .height(30.dp)
                     ) {
 
@@ -820,7 +821,7 @@ fun Player(
                                 layoutState.collapseSoft()
                             },
                             modifier = Modifier
-                                .padding(horizontal = 15.dp)
+                                //.padding(horizontal = 15.dp)
                                 .size(24.dp)
                         )
 
@@ -832,10 +833,10 @@ fun Player(
                                 onGoToHome()
                             },
                             modifier = Modifier
-                                .padding(horizontal = 4.dp)
+                                //.padding(horizontal = 4.dp)
                                 .size(24.dp)
                         )
-
+                        /*
                         IconButton(
                             icon = R.drawable.ellipsis_vertical,
                             color = colorPalette.text,
@@ -852,6 +853,7 @@ fun Player(
                                 .padding(horizontal = 15.dp)
                                 .size(24.dp)
                         )
+                         */
 
                     }
                 }
@@ -1123,6 +1125,7 @@ fun Player(
 
 }
 
+/*
 @ExperimentalTextApi
 @ExperimentalAnimationApi
 @UnstableApi
@@ -1163,4 +1166,4 @@ private fun PlayerMenu(
     )
 }
 
-
+*/

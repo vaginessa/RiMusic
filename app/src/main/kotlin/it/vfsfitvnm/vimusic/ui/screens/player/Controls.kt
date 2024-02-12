@@ -70,6 +70,7 @@ import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.ui.UiMedia
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.PlayerService
+import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.SeekBar
 import it.vfsfitvnm.vimusic.ui.components.SeekBarCustom
 import it.vfsfitvnm.vimusic.ui.components.SeekBarWaved
@@ -105,6 +106,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 
+@ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -211,6 +213,8 @@ fun Controls(
         mutableStateOf(false)
     }
 
+    val menuState = LocalMenuState.current
+
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = modifier
@@ -229,7 +233,7 @@ fun Controls(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = if (uiType != UiType.ViMusic) Arrangement.Start else Arrangement.Center,
-                modifier = Modifier.fillMaxWidth(if (uiType != UiType.ViMusic) 0.9f else 1f)
+                modifier = Modifier.fillMaxWidth(if (uiType != UiType.ViMusic) 0.80f else 1f)
             ) {
                 if (uiType != UiType.ViMusic) {
 
@@ -274,32 +278,52 @@ fun Controls(
                 )}
             }
 
-            if (uiType != UiType.ViMusic)
-            IconButton(
-                color = if (likedAt == null) colorPalette.textDisabled else colorPalette.text,
-                //color = colorPalette.favoritesIcon,
-                icon = R.drawable.heart,
-                //icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
-                onClick = {
-                    val currentMediaItem = binder.player.currentMediaItem
-                    query {
-                        if (Database.like(
-                                mediaId,
-                                if (likedAt == null) System.currentTimeMillis() else null
-                            ) == 0
-                        ) {
-                            currentMediaItem
-                                ?.takeIf { it.mediaId == mediaId }
-                                ?.let {
-                                    Database.insert(currentMediaItem, Song::toggleLike)
-                                }
+            if (uiType != UiType.ViMusic) {
+                IconButton(
+                    color = if (likedAt == null) colorPalette.textDisabled else colorPalette.text,
+                    //color = colorPalette.favoritesIcon,
+                    icon = R.drawable.heart,
+                    //icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
+                    onClick = {
+                        val currentMediaItem = binder.player.currentMediaItem
+                        query {
+                            if (Database.like(
+                                    mediaId,
+                                    if (likedAt == null) System.currentTimeMillis() else null
+                                ) == 0
+                            ) {
+                                currentMediaItem
+                                    ?.takeIf { it.mediaId == mediaId }
+                                    ?.let {
+                                        Database.insert(currentMediaItem, Song::toggleLike)
+                                    }
+                            }
                         }
-                    }
-                    if (effectRotationEnabled) isRotated = !isRotated
-                },
-                modifier = Modifier
-                    .size(24.dp)
-            )
+                        if (effectRotationEnabled) isRotated = !isRotated
+                    },
+                    modifier = Modifier
+                        .size(24.dp)
+                )
+
+                IconButton(
+                    icon = R.drawable.ellipsis_vertical,
+                    color = colorPalette.text,
+                    onClick = {
+                        menuState.display {
+                            binder.player.currentMediaItem?.let {
+                                PlayerMenu(
+                                    onDismiss = menuState::hide,
+                                    mediaItem = it,
+                                    binder = binder
+                                )
+                            }
+                        }
+                    },
+                    modifier = Modifier
+                        //.padding(horizontal = 15.dp)
+                        .size(24.dp)
+                )
+            }
 
         }
 
