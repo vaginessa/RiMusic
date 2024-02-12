@@ -3,6 +3,7 @@ package it.vfsfitvnm.vimusic.ui.screens.settings
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.media.audiofx.AudioEffect
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -43,6 +44,7 @@ import it.vfsfitvnm.vimusic.utils.homeScreenTabIndexKey
 import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isEnabledDiscoveryLangCodeKey
+import it.vfsfitvnm.vimusic.utils.keepPlayerMinimizedKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.maxStatisticsItemsKey
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
@@ -98,6 +100,8 @@ fun  UiSettings() {
 
     var isEnabledDiscoveryLangCode by rememberPreference(isEnabledDiscoveryLangCodeKey,   true)
     var recommendationsNumber by rememberPreference(recommendationsNumberKey,   RecommendationsNumber.`5`)
+
+    var keepPlayerMinimized by rememberPreference(keepPlayerMinimizedKey,   false)
 
     Column(
         modifier = Modifier
@@ -234,7 +238,17 @@ fun  UiSettings() {
         }
 
         SwitchSettingEntry(
-            isEnabled = if (BuildCompat.isAtLeastT()) true else false,
+            title = stringResource(R.string.player_keep_minimized),
+            text = stringResource(R.string.when_click_on_a_song_player_start_minimized),
+            isChecked = keepPlayerMinimized,
+            onCheckedChange = {
+                keepPlayerMinimized = it
+            }
+        )
+
+
+        SwitchSettingEntry(
+            isEnabled = Build.VERSION.SDK_INT >= 33,
             title = stringResource(R.string.close_app_with_back_button),
             text = stringResource(R.string.when_you_use_the_back_button_from_the_home_page),
             isChecked = closeWithBackButton,

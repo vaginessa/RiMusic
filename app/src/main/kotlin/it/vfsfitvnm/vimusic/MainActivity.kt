@@ -132,6 +132,7 @@ import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid8
 import it.vfsfitvnm.vimusic.utils.isEnabledDiscoveryLangCodeKey
 import it.vfsfitvnm.vimusic.utils.isKeepScreenOnEnabledKey
 import it.vfsfitvnm.vimusic.utils.isProxyEnabledKey
+import it.vfsfitvnm.vimusic.utils.keepPlayerMinimizedKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
@@ -566,8 +567,9 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                         if (playerBottomSheetState.isDismissed) {
                             if (launchedFromNotification) {
                                 intent.replaceExtras(Bundle())
-                                //playerBottomSheetState.expand(tween(700))
-                                playerBottomSheetState.collapse(tween(700))
+                                if (preferences.getBoolean(keepPlayerMinimizedKey, false))
+                                    playerBottomSheetState.collapse(tween(700))
+                                else playerBottomSheetState.expand(tween(500))
                             } else {
                                 playerBottomSheetState.collapse(tween(700))
                             }
@@ -578,8 +580,9 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                         override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                             if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_PLAYLIST_CHANGED && mediaItem != null) {
                                 if (mediaItem.mediaMetadata.extras?.getBoolean("isFromPersistentQueue") != true) {
-                                    //playerBottomSheetState.expand(tween(500))
+                                    if (preferences.getBoolean(keepPlayerMinimizedKey, false))
                                     playerBottomSheetState.collapse(tween(700))
+                                    else playerBottomSheetState.expand(tween(500))
                                 } else {
                                     playerBottomSheetState.collapse(tween(700))
                                 }
