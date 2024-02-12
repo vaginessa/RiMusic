@@ -566,7 +566,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                         if (playerBottomSheetState.isDismissed) {
                             if (launchedFromNotification) {
                                 intent.replaceExtras(Bundle())
-                                playerBottomSheetState.expand(tween(700))
+                                //playerBottomSheetState.expand(tween(700))
+                                playerBottomSheetState.collapse(tween(700))
                             } else {
                                 playerBottomSheetState.collapse(tween(700))
                             }
@@ -577,7 +578,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                         override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                             if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_PLAYLIST_CHANGED && mediaItem != null) {
                                 if (mediaItem.mediaMetadata.extras?.getBoolean("isFromPersistentQueue") != true) {
-                                    playerBottomSheetState.expand(tween(500))
+                                    //playerBottomSheetState.expand(tween(500))
+                                    playerBottomSheetState.collapse(tween(700))
                                 } else {
                                     playerBottomSheetState.collapse(tween(700))
                                 }
