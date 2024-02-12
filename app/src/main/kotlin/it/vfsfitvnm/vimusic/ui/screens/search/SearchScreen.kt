@@ -74,7 +74,7 @@ fun SearchScreen(
                             .align(Alignment.Center)
                     ) {
                         BasicText(
-                            text = stringResource(R.string.enter_a_name),
+                            text = stringResource(R.string.search), //stringResource(R.string.enter_a_name),
                             maxLines = 1,
                             style = LocalAppearance.current.typography.l.secondary,
 

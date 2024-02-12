@@ -31,10 +31,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
@@ -167,7 +169,7 @@ fun OnlineSearch(
                         BasicTextField(
                             value = textFieldValue,
                             onValueChange = onTextFieldValueChanged,
-                            textStyle = typography.l.medium.align(TextAlign.Center),
+                            textStyle = typography.l.medium.align(TextAlign.Start),
                             singleLine = true,
                             maxLines = 1,
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
@@ -181,10 +183,12 @@ fun OnlineSearch(
                             cursorBrush = SolidColor(colorPalette.text),
                             decorationBox = decorationBox,
                             modifier = Modifier
-                                .background(
-                                    colorPalette.background4,
-                                    shape = thumbnailRoundness.shape()
-                                )
+                               // .background(
+                                    //colorPalette.background4,
+                                //    colorPalette.background1,
+                                    //shape = thumbnailRoundness.shape()
+                                //)
+                                //.padding(all = 4.dp)
                                 .focusRequester(focusRequester)
                                 .fillMaxWidth()
                         )
@@ -210,7 +214,20 @@ fun OnlineSearch(
                                 onClick = { onTextFieldValueChanged(TextFieldValue()) }
                             )
                         }
-                    }
+                    },
+                    modifier = Modifier
+                        .drawBehind {
+
+                            val strokeWidth = 1 * density
+                            val y = size.height - strokeWidth / 2
+
+                            drawLine(
+                                color = colorPalette.textDisabled,
+                                start = Offset(x = 0f, y = y/2),
+                                end = Offset(x = size.maxDimension, y = y/2),
+                                strokeWidth = 2.dp.toPx()
+                            )
+                        }
                 )
             }
 

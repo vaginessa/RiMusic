@@ -28,6 +28,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -67,6 +71,7 @@ import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
+import kotlinx.coroutines.delay
 
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
@@ -106,6 +111,10 @@ fun LocalSongSearch(
         ThumbnailRoundness.Heavy
     )
 
+    val focusRequester = remember {
+        FocusRequester()
+    }
+
     Box {
         LazyColumn(
             state = lazyListState,
@@ -140,17 +149,20 @@ fun LocalSongSearch(
                         BasicTextField(
                             value = textFieldValue,
                             onValueChange = onTextFieldValueChanged,
-                            textStyle = typography.l.medium.align(TextAlign.Center),
+                            textStyle = typography.l.medium.align(TextAlign.Start),
                             singleLine = true,
                             maxLines = 1,
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                             cursorBrush = SolidColor(colorPalette.text),
                             decorationBox = decorationBox,
                             modifier = Modifier
+                                /*
                                 .background(
                                     colorPalette.background4,
                                     shape = thumbnailRoundness.shape()
                                 )
+                                 */
+                                .focusRequester(focusRequester)
                                 .fillMaxWidth()
                         )
                     },
@@ -161,7 +173,20 @@ fun LocalSongSearch(
                                 onClick = { onTextFieldValueChanged(TextFieldValue()) }
                             )
                         }
-                    }
+                    },
+                    modifier = Modifier
+                        .drawBehind {
+
+                            val strokeWidth = 1 * density
+                            val y = size.height - strokeWidth / 2
+
+                            drawLine(
+                                color = colorPalette.textDisabled,
+                                start = Offset(x = 0f, y = y/2),
+                                end = Offset(x = size.maxDimension, y = y/2),
+                                strokeWidth = 2.dp.toPx()
+                            )
+                        }
                 )
             }
 
@@ -225,5 +250,9 @@ fun LocalSongSearch(
         }
 
         FloatingActionsContainerWithScrollToTop(lazyListState = lazyListState)
+    }
+    LaunchedEffect(Unit) {
+        delay(300)
+        focusRequester.requestFocus()
     }
 }
