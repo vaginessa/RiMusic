@@ -18,6 +18,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -595,23 +597,14 @@ fun Controls(
                         .size(26.dp)
                 )
 
-
-            IconButton(
-                icon = R.drawable.play_skip_back,
-                color = colorPalette.collapsedPlayerProgressBar, //colorPalette.iconButtonPlayer,
-                onClick = {
-                    /*
-                    binder.player.forceSeekToPrevious()
-                    //binder.player.seekToPreviousMediaItem()
-                    if (effectRotationEnabled) isRotated = !isRotated
-                     */
-                },
+            Image(
+                painter = painterResource(R.drawable.play_skip_back),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(colorPalette.collapsedPlayerProgressBar),
                 modifier = Modifier
-                    .rotate(rotationAngle)
-                    //.weight(1f)
-                    .padding(10.dp)
-                    .size(26.dp)
                     .combinedClickable(
+                        indication = rememberRipple(bounded = false),
+                        interactionSource = remember { MutableInteractionSource() },
                         onClick = {
                             binder.player.forceSeekToPrevious()
                             if (effectRotationEnabled) isRotated = !isRotated
@@ -620,8 +613,11 @@ fun Controls(
                             binder.player.seekTo(position-10000)
                         }
                     )
-            )
+                    .rotate(rotationAngle)
+                    .padding(10.dp)
+                    .size(26.dp)
 
+            )
 
             Box(
                 modifier = Modifier
@@ -678,21 +674,14 @@ fun Controls(
             }
 
 
-
-            IconButton(
-                icon = R.drawable.play_skip_forward,
-                color = colorPalette.collapsedPlayerProgressBar, //colorPalette.iconButtonPlayer,
-                onClick = {
-                    /*
-                    binder.player.forceSeekToNext()
-                    if (effectRotationEnabled) isRotated = !isRotated
-                     */
-                },
+            Image(
+                painter = painterResource(R.drawable.play_skip_forward),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(colorPalette.collapsedPlayerProgressBar),
                 modifier = Modifier
-                    .rotate(rotationAngle)
-                    .padding(10.dp)
-                    .size(26.dp)
                     .combinedClickable(
+                        indication = rememberRipple(bounded = false),
+                        interactionSource = remember { MutableInteractionSource() },
                         onClick = {
                             binder.player.forceSeekToNext()
                             if (effectRotationEnabled) isRotated = !isRotated
@@ -701,31 +690,12 @@ fun Controls(
                             binder.player.seekTo(position+10000)
                         }
                     )
-            )
-            /*
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(playPauseRoundness))
-                    .clickable {
-                        if (effectRotationEnabled) isRotated = !isRotated
-                        binder.player.forceSeekToNext()
-                    }
-                    //.background( colorPalette.background2 )
-                    .width(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.width.dp else playerPlayButtonType.width.dp)
-                    .height(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.height.dp else playerPlayButtonType.height.dp)
-            ) {
+                    .rotate(rotationAngle)
+                    .padding(10.dp)
+                    .size(26.dp)
 
-                Image(
-                    painter = painterResource(R.drawable.play_skip_forward),
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(colorPalette.collapsedPlayerProgressBar), //ColorFilter.tint(colorPalette.iconButtonPlayer),
-                    modifier = Modifier
-                        .rotate(rotationAngle)
-                        .align(Alignment.Center)
-                        .size(36.dp)
-                )
-            }
-             */
+            )
+
 
             if (uiType != UiType.RiMusic)
             IconButton(
