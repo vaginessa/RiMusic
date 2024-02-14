@@ -132,7 +132,14 @@ fun OtherSettings() {
             title = stringResource(R.string.enable_check_for_update),
             selectedValue = checkUpdateState,
             onValueSelected = { checkUpdateState = it },
-            valueText = { it.name }
+            valueText = {
+                when(it) {
+                    CheckUpdateState.Disabled -> stringResource(R.string.vt_disabled)
+                    CheckUpdateState.Enabled -> stringResource(R.string.enabled)
+                    CheckUpdateState.Ask -> stringResource(R.string.ask)
+                }
+
+            }
         )
         SettingsDescription(text = stringResource(R.string.when_enabled_a_new_version_is_checked_and_notified_during_startup))
         SettingsGroupSpacer()

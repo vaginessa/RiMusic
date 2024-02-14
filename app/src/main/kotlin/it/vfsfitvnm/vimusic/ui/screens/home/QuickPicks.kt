@@ -92,9 +92,7 @@ import it.vfsfitvnm.vimusic.ui.items.SongItemPlaceholder
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
-//import it.vfsfitvnm.vimusic.utils.SnapLayoutInfoProvider
-import it.vfsfitvnm.vimusic.utils.SwipeItemToReveal
-import it.vfsfitvnm.vimusic.utils.SwipeToReveal
+import it.vfsfitvnm.vimusic.utils.BehindMotionSwipe
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
@@ -103,7 +101,6 @@ import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
-import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.playEventsTypeKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
@@ -112,11 +109,8 @@ import it.vfsfitvnm.vimusic.utils.showNewAlbumsArtistsKey
 import it.vfsfitvnm.vimusic.utils.showPlaylistMightLikeKey
 import it.vfsfitvnm.vimusic.utils.showRelatedAlbumsKey
 import it.vfsfitvnm.vimusic.utils.showSimilarArtistsKey
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+
 
 @ExperimentalMaterialApi
 @ExperimentalTextApi

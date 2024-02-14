@@ -406,4 +406,7 @@
     <string name="sleeptimer_stop">stop</string>
     <string name="player_keep_minimized">Keep minimized</string>
     <string name="when_click_on_a_song_player_start_minimized">When click on a song, player start minimized</string>
+    <string name="settings_use_font_type">Use font type</string>
+    <string name="enabled">Enabled</string>
+    <string name="ask">Ask</string>
 </resources>

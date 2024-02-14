@@ -78,8 +78,8 @@ import kotlinx.coroutines.plus
 @Composable
 fun AppearanceSettings() {
     val (colorPalette) = LocalAppearance.current
-    val context = LocalContext.current
-    val coroutineScope = CoroutineScope(Dispatchers.IO) + Job()
+    //val context = LocalContext.current
+    //val coroutineScope = CoroutineScope(Dispatchers.IO) + Job()
 
     var colorPaletteName by rememberPreference(colorPaletteNameKey, ColorPaletteName.ModernBlack)
     var colorPaletteMode by rememberPreference(colorPaletteModeKey, ColorPaletteMode.System)
@@ -433,7 +433,7 @@ fun AppearanceSettings() {
         SettingsEntryGroupText(title = stringResource(R.string.text))
 
         EnumValueSelectorSettingsEntry(
-            title = "Use font type",
+            title = stringResource(R.string.settings_use_font_type),
             selectedValue = fontType,
             onValueSelected = { fontType = it },
             valueText = {
