@@ -12,6 +12,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.AnchoredDraggableState
+import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -54,6 +56,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalUriHandler
@@ -105,8 +108,10 @@ import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.Menu
 import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
 import it.vfsfitvnm.vimusic.ui.components.themed.MusicBarsShow
+import it.vfsfitvnm.vimusic.ui.components.themed.NowPlayingShow
 import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
+import it.vfsfitvnm.vimusic.ui.items.DragAnchors
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.screens.settings.EnumValueSelectorSettingsEntry
@@ -940,15 +945,15 @@ fun LocalPlaylistSongs(
                         )
                     }
                 }
-                
-                val isLocal by remember { derivedStateOf { song.asMediaItem.isLocal } }
-                downloadState = getDownloadState(song.asMediaItem.mediaId)
-                val isDownloaded = if (!isLocal) downloadedStateMedia(song.asMediaItem.mediaId) else true
-                //if (isDownloaded && !listDownloadedMedia.contains(song)) listDownloadedMedia.add(song)
-                //if (!isDownloaded) listDownloadedMedia.dropWhile {  it.asMediaItem.mediaId == song.asMediaItem.mediaId } else listDownloadedMedia.add(song)
-                //Log.d("mediaItem", "loop items listDownloadedMedia ${listDownloadedMedia.distinct().size} ${listDownloadedMedia.distinct()}")
+
                 BehindMotionSwipe(
                     content = {
+                        val isLocal by remember { derivedStateOf { song.asMediaItem.isLocal } }
+                        downloadState = getDownloadState(song.asMediaItem.mediaId)
+                        val isDownloaded = if (!isLocal) downloadedStateMedia(song.asMediaItem.mediaId) else true
+                        //if (isDownloaded && !listDownloadedMedia.contains(song)) listDownloadedMedia.add(song)
+                        //if (!isDownloaded) listDownloadedMedia.dropWhile {  it.asMediaItem.mediaId == song.asMediaItem.mediaId } else listDownloadedMedia.add(song)
+                        //Log.d("mediaItem", "loop items listDownloadedMedia ${listDownloadedMedia.distinct().size} ${listDownloadedMedia.distinct()}")
                         SongItem(
                             song = song,
                             isDownloaded = isDownloaded,
@@ -1020,7 +1025,7 @@ fun LocalPlaylistSongs(
                                 }
 
                                 if (nowPlayingItem > -1)
-                                    MusicBarsShow(song.asMediaItem.mediaId)
+                                    NowPlayingShow(song.asMediaItem.mediaId)
                             },
                             modifier = Modifier
                                 .combinedClickable(
@@ -1049,24 +1054,57 @@ fun LocalPlaylistSongs(
                         )
                     },
                 leftActionsContent = {
-                    LeftAction(
-                        icon = R.drawable.enqueue,
-                        backgroundColor = colorPalette.background4,
-                        onClick = {}
-                    )
+                    if (!reorderingState.isDragging)
+                        LeftAction(
+                            icon = R.drawable.enqueue,
+                            backgroundColor = Color.Transparent, //colorPalette.background4,
+                            onClick = {
+                                binder?.player?.enqueue( song.asMediaItem )
+                            }
+                        )
                 },
                 rightActionsContent = {
-                    RightActions(
-                        iconAction1 = R.drawable.pencil,
-                        backgroundColorAction1 = colorPalette.background4,
-                        onClickAction1 = {},
-                        iconAction2 = R.drawable.trash,
-                        backgroundColorAction2 = colorPalette.red,
-                        onClickAction2 = {}
-                    )
+                    if (!reorderingState.isDragging) {
+                        var likedAt by remember {
+                            mutableStateOf<Long?>(null)
+                        }
+                        LaunchedEffect(Unit, song.asMediaItem.mediaId) {
+                            Database.likedAt(song.asMediaItem.mediaId).collect { likedAt = it }
+                        }
+
+                        RightActions(
+                            iconAction1 = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
+                            backgroundColorAction1 = Color.Transparent, //colorPalette.background4,
+                            onClickAction1 = {
+                                query {
+                                    if (Database.like(
+                                            song.asMediaItem.mediaId,
+                                            if (likedAt == null) System.currentTimeMillis() else null
+                                        ) == 0
+                                    ) {
+                                        Database.insert(song.asMediaItem, Song::toggleLike)
+                                    }
+                                }
+                            },
+                            iconAction2 = R.drawable.trash,
+                            backgroundColorAction2 = Color.Transparent, //colorPalette.iconButtonPlayer,
+                            onClickAction2 = {
+                                transaction {
+                                    Database.move(playlistId, index, Int.MAX_VALUE)
+                                    Database.delete(
+                                        SongPlaylistMap(
+                                            song.id,
+                                            playlistId,
+                                            Int.MAX_VALUE
+                                        )
+                                    )
+                                }
+                            }
+                        )
+
+                    }
                 }
                 )
-
 
             }
         }

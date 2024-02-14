@@ -222,7 +222,7 @@ fun ConfirmationDialog(
                 primary = confirmBackgroundPrimary,
                 onClick = {
                     onConfirm()
-                    //onDismiss()
+                    onDismiss()
                 }
             )
         }

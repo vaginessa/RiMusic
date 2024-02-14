@@ -126,6 +126,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.MusicBarsShow
+import it.vfsfitvnm.vimusic.ui.components.themed.NowPlayingShow
 import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 
@@ -790,7 +791,7 @@ fun BuiltInPlaylistSongs(
                             )
                         }
                         if (nowPlayingItem > -1)
-                            MusicBarsShow(song.asMediaItem.mediaId)
+                            NowPlayingShow(song.asMediaItem.mediaId)
                     },
                     modifier = Modifier
                         .combinedClickable(

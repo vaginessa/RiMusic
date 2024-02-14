@@ -35,7 +35,7 @@ fun DraggableItem(
     startAction: @Composable (BoxScope.() -> Unit)? = {},
     endAction: @Composable (BoxScope.() -> Unit)? = {}
 ) {
-    val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
+    //val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     Box(
         modifier = Modifier
             //.padding(16.dp)

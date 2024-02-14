@@ -33,8 +33,9 @@ fun BehindMotionSwipe(
     leftActionsContent: @Composable () -> Unit,
     rightActionsContent: @Composable () -> Unit
 ) {
+
     val density = LocalDensity.current
-    val (colorPalette) = LocalAppearance.current
+    //val (colorPalette) = LocalAppearance.current
 
     val defaultActionSize = 80.dp
 
@@ -87,13 +88,3 @@ fun BehindMotionSwipe(
     )
 }
 
-@Composable
-fun HelloWorldCard() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.LightGray), contentAlignment = Alignment.Center
-    ) {
-        Text(text = "Hello World!!")
-    }
-}
