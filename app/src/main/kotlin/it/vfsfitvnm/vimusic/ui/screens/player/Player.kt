@@ -16,6 +16,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -56,6 +57,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -140,6 +142,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
+import kotlin.math.abs
 import kotlin.math.absoluteValue
 
 
@@ -715,6 +718,7 @@ fun Player(
             .padding(bottom = playerBottomSheetState.collapsedBound)
 
         val thumbnailContent: @Composable (modifier: Modifier) -> Unit = { modifier ->
+            var direction by remember { mutableIntStateOf(-1)}
             Thumbnail(
                 thumbnailTapEnabledKey = thumbnailTapEnabled,
                 isShowingLyrics = isShowingLyrics,
@@ -726,6 +730,67 @@ fun Player(
                 onMaximize = { lyricsBottomSheetState.expandSoft() },
                 modifier = modifier
                     .nestedScroll(layoutState.preUpPostDownNestedScrollConnection)
+                /* **** */
+                    .pointerInput(Unit) {
+                        detectDragGestures(
+                            onDrag = { change, dragAmount ->
+                                change.consume()
+                                val (x, y) = dragAmount
+                                if(abs(x) > abs(y)){
+                                    when {
+                                        x > 0 -> {
+                                            //right
+                                            direction = 0
+                                        }
+                                        x < 0 -> {
+                                            // left
+                                            direction = 1
+                                        }
+                                    }
+                                } else {
+                                    when {
+                                        y > 0 -> {
+                                            // down
+                                            direction = 2
+                                        }
+                                        y < 0 -> {
+                                            // up
+                                            direction = 3
+                                        }
+                                    }
+                                }
+
+                            },
+                            onDragEnd = {
+                                when (direction) {
+                                    0 -> {
+                                        //right swipe code here
+                                        binder.player.seekToPreviousMediaItem()
+                                        //Log.d("mediaItem","Swipe to RIGHT")
+                                    }
+                                    1 -> {
+                                        // left swipe code here
+                                        binder.player.forceSeekToNext()
+                                        //Log.d("mediaItem","Swipe to LEFT")
+                                    }
+
+                                    2 -> {
+                                        // down swipe code here
+                                        layoutState.collapseSoft()
+                                        //Log.d("mediaItem","Swipe to DOWN")
+                                    }
+                                    3 -> {
+                                        // up swipe code here
+                                        playerBottomSheetState.expandSoft()
+                                        //Log.d("mediaItem","Swipe to UP")
+                                    }
+
+                                }
+
+                            }
+                        )
+                    }
+                /* **** */
             )
         }
 
@@ -772,35 +837,104 @@ fun Player(
                 )
             }
         } else {
+            /*
             var offsetX by remember { mutableStateOf(0f) }
             var deltaX by remember { mutableStateOf(0f) }
+            var direction by remember { mutableStateOf(-1)}
+             */
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = containerModifier
                     .padding(top = 10.dp)
+                    /*
+                    .pointerInput(Unit) {
+                        detectDragGestures(
+                            onDrag = { change, dragAmount ->
+                                change.consume()
+                                val (x, y) = dragAmount
+                                if(abs(x) > abs(y)){
+                                    when {
+                                        x > 0 -> {
+                                            //right
+                                            direction = 0
+                                        }
+                                        x < 0 -> {
+                                            // left
+                                            direction = 1
+                                        }
+                                    }
+                                } else {
+                                    when {
+                                        y > 0 -> {
+                                            // down
+                                            direction = 2
+                                        }
+                                        y < 0 -> {
+                                            // up
+                                            direction = 3
+                                        }
+                                    }
+                                }
+
+                            },
+                            onDragEnd = {
+                                when (direction) {
+                                    0 -> {
+                                        //right swipe code here
+                                        binder.player.seekToPreviousMediaItem()
+                                       //Log.d("mediaItem","Swipe to RIGHT")
+                                    }
+                                    1 -> {
+                                        // left swipe code here
+                                        binder.player.forceSeekToNext()
+                                        //Log.d("mediaItem","Swipe to LEFT")
+                                    }
+
+                                    2 -> {
+                                        // down swipe code here
+                                        layoutState.collapseSoft()
+                                        //Log.d("mediaItem","Swipe to DOWN")
+                                    }
+                                    3 -> {
+                                        // up swipe code here
+                                        playerBottomSheetState.expandSoft()
+                                        //Log.d("mediaItem","Swipe to UP")
+                                    }
+
+                                }
+
+                            }
+                        )
+                    }
+                    */
+                    /*
                     .pointerInput(Unit) {
                         detectHorizontalDragGestures(
                             onHorizontalDrag = { change, dragAmount ->
                                 deltaX = dragAmount
-                                //Log.d("mediaItemGesture","onHorizontalDrag change ${change} dragAmount ${dragAmount}")
                             },
-
                             onDragStart = {
                                 //Log.d("mediaItemGesture","ondragStart offset ${it}")
                             },
-
                             onDragEnd = {
                                 if (!disablePlayerHorizontalSwipe) {
-                                    if (deltaX > 0) binder.player.seekToPreviousMediaItem() //binder.player.forceSeekToPrevious()
-                                    else binder.player.forceSeekToNext()
-                                    //Log.d("mediaItemGesture","ondrag end offsetX${offsetX} deltaX ${deltaX}")
+                                    if (deltaX > 0) {
+                                        binder.player.seekToPreviousMediaItem()
+                                        //binder.player.forceSeekToPrevious()
+                                        Log.d("mediaItem","Swipe to LEFT")
+                                    }
+                                    else {
+                                        binder.player.forceSeekToNext()
+                                        Log.d("mediaItem","Swipe to RIGHT")
+                                    }
+
                                 }
-                                //Log.d("mediaItemGesture","onDragEnd deltaX ${deltaX}")
+
                             }
 
                         )
                     }
-
+                     */
 
             ) {
 
@@ -1167,3 +1301,4 @@ private fun PlayerMenu(
 }
 
 */
+

@@ -400,7 +400,7 @@ fun Queue(
 
                                         onDragEnd = {
                                             if (!isReorderDisabled)
-                                                player?.removeMediaItem(currentItem.firstPeriodIndex)
+                                                player.removeMediaItem(currentItem.firstPeriodIndex)
                                         }
 
                                     )
