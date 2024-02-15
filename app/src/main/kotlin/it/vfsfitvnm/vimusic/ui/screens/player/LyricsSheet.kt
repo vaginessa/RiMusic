@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
+import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.ui.components.BottomSheet
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
@@ -36,6 +38,7 @@ import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.thumbnail
+import it.vfsfitvnm.vimusic.utils.windows
 
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
@@ -126,7 +129,7 @@ fun LyricsSheet(
                     .padding(horizontal = 4.dp)
             ) {
 
-                if (!player.currentMediaItem?.isLocal!!)
+                //if (!player.currentMediaItem?.isLocal!!)
                     player.currentMediaItem?.mediaId?.let {
                         player.currentMediaItem!!::mediaMetadata.let { it1 ->
                             Lyrics(
@@ -134,7 +137,13 @@ fun LyricsSheet(
                                 isDisplayed = true,
                                 onDismiss = {},
                                 onMaximize = onMaximize,
-                                ensureSongInserted = { Database.insert(player.currentMediaItem!!) },
+                                ensureSongInserted = {
+                                    /*
+                                    query {
+                                        Database.insert(player.currentMediaItem!!)
+                                    }
+                                     */
+                                },
                                 size = thumbnailSizeDp,
                                 mediaMetadataProvider = it1,
                                 durationProvider = player::getDuration,
