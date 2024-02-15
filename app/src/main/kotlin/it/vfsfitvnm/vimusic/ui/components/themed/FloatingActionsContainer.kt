@@ -134,8 +134,20 @@ fun BoxScope.FloatingActions(
                 exit = slideOutVertically(tween(500, 0)) { it },
             ) {
                 val coroutineScope = rememberCoroutineScope()
-
-                SecondaryButton(
+                PrimaryButton(
+                    iconId = R.drawable.chevron_up,
+                    onClick = {
+                        coroutineScope.launch {
+                            onScrollToTop()
+                        }
+                    },
+                    enabled = transition.targetState?.isScrollingDown == true,
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .padding(bottomPaddingValues)
+                )
+                /*
+                SecondaryCircleButton(
                     onClick = {
                         coroutineScope.launch {
                             onScrollToTop()
@@ -147,6 +159,7 @@ fun BoxScope.FloatingActions(
                         .padding(bottom = 16.dp)
                         .padding(bottomPaddingValues)
                 )
+                 */
             }
         }
 
