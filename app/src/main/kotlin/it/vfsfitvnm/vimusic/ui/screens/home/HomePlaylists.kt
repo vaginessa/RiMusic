@@ -191,7 +191,7 @@ fun HomePlaylists(
                     )
 
                     HeaderIconButton(
-                        icon = R.drawable.add,
+                        icon = R.drawable.add_in_playlist,
                         color = colorPalette.text,
                         onClick = { isCreatingANewPlaylist = true }
                     )

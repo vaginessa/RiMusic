@@ -504,7 +504,7 @@ fun MediaItemMenu(
                 onAddToPlaylist?.let { onAddToPlaylist ->
                     playlistPreviews.forEach { playlistPreview ->
                         MenuEntry(
-                            icon = R.drawable.playlist,
+                            icon = R.drawable.add_in_playlist,
                             text = playlistPreview.playlist.name,
                             secondaryText = "${playlistPreview.songCount} " + stringResource(R.string.songs),
                             onClick = {
@@ -916,7 +916,7 @@ fun MediaItemMenu(
 
                 if (onAddToPlaylist != null) {
                     MenuEntry(
-                        icon = R.drawable.playlist,
+                        icon = R.drawable.add_in_playlist,
                         text = stringResource(R.string.add_to_playlist),
                         onClick = { isViewingPlaylists = true },
                         trailingContent = {

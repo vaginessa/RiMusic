@@ -364,7 +364,7 @@ fun PlaylistSongList(
                 )
 
                 HeaderIconButton(
-                    icon = R.drawable.add,
+                    icon = R.drawable.add_in_playlist,
                     color = colorPalette.text,
                     onClick = {
                         showAddPlaylistSelectDialog = true

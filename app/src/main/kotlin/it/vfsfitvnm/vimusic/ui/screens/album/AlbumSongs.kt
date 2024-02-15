@@ -313,7 +313,7 @@ fun AlbumSongs(
                             )
 
                             HeaderIconButton(
-                                icon = R.drawable.add,
+                                icon = R.drawable.add_in_playlist,
                                 enabled = songs.isNotEmpty(),
                                 color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
                                 onClick = {

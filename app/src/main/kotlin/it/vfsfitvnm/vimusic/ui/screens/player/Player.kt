@@ -1102,7 +1102,7 @@ fun Player(
 
                         if(showButtonPlayerAddToPlaylist)
                             IconButton(
-                                icon = R.drawable.add,
+                                icon = R.drawable.add_in_playlist,
                                 color = colorPalette.text,
                                 onClick = { showPlaylistSelectDialog = true },
                                 modifier = Modifier
