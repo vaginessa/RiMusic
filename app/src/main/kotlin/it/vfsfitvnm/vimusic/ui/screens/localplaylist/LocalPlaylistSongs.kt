@@ -35,12 +35,16 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -66,6 +70,7 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.MediaItem
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
@@ -85,11 +90,13 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
+import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.RecommendationsNumber
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Info
+import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
@@ -353,6 +360,122 @@ fun LocalPlaylistSongs(
 
     var showSortTypeSelectDialog by remember {
         mutableStateOf(false)
+    }
+
+    var showAddPlaylistSelectDialog by remember {
+        mutableStateOf(false)
+    }
+    var isCreatingNewPlaylist by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var showPlaylistSelectDialog by remember {
+        mutableStateOf(false)
+    }
+    var listMediaItems = remember {
+        mutableListOf<MediaItem>()
+    }
+
+    var selectItems by remember {
+        mutableStateOf(false)
+    }
+
+    val playlistPreviews by remember {
+        Database.playlistPreviews(PlaylistSortBy.Name, SortOrder.Ascending)
+    }.collectAsState(initial = emptyList(), context = Dispatchers.IO)
+
+    var position by remember {
+        mutableIntStateOf(0)
+    }
+
+    if (showAddPlaylistSelectDialog)
+        SelectorDialog(
+            title = stringResource(R.string.playlists),
+            onDismiss = { showAddPlaylistSelectDialog = false },
+            values = listOf(
+                Info("n", stringResource(R.string.new_playlist)),
+                Info("a", stringResource(R.string.add_all_in_playlist)),
+                Info("s", stringResource(R.string.add_selected_in_playlist))
+            ),
+            onValueSelected = {
+                when (it) {
+                    "a" -> showPlaylistSelectDialog = true
+                    "n" -> isCreatingNewPlaylist = true
+                    else -> selectItems = true
+                }
+                showAddPlaylistSelectDialog = false
+            }
+        )
+
+    if (isCreatingNewPlaylist)
+        InputTextDialog(
+            onDismiss = { isCreatingNewPlaylist = false },
+            title = stringResource(R.string.new_playlist),
+            value = "",
+            placeholder = stringResource(R.string.new_playlist),
+            setValue = {
+                if (it.isNotEmpty()) {
+                    query {
+                        Database.insert(Playlist(name = it))
+                    }
+                    //context.toast("Song Saved $it")
+                }
+            }
+        )
+
+    if (showPlaylistSelectDialog) {
+        SelectorDialog(
+            title = stringResource(R.string.playlists),
+            onDismiss = { showPlaylistSelectDialog = false },
+            showItemsIcon = true,
+            values = playlistPreviews.map {
+                Info(
+                    it.playlist.id.toString(),
+                    "${it.playlist.name} \n ${it.songCount} ${stringResource(R.string.songs)}",
+                    it.songCount
+                )
+            },
+            onValueSelected = {
+                position = playlistPreviews.firstOrNull { playlistPreview ->
+                    playlistPreview.playlist.id == it.toLong()
+                }?.songCount?.minus(1) ?: 0
+                //Log.d("mediaItem", " maxPos in Playlist $it ${position}")
+                if (position > 0) position++ else position = 0
+                //Log.d("mediaItem", "next initial pos ${position}")
+                if (listMediaItems.isEmpty()) {
+                    playlistSongs.forEachIndexed { index, song ->
+                        transaction {
+                            Database.insert(song.asMediaItem)
+                            Database.insert(
+                                SongPlaylistMap(
+                                    songId = song.asMediaItem.mediaId,
+                                    playlistId = it.toLong(),
+                                    position = position + index
+                                )
+                            )
+                        }
+                        //Log.d("mediaItemPos", "added position ${position + index}")
+                    }
+                } else {
+                    listMediaItems.forEachIndexed { index, song ->
+                        //Log.d("mediaItemMaxPos", position.toString())
+                        transaction {
+                            Database.insert(song)
+                            Database.insert(
+                                SongPlaylistMap(
+                                    songId = song.mediaId,
+                                    playlistId = it.toLong(),
+                                    position = position + index
+                                )
+                            )
+                        }
+                        //Log.d("mediaItemPos", "add position $position")
+                    }
+                    listMediaItems.clear()
+                    selectItems = false
+                }
+                showPlaylistSelectDialog = false
+            }
+        )
     }
 
     /*
@@ -664,6 +787,20 @@ fun LocalPlaylistSongs(
                                             isRenaming = true
                                         }
                                     )
+
+
+
+                                    MenuEntry(
+                                        icon = R.drawable.add_in_playlist,
+                                        text = stringResource(R.string.add_to_playlist),
+                                        onClick = {
+                                            menuState.hide()
+                                            if (!selectItems)
+                                                showAddPlaylistSelectDialog = true  else
+                                                showPlaylistSelectDialog = true
+                                        }
+                                    )
+
 
                                     MenuEntry(
                                         icon = R.drawable.position,
@@ -986,6 +1123,21 @@ fun LocalPlaylistSongs(
                             thumbnailSizePx = thumbnailSizePx,
                             thumbnailSizeDp = thumbnailSizeDp,
                             trailingContent = {
+                                val checkedState = remember { mutableStateOf(false) }
+                                if (selectItems)
+                                    Checkbox(
+                                        checked = checkedState.value,
+                                        onCheckedChange = {
+                                            checkedState.value = it
+                                            if (it) listMediaItems.add(song.asMediaItem) else
+                                                listMediaItems.remove(song.asMediaItem)
+                                        },
+                                        colors = CheckboxDefaults.colors(
+                                            checkedColor = colorPalette.accent,
+                                            uncheckedColor = colorPalette.text
+                                        )
+                                    )
+
                                 if (!isReorderDisabled) {
                                     IconButton(
                                         icon = R.drawable.reorder,
