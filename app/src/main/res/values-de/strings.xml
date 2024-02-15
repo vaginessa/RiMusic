@@ -366,7 +366,7 @@
     <string name="restore_completed">Wiederherstellen abgeschlossen!</string>
     <string name="click_to_close">Zum Schließen klicken</string>
     <string name="lang_dutch">Niederländisch</string>
-    <string name="do_you_really_want_to_renumbering_positions_in_this_playlist">Möchtest du wirklich die Positionen in dieser Playlist neu nummerieren?</string>
+    <string name="do_you_really_want_to_renumbering_positions_in_this_playlist">Möchtest du wirklich die Positionen in dieser Wiedergabeliste neu nummerieren?</string>
     <string name="renumber_songs_positions">Positionen neu nummerieren</string>
     <string name="do_you_really_want_to_delete_all_playback_events">Möchtest du wirklich alle Wiedergabe-Ereignisse löschen?</string>
     <string name="lang_sinhala">Singhalesisch</string>
