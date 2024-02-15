@@ -1042,7 +1042,7 @@ fun Player(
                         .fillMaxWidth()
 
                 ) {
-                    if (uiType != UiType.ViMusic) {
+                    //if (uiType != UiType.ViMusic) {
 
                         if(showButtonPlayerDownload)
                         DownloadStateIconButton(
@@ -1209,6 +1209,7 @@ fun Player(
                                     .size(24.dp)
                             )
                         }
+                   /*
                     } else {
                         IconButton(
                             icon = R.drawable.playlist,
@@ -1240,6 +1241,7 @@ fun Player(
                         )
 
                     }
+                    */
                 }
             },
             backgroundColorProvider = { colorPalette.background2 },
