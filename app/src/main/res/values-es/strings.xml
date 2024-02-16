@@ -363,7 +363,7 @@
     <string name="if_possible_allows_discovery_content_language">Si es posible, permite recibir contenido de Descubrimiento en su propio idioma.</string>
     <string name="set_to">Establecer en</string>
     <string name="end_of_song">fin de la canción</string>
-    <string name="restore_completed">Restauración terminada!</string>
+    <string name="restore_completed">¡Restauración terminada!</string>
     <string name="click_to_close">Toca para cerrar</string>
     <string name="lang_dutch">Holandés</string>
     <string name="do_you_really_want_to_renumbering_positions_in_this_playlist">Do you really want to renumbering positions in this playlist?</string>
