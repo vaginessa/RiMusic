@@ -74,7 +74,7 @@ fun computeStackedBarPoints(
         //val stackCount  = (maxStackCount * (d / 128f)).roundToInt()
         val stackCount = animateIntAsState(
             (maxStackCount * (d / 128f)).roundToInt(),
-            animationSpec = tween(durationMillis = SAMPLING_INTERVAL)
+            animationSpec = tween(durationMillis = SAMPLING_INTERVAL), label = ""
         )
         for (stackIndex in 0..stackCount.value) {
             nodes += Point(

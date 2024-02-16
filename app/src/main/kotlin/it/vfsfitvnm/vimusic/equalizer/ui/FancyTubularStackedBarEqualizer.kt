@@ -66,7 +66,7 @@ fun FancyTubularStackedBarEqualizer(
                 animationSpec = infiniteRepeatable(
                     animation = tween(durationMillis = 40000, easing = LinearEasing),
                     repeatMode = RepeatMode.Restart
-                )
+                ), label = ""
             )
             val ringCount = 6
 
@@ -76,7 +76,7 @@ fun FancyTubularStackedBarEqualizer(
                 animationSpec = infiniteRepeatable(
                     animation = tween(durationMillis = 5000, easing = LinearEasing),
                     repeatMode = RepeatMode.Restart
-                )
+                ), label = ""
             )
 
             val rings = (0..ringCount).map { index ->

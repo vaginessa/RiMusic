@@ -42,13 +42,13 @@ fun ShowEqualizer(
 ) {
 
     var playerVisualizerType by rememberPreference(playerVisualizerTypeKey, PlayerVisualizerType.Disabled)
-    Log.d("visualizer player","passato da qui")
+    //Log.d("visualizer player","passato da qui")
 
     if (playerVisualizerType != PlayerVisualizerType.Disabled){
     //val (colorPalette, typography) = LocalAppearance.current
     //val context = LocalContext.current
     //val binder = LocalPlayerServiceBinder.current ?: return
-        Log.d("visualizer player","è attivo da qui")
+        //Log.d("visualizer player","è attivo da qui")
 
     val activity = LocalContext.current as Activity
     //VisualizerComputer.setupPermissions( LocalContext.current as Activity)

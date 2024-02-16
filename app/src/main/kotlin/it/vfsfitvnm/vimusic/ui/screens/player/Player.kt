@@ -122,7 +122,6 @@ import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.positionAndDurationState
 import it.vfsfitvnm.vimusic.utils.rememberPreference
-import it.vfsfitvnm.vimusic.utils.seamlessPlay
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.shouldBePlaying
@@ -745,8 +744,7 @@ fun Player(
                                         binder.player.seekToPreviousMediaItem()
                                         //binder.player.forceSeekToPrevious()
                                         //Log.d("mediaItem","Swipe to LEFT")
-                                    }
-                                    else {
+                                    } else {
                                         binder.player.forceSeekToNext()
                                         //Log.d("mediaItem","Swipe to RIGHT")
                                     }
@@ -1136,6 +1134,7 @@ fun Player(
                                 modifier = Modifier
                                     .size(24.dp)
                             )
+
 
                         if (showButtonPlayerSleepTimer)
                         IconButton(
