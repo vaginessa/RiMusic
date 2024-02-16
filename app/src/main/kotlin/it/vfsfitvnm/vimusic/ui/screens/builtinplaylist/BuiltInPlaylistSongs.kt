@@ -74,6 +74,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.AlbumSortBy
 import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
 import it.vfsfitvnm.vimusic.enums.RecommendationsNumber
@@ -127,6 +128,7 @@ import kotlinx.coroutines.flow.map
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.MusicBarsShow
 import it.vfsfitvnm.vimusic.ui.components.themed.NowPlayingShow
+import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 
@@ -571,10 +573,20 @@ fun BuiltInPlaylistSongs(
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier
                                 .clickable {
-                                    showSortTypeSelectDialog = true
+                                    menuState.display{
+                                        SortMenu(
+                                            title = stringResource(R.string.sorting_order),
+                                            onDismiss = menuState::hide,
+                                            onTitle = { sortBy = SongSortBy.Title },
+                                            onDatePlayed = { sortBy = SongSortBy.DatePlayed },
+                                            onDateAdded = { sortBy = SongSortBy.DateAdded },
+                                            onPlayTime = { sortBy = SongSortBy.PlayTime },
+                                        )
+                                    }
+                                    //showSortTypeSelectDialog = true
                                 }
                         )
-
+                        /*
                         if (showSortTypeSelectDialog)
                             ValueSelectorDialog(
                                 onDismiss = { showSortTypeSelectDialog = false },
@@ -591,6 +603,8 @@ fun BuiltInPlaylistSongs(
                                     }
                                 }
                             )
+
+                         */
 
                         /*
                         if (builtInPlaylist == BuiltInPlaylist.Favorites)

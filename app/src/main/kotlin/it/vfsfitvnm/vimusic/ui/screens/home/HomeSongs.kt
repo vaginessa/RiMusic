@@ -65,6 +65,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.AlbumSortBy
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
@@ -78,6 +79,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -123,9 +125,11 @@ fun  HomeSongs(
 
     var items by persistList<Song>("home/songs")
 
+    /*
     var filterDownloaded by remember {
         mutableStateOf(false)
     }
+     */
 
     var filter: String? by rememberSaveable { mutableStateOf(null) }
 
@@ -261,10 +265,20 @@ fun  HomeSongs(
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .clickable {
-                                showSortTypeSelectDialog = true
+                                menuState.display{
+                                    SortMenu(
+                                        title = stringResource(R.string.sorting_order),
+                                        onDismiss = menuState::hide,
+                                        onDatePlayed = { sortBy = SongSortBy.DatePlayed },
+                                        onTitle = { sortBy = SongSortBy.Title },
+                                        onDateAdded = { sortBy = SongSortBy.DateAdded },
+                                        onPlayTime = { sortBy = SongSortBy.PlayTime },
+                                    )
+                                }
+                                //showSortTypeSelectDialog = true
                             }
                     )
-
+                    /*
                     if (showSortTypeSelectDialog)
                         ValueSelectorDialog(
                             onDismiss = { showSortTypeSelectDialog = false },
@@ -281,6 +295,8 @@ fun  HomeSongs(
                                 }
                             }
                         )
+
+                     */
 
                         /*
                         HeaderIconButton(

@@ -54,6 +54,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
 import it.vfsfitvnm.vimusic.ui.items.AlbumItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -154,10 +155,20 @@ fun HomeAlbums(
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .clickable {
-                                showSortTypeSelectDialog = true
+                                menuState.display{
+                                    SortMenu(
+                                        title = stringResource(R.string.sorting_order),
+                                        onDismiss = menuState::hide,
+                                        onTitle = { sortBy = AlbumSortBy.Title },
+                                        onYear = { sortBy = AlbumSortBy.Year },
+                                        onDateAdded = { sortBy = AlbumSortBy.DateAdded },
+                                    )
+                                }
+                                //showSortTypeSelectDialog = true
                             }
                     )
 
+                    /*
                     if (showSortTypeSelectDialog)
                         ValueSelectorDialog(
                             onDismiss = { showSortTypeSelectDialog = false },
@@ -173,6 +184,8 @@ fun HomeAlbums(
                                 }
                             }
                         )
+
+                     */
                     /*
                     HeaderIconButton(
                         icon = R.drawable.time,
@@ -228,9 +241,9 @@ fun HomeAlbums(
                             },
                              */
                             onClick = {
-                                    onAlbumClick(album)
+                                onAlbumClick(album)
                             }
-                    )
+                        )
 
                         .animateItemPlacement()
                 )

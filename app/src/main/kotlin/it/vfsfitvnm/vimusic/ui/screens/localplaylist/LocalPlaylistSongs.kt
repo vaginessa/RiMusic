@@ -88,6 +88,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.AlbumSortBy
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
@@ -117,6 +118,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
 import it.vfsfitvnm.vimusic.ui.components.themed.MusicBarsShow
 import it.vfsfitvnm.vimusic.ui.components.themed.NowPlayingShow
 import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
 import it.vfsfitvnm.vimusic.ui.items.DragAnchors
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
@@ -905,10 +907,22 @@ fun LocalPlaylistSongs(
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .clickable {
-                                showSortTypeSelectDialog = true
+                                menuState.display{
+                                    SortMenu(
+                                        title = stringResource(R.string.sorting_order),
+                                        onDismiss = menuState::hide,
+                                        onTitle = { sortBy = PlaylistSongSortBy.Title },
+                                        onAlbumYear = { sortBy = PlaylistSongSortBy.AlbumYear },
+                                        onDatePlayed = { sortBy = PlaylistSongSortBy.DatePlayed },
+                                        onPosition = { sortBy = PlaylistSongSortBy.Position },
+                                        onArtist = { sortBy = PlaylistSongSortBy.Artist },
+                                        onPlayTime = { sortBy = PlaylistSongSortBy.PlayTime },
+                                    )
+                                }
+                                //showSortTypeSelectDialog = true
                             }
                     )
-
+                    /*
                     if (showSortTypeSelectDialog)
                         ValueSelectorDialog(
                             onDismiss = { showSortTypeSelectDialog = false },
@@ -927,6 +941,8 @@ fun LocalPlaylistSongs(
                                 }
                             }
                         )
+
+                     */
 
                     /*
                     HeaderIconButton(

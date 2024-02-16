@@ -49,11 +49,13 @@ import it.vfsfitvnm.vimusic.enums.ArtistSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Artist
+import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.Header
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
+import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
 import it.vfsfitvnm.vimusic.ui.items.ArtistItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -76,7 +78,7 @@ fun HomeArtistList(
     onSearchClick: () -> Unit,
 ) {
     val (colorPalette, typography) = LocalAppearance.current
-
+    val menuState = LocalMenuState.current
     var sortBy by rememberPreference(artistSortByKey, ArtistSortBy.DateAdded)
     var sortOrder by rememberPreference(artistSortOrderKey, SortOrder.Descending)
     val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
@@ -160,10 +162,18 @@ fun HomeArtistList(
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .clickable {
-                                showSortTypeSelectDialog = true
+                                menuState.display{
+                                    SortMenu(
+                                        title = stringResource(R.string.sorting_order),
+                                        onDismiss = menuState::hide,
+                                        onName= { sortBy = ArtistSortBy.Name },
+                                        onDateAdded = { sortBy = ArtistSortBy.DateAdded },
+                                    )
+                                }
+                                //showSortTypeSelectDialog = true
                             }
                     )
-
+                    /*
                     if (showSortTypeSelectDialog)
                         ValueSelectorDialog(
                             onDismiss = { showSortTypeSelectDialog = false },
@@ -178,6 +188,8 @@ fun HomeArtistList(
                                 }
                             }
                         )
+
+                     */
                     /*
                     HeaderIconButton(
                         icon = R.drawable.text,
