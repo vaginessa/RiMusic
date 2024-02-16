@@ -18,6 +18,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,6 +33,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -55,6 +57,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -68,11 +71,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
+import coil.compose.AsyncImage
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.AlbumSortBy
 import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.DeviceLists
 import it.vfsfitvnm.vimusic.enums.SongSortBy
@@ -89,6 +94,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.IconInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -109,6 +115,7 @@ import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.songSortByKey
 import it.vfsfitvnm.vimusic.utils.songSortOrderKey
+import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.toast
 import kotlinx.coroutines.CoroutineName
@@ -190,6 +197,14 @@ fun DeviceListSongs(
         }?.toLong() ?: 0
     }
 
+    val playlistThumbnailSizeDp = Dimensions.thumbnails.playlist
+    val playlistThumbnailSizePx = playlistThumbnailSizeDp.px
+
+    val thumbnails = songs
+        .takeWhile { it.thumbnailUrl?.isNotEmpty() ?: false }
+        .take(4)
+        .map { it.thumbnailUrl.thumbnail(playlistThumbnailSizePx / 2) }
+
     val activity = LocalContext.current as Activity
     if (ContextCompat.checkSelfPermission(
             activity,
@@ -234,19 +249,64 @@ fun DeviceListSongs(
                     modifier = Modifier
                         //.background(colorPalette.background4)
                         .fillMaxSize(0.99F)
-                        .background(color = colorPalette.background4, shape = thumbnailRoundness.shape())
+                        .background(
+                            color = colorPalette.background4,
+                            shape = thumbnailRoundness.shape()
+                        )
                 ) {
+                    if (songs.isEmpty())
+                        PlaylistItem(
+                            icon = R.drawable.musical_notes,
+                            colorTint = colorPalette.favoritesIcon,
+                            name = stringResource(R.string.on_device),
+                            songCount = null,
+                            thumbnailSizeDp = playlistThumbnailSizeDp,
+                            alternative = false,
+                            modifier = Modifier
+                        )
 
-                    PlaylistItem(
-                        icon = R.drawable.musical_notes,
-                        iconSize = 64.dp,
-                        colorTint = colorPalette.favoritesIcon,
-                        name = "",
-                        songCount = null,
-                        thumbnailSizeDp = thumbnailSizeDp,
-                        alternative = true,
-                        showName = false
-                    )
+                    if (songs.isNotEmpty())
+                        PlaylistItem(
+                            thumbnailContent = {
+                                if (thumbnails.toSet().size == 1) {
+                                    AsyncImage(
+                                        model = thumbnails.first().thumbnail(playlistThumbnailSizePx),
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Crop,
+                                        modifier = it
+                                    )
+                                } else {
+                                    Box(
+                                        modifier = it
+                                            .fillMaxSize()
+                                    ) {
+                                        listOf(
+                                            Alignment.TopStart,
+                                            Alignment.TopEnd,
+                                            Alignment.BottomStart,
+                                            Alignment.BottomEnd
+                                        ).forEachIndexed { index, alignment ->
+                                            AsyncImage(
+                                                model = thumbnails.getOrNull(index),
+                                                contentDescription = null,
+                                                contentScale = ContentScale.Crop,
+                                                modifier = Modifier
+                                                    .align(alignment)
+                                                    .size(playlistThumbnailSizeDp / 2)
+                                            )
+                                        }
+                                    }
+                                }
+                            },
+                            songCount = null,
+                            name = "",
+                            channelName = null,
+                            thumbnailSizeDp = playlistThumbnailSizeDp,
+                            modifier = Modifier,
+                            alternative = true,
+                            showName = false
+                        )
+
 
                     Column (
                         verticalArrangement = Arrangement.Center,
@@ -275,7 +335,7 @@ fun DeviceListSongs(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Row (
-                        horizontalArrangement = Arrangement.SpaceBetween, //Arrangement.spacedBy(10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -311,7 +371,38 @@ fun DeviceListSongs(
                         }
                     )
 
+                    Spacer(
+                        modifier = Modifier
+                            .weight(1f)
+                    )
 
+                    BasicText(
+                        text = when (sortBy) {
+                            SongSortBy.Title -> stringResource(R.string.sort_title)
+                            SongSortBy.PlayTime -> stringResource(R.string.sort_listening_time)
+                            SongSortBy.DateAdded -> stringResource(R.string.sort_date_added)
+                            SongSortBy.DatePlayed -> stringResource(R.string.sort_date_played)
+                        },
+                        style = typography.xs.semiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .clickable {
+                                menuState.display{
+                                    SortMenu(
+                                        title = stringResource(R.string.sorting_order),
+                                        onDismiss = menuState::hide,
+                                        onTitle = { sortBy = SongSortBy.Title },
+                                        onPlayTime = { sortBy = SongSortBy.PlayTime },
+                                        onDateAdded = { sortBy = SongSortBy.DateAdded },
+                                        onDatePlayed = { sortBy = SongSortBy.DatePlayed },
+                                    )
+                                }
+
+                            }
+                    )
+
+                    /*
                     HeaderIconButton(
                                 icon = R.drawable.trending,
                                 color = if (sortBy == SongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
@@ -329,6 +420,9 @@ fun DeviceListSongs(
                                 color = if (sortBy == SongSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
                                 onClick = { sortBy = SongSortBy.DateAdded }
                             )
+
+                     */
+
                             /*
                             Spacer(
                                 modifier = Modifier
