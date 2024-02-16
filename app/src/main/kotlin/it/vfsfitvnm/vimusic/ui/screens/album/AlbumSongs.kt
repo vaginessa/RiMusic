@@ -57,6 +57,7 @@ import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
+import it.vfsfitvnm.vimusic.ui.components.themed.AlbumsItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.CustomDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
@@ -281,6 +282,7 @@ fun AlbumSongs(
                                 )
                             }
 
+                            /*
                             HeaderIconButton(
                                 icon = R.drawable.enqueue,
                                 enabled = songs.isNotEmpty(),
@@ -295,6 +297,7 @@ fun AlbumSongs(
 
                                 }
                             )
+                             */
 
 
 
@@ -313,16 +316,83 @@ fun AlbumSongs(
                             )
 
                             HeaderIconButton(
-                                icon = R.drawable.add_in_playlist,
+                                icon = R.drawable.ellipsis_horizontal,
                                 enabled = songs.isNotEmpty(),
                                 color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
                                 onClick = {
+                                    menuState.display {
+                                        album?.let {
+                                            AlbumsItemMenu(
+                                                onDismiss = menuState::hide,
+                                                onSelect = { selectItems = true },
+                                                onUncheck = {
+                                                    selectItems = false
+                                                    listMediaItems.clear()
+                                                },
+                                                onChangeAlbumTitle = { showDialogChangeAlbumTitle = true },
+                                                onChangeAlbumAuthors = { showDialogChangeAlbumAuthors = true },
+                                                onChangeAlbumCover = { showDialogChangeAlbumCover = true },
+                                                onEnqueue = {
+                                                    if (listMediaItems.isEmpty()) {
+                                                        binder?.player?.enqueue(songs.map(Song::asMediaItem))
+                                                    } else {
+                                                        binder?.player?.enqueue(listMediaItems)
+                                                        listMediaItems.clear()
+                                                        selectItems = false
+                                                    }
+                                                },
+                                                album = it,
+                                                onAddToPlaylist = { playlistPreview ->
+                                                    position =
+                                                        playlistPreview.songCount.minus(1) ?: 0
+                                                    //Log.d("mediaItem", " maxPos in Playlist $it ${position}")
+                                                    if (position > 0) position++ else position = 0
+                                                    //Log.d("mediaItem", "next initial pos ${position}")
+                                                    if (listMediaItems.isEmpty()) {
+                                                        songs.forEachIndexed { index, song ->
+                                                            transaction {
+                                                                Database.insert(song.asMediaItem)
+                                                                Database.insert(
+                                                                    SongPlaylistMap(
+                                                                        songId = song.asMediaItem.mediaId,
+                                                                        playlistId = playlistPreview.playlist.id,
+                                                                        position = position + index
+                                                                    )
+                                                                )
+                                                            }
+                                                            //Log.d("mediaItemPos", "added position ${position + index}")
+                                                        }
+                                                    } else {
+                                                        listMediaItems.forEachIndexed { index, song ->
+                                                            //Log.d("mediaItemMaxPos", position.toString())
+                                                            transaction {
+                                                                Database.insert(song)
+                                                                Database.insert(
+                                                                    SongPlaylistMap(
+                                                                        songId = song.mediaId,
+                                                                        playlistId = playlistPreview.playlist.id,
+                                                                        position = position + index
+                                                                    )
+                                                                )
+                                                            }
+                                                            //Log.d("mediaItemPos", "add position $position")
+                                                        }
+                                                        listMediaItems.clear()
+                                                        selectItems = false
+                                                    }
+                                                },
+                                            )
+                                        }
+                                    }
+                                    /*
                                     if (!selectItems)
                                         showAddPlaylistSelectDialog = true  else
                                         showPlaylistSelectDialog = true
+
+                                     */
                                 }
                             )
-
+                            /*
                             if (showAddPlaylistSelectDialog)
                                 SelectorDialog(
                                     title = stringResource(R.string.playlists),
@@ -398,7 +468,7 @@ fun AlbumSongs(
                                     }
                                 )
                             }
-
+                            */
                             if (showSelectDialog)
                                 SelectorDialog(
                                     title = stringResource(R.string.enqueue),
@@ -415,7 +485,7 @@ fun AlbumSongs(
                                         showSelectDialog = false
                                     }
                                 )
-
+                            /*
                             HeaderIconButton(
                                 icon = R.drawable.pencil,
                                 color = colorPalette.text,
@@ -423,7 +493,7 @@ fun AlbumSongs(
                                     showSelectCustomizeAlbumDialog = true
                                 }
                             )
-
+                            */
                             if (showSelectCustomizeAlbumDialog)
                                 SelectorDialog(
                                     title = stringResource(R.string.customize_album),
