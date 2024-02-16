@@ -78,9 +78,9 @@
     <string name="use_song_cover_on_lockscreen">Use a capa da música de reprodução como papel de parede da tela de bloqueio</string>
     <string name="cache">Em cache</string>
     <string name="cache_cleared">Quando o cache ficar sem espaço, os recursos que não foram acessados por mais tempo são limpos</string>
-    <string name="image_cache">CACHE DA IMAGEM</string>
+    <string name="image_cache">CACHE DE IMAGEM</string>
     <string name="max_size">Tamanho máximo</string>
-    <string name="song_cache">CACHE DE CASA</string>
+    <string name="song_cache">CACHE DE MÚSICA</string>
     <string name="database">Base de dados</string>
     <string name="reset_quick_picks">Repor escolhas rápidas</string>
     <string name="quick_picks_are_cleared">Escolhas rápidas estão limpas</string>
@@ -155,7 +155,7 @@
     <string name="tips">Sugestões</string>
     <string name="quick_pics_and_tips">Sugestões e dicas rápidas</string>
     <string name="is_min_list_time_for_tips_or_quick_pics">É o tempo mínimo da duração da reprodução, para incluir músicas parecidas em Sugestões ou Dicas Rápidas</string>
-    <string name="min_listening_time">Tempo mínimo de escuta</string>
+    <string name="min_listening_time">Tempo mínimo de reprodução</string>
     <string name="player_thumbnail_size">Tamanhos de imagens miniaturas</string>
     <string name="restarting_rimusic_is_required">Reinicializar é necessário</string>
     <string name="size_name">Tamanho</string>
@@ -204,7 +204,7 @@
     <string name="_light">Claro</string>
     <string name="downloaded">Transferidos</string>
     <string name="turn_off">Desligar</string>
-    <string name="download">Download de dados</string>
+    <string name="download">Transferência de dados</string>
     <string name="_default">Predefinição</string>
     <string name="dynamic">Dinâmico</string>
     <string name="discovery">Descobrir</string>
@@ -236,7 +236,7 @@
     <string name="vt_one_side">Um lado</string>
     <string name="vt_double_side">Frente e verso</string>
     <string name="vt_double_side_circular">Lado circular duplo</string>
-    <string name="vt_full">Total</string>
+    <string name="vt_full">Cheio</string>
     <string name="new_albums_of_your_artists">Novos álbuns dos seus artistas</string>
     <string name="timeline">Barra de navegação</string>
     <string name="song_cache_by_player">CACHE DA MÚSICA (por Player)</string>
@@ -251,7 +251,7 @@
     <string name="interface_in_use">Interface em utilização</string>
     <string name="user_interface">Interface do utilizador</string>
     <string name="ui_tab">IU</string>
-    <string name="system_language">Idioma do sistema</string>
+    <string name="system_language">Linguagem do sistema</string>
     <string name="french_emoticons_fran_ais">Francês com Emojis (Français)</string>
     <string name="romanian_emoticons_rom_n">Romeno com Emojis (Română)</string>
     <string name="biggest">Maior</string>
@@ -306,7 +306,7 @@
     <string name="statistics_songs_heard">Músicas ouvidas</string>
     <string name="statistics_of_time_taken">tempo de execução</string>
     <string name="statistics_max_number_of_items">Número máximo de itens</string>
-    <string name="arabic">Árabe (عرب)</string>
+    <string name="arabic">Árabe (العربية)</string>
     <string name="chinese_simplified">Chinês Simplificado (简体中文)</string>
     <string name="chinese_traditional">Chinês Tradicional (繁體中文)</string>
     <string name="do_you_really_want_to_download_all">Tem a certeza que quer transferir tudo?</string>
@@ -314,7 +314,7 @@
     <string name="add_in_playlist">Adicionar à playlist</string>
     <string name="add_selected_in_playlist">Adicionar selecionados na playlist</string>
     <string name="import_playlist">Importar uma playlist</string>
-    <string name="lang_ukrainian">Ucraniano (Україна)</string>
+    <string name="lang_ukrainian">Ucraniano (Українська)</string>
     <string name="proxy">PROXY</string>
     <string name="enable_proxy">Ativar proxy</string>
     <string name="proxy_mode">Modo do proxy</string>
@@ -343,13 +343,13 @@
     <string name="action_bar_show_lyrics_button">Mostrar botão de Letras</string>
     <string name="action_bar_show_arrow_button">Mostrar botão da seta</string>
     <string name="lang_finnish">Finlandês (Suomalainen)</string>
-    <string name="listening_time">Tempo de escuta</string>
+    <string name="listening_time">Tempo de reprodução</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Mostra o número de músicas ouvidas e seu tempo de escuta</string>
     <string name="app_update_latest_version">No momento, na versão mais recente!</string>
     <string name="app_update_start_download">Iniciar transferência</string>
     <string name="app_update_start_download_hint">Pode verificar o progresso da transferência mais tarde</string>
     <string name="app_update_start_downloading">Transferindo nova versão</string>
-    <string name="app_update_download_completed">Download completo</string>
+    <string name="app_update_download_completed">Transferência completa</string>
     <string name="app_update_click_hint">Toque para instalar</string>
     <string name="app_update_download_error">Erro na transferência</string>
     <string name="app_update_continue_downloading">Clique para continuar a transferência</string>
@@ -372,8 +372,8 @@
     <string name="lang_sinhala">Cingalês (සිංහල)</string>
     <string name="update_available">Atualização disponível</string>
     <string name="actions_you_can_do">Ações que pode fazer:</string>
-    <string name="open_the_github_releases_web_page_and_download_latest_version">Abre a página web do Github releases e instale a última versão</string>
-    <string name="download_latest_version_from_github_you_will_find_the_file_in_the_notification_area_and_you_can_install_by_clicking_on_it">Instale a última versão no Github, encontrará o ficheiro na área da notificação e pode instalar, clicando nela</string>
+    <string name="open_the_github_releases_web_page_and_download_latest_version">Abre a página web do Github releases e transfere a última versão</string>
+    <string name="download_latest_version_from_github_you_will_find_the_file_in_the_notification_area_and_you_can_install_by_clicking_on_it">Transfere a última versão no Github, encontrará o ficheiro na área da notificação e pode instalar, clicando nela</string>
     <string name="f_droid_users_can_wait_for_the_update_info">Utilizadores do F-Droid podem esperar pela atualização no F-Droid, que usualmente chega a umas horas com o repo da IzzyOnDroid, e alguns dias com o repo de F-Droid.org.</string>
     <string name="check_update">Verificar atualização</string>
     <string name="enable_check_for_update">Ativar verificação de atualizações</string>
