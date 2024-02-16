@@ -217,6 +217,7 @@ fun HomeAlbums(
                     thumbnailSizeDp = thumbnailSizeDp,
                     modifier = Modifier
                         .combinedClickable(
+                            /*
                             onLongClick = {
                                 menuState.display {
                                     AlbumsItemMenu(
@@ -225,6 +226,7 @@ fun HomeAlbums(
                                     )
                                 }
                             },
+                             */
                             onClick = {
                                     onAlbumClick(album)
                             }

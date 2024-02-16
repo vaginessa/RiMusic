@@ -411,4 +411,6 @@ CC-BY-SA 3.0</string>
     <string name="settings_use_font_type">Use font type</string>
     <string name="enabled">Enabled</string>
     <string name="ask">Ask</string>
+    <string name="item_select">Select</string>
+    <string name="item_uncheck">Uncheck</string>
 </resources>

@@ -263,7 +263,7 @@ fun AlbumsItemMenu(
                 onSelect?.let { onSelect ->
                     MenuEntry(
                         icon = R.drawable.checked,
-                        text = "Select",
+                        text = stringResource(R.string.item_select),
                         onClick = {
                             onDismiss()
                             onSelect()
@@ -273,7 +273,7 @@ fun AlbumsItemMenu(
                 onUncheck?.let { onUncheck ->
                     MenuEntry(
                         icon = R.drawable.unchecked,
-                        text = "Uncheck",
+                        text = stringResource(R.string.item_uncheck),
                         onClick = {
                             onDismiss()
                             onUncheck()
