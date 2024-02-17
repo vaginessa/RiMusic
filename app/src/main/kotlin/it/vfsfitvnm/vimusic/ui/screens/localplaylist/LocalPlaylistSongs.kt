@@ -60,7 +60,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalUriHandler
@@ -88,8 +87,6 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
-import it.vfsfitvnm.vimusic.enums.AlbumSortBy
-import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.RecommendationsNumber
@@ -115,15 +112,11 @@ import it.vfsfitvnm.vimusic.ui.components.themed.InPlaylistMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.Menu
 import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
-import it.vfsfitvnm.vimusic.ui.components.themed.MusicBarsShow
 import it.vfsfitvnm.vimusic.ui.components.themed.NowPlayingShow
 import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
-import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
-import it.vfsfitvnm.vimusic.ui.items.DragAnchors
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
-import it.vfsfitvnm.vimusic.ui.screens.settings.EnumValueSelectorSettingsEntry
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
@@ -541,7 +534,9 @@ fun LocalPlaylistSongs(
                             thumbnailSizeDp = playlistThumbnailSizeDp,
                             thumbnailSizePx = playlistThumbnailSizePx,
                             alternative = true,
-                            showName = false
+                            showName = false,
+                            modifier = Modifier
+                                .padding(top = 14.dp)
                         )
                     }
 
@@ -1025,6 +1020,7 @@ fun LocalPlaylistSongs(
                                 Box(
                                     contentAlignment = Alignment.CenterStart,
                                     modifier = Modifier.weight(1f)
+                                        .padding(horizontal = 10.dp)
                                 ) {
                                     androidx.compose.animation.AnimatedVisibility(
                                         visible = filter?.isEmpty() ?: true,

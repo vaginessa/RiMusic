@@ -268,6 +268,7 @@ fun DeviceListSongs(
                             thumbnailSizeDp = playlistThumbnailSizeDp,
                             alternative = false,
                             modifier = Modifier
+                                .padding(top = 14.dp)
                         )
 
                     if (songs.isNotEmpty())
@@ -307,9 +308,10 @@ fun DeviceListSongs(
                             name = "",
                             channelName = null,
                             thumbnailSizeDp = playlistThumbnailSizeDp,
-                            modifier = Modifier,
                             alternative = true,
-                            showName = false
+                            showName = false,
+                            modifier = Modifier
+                                .padding(top = 14.dp)
                         )
 
 
@@ -474,6 +476,7 @@ fun DeviceListSongs(
                                 Box(
                                     contentAlignment = Alignment.CenterStart,
                                     modifier = Modifier.weight(1f)
+                                        .padding(horizontal = 10.dp)
                                 ) {
                                     androidx.compose.animation.AnimatedVisibility(
                                         visible = filter?.isEmpty() ?: true,

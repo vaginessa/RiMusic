@@ -45,6 +45,12 @@ fun NowPlayingShow (
     ) {
 
         if (player?.currentMediaItem?.mediaId == mediaId) {
+            MusicBars(
+                color = colorPalette.onOverlay,
+                modifier = Modifier
+                    .height(40.dp)
+            )
+            /*
             Image(
                 painter = painterResource(R.drawable.musical_notes),
                 contentDescription = null,
@@ -52,6 +58,7 @@ fun NowPlayingShow (
                 modifier = Modifier
                     .size(40.dp)
             )
+             */
         }
     }
 

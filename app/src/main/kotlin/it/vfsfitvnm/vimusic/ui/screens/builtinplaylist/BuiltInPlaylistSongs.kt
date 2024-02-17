@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -311,6 +312,7 @@ fun BuiltInPlaylistSongs(
                             shape = thumbnailRoundness.shape()
                         )
                 ) {
+
                     if (songs.isEmpty())
                     PlaylistItem(
                         icon = when (builtInPlaylist) {
@@ -328,6 +330,7 @@ fun BuiltInPlaylistSongs(
                         thumbnailSizeDp = playlistThumbnailSizeDp,
                         alternative = false,
                         modifier = Modifier
+                            .padding(top = 14.dp)
                     )
 
                     if (songs.isNotEmpty())
@@ -367,9 +370,10 @@ fun BuiltInPlaylistSongs(
                         name = "",
                         channelName = null,
                         thumbnailSizeDp = playlistThumbnailSizeDp,
-                        modifier = Modifier,
                         alternative = true,
-                        showName = false
+                        showName = false,
+                        modifier = Modifier
+                            .padding(top = 14.dp)
                     )
 
 
@@ -682,6 +686,7 @@ fun BuiltInPlaylistSongs(
                                 Box(
                                     contentAlignment = Alignment.CenterStart,
                                     modifier = Modifier.weight(1f)
+                                        .padding(horizontal = 10.dp)
                                 ) {
                                     androidx.compose.animation.AnimatedVisibility(
                                         visible = filter?.isEmpty() ?: true,
@@ -692,7 +697,7 @@ fun BuiltInPlaylistSongs(
                                             text = stringResource(R.string.search),
                                             maxLines = 1,
                                             overflow = TextOverflow.Ellipsis,
-                                            style = typography.xs.semiBold.secondary.copy(color = colorPalette.textDisabled)
+                                            style = typography.xs.semiBold.secondary.copy(color = colorPalette.textDisabled),
                                         )
                                     }
 

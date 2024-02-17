@@ -477,6 +477,7 @@ fun PlaylistSongList(
                             Box(
                                 contentAlignment = Alignment.CenterStart,
                                 modifier = Modifier.weight(1f)
+                                    .padding(horizontal = 10.dp)
                             ) {
                                 androidx.compose.animation.AnimatedVisibility(
                                     visible = filter?.isEmpty() ?: true,

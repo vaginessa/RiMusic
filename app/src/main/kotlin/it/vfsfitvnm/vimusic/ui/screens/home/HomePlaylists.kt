@@ -10,6 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
@@ -182,52 +183,60 @@ fun HomePlaylists(
                 )
 
                 Header(title = "") {
-                    HeaderInfo(
-                        title = "${items.size}",
-                        icon = painterResource(R.drawable.playlist),
-                        spacer = 0
-                    )
 
-                    Spacer(
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .weight(1f)
-                    )
+                            .padding(top = 50.dp)
+                            .fillMaxSize()
+                    ) {
+                        HeaderInfo(
+                            title = "${items.size}",
+                            icon = painterResource(R.drawable.playlist),
+                            spacer = 0
+                        )
 
-                    HeaderIconButton(
-                        icon = R.drawable.add_in_playlist,
-                        color = colorPalette.text,
-                        onClick = { isCreatingANewPlaylist = true }
-                    )
+                        Spacer(
+                            modifier = Modifier
+                                .weight(1f)
+                        )
 
-                    Spacer(
-                        modifier = Modifier
-                            .weight(1f)
-                    )
+                        HeaderIconButton(
+                            icon = R.drawable.add_in_playlist,
+                            color = colorPalette.text,
+                            onClick = { isCreatingANewPlaylist = true }
+                        )
 
-                    BasicText(
-                        text = when (sortBy) {
-                            PlaylistSortBy.Name -> stringResource(R.string.sort_name)
-                            PlaylistSortBy.SongCount -> stringResource(R.string.sort_songs_number)
-                            PlaylistSortBy.DateAdded -> stringResource(R.string.sort_date_added)
-                        },
-                        style = typography.xs.semiBold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier
-                            .clickable {
-                                menuState.display{
-                                    SortMenu(
-                                        title = stringResource(R.string.sorting_order),
-                                        onDismiss = menuState::hide,
-                                        onName = { sortBy = PlaylistSortBy.Name },
-                                        onSongNumber = { sortBy = PlaylistSortBy.SongCount },
-                                        onDateAdded = { sortBy = PlaylistSortBy.DateAdded },
-                                    )
+                        Spacer(
+                            modifier = Modifier
+                                .weight(1f)
+                        )
+
+                        BasicText(
+                            text = when (sortBy) {
+                                PlaylistSortBy.Name -> stringResource(R.string.sort_name)
+                                PlaylistSortBy.SongCount -> stringResource(R.string.sort_songs_number)
+                                PlaylistSortBy.DateAdded -> stringResource(R.string.sort_date_added)
+                            },
+                            style = typography.xs.semiBold,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .clickable {
+                                    menuState.display {
+                                        SortMenu(
+                                            title = stringResource(R.string.sorting_order),
+                                            onDismiss = menuState::hide,
+                                            onName = { sortBy = PlaylistSortBy.Name },
+                                            onSongNumber = { sortBy = PlaylistSortBy.SongCount },
+                                            onDateAdded = { sortBy = PlaylistSortBy.DateAdded },
+                                        )
+                                    }
+                                    //showSortTypeSelectDialog = true
                                 }
-                                //showSortTypeSelectDialog = true
-                            }
-                    )
-                    /*
+                        )
+                        /*
                     if (showSortTypeSelectDialog)
                         ValueSelectorDialog(
                             onDismiss = { showSortTypeSelectDialog = false },
@@ -246,7 +255,7 @@ fun HomePlaylists(
 
                      */
 
-                    /*
+                        /*
                     HeaderIconButton(
                         icon = R.drawable.medical,
                         color = if (sortBy == PlaylistSortBy.SongCount) colorPalette.text else colorPalette.textDisabled,
@@ -271,13 +280,14 @@ fun HomePlaylists(
                     )
                      */
 
-                    HeaderIconButton(
-                        icon = R.drawable.arrow_up,
-                        color = colorPalette.text,
-                        onClick = { sortOrder = !sortOrder },
-                        modifier = Modifier
-                            .graphicsLayer { rotationZ = sortOrderIconRotation }
-                    )
+                        HeaderIconButton(
+                            icon = R.drawable.arrow_up,
+                            color = colorPalette.text,
+                            onClick = { sortOrder = !sortOrder },
+                            modifier = Modifier
+                                .graphicsLayer { rotationZ = sortOrderIconRotation }
+                        )
+                    }
                 }
             }
 
