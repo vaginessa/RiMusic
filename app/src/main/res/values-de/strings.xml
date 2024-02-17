@@ -26,7 +26,7 @@
     <string name="quick_picks">Empfehlungen</string>
     <string name="songs">Songs</string>
     <string name="other_versions">Andere Versionen</string>
-    <string name="album_no_alternative_version">Dieses Album hat keine andere Version</string>
+    <string name="album_no_alternative_version">Dieses Album hat keine andere Versionen</string>
     <string name="enqueue">Zur Warteschlange hinzufügen</string>
     <string name="shuffle">Zufallswiedergabe</string>
     <string name="view_all">Alle anzeigen</string>
@@ -322,7 +322,7 @@
     <string name="set_proxy_hostname">Proxy-Hostname festlegen</string>
     <string name="proxy_port">Proxy-Port</string>
     <string name="set_proxy_port">Proxy-Port festlegen</string>
-    <string name="disable_if_you_do_not_want_to_see">Deaktiviere diese Option, wenn Du Folgendes nicht sehen möchtest</string>
+    <string name="disable_if_you_do_not_want_to_see">Deaktiviere diese Option, wenn Du Folgendes nicht sehen möchtest:</string>
     <string name="lang_hebrew">Hebräisch (עִבְרִית)</string>
     <string name="customize_album">Album anpassen</string>
     <string name="update_title">Titel aktualisieren</string>
@@ -359,7 +359,7 @@
     <string name="app_update_update">Aktualisieren</string>
     <string name="app_update_close">Schließen</string>
     <string name="update_now">Jetzt aktualisieren</string>
-    <string name="enable_language_in_discovery">Sprache in \"Entdecken\" aktivieren</string>
+    <string name="enable_language_in_discovery">Übersetzung in \"Entdecken\" aktivieren</string>
     <string name="if_possible_allows_discovery_content_language">Wenn möglich, können die Inhalte in \"Entdecken\" in der eingestellten Sprache angezeigt werden.</string>
     <string name="set_to">Festlegen auf</string>
     <string name="end_of_song">Ende des Liedes</string>
@@ -402,13 +402,13 @@
     <string name="sort_songs_number">Titelnummer</string>
     <string name="follow">Folgen</string>
     <string name="following">Gefolgt</string>
-    <string name="artist_subscribers">%s\'s Abonnenten</string>
-    <string name="but_these_updates_would_not_go_through">Diese Updates würden jedoch nicht die zusätzliche Prüfung durchlaufen, die z. B. bei IzzyOnDroid oder F-Droid durchgeführt wird.</string>
+    <string name="artist_subscribers">%s Abonnenten</string>
+    <string name="but_these_updates_would_not_go_through">Diese Updates würden jedoch nicht die zusätzliche Prüfung durchlaufen, die z.B. bei IzzyOnDroid oder F-Droid durchgeführt wird.</string>
     <string name="sleeptimer_stop">stop</string>
-    <string name="player_keep_minimized">Minimieren</string>
-    <string name="when_click_on_a_song_player_start_minimized">Beim Klick auf ein Lied startet der Player minimiert</string>
-    <string name="settings_use_font_type">Schriftart verwenden</string>
-    <string name="enabled">Aktivieren</string>
+    <string name="player_keep_minimized">Minimiert lassen</string>
+    <string name="when_click_on_a_song_player_start_minimized">Beim Klick auf einen Song startet der Player minimiert</string>
+    <string name="settings_use_font_type">Schriftart</string>
+    <string name="enabled">Aktiviert</string>
     <string name="ask">Fragen</string>
     <string name="item_select">Auswählen</string>
     <string name="item_uncheck">Deaktivieren</string>
