@@ -80,6 +80,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.AlbumSortBy
 import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.DeviceLists
+import it.vfsfitvnm.vimusic.enums.OnDeviceSongSortBy
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
@@ -90,7 +91,6 @@ import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
-import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.IconInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
@@ -113,7 +113,7 @@ import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid13
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
-import it.vfsfitvnm.vimusic.utils.songSortByKey
+import it.vfsfitvnm.vimusic.utils.onDeviceSongSortByKey
 import it.vfsfitvnm.vimusic.utils.songSortOrderKey
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
@@ -149,17 +149,22 @@ fun DeviceListSongs(
     val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
     val menuState = LocalMenuState.current
 
-    var songs by persistList<Song>("${deviceLists.name}/songs")
-
-    var sortBy by rememberPreference(songSortByKey, SongSortBy.DateAdded)
+    var sortBy by rememberPreference(onDeviceSongSortByKey, OnDeviceSongSortBy.DateAdded)
     var sortOrder by rememberPreference(songSortOrderKey, SortOrder.Descending)
+
+    var songs by remember(sortBy, sortOrder) {
+        mutableStateOf<List<Song>>(emptyList())
+    }
+    val context = LocalContext.current
+    LaunchedEffect(sortBy, sortOrder) {
+        context.musicFilesAsFlow(sortBy, sortOrder).collect { songs = it }
+    }
 
     var filter: String? by rememberSaveable { mutableStateOf(null) }
 
-    val context = LocalContext.current
 
     LaunchedEffect(filter) {
-        context.musicFilesAsFlow().collect { songs = it }
+        context.musicFilesAsFlow(sortBy, sortOrder).collect { songs = it }
     }
 
 
@@ -378,10 +383,9 @@ fun DeviceListSongs(
 
                     BasicText(
                         text = when (sortBy) {
-                            SongSortBy.Title -> stringResource(R.string.sort_title)
-                            SongSortBy.PlayTime -> stringResource(R.string.sort_listening_time)
-                            SongSortBy.DateAdded -> stringResource(R.string.sort_date_added)
-                            SongSortBy.DatePlayed -> stringResource(R.string.sort_date_played)
+                            OnDeviceSongSortBy.Title -> stringResource(R.string.sort_title)
+                            OnDeviceSongSortBy.DateAdded -> stringResource(R.string.sort_date_added)
+                            OnDeviceSongSortBy.Artist -> stringResource(R.string.sort_artist)
                         },
                         style = typography.xs.semiBold,
                         maxLines = 1,
@@ -392,10 +396,9 @@ fun DeviceListSongs(
                                     SortMenu(
                                         title = stringResource(R.string.sorting_order),
                                         onDismiss = menuState::hide,
-                                        onTitle = { sortBy = SongSortBy.Title },
-                                        onPlayTime = { sortBy = SongSortBy.PlayTime },
-                                        onDateAdded = { sortBy = SongSortBy.DateAdded },
-                                        onDatePlayed = { sortBy = SongSortBy.DatePlayed },
+                                        onTitle = { sortBy = OnDeviceSongSortBy.Title },
+                                        onDateAdded = { sortBy = OnDeviceSongSortBy.DateAdded },
+                                        onArtist = { sortBy = OnDeviceSongSortBy.Artist },
                                     )
                                 }
 
@@ -597,7 +600,7 @@ fun DeviceListSongs(
 }
 
 private val mediaScope = CoroutineScope(Dispatchers.IO + CoroutineName("MediaStore worker"))
-fun Context.musicFilesAsFlow(): StateFlow<List<Song>> = flow {
+fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder): StateFlow<List<Song>> = flow {
     var version: String? = null
 
     while (currentCoroutineContext().isActive) {
@@ -614,11 +617,21 @@ fun Context.musicFilesAsFlow(): StateFlow<List<Song>> = flow {
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.ALBUM_ID
             )
-            val sortOrder = "${MediaStore.Audio.Media.DISPLAY_NAME} ASC"
+
+            val sortOrderSQL = when (order) {
+                SortOrder.Ascending -> "ASC"
+                SortOrder.Descending -> "DESC"
+            }
+
+            val sortBySQL = when (sortBy) {
+                OnDeviceSongSortBy.Title -> "${MediaStore.Audio.Media.DISPLAY_NAME} COLLATE NOCASE $sortOrderSQL"
+                OnDeviceSongSortBy.DateAdded -> "${MediaStore.Audio.Media.DATE_ADDED} $sortOrderSQL"
+                OnDeviceSongSortBy.Artist -> "${MediaStore.Audio.Media.ARTIST} COLLATE NOCASE $sortOrderSQL"
+            }
+
             val albumUriBase = Uri.parse("content://media/external/audio/albumart")
 
-
-            contentResolver.query(collection, projection, null, null, sortOrder)
+            contentResolver.query(collection, projection, null, null, sortBySQL)
                 ?.use { cursor ->
                     val idIdx = cursor.getColumnIndex(MediaStore.Audio.Media._ID)
                     val nameIdx = cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)
