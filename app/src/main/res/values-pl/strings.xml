@@ -360,7 +360,7 @@
     <string name="app_update_close">Zamknij</string>
     <string name="update_now">Aktualizuj teraz</string>
     <string name="enable_language_in_discovery">Włącz język w Odkrywaniu</string>
-    <string name="if_possible_allows_discovery_content_language">Treści w zakładce \"Odkrywanie\" będą wyświetlane w twoim języku, jeśli to możliwe</string>
+    <string name="if_possible_allows_discovery_content_language">Treści w zakładce \"Odkrywanie\" będą wyświetlane w twoim języku, jeśli to możliwe.</string>
     <string name="set_to">Wyłącz za</string>
     <string name="end_of_song">(koniec utworu)</string>
     <string name="restore_completed">Przywracanie ukończone!</string>
