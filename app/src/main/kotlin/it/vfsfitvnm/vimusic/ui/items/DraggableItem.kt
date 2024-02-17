@@ -33,7 +33,8 @@ fun DraggableItem(
     state: AnchoredDraggableState<DragAnchors>,
     content: @Composable BoxScope.() -> Unit,
     startAction: @Composable (BoxScope.() -> Unit)? = {},
-    endAction: @Composable (BoxScope.() -> Unit)? = {}
+    endAction: @Composable (BoxScope.() -> Unit)? = {},
+    draggableActive: Boolean = true
 ) {
     //val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     Box(
@@ -52,20 +53,22 @@ fun DraggableItem(
         startAction?.let {
             startAction()
         }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.CenterStart)
-                .offset {
-                    IntOffset(
-                        x = -state
-                            .requireOffset()
-                            .roundToInt(),
-                        y = 0,
-                    )
-                }
-                .anchoredDraggable(state, Orientation.Horizontal, reverseDirection = true),
-            content = content
-        )
+        if (draggableActive)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterStart)
+                    .offset {
+                        IntOffset(
+                            x = -state
+                                .requireOffset()
+                                .roundToInt(),
+                            y = 0,
+                        )
+                    }
+                    .anchoredDraggable(state, Orientation.Horizontal, reverseDirection = true),
+                content = content
+            )
+        else content()
     }
 }

@@ -45,6 +45,7 @@ import it.vfsfitvnm.vimusic.utils.isIgnoringBatteryOptimizations
 import it.vfsfitvnm.vimusic.utils.isInvincibilityEnabledKey
 import it.vfsfitvnm.vimusic.utils.isKeepScreenOnEnabledKey
 import it.vfsfitvnm.vimusic.utils.isProxyEnabledKey
+import it.vfsfitvnm.vimusic.utils.isSwipeToActionEnabledKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.proxyHostnameKey
 import it.vfsfitvnm.vimusic.utils.proxyModeKey
@@ -106,6 +107,8 @@ fun OtherSettings() {
     var isKeepScreenOnEnabled by rememberPreference(isKeepScreenOnEnabledKey, false)
 
     var checkUpdateState by rememberPreference(checkUpdateStateKey, CheckUpdateState.Disabled)
+
+    var isSwipeToActionEnabled by rememberPreference(isSwipeToActionEnabledKey, true)
 
     Column(
         modifier = Modifier
@@ -172,6 +175,17 @@ fun OtherSettings() {
                     onTextSave = { proxyPort = it.toIntOrNull() ?: 1080 })
             }
         }
+
+        SettingsGroupSpacer()
+
+        SettingsEntryGroupText("Swipe to action")
+
+        SwitchSettingEntry(
+            title = "Swipe to action",
+            text = "Activate the action menu by swiping the song left or right",
+            isChecked = isSwipeToActionEnabled,
+            onCheckedChange = { isSwipeToActionEnabled = it }
+        )
 
         SettingsGroupSpacer()
 
