@@ -528,6 +528,7 @@ fun DeviceListSongs(
                 )
 
 */
+
                 SongItem(
                     song = song,
                     isDownloaded = true,
@@ -540,16 +541,9 @@ fun DeviceListSongs(
 
                     modifier = Modifier
                         .combinedClickable(
-
                             onLongClick = {
                                 menuState.display {
                                     when (deviceLists) {
-                                        /*
-                                        deviceLists.Favorites -> NonQueuedMediaItemMenu(
-                                            mediaItem = song.asMediaItem,
-                                            onDismiss = menuState::hide
-                                        )
-                                        */
                                         DeviceLists.LocalSongs -> InHistoryMediaItemMenu(
                                             song = song,
                                             onDismiss = menuState::hide
@@ -557,10 +551,7 @@ fun DeviceListSongs(
                                     }
                                 }
                             },
-
-
                             onClick = {
-
                                 binder?.stopRadio()
                                 binder?.player?.forcePlayAtIndex(
                                     songs.map(Song::asMediaItem),
@@ -569,8 +560,6 @@ fun DeviceListSongs(
                             }
                         )
                         .animateItemPlacement()
-
-
                 )
             }
         }
