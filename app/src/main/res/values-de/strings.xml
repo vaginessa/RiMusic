@@ -15,11 +15,11 @@
     <string name="hide">Löschen</string>
     <string name="hide_from_quick_picks">Aus \"Empfehlungen\" löschen</string>
     <string name="related_albums">Ähnliche Alben</string>
-    <string name="similar_artists">Ähnliche Interpreten</string>
+    <string name="similar_artists">Ähnliche Künstler</string>
     <string name="playlists_you_might_like">Wiedergabelisten, die dir gefallen könnten</string>
     <string name="an_error_has_occurred">Es ist ein Fehler aufgetreten</string>
     <string name="albums">Alben</string>
-    <string name="artists">Interpreten</string>
+    <string name="artists">Künstler</string>
     <string name="enter_the_playlist_name">Name der Wiedergabeliste eingeben</string>
     <string name="playlists">Wiedergabelisten</string>
     <string name="favorites">Favoriten</string>
@@ -34,8 +34,8 @@
     <string name="overview">Übersicht</string>
     <string name="singles">Singles</string>
     <string name="library">Bibliothek</string>
-    <string name="artist_no_release_album">Dieser Interpret hat kein Album veröffentlicht</string>
-    <string name="artist_no_release_single">Dieser Interpret hat keine Singles veröffentlicht</string>
+    <string name="artist_no_release_album">Dieser Künstler hat kein Album veröffentlicht</string>
+    <string name="artist_no_release_single">Dieser Künstler hat keine Singles veröffentlicht</string>
     <string name="delete_playlist">Möchtest du diese Playlist wirklich löschen?</string>
     <string name="sync">Synchronisieren</string>
     <string name="rename">Umbenennen</string>
@@ -179,7 +179,7 @@
     <string name="_1_year">1 Jahr</string>
     <string name="all">Gesamt</string>
     <string name="most_played_songs">Meistgehörte Songs</string>
-    <string name="most_listened_artists">Meistgehörte Interpreten</string>
+    <string name="most_listened_artists">Meistgehörte Künstler</string>
     <string name="most_albums_listened">Meistgehörte Alben</string>
     <string name="most_played_playlists">Meistgehörte Playlists</string>
     <string name="languages">Sprachen</string>
@@ -237,7 +237,7 @@
     <string name="vt_double_side">Beidseitig</string>
     <string name="vt_double_side_circular">Beidseitig kreisförmig</string>
     <string name="vt_full">Voll</string>
-    <string name="new_albums_of_your_artists">Neue Alben Deiner Interpreten</string>
+    <string name="new_albums_of_your_artists">Neue Alben Deiner Künstler</string>
     <string name="timeline">Zeitachse</string>
     <string name="song_cache_by_player">Song-Zwischenspeicher</string>
     <string name="song_cache_by_download">Download-Speicher</string>
