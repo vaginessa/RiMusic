@@ -388,14 +388,14 @@
     <string name="screen">Bildschirm</string>
     <string name="keep_screen_on">Bildschirm eingeschaltet lassen</string>
     <string name="prevents_screen_timeout">Verhindert Bildschirm-Timeout</string>
-    <string name="action_bar_show_sleep_timer_button">Zeige Sleep-Timer Taste</string>
+    <string name="action_bar_show_sleep_timer_button">Sleep-Timer Button anzeigen</string>
     <string name="sort_album_year">Album-Jahr</string>
     <string name="sort_position">Position</string>
     <string name="sort_title">Titel</string>
     <string name="sort_date_played">Wiedergabedatum</string>
     <string name="sort_artist">Künstler</string>
     <string name="sort_listening_time">Wiedergabedauer</string>
-    <string name="sort_date_added">Datum hinzugefügt</string>
+    <string name="sort_date_added">Hinzufügedatum</string>
     <string name="sorting_order">Sortierreihenfolge</string>
     <string name="sort_year">Jahr</string>
     <string name="sort_name">Namen</string>
@@ -411,5 +411,5 @@
     <string name="enabled">Aktivieren</string>
     <string name="ask">Fragen</string>
     <string name="item_select">Auswählen</string>
-    <string name="item_uncheck">Deaktivieren Sie</string>
+    <string name="item_uncheck">Deaktivieren</string>
 </resources>
