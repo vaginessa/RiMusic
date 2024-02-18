@@ -218,7 +218,7 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
             MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.forPlaylist(playlist.id))
                 .setTitle(playlist.name)
-                .setSubtitle("$songCount "+(this as Context).resources.getString(R.string.songs))
+                .setSubtitle("$songCount songs")
                 .setIconUri(uriFor(R.drawable.playlist))
                 .build(),
             MediaItem.FLAG_PLAYABLE
