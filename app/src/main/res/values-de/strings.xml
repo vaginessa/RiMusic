@@ -25,8 +25,8 @@
     <string name="favorites">Favoriten</string>
     <string name="quick_picks">Empfehlungen</string>
     <string name="songs">Songs</string>
-    <string name="other_versions">Andere Versionen</string>
-    <string name="album_no_alternative_version">Dieses Album hat keine andere Versionen</string>
+    <string name="other_versions">Alternative Versionen</string>
+    <string name="album_no_alternative_version">Dieses Album hat keine alternative Version</string>
     <string name="enqueue">Zur Warteschlange hinzufügen</string>
     <string name="shuffle">Zufallswiedergabe</string>
     <string name="view_all">Alle anzeigen</string>
@@ -76,7 +76,7 @@
     <string name="lockscreen">SPERRBILDSCHIRM</string>
     <string name="show_song_cover">Songcover anzeigen</string>
     <string name="use_song_cover_on_lockscreen">Songcover als Sperrbildschirm-Hintergrundbild verwenden</string>
-    <string name="cache">Cache</string>
+    <string name="cache">Zwischenspeicher</string>
     <string name="cache_cleared">Wenn der Zwischenspeicher keinen Speicherplatz mehr hat, werden die Ressourcen, auf die am längsten nicht zugegriffen wurde, gelöscht</string>
     <string name="image_cache">Bild-Zwischenspeicher</string>
     <string name="max_size">Max. Größe</string>
