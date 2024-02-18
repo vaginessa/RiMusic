@@ -364,7 +364,7 @@
     <string name="set_to">Wyłącz za</string>
     <string name="end_of_song">(koniec utworu)</string>
     <string name="restore_completed">Przywracanie ukończone!</string>
-    <string name="click_to_close">Dotkij aby zamknąć</string>
+    <string name="click_to_close">Dotknij, aby zamknąć</string>
     <string name="lang_dutch">Holenderski (Nederlands)</string>
     <string name="do_you_really_want_to_renumbering_positions_in_this_playlist">Na pewno chcesz zmienić kolejność utworów w tej playliście?</string>
     <string name="renumber_songs_positions">Zmień kolejność</string>
@@ -373,14 +373,14 @@
     <string name="update_available">Dostępna jest aktualizacja</string>
     <string name="actions_you_can_do">Działania, jakie masz do wyboru:</string>
     <string name="open_the_github_releases_web_page_and_download_latest_version">Pobierz najnowszą wersję z GitHub</string>
-    <string name="download_latest_version_from_github_you_will_find_the_file_in_the_notification_area_and_you_can_install_by_clicking_on_it">Pobierz aktualizację z GitHub i  zainstaluj aplikację wybierając plik w sekcji powiadomień.</string>
+    <string name="download_latest_version_from_github_you_will_find_the_file_in_the_notification_area_and_you_can_install_by_clicking_on_it">Pobierz aktualizację z GitHub i zainstaluj aplikację, wybierając plik w sekcji powiadomień.</string>
     <string name="f_droid_users_can_wait_for_the_update_info">Użytkownicy F-Droid mogą poczekać na aktualizację z oficjalnego repozytorium lub skorzystać z repozytorium IzzyOnDroid, gdzie aktualizacje pojawiają się zazwyczaj w ciągu kilku godzin.</string>
     <string name="check_update">Sprawdź aktualizacje</string>
     <string name="enable_check_for_update">Włącz sprawdzanie aktualizacji</string>
     <string name="when_enabled_a_new_version_is_checked_and_notified_during_startup">Gdy włączone, będziesz poinformowany o wydaniu nowej wersji przy uruchamianiu aplikacji.</string>
     <string name="check_at_github_for_updates">Sprawdzić aktualizacje na Github?</string>
     <string name="when_an_update_is_available_you_will_be_asked_if_you_want_to_install_info">Kiedy aktualizacja będzie dostępna, zostaniesz poproszony o jej zainstalowanie. RiMusic nie aktualizuje się samoczynnie, bez twojej wiedzy.</string>
-    <string name="you_can_still_turn_it_on_or_off_from_the_settings">Zawsze możesz włączyć lub wyłączyć tą opcję w ustawieniach.</string>
+    <string name="you_can_still_turn_it_on_or_off_from_the_settings">Zawsze możesz włączyć lub wyłączyć tę opcję w ustawieniach.</string>
     <string name="enable">Włącz</string>
     <string name="don_t_enable">Nie włączaj</string>
     <string name="lang_hindi">Hindi (हिन्दी)</string>
