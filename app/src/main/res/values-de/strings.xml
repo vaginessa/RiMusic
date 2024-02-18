@@ -244,8 +244,8 @@
     <string name="visualizer">Visualizer</string>
     <string name="visualizer_require_mic_permission">Visualizer erfordert Mikrofonberechtigung</string>
     <string name="restart_app_please">Starte bitte die App neu.</string>
-    <string name="listen_on_piped">Auf Piped hören</string>
-    <string name="listen_on_invidious">Auf Invidious hören</string>
+    <string name="listen_on_piped">Auf Piped anhören</string>
+    <string name="listen_on_invidious">Auf Invidious anhören</string>
     <string name="disable_horizontal_swipe">Horizontales Wischen deaktivieren</string>
     <string name="disable_song_switching_via_swipe">Titelwechsel per Wischen deaktivieren</string>
     <string name="interface_in_use">Schnittstelle in Verwendung</string>
@@ -261,7 +261,7 @@
     <string name="value_must_be_greater_than">"Der Wert muss größer sein als "</string>
     <string name="custom">Benutzerdefiniert</string>
     <string name="custom_cache_size">Benutzerdefinierte Cache-Größe</string>
-    <string name="listen_on">Hören auf</string>
+    <string name="listen_on">Anhören auf</string>
     <string name="error_local_music_not_found">Lokale Musikdatei nicht gefunden</string>
     <string name="bodied_bar">Breite Leiste</string>
     <string name="pin_bar">Erweiternde Leiste</string>
@@ -276,7 +276,7 @@
     <string name="bashkir">Baschkirisch (Башҡурт)</string>
     <string name="esperanto">Esperanto</string>
     <string name="close_app_with_back_button">App mit \"Zurück\" schließen</string>
-    <string name="when_you_use_the_back_button_from_the_home_page">Wenn \"Zurück\" Taste/Geste auf der Startseite betätigt wird</string>
+    <string name="when_you_use_the_back_button_from_the_home_page">Wenn die \"Zurück\" Taste/Geste auf der Startseite betätigt wird</string>
     <string name="audio_quality_format_high">Hoch</string>
     <string name="audio_quality_format_medium">Mittel</string>
     <string name="audio_quality_format_low">Niedrig</string>
@@ -362,7 +362,7 @@
     <string name="enable_language_in_discovery">Übersetzung in \"Entdecken\" aktivieren</string>
     <string name="if_possible_allows_discovery_content_language">Wenn möglich, können die Inhalte in \"Entdecken\" in der eingestellten Sprache angezeigt werden.</string>
     <string name="set_to">Festlegen auf</string>
-    <string name="end_of_song">Ende des Liedes</string>
+    <string name="end_of_song">(Ende des Liedes)</string>
     <string name="restore_completed">Wiederherstellen abgeschlossen!</string>
     <string name="click_to_close">Zum Schließen klicken</string>
     <string name="lang_dutch">Niederländisch</string>
