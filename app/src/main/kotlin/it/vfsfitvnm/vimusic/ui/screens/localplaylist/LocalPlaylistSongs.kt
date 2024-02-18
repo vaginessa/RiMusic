@@ -12,8 +12,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.gestures.AnchoredDraggableState
-import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,7 +39,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -88,13 +85,10 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
-import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.RecommendationsNumber
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
-import it.vfsfitvnm.vimusic.models.Info
-import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
@@ -110,10 +104,8 @@ import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InPlaylistMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
-import it.vfsfitvnm.vimusic.ui.components.themed.Menu
-import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
 import it.vfsfitvnm.vimusic.ui.components.themed.NowPlayingShow
-import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.PlaylistsItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
@@ -139,7 +131,6 @@ import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.formatAsTime
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isRecommendationEnabledKey
-import it.vfsfitvnm.vimusic.utils.launchYouTubeMusic
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.playlistSongSortByKey
 import it.vfsfitvnm.vimusic.utils.recommendationsNumberKey
@@ -353,10 +344,12 @@ fun LocalPlaylistSongs(
         mutableStateOf(-1)
     }
 
+    /*
     var showSortTypeSelectDialog by remember {
         mutableStateOf(false)
     }
-
+     */
+/*
     var showAddPlaylistSelectDialog by remember {
         mutableStateOf(false)
     }
@@ -366,6 +359,7 @@ fun LocalPlaylistSongs(
     var showPlaylistSelectDialog by remember {
         mutableStateOf(false)
     }
+    */
     var listMediaItems = remember {
         mutableListOf<MediaItem>()
     }
@@ -374,13 +368,17 @@ fun LocalPlaylistSongs(
         mutableStateOf(false)
     }
 
+    /*
     val playlistPreviews by remember {
         Database.playlistPreviews(PlaylistSortBy.Name, SortOrder.Ascending)
     }.collectAsState(initial = emptyList(), context = Dispatchers.IO)
+     */
 
     var position by remember {
         mutableIntStateOf(0)
     }
+
+    /*
 
     if (showAddPlaylistSelectDialog)
         SelectorDialog(
@@ -473,6 +471,7 @@ fun LocalPlaylistSongs(
         )
     }
 
+*/
     /*
         var allDownloaded by remember { mutableStateOf(false) }
         var listDownloadedMedia = remember{ mutableListOf<Song>() }
@@ -739,6 +738,114 @@ fun LocalPlaylistSongs(
                             .padding(end = 4.dp),
                         onClick = {
                             menuState.display {
+                                playlistPreview?.let { playlistPreview ->
+                                    PlaylistsItemMenu(
+                                        onDismiss = menuState::hide,
+                                        onSelect = { selectItems = true },
+                                        onUncheck = {
+                                            selectItems = false
+                                            listMediaItems.clear()
+                                        },
+                                        playlist = playlistPreview,
+                                        onEnqueue = {
+                                            if (listMediaItems.isEmpty()) {
+                                                binder?.player?.enqueue(playlistSongs.map(Song::asMediaItem))
+                                            } else {
+                                                binder?.player?.enqueue(listMediaItems)
+                                                listMediaItems.clear()
+                                                selectItems = false
+                                            }
+                                        },
+                                        showOnSyncronize = !playlistPreview.playlist.browseId.isNullOrBlank(),
+                                        onSyncronize = {
+                                                transaction {
+                                                    runBlocking(Dispatchers.IO) {
+                                                        withContext(Dispatchers.IO) {
+                                                            Innertube.playlistPage(
+                                                                BrowseBody(
+                                                                    browseId = playlistPreview.playlist.browseId ?: ""
+                                                                )
+                                                            )
+                                                                ?.completed()
+                                                        }
+                                                    }?.getOrNull()?.let { remotePlaylist ->
+                                                        Database.clearPlaylist(playlistId)
+
+                                                        remotePlaylist.songsPage
+                                                            ?.items
+                                                            ?.map(Innertube.SongItem::asMediaItem)
+                                                            ?.onEach(Database::insert)
+                                                            ?.mapIndexed { position, mediaItem ->
+                                                                SongPlaylistMap(
+                                                                    songId = mediaItem.mediaId,
+                                                                    playlistId = playlistId,
+                                                                    position = position
+                                                                )
+                                                            }?.let(Database::insertSongPlaylistMaps)
+                                                    }
+                                                }
+                                        },
+                                        onRename = {
+                                            isRenaming = true
+                                        },
+                                        onAddToPlaylist = { playlistPreview ->
+                                            position =
+                                                playlistPreview.songCount.minus(1) ?: 0
+                                            //Log.d("mediaItem", " maxPos in Playlist $it ${position}")
+                                            if (position > 0) position++ else position = 0
+                                            //Log.d("mediaItem", "next initial pos ${position}")
+                                            if (listMediaItems.isEmpty()) {
+                                                playlistSongs.forEachIndexed { index, song ->
+                                                    transaction {
+                                                        Database.insert(song.asMediaItem)
+                                                        Database.insert(
+                                                            SongPlaylistMap(
+                                                                songId = song.asMediaItem.mediaId,
+                                                                playlistId = playlistPreview.playlist.id,
+                                                                position = position + index
+                                                            )
+                                                        )
+                                                    }
+                                                    //Log.d("mediaItemPos", "added position ${position + index}")
+                                                }
+                                            } else {
+                                                listMediaItems.forEachIndexed { index, song ->
+                                                    //Log.d("mediaItemMaxPos", position.toString())
+                                                    transaction {
+                                                        Database.insert(song)
+                                                        Database.insert(
+                                                            SongPlaylistMap(
+                                                                songId = song.mediaId,
+                                                                playlistId = playlistPreview.playlist.id,
+                                                                position = position + index
+                                                            )
+                                                        )
+                                                    }
+                                                    //Log.d("mediaItemPos", "add position $position")
+                                                }
+                                                listMediaItems.clear()
+                                                selectItems = false
+                                            }
+                                        },
+                                        onRenumberPositions = {
+                                            isRenumbering = true
+                                        },
+                                        onDelete = {
+                                            isDeleting = true
+                                        },
+                                        showonListenToYT = !playlistPreview.playlist.browseId.isNullOrBlank()
+                                    ) {
+                                        binder?.player?.pause()
+                                        uriHandler.openUri(
+                                            "https://youtube.com/playlist?list=${
+                                                playlistPreview?.playlist?.browseId?.removePrefix(
+                                                    "VL"
+                                                )
+                                            }"
+                                        )
+                                    }
+                                }
+                                /*
                                 Menu {
                                     playlistPreview?.playlist?.browseId?.let { browseId ->
                                         MenuEntry(
@@ -857,6 +964,7 @@ fun LocalPlaylistSongs(
                                     )
 
                                 }
+                                */
                             }
                         }
                     )
@@ -1019,7 +1127,8 @@ fun LocalPlaylistSongs(
                             decorationBox = { innerTextField ->
                                 Box(
                                     contentAlignment = Alignment.CenterStart,
-                                    modifier = Modifier.weight(1f)
+                                    modifier = Modifier
+                                        .weight(1f)
                                         .padding(horizontal = 10.dp)
                                 ) {
                                     androidx.compose.animation.AnimatedVisibility(
@@ -1214,7 +1323,7 @@ fun LocalPlaylistSongs(
                                 )
                                 //.animateItemPlacement(reorderingState)
                                 .draggedItem(reorderingState = reorderingState, index = index)
-                                .background(color=colorPalette.background0)
+                                .background(color = colorPalette.background0)
                         )
                     },
                 leftActionsContent = {

@@ -115,6 +115,7 @@ fun AlbumSongs(
         Database.album(browseId).collect { album = it }
     }
 
+    /*
     val playlistPreviews by remember {
         Database.playlistPreviews(PlaylistSortBy.Name, SortOrder.Ascending)
     }.collectAsState(initial = emptyList(), context = Dispatchers.IO)
@@ -122,6 +123,7 @@ fun AlbumSongs(
     var showPlaylistSelectDialog by remember {
         mutableStateOf(false)
     }
+     */
 
     var showConfirmDeleteDownloadDialog by remember {
         mutableStateOf(false)

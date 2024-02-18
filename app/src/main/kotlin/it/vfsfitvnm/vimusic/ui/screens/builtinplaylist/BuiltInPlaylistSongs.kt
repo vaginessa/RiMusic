@@ -34,10 +34,13 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -63,11 +66,13 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import coil.compose.AsyncImage
 import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.compose.persist.persistList
+import it.vfsfitvnm.compose.reordering.reorder
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.models.bodies.NextBody
 import it.vfsfitvnm.innertube.requests.relatedSongs
@@ -83,10 +88,12 @@ import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.models.SongPlaylistMap
 import it.vfsfitvnm.vimusic.models.SongWithContentLength
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.DownloadUtil
 import it.vfsfitvnm.vimusic.service.isLocal
+import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
@@ -127,8 +134,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
+import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.MusicBarsShow
 import it.vfsfitvnm.vimusic.ui.components.themed.NowPlayingShow
+import it.vfsfitvnm.vimusic.ui.components.themed.PlaylistsItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
@@ -269,9 +278,25 @@ fun BuiltInPlaylistSongs(
         mutableStateOf(-1)
     }
 
+    var listMediaItems = remember {
+        mutableListOf<MediaItem>()
+    }
+
+    var selectItems by remember {
+        mutableStateOf(false)
+    }
+
+    var position by remember {
+        mutableIntStateOf(0)
+    }
+
+
+    /*
     var showSortTypeSelectDialog by remember {
         mutableStateOf(false)
     }
+     */
+
 
 
     Box {
@@ -507,6 +532,7 @@ fun BuiltInPlaylistSongs(
 
                     }
 
+                    /*
                     HeaderIconButton(
                         icon = R.drawable.enqueue,
                         enabled = songs.isNotEmpty(),
@@ -515,6 +541,7 @@ fun BuiltInPlaylistSongs(
                             binder?.player?.enqueue(songs.map(Song::asMediaItem))
                         }
                     )
+                     */
 
                     HeaderIconButton(
                         icon = R.drawable.smart_shuffle,
@@ -539,6 +566,73 @@ fun BuiltInPlaylistSongs(
                         }
                     )
 
+                    HeaderIconButton(
+                        icon = R.drawable.ellipsis_horizontal,
+                        color = if (songs.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
+                        enabled = songs.isNotEmpty() == true,
+                        modifier = Modifier
+                            .padding(end = 4.dp),
+                        onClick = {
+                            menuState.display {
+                                PlaylistsItemMenu(
+                                    onDismiss = menuState::hide,
+                                    onSelect = { selectItems = true },
+                                    onUncheck = {
+                                        selectItems = false
+                                        listMediaItems.clear()
+                                    },
+                                    onEnqueue = {
+                                        if (listMediaItems.isEmpty()) {
+                                            binder?.player?.enqueue(songs.map(Song::asMediaItem))
+                                        } else {
+                                            binder?.player?.enqueue(listMediaItems)
+                                            listMediaItems.clear()
+                                            selectItems = false
+                                        }
+                                    },
+                                    onAddToPlaylist = { playlistPreview ->
+                                        position =
+                                            playlistPreview.songCount.minus(1) ?: 0
+                                        //Log.d("mediaItem", " maxPos in Playlist $it ${position}")
+                                        if (position > 0) position++ else position = 0
+                                        //Log.d("mediaItem", "next initial pos ${position}")
+                                        if (listMediaItems.isEmpty()) {
+                                            songs.forEachIndexed { index, song ->
+                                                transaction {
+                                                    Database.insert(song.asMediaItem)
+                                                    Database.insert(
+                                                        SongPlaylistMap(
+                                                            songId = song.asMediaItem.mediaId,
+                                                            playlistId = playlistPreview.playlist.id,
+                                                            position = position + index
+                                                        )
+                                                    )
+                                                }
+                                                //Log.d("mediaItemPos", "added position ${position + index}")
+                                            }
+                                        } else {
+                                            listMediaItems.forEachIndexed { index, song ->
+                                                //Log.d("mediaItemMaxPos", position.toString())
+                                                transaction {
+                                                    Database.insert(song)
+                                                    Database.insert(
+                                                        SongPlaylistMap(
+                                                            songId = song.mediaId,
+                                                            playlistId = playlistPreview.playlist.id,
+                                                            position = position + index
+                                                        )
+                                                    )
+                                                }
+                                                //Log.d("mediaItemPos", "add position $position")
+                                            }
+                                            listMediaItems.clear()
+                                            selectItems = false
+                                        }
+                                    },
+                                )
+                            }
+                        }
+                    )
 
 
                 }
@@ -811,6 +905,22 @@ fun BuiltInPlaylistSongs(
                         }
                         if (nowPlayingItem > -1)
                             NowPlayingShow(song.asMediaItem.mediaId)
+                    },
+                    trailingContent = {
+                        val checkedState = remember { mutableStateOf(false) }
+                        if (selectItems)
+                            Checkbox(
+                                checked = checkedState.value,
+                                onCheckedChange = {
+                                    checkedState.value = it
+                                    if (it) listMediaItems.add(song.asMediaItem) else
+                                        listMediaItems.remove(song.asMediaItem)
+                                },
+                                colors = CheckboxDefaults.colors(
+                                    checkedColor = colorPalette.accent,
+                                    uncheckedColor = colorPalette.text
+                                )
+                            )
                     },
                     modifier = Modifier
                         .combinedClickable(
