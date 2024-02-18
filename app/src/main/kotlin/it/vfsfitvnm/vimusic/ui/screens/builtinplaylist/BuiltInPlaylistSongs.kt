@@ -133,13 +133,9 @@ import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
-import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
-import it.vfsfitvnm.vimusic.ui.components.themed.MusicBarsShow
 import it.vfsfitvnm.vimusic.ui.components.themed.NowPlayingShow
 import it.vfsfitvnm.vimusic.ui.components.themed.PlaylistsItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
-import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 
 @ExperimentalTextApi

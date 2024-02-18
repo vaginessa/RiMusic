@@ -42,9 +42,12 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -55,6 +58,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
@@ -69,6 +74,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import coil.compose.AsyncImage
@@ -86,6 +92,7 @@ import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.models.SongPlaylistMap
 import it.vfsfitvnm.vimusic.service.LOCAL_KEY_PREFIX
 import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
@@ -94,15 +101,21 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.IconInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.NowPlayingShow
+import it.vfsfitvnm.vimusic.ui.components.themed.PlaylistsItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
+import it.vfsfitvnm.vimusic.ui.styling.onOverlay
+import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.center
+import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.durationTextToMillis
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
@@ -209,6 +222,25 @@ fun DeviceListSongs(
         .takeWhile { it.thumbnailUrl?.isNotEmpty() ?: false }
         .take(4)
         .map { it.thumbnailUrl.thumbnail(playlistThumbnailSizePx / 2) }
+
+    var listMediaItems = remember {
+        mutableListOf<MediaItem>()
+    }
+
+    var selectItems by remember {
+        mutableStateOf(false)
+    }
+
+    var position by remember {
+        mutableIntStateOf(0)
+    }
+    var scrollToNowPlaying by remember {
+        mutableStateOf(false)
+    }
+
+    var nowPlayingItem by remember {
+        mutableStateOf(-1)
+    }
 
     val activity = LocalContext.current as Activity
     if (ContextCompat.checkSelfPermission(
@@ -349,12 +381,36 @@ fun DeviceListSongs(
                     ){
 
                     HeaderIconButton(
+                        icon = R.drawable.locate,
+                        enabled = songs.isNotEmpty(),
+                        color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
+                        onClick = {
+                            nowPlayingItem = -1
+                            scrollToNowPlaying = false
+                            songs
+                                .forEachIndexed{ index, song ->
+                                    if (song.asMediaItem.mediaId == binder?.player?.currentMediaItem?.mediaId)
+                                        nowPlayingItem = index
+                                }
+
+                            if (nowPlayingItem > -1)
+                                scrollToNowPlaying = true
+                        }
+                    )
+                    LaunchedEffect(scrollToNowPlaying) {
+                        if (scrollToNowPlaying)
+                            lazyListState.scrollToItem(nowPlayingItem,1)
+                        scrollToNowPlaying = false
+                    }
+
+                    HeaderIconButton(
                         onClick = { searching = !searching },
                         icon = R.drawable.search_circle,
                         color = colorPalette.text,
                         iconSize = 24.dp
                     )
 
+                    /*
                     HeaderIconButton(
                         icon = R.drawable.enqueue,
                         enabled = songs.isNotEmpty(),
@@ -363,6 +419,7 @@ fun DeviceListSongs(
                             binder?.player?.enqueue(songs.map(Song::asMediaItem))
                         }
                     )
+                     */
 
                     HeaderIconButton(
                         icon = R.drawable.shuffle,
@@ -373,6 +430,74 @@ fun DeviceListSongs(
                                 binder?.stopRadio()
                                 binder?.player?.forcePlayFromBeginning(
                                     songs.shuffled().map(Song::asMediaItem)
+                                )
+                            }
+                        }
+                    )
+
+                    HeaderIconButton(
+                        icon = R.drawable.ellipsis_horizontal,
+                        color = if (songs.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
+                        enabled = songs.isNotEmpty() == true,
+                        modifier = Modifier
+                            .padding(end = 4.dp),
+                        onClick = {
+                            menuState.display {
+                                PlaylistsItemMenu(
+                                    onDismiss = menuState::hide,
+                                    onSelect = { selectItems = true },
+                                    onUncheck = {
+                                        selectItems = false
+                                        listMediaItems.clear()
+                                    },
+                                    onEnqueue = {
+                                        if (listMediaItems.isEmpty()) {
+                                            binder?.player?.enqueue(songs.map(Song::asMediaItem))
+                                        } else {
+                                            binder?.player?.enqueue(listMediaItems)
+                                            listMediaItems.clear()
+                                            selectItems = false
+                                        }
+                                    },
+                                    onAddToPlaylist = { playlistPreview ->
+                                        position =
+                                            playlistPreview.songCount.minus(1) ?: 0
+                                        //Log.d("mediaItem", " maxPos in Playlist $it ${position}")
+                                        if (position > 0) position++ else position = 0
+                                        //Log.d("mediaItem", "next initial pos ${position}")
+                                        if (listMediaItems.isEmpty()) {
+                                            songs.forEachIndexed { index, song ->
+                                                transaction {
+                                                    Database.insert(song.asMediaItem)
+                                                    Database.insert(
+                                                        SongPlaylistMap(
+                                                            songId = song.asMediaItem.mediaId,
+                                                            playlistId = playlistPreview.playlist.id,
+                                                            position = position + index
+                                                        )
+                                                    )
+                                                }
+                                                //Log.d("mediaItemPos", "added position ${position + index}")
+                                            }
+                                        } else {
+                                            listMediaItems.forEachIndexed { index, song ->
+                                                //Log.d("mediaItemMaxPos", position.toString())
+                                                transaction {
+                                                    Database.insert(song)
+                                                    Database.insert(
+                                                        SongPlaylistMap(
+                                                            songId = song.mediaId,
+                                                            playlistId = playlistPreview.playlist.id,
+                                                            position = position + index
+                                                        )
+                                                    )
+                                                }
+                                                //Log.d("mediaItemPos", "add position $position")
+                                            }
+                                            listMediaItems.clear()
+                                            selectItems = false
+                                        }
+                                    },
                                 )
                             }
                         }
@@ -541,7 +666,26 @@ fun DeviceListSongs(
                     downloadState = Download.STATE_COMPLETED,
                     thumbnailSizeDp = thumbnailSizeDp,
                     thumbnailSizePx = thumbnailSize,
-
+                    onThumbnailContent = {
+                        if (nowPlayingItem > -1)
+                            NowPlayingShow(song.asMediaItem.mediaId)
+                    },
+                    trailingContent = {
+                        val checkedState = remember { mutableStateOf(false) }
+                        if (selectItems)
+                            Checkbox(
+                                checked = checkedState.value,
+                                onCheckedChange = {
+                                    checkedState.value = it
+                                    if (it) listMediaItems.add(song.asMediaItem) else
+                                        listMediaItems.remove(song.asMediaItem)
+                                },
+                                colors = CheckboxDefaults.colors(
+                                    checkedColor = colorPalette.accent,
+                                    uncheckedColor = colorPalette.text
+                                )
+                            )
+                    },
                     modifier = Modifier
                         .combinedClickable(
                             onLongClick = {
