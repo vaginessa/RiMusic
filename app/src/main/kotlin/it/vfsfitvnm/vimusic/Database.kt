@@ -85,6 +85,11 @@ interface Database {
     @RewriteQueriesToDropUnusedColumns
     fun getSongsList(idsList: List<String>): Flow<List<Song>>
 
+    @Transaction
+    @Query("SELECT * FROM Song WHERE id in (:idsList) ")
+    @RewriteQueriesToDropUnusedColumns
+    fun getSongsListNoFlow(idsList: List<String>): List<Song>
+
     @Query("SELECT thumbnailUrl FROM Song WHERE id in (:idsList) ")
     fun getSongsListThumbnailUrls(idsList: List<String>): Flow<List<String?>>
 

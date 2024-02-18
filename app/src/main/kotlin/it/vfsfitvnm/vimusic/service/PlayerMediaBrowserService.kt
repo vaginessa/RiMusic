@@ -4,14 +4,10 @@ import android.content.ComponentName
 import android.content.ContentResolver
 import android.content.Context
 import android.content.ServiceConnection
-import android.media.browse.MediaBrowser
-import android.media.session.MediaSession
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.os.Process
-import android.service.media.MediaBrowserService
-import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.annotation.DrawableRes
 import androidx.core.net.toUri
@@ -37,12 +33,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-//import android.support.v4.media.MediaBrowserCompat as BrowserMediaDescription
 import android.support.v4.media.MediaBrowserCompat.MediaItem //as BrowserMediaItem
 import android.support.v4.media.MediaDescriptionCompat
-
-//import android.media.MediaDescription as BrowserMediaDescription
-//import android.media.browse.MediaBrowser.MediaItem as BrowserMediaItem
 
 class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection {
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
@@ -116,6 +108,7 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
                         .apply {
                             add(0, favoritesBrowserMediaItem)
                             add(1, offlineBrowserMediaItem)
+                            add(2, downloadedBrowserMediaItem)
                         }
 
                     MediaId.albums -> Database
@@ -137,11 +130,12 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
         .appendPath(resources.getResourceEntryName(id))
         .build()
 
+
     private val shuffleBrowserMediaItem
         inline get() = MediaItem(
             MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.shuffle)
-                .setTitle("Shuffle")
+                .setTitle((this as Context).resources.getString(R.string.shuffle))
                 .setIconUri(uriFor(R.drawable.shuffle))
                 .build(),
             MediaItem.FLAG_PLAYABLE
@@ -151,7 +145,7 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
         inline get() = MediaItem(
             MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.songs)
-                .setTitle("Songs")
+                .setTitle((this as Context).resources.getString(R.string.songs))
                 .setIconUri(uriFor(R.drawable.musical_notes))
                 .build(),
             MediaItem.FLAG_BROWSABLE
@@ -162,7 +156,7 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
         inline get() = MediaItem(
             MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.playlists)
-                .setTitle("Playlists")
+                .setTitle((this as Context).resources.getString(R.string.playlists))
                 .setIconUri(uriFor(R.drawable.playlist))
                 .build(),
             MediaItem.FLAG_BROWSABLE
@@ -172,7 +166,7 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
         inline get() = MediaItem(
             MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.albums)
-                .setTitle("Albums")
+                .setTitle((this as Context).resources.getString(R.string.albums))
                 .setIconUri(uriFor(R.drawable.disc))
                 .build(),
             MediaItem.FLAG_BROWSABLE
@@ -182,7 +176,7 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
         inline get() = MediaItem(
             MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.favorites)
-                .setTitle("Favorites")
+                .setTitle((this as Context).resources.getString(R.string.favorites))
                 .setIconUri(uriFor(R.drawable.heart))
                 .build(),
             MediaItem.FLAG_PLAYABLE
@@ -192,8 +186,18 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
         inline get() = MediaItem(
             MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.offline)
-                .setTitle("Offline")
+                .setTitle((this as Context).resources.getString(R.string.cached))
                 .setIconUri(uriFor(R.drawable.airplane))
+                .build(),
+            MediaItem.FLAG_PLAYABLE
+        )
+
+    private val downloadedBrowserMediaItem
+        inline get() = MediaItem(
+            MediaDescriptionCompat.Builder()
+                .setMediaId(MediaId.downloaded)
+                .setTitle((this as Context).resources.getString(R.string.downloaded))
+                .setIconUri(uriFor(R.drawable.downloaded))
                 .build(),
             MediaItem.FLAG_PLAYABLE
         )
@@ -214,7 +218,7 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
             MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.forPlaylist(playlist.id))
                 .setTitle(playlist.name)
-                .setSubtitle("$songCount songs")
+                .setSubtitle("$songCount "+(this as Context).resources.getString(R.string.songs))
                 .setIconUri(uriFor(R.drawable.playlist))
                 .build(),
             MediaItem.FLAG_PLAYABLE
@@ -272,6 +276,13 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
                         .map(SongWithContentLength::song)
                         .shuffled()
 
+                    MediaId.downloaded -> {
+                        DownloadUtil.getDownloadManager(this as Context)
+                        DownloadUtil.getDownloads()
+                        DownloadUtil.downloads.value.keys.toList()
+                            .let { Database.getSongsListNoFlow(it) }
+                    }
+
                     MediaId.playlists -> data
                         .getOrNull(1)
                         ?.toLongOrNull()
@@ -304,6 +315,7 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
         const val favorites = "favorites"
         const val offline = "offline"
         const val shuffle = "shuffle"
+        const val downloaded = "downloaded"
 
         fun forSong(id: String) = "songs/$id"
         fun forPlaylist(id: Long) = "playlists/$id"
