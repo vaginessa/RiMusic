@@ -570,10 +570,10 @@ fun MediaItemMenu(
 
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         IconButton(
-                            //icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
-                            icon = R.drawable.heart,
-                            //color = colorPalette.favoritesIcon,
-                            color = if (likedAt == null) colorPalette.textDisabled else colorPalette.text,
+                            icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
+                            //icon = R.drawable.heart,
+                            color = colorPalette.favoritesIcon,
+                            //color = if (likedAt == null) colorPalette.textDisabled else colorPalette.text,
                             onClick = {
                                 query {
                                     if (Database.like(

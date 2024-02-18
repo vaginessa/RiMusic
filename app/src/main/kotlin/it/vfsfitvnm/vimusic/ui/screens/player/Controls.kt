@@ -282,10 +282,10 @@ fun Controls(
 
             if (uiType != UiType.ViMusic) {
                 IconButton(
-                    color = if (likedAt == null) colorPalette.textDisabled else colorPalette.text,
-                    //color = colorPalette.favoritesIcon,
-                    icon = R.drawable.heart,
-                    //icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
+                    //color = if (likedAt == null) colorPalette.textDisabled else colorPalette.text,
+                    color = colorPalette.favoritesIcon,
+                    //icon = R.drawable.heart,
+                    icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
                     onClick = {
                         val currentMediaItem = binder.player.currentMediaItem
                         query {
