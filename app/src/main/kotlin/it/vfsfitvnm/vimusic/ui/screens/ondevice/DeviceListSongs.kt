@@ -101,6 +101,7 @@ import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.OnDeviceBlacklist
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.durationTextToMillis
@@ -615,7 +616,8 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder): Stat
                 MediaStore.Audio.Media.DISPLAY_NAME,
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.ARTIST,
-                MediaStore.Audio.Media.ALBUM_ID
+                MediaStore.Audio.Media.ALBUM_ID,
+                MediaStore.Audio.Media.RELATIVE_PATH
             )
 
             val sortOrderSQL = when (order) {
@@ -638,6 +640,8 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder): Stat
                     val durationIdx = cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)
                     val artistIdx = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)
                     val albumIdIdx = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
+                    val relativePathIdx = cursor.getColumnIndex(MediaStore.Audio.Media.RELATIVE_PATH)
+                    val blacklist = OnDeviceBlacklist()
 
                     buildList {
                         while (cursor.moveToNext()) {
@@ -646,6 +650,13 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder): Stat
                             val duration = cursor.getInt(durationIdx)
                             val artist = cursor.getString(artistIdx)
                             val albumId = cursor.getLong(albumIdIdx)
+                            val relativePath = cursor.getString(relativePathIdx)
+                            val exclude = blacklist.contains(relativePath)
+
+                            if (exclude) {
+                                continue
+                            }
+                            println(relativePath)
 
                             val albumUri = ContentUris.withAppendedId(albumUriBase, albumId)
                             val durationText =

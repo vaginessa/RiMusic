@@ -46,6 +46,7 @@ import it.vfsfitvnm.vimusic.models.Event
 import it.vfsfitvnm.vimusic.models.Format
 import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.models.Lyrics
+import it.vfsfitvnm.vimusic.models.OnDeviceBlacklistPath
 import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.PlaylistWithSongs
@@ -84,6 +85,9 @@ interface Database {
     @Query("SELECT * FROM Song WHERE id in (:idsList) ")
     @RewriteQueriesToDropUnusedColumns
     fun getSongsList(idsList: List<String>): Flow<List<Song>>
+
+    @Query("SELECT * FROM OnDeviceBlacklist")
+    fun getOnDeviceBlacklistPaths(): List<OnDeviceBlacklistPath>
 
     @Query("SELECT thumbnailUrl FROM Song WHERE id in (:idsList) ")
     fun getSongsListThumbnailUrls(idsList: List<String>): Flow<List<String?>>
@@ -802,6 +806,12 @@ interface Database {
     fun checkpoint() {
         raw(SimpleSQLiteQuery("PRAGMA wal_checkpoint(FULL)"))
     }
+
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    fun addOnDeviceBlacklistPath(path: OnDeviceBlacklistPath)
+
+    @Query("DELETE FROM OnDeviceBlacklist WHERE path = :path")
+    fun removeOnDeviceBlacklistPath(path: String)
 }
 
 @androidx.room.Database(
@@ -818,11 +828,12 @@ interface Database {
         Format::class,
         Event::class,
         Lyrics::class,
+        OnDeviceBlacklistPath::class,
     ],
     views = [
         SortedSongPlaylistMap::class
     ],
-    version = 23,
+    version = 24,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 1, to = 2),
@@ -861,7 +872,8 @@ abstract class DatabaseInitializer protected constructor() : RoomDatabase() {
                         From8To9Migration(),
                         From10To11Migration(),
                         From14To15Migration(),
-                        From22To23Migration()
+                        From22To23Migration(),
+                        From23To24Migration(),
                     )
                     .build()
             }
@@ -1007,6 +1019,16 @@ abstract class DatabaseInitializer protected constructor() : RoomDatabase() {
             it.execSQL("INSERT INTO Song_new(id, title, artistsText, durationText, thumbnailUrl, likedAt, totalPlayTimeMs) SELECT id, title, artistsText, durationText, thumbnailUrl, likedAt, totalPlayTimeMs FROM Song;")
             it.execSQL("DROP TABLE Song;")
             it.execSQL("ALTER TABLE Song_new RENAME TO Song;")
+        }
+    }
+
+    class From23To24Migration : Migration(23, 24) {
+        override fun migrate(it: SupportSQLiteDatabase) {
+            it.execSQL(
+                "CREATE TABLE IF NOT EXISTS `OnDeviceBlacklist` (" +
+                        "`path` TEXT NOT NULL, " +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT)"
+            )
         }
     }
 }

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,9 +32,11 @@ import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.routing.RouteHandler
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.models.OnDeviceBlacklistPath
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
+import it.vfsfitvnm.vimusic.ui.components.themed.StringListDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.Switch
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
@@ -43,6 +46,10 @@ import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @ExperimentalMaterialApi
 @ExperimentalTextApi
@@ -98,6 +105,64 @@ fun SettingsScreen() {
     }
 }
 
+@Composable
+inline fun StringListValueSelectorSettingsEntry(
+    title: String,
+    text: String,
+    addTitle: String,
+    addPlaceholder: String,
+    conflictTitle: String,
+    removeTitle: String,
+) {
+    var showStringListDialog by remember {
+        mutableStateOf(false)
+    }
+
+    var blackListedPaths by remember {
+        mutableStateOf<List<String>>(emptyList())
+    }
+
+    LaunchedEffect(Unit) {
+        withContext(Dispatchers.IO) {
+            blackListedPaths = Database.getOnDeviceBlacklistPaths().map { it.path }
+        }
+    }
+
+    if (showStringListDialog) {
+        StringListDialog(
+            title = title,
+            addTitle = addTitle,
+            addPlaceholder = addPlaceholder,
+            removeTitle = removeTitle,
+            conflictTitle = conflictTitle,
+            list = blackListedPaths,
+            add = { newPath ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    Database.addOnDeviceBlacklistPath(OnDeviceBlacklistPath(path = newPath))
+                    blackListedPaths = withContext(Dispatchers.IO) {
+                        Database.getOnDeviceBlacklistPaths().map { it.path }
+                    }
+                }
+            },
+            remove = { path ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    Database.removeOnDeviceBlacklistPath(path)
+                    blackListedPaths = withContext(Dispatchers.IO) {
+                        Database.getOnDeviceBlacklistPaths().map { it.path }
+                    }
+                }
+            },
+            onDismiss = { showStringListDialog = false },
+        )
+    }
+    SettingsEntry(
+        title = title,
+        text = text,
+        onClick = {
+            showStringListDialog = true
+        }
+    )
+}
 
 
 
