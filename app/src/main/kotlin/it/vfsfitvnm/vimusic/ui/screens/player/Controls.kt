@@ -36,6 +36,7 @@ import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -99,6 +100,7 @@ import it.vfsfitvnm.vimusic.utils.isCompositionLaunched
 import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.playerTimelineTypeKey
+import it.vfsfitvnm.vimusic.utils.positionAndDurationState
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.seamlessPlay
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -552,6 +554,18 @@ fun Controls(
             )
 
             if (duration != C.TIME_UNSET) {
+                val positionAndDuration = binder.player.positionAndDurationState()
+                var timeRemaining by remember { mutableIntStateOf(0) }
+                if (positionAndDuration != null) {
+                    timeRemaining = positionAndDuration.value.second.toInt() - positionAndDuration.value.first.toInt()
+                }
+                BasicText(
+                    text = stringResource(R.string.left, formatAsDuration(timeRemaining.toLong())),
+                    style = typography.xxs.semiBold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+
                 BasicText(
                     text = formatAsDuration(duration),
                     style = typography.xxs.semiBold,
@@ -612,7 +626,7 @@ fun Controls(
                             if (effectRotationEnabled) isRotated = !isRotated
                         },
                         onLongClick = {
-                            binder.player.seekTo(position-5000)
+                            binder.player.seekTo(position - 5000)
                         }
                     )
                     .rotate(rotationAngle)
@@ -639,10 +653,11 @@ fun Controls(
                     .background(
                         when (colorPaletteName) {
                             ColorPaletteName.Dynamic, ColorPaletteName.Default ->
-                                if(playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
+                                if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
                                     colorPalette.background1 else colorPalette.background2
+
                             ColorPaletteName.PureBlack, ColorPaletteName.ModernBlack ->
-                                if(playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
+                                if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
                                     colorPalette.background1 else colorPalette.background4
                         }
                     )
@@ -659,7 +674,8 @@ fun Controls(
                             else -> colorPalette.background2
                         }
                     ),
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
                         .rotate(rotationAngle),
                     contentDescription = "Background Image",
                     contentScale = ContentScale.Fit
@@ -690,7 +706,7 @@ fun Controls(
                             if (effectRotationEnabled) isRotated = !isRotated
                         },
                         onLongClick = {
-                            binder.player.seekTo(position+5000)
+                            binder.player.seekTo(position + 5000)
                         }
                     )
                     .rotate(rotationAngle)

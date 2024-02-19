@@ -741,7 +741,7 @@ fun MediaItemMenu(
                         timeRemaining = positionAndDuration.value.second.toInt() - positionAndDuration.value.first.toInt()
                     }
 
-                    val timeToStop = System.currentTimeMillis()
+                    //val timeToStop = System.currentTimeMillis()
 
                     if (isShowingSleepTimerDialog) {
                         if (sleepTimerMillisLeft != null) {
