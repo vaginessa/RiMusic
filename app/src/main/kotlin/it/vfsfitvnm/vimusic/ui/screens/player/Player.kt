@@ -130,6 +130,7 @@ import it.vfsfitvnm.vimusic.utils.showButtonPlayerArrowKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerDownloadKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerLoopKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerLyricsKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerMenuKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerShuffleKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerSleepTimerKey
 import it.vfsfitvnm.vimusic.utils.shuffleQueue
@@ -350,6 +351,7 @@ fun Player(
     val showButtonPlayerLyrics by rememberPreference(showButtonPlayerLyricsKey, true)
     val showButtonPlayerShuffle by rememberPreference(showButtonPlayerShuffleKey, true)
     val showButtonPlayerSleepTimer by rememberPreference(showButtonPlayerSleepTimerKey, false)
+    val showButtonPlayerMenu by rememberPreference(showButtonPlayerMenuKey, false)
 
     val playlistPreviews by remember {
         Database.playlistPreviews(PlaylistSortBy.Name, SortOrder.Ascending)
@@ -940,7 +942,7 @@ fun Player(
                                 //.padding(horizontal = 4.dp)
                                 .size(24.dp)
                         )
-                        /*
+
                         IconButton(
                             icon = R.drawable.ellipsis_vertical,
                             color = colorPalette.text,
@@ -954,10 +956,10 @@ fun Player(
                                 }
                             },
                             modifier = Modifier
-                                .padding(horizontal = 15.dp)
+                                //.padding(horizontal = 15.dp)
                                 .size(24.dp)
                         )
-                         */
+
 
                     }
                 }
@@ -1158,6 +1160,24 @@ fun Player(
                             },
                             modifier = Modifier
                                 .size(24.dp),
+                        )
+
+                        if(showButtonPlayerMenu)
+                        IconButton(
+                            icon = R.drawable.ellipsis_vertical,
+                            color = colorPalette.text,
+                            onClick = {
+                                menuState.display {
+                                    PlayerMenu(
+                                        onDismiss = menuState::hide,
+                                        mediaItem = mediaItem,
+                                        binder = binder
+                                    )
+                                }
+                            },
+                            modifier = Modifier
+                                //.padding(horizontal = 15.dp)
+                                .size(24.dp)
                         )
 
 

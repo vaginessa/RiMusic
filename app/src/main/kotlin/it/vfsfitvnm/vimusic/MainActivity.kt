@@ -145,6 +145,7 @@ import it.vfsfitvnm.vimusic.utils.showButtonPlayerArrowKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerDownloadKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerLoopKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerLyricsKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerMenuKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerShuffleKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerSleepTimerKey
 import it.vfsfitvnm.vimusic.utils.showLikeButtonBackgroundPlayerKey
@@ -387,7 +388,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             showButtonPlayerLoopKey,
                             showButtonPlayerLyricsKey,
                             showButtonPlayerShuffleKey,
-                            showButtonPlayerSleepTimerKey
+                            showButtonPlayerSleepTimerKey,
+                            showButtonPlayerMenuKey
                             -> {
                                 this@MainActivity.recreate()
                             }

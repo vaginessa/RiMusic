@@ -61,6 +61,7 @@ import it.vfsfitvnm.vimusic.utils.showButtonPlayerArrowKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerDownloadKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerLoopKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerLyricsKey
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerMenuKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerShuffleKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerSleepTimerKey
 import it.vfsfitvnm.vimusic.utils.showDownloadButtonBackgroundPlayerKey
@@ -117,7 +118,7 @@ fun AppearanceSettings() {
     var showButtonPlayerLyrics by rememberPreference(showButtonPlayerLyricsKey, true)
     var showButtonPlayerShuffle by rememberPreference(showButtonPlayerShuffleKey, true)
     var showButtonPlayerSleepTimer by rememberPreference(showButtonPlayerSleepTimerKey, false)
-
+    var showButtonPlayerMenu by rememberPreference(showButtonPlayerMenuKey, false)
 
 
 
@@ -320,6 +321,13 @@ fun AppearanceSettings() {
             text = "",
             isChecked = showButtonPlayerArrow,
             onCheckedChange = { showButtonPlayerArrow = it }
+        )
+
+        SwitchSettingEntry(
+            title = "Show menu button",
+            text = "",
+            isChecked = showButtonPlayerMenu,
+            onCheckedChange = { showButtonPlayerMenu = it }
         )
 
         SettingsGroupSpacer()

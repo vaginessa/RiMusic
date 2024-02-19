@@ -307,6 +307,7 @@ fun Controls(
                         .size(24.dp)
                 )
 
+                /*
                 IconButton(
                     icon = R.drawable.ellipsis_vertical,
                     color = colorPalette.text,
@@ -325,6 +326,7 @@ fun Controls(
                         //.padding(horizontal = 15.dp)
                         .size(24.dp)
                 )
+                 */
             }
 
         }

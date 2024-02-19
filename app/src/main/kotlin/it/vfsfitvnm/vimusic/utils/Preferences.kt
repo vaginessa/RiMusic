@@ -93,6 +93,7 @@ const val checkUpdateStateKey = "checkUpdateState"
 const val showButtonPlayerSleepTimerKey = "showButtonPlayerSleepTimer"
 const val keepPlayerMinimizedKey = "keepPlayerMinimized"
 const val isSwipeToActionEnabledKey = "isSwipeToActionEnabled"
+const val showButtonPlayerMenuKey = "showButtonPlayerMenu"
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,
