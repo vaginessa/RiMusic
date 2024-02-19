@@ -610,7 +610,7 @@ fun Controls(
                             if (effectRotationEnabled) isRotated = !isRotated
                         },
                         onLongClick = {
-                            binder.player.seekTo(position-10000)
+                            binder.player.seekTo(position-5000)
                         }
                     )
                     .rotate(rotationAngle)
@@ -687,7 +687,7 @@ fun Controls(
                             if (effectRotationEnabled) isRotated = !isRotated
                         },
                         onLongClick = {
-                            binder.player.seekTo(position+10000)
+                            binder.player.seekTo(position+5000)
                         }
                     )
                     .rotate(rotationAngle)
