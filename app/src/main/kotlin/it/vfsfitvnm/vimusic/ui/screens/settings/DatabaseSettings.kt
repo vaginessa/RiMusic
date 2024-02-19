@@ -64,9 +64,7 @@ fun DatabaseSettings() {
     val context = LocalContext.current
     val (colorPalette, typography) = LocalAppearance.current
 
-    val eventsCount by remember {
-        Database.eventsCount().distinctUntilChanged()
-    }.collectAsState(initial = 0)
+
 
     val backupLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/vnd.sqlite3")) { uri ->
@@ -174,14 +172,7 @@ fun DatabaseSettings() {
         )
     }
 
-    var clearEvents by remember { mutableStateOf(false) }
-    if (clearEvents) {
-        ConfirmationDialog(
-            text = stringResource(R.string.do_you_really_want_to_delete_all_playback_events),
-            onDismiss = { clearEvents = false },
-            onConfirm = { query(Database::clearEvents) }
-        )
-    }
+
 
     Column(
         modifier = Modifier
@@ -203,18 +194,9 @@ fun DatabaseSettings() {
             onClick = {}
         )
 
-        SettingsEntryGroupText(title = stringResource(R.string.cleanup))
+        //SettingsEntryGroupText(title = stringResource(R.string.cleanup))
 
-        SettingsEntry(
-            title = stringResource(R.string.reset_quick_picks),
-            text = if (eventsCount > 0) {
-                stringResource(R.string.delete_playback_events, eventsCount)
-            } else {
-                stringResource(R.string.quick_picks_are_cleared)
-            },
-            isEnabled = eventsCount > 0,
-            onClick = { clearEvents = true }
-        )
+
 
         SettingsGroupSpacer()
 

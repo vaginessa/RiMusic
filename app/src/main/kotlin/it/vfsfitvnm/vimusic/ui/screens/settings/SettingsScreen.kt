@@ -72,12 +72,11 @@ fun SettingsScreen() {
                 onTabChanged = onTabChanged,
                 tabColumnContent = { Item ->
                     Item(0, stringResource(R.string.ui_tab), R.drawable.app_icon)
-                    Item(1, stringResource(R.string.appearance), R.drawable.color_palette)
+                    Item(1, stringResource(R.string.player_appearance), R.drawable.color_palette)
                     Item(2, stringResource(R.string.quick_picks), R.drawable.app_icon)
-                    Item(3, stringResource(R.string.cache), R.drawable.sync)
-                    Item(4, stringResource(R.string.database), R.drawable.server)
-                    Item(5, stringResource(R.string.other), R.drawable.equalizer)
-                    Item(6, stringResource(R.string.about), R.drawable.information)
+                    Item(3, stringResource(R.string.tab_data), R.drawable.server)
+                    Item(4, stringResource(R.string.tab_miscellaneous), R.drawable.equalizer)
+                    Item(5, stringResource(R.string.about), R.drawable.information)
 
                 }
             ) { currentTabIndex ->
@@ -86,10 +85,9 @@ fun SettingsScreen() {
                         0 -> UiSettings()
                         1 -> AppearanceSettings()
                         2 -> QuickPicsSettings()
-                        3 -> CacheSettings()
-                        4 -> DatabaseSettings()
-                        5 -> OtherSettings()
-                        6 -> About()
+                        3 -> DataSettings()
+                        4 -> OtherSettings()
+                        5 -> About()
 
                     }
                 }
@@ -104,6 +102,7 @@ fun SettingsScreen() {
 @Composable
 inline fun <reified T : Enum<T>> EnumValueSelectorSettingsEntry(
     title: String,
+    titleSecondary: String? = null,
     selectedValue: T,
     crossinline onValueSelected: (T) -> Unit,
     modifier: Modifier = Modifier,
@@ -113,6 +112,7 @@ inline fun <reified T : Enum<T>> EnumValueSelectorSettingsEntry(
 ) {
     ValueSelectorSettingsEntry(
         title = title,
+        titleSecondary = titleSecondary,
         selectedValue = selectedValue,
         values = enumValues<T>().toList(),
         onValueSelected = onValueSelected,
@@ -126,6 +126,7 @@ inline fun <reified T : Enum<T>> EnumValueSelectorSettingsEntry(
 @Composable
 inline fun <T> ValueSelectorSettingsEntry(
     title: String,
+    titleSecondary: String? = null,
     selectedValue: T,
     values: List<T>,
     crossinline onValueSelected: (T) -> Unit,
@@ -151,6 +152,7 @@ inline fun <T> ValueSelectorSettingsEntry(
 
     SettingsEntry(
         title = title,
+        titleSecondary = titleSecondary,
         text = valueText(selectedValue),
         modifier = modifier,
         isEnabled = isEnabled,
@@ -181,6 +183,7 @@ fun SwitchSettingEntry(
 @Composable
 fun SettingsEntry(
     title: String,
+    titleSecondary: String? = null,
     text: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
@@ -206,8 +209,9 @@ fun SettingsEntry(
             BasicText(
                 text = title,
                 style = typography.xs.semiBold.copy(color = colorPalette.text),
+                modifier = Modifier
+                    .padding(bottom = 4.dp)
             )
-
             BasicText(
                 text = text,
                 style = typography.xs.semiBold.copy(color = colorPalette.textSecondary),
@@ -215,6 +219,15 @@ fun SettingsEntry(
         }
 
         trailingContent?.invoke()
+
+        if (titleSecondary != null) {
+            BasicText(
+                text = titleSecondary,
+                style = typography.xxs.secondary,
+                //modifier = Modifier
+                //    .padding(vertical = 8.dp, horizontal = 24.dp)
+            )
+        }
     }
 }
 

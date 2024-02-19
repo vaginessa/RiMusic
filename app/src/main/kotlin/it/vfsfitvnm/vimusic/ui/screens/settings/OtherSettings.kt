@@ -34,6 +34,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.CheckUpdateState
+import it.vfsfitvnm.vimusic.enums.MaxStatisticsItems
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.PlayerMediaBrowserService
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
@@ -46,11 +47,13 @@ import it.vfsfitvnm.vimusic.utils.isInvincibilityEnabledKey
 import it.vfsfitvnm.vimusic.utils.isKeepScreenOnEnabledKey
 import it.vfsfitvnm.vimusic.utils.isProxyEnabledKey
 import it.vfsfitvnm.vimusic.utils.isSwipeToActionEnabledKey
+import it.vfsfitvnm.vimusic.utils.maxStatisticsItemsKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.proxyHostnameKey
 import it.vfsfitvnm.vimusic.utils.proxyModeKey
 import it.vfsfitvnm.vimusic.utils.proxyPortKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.showStatsListeningTimeKey
 import it.vfsfitvnm.vimusic.utils.toast
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.net.Proxy
@@ -93,12 +96,6 @@ fun OtherSettings() {
             isIgnoringBatteryOptimizations = context.isIgnoringBatteryOptimizations
         }
 
-    var pauseSearchHistory by rememberPreference(pauseSearchHistoryKey, false)
-
-    val queriesCount by remember {
-        Database.queriesCount().distinctUntilChanged()
-    }.collectAsState(initial = 0)
-
     var isProxyEnabled by rememberPreference(isProxyEnabledKey, false)
     var proxyHost by rememberPreference(proxyHostnameKey, "")
     var proxyPort by rememberPreference(proxyPortKey, 1080)
@@ -108,7 +105,12 @@ fun OtherSettings() {
 
     var checkUpdateState by rememberPreference(checkUpdateStateKey, CheckUpdateState.Disabled)
 
-    var isSwipeToActionEnabled by rememberPreference(isSwipeToActionEnabledKey, true)
+    var maxStatisticsItems by rememberPreference(
+        maxStatisticsItemsKey,
+        MaxStatisticsItems.`10`
+    )
+
+    var showStatsListeningTime by rememberPreference(showStatsListeningTimeKey,   true)
 
     Column(
         modifier = Modifier
@@ -122,7 +124,7 @@ fun OtherSettings() {
             )
     ) {
         HeaderWithIcon(
-            title = stringResource(R.string.other),
+            title = stringResource(R.string.tab_miscellaneous),
             iconId = R.drawable.equalizer,
             enabled = false,
             showIcon = true,
@@ -145,8 +147,29 @@ fun OtherSettings() {
             }
         )
         SettingsDescription(text = stringResource(R.string.when_enabled_a_new_version_is_checked_and_notified_during_startup))
-        SettingsGroupSpacer()
 
+        SettingsGroupSpacer()
+        SettingsEntryGroupText(stringResource(R.string.statistics))
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.statistics_max_number_of_items),
+            selectedValue = maxStatisticsItems,
+            onValueSelected = { maxStatisticsItems = it },
+            valueText = {
+                it.number.toString()
+            }
+        )
+
+        SwitchSettingEntry(
+            title = stringResource(R.string.listening_time),
+            text = stringResource(R.string.shows_the_number_of_songs_heard_and_their_listening_time),
+            isChecked = showStatsListeningTime,
+            onCheckedChange = {
+                showStatsListeningTime = it
+            }
+        )
+
+        SettingsGroupSpacer()
         SettingsEntryGroupText(title = stringResource(R.string.proxy))
         SettingsDescription(text = stringResource(R.string.restarting_rimusic_is_required))
         SwitchSettingEntry(
@@ -176,27 +199,6 @@ fun OtherSettings() {
             }
         }
 
-        SettingsGroupSpacer()
-
-        SettingsEntryGroupText("Swipe to action")
-
-        SwitchSettingEntry(
-            title = "Swipe to action",
-            text = "Activate the action menu by swiping the song left or right",
-            isChecked = isSwipeToActionEnabled,
-            onCheckedChange = { isSwipeToActionEnabled = it }
-        )
-
-        SettingsGroupSpacer()
-
-        SettingsEntryGroupText(stringResource(R.string.screen))
-
-        SwitchSettingEntry(
-            title = stringResource(R.string.keep_screen_on),
-            text = stringResource(R.string.prevents_screen_timeout),
-            isChecked = isKeepScreenOnEnabled,
-            onCheckedChange = { isKeepScreenOnEnabled = it }
-        )
 
         SettingsGroupSpacer()
 
@@ -213,29 +215,14 @@ fun OtherSettings() {
 
         SettingsGroupSpacer()
 
-        SettingsEntryGroupText(title = stringResource(R.string.search_history))
+        SettingsEntryGroupText(title = stringResource(R.string.service_lifetime))
 
         SwitchSettingEntry(
-            title = stringResource(R.string.pause_search_history),
-            text = stringResource(R.string.neither_save_new_searched_query),
-            isChecked = pauseSearchHistory,
-            onCheckedChange = { pauseSearchHistory = it }
+            title = stringResource(R.string.keep_screen_on),
+            text = stringResource(R.string.prevents_screen_timeout),
+            isChecked = isKeepScreenOnEnabled,
+            onCheckedChange = { isKeepScreenOnEnabled = it }
         )
-
-        SettingsEntry(
-            title = stringResource(R.string.clear_search_history),
-            text = if (queriesCount > 0) {
-            "${stringResource(R.string.delete)} " + queriesCount + stringResource(R.string.search_queries)
-            } else {
-                stringResource(R.string.history_is_empty)
-            },
-            isEnabled = queriesCount > 0,
-            onClick = { query(Database::clearQueries) }
-        )
-
-        SettingsGroupSpacer()
-
-        SettingsEntryGroupText(title = stringResource(R.string.service_lifetime))
 
         ImportantSettingsDescription(text = stringResource(R.string.battery_optimizations_applied))
 

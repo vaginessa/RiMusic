@@ -412,4 +412,16 @@
     <string name="ask">Fragen</string>
     <string name="item_select">Auswählen</string>
     <string name="item_uncheck">Deaktivieren</string>
+    <string name="player_appearance">Player Appearance</string>
+    <string name="player_action_bar">PLAYER ACTION BAR</string>
+    <string name="tab_data">Data</string>
+    <string name="image_cache_max_size">Image cache max size</string>
+    <string name="song_cache_max_size">Song cache max size</string>
+    <string name="song_download_max_size">Song download max size</string>
+    <string name="save_to_backup">Save to backup</string>
+    <string name="restore_from_backup">Restore from backup</string>
+    <string name="tab_miscellaneous">Miscellaneous</string>
+    <string name="swipe_to_action">Swipe to action</string>
+    <string name="activate_the_action_menu_by_swiping_the_song_left_or_right">Activate the action menu by swiping the song left or right</string>
+    <string name="smart_recommendations">SMART RECOMMENDATIONS</string>
 </resources>

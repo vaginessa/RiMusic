@@ -261,6 +261,7 @@ inline fun DefaultDialog(
 inline fun <T> ValueSelectorDialog(
     noinline onDismiss: () -> Unit,
     title: String,
+    titleSecondary: String? = null,
     selectedValue: T,
     values: List<T>,
     crossinline onValueSelected: (T) -> Unit,
@@ -282,7 +283,14 @@ inline fun <T> ValueSelectorDialog(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 24.dp)
             )
-
+            if (titleSecondary != null) {
+                BasicText(
+                    text = titleSecondary,
+                    style = typography.xxs.semiBold,
+                    modifier = Modifier
+                        .padding(vertical = 8.dp, horizontal = 24.dp)
+                )
+            }
             Column(
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())

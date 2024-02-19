@@ -29,31 +29,57 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
+import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
+import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
+import it.vfsfitvnm.vimusic.enums.FontType
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.MaxStatisticsItems
 import it.vfsfitvnm.vimusic.enums.HomeScreenTabs
+import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
+import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
+import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
+import it.vfsfitvnm.vimusic.enums.PlayerVisualizerType
 import it.vfsfitvnm.vimusic.enums.RecommendationsNumber
+import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.utils.UiTypeKey
+import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.audioQualityFormatKey
 import it.vfsfitvnm.vimusic.utils.closeWithBackButtonKey
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
+import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
+import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
+import it.vfsfitvnm.vimusic.utils.disableIconButtonOnTopKey
+import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
+import it.vfsfitvnm.vimusic.utils.fontTypeKey
 import it.vfsfitvnm.vimusic.utils.homeScreenTabIndexKey
 import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isEnabledDiscoveryLangCodeKey
+import it.vfsfitvnm.vimusic.utils.isSwipeToActionEnabledKey
 import it.vfsfitvnm.vimusic.utils.keepPlayerMinimizedKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerPlayButtonTypeKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerThumbnailSizeKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerTimelineTypeKey
+import it.vfsfitvnm.vimusic.utils.lastPlayerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.maxStatisticsItemsKey
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
+import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
+import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
+import it.vfsfitvnm.vimusic.utils.playerTimelineTypeKey
+import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.recommendationsNumberKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.resumePlaybackWhenDeviceConnectedKey
 import it.vfsfitvnm.vimusic.utils.showStatsListeningTimeKey
 import it.vfsfitvnm.vimusic.utils.skipSilenceKey
+import it.vfsfitvnm.vimusic.utils.thumbnailTapEnabledKey
 import it.vfsfitvnm.vimusic.utils.toast
+import it.vfsfitvnm.vimusic.utils.useSystemFontKey
 import it.vfsfitvnm.vimusic.utils.volumeNormalizationKey
 
 
@@ -91,17 +117,34 @@ fun  UiSettings() {
     val activityResultLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
 
-    var maxStatisticsItems by rememberPreference(
-        maxStatisticsItemsKey,
-        MaxStatisticsItems.`10`
-    )
-
-    var showStatsListeningTime by rememberPreference(showStatsListeningTimeKey,   true)
-
     var isEnabledDiscoveryLangCode by rememberPreference(isEnabledDiscoveryLangCodeKey,   true)
     var recommendationsNumber by rememberPreference(recommendationsNumberKey,   RecommendationsNumber.`5`)
 
     var keepPlayerMinimized by rememberPreference(keepPlayerMinimizedKey,   false)
+
+    var disableIconButtonOnTop by rememberPreference(disableIconButtonOnTopKey, false)
+    var lastPlayerVisualizerType by rememberPreference(lastPlayerVisualizerTypeKey, PlayerVisualizerType.Disabled)
+    var lastPlayerTimelineType by rememberPreference(lastPlayerTimelineTypeKey, PlayerTimelineType.Default)
+    var lastPlayerThumbnailSize by rememberPreference(lastPlayerThumbnailSizeKey, PlayerThumbnailSize.Medium)
+    var uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
+    var disablePlayerHorizontalSwipe by rememberPreference(disablePlayerHorizontalSwipeKey, false)
+    var playerVisualizerType by rememberPreference(playerVisualizerTypeKey, PlayerVisualizerType.Disabled)
+    var playerTimelineType by rememberPreference(playerTimelineTypeKey, PlayerTimelineType.Default)
+    var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
+    var thumbnailTapEnabled by rememberPreference(thumbnailTapEnabledKey, false)
+    var playerPlayButtonType by rememberPreference(playerPlayButtonTypeKey, PlayerPlayButtonType.Rectangular)
+    var lastPlayerPlayButtonType by rememberPreference(lastPlayerPlayButtonTypeKey, PlayerPlayButtonType.Rectangular)
+
+    var colorPaletteName by rememberPreference(colorPaletteNameKey, ColorPaletteName.ModernBlack)
+    var colorPaletteMode by rememberPreference(colorPaletteModeKey, ColorPaletteMode.System)
+    var indexNavigationTab by rememberPreference(
+        indexNavigationTabKey,
+        HomeScreenTabs.Default
+    )
+    var fontType by rememberPreference(fontTypeKey, FontType.Rubik)
+    var useSystemFont by rememberPreference(useSystemFontKey, false)
+    var applyFontPadding by rememberPreference(applyFontPaddingKey, false)
+    var isSwipeToActionEnabled by rememberPreference(isSwipeToActionEnabledKey, true)
 
     Column(
         modifier = Modifier
@@ -304,7 +347,123 @@ fun  UiSettings() {
         )
 
         SettingsGroupSpacer()
-        SettingsEntryGroupText("SMART RECOMMENDATIONS")
+        SettingsEntryGroupText(stringResource(R.string.user_interface))
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.interface_in_use),
+            selectedValue = uiType,
+            onValueSelected = {
+                uiType = it
+                if (uiType == UiType.ViMusic) {
+                    disablePlayerHorizontalSwipe = true
+                    disableIconButtonOnTop = true
+                    playerTimelineType = PlayerTimelineType.Default
+                    playerVisualizerType = PlayerVisualizerType.Disabled
+                    playerThumbnailSize = PlayerThumbnailSize.Medium
+                    thumbnailTapEnabled = true
+                } else {
+                    disablePlayerHorizontalSwipe = false
+                    disableIconButtonOnTop = false
+                    playerTimelineType = lastPlayerTimelineType
+                    playerVisualizerType = lastPlayerVisualizerType
+                    playerThumbnailSize = lastPlayerThumbnailSize
+                    playerPlayButtonType = lastPlayerPlayButtonType
+                }
+
+            },
+            valueText = {
+                when(it) {
+                    UiType.RiMusic -> UiType.RiMusic.name
+                    UiType.ViMusic -> UiType.ViMusic.name
+                }
+            }
+        )
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.theme),
+            selectedValue = colorPaletteName,
+            onValueSelected = { colorPaletteName = it },
+            valueText = {
+                when (it) {
+                    ColorPaletteName.Default -> stringResource(R.string._default)
+                    ColorPaletteName.Dynamic -> stringResource(R.string.dynamic)
+                    ColorPaletteName.PureBlack -> ColorPaletteName.PureBlack.name
+                    ColorPaletteName.ModernBlack -> ColorPaletteName.ModernBlack.name
+                }
+            }
+        )
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.theme_mode),
+            selectedValue = colorPaletteMode,
+            isEnabled = when (colorPaletteName) {
+                ColorPaletteName.PureBlack -> false
+                ColorPaletteName.ModernBlack -> false
+                else -> { true }
+            },
+            onValueSelected = { colorPaletteMode = it },
+            valueText = {
+                when (it) {
+                    ColorPaletteMode.Dark -> stringResource(R.string.dark)
+                    ColorPaletteMode.Light -> stringResource(R.string._light)
+                    ColorPaletteMode.System -> stringResource(R.string.system)
+                }
+            }
+        )
+
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.default_page),
+            selectedValue = indexNavigationTab,
+            onValueSelected = {indexNavigationTab = it},
+            valueText = {
+                when (it) {
+                    HomeScreenTabs.Default -> stringResource(R.string._default)
+                    HomeScreenTabs.QuickPics -> stringResource(R.string.quick_picks)
+                    HomeScreenTabs.Songs -> stringResource(R.string.songs)
+                    HomeScreenTabs.Albums -> stringResource(R.string.albums)
+                    HomeScreenTabs.Artists -> stringResource(R.string.artists)
+                    HomeScreenTabs.Library -> stringResource(R.string.library)
+                    HomeScreenTabs.Discovery -> stringResource(R.string.discovery)
+                }
+            }
+        )
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.settings_use_font_type),
+            selectedValue = fontType,
+            onValueSelected = { fontType = it },
+            valueText = {
+                when (it) {
+                    FontType.Rubik -> FontType.Rubik.name
+                    FontType.Poppins -> FontType.Poppins.name
+                }
+            }
+        )
+
+        SwitchSettingEntry(
+            title = stringResource(R.string.use_system_font),
+            text = stringResource(R.string.use_font_by_the_system),
+            isChecked = useSystemFont,
+            onCheckedChange = { useSystemFont = it }
+        )
+
+        SwitchSettingEntry(
+            title = stringResource(R.string.apply_font_padding),
+            text = stringResource(R.string.add_spacing_around_texts),
+            isChecked = applyFontPadding,
+            onCheckedChange = { applyFontPadding = it }
+        )
+
+        SwitchSettingEntry(
+            title = stringResource(R.string.swipe_to_action),
+            text = stringResource(R.string.activate_the_action_menu_by_swiping_the_song_left_or_right),
+            isChecked = isSwipeToActionEnabled,
+            onCheckedChange = { isSwipeToActionEnabled = it }
+        )
+
+        SettingsGroupSpacer()
+        SettingsEntryGroupText(stringResource(R.string.smart_recommendations))
 
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.statistics_max_number_of_items),
@@ -312,27 +471,6 @@ fun  UiSettings() {
             onValueSelected = { recommendationsNumber = it },
             valueText = {
                 it.number.toString()
-            }
-        )
-
-        SettingsGroupSpacer()
-        SettingsEntryGroupText(stringResource(R.string.statistics))
-
-        EnumValueSelectorSettingsEntry(
-            title = stringResource(R.string.statistics_max_number_of_items),
-            selectedValue = maxStatisticsItems,
-            onValueSelected = { maxStatisticsItems = it },
-            valueText = {
-                it.number.toString()
-            }
-        )
-
-        SwitchSettingEntry(
-            title = stringResource(R.string.listening_time),
-            text = stringResource(R.string.shows_the_number_of_songs_heard_and_their_listening_time),
-            isChecked = showStatsListeningTime,
-            onCheckedChange = {
-                showStatsListeningTime = it
             }
         )
 

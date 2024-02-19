@@ -81,14 +81,12 @@ fun AppearanceSettings() {
     //val context = LocalContext.current
     //val coroutineScope = CoroutineScope(Dispatchers.IO) + Job()
 
-    var colorPaletteName by rememberPreference(colorPaletteNameKey, ColorPaletteName.ModernBlack)
-    var colorPaletteMode by rememberPreference(colorPaletteModeKey, ColorPaletteMode.System)
+
     var thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
         ThumbnailRoundness.Heavy
     )
-    var useSystemFont by rememberPreference(useSystemFontKey, false)
-    var applyFontPadding by rememberPreference(applyFontPaddingKey, false)
+
     var isShowingThumbnailInLockscreen by rememberPreference(
         isShowingThumbnailInLockscreenKey,
         true
@@ -96,13 +94,10 @@ fun AppearanceSettings() {
 
     var playerPlayButtonType by rememberPreference(playerPlayButtonTypeKey, PlayerPlayButtonType.Rectangular)
 
-    var lastPlayerVisualizerType by rememberPreference(lastPlayerVisualizerTypeKey, PlayerVisualizerType.Disabled)
-    var lastPlayerTimelineType by rememberPreference(lastPlayerTimelineTypeKey, PlayerTimelineType.Default)
-    var lastPlayerThumbnailSize by rememberPreference(lastPlayerThumbnailSizeKey, PlayerThumbnailSize.Medium)
     var lastPlayerPlayButtonType by rememberPreference(lastPlayerPlayButtonTypeKey, PlayerPlayButtonType.Rectangular)
     var uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
     var disablePlayerHorizontalSwipe by rememberPreference(disablePlayerHorizontalSwipeKey, false)
-    var disableIconButtonOnTop by rememberPreference(disableIconButtonOnTopKey, false)
+
     var disableScrollingText by rememberPreference(disableScrollingTextKey, false)
     var showLikeButtonBackgroundPlayer by rememberPreference(showLikeButtonBackgroundPlayerKey, true)
     var showDownloadButtonBackgroundPlayer by rememberPreference(showDownloadButtonBackgroundPlayerKey, true)
@@ -113,7 +108,7 @@ fun AppearanceSettings() {
     var effectRotationEnabled by rememberPreference(effectRotationKey, true)
 
     var thumbnailTapEnabled by rememberPreference(thumbnailTapEnabledKey, false)
-    var fontType by rememberPreference(fontTypeKey, FontType.Rubik)
+
 
     var showButtonPlayerAddToPlaylist by rememberPreference(showButtonPlayerAddToPlaylistKey, true)
     var showButtonPlayerArrow by rememberPreference(showButtonPlayerArrowKey, false)
@@ -123,10 +118,7 @@ fun AppearanceSettings() {
     var showButtonPlayerShuffle by rememberPreference(showButtonPlayerShuffleKey, true)
     var showButtonPlayerSleepTimer by rememberPreference(showButtonPlayerSleepTimerKey, false)
 
-    var indexNavigationTab by rememberPreference(
-        indexNavigationTabKey,
-        HomeScreenTabs.Default
-    )
+
 
 
     Column(
@@ -141,7 +133,7 @@ fun AppearanceSettings() {
             )
     ) {
         HeaderWithIcon(
-            title = stringResource(R.string.appearance),
+            title = stringResource(R.string.player_appearance),
             iconId = R.drawable.color_palette,
             enabled = false,
             showIcon = true,
@@ -149,88 +141,8 @@ fun AppearanceSettings() {
             onClick = {}
         )
 
-        SettingsGroupSpacer()
-        SettingsEntryGroupText(stringResource(R.string.user_interface))
-
-        EnumValueSelectorSettingsEntry(
-            title = stringResource(R.string.interface_in_use),
-            selectedValue = uiType,
-            onValueSelected = {
-                uiType = it
-                if (uiType == UiType.ViMusic) {
-                    disablePlayerHorizontalSwipe = true
-                    disableIconButtonOnTop = true
-                    playerTimelineType = PlayerTimelineType.Default
-                    playerVisualizerType = PlayerVisualizerType.Disabled
-                    playerThumbnailSize = PlayerThumbnailSize.Medium
-                    thumbnailTapEnabled = true
-                } else {
-                    disablePlayerHorizontalSwipe = false
-                    disableIconButtonOnTop = false
-                    playerTimelineType = lastPlayerTimelineType
-                    playerVisualizerType = lastPlayerVisualizerType
-                    playerThumbnailSize = lastPlayerThumbnailSize
-                    playerPlayButtonType = lastPlayerPlayButtonType
-                }
-
-            },
-            valueText = {
-                when(it) {
-                    UiType.RiMusic -> UiType.RiMusic.name
-                    UiType.ViMusic -> UiType.ViMusic.name
-                }
-            }
-        )
-
-        EnumValueSelectorSettingsEntry(
-            title = stringResource(R.string.theme),
-            selectedValue = colorPaletteName,
-            onValueSelected = { colorPaletteName = it },
-            valueText = {
-                when (it) {
-                    ColorPaletteName.Default -> stringResource(R.string._default)
-                    ColorPaletteName.Dynamic -> stringResource(R.string.dynamic)
-                    ColorPaletteName.PureBlack -> ColorPaletteName.PureBlack.name
-                    ColorPaletteName.ModernBlack -> ColorPaletteName.ModernBlack.name
-                }
-            }
-        )
-
-        EnumValueSelectorSettingsEntry(
-            title = stringResource(R.string.theme_mode),
-            selectedValue = colorPaletteMode,
-            isEnabled = when (colorPaletteName) {
-                ColorPaletteName.PureBlack -> false
-                ColorPaletteName.ModernBlack -> false
-                else -> { true }
-            },
-            onValueSelected = { colorPaletteMode = it },
-            valueText = {
-                when (it) {
-                    ColorPaletteMode.Dark -> stringResource(R.string.dark)
-                    ColorPaletteMode.Light -> stringResource(R.string._light)
-                    ColorPaletteMode.System -> stringResource(R.string.system)
-                }
-            }
-        )
-
-
-        EnumValueSelectorSettingsEntry(
-            title = stringResource(R.string.default_page),
-            selectedValue = indexNavigationTab,
-            onValueSelected = {indexNavigationTab = it},
-            valueText = {
-                when (it) {
-                    HomeScreenTabs.Default -> stringResource(R.string._default)
-                    HomeScreenTabs.QuickPics -> stringResource(R.string.quick_picks)
-                    HomeScreenTabs.Songs -> stringResource(R.string.songs)
-                    HomeScreenTabs.Albums -> stringResource(R.string.albums)
-                    HomeScreenTabs.Artists -> stringResource(R.string.artists)
-                    HomeScreenTabs.Library -> stringResource(R.string.library)
-                    HomeScreenTabs.Discovery -> stringResource(R.string.discovery)
-                }
-            }
-        )
+        //SettingsGroupSpacer()
+        //SettingsEntryGroupText(stringResource(R.string.user_interface))
 
         SettingsGroupSpacer()
         SettingsEntryGroupText(title = stringResource(R.string.player))
@@ -359,7 +271,7 @@ fun AppearanceSettings() {
         )
 
         SettingsGroupSpacer()
-        SettingsEntryGroupText(title = stringResource(R.string.action_bar_button))
+        SettingsEntryGroupText(title = stringResource(R.string.player_action_bar))
 
         SwitchSettingEntry(
             title = stringResource(R.string.action_bar_show_download_button),
@@ -429,34 +341,10 @@ fun AppearanceSettings() {
 
         ImportantSettingsDescription(text = stringResource(R.string.restarting_rimusic_is_required))
 
-        SettingsGroupSpacer()
-        SettingsEntryGroupText(title = stringResource(R.string.text))
+        //SettingsGroupSpacer()
+        //SettingsEntryGroupText(title = stringResource(R.string.text))
 
-        EnumValueSelectorSettingsEntry(
-            title = stringResource(R.string.settings_use_font_type),
-            selectedValue = fontType,
-            onValueSelected = { fontType = it },
-            valueText = {
-                when (it) {
-                    FontType.Rubik -> FontType.Rubik.name
-                    FontType.Poppins -> FontType.Poppins.name
-                }
-            }
-        )
 
-        SwitchSettingEntry(
-            title = stringResource(R.string.use_system_font),
-            text = stringResource(R.string.use_font_by_the_system),
-            isChecked = useSystemFont,
-            onCheckedChange = { useSystemFont = it }
-        )
-
-        SwitchSettingEntry(
-            title = stringResource(R.string.apply_font_padding),
-            text = stringResource(R.string.add_spacing_around_texts),
-            isChecked = applyFontPadding,
-            onCheckedChange = { applyFontPadding = it }
-        )
 
         if (!isAtLeastAndroid13) {
             SettingsGroupSpacer()

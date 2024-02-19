@@ -11,14 +11,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.media3.common.util.UnstableApi
+import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlayEventsType
+import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.playEventsTypeKey
@@ -27,8 +33,8 @@ import it.vfsfitvnm.vimusic.utils.showNewAlbumsArtistsKey
 import it.vfsfitvnm.vimusic.utils.showPlaylistMightLikeKey
 import it.vfsfitvnm.vimusic.utils.showRelatedAlbumsKey
 import it.vfsfitvnm.vimusic.utils.showSimilarArtistsKey
+import kotlinx.coroutines.flow.distinctUntilChanged
 
-//@androidx.annotation.OptIn(androidx.core.os.BuildCompat.PrereleaseSdkCheck::class)
 @ExperimentalAnimationApi
 @UnstableApi
 @Composable
@@ -42,6 +48,17 @@ fun  QuickPicsSettings() {
     var showSimilarArtists by rememberPreference(showSimilarArtistsKey, true)
     var showNewAlbumsArtists by rememberPreference(showNewAlbumsArtistsKey, true)
     var showPlaylistMightLike by rememberPreference(showPlaylistMightLikeKey, true)
+    val eventsCount by remember {
+        Database.eventsCount().distinctUntilChanged()
+    }.collectAsState(initial = 0)
+    var clearEvents by remember { mutableStateOf(false) }
+    if (clearEvents) {
+        ConfirmationDialog(
+            text = stringResource(R.string.do_you_really_want_to_delete_all_playback_events),
+            onDismiss = { clearEvents = false },
+            onConfirm = { query(Database::clearEvents) }
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -63,7 +80,7 @@ fun  QuickPicsSettings() {
             onClick = {}
         )
 
-        SettingsGroupSpacer()
+        //SettingsGroupSpacer()
 
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.tips),
@@ -77,7 +94,7 @@ fun  QuickPicsSettings() {
             }
         )
 
-        SettingsGroupSpacer()
+        //SettingsGroupSpacer()
 
         SwitchSettingEntry(
             title = "${stringResource(R.string.show)} ${stringResource(R.string.related_albums)}",
@@ -88,7 +105,7 @@ fun  QuickPicsSettings() {
             }
         )
 
-        SettingsGroupSpacer()
+        //SettingsGroupSpacer()
 
         SwitchSettingEntry(
             title = "${stringResource(R.string.show)} ${stringResource(R.string.similar_artists)}",
@@ -100,7 +117,7 @@ fun  QuickPicsSettings() {
         )
 
 
-        SettingsGroupSpacer()
+        //SettingsGroupSpacer()
 
         SwitchSettingEntry(
             title = "${stringResource(R.string.show)} ${stringResource(R.string.new_albums_of_your_artists)}",
@@ -111,7 +128,7 @@ fun  QuickPicsSettings() {
             }
         )
 
-        SettingsGroupSpacer()
+        //SettingsGroupSpacer()
 
         SwitchSettingEntry(
             title = "${stringResource(R.string.show)} ${stringResource(R.string.playlists_you_might_like)}",
@@ -120,6 +137,17 @@ fun  QuickPicsSettings() {
             onCheckedChange = {
                 showPlaylistMightLike = it
             }
+        )
+
+        SettingsEntry(
+            title = stringResource(R.string.reset_quick_picks),
+            text = if (eventsCount > 0) {
+                stringResource(R.string.delete_playback_events, eventsCount)
+            } else {
+                stringResource(R.string.quick_picks_are_cleared)
+            },
+            isEnabled = eventsCount > 0,
+            onClick = { clearEvents = true }
         )
 
     }
