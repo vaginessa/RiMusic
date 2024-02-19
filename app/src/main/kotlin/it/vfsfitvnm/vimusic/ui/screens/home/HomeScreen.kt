@@ -38,6 +38,7 @@ import it.vfsfitvnm.vimusic.ui.screens.builtInPlaylistRoute
 import it.vfsfitvnm.vimusic.ui.screens.builtinplaylist.BuiltInPlaylistScreen
 import it.vfsfitvnm.vimusic.ui.screens.deviceListSongRoute
 import it.vfsfitvnm.vimusic.ui.screens.globalRoutes
+import it.vfsfitvnm.vimusic.ui.screens.homeRoute
 import it.vfsfitvnm.vimusic.ui.screens.localPlaylistRoute
 import it.vfsfitvnm.vimusic.ui.screens.localplaylist.LocalPlaylistScreen
 import it.vfsfitvnm.vimusic.ui.screens.moodRoute
@@ -46,6 +47,7 @@ import it.vfsfitvnm.vimusic.ui.screens.playlistRoute
 import it.vfsfitvnm.vimusic.ui.screens.search.SearchScreen
 import it.vfsfitvnm.vimusic.ui.screens.searchResultRoute
 import it.vfsfitvnm.vimusic.ui.screens.searchRoute
+import it.vfsfitvnm.vimusic.ui.screens.searchTypeRoute
 import it.vfsfitvnm.vimusic.ui.screens.searchresult.SearchResultScreen
 import it.vfsfitvnm.vimusic.ui.screens.settings.SettingsScreen
 import it.vfsfitvnm.vimusic.ui.screens.settingsRoute
@@ -149,7 +151,8 @@ fun HomeScreen(
                         }
                     }
                 },
-                onViewPlaylist = onPlaylistUrl
+                onViewPlaylist = onPlaylistUrl,
+                onDismiss = { homeRoute::global }
             )
         }
 
@@ -180,6 +183,7 @@ fun HomeScreen(
                     Item(3, stringResource(R.string.albums), R.drawable.disc)
                     Item(4, stringResource(R.string.library), R.drawable.library)
                     Item(5, stringResource(R.string.discovery), R.drawable.megaphone)
+                    Item(6, stringResource(R.string.search), R.drawable.search)
                     //Item(6, "Equalizer", R.drawable.musical_notes)
                     //Item(6, "Settings", R.drawable.equalizer)
                 }
@@ -230,7 +234,9 @@ fun HomeScreen(
                         )
                          */
 
-                        //6 -> settingsRoute()
+                        6 -> HomeSearch(
+                            onSearchType = { searchTypeRoute(it) }
+                        )
                     }
                 }
             }

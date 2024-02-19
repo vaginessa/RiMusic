@@ -10,12 +10,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextRange
@@ -23,11 +26,24 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.routing.RouteHandler
+import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.HomeScreenTabs
+import it.vfsfitvnm.vimusic.enums.SearchType
+import it.vfsfitvnm.vimusic.models.SearchQuery
+import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
 import it.vfsfitvnm.vimusic.ui.screens.globalRoutes
+import it.vfsfitvnm.vimusic.ui.screens.home.HomeScreen
 import it.vfsfitvnm.vimusic.ui.screens.homeRoute
+import it.vfsfitvnm.vimusic.ui.screens.searchResultRoute
+import it.vfsfitvnm.vimusic.ui.screens.searchRoute
+import it.vfsfitvnm.vimusic.ui.screens.searchresult.SearchResultScreen
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.utils.getEnum
+import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
+import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
+import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.secondary
 @ExperimentalMaterialApi
 @ExperimentalTextApi
@@ -36,16 +52,16 @@ import it.vfsfitvnm.vimusic.utils.secondary
 @ExperimentalComposeUiApi
 @UnstableApi
 @Composable
-fun SearchScreen(
-    initialTextInput: String,
-    onSearch: (String) -> Unit,
-    onViewPlaylist: (String) -> Unit,
-    onDismiss: (() -> Unit)? = null,
+fun SearchTypeScreen(
+    searchType: SearchType,
 ) {
+    val preferences = LocalContext.current.preferences
     val saveableStateHolder = rememberSaveableStateHolder()
 
-    val (tabIndex, onTabChanged) = rememberSaveable {
-        mutableStateOf(0)
+    val initialTextInput = ""
+
+    val (tabIndex, onTabChanged) = remember {
+        mutableIntStateOf(searchType.index)
     }
 
     val (textFieldValue, onTextFieldValueChanged) = rememberSaveable(
@@ -64,6 +80,15 @@ fun SearchScreen(
 
     RouteHandler(listenToGlobalEmitter = true) {
         globalRoutes()
+        searchResultRoute { query ->
+            SearchResultScreen(
+                query = query,
+                onSearchAgain = {
+                    searchRoute(query)
+                }
+            )
+        }
+
         val onGoToHome = homeRoute::global
 
         host {
@@ -107,8 +132,16 @@ fun SearchScreen(
                         0 -> OnlineSearch(
                             textFieldValue = textFieldValue,
                             onTextFieldValueChanged = onTextFieldValueChanged,
-                            onSearch = onSearch,
-                            onViewPlaylist = onViewPlaylist,
+                            onSearch = { query ->
+                                    //pop()
+                                    searchResultRoute(query)
+                                    if (!preferences.getBoolean(pauseSearchHistoryKey, false)) {
+                                        transaction {
+                                            Database.insert(SearchQuery(query = query))
+                                        }
+                                    }
+                            },
+                            onViewPlaylist = {}, //onViewPlaylist,
                             decorationBox = decorationBox
                         )
 
