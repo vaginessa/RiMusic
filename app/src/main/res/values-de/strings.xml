@@ -25,8 +25,8 @@
     <string name="favorites">Favoriten</string>
     <string name="quick_picks">Empfehlungen</string>
     <string name="songs">Songs</string>
-    <string name="other_versions">Andere Versionen</string>
-    <string name="album_no_alternative_version">Dieses Album hat keine andere Versionen</string>
+    <string name="other_versions">Alternative Versionen</string>
+    <string name="album_no_alternative_version">Dieses Album hat keine alternative Version</string>
     <string name="enqueue">Zur Warteschlange hinzufügen</string>
     <string name="shuffle">Zufallswiedergabe</string>
     <string name="view_all">Alle anzeigen</string>
@@ -76,7 +76,7 @@
     <string name="lockscreen">SPERRBILDSCHIRM</string>
     <string name="show_song_cover">Songcover anzeigen</string>
     <string name="use_song_cover_on_lockscreen">Songcover als Sperrbildschirm-Hintergrundbild verwenden</string>
-    <string name="cache">Cache</string>
+    <string name="cache">Zwischenspeicher</string>
     <string name="cache_cleared">Wenn der Zwischenspeicher keinen Speicherplatz mehr hat, werden die Ressourcen, auf die am längsten nicht zugegriffen wurde, gelöscht</string>
     <string name="image_cache">Bild-Zwischenspeicher</string>
     <string name="max_size">Max. Größe</string>
@@ -244,8 +244,8 @@
     <string name="visualizer">Visualizer</string>
     <string name="visualizer_require_mic_permission">Visualizer erfordert Mikrofonberechtigung</string>
     <string name="restart_app_please">Starte bitte die App neu.</string>
-    <string name="listen_on_piped">Auf Piped hören</string>
-    <string name="listen_on_invidious">Auf Invidious hören</string>
+    <string name="listen_on_piped">Auf Piped anhören</string>
+    <string name="listen_on_invidious">Auf Invidious anhören</string>
     <string name="disable_horizontal_swipe">Horizontales Wischen deaktivieren</string>
     <string name="disable_song_switching_via_swipe">Titelwechsel per Wischen deaktivieren</string>
     <string name="interface_in_use">Schnittstelle in Verwendung</string>
@@ -261,7 +261,7 @@
     <string name="value_must_be_greater_than">"Der Wert muss größer sein als "</string>
     <string name="custom">Benutzerdefiniert</string>
     <string name="custom_cache_size">Benutzerdefinierte Cache-Größe</string>
-    <string name="listen_on">Hören auf</string>
+    <string name="listen_on">Anhören auf</string>
     <string name="error_local_music_not_found">Lokale Musikdatei nicht gefunden</string>
     <string name="bodied_bar">Breite Leiste</string>
     <string name="pin_bar">Erweiternde Leiste</string>
@@ -276,7 +276,7 @@
     <string name="bashkir">Baschkirisch (Башҡурт)</string>
     <string name="esperanto">Esperanto</string>
     <string name="close_app_with_back_button">App mit \"Zurück\" schließen</string>
-    <string name="when_you_use_the_back_button_from_the_home_page">Wenn \"Zurück\" Taste/Geste auf der Startseite betätigt wird</string>
+    <string name="when_you_use_the_back_button_from_the_home_page">Wenn die \"Zurück\" Taste/Geste auf der Startseite betätigt wird</string>
     <string name="audio_quality_format_high">Hoch</string>
     <string name="audio_quality_format_medium">Mittel</string>
     <string name="audio_quality_format_low">Niedrig</string>
@@ -362,7 +362,7 @@
     <string name="enable_language_in_discovery">Übersetzung in \"Entdecken\" aktivieren</string>
     <string name="if_possible_allows_discovery_content_language">Wenn möglich, können die Inhalte in \"Entdecken\" in der eingestellten Sprache angezeigt werden.</string>
     <string name="set_to">Festlegen auf</string>
-    <string name="end_of_song">Ende des Liedes</string>
+    <string name="end_of_song">(Ende des Liedes)</string>
     <string name="restore_completed">Wiederherstellen abgeschlossen!</string>
     <string name="click_to_close">Zum Schließen klicken</string>
     <string name="lang_dutch">Niederländisch</string>
@@ -412,6 +412,11 @@
     <string name="ask">Fragen</string>
     <string name="item_select">Auswählen</string>
     <string name="item_uncheck">Deaktivieren</string>
+    <string name="blacklisted_folders">Blacklisted folders</string>
+    <string name="edit_blacklist_for_on_device_songs">Edit blacklist for on device songs.</string>
+    <string name="add_folder">Add folder</string>
+    <string name="this_folder_already_exists">This folder already exists.</string>
+    <string name="are_you_sure_you_want_to_remove_this_folder_from_the_blacklist">Are you sure you want to remove this folder from the blacklist?</string>
     <string name="player_appearance">Player Appearance</string>
     <string name="player_action_bar">PLAYER ACTION BAR</string>
     <string name="tab_data">Data</string>

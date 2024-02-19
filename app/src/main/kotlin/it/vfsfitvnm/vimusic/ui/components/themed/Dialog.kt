@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,6 +30,8 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -698,6 +701,152 @@ inline fun InputTextDialog(
                 )
             }
 
+        }
+    }
+
+}
+
+@Composable
+inline fun StringListDialog(
+    title: String,
+    addTitle: String,
+    addPlaceholder: String,
+    removeTitle: String,
+    conflictTitle: String,
+    list: List<String>,
+    crossinline add: (String) -> Unit,
+    crossinline remove: (String) -> Unit,
+    noinline onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val (colorPalette, typography) = LocalAppearance.current
+    var showStringAddDialog by remember {
+        mutableStateOf(false)
+    }
+    var showStringRemoveDialog by remember {
+        mutableStateOf(false)
+    }
+    var removingItem by remember { mutableStateOf("") }
+    var errorDialog by remember { mutableStateOf(false) }
+
+    Dialog(onDismissRequest = onDismiss) {
+        Column(
+            modifier = modifier
+                .padding(all = 10.dp)
+                .background(color = colorPalette.background1, shape = RoundedCornerShape(8.dp))
+                .padding(vertical = 16.dp)
+                .defaultMinSize(Dp.Unspecified, 190.dp)
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                BasicText(
+                    text = title,
+                    style = typography.s.semiBold,
+                    modifier = Modifier
+                        .padding(vertical = 8.dp, horizontal = 24.dp)
+                )
+                DialogTextButton(
+                    text = addTitle,
+                    primary = true,
+                    onClick = {
+                        showStringAddDialog = true
+                    }
+                )
+            }
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                list.forEach { item ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 20.dp),
+                    ) {
+                        BasicText(
+                            text = item,
+                            style = typography.s.semiBold,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = 24.dp, vertical = 8.dp)
+                        )
+                        Icon(
+                            painter = painterResource(R.drawable.trash),
+                            contentDescription = null,
+                            tint = Color.Red,
+                            modifier = Modifier.clickable {
+                                removingItem = item
+                                showStringRemoveDialog = true
+                            }
+                        )
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    if (showStringAddDialog) {
+        InputTextDialog(
+            onDismiss = { showStringAddDialog = false },
+            placeholder = addPlaceholder,
+            setValue = {
+                if (it !in list) {
+                    add(it)
+                } else {
+                    errorDialog = true
+                }
+            },
+            title = addTitle,
+            value = ""
+        )
+    }
+
+    if (showStringRemoveDialog) {
+        ConfirmationDialog(
+            text = removeTitle,
+            onDismiss = { showStringRemoveDialog = false },
+            onConfirm = {
+                remove(removingItem)
+            }
+        )
+    }
+
+    if (errorDialog) {
+        DefaultDialog(
+            onDismiss = {errorDialog = false},
+            modifier = modifier
+        ) {
+            BasicText(
+                text = conflictTitle,
+                style = typography.xs.medium.center,
+                modifier = Modifier
+                    .padding(all = 16.dp)
+            )
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+
+                DialogTextButton(
+                    text = stringResource(R.string.confirm),
+                    primary = true,
+                    onClick = {
+                        errorDialog = false
+                    }
+                )
+            }
         }
     }
 

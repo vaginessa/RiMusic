@@ -112,6 +112,7 @@ import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.OnDeviceBlacklist
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
@@ -170,14 +171,14 @@ fun DeviceListSongs(
     }
     val context = LocalContext.current
     LaunchedEffect(sortBy, sortOrder) {
-        context.musicFilesAsFlow(sortBy, sortOrder).collect { songs = it }
+        context.musicFilesAsFlow(sortBy, sortOrder, context).collect { songs = it }
     }
 
     var filter: String? by rememberSaveable { mutableStateOf(null) }
 
 
     LaunchedEffect(filter) {
-        context.musicFilesAsFlow(sortBy, sortOrder).collect { songs = it }
+        context.musicFilesAsFlow(sortBy, sortOrder, context).collect { songs = it }
     }
 
 
@@ -736,7 +737,7 @@ fun DeviceListSongs(
 }
 
 private val mediaScope = CoroutineScope(Dispatchers.IO + CoroutineName("MediaStore worker"))
-fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder): StateFlow<List<Song>> = flow {
+fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder, context: Context): StateFlow<List<Song>> = flow {
     var version: String? = null
 
     while (currentCoroutineContext().isActive) {
@@ -751,7 +752,8 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder): Stat
                 MediaStore.Audio.Media.DISPLAY_NAME,
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.ARTIST,
-                MediaStore.Audio.Media.ALBUM_ID
+                MediaStore.Audio.Media.ALBUM_ID,
+                MediaStore.Audio.Media.RELATIVE_PATH
             )
 
             val sortOrderSQL = when (order) {
@@ -774,6 +776,8 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder): Stat
                     val durationIdx = cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)
                     val artistIdx = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)
                     val albumIdIdx = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
+                    val relativePathIdx = cursor.getColumnIndex(MediaStore.Audio.Media.RELATIVE_PATH)
+                    val blacklist = OnDeviceBlacklist(context = context)
 
                     buildList {
                         while (cursor.moveToNext()) {
@@ -782,21 +786,26 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder): Stat
                             val duration = cursor.getInt(durationIdx)
                             val artist = cursor.getString(artistIdx)
                             val albumId = cursor.getLong(albumIdIdx)
+                            val relativePath = cursor.getString(relativePathIdx)
+                            val exclude = blacklist.contains(relativePath)
 
-                            val albumUri = ContentUris.withAppendedId(albumUriBase, albumId)
-                            val durationText =
-                                duration.milliseconds.toComponents { minutes, seconds, _ ->
-                                    "$minutes:${seconds.toString().padStart(2, '0')}"
-                                }
-                            add(
-                                Song(
-                                    id = "$LOCAL_KEY_PREFIX$id",
-                                    title = name.substringBeforeLast("."),
-                                    artistsText = artist,
-                                    durationText = durationText,
-                                    thumbnailUrl = albumUri.toString()
+                            if (!exclude) {
+                                println(relativePath)
+                                val albumUri = ContentUris.withAppendedId(albumUriBase, albumId)
+                                val durationText =
+                                    duration.milliseconds.toComponents { minutes, seconds, _ ->
+                                        "$minutes:${seconds.toString().padStart(2, '0')}"
+                                    }
+                                add(
+                                    Song(
+                                        id = "$LOCAL_KEY_PREFIX$id",
+                                        title = name.substringBeforeLast("."),
+                                        artistsText = artist,
+                                        durationText = durationText,
+                                        thumbnailUrl = albumUri.toString()
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
                 }?.let { emit(it) }
