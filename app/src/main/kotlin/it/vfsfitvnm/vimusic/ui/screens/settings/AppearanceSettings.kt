@@ -233,7 +233,7 @@ fun AppearanceSettings() {
                     PlayerPlayButtonType.CircularRibbed -> stringResource(R.string.circular_ribbed)
                 }
             },
-            isEnabled = uiType != UiType.ViMusic
+            //isEnabled = uiType != UiType.ViMusic
         )
 
 

@@ -647,7 +647,8 @@ fun Controls(
                     .width(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.width.dp else playerPlayButtonType.width.dp)
                     .height(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.height.dp else playerPlayButtonType.height.dp)
             ) {
-                if (uiType == UiType.RiMusic && playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
+                //if (uiType == UiType.RiMusic && playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
+                if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
                 Image(
                     painter = painterResource(R.drawable.a13shape),
                     colorFilter = ColorFilter.tint(
