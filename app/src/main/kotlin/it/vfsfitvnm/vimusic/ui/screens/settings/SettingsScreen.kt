@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.settings
 
+import android.content.Context
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -50,6 +51,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 @ExperimentalMaterialApi
 @ExperimentalTextApi
@@ -113,18 +115,19 @@ inline fun StringListValueSelectorSettingsEntry(
     addPlaceholder: String,
     conflictTitle: String,
     removeTitle: String,
+    context: Context
 ) {
+    val filename = "Blacklisted_paths.txt"
     var showStringListDialog by remember {
         mutableStateOf(false)
     }
 
     var blackListedPaths by remember {
-        mutableStateOf<List<String>>(emptyList())
-    }
-
-    LaunchedEffect(Unit) {
-        withContext(Dispatchers.IO) {
-            blackListedPaths = Database.getOnDeviceBlacklistPaths().map { it.path }
+        val file = File(context.filesDir, filename)
+        if (file.exists()) {
+            mutableStateOf(file.readLines())
+        } else {
+            mutableStateOf(emptyList())
         }
     }
 
@@ -137,20 +140,14 @@ inline fun StringListValueSelectorSettingsEntry(
             conflictTitle = conflictTitle,
             list = blackListedPaths,
             add = { newPath ->
-                CoroutineScope(Dispatchers.IO).launch {
-                    Database.addOnDeviceBlacklistPath(OnDeviceBlacklistPath(path = newPath))
-                    blackListedPaths = withContext(Dispatchers.IO) {
-                        Database.getOnDeviceBlacklistPaths().map { it.path }
-                    }
-                }
+                blackListedPaths = blackListedPaths + newPath
+                val file = File(context.filesDir, filename)
+                file.writeText(blackListedPaths.joinToString("\n"))
             },
             remove = { path ->
-                CoroutineScope(Dispatchers.IO).launch {
-                    Database.removeOnDeviceBlacklistPath(path)
-                    blackListedPaths = withContext(Dispatchers.IO) {
-                        Database.getOnDeviceBlacklistPaths().map { it.path }
-                    }
-                }
+                blackListedPaths = blackListedPaths.filter { it != path }
+                val file = File(context.filesDir, filename)
+                file.writeText(blackListedPaths.joinToString("\n"))
             },
             onDismiss = { showStringListDialog = false },
         )

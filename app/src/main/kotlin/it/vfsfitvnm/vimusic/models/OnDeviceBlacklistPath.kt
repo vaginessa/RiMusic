@@ -10,6 +10,6 @@ data class OnDeviceBlacklistPath(
     val path: String
 ) {
     fun test(relativePath: String): Boolean {
-        return this.path.startsWith(relativePath)
+        return relativePath.startsWith(path)
     }
 }
