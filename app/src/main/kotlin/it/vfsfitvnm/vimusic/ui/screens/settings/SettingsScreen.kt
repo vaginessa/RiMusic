@@ -1,5 +1,6 @@
 package it.vfsfitvnm.vimusic.ui.screens.settings
 
+import android.content.Context
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,9 +33,11 @@ import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.routing.RouteHandler
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.models.OnDeviceBlacklistPath
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
+import it.vfsfitvnm.vimusic.ui.components.themed.StringListDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.Switch
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
@@ -43,6 +47,11 @@ import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
 
 @ExperimentalMaterialApi
 @ExperimentalTextApi
@@ -98,6 +107,59 @@ fun SettingsScreen() {
     }
 }
 
+@Composable
+inline fun StringListValueSelectorSettingsEntry(
+    title: String,
+    text: String,
+    addTitle: String,
+    addPlaceholder: String,
+    conflictTitle: String,
+    removeTitle: String,
+    context: Context
+) {
+    val filename = "Blacklisted_paths.txt"
+    var showStringListDialog by remember {
+        mutableStateOf(false)
+    }
+
+    var blackListedPaths by remember {
+        val file = File(context.filesDir, filename)
+        if (file.exists()) {
+            mutableStateOf(file.readLines())
+        } else {
+            mutableStateOf(emptyList())
+        }
+    }
+
+    if (showStringListDialog) {
+        StringListDialog(
+            title = title,
+            addTitle = addTitle,
+            addPlaceholder = addPlaceholder,
+            removeTitle = removeTitle,
+            conflictTitle = conflictTitle,
+            list = blackListedPaths,
+            add = { newPath ->
+                blackListedPaths = blackListedPaths + newPath
+                val file = File(context.filesDir, filename)
+                file.writeText(blackListedPaths.joinToString("\n"))
+            },
+            remove = { path ->
+                blackListedPaths = blackListedPaths.filter { it != path }
+                val file = File(context.filesDir, filename)
+                file.writeText(blackListedPaths.joinToString("\n"))
+            },
+            onDismiss = { showStringListDialog = false },
+        )
+    }
+    SettingsEntry(
+        title = title,
+        text = text,
+        onClick = {
+            showStringListDialog = true
+        }
+    )
+}
 
 
 

@@ -412,4 +412,9 @@
     <string name="ask">Zeptat se</string>
     <string name="item_select">Vybrat</string>
     <string name="item_uncheck">Odznačit</string>
+    <string name="blacklisted_folders">Blacklisted folders</string>
+    <string name="edit_blacklist_for_on_device_songs">Edit blacklist for on device songs.</string>
+    <string name="add_folder">Add folder</string>
+    <string name="this_folder_already_exists">This folder already exists.</string>
+    <string name="are_you_sure_you_want_to_remove_this_folder_from_the_blacklist">Are you sure you want to remove this folder from the blacklist?</string>
 </resources>

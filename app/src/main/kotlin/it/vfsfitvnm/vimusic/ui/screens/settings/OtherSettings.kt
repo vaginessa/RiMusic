@@ -185,6 +185,18 @@ fun OtherSettings() {
         )
 
         SettingsGroupSpacer()
+        SettingsEntryGroupText(stringResource(R.string.on_device))
+        StringListValueSelectorSettingsEntry(
+            title = stringResource(R.string.blacklisted_folders),
+            text = stringResource(R.string.edit_blacklist_for_on_device_songs),
+            addTitle = stringResource(R.string.add_folder),
+            addPlaceholder = "Android/media/com.whatsapp/WhatsApp/Media",
+            conflictTitle = stringResource(R.string.this_folder_already_exists),
+            removeTitle = stringResource(R.string.are_you_sure_you_want_to_remove_this_folder_from_the_blacklist),
+            context = LocalContext.current
+        )
+
+        SettingsGroupSpacer()
 
         SettingsEntryGroupText(title = stringResource(R.string.android_auto))
 
