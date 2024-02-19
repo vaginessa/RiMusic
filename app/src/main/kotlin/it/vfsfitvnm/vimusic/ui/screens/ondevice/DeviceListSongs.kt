@@ -656,7 +656,6 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder): Stat
                             if (exclude) {
                                 continue
                             }
-                            println(relativePath)
 
                             val albumUri = ContentUris.withAppendedId(albumUriBase, albumId)
                             val durationText =
