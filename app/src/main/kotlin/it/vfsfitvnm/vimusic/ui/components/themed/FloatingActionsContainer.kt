@@ -129,7 +129,7 @@ fun BoxScope.FloatingActions(
     ) {
         onScrollToTop?.let {
             transition.AnimatedVisibility(
-                visible = { it?.isScrollingDown == true}, //{ it?.isScrollingDown == false && it.isFar },
+                visible = { it?.isScrollingDown == false && it.isFar }, //{ it?.isScrollingDown == true},
                 enter = slideInVertically(tween(500, if (iconId == null) 0 else 100)) { it },
                 exit = slideOutVertically(tween(500, 0)) { it },
             ) {
@@ -141,7 +141,7 @@ fun BoxScope.FloatingActions(
                             onScrollToTop()
                         }
                     },
-                    enabled = transition.targetState?.isScrollingDown == true,
+                    enabled = transition.targetState?.isScrollingDown == false,
                     modifier = Modifier
                         .padding(bottom = 16.dp)
                         .padding(bottomPaddingValues)
@@ -166,14 +166,17 @@ fun BoxScope.FloatingActions(
         iconId?.let {
             onClick?.let {
                 transition.AnimatedVisibility(
-                    visible = { it?.isScrollingDown == false },
+                    visible = {
+                              true
+                        //it?.isScrollingDown == false
+                              },
                     enter = slideInVertically(tween(500, 0)) { it },
                     exit = slideOutVertically(tween(500, 100)) { it },
                 ) {
                     PrimaryButton(
                         iconId = iconId,
                         onClick = onClick,
-                        enabled = transition.targetState?.isScrollingDown == false,
+                        enabled = true, //transition.targetState?.isScrollingDown == false,
                         modifier = Modifier
                             .padding(bottom = 16.dp)
                             .padding(bottomPaddingValues)

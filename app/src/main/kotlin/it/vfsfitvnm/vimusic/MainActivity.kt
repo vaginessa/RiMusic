@@ -392,7 +392,6 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             showButtonPlayerSleepTimerKey,
                             showButtonPlayerMenuKey,
                             disableClosingPlayerSwipingDownKey
-
                             -> {
                                 this@MainActivity.recreate()
                             }
