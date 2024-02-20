@@ -439,28 +439,7 @@ fun BuiltInPlaylistSongs(
                 ) {
 
 
-                    HeaderIconButton(
-                        icon = R.drawable.locate,
-                        enabled = songs.isNotEmpty(),
-                        color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
-                        onClick = {
-                            nowPlayingItem = -1
-                            scrollToNowPlaying = false
-                            songs
-                                .forEachIndexed{ index, song ->
-                                    if (song.asMediaItem.mediaId == binder?.player?.currentMediaItem?.mediaId)
-                                        nowPlayingItem = index
-                                }
 
-                            if (nowPlayingItem > -1)
-                                scrollToNowPlaying = true
-                        }
-                    )
-                    LaunchedEffect(scrollToNowPlaying) {
-                        if (scrollToNowPlaying)
-                            lazyListState.scrollToItem(nowPlayingItem,1)
-                        scrollToNowPlaying = false
-                    }
 
                     if (builtInPlaylist == BuiltInPlaylist.Favorites) {
                         HeaderIconButton(
@@ -643,6 +622,30 @@ fun BuiltInPlaylistSongs(
                         .padding(all = 10.dp)
                         .fillMaxHeight()
                 ) {
+
+                    HeaderIconButton(
+                        icon = R.drawable.locate,
+                        enabled = songs.isNotEmpty(),
+                        color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
+                        onClick = {
+                            nowPlayingItem = -1
+                            scrollToNowPlaying = false
+                            songs
+                                .forEachIndexed{ index, song ->
+                                    if (song.asMediaItem.mediaId == binder?.player?.currentMediaItem?.mediaId)
+                                        nowPlayingItem = index
+                                }
+
+                            if (nowPlayingItem > -1)
+                                scrollToNowPlaying = true
+                        }
+                    )
+                    LaunchedEffect(scrollToNowPlaying) {
+                        if (scrollToNowPlaying)
+                            lazyListState.scrollToItem(nowPlayingItem,1)
+                        scrollToNowPlaying = false
+                    }
+
                     HeaderIconButton(
                         onClick = { searching = !searching },
                         icon = R.drawable.search_circle,

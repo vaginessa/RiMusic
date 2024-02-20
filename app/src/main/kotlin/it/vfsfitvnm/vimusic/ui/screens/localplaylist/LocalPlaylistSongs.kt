@@ -579,28 +579,7 @@ fun LocalPlaylistSongs(
                         .fillMaxWidth()
                 ) {
 
-                    HeaderIconButton(
-                        icon = R.drawable.locate,
-                        enabled = playlistSongs.isNotEmpty(),
-                        color = if (playlistSongs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
-                        onClick = {
-                            nowPlayingItem = -1
-                            scrollToNowPlaying = false
-                            playlistSongs
-                                .forEachIndexed{ index, song ->
-                                    if (song.asMediaItem.mediaId == binder?.player?.currentMediaItem?.mediaId)
-                                        nowPlayingItem = index
-                                }
 
-                            if (nowPlayingItem > -1)
-                                scrollToNowPlaying = true
-                        }
-                    )
-                    LaunchedEffect(scrollToNowPlaying) {
-                        if (scrollToNowPlaying)
-                        lazyListState.scrollToItem(nowPlayingItem,1)
-                        scrollToNowPlaying = false
-                    }
 
 
 
@@ -984,6 +963,30 @@ fun LocalPlaylistSongs(
                         .padding(all = 10.dp)
                         .fillMaxHeight()
                 ) {
+
+                    HeaderIconButton(
+                        icon = R.drawable.locate,
+                        enabled = playlistSongs.isNotEmpty(),
+                        color = if (playlistSongs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
+                        onClick = {
+                            nowPlayingItem = -1
+                            scrollToNowPlaying = false
+                            playlistSongs
+                                .forEachIndexed{ index, song ->
+                                    if (song.asMediaItem.mediaId == binder?.player?.currentMediaItem?.mediaId)
+                                        nowPlayingItem = index
+                                }
+
+                            if (nowPlayingItem > -1)
+                                scrollToNowPlaying = true
+                        }
+                    )
+                    LaunchedEffect(scrollToNowPlaying) {
+                        if (scrollToNowPlaying)
+                            lazyListState.scrollToItem(nowPlayingItem,1)
+                        scrollToNowPlaying = false
+                    }
+
                     HeaderIconButton(
                         onClick = { searching = !searching },
                         icon = R.drawable.search_circle,
