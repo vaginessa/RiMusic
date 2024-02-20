@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.ContentUris
 import android.content.Context
 import android.content.pm.PackageManager
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -642,19 +643,24 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder, conte
                     val albumIdIdx = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
                     val relativePathIdx = cursor.getColumnIndex(MediaStore.Audio.Media.RELATIVE_PATH)
                     val blacklist = OnDeviceBlacklist(context = context)
+                    val metadataRetriever = MediaMetadataRetriever()
+
 
                     buildList {
                         while (cursor.moveToNext()) {
                             val id = cursor.getLong(idIdx)
-                            val name = cursor.getString(nameIdx)
+                            val songUri = ContentUris.withAppendedId(collection, id)
+                            metadataRetriever.setDataSource(context, songUri)
+                            val trackName = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
+                            val name = cursor.getString(nameIdx).substringBeforeLast(".")
                             val duration = cursor.getInt(durationIdx)
                             val artist = cursor.getString(artistIdx)
                             val albumId = cursor.getLong(albumIdIdx)
                             val relativePath = cursor.getString(relativePathIdx)
                             val exclude = blacklist.contains(relativePath)
+                            println(trackName)
 
                             if (!exclude) {
-                                println(relativePath)
                                 val albumUri = ContentUris.withAppendedId(albumUriBase, albumId)
                                 val durationText =
                                     duration.milliseconds.toComponents { minutes, seconds, _ ->
@@ -663,7 +669,7 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder, conte
                                 add(
                                     Song(
                                         id = "$LOCAL_KEY_PREFIX$id",
-                                        title = name.substringBeforeLast("."),
+                                        title = trackName ?: name,
                                         artistsText = artist,
                                         durationText = durationText,
                                         thumbnailUrl = albumUri.toString()
