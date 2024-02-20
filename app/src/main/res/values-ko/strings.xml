@@ -412,7 +412,7 @@
     <string name="ask">물어보기</string>
     <string name="item_select">선택</string>
     <string name="item_uncheck">선택 해제</string>
-    <string name="blacklisted_folders">Blacklisted folders</string>
+    <string name="blacklisted_folders">블랙리스트 폴더</string>
     <string name="edit_blacklist_for_on_device_songs">Edit blacklist for on device songs.</string>
     <string name="add_folder">Add folder</string>
     <string name="this_folder_already_exists">This folder already exists.</string>
