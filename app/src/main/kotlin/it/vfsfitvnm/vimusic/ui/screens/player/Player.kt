@@ -109,6 +109,7 @@ import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.DisposableListener
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.disableClosingPlayerSwipingDownKey
 import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
@@ -352,6 +353,7 @@ fun Player(
     val showButtonPlayerShuffle by rememberPreference(showButtonPlayerShuffleKey, true)
     val showButtonPlayerSleepTimer by rememberPreference(showButtonPlayerSleepTimerKey, false)
     val showButtonPlayerMenu by rememberPreference(showButtonPlayerMenuKey, false)
+    val disableClosingPlayerSwipingDown by rememberPreference(disableClosingPlayerSwipingDownKey, true)
 
     val playlistPreviews by remember {
         Database.playlistPreviews(PlaylistSortBy.Name, SortOrder.Ascending)
@@ -368,8 +370,6 @@ fun Player(
     val sleepTimerMillisLeft by (binder?.sleepTimerMillisLeft
         ?: flowOf(null))
         .collectAsState(initial = null)
-
-    //val positionAndDuration = binder.player.positionAndDurationState()
 
     var timeRemaining by remember { mutableIntStateOf(0) }
 
@@ -533,8 +533,13 @@ fun Player(
         state = layoutState,
         modifier = modifier,
         onDismiss = {
-            binder.stopRadio()
-            binder.player.clearMediaItems()
+            if (disableClosingPlayerSwipingDown) {
+                val playerBottomSheetMinHeight = 80.dp
+                layoutState.snapTo(playerBottomSheetMinHeight)
+            } else {
+                binder.stopRadio()
+                binder.player.clearMediaItems()
+            }
         },
         collapsedContent = {
             Row(

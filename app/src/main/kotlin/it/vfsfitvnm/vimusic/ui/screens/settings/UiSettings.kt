@@ -51,6 +51,7 @@ import it.vfsfitvnm.vimusic.utils.closeWithBackButtonKey
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
+import it.vfsfitvnm.vimusic.utils.disableClosingPlayerSwipingDownKey
 import it.vfsfitvnm.vimusic.utils.disableIconButtonOnTopKey
 import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerMinTimeForEventKey
@@ -145,6 +146,7 @@ fun  UiSettings() {
     var useSystemFont by rememberPreference(useSystemFontKey, false)
     var applyFontPadding by rememberPreference(applyFontPaddingKey, false)
     var isSwipeToActionEnabled by rememberPreference(isSwipeToActionEnabledKey, true)
+    var disableClosingPlayerSwipingDown by rememberPreference(disableClosingPlayerSwipingDownKey, true)
 
     Column(
         modifier = Modifier
@@ -260,6 +262,24 @@ fun  UiSettings() {
         SettingsDescription(text = stringResource(R.string.is_min_list_time_for_tips_or_quick_pics))
 
         SwitchSettingEntry(
+            title = stringResource(R.string.player_keep_minimized),
+            text = stringResource(R.string.when_click_on_a_song_player_start_minimized),
+            isChecked = keepPlayerMinimized,
+            onCheckedChange = {
+                keepPlayerMinimized = it
+            }
+        )
+
+        SwitchSettingEntry(
+            title = stringResource(R.string.player_collapsed_disable_swiping_down),
+            text = stringResource(R.string.avoid_closing_the_player_cleaning_queue_by_swiping_down),
+            isChecked = disableClosingPlayerSwipingDown,
+            onCheckedChange = {
+                disableClosingPlayerSwipingDown = it
+            }
+        )
+
+        SwitchSettingEntry(
             title = stringResource(R.string.persistent_queue),
             text = stringResource(R.string.save_and_restore_playing_songs),
             isChecked = persistentQueue,
@@ -279,16 +299,6 @@ fun  UiSettings() {
                 }
             )
         }
-
-        SwitchSettingEntry(
-            title = stringResource(R.string.player_keep_minimized),
-            text = stringResource(R.string.when_click_on_a_song_player_start_minimized),
-            isChecked = keepPlayerMinimized,
-            onCheckedChange = {
-                keepPlayerMinimized = it
-            }
-        )
-
 
         SwitchSettingEntry(
             isEnabled = Build.VERSION.SDK_INT >= 33,

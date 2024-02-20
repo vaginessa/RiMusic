@@ -120,6 +120,7 @@ import it.vfsfitvnm.vimusic.utils.checkUpdateStateKey
 import it.vfsfitvnm.vimusic.utils.closeWithBackButtonKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
+import it.vfsfitvnm.vimusic.utils.disableClosingPlayerSwipingDownKey
 import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.fontTypeKey
@@ -389,7 +390,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             showButtonPlayerLyricsKey,
                             showButtonPlayerShuffleKey,
                             showButtonPlayerSleepTimerKey,
-                            showButtonPlayerMenuKey
+                            showButtonPlayerMenuKey,
+                            disableClosingPlayerSwipingDownKey
                             -> {
                                 this@MainActivity.recreate()
                             }
