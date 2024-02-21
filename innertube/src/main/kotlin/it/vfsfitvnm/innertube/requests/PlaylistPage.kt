@@ -13,7 +13,7 @@ import it.vfsfitvnm.innertube.models.bodies.ContinuationBody
 import it.vfsfitvnm.innertube.utils.from
 import it.vfsfitvnm.innertube.utils.runCatchingNonCancellable
 
-suspend fun Innertube.playlistPage(body: BrowseBody) = runCatchingNonCancellable {
+suspend fun Innertube.playlistPage(body: BrowseBody) = runCatching {
     val response = client.post(browse) {
         setBody(body)
         mask("contents.singleColumnBrowseResultsRenderer.tabs.tabRenderer.content.sectionListRenderer.contents(musicPlaylistShelfRenderer(continuations,contents.$musicResponsiveListItemRendererMask),musicCarouselShelfRenderer.contents.$musicTwoRowItemRendererMask),header.musicDetailHeaderRenderer(title,subtitle,thumbnail),microformat")
@@ -74,8 +74,12 @@ suspend fun Innertube.playlistPage(body: BrowseBody) = runCatchingNonCancellable
             ?.mapNotNull(Innertube.AlbumItem::from)
     )
 }
+    /*.onFailure {
+    println("ERROR IN BROWSEBODY"+it.message)
+}
+     */
 
-suspend fun Innertube.playlistPage(body: ContinuationBody) = runCatchingNonCancellable {
+suspend fun Innertube.playlistPage(body: ContinuationBody) = runCatching {
     val response = client.post(browse) {
         setBody(body)
         mask("continuationContents.musicPlaylistShelfContinuation(continuations,contents.$musicResponsiveListItemRendererMask)")
@@ -86,6 +90,11 @@ suspend fun Innertube.playlistPage(body: ContinuationBody) = runCatchingNonCance
         ?.musicShelfContinuation
         ?.toSongsPage()
 }
+    /*
+    .onFailure {
+    println("ERROR IN CONTINUATION "+it.message)
+}
+     */
 
 private fun MusicShelfRenderer?.toSongsPage() =
     Innertube.ItemsPage(
