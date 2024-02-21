@@ -4,6 +4,7 @@ package it.vfsfitvnm.vimusic.service
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.util.UnstableApi
@@ -93,13 +94,15 @@ object DownloadUtil {
         audioQualityFormat =  context.preferences.getEnum(audioQualityFormatKey, AudioQualityFormat.High)
         val dataSourceFactory = ResolvingDataSource.Factory(createCacheDataSource(context)) { dataSpec ->
             val videoId = dataSpec.key ?: error("A key must be set")
+            //val videoId = dataSpec.key?.removePrefix("https://youtube.com/watch?v=")
+            //    ?: error("A key must be set")
+            //val chunkLength = 512 * 1024L
             //val chunkLength = 1024 * 1024L
             //val chunkLength = 10000 * 1024L
             //val chunkLength = 30000 * 1024L
             val chunkLength = 180000 * 1024L
             //val chunkLength = if (dataSpec.length >= 0) dataSpec.length else 1
             val ringBuffer = RingBuffer<Pair<String, Uri>?>(2) { null }
-
             if (cache.isCached(videoId, dataSpec.position, chunkLength)) {
                 dataSpec
             } else {
