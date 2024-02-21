@@ -105,9 +105,9 @@ import it.vfsfitvnm.vimusic.ui.components.themed.IconInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InPlaylistMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.NowPlayingShow
+import it.vfsfitvnm.vimusic.ui.components.themed.Playlist
 import it.vfsfitvnm.vimusic.ui.components.themed.PlaylistsItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
-import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -528,7 +528,7 @@ fun LocalPlaylistSongs(
                 ) {
 
                     playlistPreview?.let {
-                        PlaylistItem(
+                        Playlist(
                             playlist = it,
                             thumbnailSizeDp = playlistThumbnailSizeDp,
                             thumbnailSizePx = playlistThumbnailSizePx,

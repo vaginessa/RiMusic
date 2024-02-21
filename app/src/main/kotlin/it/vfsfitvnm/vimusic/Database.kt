@@ -548,6 +548,10 @@ interface Database {
     }
 
     @Transaction
+    @Query("SELECT S.* FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id ORDER BY SP.position LIMIT 4")
+    fun songsPlaylistTop4Positions(id: Long): Flow<List<Song>>
+
+    @Transaction
     @Query("SELECT SP.position FROM Song S INNER JOIN songplaylistmap SP ON S.id=SP.songId WHERE SP.playlistId=:id AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY SP.position")
     fun songsPlaylistMap(id: Long): Flow<List<Int>>
 
