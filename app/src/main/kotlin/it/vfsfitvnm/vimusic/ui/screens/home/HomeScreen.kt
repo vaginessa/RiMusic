@@ -61,6 +61,7 @@ import it.vfsfitvnm.vimusic.utils.isInvincibilityEnabledKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.showSearchTabKey
 
 
 @ExperimentalMaterialApi
@@ -82,7 +83,7 @@ fun HomeScreen(
     val saveableStateHolder = rememberSaveableStateHolder()
 
     val preferences = LocalContext.current.preferences
-
+    val showSearchTab by rememberPreference(showSearchTabKey, false)
 
     PersistMapCleanup("home/")
 
@@ -183,7 +184,8 @@ fun HomeScreen(
                     Item(3, stringResource(R.string.albums), R.drawable.disc)
                     Item(4, stringResource(R.string.library), R.drawable.library)
                     Item(5, stringResource(R.string.discovery), R.drawable.megaphone)
-                    Item(6, stringResource(R.string.search), R.drawable.search)
+                    if (showSearchTab)
+                        Item(6, stringResource(R.string.search), R.drawable.search)
                     //Item(6, "Equalizer", R.drawable.musical_notes)
                     //Item(6, "Settings", R.drawable.equalizer)
                 }

@@ -76,6 +76,7 @@ import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.recommendationsNumberKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.resumePlaybackWhenDeviceConnectedKey
+import it.vfsfitvnm.vimusic.utils.showSearchTabKey
 import it.vfsfitvnm.vimusic.utils.showStatsListeningTimeKey
 import it.vfsfitvnm.vimusic.utils.skipSilenceKey
 import it.vfsfitvnm.vimusic.utils.thumbnailTapEnabledKey
@@ -147,6 +148,7 @@ fun  UiSettings() {
     var applyFontPadding by rememberPreference(applyFontPaddingKey, false)
     var isSwipeToActionEnabled by rememberPreference(isSwipeToActionEnabledKey, true)
     var disableClosingPlayerSwipingDown by rememberPreference(disableClosingPlayerSwipingDownKey, true)
+    var showSearchTab by rememberPreference(showSearchTabKey, false)
 
     Column(
         modifier = Modifier
@@ -437,6 +439,13 @@ fun  UiSettings() {
                     HomeScreenTabs.Discovery -> stringResource(R.string.discovery)
                 }
             }
+        )
+
+        SwitchSettingEntry(
+            title = "Show Search Tab in Home",
+            text = "If enabled shows an adding tab in home with various types of search",
+            isChecked = showSearchTab,
+            onCheckedChange = { showSearchTab = it }
         )
 
         EnumValueSelectorSettingsEntry(
