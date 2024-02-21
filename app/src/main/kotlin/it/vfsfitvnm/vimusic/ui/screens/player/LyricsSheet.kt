@@ -133,6 +133,7 @@ fun LyricsSheet(
                     player.currentMediaItem?.mediaId?.let {
                         player.currentMediaItem!!::mediaMetadata.let { it1 ->
                             Lyrics(
+                                enableClick = true,
                                 mediaId = it,
                                 isDisplayed = true,
                                 onDismiss = {},

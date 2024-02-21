@@ -109,7 +109,8 @@ fun Lyrics(
     mediaMetadataProvider: () -> MediaMetadata,
     durationProvider: () -> Long,
     ensureSongInserted: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enableClick: Boolean = false
 ) {
     AnimatedVisibility(
         visible = isDisplayed,
@@ -436,8 +437,9 @@ fun Lyrics(
                                 modifier = Modifier
                                     .padding(vertical = 4.dp, horizontal = 32.dp)
                                     .clickable {
-                                        Log.d("mediaItem","${sentence.first}")
-                                        binder?.player?.seekTo(sentence.first)
+                                        //Log.d("mediaItem","${sentence.first}")
+                                        if (enableClick)
+                                            binder?.player?.seekTo(sentence.first)
                                     }
                             )
                         }
