@@ -48,6 +48,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.DataSource
@@ -724,8 +725,11 @@ class PlayerService : InvincibleService(),
     }
 
     private fun maybeSavePlayerQueue() {
+        //Log.d("mediaItem", "Save ${player.currentTimeline.mediaItems.size}")
         //if (!isPersistentQueueEnabled && player.currentTimeline.mediaItems.isNotEmpty()) return
         if (!isPersistentQueueEnabled) return
+        //Log.d("mediaItem", "QueuePersistentEnabled Save ${player.currentTimeline.mediaItems.size}")
+
 
         val mediaItems = player.currentTimeline.mediaItems
         val mediaItemIndex = player.currentMediaItemIndex
@@ -776,6 +780,9 @@ class PlayerService : InvincibleService(),
                 startForeground(NotificationId, notification())
             }
         }
+
+        //Log.d("mediaItem", "QueuePersistentEnabled Restored ${player.currentTimeline.mediaItems.size}")
+
     }
 
     @UnstableApi
