@@ -389,10 +389,10 @@
     <string name="keep_screen_on">Képernyő ébren tartása</string>
     <string name="prevents_screen_timeout">Megakadályozza a képernyő időtúllépését</string>
     <string name="action_bar_show_sleep_timer_button">Alvás időzítő gomb mutatása</string>
-    <string name="sort_album_year">Album év</string>
+    <string name="sort_album_year">Album kiadási éve</string>
     <string name="sort_position">Pozíció</string>
     <string name="sort_title">Cím</string>
-    <string name="sort_date_played">Lejátszva</string>
+    <string name="sort_date_played">Lejátszási dátum</string>
     <string name="sort_artist">Előadó</string>
     <string name="sort_listening_time">Hallgatási idő</string>
     <string name="sort_date_added">Hozzáadás dátuma</string>
@@ -402,7 +402,7 @@
     <string name="sort_songs_number">Dalok száma</string>
     <string name="follow">Követés</string>
     <string name="following">Követve</string>
-    <string name="artist_subscribers">%s feliratkozó</string>
+    <string name="artist_subscribers">%s feliratkozók</string>
     <string name="but_these_updates_would_not_go_through">De ezek a frissítések nem mennek át a további szűrésen, amelyet például az IzzyOnDroid vagy az F-Droid végez.</string>
     <string name="sleeptimer_stop">megállít</string>
     <string name="player_keep_minimized">Minimalizálva tartás</string>
@@ -411,10 +411,10 @@
     <string name="enabled">Engedélyezve</string>
     <string name="ask">Kérdez</string>
     <string name="item_select">Kiválaszt</string>
-    <string name="item_uncheck">Kijelölést megszüntet</string>
+    <string name="item_uncheck">Törölje a kijelölést</string>
     <string name="blacklisted_folders">Feketelistás mappák</string>
     <string name="edit_blacklist_for_on_device_songs">Fekete lista szerkesztése a készüléken lévő dalokhoz.</string>
-    <string name="add_folder">Új mappa</string>
+    <string name="add_folder">Mappa hozzáadása</string>
     <string name="this_folder_already_exists">Ez a mappa már létezik.</string>
     <string name="are_you_sure_you_want_to_remove_this_folder_from_the_blacklist">Biztos, hogy el akarod távolítani ezt a mappát a feketelistáról?</string>
 </resources>
