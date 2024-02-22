@@ -558,13 +558,14 @@ class PlayerService : InvincibleService(),
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
-        maybeSavePlayerQueue()
+        super.onTaskRemoved(rootIntent)
+        //maybeSavePlayerQueue()
         isclosebackgroundPlayerEnabled = preferences.getBoolean(closebackgroundPlayerKey, false)
         if (isclosebackgroundPlayerEnabled == true) {
             super.stopSelf()
             onDestroy()
         }
-        super.onTaskRemoved(rootIntent)
+
     }
 
     @UnstableApi
@@ -723,6 +724,7 @@ class PlayerService : InvincibleService(),
     }
 
     private fun maybeSavePlayerQueue() {
+        //if (!isPersistentQueueEnabled && player.currentTimeline.mediaItems.isNotEmpty()) return
         if (!isPersistentQueueEnabled) return
 
         val mediaItems = player.currentTimeline.mediaItems
