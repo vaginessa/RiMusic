@@ -368,7 +368,7 @@ fun MediaItemMenu(
 
     downloadState = getDownloadState(mediaItem.mediaId)
     val isDownloaded = if (!isLocal) downloadedStateMedia(mediaItem.mediaId) else true
-    /*
+
     var artistsList by persistList<Artist?>("home/artists")
     var artistIds = remember { mutableListOf("") }
 
@@ -385,7 +385,7 @@ fun MediaItemMenu(
             Database.getArtistsList(artistIds).collect { artistsList = it }
         }
     }
-    */
+
     LaunchedEffect(Unit, mediaItem.mediaId) {
         Database.likedAt(mediaItem.mediaId).collect { likedAt = it }
     }
