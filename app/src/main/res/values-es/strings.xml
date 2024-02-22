@@ -366,7 +366,7 @@
     <string name="restore_completed">¡Restauración terminada!</string>
     <string name="click_to_close">Toca para cerrar</string>
     <string name="lang_dutch">Holandés</string>
-    <string name="do_you_really_want_to_renumbering_positions_in_this_playlist">Do you really want to renumbering positions in this playlist?</string>
+    <string name="do_you_really_want_to_renumbering_positions_in_this_playlist">¿Realmente desea re-enumerar posiciones en esta lista?</string>
     <string name="renumber_songs_positions">Re-enumerar posiciones</string>
     <string name="do_you_really_want_to_delete_all_playback_events">¿Seguro que quieres eliminar la lista de reproducción?</string>
     <string name="lang_sinhala">Cingalés</string>
@@ -377,7 +377,7 @@
     <string name="f_droid_users_can_wait_for_the_update_info">Los usuarios de \"F-Droid\" pueden esperar a la actualización en \"F-Droid\", usualmente llega en unas horitas con el repositorio de \"IzzyOnDroid\" y unos cuantos días en el repositorio de F-Droid.org</string>
     <string name="check_update">Cotejar Actualizaciones</string>
     <string name="enable_check_for_update">Habilitar el cotejar actualizaciones</string>
-    <string name="when_enabled_a_new_version_is_checked_and_notified_during_startup">When enabled, a new version is checked and notified during startup.</string>
+    <string name="when_enabled_a_new_version_is_checked_and_notified_during_startup">Mientras esté activa, se comprobará si existen actualizaciones y se notificará al iniciar la aplicación.</string>
     <string name="check_at_github_for_updates">¿Cotejar las actualizaciones en GitHub?</string>
     <string name="when_an_update_is_available_you_will_be_asked_if_you_want_to_install_info">En cuanto una actualización esté disponible, te vamos a preguntar si quieres instalarla. No se harán actualizaciones automáticas a tus espaldas.</string>
     <string name="you_can_still_turn_it_on_or_off_from_the_settings">En cualquier momento puedes encenderlo o apagarlo desde los ajustes.</string>
@@ -388,7 +388,7 @@
     <string name="screen">Pantalla</string>
     <string name="keep_screen_on">Mantener la pantalla encendida</string>
     <string name="prevents_screen_timeout">Prevenir el bloqueo de pantalla</string>
-    <string name="action_bar_show_sleep_timer_button">Show Sleep Timer button</string>
+    <string name="action_bar_show_sleep_timer_button">Mostrar botón de temporizador</string>
     <string name="sort_album_year">Año del álbum</string>
     <string name="sort_position">Posición</string>
     <string name="sort_title">Título</string>
@@ -403,7 +403,7 @@
     <string name="follow">Seguir</string>
     <string name="following">Siguiendo</string>
     <string name="artist_subscribers">%s Suscriptores</string>
-    <string name="but_these_updates_would_not_go_through">But these updates would not go through the additional screening performed at e.g. IzzyOnDroid or F-Droid.</string>
+    <string name="but_these_updates_would_not_go_through">Pero estas actualizaciones no pasarán por las revisiones adicionales realizadas por otras plataformas, por ejemplo, IzzyOnDroid o F-Droid.</string>
     <string name="sleeptimer_stop">detener</string>
     <string name="player_keep_minimized">Mantener minimizado</string>
     <string name="when_click_on_a_song_player_start_minimized">Cuando presiones una canción, el reproductor comienza minimizado</string>
@@ -412,11 +412,11 @@
     <string name="ask">Preguntar</string>
     <string name="item_select">Seleccionar</string>
     <string name="item_uncheck">Desmarcar</string>
-    <string name="blacklisted_folders">Blacklisted folders</string>
-    <string name="edit_blacklist_for_on_device_songs">Edit blacklist for on device songs.</string>
-    <string name="add_folder">Add folder</string>
-    <string name="this_folder_already_exists">This folder already exists.</string>
-    <string name="are_you_sure_you_want_to_remove_this_folder_from_the_blacklist">Are you sure you want to remove this folder from the blacklist?</string>
+    <string name="blacklisted_folders">Carpetas en lista negra</string>
+    <string name="edit_blacklist_for_on_device_songs">Editar lista negra para las canciones del dispositivo.</string>
+    <string name="add_folder">Añadir carpeta</string>
+    <string name="this_folder_already_exists">La carpeta ya existe.</string>
+    <string name="are_you_sure_you_want_to_remove_this_folder_from_the_blacklist">¿Realmente quieres eliminar esta carpeta de la lista negra?</string>
     <string name="player_appearance">Player Appearance</string>
     <string name="player_action_bar">PLAYER ACTION BAR</string>
     <string name="tab_data">Data</string>
