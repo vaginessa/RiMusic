@@ -1015,7 +1015,7 @@ fun Player(
                     horizontalArrangement = Arrangement.SpaceBetween, //Arrangement.SpaceEvenly,
                     modifier = Modifier
                         .align(Alignment.Center)
-                        .padding(horizontal = 8.dp)
+                        .padding(horizontal = 12.dp)
                         .fillMaxWidth()
 
                 ) {
