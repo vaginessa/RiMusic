@@ -405,7 +405,7 @@
     <string name="artist_subscribers">%s tilaajaa</string>
     <string name="but_these_updates_would_not_go_through">Nämä päivitykset eivät kuitenkaan käy läpi lisätarkistusta, jonka suorittaa esimerkiksi IzzyOnDroid tai F-Droid.</string>
     <string name="sleeptimer_stop">stop</string>
-    <string name="player_keep_minimized">Keep minimized</string>
+    <string name="player_keep_minimized">Pidä pienennettynä</string>
     <string name="when_click_on_a_song_player_start_minimized">Kun napautat kappaletta, soitin käynnistyy minimoituna</string>
     <string name="settings_use_font_type">Use font type</string>
     <string name="enabled">Enabled</string>
