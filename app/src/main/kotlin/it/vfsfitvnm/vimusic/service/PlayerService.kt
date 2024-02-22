@@ -558,12 +558,13 @@ class PlayerService : InvincibleService(),
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
+        maybeSavePlayerQueue()
         isclosebackgroundPlayerEnabled = preferences.getBoolean(closebackgroundPlayerKey, false)
-        super.onTaskRemoved(rootIntent)
         if (isclosebackgroundPlayerEnabled == true) {
             super.stopSelf()
             onDestroy()
         }
+        super.onTaskRemoved(rootIntent)
     }
 
     @UnstableApi
