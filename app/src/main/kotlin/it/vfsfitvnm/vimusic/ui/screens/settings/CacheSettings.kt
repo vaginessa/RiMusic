@@ -209,7 +209,7 @@ fun CacheSettings() {
                     placeholder = stringResource(R.string.enter_value_in_mb),
                     value = exoPlayerCustomCache.toString(),
                     valueMin = "32",
-                    valueMax = "10000",
+                    valueMax = "1000000",
                     onDismiss = { showExoPlayerCustomCacheDialog = false },
                     setValue = {
                         //Log.d("customCache", it)
