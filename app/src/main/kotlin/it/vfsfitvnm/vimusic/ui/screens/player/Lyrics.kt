@@ -505,7 +505,7 @@ fun Lyrics(
                 onClick = onMaximize,
                 modifier = Modifier
                     .padding(all = 8.dp)
-                    .align(Alignment.TopEnd)
+                    .align(Alignment.BottomStart)
                     .size(24.dp)
             )
 
@@ -519,8 +519,9 @@ fun Lyrics(
                     if (!translateEnabled) showPlaceholder = false else showPlaceholder = true
                 },
                 modifier = Modifier
-                    .padding(all = 8.dp)
-                    .align(Alignment.BottomStart)
+                    .padding(horizontal = 50.dp)
+                    .padding(bottom = 10.dp)
+                    .align(Alignment.BottomEnd)
                     .size(24.dp)
             )
 
