@@ -47,6 +47,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.C
@@ -61,6 +62,7 @@ import it.vfsfitvnm.kugou.KuGou
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.ArtistSortBy
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.models.Lyrics
 import it.vfsfitvnm.vimusic.models.Playlist
@@ -70,6 +72,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.Menu
 import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
+import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
 import it.vfsfitvnm.vimusic.ui.styling.DefaultDarkColorPalette
@@ -77,6 +80,7 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.PureBlackColorPalette
 import it.vfsfitvnm.vimusic.ui.styling.onOverlayShimmer
 import it.vfsfitvnm.vimusic.utils.SynchronizedLyrics
+import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.getHttpClient
@@ -85,6 +89,7 @@ import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.languageDestination
 import it.vfsfitvnm.vimusic.utils.medium
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.utils.verticalFadingEdge
 import kotlinx.coroutines.Dispatchers
@@ -518,6 +523,70 @@ fun Lyrics(
                     .align(Alignment.BottomStart)
                     .size(24.dp)
             )
+
+            /*
+            BasicText(
+                text = "Language",
+                style = typography.l.bold.copy(color = colorPalette.text),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .clickable {
+                        menuState.display{
+                            Menu {
+                                enumValues<Languages>().toList().forEach {
+                                    MenuEntry(
+                                        icon = R.drawable.translate,
+                                        onClick = {
+                                            languageDestination = languageDestination(it)
+                                            menuState.hide()
+                                        },
+                                        text = when (it) {
+                                            Languages.System -> stringResource(R.string.system_language)
+                                            Languages.Arabic -> stringResource(R.string.arabic)
+                                            Languages.Bashkir -> stringResource(R.string.bashkir)
+                                            Languages.Catalan -> stringResource(R.string.catalan)
+                                            Languages.ChineseSimplified -> stringResource(R.string.chinese_simplified)
+                                            Languages.ChineseTraditional -> stringResource(R.string.chinese_traditional)
+                                            Languages.Czech -> stringResource(R.string.czech)
+                                            Languages.Dutch -> stringResource(R.string.lang_dutch)
+                                            Languages.English -> stringResource(R.string.english)
+                                            Languages.Esperanto -> stringResource(R.string.esperanto)
+                                            Languages.Finnish -> stringResource(R.string.lang_finnish)
+                                            Languages.French -> stringResource(R.string.french)
+                                            Languages.German -> stringResource(R.string.german)
+                                            Languages.Greek -> stringResource(R.string.greek)
+                                            Languages.Hebrew -> stringResource(R.string.lang_hebrew)
+                                            Languages.Hindi -> stringResource(R.string.lang_hindi)
+                                            Languages.Hungarian -> stringResource(R.string.hungarian)
+                                            Languages.Indonesian -> stringResource(R.string.indonesian)
+                                            Languages.Japanese -> stringResource(R.string.lang_japanese)
+                                            Languages.Korean -> stringResource(R.string.korean)
+                                            Languages.Italian -> stringResource(R.string.italian)
+                                            Languages.Odia -> stringResource(R.string.odia)
+                                            Languages.Persian -> stringResource(R.string.persian)
+                                            Languages.Polish -> stringResource(R.string.polish)
+                                            Languages.PortugueseBrazilian -> stringResource(R.string.portuguese_brazilian)
+                                            Languages.Portuguese -> stringResource(R.string.portuguese)
+                                            Languages.Romanian -> stringResource(R.string.romanian)
+                                            //Languages.RomanianEmo -> stringResource(R.string.romanian_emoticons_rom_n)
+                                            Languages.Russian -> stringResource(R.string.russian)
+                                            Languages.Sinhala -> stringResource(R.string.lang_sinhala)
+                                            Languages.Spanish -> stringResource(R.string.spanish)
+                                            Languages.Turkish -> stringResource(R.string.turkish)
+                                            Languages.Ukrainian -> stringResource(R.string.lang_ukrainian)
+                                            Languages.Vietnamese -> "Vietnamese"
+                                        }
+                                    )
+                                }
+
+                            }
+                        }
+                    }
+            )
+             */
+
 
             Image(
                 painter = painterResource(R.drawable.ellipsis_vertical),

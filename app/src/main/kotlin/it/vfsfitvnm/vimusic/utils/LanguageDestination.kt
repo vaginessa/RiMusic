@@ -1,13 +1,19 @@
 package it.vfsfitvnm.vimusic.utils
 
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import it.vfsfitvnm.vimusic.enums.Languages
 import me.bush.translator.Language
 
+
 @Composable
-fun languageDestination (): Language {
+fun languageDestination (
+    language: Languages = Languages.English
+): Language {
     val languageApp  by rememberPreference(languageAppKey, Languages.English)
+
     return when (languageApp) {
         Languages.Arabic -> Language.ARABIC
         Languages.Bashkir -> Language.BASQUE
