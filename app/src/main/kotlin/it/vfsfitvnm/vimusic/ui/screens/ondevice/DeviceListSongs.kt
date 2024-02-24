@@ -383,6 +383,12 @@ fun DeviceListSongs(
                     ){
 
                     HeaderIconButton(
+                        onClick = { searching = !searching },
+                        icon = R.drawable.search_circle,
+                        color = colorPalette.text,
+                        iconSize = 24.dp
+                    )
+                    HeaderIconButton(
                         icon = R.drawable.locate,
                         enabled = songs.isNotEmpty(),
                         color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
@@ -404,14 +410,6 @@ fun DeviceListSongs(
                             lazyListState.scrollToItem(nowPlayingItem,1)
                         scrollToNowPlaying = false
                     }
-
-                    HeaderIconButton(
-                        onClick = { searching = !searching },
-                        icon = R.drawable.search_circle,
-                        color = colorPalette.text,
-                        iconSize = 24.dp
-                    )
-
                     /*
                     HeaderIconButton(
                         icon = R.drawable.enqueue,

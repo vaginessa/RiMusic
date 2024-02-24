@@ -183,12 +183,12 @@ fun OnlineSearch(
                             cursorBrush = SolidColor(colorPalette.text),
                             decorationBox = decorationBox,
                             modifier = Modifier
-                               // .background(
+                               .background(
                                     //colorPalette.background4,
-                                //    colorPalette.background1,
-                                    //shape = thumbnailRoundness.shape()
-                                //)
-                                //.padding(all = 4.dp)
+                                    colorPalette.background1,
+                                    shape = thumbnailRoundness.shape()
+                                )
+                                .padding(all = 4.dp)
                                 .focusRequester(focusRequester)
                                 .fillMaxWidth()
                         )
@@ -215,6 +215,7 @@ fun OnlineSearch(
                             )
                         }
                     },
+                    /*
                     modifier = Modifier
                         .drawBehind {
 
@@ -228,6 +229,7 @@ fun OnlineSearch(
                                 strokeWidth = 2.dp.toPx()
                             )
                         }
+                     */
                 )
             }
 

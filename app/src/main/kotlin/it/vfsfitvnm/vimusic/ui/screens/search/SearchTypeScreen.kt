@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -23,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.routing.RouteHandler
@@ -93,7 +95,10 @@ fun SearchTypeScreen(
 
         host {
             val decorationBox: @Composable (@Composable () -> Unit) -> Unit = { innerTextField ->
-                Box {
+                Box (
+                    Modifier
+                    .padding(horizontal = 10.dp)
+                ) {
                     AnimatedVisibility(
                         visible = textFieldValue.text.isEmpty(),
                         enter = fadeIn(tween(300)),

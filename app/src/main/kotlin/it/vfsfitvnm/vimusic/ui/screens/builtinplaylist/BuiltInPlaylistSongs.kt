@@ -435,11 +435,9 @@ fun BuiltInPlaylistSongs(
                     horizontalArrangement = Arrangement.SpaceBetween, //Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
+                        .padding(horizontal = 10.dp)
                         .fillMaxWidth()
                 ) {
-
-
-
 
                     if (builtInPlaylist == BuiltInPlaylist.Favorites) {
                         HeaderIconButton(
@@ -618,11 +616,16 @@ fun BuiltInPlaylistSongs(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        //.requiredHeight(30.dp)
-                        .padding(all = 10.dp)
+                        .padding(horizontal = 10.dp)
                         .fillMaxHeight()
                 ) {
 
+                    HeaderIconButton(
+                        onClick = { searching = !searching },
+                        icon = R.drawable.search_circle,
+                        color = colorPalette.text,
+                        iconSize = 24.dp
+                    )
                     HeaderIconButton(
                         icon = R.drawable.locate,
                         enabled = songs.isNotEmpty(),
@@ -645,13 +648,6 @@ fun BuiltInPlaylistSongs(
                             lazyListState.scrollToItem(nowPlayingItem,1)
                         scrollToNowPlaying = false
                     }
-
-                    HeaderIconButton(
-                        onClick = { searching = !searching },
-                        icon = R.drawable.search_circle,
-                        color = colorPalette.text,
-                        iconSize = 24.dp
-                    )
                     Spacer(
                         modifier = Modifier
                             .weight(1f)

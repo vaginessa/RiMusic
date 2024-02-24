@@ -156,12 +156,10 @@ fun LocalSongSearch(
                             cursorBrush = SolidColor(colorPalette.text),
                             decorationBox = decorationBox,
                             modifier = Modifier
-                                /*
                                 .background(
-                                    colorPalette.background4,
+                                    colorPalette.background1,
                                     shape = thumbnailRoundness.shape()
                                 )
-                                 */
                                 .focusRequester(focusRequester)
                                 .fillMaxWidth()
                         )
@@ -174,6 +172,7 @@ fun LocalSongSearch(
                             )
                         }
                     },
+                    /*
                     modifier = Modifier
                         .drawBehind {
 
@@ -187,6 +186,7 @@ fun LocalSongSearch(
                                 strokeWidth = 2.dp.toPx()
                             )
                         }
+                     */
                 )
             }
 
