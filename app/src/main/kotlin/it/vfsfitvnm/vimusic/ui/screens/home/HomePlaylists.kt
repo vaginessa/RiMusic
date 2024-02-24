@@ -150,9 +150,11 @@ fun HomePlaylists(
         .padding(top = 24.dp, bottom = 8.dp)
         .padding(endPaddingValues)
 
+    /*
     var showSortTypeSelectDialog by remember {
         mutableStateOf(false)
     }
+     */
 
     val lazyGridState = rememberLazyGridState()
 
@@ -202,6 +204,7 @@ fun HomePlaylists(
                                 .weight(1f)
                         )
 
+                        /*
                         HeaderIconButton(
                             icon = R.drawable.add_in_playlist,
                             color = colorPalette.text,
@@ -212,6 +215,7 @@ fun HomePlaylists(
                             modifier = Modifier
                                 .weight(1f)
                         )
+                         */
 
                         BasicText(
                             text = when (sortBy) {
@@ -364,6 +368,22 @@ fun HomePlaylists(
             }
 
             /*    */
+
+            item(key = "newPlaylist") {
+                PlaylistItem(
+                    icon = R.drawable.add_in_playlist,
+                    colorTint = colorPalette.favoritesIcon,
+                    name = stringResource(R.string.new_playlist),
+                    songCount = null,
+                    thumbnailSizeDp = thumbnailSizeDp,
+                    alternative = true,
+                    modifier = Modifier
+                        .clip(thumbnailShape)
+                        .clickable(onClick = { isCreatingANewPlaylist = true })
+                        .animateItemPlacement()
+
+                )
+            }
 
             items(items = items, key = { it.playlist.id }) { playlistPreview ->
                 PlaylistItem(
