@@ -739,12 +739,12 @@ fun DeviceListSongs(
 
 private val mediaScope = CoroutineScope(Dispatchers.IO + CoroutineName("MediaStore worker"))
 fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder, context: Context): StateFlow<List<Song>> = flow {
-    var version: String? = null
+    //var version: String? = null
 
-    while (currentCoroutineContext().isActive) {
-        val newVersion = MediaStore.getVersion(applicationContext)
-        if (version != newVersion) {
-            version = newVersion
+    //while (currentCoroutineContext().isActive) {
+        //val newVersion = MediaStore.getVersion(applicationContext)
+        //if (version != newVersion) {
+            //version = newVersion
             val collection =
                 if (isAtLeastAndroid10) MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
                 else MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
@@ -815,9 +815,9 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder, conte
                         }
                     }
                 }?.let { emit(it) }
-        }
+        //}
         delay(5.seconds)
-    }
+    //}
 }.distinctUntilChanged()
     .onEach { songs -> transaction { songs.forEach(Database::insert) } }
     .stateIn(mediaScope, SharingStarted.Eagerly, listOf())

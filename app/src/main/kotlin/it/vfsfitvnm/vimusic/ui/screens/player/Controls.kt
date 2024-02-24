@@ -16,6 +16,7 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -237,7 +238,7 @@ fun Controls(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = if (uiType != UiType.ViMusic) Arrangement.Start else Arrangement.Center,
-                modifier = Modifier.fillMaxWidth(if (uiType != UiType.ViMusic) 0.80f else 1f)
+                modifier = Modifier.fillMaxWidth(if (uiType != UiType.ViMusic) 0.90f else 1f)
             ) {
                 if (uiType != UiType.ViMusic) {
 
@@ -259,27 +260,29 @@ fun Controls(
                 }
 
                 if (disableScrollingText == false) {
-                ScrollText(
-                    text = title ?: "",
-                    style = TextStyle(
-                        color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
-                        fontStyle = typography.l.bold.fontStyle,
-                        fontSize = typography.l.bold.fontSize
-                    ),
-                    onClick = { if (albumId != null) onGoToAlbum(albumId) },
+                    ScrollText(
+                        text = title ?: "",
+                        style = TextStyle(
+                            color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
+                            fontStyle = typography.l.bold.fontStyle,
+                            fontSize = typography.l.bold.fontSize
+                        ),
+                        onClick = { if (albumId != null) onGoToAlbum(albumId) },
 
-                ) } else {
-                BasicText(
-                    text = title ?: "",
-                    style = TextStyle(
-                        color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
-                        fontStyle = typography.l.bold.fontStyle,
-                        fontSize = typography.l.bold.fontSize
-                    ),
-                    maxLines = 1,
-                    modifier = Modifier
-                        .clickable { if (albumId != null) onGoToAlbum(albumId) }
-                )}
+                    )
+                } else {
+                    BasicText(
+                        text = title ?: "",
+                        style = TextStyle(
+                            color = if (albumId == null) colorPalette.textDisabled else colorPalette.text,
+                            fontStyle = typography.l.bold.fontStyle,
+                            fontSize = typography.l.bold.fontSize
+                        ),
+                        maxLines = 1,
+                        modifier = Modifier
+                            .clickable { if (albumId != null) onGoToAlbum(albumId) }
+                    )
+                }
             }
 
             if (uiType != UiType.ViMusic) {

@@ -4,6 +4,7 @@ import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
@@ -48,6 +49,7 @@ fun ScrollText (
         maxLines = 1,
         modifier = Modifier.horizontalScroll(scrollState, true)
             .clickable { onClick() }
+            .fillMaxWidth()
     )
 
 }
