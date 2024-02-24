@@ -230,6 +230,13 @@ fun  HomeSongs(
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
+                    HeaderIconButton(
+                        onClick = { searching = !searching },
+                        icon = R.drawable.search_circle,
+                        color = colorPalette.text,
+                        iconSize = 24.dp
+                    )
+
                     HeaderInfo(
                         title = "${items.size}",
                         icon = painterResource(R.drawable.musical_notes),
@@ -241,17 +248,13 @@ fun  HomeSongs(
                             .weight(1f)
                     )
 
-                        HeaderIconButton(
-                            onClick = { searching = !searching },
-                            icon = R.drawable.search_circle,
-                            color = colorPalette.text,
-                            iconSize = 24.dp
-                        )
 
+                    /*
                     Spacer(
                         modifier = Modifier
                             .weight(1f)
                     )
+                     */
 
                     BasicText(
                         text = when (sortBy) {
