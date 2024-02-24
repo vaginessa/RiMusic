@@ -292,28 +292,6 @@ fun Lyrics(
 
                 }
             )
-            /*
-            TextFieldDialog(
-                hintText = stringResource(R.string.enter_the_lyrics),
-                initialTextInput = text ?: "",
-                singleLine = false,
-                maxLines = 10,
-                isTextInputValid = { true },
-                onDismiss = { isEditing = false },
-                onDone = {
-                    query {
-                        ensureSongInserted()
-                        Database.upsert(
-                            Lyrics(
-                                songId = mediaId,
-                                fixed = if (isShowingSynchronizedLyrics) lyrics?.fixed else it,
-                                synced = if (isShowingSynchronizedLyrics) it else lyrics?.synced,
-                            )
-                        )
-                    }
-                }
-            )
-             */
         }
 
         if (isShowingSynchronizedLyrics) {

@@ -621,7 +621,7 @@ inline fun InputTextDialog(
                 TextField(
                     modifier = Modifier
                         .fillMaxWidth(0.9f),
-                    maxLines = 30,
+                    maxLines = 20,
                     colors = TextFieldDefaults.textFieldColors(
                         placeholderColor = colorPalette.textDisabled,
                         cursorColor = colorPalette.text,
@@ -658,28 +658,19 @@ inline fun InputTextDialog(
             }
 
             Spacer(modifier = Modifier.height(10.dp))
-            /*
+
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
 
-                BasicText(
-                    text = if (txtFieldError.value.isNotEmpty()) txtFieldError.value else "---",
-                    style = typography.xs.medium,
+                DialogTextButton(
+                    text = stringResource(R.string.cancel),
+                    onClick = onDismiss,
                     modifier = Modifier
-                        .padding(vertical = 8.dp, horizontal = 24.dp)
                 )
-            }
-             */
 
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
                 DialogTextButton(
                     text = stringResource(R.string.confirm),
                     onClick = {
@@ -688,16 +679,11 @@ inline fun InputTextDialog(
                             return@DialogTextButton
                         }
                         //if (txtField.value.isNotEmpty() && !setValueRequireNotNull) {
-                            setValue(txtField.value)
-                            onDismiss()
+                        setValue(txtField.value)
+                        onDismiss()
                         //}
-                    }
-                )
-
-                DialogTextButton(
-                    text = stringResource(R.string.cancel),
-                    onClick = onDismiss,
-                    modifier = Modifier
+                    },
+                    primary = true
                 )
             }
 
