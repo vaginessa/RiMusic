@@ -420,9 +420,9 @@
     <string name="player_appearance">Вид плеера</string>
     <string name="player_action_bar">ПАНЕЛЬ ДЕЙСТВИЙ ПЛЕЕРА</string>
     <string name="tab_data">Данные</string>
-    <string name="image_cache_max_size">Image cache max size</string>
-    <string name="song_cache_max_size">Song cache max size</string>
-    <string name="song_download_max_size">Song download max size</string>
+    <string name="image_cache_max_size">Макс. размер кэша изображений</string>
+    <string name="song_cache_max_size">Макс. размер кэша песен</string>
+    <string name="song_download_max_size">Макс. размер загруженных песен</string>
     <string name="save_to_backup">Создать резервную копию</string>
     <string name="restore_from_backup">Восстановить из резервной копии</string>
     <string name="tab_miscellaneous">Прочее</string>
