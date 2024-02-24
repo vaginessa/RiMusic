@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -580,10 +581,6 @@ fun LocalPlaylistSongs(
                         .fillMaxWidth()
                 ) {
 
-
-
-
-
                     HeaderIconButton(
                         icon = R.drawable.downloaded,
                         enabled = playlistSongs.isNotEmpty(),
@@ -957,44 +954,52 @@ fun LocalPlaylistSongs(
 
                 /*        */
                 Row (
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween, //Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .padding(horizontal = 10.dp)
-                        .fillMaxHeight()
+                        .fillMaxWidth()
                 ) {
 
-                    HeaderIconButton(
-                        onClick = { searching = !searching },
-                        icon = R.drawable.search_circle,
-                        color = colorPalette.text,
-                        iconSize = 24.dp
-                    )
-                    HeaderIconButton(
-                        icon = R.drawable.locate,
-                        enabled = playlistSongs.isNotEmpty(),
-                        color = if (playlistSongs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
-                        onClick = {
-                            nowPlayingItem = -1
-                            scrollToNowPlaying = false
-                            playlistSongs
-                                .forEachIndexed{ index, song ->
-                                    if (song.asMediaItem.mediaId == binder?.player?.currentMediaItem?.mediaId)
-                                        nowPlayingItem = index
-                                }
+                    Row (
+                        horizontalArrangement = Arrangement.SpaceBetween, //Arrangement.spacedBy(10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth(0.50f)
+                    ) {
+                        HeaderIconButton(
+                            onClick = { searching = !searching },
+                            icon = R.drawable.search_circle,
+                            color = colorPalette.text,
+                            iconSize = 24.dp
+                        )
+                        HeaderIconButton(
+                            icon = R.drawable.locate,
+                            enabled = playlistSongs.isNotEmpty(),
+                            color = if (playlistSongs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
+                            onClick = {
+                                nowPlayingItem = -1
+                                scrollToNowPlaying = false
+                                playlistSongs
+                                    .forEachIndexed { index, song ->
+                                        if (song.asMediaItem.mediaId == binder?.player?.currentMediaItem?.mediaId)
+                                            nowPlayingItem = index
+                                    }
 
-                            if (nowPlayingItem > -1)
-                                scrollToNowPlaying = true
+                                if (nowPlayingItem > -1)
+                                    scrollToNowPlaying = true
+                            }
+                        )
+                        LaunchedEffect(scrollToNowPlaying) {
+                            if (scrollToNowPlaying)
+                                lazyListState.scrollToItem(nowPlayingItem, 1)
+                            scrollToNowPlaying = false
                         }
-                    )
-                    LaunchedEffect(scrollToNowPlaying) {
-                        if (scrollToNowPlaying)
-                            lazyListState.scrollToItem(nowPlayingItem,1)
-                        scrollToNowPlaying = false
                     }
+
                     Spacer(
                         modifier = Modifier
-                            .weight(1f)
+                            .width(30.dp)
                     )
 
                     BasicText(
@@ -1026,6 +1031,7 @@ fun LocalPlaylistSongs(
                                 //showSortTypeSelectDialog = true
                             }
                     )
+
                     /*
                     if (showSortTypeSelectDialog)
                         ValueSelectorDialog(
