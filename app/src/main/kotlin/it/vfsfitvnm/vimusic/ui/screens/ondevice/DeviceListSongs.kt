@@ -737,12 +737,12 @@ fun DeviceListSongs(
 
 private val mediaScope = CoroutineScope(Dispatchers.IO + CoroutineName("MediaStore worker"))
 fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder, context: Context): StateFlow<List<Song>> = flow {
-    //var version: String? = null
+    var version: String? = null
 
-    //while (currentCoroutineContext().isActive) {
-        //val newVersion = MediaStore.getVersion(applicationContext)
-        //if (version != newVersion) {
-            //version = newVersion
+    while (currentCoroutineContext().isActive) {
+        val newVersion = MediaStore.getVersion(applicationContext)
+        if (version != newVersion) {
+            version = newVersion
             val collection =
                 if (isAtLeastAndroid10) MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
                 else MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
@@ -777,22 +777,28 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder, conte
                     val albumIdIdx = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
                     val relativePathIdx = cursor.getColumnIndex(MediaStore.Audio.Media.RELATIVE_PATH)
                     val blacklist = OnDeviceBlacklist(context = context)
-                    val metadataRetriever = MediaMetadataRetriever()
+
 
 
                     buildList {
                         while (cursor.moveToNext()) {
                             val id = cursor.getLong(idIdx)
                             val songUri = ContentUris.withAppendedId(collection, id)
-                            metadataRetriever.setDataSource(context, songUri)
-                            val trackName = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
+                            var trackName: String? = null
+                            trackName = try {
+                                val metadataRetriever = MediaMetadataRetriever()
+                                metadataRetriever.setDataSource(context, songUri)
+                                metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
+                            } catch (e: Exception) {
+                                null
+                            }
                             val name = cursor.getString(nameIdx).substringBeforeLast(".")
                             val duration = cursor.getInt(durationIdx)
                             val artist = cursor.getString(artistIdx)
                             val albumId = cursor.getLong(albumIdIdx)
                             val relativePath = cursor.getString(relativePathIdx)
                             val exclude = blacklist.contains(relativePath)
-                            println(trackName)
+                            //println(trackName)
 
                             if (!exclude) {
                                 val albumUri = ContentUris.withAppendedId(albumUriBase, albumId)
@@ -813,9 +819,9 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder, conte
                         }
                     }
                 }?.let { emit(it) }
-        //}
+        }
         delay(5.seconds)
-    //}
+    }
 }.distinctUntilChanged()
     .onEach { songs -> transaction { songs.forEach(Database::insert) } }
     .stateIn(mediaScope, SharingStarted.Eagerly, listOf())
