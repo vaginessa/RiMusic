@@ -156,6 +156,16 @@ interface Database {
     fun songsFavoritesByRowIdDesc(): Flow<List<Song>>
 
     @Transaction
+    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY likedAt")
+    @RewriteQueriesToDropUnusedColumns
+    fun songsFavoritesByLikedAtAsc(): Flow<List<Song>>
+
+    @Transaction
+    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY likedAt DESC")
+    @RewriteQueriesToDropUnusedColumns
+    fun songsFavoritesByLikedAtDesc(): Flow<List<Song>>
+
+    @Transaction
     @Query("SELECT DISTINCT S.* FROM Song S LEFT JOIN Event E ON E.songId=S.id " +
             "WHERE likedAt IS NOT NULL AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
             "ORDER BY E.timestamp DESC")
@@ -177,13 +187,17 @@ interface Database {
                 SortOrder.Ascending -> songsFavoritesByTitleAsc()
                 SortOrder.Descending -> songsFavoritesByTitleDesc()
             }
-            SongSortBy.DateAdded -> when (sortOrder) {
-                SortOrder.Ascending -> songsFavoritesByRowIdAsc()
-                SortOrder.Descending -> songsFavoritesByRowIdDesc()
+            SongSortBy.DateLiked -> when (sortOrder) {
+                SortOrder.Ascending -> songsFavoritesByLikedAtAsc()
+                SortOrder.Descending -> songsFavoritesByLikedAtDesc()
             }
             SongSortBy.DatePlayed -> when (sortOrder) {
                 SortOrder.Ascending -> songsFavoritesByDatePlayedAsc()
                 SortOrder.Descending -> songsFavoritesByDatePlayedDesc()
+            }
+            SongSortBy.DateAdded -> when (sortOrder) {
+                SortOrder.Ascending -> songsFavoritesByRowIdAsc()
+                SortOrder.Descending -> songsFavoritesByRowIdDesc()
             }
         }
     }
@@ -220,6 +234,14 @@ interface Database {
     @Query("SELECT Song.*, contentLength FROM Song JOIN Format ON id = songId WHERE contentLength IS NOT NULL AND totalPlayTimeMs > 0 ORDER BY Song.ROWID DESC")
     fun songsOfflineByRowIdDesc(): Flow<List<SongWithContentLength>>
 
+    @Transaction
+    @Query("SELECT Song.*, contentLength FROM Song JOIN Format ON id = songId WHERE contentLength IS NOT NULL AND totalPlayTimeMs > 0 ORDER BY Song.likedAt")
+    fun songsOfflineByLikedAtAsc(): Flow<List<SongWithContentLength>>
+
+    @Transaction
+    @Query("SELECT Song.*, contentLength FROM Song JOIN Format ON id = songId WHERE contentLength IS NOT NULL AND totalPlayTimeMs > 0 ORDER BY Song.likedAt DESC")
+    fun songsOfflineByLikedAtDesc(): Flow<List<SongWithContentLength>>
+
     fun songsOffline(sortBy: SongSortBy, sortOrder: SortOrder): Flow<List<SongWithContentLength>> {
         return when (sortBy) {
             SongSortBy.PlayTime, SongSortBy.DatePlayed -> when (sortOrder) {
@@ -234,7 +256,10 @@ interface Database {
                 SortOrder.Ascending -> songsOfflineByRowIdAsc()
                 SortOrder.Descending -> songsOfflineByRowIdDesc()
             }
-
+            SongSortBy.DateLiked -> when (sortOrder) {
+                SortOrder.Ascending -> songsOfflineByLikedAtAsc()
+                SortOrder.Descending -> songsOfflineByLikedAtDesc()
+            }
         }
     }
 
@@ -294,6 +319,16 @@ interface Database {
             "ORDER BY E.timestamp")
     fun songsByDatePlayedAsc(): Flow<List<Song>>
 
+    @Transaction
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY likedAt ASC")
+    @RewriteQueriesToDropUnusedColumns
+    fun songsByLikedAtAsc(): Flow<List<Song>>
+
+    @Transaction
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY likedAt DESC")
+    @RewriteQueriesToDropUnusedColumns
+    fun songsByLikedAtDesc(): Flow<List<Song>>
+
     fun songs(sortBy: SongSortBy, sortOrder: SortOrder): Flow<List<Song>> {
         return when (sortBy) {
             SongSortBy.PlayTime -> when (sortOrder) {
@@ -311,6 +346,10 @@ interface Database {
             SongSortBy.DatePlayed -> when (sortOrder) {
                 SortOrder.Ascending -> songsByDatePlayedAsc()
                 SortOrder.Descending -> songsByDatePlayedDesc()
+            }
+            SongSortBy.DateLiked -> when (sortOrder) {
+                SortOrder.Ascending -> songsByLikedAtAsc()
+                SortOrder.Descending -> songsByLikedAtDesc()
             }
         }
     }

@@ -36,6 +36,7 @@ fun SortMenu (
     onAlbumYear: (() -> Unit)? = null,
     onYear: (() -> Unit)? = null,
     onDateAdded: (() -> Unit)? = null,
+    onDateLiked: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     var height by remember {
@@ -167,6 +168,16 @@ fun SortMenu (
                 onClick = {
                     onDismiss()
                     onDateAdded()
+                }
+            )
+        }
+        onDateLiked?.let {
+            MenuEntry(
+                icon = R.drawable.heart,
+                text = stringResource(R.string.sort_date_liked),
+                onClick = {
+                    onDismiss()
+                    onDateLiked()
                 }
             )
         }

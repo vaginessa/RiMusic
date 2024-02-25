@@ -669,13 +669,15 @@ fun BuiltInPlaylistSongs(
                                 SongSortBy.DatePlayed -> stringResource(R.string.sort_date_played)
                                 SongSortBy.PlayTime -> stringResource(R.string.sort_listening_time)
                                 SongSortBy.DateAdded -> stringResource(R.string.sort_date_added)
+                                SongSortBy.DateLiked -> stringResource(R.string.sort_date_liked)
                             },
                             style = typography.xs.semiBold,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier
+                                .fillMaxWidth(0.5f)
                                 .clickable {
-                                    menuState.display{
+                                    menuState.display {
                                         SortMenu(
                                             title = stringResource(R.string.sorting_order),
                                             onDismiss = menuState::hide,
@@ -683,6 +685,7 @@ fun BuiltInPlaylistSongs(
                                             onDatePlayed = { sortBy = SongSortBy.DatePlayed },
                                             onDateAdded = { sortBy = SongSortBy.DateAdded },
                                             onPlayTime = { sortBy = SongSortBy.PlayTime },
+                                            onDateLiked = { sortBy = SongSortBy.DateLiked }
                                         )
                                     }
                                     //showSortTypeSelectDialog = true
@@ -783,7 +786,8 @@ fun BuiltInPlaylistSongs(
                             decorationBox = { innerTextField ->
                                 Box(
                                     contentAlignment = Alignment.CenterStart,
-                                    modifier = Modifier.weight(1f)
+                                    modifier = Modifier
+                                        .weight(1f)
                                         .padding(horizontal = 10.dp)
                                 ) {
                                     androidx.compose.animation.AnimatedVisibility(

@@ -262,6 +262,7 @@ fun  HomeSongs(
                             SongSortBy.DatePlayed -> stringResource(R.string.sort_date_played)
                             SongSortBy.PlayTime -> stringResource(R.string.sort_listening_time)
                             SongSortBy.DateAdded -> stringResource(R.string.sort_date_added)
+                            SongSortBy.DateLiked -> stringResource(R.string.sort_date_liked)
                         },
                         style = typography.xs.semiBold,
                         maxLines = 1,
@@ -276,6 +277,7 @@ fun  HomeSongs(
                                         onTitle = { sortBy = SongSortBy.Title },
                                         onDateAdded = { sortBy = SongSortBy.DateAdded },
                                         onPlayTime = { sortBy = SongSortBy.PlayTime },
+                                        onDateLiked = { sortBy = SongSortBy.DateLiked }
                                     )
                                 }
                                 //showSortTypeSelectDialog = true

@@ -431,4 +431,5 @@
     <string name="smart_recommendations">SMART RECOMMENDATIONS</string>
     <string name="player_collapsed_disable_swiping_down">Disable swiping down</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Avoid closing the player and cleaning the queue by swiping down while it is minimized</string>
+    <string name="sort_date_liked">Date Liked</string>
 </resources>
