@@ -83,6 +83,7 @@ import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Info
+import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
 import it.vfsfitvnm.vimusic.models.ui.toUiMedia
 import it.vfsfitvnm.vimusic.query
@@ -328,12 +329,14 @@ fun Player(
 
     var trackLoopEnabled by rememberPreference(trackLoopEnabledKey, defaultValue = false)
 
+
     var likedAt by rememberSaveable {
         mutableStateOf<Long?>(null)
     }
     LaunchedEffect(mediaItem.mediaId) {
         Database.likedAt(mediaItem.mediaId).distinctUntilChanged().collect { likedAt = it }
     }
+
 
     var downloadState by remember {
         mutableStateOf(Download.STATE_STOPPED)
@@ -735,6 +738,23 @@ fun Player(
                 isShowingEqualizer = isShowingEqualizer,
                 onShowEqualizer = { isShowingEqualizer = it },
                 onMaximize = { lyricsBottomSheetState.expandSoft() },
+                onDoubleTap = {
+                    val currentMediaItem = binder.player.currentMediaItem
+                    query {
+                        if (Database.like(
+                                mediaItem.mediaId,
+                                if (likedAt == null) System.currentTimeMillis() else null
+                            ) == 0
+                        ) {
+                            currentMediaItem
+                                ?.takeIf { it.mediaId == mediaItem.mediaId }
+                                ?.let {
+                                    Database.insert(currentMediaItem, Song::toggleLike)
+                                }
+                        }
+                    }
+                    if (effectRotationEnabled) isRotated = !isRotated
+                },
                 modifier = modifier
                     .nestedScroll(layoutState.preUpPostDownNestedScrollConnection)
                     .pointerInput(Unit) {

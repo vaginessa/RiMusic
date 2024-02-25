@@ -67,6 +67,7 @@ fun Thumbnail(
     isShowingEqualizer: Boolean,
     onShowEqualizer: (Boolean) -> Unit,
     onMaximize: () -> Unit,
+    onDoubleTap: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -173,7 +174,8 @@ fun Thumbnail(
                                     onShowLyrics(true)
                                     onShowEqualizer(false)
                                 }
-                            } else null
+                            } else null,
+                            onDoubleTap = { onDoubleTap() }
                         )
 
                     }
