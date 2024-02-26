@@ -170,6 +170,7 @@ fun DeviceListSongs(
     var songs by remember(sortBy, sortOrder) {
         mutableStateOf<List<Song>>(emptyList())
     }
+    var filteredSongs = songs
     val context = LocalContext.current
     LaunchedEffect(sortBy, sortOrder) {
         context.musicFilesAsFlow(sortBy, sortOrder, context).collect { songs = it }
@@ -177,17 +178,11 @@ fun DeviceListSongs(
 
     var filter: String? by rememberSaveable { mutableStateOf(null) }
 
-
-    LaunchedEffect(filter) {
-        context.musicFilesAsFlow(sortBy, sortOrder, context).collect { songs = it }
-    }
-
-
     var filterCharSequence: CharSequence
     filterCharSequence = filter.toString()
     //Log.d("mediaItemFilter", "<${filter}>  <${filterCharSequence}>")
     if (!filter.isNullOrBlank())
-    songs = songs
+    filteredSongs = songs
         .filter {
             it.title?.contains(filterCharSequence,true) ?: false
             || it.artistsText?.contains(filterCharSequence,true) ?: false
@@ -211,7 +206,7 @@ fun DeviceListSongs(
     val lazyListState = rememberLazyListState()
 
     var totalPlayTimes = 0L
-    songs.forEach {
+    filteredSongs.forEach {
         totalPlayTimes += it.durationText?.let { it1 ->
             durationTextToMillis(it1)
         }?.toLong() ?: 0
@@ -293,7 +288,7 @@ fun DeviceListSongs(
                             shape = thumbnailRoundness.shape()
                         )
                 ) {
-                    if (songs.isEmpty())
+                    if (filteredSongs.isEmpty())
                         PlaylistItem(
                             icon = R.drawable.musical_notes,
                             colorTint = colorPalette.favoritesIcon,
@@ -305,7 +300,7 @@ fun DeviceListSongs(
                                 .padding(top = 14.dp)
                         )
 
-                    if (songs.isNotEmpty())
+                    if (filteredSongs.isNotEmpty())
                         PlaylistItem(
                             thumbnailContent = {
                                 if (thumbnails.toSet().size == 1) {
@@ -358,7 +353,7 @@ fun DeviceListSongs(
                     ) {
                         Spacer(modifier = Modifier.height(10.dp))
                         IconInfo(
-                            title = songs.size.toString(),
+                            title = filteredSongs.size.toString(),
                             icon = painterResource(R.drawable.musical_notes)
                         )
                         Spacer(modifier = Modifier.height(5.dp))
@@ -390,12 +385,12 @@ fun DeviceListSongs(
                     )
                     HeaderIconButton(
                         icon = R.drawable.locate,
-                        enabled = songs.isNotEmpty(),
-                        color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
+                        enabled = filteredSongs.isNotEmpty(),
+                        color = if (filteredSongs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
                         onClick = {
                             nowPlayingItem = -1
                             scrollToNowPlaying = false
-                            songs
+                            filteredSongs
                                 .forEachIndexed{ index, song ->
                                     if (song.asMediaItem.mediaId == binder?.player?.currentMediaItem?.mediaId)
                                         nowPlayingItem = index
@@ -413,20 +408,20 @@ fun DeviceListSongs(
                     /*
                     HeaderIconButton(
                         icon = R.drawable.enqueue,
-                        enabled = songs.isNotEmpty(),
-                        color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
+                        enabled = filteredSongs.isNotEmpty(),
+                        color = if (filteredSongs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
                         onClick = {
-                            binder?.player?.enqueue(songs.map(Song::asMediaItem))
+                            binder?.player?.enqueue(filteredSongs.map(Song::asMediaItem))
                         }
                     )
                      */
 
                     HeaderIconButton(
                         icon = R.drawable.shuffle,
-                        enabled = songs.isNotEmpty(),
-                        color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
+                        enabled = filteredSongs.isNotEmpty(),
+                        color = if (filteredSongs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
                         onClick = {
-                            if (songs.isNotEmpty()) {
+                            if (filteredSongs.isNotEmpty()) {
                                 binder?.stopRadio()
                                 binder?.player?.forcePlayFromBeginning(
                                     songs.shuffled().map(Song::asMediaItem)
@@ -437,8 +432,8 @@ fun DeviceListSongs(
 
                     HeaderIconButton(
                         icon = R.drawable.ellipsis_horizontal,
-                        color = if (songs.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
-                        enabled = songs.isNotEmpty() == true,
+                        color = if (filteredSongs.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
+                        enabled = filteredSongs.isNotEmpty() == true,
                         modifier = Modifier
                             .padding(end = 4.dp),
                         onClick = {
@@ -452,7 +447,7 @@ fun DeviceListSongs(
                                     },
                                     onEnqueue = {
                                         if (listMediaItems.isEmpty()) {
-                                            binder?.player?.enqueue(songs.map(Song::asMediaItem))
+                                            binder?.player?.enqueue(filteredSongs.map(Song::asMediaItem))
                                         } else {
                                             binder?.player?.enqueue(listMediaItems)
                                             listMediaItems.clear()
@@ -466,7 +461,7 @@ fun DeviceListSongs(
                                         if (position > 0) position++ else position = 0
                                         //Log.d("mediaItem", "next initial pos ${position}")
                                         if (listMediaItems.isEmpty()) {
-                                            songs.forEachIndexed { index, song ->
+                                            filteredSongs.forEachIndexed { index, song ->
                                                 transaction {
                                                     Database.insert(song.asMediaItem)
                                                     Database.insert(
@@ -643,7 +638,7 @@ fun DeviceListSongs(
             }
 
             itemsIndexed(
-                items = songs,
+                items = filteredSongs,
                 key = { _, song -> song.id },
                 contentType = { _, song -> song },
             ) { index, song ->
@@ -701,7 +696,7 @@ fun DeviceListSongs(
                             onClick = {
                                 binder?.stopRadio()
                                 binder?.player?.forcePlayAtIndex(
-                                    songs.map(Song::asMediaItem),
+                                    filteredSongs.map(Song::asMediaItem),
                                     index
                                 )
                             }
@@ -716,10 +711,10 @@ fun DeviceListSongs(
             lazyListState = lazyListState,
             iconId = R.drawable.shuffle,
             onClick = {
-                if (songs.isNotEmpty()) {
+                if (filteredSongs.isNotEmpty()) {
                     binder?.stopRadio()
                     binder?.player?.forcePlayFromBeginning(
-                        songs.shuffled().map(Song::asMediaItem)
+                        filteredSongs.shuffled().map(Song::asMediaItem)
                     )
                 }
             }
