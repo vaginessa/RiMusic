@@ -423,12 +423,12 @@
     <string name="image_cache_max_size">Dimensione massima della cache immagine</string>
     <string name="song_cache_max_size">Dimensione massima della cache brano</string>
     <string name="song_download_max_size">Dimensione massima del download brano</string>
-    <string name="save_to_backup">Save to backup</string>
-    <string name="restore_from_backup">Ripristina dal backup</string>
+    <string name="save_to_backup">Esegui backup</string>
+    <string name="restore_from_backup">Carica un backup</string>
     <string name="tab_miscellaneous">Altro</string>
     <string name="swipe_to_action">Scorri per visualizzare le azioni</string>
     <string name="activate_the_action_menu_by_swiping_the_song_left_or_right">Attiva il menù delle azioni scorrendo la canzone verso destra o sinistra</string>
-    <string name="smart_recommendations">SMART RECOMMENDATIONS</string>
+    <string name="smart_recommendations">CONSIGLIO BRANI INTELLIGENTE</string>
     <string name="player_collapsed_disable_swiping_down">Disattiva scorrimento verso il basso</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Impedisci lo scorrimento verso il basso quando il player è minimizzato per chiudere il player e svuotare la coda</string>
 </resources>
