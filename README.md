@@ -19,8 +19,9 @@
 - New albums from preferites artists
 - Search for songs, albums, artists and playlists
 - Bookmark artists and albums
-- Import playlists
+- Import online playlists 
 - Local playlist management
+- Export/Import local playlist, can share with friend RiMusic playlist
 - Reorder songs in playlist or queue
 - Persistent queue
 - Clear queue
