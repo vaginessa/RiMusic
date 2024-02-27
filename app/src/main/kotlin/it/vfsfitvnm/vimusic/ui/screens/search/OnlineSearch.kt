@@ -194,6 +194,7 @@ fun OnlineSearch(
                         )
                     },
                     actionsContent = {
+                        /*
                         if (playlistId != null) {
                             val isAlbum = playlistId.startsWith("OLAK5uy_")
 
@@ -207,6 +208,8 @@ fun OnlineSearch(
                             modifier = Modifier
                                 .weight(1f)
                         )
+
+                         */
 
                         if (textFieldValue.text.isNotEmpty()) {
                             SecondaryTextButton(
