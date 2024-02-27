@@ -426,8 +426,8 @@
     <string name="save_to_backup">Создать резервную копию</string>
     <string name="restore_from_backup">Восстановить из резервной копии</string>
     <string name="tab_miscellaneous">Прочее</string>
-    <string name="swipe_to_action">Swipe to action</string>
-    <string name="activate_the_action_menu_by_swiping_the_song_left_or_right">Activate the action menu by swiping the song left or right</string>
+    <string name="swipe_to_action">Свайп для действия</string>
+    <string name="activate_the_action_menu_by_swiping_the_song_left_or_right">Активировать меню действий с треком свайпом вправо или влево</string>
     <string name="smart_recommendations">УМНЫЕ РЕКОМЕНДАЦИИ</string>
     <string name="player_collapsed_disable_swiping_down">Отключить свайп вниз</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Избежать закрытия плеера и очистки очереди свайпом вниз, пока он свёрнут</string>
