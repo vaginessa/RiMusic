@@ -135,6 +135,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -148,6 +149,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.runBlocking
@@ -161,6 +163,7 @@ import java.net.Proxy
 import java.time.Duration
 import kotlin.math.roundToInt
 import kotlin.system.exitProcess
+import kotlin.time.Duration.Companion.seconds
 import android.os.Binder as AndroidBinder
 
 const val LOCAL_KEY_PREFIX = "local:"
@@ -557,11 +560,22 @@ class PlayerService : InvincibleService(),
         maybeResumePlaybackWhenDeviceConnected()
 
 
+        // Save persistent queue periodically
+        coroutineScope.launch {
+            while (isActive) {
+                delay(25.seconds)
+                if (isPersistentQueueEnabled) {
+                    withContext(Dispatchers.Main) {
+                        maybeSavePlayerQueue()
+                    }
+                }
+            }
+        }
+
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         super.onTaskRemoved(rootIntent)
-        //maybeSavePlayerQueue()
         isclosebackgroundPlayerEnabled = preferences.getBoolean(closebackgroundPlayerKey, false)
         if (isclosebackgroundPlayerEnabled == true) {
             super.stopSelf()
@@ -730,7 +744,8 @@ class PlayerService : InvincibleService(),
         //if (!isPersistentQueueEnabled && player.currentTimeline.mediaItems.isNotEmpty()) return
         if (!isPersistentQueueEnabled) return
         //Log.d("mediaItem", "QueuePersistentEnabled Save ${player.currentTimeline.mediaItems.size}")
-
+        //Log.d("mediaItem", "QueuePersistentEnabled")
+        //return
 
         val mediaItems = player.currentTimeline.mediaItems
         val mediaItemIndex = player.currentMediaItemIndex
