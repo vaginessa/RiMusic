@@ -433,4 +433,5 @@
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Vyhněte se zavírání přehrávače a vyčištění fronty přejetím prstem dolů, když je minimalizovaný</string>
     <string name="sort_date_liked">Date Liked</string>
     <string name="export_playlist">Export playlist</string>
+    <string name="lang_afrikaans">Afrikaans</string>
 </resources>

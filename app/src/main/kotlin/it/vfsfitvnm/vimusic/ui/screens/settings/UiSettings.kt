@@ -182,6 +182,7 @@ fun  UiSettings() {
             valueText = {
                 when (it){
                     Languages.System -> stringResource(R.string.system_language)
+                    Languages.Afrikaans -> stringResource(R.string.lang_afrikaans)
                     Languages.Arabic -> stringResource(R.string.arabic)
                     Languages.Bashkir -> stringResource(R.string.bashkir)
                     Languages.Catalan -> stringResource(R.string.catalan)

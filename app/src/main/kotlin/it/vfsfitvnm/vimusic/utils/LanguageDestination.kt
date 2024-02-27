@@ -15,6 +15,7 @@ fun languageDestination (
     val languageApp  by rememberPreference(languageAppKey, Languages.English)
 
     return when (languageApp) {
+        Languages.Afrikaans -> Language.AFRIKAANS
         Languages.Arabic -> Language.ARABIC
         Languages.Bashkir -> Language.BASQUE
         Languages.Catalan -> Language.CATALAN

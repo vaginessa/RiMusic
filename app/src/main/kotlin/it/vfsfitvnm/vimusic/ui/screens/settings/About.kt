@@ -119,9 +119,12 @@ fun About() {
         SettingsTopDescription( text =
             "2010furs \n"+
                     "abfreeman \n"+
+                    "ABS zarzis \n"+
                     "Adam Kop \n"+
                     "Ahmad Al Juwaisri \n"+
+                    "Alnoer \n"+
                     "AntoniNowak \n" +
+                    "CiccioDerole \n"+
                     "Conk \n"+
                     "Corotyest \n" +
                     "Crayz310 \n"+
@@ -132,6 +135,7 @@ fun About() {
                     "fast4x \n"+
                     "Fausta Ahmad \n"+
                     "Get100percent \n"+
+                    "HelloZebra1133 \n"+
                     "Ikanakova \n"+
                     "JZITNIK-github \n"+
                     "Kjev666 \n"+
@@ -142,7 +146,9 @@ fun About() {
                     "Mid_Vur_Shaan \n" +
                     "Muha Aliss \n"+
                     "Ndvok \n"+
+                    "Nebula-Mechanica \n"+
                     "NEVARLeVrai \n"+
+                    "OlimitLolli \n"+
                     "OrangeZXZ \n"+
                     "RegularWater \n"+
                     "Rikalaj \n" +
