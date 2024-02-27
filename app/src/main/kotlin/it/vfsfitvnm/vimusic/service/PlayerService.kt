@@ -744,8 +744,6 @@ class PlayerService : InvincibleService(),
         //if (!isPersistentQueueEnabled && player.currentTimeline.mediaItems.isNotEmpty()) return
         if (!isPersistentQueueEnabled) return
         //Log.d("mediaItem", "QueuePersistentEnabled Save ${player.currentTimeline.mediaItems.size}")
-        //Log.d("mediaItem", "QueuePersistentEnabled")
-        //return
 
         val mediaItems = player.currentTimeline.mediaItems
         val mediaItemIndex = player.currentMediaItemIndex
