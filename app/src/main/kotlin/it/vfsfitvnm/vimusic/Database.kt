@@ -64,6 +64,9 @@ import kotlinx.coroutines.flow.Flow
 interface Database {
     companion object : Database by DatabaseInitializer.Instance.database
 
+    @Query("SELECT id FROM Playlist WHERE name = :playlistName")
+    fun playlistExistByName(playlistName: String): Long
+
     @Transaction
     @Query("UPDATE Song SET title = :title WHERE id = :id")
     fun updateSongTitle(id: String, title: String): Int
@@ -650,6 +653,8 @@ interface Database {
 
     @Query("SELECT thumbnailUrl FROM Song JOIN SongPlaylistMap ON id = songId WHERE playlistId = :id ORDER BY position LIMIT 4")
     fun playlistThumbnailUrls(id: Long): Flow<List<String?>>
+
+
 
     @Transaction
     @Query("SELECT * FROM Song JOIN SongArtistMap ON Song.id = SongArtistMap.songId WHERE SongArtistMap.artistId = :artistId AND totalPlayTimeMs > 0 ORDER BY Song.ROWID DESC")

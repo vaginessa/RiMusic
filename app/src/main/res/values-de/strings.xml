@@ -432,4 +432,5 @@
     <string name="player_collapsed_disable_swiping_down">Wischen nach unten deaktivieren</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Das Schließen des Players und das Löschen der Warteschlange durch Wischen nach unten auf dem minimierten Player verhindern</string>
     <string name="sort_date_liked">Date Liked</string>
+    <string name="export_playlist">Export playlist</string>
 </resources>

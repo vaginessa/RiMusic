@@ -432,4 +432,5 @@
     <string name="player_collapsed_disable_swiping_down">Disattiva scorrimento verso il basso</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Impedisci lo scorrimento verso il basso quando il player è minimizzato per chiudere il player e svuotare la coda</string>
     <string name="sort_date_liked">Date Liked</string>
+    <string name="export_playlist">Export playlist</string>
 </resources>

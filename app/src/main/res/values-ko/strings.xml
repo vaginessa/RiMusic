@@ -432,4 +432,5 @@
     <string name="player_collapsed_disable_swiping_down">아래로 스와이프 비활성화</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">플레이어가 최소화된 상태에서 아래로 스와이프하여 플레이어를 닫고 재생목록을 정리하지 마세요.</string>
     <string name="sort_date_liked">Date Liked</string>
+    <string name="export_playlist">Export playlist</string>
 </resources>

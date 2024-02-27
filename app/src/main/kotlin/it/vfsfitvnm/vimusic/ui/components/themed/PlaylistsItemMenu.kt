@@ -70,6 +70,8 @@ fun PlaylistsItemMenu(
     onRename: (() -> Unit)? = null,
     showonListenToYT: Boolean = false,
     onListenToYT: (() -> Unit)? = null,
+    onExport: (() -> Unit)? = null,
+    onImport: (() -> Unit)? = null,
 
 
     ) {
@@ -338,6 +340,27 @@ fun PlaylistsItemMenu(
                     )
                 }
 
+                onExport?.let { onExport ->
+                    MenuEntry(
+                        icon = R.drawable.export,
+                        text = stringResource(R.string.export_playlist),
+                        onClick = {
+                            onDismiss()
+                            onExport()
+                        }
+                    )
+                }
+
+                onImport?.let { onImport ->
+                    MenuEntry(
+                        icon = R.drawable.resource_import,
+                        text = stringResource(R.string.import_playlist),
+                        onClick = {
+                            onDismiss()
+                            onImport()
+                        }
+                    )
+                }
             }
         }
     }

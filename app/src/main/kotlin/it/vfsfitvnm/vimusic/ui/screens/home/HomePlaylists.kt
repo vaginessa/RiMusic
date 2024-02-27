@@ -1,6 +1,9 @@
 package it.vfsfitvnm.vimusic.ui.screens.home
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -36,10 +39,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.vimusic.Database
@@ -54,6 +59,7 @@ import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
+import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.transaction
@@ -80,6 +86,7 @@ import it.vfsfitvnm.vimusic.utils.playlistSortByKey
 import it.vfsfitvnm.vimusic.utils.playlistSortOrderKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
+import it.vfsfitvnm.vimusic.utils.toast
 
 @ExperimentalMaterialApi
 @SuppressLint("SuspiciousIndentation")
@@ -150,11 +157,73 @@ fun HomePlaylists(
         .padding(top = 24.dp, bottom = 8.dp)
         .padding(endPaddingValues)
 
-    /*
-    var showSortTypeSelectDialog by remember {
-        mutableStateOf(false)
+    var plistId by remember {
+        mutableStateOf(0L)
     }
-     */
+    val context = LocalContext.current
+    val importLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            if (uri == null) return@rememberLauncherForActivityResult
+
+            context.applicationContext.contentResolver.openInputStream(uri)
+                ?.use { inputStream ->
+                    csvReader().open(inputStream) {
+                        readAllWithHeaderAsSequence().forEachIndexed { index, row: Map<String, String> ->
+
+                            transaction {
+                                plistId = row["PlaylistName"]?.let {
+                                    Database.playlistExistByName(
+                                        it
+                                    )
+                                } ?: 0L
+
+                                if (plistId == 0L) {
+                                    plistId = row["PlaylistName"]?.let {
+                                        Database.insert(
+                                            Playlist(
+                                                name = it,
+                                                browseId = row["PlaylistBrowseId"]
+                                            )
+                                        )
+                                    }!!
+                                } else {
+                                    /**/
+                                    if (row["MediaId"] != null && row["Title"] != null) {
+                                        val song =
+                                            row["MediaId"]?.let {
+                                                row["Title"]?.let { it1 ->
+                                                    Song(
+                                                        id = it,
+                                                        title = it1,
+                                                        artistsText = row["Artists"],
+                                                        durationText = row["Duration"],
+                                                        thumbnailUrl = row["ThumbnailUrl"]
+                                                    )
+                                                }
+                                            }
+                                        transaction {
+                                            if (song != null) {
+                                                Database.insert(song)
+                                                Database.insert(
+                                                    SongPlaylistMap(
+                                                        songId = song.id,
+                                                        playlistId = plistId,
+                                                        position = index
+                                                    )
+                                                )
+                                            }
+                                        }
+
+
+                                    }
+                                    /**/
+                                }
+                            }
+
+                        }
+                    }
+                }
+        }
 
     val lazyGridState = rememberLazyGridState()
 
@@ -240,49 +309,7 @@ fun HomePlaylists(
                                     //showSortTypeSelectDialog = true
                                 }
                         )
-                        /*
-                    if (showSortTypeSelectDialog)
-                        ValueSelectorDialog(
-                            onDismiss = { showSortTypeSelectDialog = false },
-                            title = stringResource(R.string.sorting_order),
-                            selectedValue = sortBy,
-                            values = enumValues<PlaylistSortBy>().toList(),
-                            onValueSelected = { sortBy = it },
-                            valueText = {
-                                when (it) {
-                                    PlaylistSortBy.Name -> stringResource(R.string.sort_name)
-                                    PlaylistSortBy.SongCount -> stringResource(R.string.sort_songs_number)
-                                    PlaylistSortBy.DateAdded -> stringResource(R.string.sort_date_added)
-                                }
-                            }
-                        )
 
-                     */
-
-                        /*
-                    HeaderIconButton(
-                        icon = R.drawable.medical,
-                        color = if (sortBy == PlaylistSortBy.SongCount) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { sortBy = PlaylistSortBy.SongCount }
-                    )
-
-                    HeaderIconButton(
-                        icon = R.drawable.text,
-                        color = if (sortBy == PlaylistSortBy.Name) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { sortBy = PlaylistSortBy.Name }
-                    )
-
-                    HeaderIconButton(
-                        icon = R.drawable.time,
-                        color = if (sortBy == PlaylistSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { sortBy = PlaylistSortBy.DateAdded }
-                    )
-
-                    Spacer(
-                        modifier = Modifier
-                            .width(2.dp)
-                    )
-                     */
 
                         HeaderIconButton(
                             icon = R.drawable.arrow_up,
@@ -380,6 +407,33 @@ fun HomePlaylists(
                     modifier = Modifier
                         .clip(thumbnailShape)
                         .clickable(onClick = { isCreatingANewPlaylist = true })
+                        .animateItemPlacement()
+
+                )
+            }
+
+            item(key = "importPlaylist") {
+                PlaylistItem(
+                    icon = R.drawable.resource_import,
+                    colorTint = colorPalette.favoritesIcon,
+                    name = stringResource(R.string.import_playlist),
+                    songCount = null,
+                    thumbnailSizeDp = thumbnailSizeDp,
+                    alternative = true,
+                    modifier = Modifier
+                        .clip(thumbnailShape)
+                        .clickable(onClick = {
+                            try {
+                                importLauncher.launch(
+                                    arrayOf(
+                                        "text/csv",
+                                        "text/txt"
+                                    )
+                                )
+                            } catch (e: ActivityNotFoundException) {
+                                context.toast("Couldn't find an application to open documents")
+                            }
+                        })
                         .animateItemPlacement()
 
                 )

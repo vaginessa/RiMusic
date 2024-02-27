@@ -1,6 +1,9 @@
 package it.vfsfitvnm.vimusic.ui.screens.localplaylist
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
@@ -71,6 +74,9 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
+import com.github.doyaaaaaken.kotlincsv.client.KotlinCsvExperimental
+import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.compose.reordering.draggedItem
@@ -90,10 +96,15 @@ import it.vfsfitvnm.vimusic.enums.RecommendationsNumber
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
+import it.vfsfitvnm.vimusic.internal
+import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
+import it.vfsfitvnm.vimusic.path
 import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.service.MyDownloadService
+import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
@@ -131,6 +142,7 @@ import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.formatAsTime
 import it.vfsfitvnm.vimusic.utils.getDownloadState
+import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isRecommendationEnabledKey
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.playlistSongSortByKey
@@ -147,7 +159,10 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
 
+@KotlinCsvExperimental
 @ExperimentalMaterialApi
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
@@ -369,6 +384,9 @@ fun LocalPlaylistSongs(
         mutableStateOf(false)
     }
 
+    var plistId by remember {
+        mutableStateOf(0L)
+    }
     /*
     val playlistPreviews by remember {
         Database.playlistPreviews(PlaylistSortBy.Name, SortOrder.Ascending)
@@ -379,111 +397,86 @@ fun LocalPlaylistSongs(
         mutableIntStateOf(0)
     }
 
-    /*
+    val exportLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("text/csv")) { uri ->
+            if (uri == null) return@rememberLauncherForActivityResult
 
-    if (showAddPlaylistSelectDialog)
-        SelectorDialog(
-            title = stringResource(R.string.playlists),
-            onDismiss = { showAddPlaylistSelectDialog = false },
-            values = listOf(
-                Info("n", stringResource(R.string.new_playlist)),
-                Info("a", stringResource(R.string.add_all_in_playlist)),
-                Info("s", stringResource(R.string.add_selected_in_playlist))
-            ),
-            onValueSelected = {
-                when (it) {
-                    "a" -> showPlaylistSelectDialog = true
-                    "n" -> isCreatingNewPlaylist = true
-                    else -> selectItems = true
-                }
-                showAddPlaylistSelectDialog = false
-            }
-        )
-
-    if (isCreatingNewPlaylist)
-        InputTextDialog(
-            onDismiss = { isCreatingNewPlaylist = false },
-            title = stringResource(R.string.new_playlist),
-            value = "",
-            placeholder = stringResource(R.string.new_playlist),
-            setValue = {
-                if (it.isNotEmpty()) {
-                    query {
-                        Database.insert(Playlist(name = it))
-                    }
-                    //context.toast("Song Saved $it")
-                }
-            }
-        )
-
-    if (showPlaylistSelectDialog) {
-        SelectorDialog(
-            title = stringResource(R.string.playlists),
-            onDismiss = { showPlaylistSelectDialog = false },
-            showItemsIcon = true,
-            values = playlistPreviews.map {
-                Info(
-                    it.playlist.id.toString(),
-                    "${it.playlist.name} \n ${it.songCount} ${stringResource(R.string.songs)}",
-                    it.songCount
-                )
-            },
-            onValueSelected = {
-                position = playlistPreviews.firstOrNull { playlistPreview ->
-                    playlistPreview.playlist.id == it.toLong()
-                }?.songCount?.minus(1) ?: 0
-                //Log.d("mediaItem", " maxPos in Playlist $it ${position}")
-                if (position > 0) position++ else position = 0
-                //Log.d("mediaItem", "next initial pos ${position}")
-                if (listMediaItems.isEmpty()) {
-                    playlistSongs.forEachIndexed { index, song ->
-                        transaction {
-                            Database.insert(song.asMediaItem)
-                            Database.insert(
-                                SongPlaylistMap(
-                                    songId = song.asMediaItem.mediaId,
-                                    playlistId = it.toLong(),
-                                    position = position + index
-                                )
-                            )
+                context.applicationContext.contentResolver.openOutputStream(uri)
+                    ?.use { outputStream ->
+                        csvWriter().open(outputStream){
+                            writeRow("PlaylistBrowseId", "PlaylistName", "MediaId", "Title", "Artists", "Duration", "ThumbnailUrl")
+                            playlistSongs.forEach{
+                                writeRow(playlistPreview?.playlist?.browseId,playlistPreview?.playlist?.name,it.id,it.title,it.artistsText,it.durationText,it.thumbnailUrl)
+                            }
                         }
-                        //Log.d("mediaItemPos", "added position ${position + index}")
                     }
-                } else {
-                    listMediaItems.forEachIndexed { index, song ->
-                        //Log.d("mediaItemMaxPos", position.toString())
-                        transaction {
-                            Database.insert(song)
-                            Database.insert(
-                                SongPlaylistMap(
-                                    songId = song.mediaId,
-                                    playlistId = it.toLong(),
-                                    position = position + index
-                                )
-                            )
+
+        }
+
+    val importLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            if (uri == null) return@rememberLauncherForActivityResult
+
+                context.applicationContext.contentResolver.openInputStream(uri)
+                    ?.use { inputStream ->
+                        csvReader().open(inputStream) {
+                            readAllWithHeaderAsSequence().forEachIndexed { index, row: Map<String, String> ->
+
+                                transaction {
+                                    plistId = row["PlaylistName"]?.let {
+                                        Database.playlistExistByName(
+                                            it
+                                        )
+                                    } ?: 0L
+
+                                   if (plistId == 0L) {
+                                       plistId = row["PlaylistName"]?.let {
+                                           Database.insert(
+                                               Playlist(
+                                                   name = it,
+                                                   browseId = row["PlaylistBrowseId"]
+                                               )
+                                           )
+                                       }!!
+                                   } else {
+                                       /**/
+                                       if (row["MediaId"] != null && row["Title"] != null) {
+                                           val song =
+                                               row["MediaId"]?.let {
+                                                   row["Title"]?.let { it1 ->
+                                                       Song(
+                                                           id = it,
+                                                           title = it1,
+                                                           artistsText = row["Artists"],
+                                                           durationText = row["Duration"],
+                                                           thumbnailUrl = row["ThumbnailUrl"]
+                                                       )
+                                                   }
+                                               }
+                                            transaction {
+                                                if (song != null) {
+                                                    Database.insert(song)
+                                                    Database.insert(
+                                                        SongPlaylistMap(
+                                                            songId = song.id,
+                                                            playlistId = plistId,
+                                                            position = index
+                                                        )
+                                                    )
+                                                }
+                                            }
+
+
+                                       }
+                                       /**/
+                                   }
+                                }
+
+                            }
                         }
-                        //Log.d("mediaItemPos", "add position $position")
+
                     }
-                    listMediaItems.clear()
-                    selectItems = false
-                }
-                showPlaylistSelectDialog = false
-            }
-        )
-    }
-
-*/
-    /*
-        var allDownloaded by remember { mutableStateOf(false) }
-        var listDownloadedMedia = remember{ mutableListOf<Song>() }
-
-            var count = 0
-            playlistWithSongs?.songs?.forEach {
-                if (downloadedStateMedia(it.asMediaItem.mediaId)) count++
-            }
-            if (playlistWithSongs?.songs?.size == count) allDownloaded = true
-    */
-
+        }
 
     Box {
         LazyColumn(
@@ -810,17 +803,42 @@ fun LocalPlaylistSongs(
                                         onDelete = {
                                             isDeleting = true
                                         },
-                                        showonListenToYT = !playlistPreview.playlist.browseId.isNullOrBlank()
-                                    ) {
-                                        binder?.player?.pause()
-                                        uriHandler.openUri(
-                                            "https://youtube.com/playlist?list=${
-                                                playlistPreview?.playlist?.browseId?.removePrefix(
-                                                    "VL"
+                                        showonListenToYT = !playlistPreview.playlist.browseId.isNullOrBlank(),
+                                        onListenToYT = {
+                                            binder?.player?.pause()
+                                            uriHandler.openUri(
+                                                "https://youtube.com/playlist?list=${
+                                                    playlistPreview?.playlist?.browseId?.removePrefix(
+                                                        "VL"
+                                                    )
+                                                }"
+                                            )
+                                        },
+                                        onExport = {
+                                            try {
+                                                @SuppressLint("SimpleDateFormat")
+                                                val dateFormat = SimpleDateFormat("yyyyMMddHHmmss")
+                                                exportLauncher.launch("RiMusicPlaylist_${playlistPreview.playlist.name.take(20)}_${dateFormat.format(Date())}")
+                                                context.toast("Export completed")
+                                            } catch (e: ActivityNotFoundException) {
+                                                context.toast("Couldn't find an application to create documents")
+                                            }
+                                        },
+                                        /*
+                                        onImport = {
+                                            try {
+                                                importLauncher.launch(
+                                                    arrayOf(
+                                                        "text/csv",
+                                                        "text/txt"
+                                                    )
                                                 )
-                                            }"
-                                        )
-                                    }
+                                            } catch (e: ActivityNotFoundException) {
+                                                context.toast("Couldn't find an application to open documents")
+                                            }
+                                        }
+                                        */
+                                    )
                                 }
                                 /*
                                 Menu {

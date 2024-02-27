@@ -113,6 +113,7 @@ dependencies {
     implementation("androidx.media:media:1.7.0")
     implementation("androidx.compose.material:material:1.6.1")
     implementation("com.github.therealbush:translator:1.0.2")
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.9.3")
 
     //End
     coreLibraryDesugaring(libs.desugaring)

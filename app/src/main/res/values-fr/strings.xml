@@ -432,4 +432,5 @@
     <string name="player_collapsed_disable_swiping_down">Désactiver le glissement vers le bas</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Éviter de fermer le lecteur et de nettoyer la file en glissant vers le bas pendant qu\'il est minimisé</string>
     <string name="sort_date_liked">Date Liked</string>
+    <string name="export_playlist">Export playlist</string>
 </resources>
