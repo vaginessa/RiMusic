@@ -560,14 +560,14 @@ class PlayerService : InvincibleService(),
         maybeResumePlaybackWhenDeviceConnected()
 
 
+        if (isPersistentQueueEnabled) {
         // Save persistent queue periodically
-        coroutineScope.launch {
-            while (isActive) {
-                delay(25.seconds)
-                if (isPersistentQueueEnabled) {
-                    withContext(Dispatchers.Main) {
-                        maybeSavePlayerQueue()
-                    }
+            coroutineScope.launch {
+                while (isActive) {
+                    delay(25.seconds)
+                        withContext(Dispatchers.Main) {
+                            maybeSavePlayerQueue()
+                        }
                 }
             }
         }
@@ -743,7 +743,7 @@ class PlayerService : InvincibleService(),
         //Log.d("mediaItem", "Save ${player.currentTimeline.mediaItems.size}")
         //if (!isPersistentQueueEnabled && player.currentTimeline.mediaItems.isNotEmpty()) return
         if (!isPersistentQueueEnabled) return
-        //Log.d("mediaItem", "QueuePersistentEnabled Save ${player.currentTimeline.mediaItems.size}")
+        Log.d("mediaItem", "QueuePersistentEnabled Save ${player.currentTimeline.mediaItems.size}")
         //Log.d("mediaItem", "QueuePersistentEnabled")
         //return
 
