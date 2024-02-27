@@ -96,15 +96,11 @@ import it.vfsfitvnm.vimusic.enums.RecommendationsNumber
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.enums.UiType
-import it.vfsfitvnm.vimusic.internal
 import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
-import it.vfsfitvnm.vimusic.path
 import it.vfsfitvnm.vimusic.query
-import it.vfsfitvnm.vimusic.service.MyDownloadService
-import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
@@ -142,7 +138,6 @@ import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.formatAsTime
 import it.vfsfitvnm.vimusic.utils.getDownloadState
-import it.vfsfitvnm.vimusic.utils.intent
 import it.vfsfitvnm.vimusic.utils.isRecommendationEnabledKey
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.playlistSongSortByKey
@@ -405,13 +400,36 @@ fun LocalPlaylistSongs(
                     ?.use { outputStream ->
                         csvWriter().open(outputStream){
                             writeRow("PlaylistBrowseId", "PlaylistName", "MediaId", "Title", "Artists", "Duration", "ThumbnailUrl")
-                            playlistSongs.forEach{
-                                writeRow(playlistPreview?.playlist?.browseId,playlistPreview?.playlist?.name,it.id,it.title,it.artistsText,it.durationText,it.thumbnailUrl)
+                            if (listMediaItems.isEmpty()) {
+                                playlistSongs.forEach {
+                                    writeRow(
+                                        playlistPreview?.playlist?.browseId,
+                                        playlistPreview?.playlist?.name,
+                                        it.id,
+                                        it.title,
+                                        it.artistsText,
+                                        it.durationText,
+                                        it.thumbnailUrl
+                                    )
+                                }
+                            } else {
+                                listMediaItems.forEach {
+                                    writeRow(
+                                        playlistPreview?.playlist?.browseId,
+                                        playlistPreview?.playlist?.name,
+                                        it.mediaId,
+                                        it.mediaMetadata.title,
+                                        it.mediaMetadata.artist,
+                                        "",
+                                        it.mediaMetadata.artworkUri
+                                    )
+                                }
                             }
                         }
                     }
 
         }
+
 
     val importLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -818,8 +836,7 @@ fun LocalPlaylistSongs(
                                             try {
                                                 @SuppressLint("SimpleDateFormat")
                                                 val dateFormat = SimpleDateFormat("yyyyMMddHHmmss")
-                                                exportLauncher.launch("RiMusicPlaylist_${playlistPreview.playlist.name.take(20)}_${dateFormat.format(Date())}")
-                                                context.toast("Export completed")
+                                                exportLauncher.launch("RMPlaylist_${playlistPreview.playlist.name.take(20)}_${dateFormat.format(Date())}")
                                             } catch (e: ActivityNotFoundException) {
                                                 context.toast("Couldn't find an application to create documents")
                                             }

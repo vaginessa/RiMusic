@@ -1,6 +1,9 @@
 package it.vfsfitvnm.vimusic.ui.screens.builtinplaylist
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
@@ -70,6 +73,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.Download
 import coil.compose.AsyncImage
+import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.compose.reordering.reorder
@@ -137,6 +141,9 @@ import it.vfsfitvnm.vimusic.ui.components.themed.NowPlayingShow
 import it.vfsfitvnm.vimusic.ui.components.themed.PlaylistsItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
+import it.vfsfitvnm.vimusic.utils.toast
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation", "StateFlowValueCalledInComposition")
@@ -286,13 +293,51 @@ fun BuiltInPlaylistSongs(
         mutableIntStateOf(0)
     }
 
+    val exportLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("text/csv")) { uri ->
+            if (uri == null) return@rememberLauncherForActivityResult
 
-    /*
-    var showSortTypeSelectDialog by remember {
-        mutableStateOf(false)
-    }
-     */
+            context.applicationContext.contentResolver.openOutputStream(uri)
+                ?.use { outputStream ->
+                    csvWriter().open(outputStream){
+                        writeRow("PlaylistBrowseId", "PlaylistName", "MediaId", "Title", "Artists", "Duration", "ThumbnailUrl")
+                        if (listMediaItems.isEmpty()) {
+                            songs.forEach {
+                                writeRow(
+                                    "",
+                                    when (builtInPlaylist) {
+                                        BuiltInPlaylist.Favorites -> context.resources.getString(R.string.favorites)
+                                        BuiltInPlaylist.Downloaded -> context.resources.getString(R.string.downloaded)
+                                        BuiltInPlaylist.Offline -> context.resources.getString(R.string.cached)
+                                    },
+                                    it.id,
+                                    it.title,
+                                    it.artistsText,
+                                    it.durationText,
+                                    it.thumbnailUrl
+                                )
+                            }
+                        } else {
+                            listMediaItems.forEach {
+                                writeRow(
+                                    "",
+                                    when (builtInPlaylist) {
+                                        BuiltInPlaylist.Favorites -> context.resources.getString(R.string.favorites)
+                                        BuiltInPlaylist.Downloaded -> context.resources.getString(R.string.downloaded)
+                                        BuiltInPlaylist.Offline -> context.resources.getString(R.string.cached)
+                                    },
+                                    it.mediaId,
+                                    it.mediaMetadata.title,
+                                    it.mediaMetadata.artist,
+                                    "",
+                                    it.mediaMetadata.artworkUri
+                                )
+                            }
+                        }
+                    }
+                }
 
+        }
 
 
     Box {
@@ -602,6 +647,21 @@ fun BuiltInPlaylistSongs(
                                             selectItems = false
                                         }
                                     },
+                                    onExport = {
+                                        try {
+                                            @SuppressLint("SimpleDateFormat")
+                                            val dateFormat = SimpleDateFormat("yyyyMMddHHmmss")
+                                            exportLauncher.launch("RMPlaylist_${when (builtInPlaylist) {
+                                                BuiltInPlaylist.Favorites -> context.resources.getString(R.string.favorites)
+                                                BuiltInPlaylist.Downloaded -> context.resources.getString(R.string.downloaded)
+                                                BuiltInPlaylist.Offline -> context.resources.getString(R.string.cached)
+                                            }.take(20)}_${dateFormat.format(
+                                                Date()
+                                            )}")
+                                        } catch (e: ActivityNotFoundException) {
+                                            context.toast("Couldn't find an application to create documents")
+                                        }
+                                    }
                                 )
                             }
                         }
