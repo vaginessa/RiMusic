@@ -99,6 +99,7 @@ import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
+import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.NowPlayingShow
@@ -594,8 +595,24 @@ fun DeviceListSongs(
                             decorationBox = { innerTextField ->
                                 Box(
                                     contentAlignment = Alignment.CenterStart,
-                                    modifier = Modifier.weight(1f)
+                                    modifier = Modifier
+                                        .weight(1f)
                                         .padding(horizontal = 10.dp)
+                                ) {
+                                    IconButton(
+                                        onClick = {},
+                                        icon = R.drawable.search,
+                                        color = colorPalette.favoritesIcon,
+                                        modifier = Modifier
+                                            .align(Alignment.CenterStart)
+                                            .size(16.dp)
+                                    )
+                                }
+                                Box(
+                                    contentAlignment = Alignment.CenterStart,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(horizontal = 30.dp)
                                 ) {
                                     androidx.compose.animation.AnimatedVisibility(
                                         visible = filter?.isEmpty() ?: true,

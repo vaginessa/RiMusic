@@ -119,6 +119,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.ui.styling.px
@@ -1190,6 +1191,21 @@ fun LocalPlaylistSongs(
                                     modifier = Modifier
                                         .weight(1f)
                                         .padding(horizontal = 10.dp)
+                                ) {
+                                    IconButton(
+                                        onClick = {},
+                                        icon = R.drawable.search,
+                                        color = colorPalette.favoritesIcon,
+                                        modifier = Modifier
+                                            .align(Alignment.CenterStart)
+                                            .size(16.dp)
+                                    )
+                                }
+                                Box(
+                                    contentAlignment = Alignment.CenterStart,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(horizontal = 30.dp)
                                 ) {
                                     androidx.compose.animation.AnimatedVisibility(
                                         visible = filter?.isEmpty() ?: true,

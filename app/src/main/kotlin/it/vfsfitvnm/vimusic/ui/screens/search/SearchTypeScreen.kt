@@ -8,6 +8,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -34,6 +35,7 @@ import it.vfsfitvnm.vimusic.enums.HomeScreenTabs
 import it.vfsfitvnm.vimusic.enums.SearchType
 import it.vfsfitvnm.vimusic.models.SearchQuery
 import it.vfsfitvnm.vimusic.transaction
+import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
 import it.vfsfitvnm.vimusic.ui.screens.globalRoutes
 import it.vfsfitvnm.vimusic.ui.screens.home.HomeScreen
@@ -42,6 +44,7 @@ import it.vfsfitvnm.vimusic.ui.screens.searchResultRoute
 import it.vfsfitvnm.vimusic.ui.screens.searchRoute
 import it.vfsfitvnm.vimusic.ui.screens.searchresult.SearchResultScreen
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.utils.getEnum
 import it.vfsfitvnm.vimusic.utils.indexNavigationTabKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
@@ -59,6 +62,7 @@ fun SearchTypeScreen(
 ) {
     val preferences = LocalContext.current.preferences
     val saveableStateHolder = rememberSaveableStateHolder()
+    val (colorPalette) = LocalAppearance.current
 
     val initialTextInput = ""
 
@@ -95,9 +99,26 @@ fun SearchTypeScreen(
 
         host {
             val decorationBox: @Composable (@Composable () -> Unit) -> Unit = { innerTextField ->
-                Box (
-                    Modifier
-                    .padding(horizontal = 10.dp)
+                Box(
+                    contentAlignment = Alignment.CenterStart,
+                    modifier = Modifier
+                        // .weight(1f)
+                        .padding(horizontal = 10.dp)
+                ) {
+                    IconButton(
+                        onClick = {},
+                        icon = R.drawable.search,
+                        color = colorPalette.favoritesIcon,
+                        modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .size(24.dp)
+                    )
+                }
+                Box(
+                    contentAlignment = Alignment.CenterStart,
+                    modifier = Modifier
+                        // .weight(1f)
+                        .padding(horizontal = 40.dp)
                 ) {
                     AnimatedVisibility(
                         visible = textFieldValue.text.isEmpty(),

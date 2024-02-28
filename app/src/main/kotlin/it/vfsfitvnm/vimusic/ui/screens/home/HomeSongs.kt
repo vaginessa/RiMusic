@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -78,12 +79,14 @@ import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScr
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
+import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.ValueSelectorDialog
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.onOverlay
 import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.ui.styling.px
@@ -379,8 +382,24 @@ fun  HomeSongs(
                             decorationBox = { innerTextField ->
                                 Box(
                                     contentAlignment = Alignment.CenterStart,
-                                    modifier = Modifier.weight(1f)
+                                    modifier = Modifier
+                                        .weight(1f)
                                         .padding(horizontal = 10.dp)
+                                ) {
+                                    IconButton(
+                                        onClick = {},
+                                        icon = R.drawable.search,
+                                        color = colorPalette.favoritesIcon,
+                                        modifier = Modifier
+                                            .align(Alignment.CenterStart)
+                                            .size(16.dp)
+                                    )
+                                }
+                                Box(
+                                    contentAlignment = Alignment.CenterStart,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(horizontal = 30.dp)
                                 ) {
                                     androidx.compose.animation.AnimatedVisibility(
                                         visible = filter?.isEmpty() ?: true,

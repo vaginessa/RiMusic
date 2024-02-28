@@ -8,6 +8,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -26,10 +27,12 @@ import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.compose.persist.PersistMapCleanup
 import it.vfsfitvnm.compose.routing.RouteHandler
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
 import it.vfsfitvnm.vimusic.ui.screens.globalRoutes
 import it.vfsfitvnm.vimusic.ui.screens.homeRoute
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.utils.secondary
 @ExperimentalMaterialApi
 @ExperimentalTextApi
@@ -45,6 +48,7 @@ fun SearchScreen(
     onDismiss: (() -> Unit)? = null,
 ) {
     val saveableStateHolder = rememberSaveableStateHolder()
+    val (colorPalette) = LocalAppearance.current
 
     val (tabIndex, onTabChanged) = rememberSaveable {
         mutableStateOf(0)
@@ -70,9 +74,26 @@ fun SearchScreen(
 
         host {
             val decorationBox: @Composable (@Composable () -> Unit) -> Unit = { innerTextField ->
-                Box (
-                    Modifier
-                    .padding(horizontal = 10.dp)
+                Box(
+                    contentAlignment = Alignment.CenterStart,
+                    modifier = Modifier
+                       // .weight(1f)
+                        .padding(horizontal = 10.dp)
+                ) {
+                    IconButton(
+                        onClick = {},
+                        icon = R.drawable.search,
+                        color = colorPalette.favoritesIcon,
+                        modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .size(24.dp)
+                    )
+                }
+                Box(
+                    contentAlignment = Alignment.CenterStart,
+                    modifier = Modifier
+                       // .weight(1f)
+                        .padding(horizontal = 40.dp)
                 ) {
                     AnimatedVisibility(
                         visible = textFieldValue.text.isEmpty(),
