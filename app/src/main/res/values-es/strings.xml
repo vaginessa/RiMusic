@@ -426,11 +426,11 @@
     <string name="save_to_backup">Guardar en respaldo</string>
     <string name="restore_from_backup">Restaurar desde una copia de seguridad</string>
     <string name="tab_miscellaneous">Misceláneo</string>
-    <string name="swipe_to_action">Swipe to action</string>
-    <string name="activate_the_action_menu_by_swiping_the_song_left_or_right">Activate the action menu by swiping the song left or right</string>
-    <string name="smart_recommendations">SMART RECOMMENDATIONS</string>
-    <string name="player_collapsed_disable_swiping_down">Disable swiping down</string>
-    <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Avoid closing the player and cleaning the queue by swiping down while it is minimized</string>
+    <string name="swipe_to_action">Desliza para accionar</string>
+    <string name="activate_the_action_menu_by_swiping_the_song_left_or_right">Activa el menú de acciones deslizando la canción hacia la izquierda o derecha</string>
+    <string name="smart_recommendations">RECOMENDACIONES INTELIGENTES</string>
+    <string name="player_collapsed_disable_swiping_down">Deshabilitar deslizar hacia abajo</string>
+    <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Evitar cerrar el reproductor y limpieza de la cola deslizando hacia abajo mientras se está minimizado</string>
     <string name="sort_date_liked">Date Liked</string>
     <string name="export_playlist">Export playlist</string>
     <string name="lang_afrikaans">Afrikaans</string>
