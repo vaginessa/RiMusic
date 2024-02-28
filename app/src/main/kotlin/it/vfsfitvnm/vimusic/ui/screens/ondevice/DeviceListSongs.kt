@@ -6,7 +6,6 @@ import android.app.Activity
 import android.content.ContentUris
 import android.content.Context
 import android.content.pm.PackageManager
-import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -749,7 +748,8 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder, conte
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.ALBUM_ID,
-                MediaStore.Audio.Media.RELATIVE_PATH
+                MediaStore.Audio.Media.RELATIVE_PATH,
+                MediaStore.Audio.Media.TITLE
             )
 
             val sortOrderSQL = when (order) {
@@ -758,7 +758,7 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder, conte
             }
 
             val sortBySQL = when (sortBy) {
-                OnDeviceSongSortBy.Title -> "${MediaStore.Audio.Media.DISPLAY_NAME} COLLATE NOCASE $sortOrderSQL"
+                OnDeviceSongSortBy.Title -> "${MediaStore.Audio.Media.TITLE} COLLATE NOCASE $sortOrderSQL"
                 OnDeviceSongSortBy.DateAdded -> "${MediaStore.Audio.Media.DATE_ADDED} $sortOrderSQL"
                 OnDeviceSongSortBy.Artist -> "${MediaStore.Audio.Media.ARTIST} COLLATE NOCASE $sortOrderSQL"
             }
@@ -773,17 +773,15 @@ fun Context.musicFilesAsFlow(sortBy: OnDeviceSongSortBy, order: SortOrder, conte
                     val artistIdx = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)
                     val albumIdIdx = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
                     val relativePathIdx = cursor.getColumnIndex(MediaStore.Audio.Media.RELATIVE_PATH)
+                    val titleIdx = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)
                     val blacklist = OnDeviceBlacklist(context = context)
-                    val metadataRetriever = MediaMetadataRetriever()
 
 
                     buildList {
                         while (cursor.moveToNext()) {
                             val id = cursor.getLong(idIdx)
-                            val songUri = ContentUris.withAppendedId(collection, id)
-                            metadataRetriever.setDataSource(context, songUri)
-                            val trackName = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
                             val name = cursor.getString(nameIdx).substringBeforeLast(".")
+                            val trackName = cursor.getString(titleIdx)
                             val duration = cursor.getInt(durationIdx)
                             val artist = cursor.getString(artistIdx)
                             val albumId = cursor.getLong(albumIdIdx)
