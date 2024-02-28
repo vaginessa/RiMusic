@@ -86,6 +86,7 @@ import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.AlbumSortBy
 import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
+import it.vfsfitvnm.vimusic.enums.MaxTopPlaylistItems
 import it.vfsfitvnm.vimusic.enums.PlaylistSongSortBy
 import it.vfsfitvnm.vimusic.enums.RecommendationsNumber
 import it.vfsfitvnm.vimusic.enums.SongSortBy
@@ -142,6 +143,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.NowPlayingShow
 import it.vfsfitvnm.vimusic.ui.components.themed.PlaylistsItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
+import it.vfsfitvnm.vimusic.utils.MaxTopPlaylistItemsKey
 import it.vfsfitvnm.vimusic.utils.toast
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -180,6 +182,10 @@ fun BuiltInPlaylistSongs(
         mutableStateOf(false)
     }
 
+    val maxTopPlaylistItems by rememberPreference(
+        MaxTopPlaylistItemsKey,
+        MaxTopPlaylistItems.`10`
+    )
 
 
      LaunchedEffect(Unit, sortBy, sortOrder, filter) {
@@ -204,6 +210,9 @@ fun BuiltInPlaylistSongs(
                          } ?: false
                      }.map(SongWithContentLength::song)
                  }
+
+             BuiltInPlaylist.Top -> Database.trending(maxTopPlaylistItems.number.toInt())
+
          }.collect { songs = it }
 
     }
@@ -351,6 +360,7 @@ fun BuiltInPlaylistSongs(
                 BuiltInPlaylist.Favorites -> context.resources.getString(R.string.favorites)
                 BuiltInPlaylist.Downloaded -> context.resources.getString(R.string.downloaded)
                 BuiltInPlaylist.Offline -> context.resources.getString(R.string.cached)
+                BuiltInPlaylist.Top -> context.resources.getString(R.string.playlist_top)
             },
             placeholder = stringResource(R.string.enter_the_playlist_name),
             setValue = { text ->
@@ -387,6 +397,7 @@ fun BuiltInPlaylistSongs(
                         BuiltInPlaylist.Favorites -> stringResource(R.string.favorites)
                         BuiltInPlaylist.Downloaded -> stringResource(R.string.downloaded)
                         BuiltInPlaylist.Offline -> stringResource(R.string.cached)
+                        BuiltInPlaylist.Top -> stringResource(R.string.my_playlist_top) + " ${maxTopPlaylistItems.number}"
                     },
                     iconId = R.drawable.search,
                     enabled = true,
@@ -413,12 +424,14 @@ fun BuiltInPlaylistSongs(
                             BuiltInPlaylist.Favorites -> R.drawable.heart
                             BuiltInPlaylist.Downloaded -> R.drawable.downloaded
                             BuiltInPlaylist.Offline -> R.drawable.sync
+                            BuiltInPlaylist.Top -> R.drawable.trending
                         },
                         colorTint = colorPalette.favoritesIcon,
                         name = when (builtInPlaylist) {
                             BuiltInPlaylist.Favorites -> stringResource(R.string.favorites)
                             BuiltInPlaylist.Downloaded -> stringResource(R.string.downloaded)
                             BuiltInPlaylist.Offline -> stringResource(R.string.cached)
+                            BuiltInPlaylist.Top -> stringResource(R.string.playlist_top)
                         },
                         songCount = null,
                         thumbnailSizeDp = playlistThumbnailSizeDp,
@@ -700,7 +713,7 @@ fun BuiltInPlaylistSongs(
                         horizontalArrangement = Arrangement.SpaceBetween, //Arrangement.spacedBy(10.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .fillMaxWidth(0.50f)
+                            .fillMaxWidth(0.30f)
                     ) {
                         HeaderIconButton(
                             onClick = { searching = !searching },
@@ -737,8 +750,8 @@ fun BuiltInPlaylistSongs(
                             .width(30.dp)
                     )
 
-                    if (builtInPlaylist != BuiltInPlaylist.Downloaded) {
-
+                    if ( builtInPlaylist == BuiltInPlaylist.Favorites ||
+                         builtInPlaylist == BuiltInPlaylist.Offline )  {
                         BasicText(
                             text = when (sortBy) {
                                 SongSortBy.Title -> stringResource(R.string.sort_title)
@@ -751,7 +764,7 @@ fun BuiltInPlaylistSongs(
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier
-                                .fillMaxWidth(0.5f)
+                                //.fillMaxWidth(0.7f)
                                 .clickable {
                                     menuState.display {
                                         SortMenu(
@@ -767,59 +780,7 @@ fun BuiltInPlaylistSongs(
                                     //showSortTypeSelectDialog = true
                                 }
                         )
-                        /*
-                        if (showSortTypeSelectDialog)
-                            ValueSelectorDialog(
-                                onDismiss = { showSortTypeSelectDialog = false },
-                                title = stringResource(R.string.sorting_order),
-                                selectedValue = sortBy,
-                                values = enumValues<SongSortBy>().toList(),
-                                onValueSelected = { sortBy = it },
-                                valueText = {
-                                    when (it) {
-                                        SongSortBy.Title -> stringResource(R.string.sort_title)
-                                        SongSortBy.DatePlayed -> stringResource(R.string.sort_date_played)
-                                        SongSortBy.PlayTime -> stringResource(R.string.sort_listening_time)
-                                        SongSortBy.DateAdded -> stringResource(R.string.sort_date_added)
-                                    }
-                                }
-                            )
 
-                         */
-
-                        /*
-                        if (builtInPlaylist == BuiltInPlaylist.Favorites)
-                            HeaderIconButton(
-                                icon = R.drawable.up_right_arrow,
-                                color = if (sortBy == SongSortBy.DatePlayed) colorPalette.text else colorPalette.textDisabled,
-                                onClick = { sortBy = SongSortBy.DatePlayed }
-                            )
-
-                        HeaderIconButton(
-                            icon = R.drawable.trending,
-                            color = if (sortBy == SongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
-                            onClick = { sortBy = SongSortBy.PlayTime }
-                        )
-
-                        HeaderIconButton(
-                            icon = R.drawable.text,
-                            color = if (sortBy == SongSortBy.Title) colorPalette.text else colorPalette.textDisabled,
-                            onClick = { sortBy = SongSortBy.Title }
-                        )
-
-                        HeaderIconButton(
-                            icon = R.drawable.time,
-                            color = if (sortBy == SongSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
-                            onClick = { sortBy = SongSortBy.DateAdded }
-                        )
-                         */
-
-                        /*
-                        Spacer(
-                            modifier = Modifier
-                                .width(2.dp)
-                        )
-                           */
                         HeaderIconButton(
                             icon = R.drawable.arrow_up,
                             color = colorPalette.text,
@@ -989,6 +950,24 @@ fun BuiltInPlaylistSongs(
                         }
                         if (nowPlayingItem > -1)
                             NowPlayingShow(song.asMediaItem.mediaId)
+
+                        if (builtInPlaylist == BuiltInPlaylist.Top)
+                            BasicText(
+                                text = (index+1).toString(),
+                                style = typography.m.semiBold.center.color(colorPalette.onOverlay),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(
+                                        brush = Brush.verticalGradient(
+                                            colors = listOf(Color.Transparent, colorPalette.overlay)
+                                        ),
+                                        shape = thumbnailShape
+                                    )
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                                    .align(Alignment.Center)
+                            )
                     },
                     trailingContent = {
                         val checkedState = remember { mutableStateOf(false) }
@@ -1011,7 +990,9 @@ fun BuiltInPlaylistSongs(
                             onLongClick = {
                                 menuState.display {
                                     when (builtInPlaylist) {
-                                        BuiltInPlaylist.Favorites, BuiltInPlaylist.Downloaded -> NonQueuedMediaItemMenu(
+                                        BuiltInPlaylist.Favorites,
+                                        BuiltInPlaylist.Downloaded,
+                                        BuiltInPlaylist.Top -> NonQueuedMediaItemMenu(
                                             mediaItem = song.asMediaItem,
                                             onDismiss = menuState::hide
                                         )

@@ -36,6 +36,7 @@ import it.vfsfitvnm.vimusic.enums.FontType
 import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.MaxStatisticsItems
 import it.vfsfitvnm.vimusic.enums.HomeScreenTabs
+import it.vfsfitvnm.vimusic.enums.MaxTopPlaylistItems
 import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
@@ -44,6 +45,7 @@ import it.vfsfitvnm.vimusic.enums.RecommendationsNumber
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.utils.MaxTopPlaylistItemsKey
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.audioQualityFormatKey
@@ -149,6 +151,19 @@ fun  UiSettings() {
     var isSwipeToActionEnabled by rememberPreference(isSwipeToActionEnabledKey, true)
     var disableClosingPlayerSwipingDown by rememberPreference(disableClosingPlayerSwipingDownKey, true)
     var showSearchTab by rememberPreference(showSearchTabKey, false)
+
+
+    var maxStatisticsItems by rememberPreference(
+        maxStatisticsItemsKey,
+        MaxStatisticsItems.`10`
+    )
+
+    var showStatsListeningTime by rememberPreference(showStatsListeningTimeKey,   true)
+
+    var maxTopPlaylistItems by rememberPreference(
+        MaxTopPlaylistItemsKey,
+        MaxTopPlaylistItems.`10`
+    )
 
     Column(
         modifier = Modifier
@@ -489,6 +504,39 @@ fun  UiSettings() {
             title = stringResource(R.string.statistics_max_number_of_items),
             selectedValue = recommendationsNumber,
             onValueSelected = { recommendationsNumber = it },
+            valueText = {
+                it.number.toString()
+            }
+        )
+
+        SettingsGroupSpacer()
+        SettingsEntryGroupText(stringResource(R.string.statistics))
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.statistics_max_number_of_items),
+            selectedValue = maxStatisticsItems,
+            onValueSelected = { maxStatisticsItems = it },
+            valueText = {
+                it.number.toString()
+            }
+        )
+
+        SwitchSettingEntry(
+            title = stringResource(R.string.listening_time),
+            text = stringResource(R.string.shows_the_number_of_songs_heard_and_their_listening_time),
+            isChecked = showStatsListeningTime,
+            onCheckedChange = {
+                showStatsListeningTime = it
+            }
+        )
+
+        SettingsGroupSpacer()
+        SettingsEntryGroupText(stringResource(R.string.playlist_top))
+
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.statistics_max_number_of_items),
+            selectedValue = maxTopPlaylistItems,
+            onValueSelected = { maxTopPlaylistItems = it },
             valueText = {
                 it.number.toString()
             }

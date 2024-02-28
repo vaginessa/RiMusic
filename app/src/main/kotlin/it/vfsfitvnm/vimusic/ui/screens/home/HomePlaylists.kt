@@ -54,6 +54,7 @@ import it.vfsfitvnm.vimusic.enums.AlbumSortBy
 import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskDownloadCacheMaxSize
+import it.vfsfitvnm.vimusic.enums.MaxTopPlaylistItems
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.UiType
@@ -78,6 +79,7 @@ import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.MaxTopPlaylistItemsKey
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
@@ -225,6 +227,11 @@ fun HomePlaylists(
                 }
         }
 
+    val maxTopPlaylistItems by rememberPreference(
+        MaxTopPlaylistItemsKey,
+        MaxTopPlaylistItems.`10`
+    )
+
     val lazyGridState = rememberLazyGridState()
 
     Box {
@@ -365,6 +372,21 @@ fun HomePlaylists(
                     modifier = Modifier
                         .clip(thumbnailShape)
                         .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Downloaded) })
+                        .animateItemPlacement()
+                )
+            }
+
+            item(key = "top") {
+                PlaylistItem(
+                    icon = R.drawable.trending,
+                    colorTint = colorPalette.favoritesIcon,
+                    name = stringResource(R.string.my_playlist_top) + " ${maxTopPlaylistItems.number}",
+                    songCount = null,
+                    thumbnailSizeDp = thumbnailSizeDp,
+                    alternative = true,
+                    modifier = Modifier
+                        .clip(thumbnailShape)
+                        .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Top) })
                         .animateItemPlacement()
                 )
             }

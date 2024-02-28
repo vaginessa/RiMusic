@@ -105,12 +105,6 @@ fun OtherSettings() {
 
     var checkUpdateState by rememberPreference(checkUpdateStateKey, CheckUpdateState.Disabled)
 
-    var maxStatisticsItems by rememberPreference(
-        maxStatisticsItemsKey,
-        MaxStatisticsItems.`10`
-    )
-
-    var showStatsListeningTime by rememberPreference(showStatsListeningTimeKey,   true)
 
     Column(
         modifier = Modifier
@@ -147,27 +141,6 @@ fun OtherSettings() {
             }
         )
         SettingsDescription(text = stringResource(R.string.when_enabled_a_new_version_is_checked_and_notified_during_startup))
-
-        SettingsGroupSpacer()
-        SettingsEntryGroupText(stringResource(R.string.statistics))
-
-        EnumValueSelectorSettingsEntry(
-            title = stringResource(R.string.statistics_max_number_of_items),
-            selectedValue = maxStatisticsItems,
-            onValueSelected = { maxStatisticsItems = it },
-            valueText = {
-                it.number.toString()
-            }
-        )
-
-        SwitchSettingEntry(
-            title = stringResource(R.string.listening_time),
-            text = stringResource(R.string.shows_the_number_of_songs_heard_and_their_listening_time),
-            isChecked = showStatsListeningTime,
-            onCheckedChange = {
-                showStatsListeningTime = it
-            }
-        )
 
         SettingsGroupSpacer()
         SettingsEntryGroupText(title = stringResource(R.string.proxy))

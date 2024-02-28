@@ -23,6 +23,7 @@ import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.DeviceLists
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskDownloadCacheMaxSize
+import it.vfsfitvnm.vimusic.enums.MaxTopPlaylistItems
 import it.vfsfitvnm.vimusic.models.SearchQuery
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.ui.components.themed.Scaffold
@@ -32,6 +33,7 @@ import it.vfsfitvnm.vimusic.ui.screens.search.SearchScreen
 import it.vfsfitvnm.vimusic.ui.screens.searchResultRoute
 import it.vfsfitvnm.vimusic.ui.screens.searchRoute
 import it.vfsfitvnm.vimusic.ui.screens.searchresult.SearchResultScreen
+import it.vfsfitvnm.vimusic.utils.MaxTopPlaylistItemsKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskDownloadCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
@@ -53,6 +55,7 @@ fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
             BuiltInPlaylist.Favorites -> 0
             BuiltInPlaylist.Downloaded -> 1
             BuiltInPlaylist.Offline -> 2
+            BuiltInPlaylist.Top -> 3
         })
     }
 
@@ -64,6 +67,11 @@ fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
     var exoPlayerDiskDownloadCacheMaxSize by rememberPreference(
         exoPlayerDiskDownloadCacheMaxSizeKey,
         ExoPlayerDiskDownloadCacheMaxSize.`2GB`
+    )
+
+    val maxTopPlaylistItems by rememberPreference(
+        MaxTopPlaylistItemsKey,
+        MaxTopPlaylistItems.`10`
     )
 
     PersistMapCleanup(tagPrefix = "${builtInPlaylist.name}/")
@@ -113,7 +121,8 @@ fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
                     Item(1, stringResource(R.string.downloaded), R.drawable.downloaded)
                     if(exoPlayerDiskCacheMaxSize != ExoPlayerDiskCacheMaxSize.Disabled)
                     Item(2, stringResource(R.string.cached), R.drawable.sync)
-                    Item(3, stringResource(R.string.on_device), R.drawable.musical_notes)
+                    Item(3, stringResource(R.string.my_playlist_top)  + " ${maxTopPlaylistItems.number}" , R.drawable.trending)
+                    Item(4, stringResource(R.string.on_device), R.drawable.musical_notes)
                 }
             ) { currentTabIndex ->
                 saveableStateHolder.SaveableStateProvider(key = currentTabIndex) {
@@ -131,7 +140,11 @@ fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
                             builtInPlaylist = BuiltInPlaylist.Offline,
                             onSearchClick = { searchRoute("") }
                         )
-                        3 -> DeviceListSongs(
+                        3 -> BuiltInPlaylistSongs(
+                            builtInPlaylist = BuiltInPlaylist.Top,
+                            onSearchClick = { searchRoute("") }
+                        )
+                        4 -> DeviceListSongs(
                             deviceLists = DeviceLists.LocalSongs,
                             onSearchClick = { searchRoute("") }
                         )
