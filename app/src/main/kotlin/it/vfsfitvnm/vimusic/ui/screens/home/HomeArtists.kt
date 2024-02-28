@@ -147,6 +147,16 @@ fun HomeArtistList(
                         icon = painterResource(R.drawable.person),
                         spacer = 0
                     )
+
+                    HeaderIconButton(
+                        icon = R.drawable.shuffle,
+                        enabled = items.isNotEmpty() ,
+                        color = colorPalette.text,
+                        onClick = {
+                            onArtistClick(items.get((0..<items.size).random()))
+                        }
+                    )
+
                     Spacer(
                         modifier = Modifier
                             .weight(1f)

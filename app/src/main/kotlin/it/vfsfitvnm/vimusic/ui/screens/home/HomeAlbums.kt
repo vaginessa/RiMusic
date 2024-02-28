@@ -98,10 +98,12 @@ fun HomeAlbums(
         targetValue = if (sortOrder == SortOrder.Ascending) 0f else 180f,
         animationSpec = tween(durationMillis = 400, easing = LinearEasing), label = ""
     )
-
+/*
     var showSortTypeSelectDialog by remember {
         mutableStateOf(false)
     }
+
+ */
 
     val lazyListState = rememberLazyListState()
 
@@ -139,10 +141,22 @@ fun HomeAlbums(
                         icon = painterResource(R.drawable.disc),
                         spacer = 0
                     )
+
+                    HeaderIconButton(
+                        icon = R.drawable.shuffle,
+                        enabled = items.isNotEmpty() ,
+                        color = colorPalette.text,
+                        onClick = {
+                            onAlbumClick(items.get((0..<items.size).random()))
+                        }
+                    )
+
                     Spacer(
                         modifier = Modifier
                             .weight(1f)
                     )
+
+
 
                     BasicText(
                         text = when (sortBy) {
@@ -168,48 +182,6 @@ fun HomeAlbums(
                             }
                     )
 
-                    /*
-                    if (showSortTypeSelectDialog)
-                        ValueSelectorDialog(
-                            onDismiss = { showSortTypeSelectDialog = false },
-                            title = stringResource(R.string.sorting_order),
-                            selectedValue = sortBy,
-                            values = enumValues<AlbumSortBy>().toList(),
-                            onValueSelected = { sortBy = it },
-                            valueText = {
-                                when (it) {
-                                    AlbumSortBy.Title -> stringResource(R.string.sort_title)
-                                    AlbumSortBy.Year -> stringResource(R.string.sort_year)
-                                    AlbumSortBy.DateAdded -> stringResource(R.string.sort_date_added)
-                                }
-                            }
-                        )
-
-                     */
-                    /*
-                    HeaderIconButton(
-                        icon = R.drawable.time,
-                        color = if (sortBy == AlbumSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { sortBy = AlbumSortBy.DateAdded }
-                    )
-
-                    HeaderIconButton(
-                        icon = R.drawable.calendar,
-                        color = if (sortBy == AlbumSortBy.Year) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { sortBy = AlbumSortBy.Year }
-                    )
-
-                    HeaderIconButton(
-                        icon = R.drawable.text,
-                        color = if (sortBy == AlbumSortBy.Title) colorPalette.text else colorPalette.textDisabled,
-                        onClick = { sortBy = AlbumSortBy.Title }
-                    )
-
-                     Spacer(
-                        modifier = Modifier
-                            .width(2.dp)
-                    )
-                    */
                     HeaderIconButton(
                         icon = R.drawable.arrow_up,
                         color = colorPalette.text,
