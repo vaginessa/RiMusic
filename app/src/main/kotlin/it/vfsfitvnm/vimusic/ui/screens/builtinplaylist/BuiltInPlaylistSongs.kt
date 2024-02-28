@@ -105,6 +105,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.IconInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
@@ -223,7 +224,7 @@ fun BuiltInPlaylistSongs(
     if (!filter.isNullOrBlank())
     songs = songs
         .filter {
-            it.title?.contains(filterCharSequence,true) ?: false
+            it.title.contains(filterCharSequence,true) ?: false
             || it.artistsText?.contains(filterCharSequence,true) ?: false
         }
 
@@ -293,6 +294,11 @@ fun BuiltInPlaylistSongs(
         mutableIntStateOf(0)
     }
 
+
+    var plistName by remember {
+        mutableStateOf("")
+    }
+
     val exportLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("text/csv")) { uri ->
             if (uri == null) return@rememberLauncherForActivityResult
@@ -305,11 +311,7 @@ fun BuiltInPlaylistSongs(
                             songs.forEach {
                                 writeRow(
                                     "",
-                                    when (builtInPlaylist) {
-                                        BuiltInPlaylist.Favorites -> context.resources.getString(R.string.favorites)
-                                        BuiltInPlaylist.Downloaded -> context.resources.getString(R.string.downloaded)
-                                        BuiltInPlaylist.Offline -> context.resources.getString(R.string.cached)
-                                    },
+                                    plistName,
                                     it.id,
                                     it.title,
                                     it.artistsText,
@@ -321,11 +323,7 @@ fun BuiltInPlaylistSongs(
                             listMediaItems.forEach {
                                 writeRow(
                                     "",
-                                    when (builtInPlaylist) {
-                                        BuiltInPlaylist.Favorites -> context.resources.getString(R.string.favorites)
-                                        BuiltInPlaylist.Downloaded -> context.resources.getString(R.string.downloaded)
-                                        BuiltInPlaylist.Offline -> context.resources.getString(R.string.cached)
-                                    },
+                                    plistName,
                                     it.mediaId,
                                     it.mediaMetadata.title,
                                     it.mediaMetadata.artist,
@@ -339,6 +337,36 @@ fun BuiltInPlaylistSongs(
 
         }
 
+    var isExporting by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    if (isExporting) {
+        InputTextDialog(
+            onDismiss = {
+                isExporting = false
+            },
+            title = stringResource(R.string.enter_the_playlist_name),
+            value = when (builtInPlaylist) {
+                BuiltInPlaylist.Favorites -> context.resources.getString(R.string.favorites)
+                BuiltInPlaylist.Downloaded -> context.resources.getString(R.string.downloaded)
+                BuiltInPlaylist.Offline -> context.resources.getString(R.string.cached)
+            },
+            placeholder = stringResource(R.string.enter_the_playlist_name),
+            setValue = { text ->
+                plistName = text
+                try {
+                    @SuppressLint("SimpleDateFormat")
+                    val dateFormat = SimpleDateFormat("yyyyMMddHHmmss")
+                    exportLauncher.launch("RMPlaylist_${text.take(20)}_${dateFormat.format(
+                        Date()
+                    )}")
+                } catch (e: ActivityNotFoundException) {
+                    context.toast("Couldn't find an application to create documents")
+                }
+            }
+        )
+    }
 
     Box {
         LazyColumn(
@@ -648,19 +676,7 @@ fun BuiltInPlaylistSongs(
                                         }
                                     },
                                     onExport = {
-                                        try {
-                                            @SuppressLint("SimpleDateFormat")
-                                            val dateFormat = SimpleDateFormat("yyyyMMddHHmmss")
-                                            exportLauncher.launch("RMPlaylist_${when (builtInPlaylist) {
-                                                BuiltInPlaylist.Favorites -> context.resources.getString(R.string.favorites)
-                                                BuiltInPlaylist.Downloaded -> context.resources.getString(R.string.downloaded)
-                                                BuiltInPlaylist.Offline -> context.resources.getString(R.string.cached)
-                                            }.take(20)}_${dateFormat.format(
-                                                Date()
-                                            )}")
-                                        } catch (e: ActivityNotFoundException) {
-                                            context.toast("Couldn't find an application to create documents")
-                                        }
+                                        isExporting = true
                                     }
                                 )
                             }

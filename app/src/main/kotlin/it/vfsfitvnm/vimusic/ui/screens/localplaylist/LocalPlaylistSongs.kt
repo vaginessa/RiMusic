@@ -267,23 +267,6 @@ fun LocalPlaylistSongs(
         extraItemCount = 1
     )
 
-    var isRenaming by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    if (isRenaming) {
-        InputTextDialog(
-            onDismiss = { isRenaming = false },
-            title = stringResource(R.string.enter_the_playlist_name),
-            value = playlistPreview?.playlist?.name ?: "",
-            placeholder = stringResource(R.string.enter_the_playlist_name),
-            setValue = { text ->
-                query {
-                    playlistPreview?.playlist?.copy(name = text)?.let(Database::update)
-                }
-            }
-        )
-    }
 
     var isDeleting by rememberSaveable {
         mutableStateOf(false)
@@ -382,6 +365,9 @@ fun LocalPlaylistSongs(
     var plistId by remember {
         mutableStateOf(0L)
     }
+    var plistName by remember {
+        mutableStateOf(playlistPreview?.playlist?.name)
+    }
     /*
     val playlistPreviews by remember {
         Database.playlistPreviews(PlaylistSortBy.Name, SortOrder.Ascending)
@@ -404,7 +390,7 @@ fun LocalPlaylistSongs(
                                 playlistSongs.forEach {
                                     writeRow(
                                         playlistPreview?.playlist?.browseId,
-                                        playlistPreview?.playlist?.name,
+                                        plistName,
                                         it.id,
                                         it.title,
                                         it.artistsText,
@@ -416,7 +402,7 @@ fun LocalPlaylistSongs(
                                 listMediaItems.forEach {
                                     writeRow(
                                         playlistPreview?.playlist?.browseId,
-                                        playlistPreview?.playlist?.name,
+                                        plistName,
                                         it.mediaId,
                                         it.mediaMetadata.title,
                                         it.mediaMetadata.artist,
@@ -495,6 +481,44 @@ fun LocalPlaylistSongs(
 
                     }
         }
+
+    var isRenaming by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var isExporting by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    if (isRenaming|| isExporting) {
+        InputTextDialog(
+            onDismiss = {
+                isRenaming = false
+                isExporting = false
+            },
+            title = stringResource(R.string.enter_the_playlist_name),
+            value = playlistPreview?.playlist?.name ?: "",
+            placeholder = stringResource(R.string.enter_the_playlist_name),
+            setValue = { text ->
+                if (isRenaming) {
+                    query {
+                        playlistPreview?.playlist?.copy(name = text)?.let(Database::update)
+                    }
+                }
+                if(isExporting) {
+                    plistName = text
+                    try {
+                        @SuppressLint("SimpleDateFormat")
+                        val dateFormat = SimpleDateFormat("yyyyMMddHHmmss")
+                        exportLauncher.launch("RMPlaylist_${text.take(20)}_${dateFormat.format(Date())}")
+                    } catch (e: ActivityNotFoundException) {
+                        context.toast("Couldn't find an application to create documents")
+                    }
+                }
+
+            }
+        )
+    }
+
 
     Box {
         LazyColumn(
@@ -833,13 +857,7 @@ fun LocalPlaylistSongs(
                                             )
                                         },
                                         onExport = {
-                                            try {
-                                                @SuppressLint("SimpleDateFormat")
-                                                val dateFormat = SimpleDateFormat("yyyyMMddHHmmss")
-                                                exportLauncher.launch("RMPlaylist_${playlistPreview.playlist.name.take(20)}_${dateFormat.format(Date())}")
-                                            } catch (e: ActivityNotFoundException) {
-                                                context.toast("Couldn't find an application to create documents")
-                                            }
+                                            isExporting = true
                                         },
                                         /*
                                         onImport = {
