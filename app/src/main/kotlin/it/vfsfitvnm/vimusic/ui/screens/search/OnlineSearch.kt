@@ -147,6 +147,7 @@ fun OnlineSearch(
                 key = "header",
                 contentType = 0
             ) {
+                /*
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -164,6 +165,7 @@ fun OnlineSearch(
                     )
 
                 }
+                 */
                 Header(
                     titleContent = {
                         BasicTextField(
