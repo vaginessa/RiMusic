@@ -100,6 +100,7 @@ import it.vfsfitvnm.vimusic.utils.queueLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.reorderInQueueEnabledKey
 import it.vfsfitvnm.vimusic.utils.shouldBePlaying
+import it.vfsfitvnm.vimusic.utils.showButtonPlayerArrowKey
 import it.vfsfitvnm.vimusic.utils.shuffleQueue
 import it.vfsfitvnm.vimusic.utils.smoothScrollToTop
 import it.vfsfitvnm.vimusic.utils.windows
@@ -127,31 +128,33 @@ fun Queue(
     //    .only(WindowInsetsSides.Bottom).asPaddingValues()
 
     val context = LocalContext.current
+    val showButtonPlayerArrow by rememberPreference(showButtonPlayerArrowKey, false)
 
     BottomSheet(
         state = layoutState,
+        disableVerticalDrag = showButtonPlayerArrow,
         modifier = modifier,
         collapsedContent = {
-            Box(
-                modifier = Modifier
-                    .drawBehind { drawRect(backgroundColorProvider()) }
-                    .fillMaxSize()
-                    .padding(horizontalBottomPaddingValues)
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.horizontal_bold_line_rounded),
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(colorPalette.text),
+                Box(
                     modifier = Modifier
-                        .absoluteOffset(0.dp,-10.dp)
-                        .align(Alignment.TopCenter)
-                        .size(30.dp)
-                )
+                        .drawBehind { drawRect(backgroundColorProvider()) }
+                        .fillMaxSize()
+                        .padding(horizontalBottomPaddingValues)
+                ) {
+                    if (!showButtonPlayerArrow)
+                        Image(
+                            painter = painterResource(R.drawable.horizontal_bold_line_rounded),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(colorPalette.text),
+                            modifier = Modifier
+                                .absoluteOffset(0.dp, -10.dp)
+                                .align(Alignment.TopCenter)
+                                .size(30.dp)
+                        )
 
-                content()
-            }
+                    content()
+                }
 
-            //content()
         }
     ) {
         val binder = LocalPlayerServiceBinder.current

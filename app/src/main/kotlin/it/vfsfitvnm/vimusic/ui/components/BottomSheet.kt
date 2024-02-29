@@ -45,10 +45,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun BottomSheet(
     state: BottomSheetState,
+    disableVerticalDrag: Boolean? = false,
     modifier: Modifier = Modifier,
     onDismiss: (() -> Unit)? = null,
     collapsedContent: @Composable BoxScope.() -> Unit,
-    content: @Composable BoxScope.() -> Unit
+    content: @Composable BoxScope.() -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -63,17 +64,21 @@ fun BottomSheet(
 
                 detectVerticalDragGestures(
                     onVerticalDrag = { change, dragAmount ->
-                        velocityTracker.addPointerInputChange(change)
-                        state.dispatchRawDelta(dragAmount)
+                        if (disableVerticalDrag == false) {
+                            velocityTracker.addPointerInputChange(change)
+                            state.dispatchRawDelta(dragAmount)
+                        }
                     },
                     onDragCancel = {
                         velocityTracker.resetTracking()
                         state.snapTo(state.collapsedBound)
                     },
                     onDragEnd = {
-                        val velocity = -velocityTracker.calculateVelocity().y
-                        velocityTracker.resetTracking()
-                        state.performFling(velocity, onDismiss)
+                        if (disableVerticalDrag == false) {
+                            val velocity = -velocityTracker.calculateVelocity().y
+                            velocityTracker.resetTracking()
+                            state.performFling(velocity, onDismiss)
+                        }
                     }
                 )
             }
@@ -90,7 +95,9 @@ fun BottomSheet(
                     .graphicsLayer {
                         alpha = 1f - (state.progress * 16).coerceAtMost(1f)
                     }
-                    .clickable(onClick = state::expandSoft)
+                    .clickable(onClick = {
+                        if (disableVerticalDrag == false) state.expandSoft()
+                    })
                     .fillMaxWidth()
                     .height(state.collapsedBound),
                 content = collapsedContent
