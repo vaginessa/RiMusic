@@ -99,6 +99,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.minutes
 
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
@@ -161,8 +164,10 @@ fun StatisticsPage(
 
     val now: Long = System.currentTimeMillis()
     //val now: Long = System.currentTimeMillis() / 1000
-    val dateTime = LocalDateTime.now()
+    //val dateTime = LocalDateTime.now()
     //val today = dateTime.minusDays(1).toEpochSecond(ZoneOffset.UTC)
+
+    /*
     val today = dateTime.minusHours(23).toEpochSecond(ZoneOffset.UTC) * 1000
     val lastWeek = dateTime.minusDays(7).toEpochSecond(ZoneOffset.UTC) * 1000
     val lastMonth = dateTime.minusDays(30).toEpochSecond(ZoneOffset.UTC) * 1000
@@ -170,15 +175,25 @@ fun StatisticsPage(
     val last6Month = dateTime.minusDays(180).toEpochSecond(ZoneOffset.UTC) * 1000
     val lastYear = dateTime.minusDays(365).toEpochSecond(ZoneOffset.UTC) * 1000
     val last20Year = dateTime.minusYears(20).toEpochSecond(ZoneOffset.UTC) * 1000
+     */
+
+    val today: Duration = 1.days
+    val lastWeek: Duration = 7.days
+    val lastMonth: Duration = 30.days
+    val last3Month: Duration = 90.days
+    val last6Month: Duration = 180.days
+    val lastYear: Duration = 365.days
+    val last50Year: Duration = 18250.days
+
 
     val from = when (statisticsType) {
-        StatisticsType.Today -> today
-        StatisticsType.OneWeek -> lastWeek
-        StatisticsType.OneMonth -> lastMonth
-        StatisticsType.ThreeMonths -> last3Month
-        StatisticsType.SixMonths -> last6Month
-        StatisticsType.OneYear -> lastYear
-        StatisticsType.All -> last20Year
+        StatisticsType.Today -> today.inWholeMilliseconds
+        StatisticsType.OneWeek -> lastWeek.inWholeMilliseconds
+        StatisticsType.OneMonth -> lastMonth.inWholeMilliseconds
+        StatisticsType.ThreeMonths -> last3Month.inWholeMilliseconds
+        StatisticsType.SixMonths -> last6Month.inWholeMilliseconds
+        StatisticsType.OneYear -> lastYear.inWholeMilliseconds
+        StatisticsType.All -> last50Year.inWholeMilliseconds
     }
 
     var maxStatisticsItems by rememberPreference(
