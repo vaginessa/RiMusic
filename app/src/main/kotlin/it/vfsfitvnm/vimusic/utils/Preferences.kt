@@ -97,6 +97,8 @@ const val showButtonPlayerMenuKey = "showButtonPlayerMenu"
 const val disableClosingPlayerSwipingDownKey = "disableClosingPlayerSwipingDown"
 const val showSearchTabKey = "showSearchTab"
 const val MaxTopPlaylistItemsKey = "MaxTopPlaylistItems"
+const val contentWidthKey = "0.8f"
+const val navigationBarPositionKey = "navigationBarPosition"
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,
@@ -135,6 +137,16 @@ fun rememberPreference(key: String, defaultValue: Int): MutableState<Int> {
     return remember {
         mutableStatePreferenceOf(context.preferences.getInt(key, defaultValue)) {
             context.preferences.edit { putInt(key, it) }
+        }
+    }
+}
+
+@Composable
+fun rememberPreference(key: String, defaultValue: Float): MutableState<Float> {
+    val context = LocalContext.current
+    return remember {
+        mutableStatePreferenceOf(context.preferences.getFloat(key, defaultValue)) {
+            context.preferences.edit { putFloat(key, it) }
         }
     }
 }

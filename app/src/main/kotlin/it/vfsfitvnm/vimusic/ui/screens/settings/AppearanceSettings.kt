@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,6 +29,7 @@ import it.vfsfitvnm.vimusic.enums.ColorPaletteMode
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
 import it.vfsfitvnm.vimusic.enums.FontType
 import it.vfsfitvnm.vimusic.enums.HomeScreenTabs
+import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
@@ -39,6 +42,7 @@ import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
+import it.vfsfitvnm.vimusic.utils.contentWidthKey
 import it.vfsfitvnm.vimusic.utils.disableIconButtonOnTopKey
 import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
 import it.vfsfitvnm.vimusic.utils.disableScrollingTextKey
@@ -51,10 +55,12 @@ import it.vfsfitvnm.vimusic.utils.lastPlayerPlayButtonTypeKey
 import it.vfsfitvnm.vimusic.utils.lastPlayerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.lastPlayerTimelineTypeKey
 import it.vfsfitvnm.vimusic.utils.lastPlayerVisualizerTypeKey
+import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
 import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.playerTimelineTypeKey
 import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
+import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerAddToPlaylistKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerArrowKey
@@ -79,8 +85,6 @@ import kotlinx.coroutines.plus
 @Composable
 fun AppearanceSettings() {
     val (colorPalette) = LocalAppearance.current
-    //val context = LocalContext.current
-    //val coroutineScope = CoroutineScope(Dispatchers.IO) + Job()
 
 
     var thumbnailRoundness by rememberPreference(
@@ -120,12 +124,16 @@ fun AppearanceSettings() {
     var showButtonPlayerSleepTimer by rememberPreference(showButtonPlayerSleepTimerKey, false)
     var showButtonPlayerMenu by rememberPreference(showButtonPlayerMenuKey, false)
 
-
+    val context = LocalContext.current
+    val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
+    val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
 
     Column(
         modifier = Modifier
             .background(colorPalette.background0)
-            .fillMaxSize()
+            //.fillMaxSize()
+            .fillMaxHeight()
+            .fillMaxWidth(if (navigationBarPosition == NavigationBarPosition.Left) 1f else contentWidth)
             .verticalScroll(rememberScrollState())
             .padding(
                 LocalPlayerAwareWindowInsets.current

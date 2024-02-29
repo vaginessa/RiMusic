@@ -15,9 +15,13 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
+import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
+import it.vfsfitvnm.vimusic.utils.rememberPreference
 
 @ExperimentalAnimationApi
 @Composable
@@ -34,6 +38,7 @@ fun Scaffold(
     content: @Composable AnimatedVisibilityScope.(Int) -> Unit
 ) {
     val (colorPalette) = LocalAppearance.current
+    val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
 
     Row(
         modifier = modifier
@@ -41,16 +46,21 @@ fun Scaffold(
             .fillMaxSize()
     ) {
 
-        NavigationRail(
-            topIconButtonId = topIconButtonId,
-            onTopIconButtonClick = onTopIconButtonClick,
-            topIconButton2Id = topIconButton2Id,
-            onTopIconButton2Click = onTopIconButton2Click,
-            showButton2 = showButton2,
-            tabIndex = tabIndex,
-            onTabIndexChanged = onTabChanged,
-            content = tabColumnContent
-        )
+        val navigationRail: @Composable () -> Unit = {
+            NavigationRail(
+                topIconButtonId = topIconButtonId,
+                onTopIconButtonClick = onTopIconButtonClick,
+                topIconButton2Id = topIconButton2Id,
+                onTopIconButton2Click = onTopIconButton2Click,
+                showButton2 = showButton2,
+                tabIndex = tabIndex,
+                onTabIndexChanged = onTabChanged,
+                content = tabColumnContent
+            )
+        }
+
+        if (navigationBarPosition == NavigationBarPosition.Left)
+            navigationRail()
 
         AnimatedContent(
             targetState = tabIndex,
@@ -71,6 +81,10 @@ fun Scaffold(
             },
             content = content, label = ""
         )
+
+        if (navigationBarPosition == NavigationBarPosition.Right)
+            navigationRail()
+
     }
 }
 

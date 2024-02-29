@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -44,6 +45,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.query
@@ -67,12 +69,15 @@ import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.align
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.color
+import it.vfsfitvnm.vimusic.utils.contentWidthKey
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.getHttpClient
 import it.vfsfitvnm.vimusic.utils.languageDestination
 import it.vfsfitvnm.vimusic.utils.manageDownload
+import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
+import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -136,8 +141,17 @@ fun ArtistOverview(
     val translator = Translator(getHttpClient())
     val languageDestination = languageDestination()
 
+    val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
+    val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
+
     LayoutWithAdaptiveThumbnail(thumbnailContent = thumbnailContent) {
-        Box {
+        Box(
+            modifier = Modifier
+                .background(colorPalette.background0)
+                //.fillMaxSize()
+                .fillMaxHeight()
+                .fillMaxWidth(if (navigationBarPosition == NavigationBarPosition.Left) 1f else contentWidth)
+        ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier

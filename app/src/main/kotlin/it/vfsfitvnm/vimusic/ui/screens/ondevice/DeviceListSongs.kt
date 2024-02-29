@@ -86,6 +86,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.AlbumSortBy
 import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.DeviceLists
+import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.enums.OnDeviceSongSortBy
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
@@ -118,6 +119,7 @@ import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
+import it.vfsfitvnm.vimusic.utils.contentWidthKey
 import it.vfsfitvnm.vimusic.utils.durationTextToMillis
 import it.vfsfitvnm.vimusic.utils.enqueue
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
@@ -125,10 +127,12 @@ import it.vfsfitvnm.vimusic.utils.forcePlayFromBeginning
 import it.vfsfitvnm.vimusic.utils.formatAsTime
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid10
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid13
+import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.onDeviceSongSortByKey
+import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.songSortOrderKey
 import it.vfsfitvnm.vimusic.utils.thumbnail
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
@@ -239,6 +243,9 @@ fun DeviceListSongs(
         mutableStateOf(-1)
     }
 
+    val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
+    val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
+
     val activity = LocalContext.current as Activity
     if (ContextCompat.checkSelfPermission(
             activity,
@@ -254,7 +261,13 @@ fun DeviceListSongs(
         )
     } else {
 
-    Box {
+        Box(
+            modifier = Modifier
+                .background(colorPalette.background0)
+                //.fillMaxSize()
+                .fillMaxHeight()
+                .fillMaxWidth(if (navigationBarPosition == NavigationBarPosition.Left) 1f else contentWidth)
+        ) {
         LazyColumn(
             state = lazyListState,
             contentPadding = LocalPlayerAwareWindowInsets.current

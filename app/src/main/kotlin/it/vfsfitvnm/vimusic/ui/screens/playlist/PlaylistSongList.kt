@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -66,6 +67,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
@@ -101,6 +103,7 @@ import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.completed
+import it.vfsfitvnm.vimusic.utils.contentWidthKey
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.durationTextToMillis
 import it.vfsfitvnm.vimusic.utils.enqueue
@@ -111,6 +114,8 @@ import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.medium
+import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
+import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -269,6 +274,7 @@ fun PlaylistSongList(
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
+                    .padding(horizontal = 10.dp)
                     .fillMaxWidth()
             ) {
                 HeaderInfo(
@@ -542,8 +548,17 @@ fun PlaylistSongList(
 
     val lazyListState = rememberLazyListState()
 
+    val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
+    val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
+
     LayoutWithAdaptiveThumbnail(thumbnailContent = thumbnailContent) {
-        Box {
+        Box(
+            modifier = Modifier
+                .background(colorPalette.background0)
+                //.fillMaxSize()
+                .fillMaxHeight()
+                .fillMaxWidth(if (navigationBarPosition == NavigationBarPosition.Left) 1f else contentWidth)
+        ) {
             LazyColumn(
                 state = lazyListState,
                 contentPadding = LocalPlayerAwareWindowInsets.current

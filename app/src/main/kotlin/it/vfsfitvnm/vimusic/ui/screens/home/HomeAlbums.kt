@@ -15,9 +15,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -32,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
@@ -43,6 +46,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.AlbumSortBy
+import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.enums.SongSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.UiType
@@ -64,6 +68,9 @@ import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.albumSortByKey
 import it.vfsfitvnm.vimusic.utils.albumSortOrderKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.contentWidthKey
+import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
+import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
 
@@ -98,6 +105,10 @@ fun HomeAlbums(
         targetValue = if (sortOrder == SortOrder.Ascending) 0f else 180f,
         animationSpec = tween(durationMillis = 400, easing = LinearEasing), label = ""
     )
+
+    val context = LocalContext.current
+    val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
+    val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
 /*
     var showSortTypeSelectDialog by remember {
         mutableStateOf(false)
@@ -107,7 +118,13 @@ fun HomeAlbums(
 
     val lazyListState = rememberLazyListState()
 
-    Box {
+    Box (
+        modifier = Modifier
+        .background(colorPalette.background0)
+        //.fillMaxSize()
+        .fillMaxHeight()
+        .fillMaxWidth(if (navigationBarPosition == NavigationBarPosition.Left) 1f else contentWidth)
+    ) {
         LazyColumn(
             state = lazyListState,
             contentPadding = LocalPlayerAwareWindowInsets.current
@@ -134,6 +151,7 @@ fun HomeAlbums(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
+                        .padding(horizontal = 10.dp)
                         .fillMaxWidth()
                 ){
                     HeaderInfo(

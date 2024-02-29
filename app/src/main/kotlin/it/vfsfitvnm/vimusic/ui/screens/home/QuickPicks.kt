@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -69,6 +70,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.enums.PlayEventsType
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Artist
@@ -92,16 +94,18 @@ import it.vfsfitvnm.vimusic.ui.items.SongItemPlaceholder
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
-import it.vfsfitvnm.vimusic.utils.BehindMotionSwipe
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.center
+import it.vfsfitvnm.vimusic.utils.contentWidthKey
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.forcePlay
 import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
+import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
 import it.vfsfitvnm.vimusic.utils.playEventsTypeKey
+import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -147,10 +151,14 @@ fun QuickPicks(
 
     val context = LocalContext.current
 
+
     val showRelatedAlbums by rememberPreference(showRelatedAlbumsKey, true)
     val showSimilarArtists by rememberPreference(showSimilarArtistsKey, true)
     val showNewAlbumsArtists by rememberPreference(showNewAlbumsArtistsKey, true)
     val showPlaylistMightLike by rememberPreference(showPlaylistMightLikeKey, true)
+
+    val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
+    val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
 
     /*
     val refreshScope = rememberCoroutineScope()
@@ -240,7 +248,9 @@ fun QuickPicks(
         Column(
             modifier = Modifier
                 .background(colorPalette.background0)
-                .fillMaxSize()
+                //.fillMaxSize()
+                .fillMaxHeight()
+                .fillMaxWidth(if (navigationBarPosition == NavigationBarPosition.Left) 1f else contentWidth)
                 .verticalScroll(scrollState)
                 .padding(
                     windowInsets

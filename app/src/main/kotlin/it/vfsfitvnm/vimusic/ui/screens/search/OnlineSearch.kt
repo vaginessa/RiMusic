@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
@@ -56,6 +57,7 @@ import it.vfsfitvnm.innertube.requests.searchSuggestions
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
 import it.vfsfitvnm.vimusic.models.SearchQuery
 import it.vfsfitvnm.vimusic.query
@@ -66,7 +68,9 @@ import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.align
 import it.vfsfitvnm.vimusic.utils.center
+import it.vfsfitvnm.vimusic.utils.contentWidthKey
 import it.vfsfitvnm.vimusic.utils.medium
+import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -135,7 +139,16 @@ fun OnlineSearch(
 
     val lazyListState = rememberLazyListState()
 
-    Box {
+    val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
+    val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
+
+    Box(
+        modifier = Modifier
+            .background(colorPalette.background0)
+            //.fillMaxSize()
+            .fillMaxHeight()
+            .fillMaxWidth(if (navigationBarPosition == NavigationBarPosition.Left) 1f else contentWidth)
+    ) {
         LazyColumn(
             state = lazyListState,
             contentPadding = LocalPlayerAwareWindowInsets.current

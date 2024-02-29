@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -50,6 +51,7 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.MaxStatisticsItems
+import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.enums.PlayEventsType
 import it.vfsfitvnm.vimusic.enums.StatisticsType
 import it.vfsfitvnm.vimusic.enums.ThumbnailRoundness
@@ -77,6 +79,7 @@ import it.vfsfitvnm.vimusic.ui.styling.shimmer
 import it.vfsfitvnm.vimusic.utils.UpdateYoutubeAlbum
 import it.vfsfitvnm.vimusic.utils.UpdateYoutubeArtist
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.contentWidthKey
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.durationTextToMillis
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
@@ -85,6 +88,8 @@ import it.vfsfitvnm.vimusic.utils.getDownloadState
 import it.vfsfitvnm.vimusic.utils.isLandscape
 import it.vfsfitvnm.vimusic.utils.manageDownload
 import it.vfsfitvnm.vimusic.utils.maxStatisticsItemsKey
+import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
+import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -134,12 +139,12 @@ fun StatisticsPage(
         .padding(top = 24.dp, bottom = 8.dp)
         .padding(endPaddingValues)
 
-    var thumbnailRoundness by rememberPreference(
+    val thumbnailRoundness by rememberPreference(
         thumbnailRoundnessKey,
         ThumbnailRoundness.Heavy
     )
 
-    var showStatsListeningTime by rememberPreference(showStatsListeningTimeKey,   true)
+    val showStatsListeningTime by rememberPreference(showStatsListeningTimeKey,   true)
 
     val context = LocalContext.current
 
@@ -210,6 +215,8 @@ fun StatisticsPage(
         mutableStateOf(Download.STATE_STOPPED)
     }
 
+    val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
+    val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
 
     BoxWithConstraints {
         val quickPicksLazyGridItemWidthFactor = if (isLandscape && maxWidth * 0.475f >= 320.dp) {
@@ -232,7 +239,9 @@ fun StatisticsPage(
         Column(
             modifier = Modifier
                 .background(colorPalette.background0)
-                .fillMaxSize()
+                //.fillMaxSize()
+                .fillMaxHeight()
+                .fillMaxWidth(if (navigationBarPosition == NavigationBarPosition.Left) 1f else contentWidth)
                 .verticalScroll(scrollState)
                 .padding(
                     windowInsets

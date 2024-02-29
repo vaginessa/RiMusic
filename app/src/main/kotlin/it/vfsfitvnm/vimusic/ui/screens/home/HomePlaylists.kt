@@ -17,7 +17,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -55,6 +57,7 @@ import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskDownloadCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.MaxTopPlaylistItems
+import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.enums.UiType
@@ -82,10 +85,13 @@ import it.vfsfitvnm.vimusic.ui.styling.px
 import it.vfsfitvnm.vimusic.utils.MaxTopPlaylistItemsKey
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
 import it.vfsfitvnm.vimusic.utils.asMediaItem
+import it.vfsfitvnm.vimusic.utils.contentWidthKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskDownloadCacheMaxSizeKey
+import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
 import it.vfsfitvnm.vimusic.utils.playlistSortByKey
 import it.vfsfitvnm.vimusic.utils.playlistSortOrderKey
+import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.toast
@@ -232,9 +238,18 @@ fun HomePlaylists(
         MaxTopPlaylistItems.`10`
     )
 
+    val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
+    val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
+
     val lazyGridState = rememberLazyGridState()
 
-    Box {
+    Box(
+        modifier = Modifier
+            .background(colorPalette.background0)
+            //.fillMaxSize()
+            .fillMaxHeight()
+            .fillMaxWidth(if (navigationBarPosition == NavigationBarPosition.Left) 1f else contentWidth)
+    ) {
         LazyVerticalGrid(
             state = lazyGridState,
             columns = GridCells.Adaptive(Dimensions.thumbnails.song * 2 + Dimensions.itemsVerticalPadding * 2),

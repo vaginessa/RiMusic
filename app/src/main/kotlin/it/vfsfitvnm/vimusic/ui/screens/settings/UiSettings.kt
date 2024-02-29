@@ -11,7 +11,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -37,6 +39,7 @@ import it.vfsfitvnm.vimusic.enums.Languages
 import it.vfsfitvnm.vimusic.enums.MaxStatisticsItems
 import it.vfsfitvnm.vimusic.enums.HomeScreenTabs
 import it.vfsfitvnm.vimusic.enums.MaxTopPlaylistItems
+import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
@@ -53,6 +56,7 @@ import it.vfsfitvnm.vimusic.utils.closeWithBackButtonKey
 import it.vfsfitvnm.vimusic.utils.closebackgroundPlayerKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteModeKey
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
+import it.vfsfitvnm.vimusic.utils.contentWidthKey
 import it.vfsfitvnm.vimusic.utils.disableClosingPlayerSwipingDownKey
 import it.vfsfitvnm.vimusic.utils.disableIconButtonOnTopKey
 import it.vfsfitvnm.vimusic.utils.disablePlayerHorizontalSwipeKey
@@ -70,11 +74,13 @@ import it.vfsfitvnm.vimusic.utils.lastPlayerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.lastPlayerTimelineTypeKey
 import it.vfsfitvnm.vimusic.utils.lastPlayerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.maxStatisticsItemsKey
+import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
 import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.playerTimelineTypeKey
 import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
+import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.recommendationsNumberKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.resumePlaybackWhenDeviceConnectedKey
@@ -165,10 +171,15 @@ fun  UiSettings() {
         MaxTopPlaylistItems.`10`
     )
 
+    var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
+    val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
+
     Column(
         modifier = Modifier
             .background(colorPalette.background0)
-            .fillMaxSize()
+            //.fillMaxSize()
+            .fillMaxHeight()
+            .fillMaxWidth(if (navigationBarPosition == NavigationBarPosition.Left) 1f else contentWidth)
             .verticalScroll(rememberScrollState())
             .padding(
                 LocalPlayerAwareWindowInsets.current
@@ -439,6 +450,17 @@ fun  UiSettings() {
             }
         )
 
+        EnumValueSelectorSettingsEntry(
+            title = stringResource(R.string.navigation_bar_position),
+            selectedValue = navigationBarPosition,
+            onValueSelected = { navigationBarPosition = it },
+            valueText = {
+                when (it) {
+                    NavigationBarPosition.Left -> stringResource(R.string.direction_left)
+                    NavigationBarPosition.Right -> stringResource(R.string.direction_right)
+                }
+            }
+        )
 
         EnumValueSelectorSettingsEntry(
             title = stringResource(R.string.default_page),

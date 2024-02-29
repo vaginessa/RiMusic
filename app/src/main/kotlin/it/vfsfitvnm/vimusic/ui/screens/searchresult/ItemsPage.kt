@@ -1,9 +1,11 @@
 package it.vfsfitvnm.vimusic.ui.screens.searchresult
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
@@ -20,15 +22,21 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import it.vfsfitvnm.compose.persist.persist
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.innertube.utils.plus
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
+import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.ui.components.ShimmerHost
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.center
+import it.vfsfitvnm.vimusic.utils.contentWidthKey
+import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
+import it.vfsfitvnm.vimusic.utils.preferences
+import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -46,7 +54,7 @@ inline fun <T : Innertube.Item> ItemsPage(
     emptyItemsText: String = "No items found",
     noinline itemsPageProvider: (suspend (String?) -> Result<Innertube.ItemsPage<T>?>?)? = null,
 ) {
-    val (_, typography) = LocalAppearance.current
+    val (colorPalette, typography) = LocalAppearance.current
 
     val updatedItemsPageProvider by rememberUpdatedState(itemsPageProvider)
 
@@ -75,7 +83,18 @@ inline fun <T : Innertube.Item> ItemsPage(
             }
     }
 
-    Box {
+    val context = LocalContext.current
+    val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
+    val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
+
+
+    Box(
+        modifier = Modifier
+            .background(colorPalette.background0)
+            //.fillMaxSize()
+            .fillMaxHeight()
+            .fillMaxWidth(if (navigationBarPosition == NavigationBarPosition.Left) 1f else contentWidth)
+    ) {
         LazyColumn(
             state = lazyListState,
             contentPadding = LocalPlayerAwareWindowInsets.current

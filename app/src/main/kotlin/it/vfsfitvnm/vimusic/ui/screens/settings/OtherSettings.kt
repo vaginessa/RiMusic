@@ -15,7 +15,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -35,11 +37,13 @@ import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.CheckUpdateState
 import it.vfsfitvnm.vimusic.enums.MaxStatisticsItems
+import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.service.PlayerMediaBrowserService
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.checkUpdateStateKey
+import it.vfsfitvnm.vimusic.utils.contentWidthKey
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid12
 import it.vfsfitvnm.vimusic.utils.isAtLeastAndroid6
 import it.vfsfitvnm.vimusic.utils.isIgnoringBatteryOptimizations
@@ -48,7 +52,9 @@ import it.vfsfitvnm.vimusic.utils.isKeepScreenOnEnabledKey
 import it.vfsfitvnm.vimusic.utils.isProxyEnabledKey
 import it.vfsfitvnm.vimusic.utils.isSwipeToActionEnabledKey
 import it.vfsfitvnm.vimusic.utils.maxStatisticsItemsKey
+import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
+import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.proxyHostnameKey
 import it.vfsfitvnm.vimusic.utils.proxyModeKey
 import it.vfsfitvnm.vimusic.utils.proxyPortKey
@@ -105,11 +111,15 @@ fun OtherSettings() {
 
     var checkUpdateState by rememberPreference(checkUpdateStateKey, CheckUpdateState.Disabled)
 
+    val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
+    val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
 
     Column(
         modifier = Modifier
             .background(colorPalette.background0)
-            .fillMaxSize()
+            //.fillMaxSize()
+            .fillMaxHeight()
+            .fillMaxWidth(if (navigationBarPosition == NavigationBarPosition.Left) 1f else contentWidth)
             .verticalScroll(rememberScrollState())
             .padding(
                 LocalPlayerAwareWindowInsets.current

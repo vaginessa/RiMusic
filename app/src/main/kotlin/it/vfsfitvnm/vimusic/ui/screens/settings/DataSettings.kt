@@ -16,7 +16,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
@@ -47,6 +49,7 @@ import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.CoilDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskDownloadCacheMaxSize
+import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.enums.PlayEventsType
 import it.vfsfitvnm.vimusic.internal
 import it.vfsfitvnm.vimusic.path
@@ -61,12 +64,15 @@ import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
 import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.coilDiskCacheMaxSizeKey
+import it.vfsfitvnm.vimusic.utils.contentWidthKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerAlternateCacheLocationKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerCustomCacheKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.exoPlayerDiskDownloadCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.intent
+import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
+import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -238,10 +244,15 @@ fun DataSettings() {
         Database.queriesCount().distinctUntilChanged()
     }.collectAsState(initial = 0)
 
+    val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
+    val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
+
     Column(
         modifier = Modifier
             .background(colorPalette.background0)
-            .fillMaxSize()
+            //.fillMaxSize()
+            .fillMaxHeight()
+            .fillMaxWidth(if (navigationBarPosition == NavigationBarPosition.Left) 1f else contentWidth)
             .verticalScroll(rememberScrollState())
             .padding(
                 LocalPlayerAwareWindowInsets.current

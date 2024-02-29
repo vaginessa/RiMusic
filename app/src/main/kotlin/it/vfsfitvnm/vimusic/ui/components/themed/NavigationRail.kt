@@ -132,7 +132,7 @@ inline fun NavigationRail(
                             .vertical(enabled = !isLandscape)
                             .graphicsLayer {
                                 alpha = dothAlpha
-                                translationX = (1f - dothAlpha) * -48.dp.toPx()
+                                //translationX = (1f - dothAlpha) * -48.dp.toPx()
                                 rotationZ = if (isLandscape) 0f else -90f
                             }
                             .size(Dimensions.navigationRailIconOffset * 2)
