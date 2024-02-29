@@ -99,6 +99,7 @@ const val showSearchTabKey = "showSearchTab"
 const val MaxTopPlaylistItemsKey = "MaxTopPlaylistItems"
 const val contentWidthKey = "0.8f"
 const val navigationBarPositionKey = "navigationBarPosition"
+const val navigationBarTypeKey = "navigationBarType"
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,

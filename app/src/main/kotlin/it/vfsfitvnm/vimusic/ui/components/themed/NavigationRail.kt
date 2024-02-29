@@ -23,6 +23,7 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,11 +35,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.size.Dimension
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
+import it.vfsfitvnm.vimusic.enums.NavigationBarType
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.utils.center
 import it.vfsfitvnm.vimusic.utils.color
 import it.vfsfitvnm.vimusic.utils.isLandscape
+import it.vfsfitvnm.vimusic.utils.navigationBarTypeKey
+import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
 
 @Composable
@@ -60,6 +64,8 @@ inline fun NavigationRail(
     val paddingValues = LocalPlayerAwareWindowInsets.current
         .only(WindowInsetsSides.Vertical + WindowInsetsSides.Start).asPaddingValues()
 
+    val navigationBarType by rememberPreference(navigationBarTypeKey, NavigationBarType.IconAndText)
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -80,13 +86,13 @@ inline fun NavigationRail(
                 colorFilter = ColorFilter.tint(colorPalette.textSecondary),
                 modifier = Modifier
                     .offset(
-                        x = if (isLandscape) 0.dp else Dimensions.navigationRailIconOffset,
+                        x = 0.dp, //if (isLandscape) 0.dp else Dimensions.navigationRailIconOffset,
                         y = 7.dp
                     )
                     .clip(CircleShape)
                     .clickable(onClick = onTopIconButtonClick)
                     .padding(all = 12.dp)
-                    .size(22.dp)
+                    .size(24.dp)
             )
             if (showButton2) {
                 Image(
@@ -95,13 +101,13 @@ inline fun NavigationRail(
                     colorFilter = ColorFilter.tint(colorPalette.textSecondary),
                     modifier = Modifier
                         .offset(
-                            x = if (isLandscape) 0.dp else Dimensions.navigationRailIconOffset,
+                            x = 0.dp, //if (isLandscape) 0.dp else Dimensions.navigationRailIconOffset,
                             y = 70.dp
                         )
                         .clip(CircleShape)
                         .clickable(onClick = onTopIconButton2Click)
                         .padding(all = 12.dp)
-                        .size(22.dp)
+                        .size(24.dp)
                 )
             }
 
@@ -115,6 +121,64 @@ inline fun NavigationRail(
             val transition = updateTransition(targetState = tabIndex, label = null)
 
             content { index, text, icon ->
+
+                val textColor by transition.animateColor(label = "") {
+                    if (it == index) colorPalette.text else colorPalette.textDisabled
+                }
+                val dothAlpha by transition.animateFloat(label = "") {
+                    if (it == index) 1f else 0f
+                }
+
+                val textContent: @Composable () -> Unit = {
+                    if (navigationBarType == NavigationBarType.IconOnly) {
+                        /*
+                        BasicText(
+                            text = "",
+                            style = typography.xs.semiBold.center.color(textColor),
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                        )
+                         */
+                    } else {
+                        BasicText(
+                            text = text,
+                            style = typography.xs.semiBold.center.color(textColor),
+                            modifier = Modifier
+                                .vertical(enabled = !isLandscape)
+                                .rotate(if (isLandscape) 0f else -90f)
+                                .padding(horizontal = 16.dp)
+                        )
+                    }
+                }
+
+                val iconContent: @Composable () -> Unit = {
+                    if (navigationBarType == NavigationBarType.IconOnly) {
+                        Image(
+                            painter = painterResource(icon),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(textColor),
+                            modifier = Modifier
+                                .padding(all = 12.dp)
+                                .size(24.dp)
+                        )
+                    } else {
+                        Image(
+                            painter = painterResource(icon),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(colorPalette.text),
+                            modifier = Modifier
+                                .vertical(enabled = !isLandscape)
+                                .graphicsLayer {
+                                    alpha = dothAlpha
+                                    translationX = (1f - dothAlpha) * -48.dp.toPx()
+                                    rotationZ = if (isLandscape) 0f else -90f
+                                }
+                                .size(Dimensions.navigationRailIconOffset * 2)
+                        )
+                    }
+                }
+
+                /*
                 val dothAlpha by transition.animateFloat(label = "") {
                     if (it == index) 1f else 0f
                 }
@@ -149,7 +213,7 @@ inline fun NavigationRail(
                             .padding(horizontal = 16.dp)
                     )
                 }
-
+                */
                 val contentModifier = Modifier
                     .clip(RoundedCornerShape(24.dp))
                     .clickable(onClick = { onTabIndexChanged(index) })

@@ -136,6 +136,7 @@ import it.vfsfitvnm.vimusic.utils.isProxyEnabledKey
 import it.vfsfitvnm.vimusic.utils.keepPlayerMinimizedKey
 import it.vfsfitvnm.vimusic.utils.languageAppKey
 import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
+import it.vfsfitvnm.vimusic.utils.navigationBarTypeKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.playerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.preferences
@@ -395,7 +396,8 @@ class MainActivity : AppCompatActivity(), PersistMapOwner {
                             showButtonPlayerMenuKey,
                             disableClosingPlayerSwipingDownKey,
                             showSearchTabKey,
-                            navigationBarPositionKey
+                            navigationBarPositionKey,
+                            navigationBarTypeKey
                             -> {
                                 this@MainActivity.recreate()
                             }

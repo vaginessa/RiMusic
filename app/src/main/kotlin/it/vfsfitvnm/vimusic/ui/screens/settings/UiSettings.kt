@@ -40,6 +40,7 @@ import it.vfsfitvnm.vimusic.enums.MaxStatisticsItems
 import it.vfsfitvnm.vimusic.enums.HomeScreenTabs
 import it.vfsfitvnm.vimusic.enums.MaxTopPlaylistItems
 import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
+import it.vfsfitvnm.vimusic.enums.NavigationBarType
 import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
@@ -75,6 +76,7 @@ import it.vfsfitvnm.vimusic.utils.lastPlayerTimelineTypeKey
 import it.vfsfitvnm.vimusic.utils.lastPlayerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.maxStatisticsItemsKey
 import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
+import it.vfsfitvnm.vimusic.utils.navigationBarTypeKey
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
 import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
@@ -173,6 +175,7 @@ fun  UiSettings() {
 
     var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
     val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
+    var navigationBarType by rememberPreference(navigationBarTypeKey, NavigationBarType.IconAndText)
 
     Column(
         modifier = Modifier
@@ -458,6 +461,18 @@ fun  UiSettings() {
                 when (it) {
                     NavigationBarPosition.Left -> stringResource(R.string.direction_left)
                     NavigationBarPosition.Right -> stringResource(R.string.direction_right)
+                }
+            }
+        )
+
+        EnumValueSelectorSettingsEntry(
+            title = "Navigation bar type",
+            selectedValue = navigationBarType,
+            onValueSelected = { navigationBarType = it },
+            valueText = {
+                when (it) {
+                    NavigationBarType.IconAndText -> "Icon and text"
+                    NavigationBarType.IconOnly -> "Only icon"
                 }
             }
         )
