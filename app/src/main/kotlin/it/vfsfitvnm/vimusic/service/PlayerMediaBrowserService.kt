@@ -7,21 +7,27 @@ import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
-import android.os.Process
+import android.support.v4.media.MediaBrowserCompat.MediaItem
+import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media3.common.Player
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.cache.Cache
+import androidx.media3.exoplayer.offline.Download
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.Album
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.models.SongWithContentLength
+import it.vfsfitvnm.vimusic.query
+import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.forcePlayAtIndex
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
@@ -29,15 +35,24 @@ import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.intent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import android.support.v4.media.MediaBrowserCompat.MediaItem //as BrowserMediaItem
-import android.support.v4.media.MediaDescriptionCompat
 
 class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection {
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
+    private val coroutineScopeDb = CoroutineScope(Dispatchers.Main)
     private var lastSongs = emptyList<Song>()
 
     private var bound = false
@@ -251,6 +266,15 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
         override fun onSeekTo(pos: Long) = player.seekTo(pos)
         override fun onSkipToQueueItem(id: Long) = player.seekToDefaultPosition(id.toInt())
 
+        @FlowPreview
+        @ExperimentalCoroutinesApi
+        @UnstableApi
+        override fun onCustomAction(action: String?, extras: Bundle?) {
+            super.onCustomAction(action, extras)
+            if (action == "LIKE") {}
+            if (action == "DOWNLOAD") {}
+        }
+
         @UnstableApi
         override fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
             val data = mediaId?.split('/') ?: return
@@ -284,10 +308,11 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
                         .shuffled()
 
                     MediaId.downloaded -> {
-                        DownloadUtil.getDownloadManager(this as Context)
-                        DownloadUtil.getDownloads()
-                        DownloadUtil.downloads.value.keys.toList()
-                            .let { Database.getSongsListNoFlow(it) }
+                        val downloads = DownloadUtil.downloads.value
+                        Database.listAllSongs()
+                             .filter {
+                                    downloads[it.id]?.state == Download.STATE_COMPLETED
+                             }
                     }
 
                     MediaId.playlists -> data

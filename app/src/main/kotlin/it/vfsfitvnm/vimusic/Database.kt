@@ -64,6 +64,10 @@ import kotlinx.coroutines.flow.Flow
 interface Database {
     companion object : Database by DatabaseInitializer.Instance.database
 
+    @Transaction
+    @Query("SELECT * FROM Song")
+    fun listAllSongs(): List<Song>
+
     @Query("SELECT id FROM Playlist WHERE name = :playlistName")
     fun playlistExistByName(playlistName: String): Long
 

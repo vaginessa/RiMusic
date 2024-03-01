@@ -345,6 +345,7 @@ class PlayerService : InvincibleService(),
         return binder
     }
 
+    @FlowPreview
     @SuppressLint("Range")
     @UnstableApi
     override fun onCreate() {
@@ -460,8 +461,6 @@ class PlayerService : InvincibleService(),
         player.addAnalyticsListener(PlaybackStatsListener(false, this))
 
         maybeRestorePlayerQueue()
-
-
 
         mediaSession = MediaSessionCompat(baseContext, "PlayerService")
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
@@ -1436,14 +1435,16 @@ class PlayerService : InvincibleService(),
         }
     }
 
+    @FlowPreview
     private fun toggleLikeAction() = mediaItemState.value?.let { mediaItem ->
-        transaction {
-            Database.like(
-                mediaItem.mediaId,
-                if (isLikedState.value) null else System.currentTimeMillis()
-            )
-        }
-    }.let { }
+            transaction {
+                Database.like(
+                    mediaItem.mediaId,
+                    if (isLikedState.value) null else System.currentTimeMillis()
+                )
+            }
+        }.let {  }
+
 
     private fun toggleDownloadAction() = mediaDownloadedItemState.value?.let { mediaItem ->
         manageDownload(
