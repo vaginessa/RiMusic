@@ -67,7 +67,8 @@ fun RightActions(
     onClickAction1: () -> Unit,
     iconAction2: Int,
     backgroundColorAction2: Color,
-    onClickAction2: () -> Unit
+    onClickAction2: () -> Unit,
+    enableAction2: Boolean = true
 ) {
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val rippleIndication = rememberRipple(bounded = false)
@@ -96,7 +97,8 @@ fun RightActions(
                     .fillMaxHeight(),
                 icon = ImageVector.vectorResource(id = iconAction2),
                 backgroundColor = backgroundColorAction2,
-                onClick = onClickAction2
+                onClick = onClickAction2,
+                enabled = enableAction2
 
             )
         }
@@ -110,7 +112,8 @@ fun Action(
     backgroundColor: Color,
     text: String = "",
     showText: Boolean = false,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    enabled: Boolean = true
 ){
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current
     val rippleIndication = rememberRipple(bounded = false)
@@ -130,10 +133,10 @@ fun Action(
                     .padding(top = 20.dp, bottom = 4.dp)
                     .padding(horizontal = 25.dp)
                     .size(22.dp)
-                    .clickable { onClick() },
+                    .clickable { if (enabled) onClick() },
                 imageVector = icon,
                 contentDescription = null,
-                tint = colorPalette.accent
+                tint = if (enabled) colorPalette.accent else colorPalette.textDisabled
             )
 
 

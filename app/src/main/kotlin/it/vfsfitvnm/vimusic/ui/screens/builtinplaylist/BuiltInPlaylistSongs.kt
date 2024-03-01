@@ -144,7 +144,10 @@ import it.vfsfitvnm.vimusic.ui.components.themed.NowPlayingShow
 import it.vfsfitvnm.vimusic.ui.components.themed.PlaylistsItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
+import it.vfsfitvnm.vimusic.utils.BehindMotionSwipe
+import it.vfsfitvnm.vimusic.utils.LeftAction
 import it.vfsfitvnm.vimusic.utils.MaxTopPlaylistItemsKey
+import it.vfsfitvnm.vimusic.utils.RightActions
 import it.vfsfitvnm.vimusic.utils.toast
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -914,122 +917,191 @@ fun BuiltInPlaylistSongs(
                     }
                 }
 
-                val isLocal by remember { derivedStateOf { song.asMediaItem.isLocal } }
-                downloadState = getDownloadState(song.asMediaItem.mediaId)
-                val isDownloaded = if (!isLocal) downloadedStateMedia(song.asMediaItem.mediaId) else true
-                SongItem(
-                    song = song,
-                    isDownloaded = isDownloaded,
-                    onDownloadClick = {
-                        binder?.cache?.removeResource(song.asMediaItem.mediaId)
-                        query {
-                            Database.insert(
-                                Song(
-                                    id = song.asMediaItem.mediaId,
-                                    title = song.asMediaItem.mediaMetadata.title.toString(),
-                                    artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
-                                    thumbnailUrl = song.thumbnailUrl,
-                                    durationText = null
-                                )
-                            )
-                        }
-
-                        if (!isLocal)
-                        manageDownload(
-                            context = context,
-                            songId = song.asMediaItem.mediaId,
-                            songTitle = song.asMediaItem.mediaMetadata.title.toString(),
-                            downloadState = isDownloaded
-                        )
-                    },
-                    downloadState = downloadState,
-                    thumbnailSizeDp = thumbnailSizeDp,
-                    thumbnailSizePx = thumbnailSizePx,
-                    onThumbnailContent = {
-                        if (sortBy == SongSortBy.PlayTime) {
-                            BasicText(
-                                text = song.formattedTotalPlayTime,
-                                style = typography.xxs.semiBold.center.color(colorPalette.onOverlay),
-                                maxLines = 2,
-                                overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(
-                                        brush = Brush.verticalGradient(
-                                            colors = listOf(Color.Transparent, colorPalette.overlay)
-                                        ),
-                                        shape = thumbnailShape
-                                    )
-                                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                                    .align(Alignment.BottomCenter)
-                            )
-                        }
-                        if (nowPlayingItem > -1)
-                            NowPlayingShow(song.asMediaItem.mediaId)
-
-                        if (builtInPlaylist == BuiltInPlaylist.Top)
-                            BasicText(
-                                text = (index+1).toString(),
-                                style = typography.m.semiBold.center.color(colorPalette.onOverlay),
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(
-                                        brush = Brush.verticalGradient(
-                                            colors = listOf(Color.Transparent, colorPalette.overlay)
-                                        ),
-                                        shape = thumbnailShape
-                                    )
-                                    .padding(horizontal = 8.dp, vertical = 4.dp)
-                                    .align(Alignment.Center)
-                            )
-                    },
-                    trailingContent = {
-                        val checkedState = remember { mutableStateOf(false) }
-                        if (selectItems)
-                            Checkbox(
-                                checked = checkedState.value,
-                                onCheckedChange = {
-                                    checkedState.value = it
-                                    if (it) listMediaItems.add(song.asMediaItem) else
-                                        listMediaItems.remove(song.asMediaItem)
-                                },
-                                colors = CheckboxDefaults.colors(
-                                    checkedColor = colorPalette.accent,
-                                    uncheckedColor = colorPalette.text
-                                )
-                            )
-                    },
-                    modifier = Modifier
-                        .combinedClickable(
-                            onLongClick = {
-                                menuState.display {
-                                    when (builtInPlaylist) {
-                                        BuiltInPlaylist.Favorites,
-                                        BuiltInPlaylist.Downloaded,
-                                        BuiltInPlaylist.Top -> NonQueuedMediaItemMenu(
-                                            mediaItem = song.asMediaItem,
-                                            onDismiss = menuState::hide
+                BehindMotionSwipe(
+                    content = {
+                        val isLocal by remember { derivedStateOf { song.asMediaItem.isLocal } }
+                        downloadState = getDownloadState(song.asMediaItem.mediaId)
+                        val isDownloaded =
+                            if (!isLocal) downloadedStateMedia(song.asMediaItem.mediaId) else true
+                        SongItem(
+                            song = song,
+                            isDownloaded = isDownloaded,
+                            onDownloadClick = {
+                                binder?.cache?.removeResource(song.asMediaItem.mediaId)
+                                query {
+                                    Database.insert(
+                                        Song(
+                                            id = song.asMediaItem.mediaId,
+                                            title = song.asMediaItem.mediaMetadata.title.toString(),
+                                            artistsText = song.asMediaItem.mediaMetadata.artist.toString(),
+                                            thumbnailUrl = song.thumbnailUrl,
+                                            durationText = null
                                         )
+                                    )
+                                }
 
-                                        BuiltInPlaylist.Offline -> InHistoryMediaItemMenu(
-                                            song = song,
-                                            onDismiss = menuState::hide
+                                if (!isLocal)
+                                    manageDownload(
+                                        context = context,
+                                        songId = song.asMediaItem.mediaId,
+                                        songTitle = song.asMediaItem.mediaMetadata.title.toString(),
+                                        downloadState = isDownloaded
+                                    )
+                            },
+                            downloadState = downloadState,
+                            thumbnailSizeDp = thumbnailSizeDp,
+                            thumbnailSizePx = thumbnailSizePx,
+                            onThumbnailContent = {
+                                if (sortBy == SongSortBy.PlayTime) {
+                                    BasicText(
+                                        text = song.formattedTotalPlayTime,
+                                        style = typography.xxs.semiBold.center.color(colorPalette.onOverlay),
+                                        maxLines = 2,
+                                        overflow = TextOverflow.Ellipsis,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .background(
+                                                brush = Brush.verticalGradient(
+                                                    colors = listOf(
+                                                        Color.Transparent,
+                                                        colorPalette.overlay
+                                                    )
+                                                ),
+                                                shape = thumbnailShape
+                                            )
+                                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                                            .align(Alignment.BottomCenter)
+                                    )
+                                }
+                                if (nowPlayingItem > -1)
+                                    NowPlayingShow(song.asMediaItem.mediaId)
+
+                                if (builtInPlaylist == BuiltInPlaylist.Top)
+                                    BasicText(
+                                        text = (index + 1).toString(),
+                                        style = typography.m.semiBold.center.color(colorPalette.onOverlay),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .background(
+                                                brush = Brush.verticalGradient(
+                                                    colors = listOf(
+                                                        Color.Transparent,
+                                                        colorPalette.overlay
+                                                    )
+                                                ),
+                                                shape = thumbnailShape
+                                            )
+                                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                                            .align(Alignment.Center)
+                                    )
+                            },
+                            trailingContent = {
+                                val checkedState = remember { mutableStateOf(false) }
+                                if (selectItems)
+                                    Checkbox(
+                                        checked = checkedState.value,
+                                        onCheckedChange = {
+                                            checkedState.value = it
+                                            if (it) listMediaItems.add(song.asMediaItem) else
+                                                listMediaItems.remove(song.asMediaItem)
+                                        },
+                                        colors = CheckboxDefaults.colors(
+                                            checkedColor = colorPalette.accent,
+                                            uncheckedColor = colorPalette.text
+                                        )
+                                    )
+                            },
+                            modifier = Modifier
+                                .combinedClickable(
+                                    onLongClick = {
+                                        menuState.display {
+                                            when (builtInPlaylist) {
+                                                BuiltInPlaylist.Favorites,
+                                                BuiltInPlaylist.Downloaded,
+                                                BuiltInPlaylist.Top -> NonQueuedMediaItemMenu(
+                                                    mediaItem = song.asMediaItem,
+                                                    onDismiss = menuState::hide
+                                                )
+
+                                                BuiltInPlaylist.Offline -> InHistoryMediaItemMenu(
+                                                    song = song,
+                                                    onDismiss = menuState::hide
+                                                )
+                                            }
+                                        }
+                                    },
+                                    onClick = {
+                                        binder?.stopRadio()
+                                        binder?.player?.forcePlayAtIndex(
+                                            songs.map(Song::asMediaItem),
+                                            index
                                         )
                                     }
-                                }
-                            },
-                            onClick = {
-                                binder?.stopRadio()
-                                binder?.player?.forcePlayAtIndex(
-                                    songs.map(Song::asMediaItem),
-                                    index
                                 )
-                            }
+                                .background(color = colorPalette.background0)
+                                .animateItemPlacement()
                         )
-                        .animateItemPlacement()
-                )
+                    },
+                    leftActionsContent = {
+                            LeftAction(
+                                icon = R.drawable.enqueue,
+                                backgroundColor = Color.Transparent, //colorPalette.background4,
+                                onClick = {
+                                    binder?.player?.enqueue( song.asMediaItem )
+                                }
+                            )
+                    },
+                    rightActionsContent = {
+
+                            var likedAt by remember {
+                                mutableStateOf<Long?>(null)
+                            }
+                            LaunchedEffect(Unit, song.asMediaItem.mediaId) {
+                                Database.likedAt(song.asMediaItem.mediaId).collect { likedAt = it }
+                            }
+
+                            RightActions(
+                                iconAction1 = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
+                                backgroundColorAction1 = Color.Transparent, //colorPalette.background4,
+                                onClickAction1 = {
+                                    query {
+                                        if (Database.like(
+                                                song.asMediaItem.mediaId,
+                                                if (likedAt == null) System.currentTimeMillis() else null
+                                            ) == 0
+                                        ) {
+                                            Database.insert(song.asMediaItem, Song::toggleLike)
+                                        }
+                                    }
+                                },
+                                iconAction2 = R.drawable.trash,
+                                backgroundColorAction2 = Color.Transparent, //colorPalette.iconButtonPlayer,
+                                enableAction2 = builtInPlaylist == BuiltInPlaylist.Offline || builtInPlaylist == BuiltInPlaylist.Downloaded,
+                                onClickAction2 = {
+                                    if (binder != null) {
+                                        when (builtInPlaylist) {
+                                            BuiltInPlaylist.Offline ->
+                                                binder.cache.removeResource(song.asMediaItem.mediaId)
+                                            BuiltInPlaylist.Favorites -> {}
+                                            BuiltInPlaylist.Downloaded -> {
+                                                binder.cache.removeResource(song.asMediaItem.mediaId)
+                                                manageDownload(
+                                                    context = context,
+                                                    songId = song.asMediaItem.mediaId,
+                                                    songTitle = song.asMediaItem.mediaMetadata.title.toString(),
+                                                    downloadState = false
+                                                )
+                                            }
+                                            BuiltInPlaylist.Top -> {}
+                                        }
+                                    }
+                                }
+                            )
+
+
+                    })
             }
 
             }
