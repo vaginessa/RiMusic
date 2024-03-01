@@ -545,6 +545,7 @@ fun Player(
             }
         },
         collapsedContent = {
+            var deltaX by remember { mutableStateOf(0f) }
             Row(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.Top,
@@ -576,6 +577,29 @@ fun Player(
                             center = Offset(x = size.width * progress, y = 1.dp.toPx())
                         )
                     }
+                    .pointerInput(Unit) {
+                        detectHorizontalDragGestures(
+                            onHorizontalDrag = { change, dragAmount ->
+                                deltaX = dragAmount
+                            },
+                            onDragStart = {
+                                //Log.d("mediaItemGesture","ondragStart offset ${it}")
+                            },
+                            onDragEnd = {
+                                if (!disablePlayerHorizontalSwipe) {
+                                    if (deltaX > 0) {
+                                        binder.player.seekToPreviousMediaItem()
+                                    } else {
+                                        binder.player.forceSeekToNext()
+                                    }
+
+                                }
+
+                            }
+
+                        )
+                    }
+
             ) {
 
                 Spacer(
