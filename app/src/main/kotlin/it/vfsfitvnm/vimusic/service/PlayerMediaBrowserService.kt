@@ -64,7 +64,13 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
         clientPackageName: String,
         clientUid: Int,
         rootHints: Bundle?
-    ): BrowserRoot? {
+    ): BrowserRoot {
+        bindService(intent<PlayerService>(), this, Context.BIND_AUTO_CREATE)
+        return BrowserRoot(
+            MediaId.root,
+            bundleOf("android.media.browse.CONTENT_STYLE_BROWSABLE_HINT" to 1)
+        )
+        /*
         return if (clientUid == Process.myUid()
             || clientUid == Process.SYSTEM_UID
             || clientPackageName == "com.google.android.projection.gearhead"
@@ -77,6 +83,7 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
         } else {
             null
         }
+         */
     }
 
      override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaItem>>) {
