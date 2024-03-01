@@ -98,10 +98,10 @@ CC-BY-SA 3.0</string>
     <string name="android_auto_1">Android Auto</string>
     <string name="enable_android_auto_support">Android Auto support ක්‍රියාත්මක කරන්න</string>
     <string name="search_history">සෙවීම් අතීතය</string>
-    <string name="pause_search_history">Pause search history</string>
-    <string name="neither_save_new_searched_query">Neither save new searched queries nor show history</string>
-    <string name="clear_search_history">Clear search history</string>
-    <string name="history_is_empty">History is empty</string>
+    <string name="pause_search_history">සෙවීම් අතීතය එකතු කිරීම නතර කරන්න</string>
+    <string name="neither_save_new_searched_query">නව සෙවීම් එකතු නොකරන මෙන්ම අතීතය නොපෙන්වන්න</string>
+    <string name="clear_search_history">සෙවීම් අතීතය හිස් කරන්න</string>
+    <string name="history_is_empty">අතීතය හිස් </string>
     <string name="service_lifetime">SERVICE LIFETIME</string>
     <string name="battery_optimizations_applied">If battery optimizations are applied, the playback notification can suddenly disappear when paused.</string>
     <string name="is_android12">Since Android 12, disabling battery optimizations is required for the \"Invincible service\" option to take effect.</string>
