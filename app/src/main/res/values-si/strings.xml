@@ -440,4 +440,6 @@ CC-BY-SA 3.0</string>
     <string name="navigation_bar_position">Navigation bar position</string>
     <string name="direction_left">Left</string>
     <string name="direction_right">Right</string>
+    <string name="copy_lyrics">Copy lyrics</string>
+    <string name="value_copied">Copied</string>
 </resources>
