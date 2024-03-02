@@ -431,14 +431,14 @@
     <string name="smart_recommendations">자동 권장 사항</string>
     <string name="player_collapsed_disable_swiping_down">아래로 스와이프 비활성화</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">플레이어가 최소화된 상태에서 아래로 스와이프하여 플레이어를 닫고 재생목록을 정리하지 마세요.</string>
-    <string name="sort_date_liked">Date Liked</string>
-    <string name="export_playlist">Export playlist</string>
-    <string name="lang_afrikaans">Afrikaans</string>
-    <string name="playlist_top">Playlist Top</string>
-    <string name="my_playlist_top">My Top</string>
-    <string name="navigation_bar_position">Navigation bar position</string>
-    <string name="direction_left">Left</string>
-    <string name="direction_right">Right</string>
-    <string name="copy_lyrics">Copy lyrics</string>
-    <string name="value_copied">Copied</string>
+    <string name="sort_date_liked">좋아요 표시한 날짜</string>
+    <string name="export_playlist">재생목록 내보내기</string>
+    <string name="lang_afrikaans">아프리칸스어</string>
+    <string name="playlist_top">재생목록 상단</string>
+    <string name="my_playlist_top">내 상단</string>
+    <string name="navigation_bar_position">네비게이션 바 위치</string>
+    <string name="direction_left">왼쪽</string>
+    <string name="direction_right">오른쪽</string>
+    <string name="copy_lyrics">가사 복사</string>
+    <string name="value_copied">복사됨</string>
 </resources>
