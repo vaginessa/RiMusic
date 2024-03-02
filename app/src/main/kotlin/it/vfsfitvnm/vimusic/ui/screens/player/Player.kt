@@ -100,6 +100,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.DefaultDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.DownloadStateIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.PlayerMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.PlaylistsItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SecondaryTextButton
 import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
 import it.vfsfitvnm.vimusic.ui.screens.homeRoute
@@ -1125,7 +1126,17 @@ fun Player(
                             IconButton(
                                 icon = R.drawable.add_in_playlist,
                                 color = colorPalette.text,
-                                onClick = { showPlaylistSelectDialog = true },
+                                onClick = {
+                                    showPlaylistSelectDialog = true
+                                    menuState.display {
+                                        PlaylistsItemMenu(
+                                            onDismiss = menuState::hide,
+                                            onAddToPlaylist = {
+
+                                            }
+                                        )
+                                    }
+                                },
                                 modifier = Modifier
                                     //.padding(horizontal = 4.dp)
                                     .size(24.dp)
