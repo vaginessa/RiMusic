@@ -172,24 +172,11 @@ fun HomeSongs(
 
     var searching by rememberSaveable { mutableStateOf(false) }
 
-/*
-    val itemsCount = items.size
-    if (!items.isEmpty())
-    for (i in itemsCount.downTo(0)) {
-        if (!downloadedStateMedia(items[i].asMediaItem.mediaId)) items.drop(i)
-    }
-*/
-
     val sortOrderIconRotation by animateFloatAsState(
         targetValue = if (sortOrder == SortOrder.Ascending) 0f else 180f,
         animationSpec = tween(durationMillis = 400, easing = LinearEasing), label = ""
     )
 
-    /*
-    var showSortTypeSelectDialog by remember {
-        mutableStateOf(false)
-    }
-     */
 
     val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
     val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
@@ -247,14 +234,6 @@ fun HomeSongs(
                         spacer = 0
                     )
 
-
-                    /*
-                    Spacer(
-                        modifier = Modifier
-                            .weight(1f)
-                    )
-                     */
-
                     Spacer(
                         modifier = Modifier
                             .width(20.dp)
@@ -285,61 +264,10 @@ fun HomeSongs(
                                         onDateLiked = { sortBy = SongSortBy.DateLiked }
                                     )
                                 }
-                                //showSortTypeSelectDialog = true
+
                             }
                     )
-                    /*
-                    if (showSortTypeSelectDialog)
-                        ValueSelectorDialog(
-                            onDismiss = { showSortTypeSelectDialog = false },
-                            title = stringResource(R.string.sorting_order),
-                            selectedValue = sortBy,
-                            values = enumValues<SongSortBy>().toList(),
-                            onValueSelected = { sortBy = it },
-                            valueText = {
-                                when (it) {
-                                    SongSortBy.Title -> stringResource(R.string.sort_title)
-                                    SongSortBy.DatePlayed -> stringResource(R.string.sort_date_played)
-                                    SongSortBy.PlayTime -> stringResource(R.string.sort_listening_time)
-                                    SongSortBy.DateAdded -> stringResource(R.string.sort_date_added)
-                                }
-                            }
-                        )
 
-                     */
-
-                        /*
-                        HeaderIconButton(
-                            icon = R.drawable.up_right_arrow,
-                            color = if (sortBy == SongSortBy.DatePlayed) colorPalette.text else colorPalette.textDisabled,
-                            onClick = { sortBy = SongSortBy.DatePlayed }
-                        )
-
-                        HeaderIconButton(
-                            icon = R.drawable.trending,
-                            color = if (sortBy == SongSortBy.PlayTime) colorPalette.text else colorPalette.textDisabled,
-                            onClick = { sortBy = SongSortBy.PlayTime }
-                        )
-
-                        HeaderIconButton(
-                            icon = R.drawable.text,
-                            color = if (sortBy == SongSortBy.Title) colorPalette.text else colorPalette.textDisabled,
-                            onClick = { sortBy = SongSortBy.Title }
-                        )
-
-                        HeaderIconButton(
-                            icon = R.drawable.time,
-                            color = if (sortBy == SongSortBy.DateAdded) colorPalette.text else colorPalette.textDisabled,
-                            onClick = { sortBy = SongSortBy.DateAdded }
-                        )
-
-                         */
-/*
-                        Spacer(
-                            modifier = Modifier
-                                .width(2.dp)
-                        )
- */
 
                         HeaderIconButton(
                             icon = R.drawable.arrow_up,
