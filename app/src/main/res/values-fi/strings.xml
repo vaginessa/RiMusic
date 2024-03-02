@@ -432,13 +432,13 @@
     <string name="player_collapsed_disable_swiping_down">Poista pyyhkäisy alas -toiminto</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Vältä soittimen sulkeminen ja jonon puhdistaminen pyyhkäisemällä alaspäin, kun se on pienennettynä</string>
     <string name="sort_date_liked">Date Liked</string>
-    <string name="export_playlist">Export playlist</string>
-    <string name="lang_afrikaans">Afrikaans</string>
+    <string name="export_playlist">Vie soittolista</string>
+    <string name="lang_afrikaans">afrikaans</string>
     <string name="playlist_top">Playlist Top</string>
     <string name="my_playlist_top">My Top</string>
-    <string name="navigation_bar_position">Navigation bar position</string>
-    <string name="direction_left">Left</string>
-    <string name="direction_right">Right</string>
-    <string name="copy_lyrics">Copy lyrics</string>
-    <string name="value_copied">Copied</string>
+    <string name="navigation_bar_position">Navigointipalkin sijainti</string>
+    <string name="direction_left">Vasen</string>
+    <string name="direction_right">Oikea</string>
+    <string name="copy_lyrics">Kopioi sanoitukset</string>
+    <string name="value_copied">Kopioitu</string>
 </resources>
