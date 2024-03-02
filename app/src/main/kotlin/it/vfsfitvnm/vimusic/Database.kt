@@ -292,88 +292,88 @@ interface Database {
 
 
     @Transaction
-    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY ROWID ASC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > :showHiddenSongs ORDER BY ROWID ASC")
     //@Query("SELECT * FROM Song ORDER BY ROWID ASC")
     @RewriteQueriesToDropUnusedColumns
-    fun songsByRowIdAsc(): Flow<List<Song>>
+    fun songsByRowIdAsc(showHiddenSongs: Int = 0): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY ROWID DESC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > :showHiddenSongs ORDER BY ROWID DESC")
     //@Query("SELECT * FROM Song ORDER BY ROWID DESC")
     @RewriteQueriesToDropUnusedColumns
-    fun songsByRowIdDesc(): Flow<List<Song>>
+    fun songsByRowIdDesc(showHiddenSongs: Int = 0): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY title COLLATE NOCASE ASC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > :showHiddenSongs ORDER BY title COLLATE NOCASE ASC")
     //@Query("SELECT * FROM Song ORDER BY title ASC")
     @RewriteQueriesToDropUnusedColumns
-    fun songsByTitleAsc(): Flow<List<Song>>
+    fun songsByTitleAsc(showHiddenSongs: Int = 0): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY title COLLATE NOCASE DESC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > :showHiddenSongs ORDER BY title COLLATE NOCASE DESC")
     //@Query("SELECT * FROM Song ORDER BY title DESC")
     @RewriteQueriesToDropUnusedColumns
-    fun songsByTitleDesc(): Flow<List<Song>>
+    fun songsByTitleDesc(showHiddenSongs: Int = 0): Flow<List<Song>>
 
     @Transaction
 //    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY totalPlayTimeMs ASC")
-    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY totalPlayTimeMs ASC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > :showHiddenSongs AND id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY totalPlayTimeMs ASC")
     //@Query("SELECT * FROM Song WHERE id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY totalPlayTimeMs ASC")
     @RewriteQueriesToDropUnusedColumns
-    fun songsByPlayTimeAsc(): Flow<List<Song>>
+    fun songsByPlayTimeAsc(showHiddenSongs: Int = 0): Flow<List<Song>>
 
     @Transaction
 //    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 ORDER BY totalPlayTimeMs DESC")
-    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY totalPlayTimeMs DESC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > :showHiddenSongs AND id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY totalPlayTimeMs DESC")
     //@Query("SELECT * FROM Song WHERE id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY totalPlayTimeMs DESC")
     @RewriteQueriesToDropUnusedColumns
-    fun songsByPlayTimeDesc(): Flow<List<Song>>
+    fun songsByPlayTimeDesc(showHiddenSongs: Int = 0): Flow<List<Song>>
 
     @Transaction
     @Query("SELECT DISTINCT S.* FROM Song S " +
             "LEFT JOIN Event E ON E.songId=S.id " +
-            "WHERE S.totalPlayTimeMs > 0 AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "WHERE S.totalPlayTimeMs > :showHiddenSongs AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
             "ORDER BY E.timestamp DESC")
-    fun songsByDatePlayedDesc(): Flow<List<Song>>
+    fun songsByDatePlayedDesc(showHiddenSongs: Int = 0): Flow<List<Song>>
 
     @Transaction
     @Query("SELECT DISTINCT S.* FROM Song S " +
             "LEFT JOIN Event E ON E.songId=S.id " +
-            "WHERE S.totalPlayTimeMs > 0 AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "WHERE S.totalPlayTimeMs > :showHiddenSongs AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
             "ORDER BY E.timestamp")
-    fun songsByDatePlayedAsc(): Flow<List<Song>>
+    fun songsByDatePlayedAsc(showHiddenSongs: Int = 0): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY likedAt ASC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > :showHiddenSongs AND id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY likedAt ASC")
     @RewriteQueriesToDropUnusedColumns
-    fun songsByLikedAtAsc(): Flow<List<Song>>
+    fun songsByLikedAtAsc(showHiddenSongs: Int = 0): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY likedAt DESC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > :showHiddenSongs AND id NOT LIKE '$LOCAL_KEY_PREFIX%' ORDER BY likedAt DESC")
     @RewriteQueriesToDropUnusedColumns
-    fun songsByLikedAtDesc(): Flow<List<Song>>
+    fun songsByLikedAtDesc(showHiddenSongs: Int = 0): Flow<List<Song>>
 
-    fun songs(sortBy: SongSortBy, sortOrder: SortOrder): Flow<List<Song>> {
+    fun songs(sortBy: SongSortBy, sortOrder: SortOrder, showHiddenSongs: Int): Flow<List<Song>> {
         return when (sortBy) {
             SongSortBy.PlayTime -> when (sortOrder) {
-                SortOrder.Ascending -> songsByPlayTimeAsc()
-                SortOrder.Descending -> songsByPlayTimeDesc()
+                SortOrder.Ascending -> songsByPlayTimeAsc(showHiddenSongs)
+                SortOrder.Descending -> songsByPlayTimeDesc(showHiddenSongs)
             }
             SongSortBy.Title -> when (sortOrder) {
-                SortOrder.Ascending -> songsByTitleAsc()
-                SortOrder.Descending -> songsByTitleDesc()
+                SortOrder.Ascending -> songsByTitleAsc(showHiddenSongs)
+                SortOrder.Descending -> songsByTitleDesc(showHiddenSongs)
             }
             SongSortBy.DateAdded -> when (sortOrder) {
-                SortOrder.Ascending -> songsByRowIdAsc()
-                SortOrder.Descending -> songsByRowIdDesc()
+                SortOrder.Ascending -> songsByRowIdAsc(showHiddenSongs)
+                SortOrder.Descending -> songsByRowIdDesc(showHiddenSongs)
             }
             SongSortBy.DatePlayed -> when (sortOrder) {
-                SortOrder.Ascending -> songsByDatePlayedAsc()
-                SortOrder.Descending -> songsByDatePlayedDesc()
+                SortOrder.Ascending -> songsByDatePlayedAsc(showHiddenSongs)
+                SortOrder.Descending -> songsByDatePlayedDesc(showHiddenSongs)
             }
             SongSortBy.DateLiked -> when (sortOrder) {
-                SortOrder.Ascending -> songsByLikedAtAsc()
-                SortOrder.Descending -> songsByLikedAtDesc()
+                SortOrder.Ascending -> songsByLikedAtAsc(showHiddenSongs)
+                SortOrder.Descending -> songsByLikedAtDesc(showHiddenSongs)
             }
         }
     }

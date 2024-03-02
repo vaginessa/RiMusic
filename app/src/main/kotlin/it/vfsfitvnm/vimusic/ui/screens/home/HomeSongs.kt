@@ -151,30 +151,13 @@ fun HomeSongs(
         thumbnailRoundnessKey,
         ThumbnailRoundness.Heavy
     )
-    //InitDownloader()
 
-    LaunchedEffect(sortBy, sortOrder, filter) {
-        Database.songs(sortBy, sortOrder).collect { items = it }
-        /*
-        val songs = items?.map { it.id }
-        downloader.downloads.collect { downloads ->
-            if (songs != null) {
-                downloadState =
-                    if (songs.all { downloads[it]?.state == Download.STATE_COMPLETED })
-                        Download.STATE_COMPLETED
-                    else if (songs.all {
-                            downloads[it]?.state == Download.STATE_QUEUED
-                                    || downloads[it]?.state == Download.STATE_DOWNLOADING
-                                    || downloads[it]?.state == Download.STATE_COMPLETED
-                        })
-                        Download.STATE_DOWNLOADING
-                    else
-                        Download.STATE_STOPPED
-            }
-        }
+    var showHiddenSongs by remember {
+        mutableStateOf(0)
+    }
 
-         */
-
+    LaunchedEffect(sortBy, sortOrder, filter, showHiddenSongs) {
+        Database.songs(sortBy, sortOrder, showHiddenSongs).collect { items = it }
     }
 
     var filterCharSequence: CharSequence
@@ -183,7 +166,7 @@ fun HomeSongs(
     if (!filter.isNullOrBlank())
         items = items
             .filter {
-                it.title?.contains(filterCharSequence,true) ?: false
+                it.title.contains(filterCharSequence,true) ?: false
                         || it.artistsText?.contains(filterCharSequence,true) ?: false
             }
 
@@ -202,9 +185,11 @@ fun HomeSongs(
         animationSpec = tween(durationMillis = 400, easing = LinearEasing), label = ""
     )
 
+    /*
     var showSortTypeSelectDialog by remember {
         mutableStateOf(false)
     }
+     */
 
     val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
     val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
@@ -238,7 +223,7 @@ fun HomeSongs(
                 )
 
                 Row (
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween, //.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxSize()
@@ -249,16 +234,17 @@ fun HomeSongs(
                         color = colorPalette.text,
                         iconSize = 24.dp
                     )
+                    HeaderIconButton(
+                        onClick = { showHiddenSongs = if (showHiddenSongs == 0) -1 else 0 },
+                        icon = if (showHiddenSongs == 0) R.drawable.eye_off else R.drawable.eye,
+                        color = colorPalette.text,
+                        iconSize = 24.dp
+                    )
 
                     HeaderInfo(
                         title = "${items.size}",
                         icon = painterResource(R.drawable.musical_notes),
                         spacer = 0
-                    )
-
-                    Spacer(
-                        modifier = Modifier
-                            .weight(1f)
                     )
 
 
@@ -268,6 +254,12 @@ fun HomeSongs(
                             .weight(1f)
                     )
                      */
+
+                    Spacer(
+                        modifier = Modifier
+                            .width(20.dp)
+                    )
+
 
                     BasicText(
                         text = when (sortBy) {
