@@ -363,9 +363,11 @@ fun Player(
         Database.playlistPreviews(PlaylistSortBy.Name, SortOrder.Ascending)
     }.collectAsState(initial = emptyList(), context = Dispatchers.IO)
 
+    /*
     var showPlaylistSelectDialog by remember {
         mutableStateOf(false)
     }
+     */
 
     var isShowingSleepTimerDialog by remember {
         mutableStateOf(false)
@@ -1089,6 +1091,7 @@ fun Player(
                                 .size(24.dp)
                         )
 
+                        /*
                         if (showPlaylistSelectDialog) {
                             SelectorDialog(
                                 title = stringResource(R.string.playlists),
@@ -1124,14 +1127,13 @@ fun Player(
                                 }
                             )
                         }
-
+                        */
 
                         if(showButtonPlayerAddToPlaylist)
                             IconButton(
                                 icon = R.drawable.add_in_playlist,
                                 color = colorPalette.text,
                                 onClick = {
-                                    //showPlaylistSelectDialog = true
                                     menuState.display {
                                         PlaylistsItemMenu(
                                             modifier = Modifier.fillMaxHeight(0.6f),
@@ -1139,11 +1141,7 @@ fun Player(
                                             onAddToPlaylist = { playlistPreview ->
                                                 position =
                                                     playlistPreview.songCount.minus(1) ?: 0
-                                                //Log.d("mediaItem", " maxPos in Playlist $it ${position}")
                                                 if (position > 0) position++ else position = 0
-                                                //Log.d("mediaItem", "next initial pos ${position}")
-                                                //if (listMediaItems.isEmpty()) {
-                                                //    songs.forEachIndexed { index, song ->
                                                         transaction {
                                                             Database.insert(mediaItem)
                                                             Database.insert(
@@ -1154,7 +1152,6 @@ fun Player(
                                                                 )
                                                             )
                                                         }
-                                                //    }
                                                 }
                                         )
                                     }
