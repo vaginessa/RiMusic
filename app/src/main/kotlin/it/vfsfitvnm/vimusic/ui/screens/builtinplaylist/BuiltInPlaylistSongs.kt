@@ -109,6 +109,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.IconInfo
 import it.vfsfitvnm.vimusic.ui.components.themed.InHistoryMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenuLibrary
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.items.SongItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -149,6 +150,7 @@ import it.vfsfitvnm.vimusic.utils.LeftAction
 import it.vfsfitvnm.vimusic.utils.MaxTopPlaylistItemsKey
 import it.vfsfitvnm.vimusic.utils.RightActions
 import it.vfsfitvnm.vimusic.utils.toast
+import kotlinx.coroutines.flow.asFlow
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -196,9 +198,17 @@ fun BuiltInPlaylistSongs(
          when (builtInPlaylist) {
 
              BuiltInPlaylist.Downloaded -> {
+                 /*
                  DownloadUtil.getDownloadManager(context)
                  DownloadUtil.getDownloads()
                  DownloadUtil.downloads.value.keys.toList().let { Database.getSongsList(it) }
+                  */
+                 val downloads = DownloadUtil.downloads.value
+                 downloads.keys
+                     .filter {
+                         downloads[it]?.state == Download.STATE_COMPLETED
+                     }
+                     .toList().let { Database.getSongsList(it) }
              }
 
              BuiltInPlaylist.Favorites -> Database
@@ -1020,7 +1030,7 @@ fun BuiltInPlaylistSongs(
                                             when (builtInPlaylist) {
                                                 BuiltInPlaylist.Favorites,
                                                 BuiltInPlaylist.Downloaded,
-                                                BuiltInPlaylist.Top -> NonQueuedMediaItemMenu(
+                                                BuiltInPlaylist.Top -> NonQueuedMediaItemMenuLibrary(
                                                     mediaItem = song.asMediaItem,
                                                     onDismiss = menuState::hide
                                                 )

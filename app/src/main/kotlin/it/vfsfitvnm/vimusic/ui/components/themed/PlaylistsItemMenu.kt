@@ -35,11 +35,13 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.PlaylistSortBy
 import it.vfsfitvnm.vimusic.enums.SortOrder
 import it.vfsfitvnm.vimusic.models.Playlist
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
+import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
@@ -71,9 +73,7 @@ fun PlaylistsItemMenu(
     showonListenToYT: Boolean = false,
     onListenToYT: (() -> Unit)? = null,
     onExport: (() -> Unit)? = null,
-    onImport: (() -> Unit)? = null,
-
-
+    onImport: (() -> Unit)? = null
     ) {
     val (colorPalette) = LocalAppearance.current
     val density = LocalDensity.current

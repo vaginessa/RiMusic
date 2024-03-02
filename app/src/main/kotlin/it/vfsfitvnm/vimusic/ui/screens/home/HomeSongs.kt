@@ -117,7 +117,7 @@ import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 @ExperimentalComposeUiApi
 @UnstableApi
 @Composable
-fun  HomeSongs(
+fun HomeSongs(
     onSearchClick: () -> Unit
 ) {
     val (colorPalette, typography, thumbnailShape) = LocalAppearance.current

@@ -68,6 +68,10 @@ interface Database {
     @Query("SELECT * FROM Song")
     fun listAllSongs(): List<Song>
 
+    @Transaction
+    @Query("SELECT * FROM Song")
+    fun flowListAllSongs(): Flow<List<Song>>
+
     @Query("SELECT id FROM Playlist WHERE name = :playlistName")
     fun playlistExistByName(playlistName: String): Long
 
@@ -146,54 +150,54 @@ interface Database {
     fun songsMostPlayedByPeriod(from: Long, to: Long, limit:Long = Long.MAX_VALUE): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY totalPlayTimeMs")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND likedAt IS NOT NULL ORDER BY totalPlayTimeMs")
     @RewriteQueriesToDropUnusedColumns
     fun songsFavoritesByPlayTimeAsc(): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY totalPlayTimeMs DESC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND likedAt IS NOT NULL ORDER BY totalPlayTimeMs DESC")
     @RewriteQueriesToDropUnusedColumns
     fun songsFavoritesByPlayTimeDesc(): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY title COLLATE NOCASE ASC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND likedAt IS NOT NULL ORDER BY title COLLATE NOCASE ASC")
     @RewriteQueriesToDropUnusedColumns
     fun songsFavoritesByTitleAsc(): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY title COLLATE NOCASE DESC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND likedAt IS NOT NULL ORDER BY title COLLATE NOCASE DESC")
     @RewriteQueriesToDropUnusedColumns
     fun songsFavoritesByTitleDesc(): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY ROWID")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND likedAt IS NOT NULL ORDER BY ROWID")
     @RewriteQueriesToDropUnusedColumns
     fun songsFavoritesByRowIdAsc(): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY ROWID DESC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND likedAt IS NOT NULL ORDER BY ROWID DESC")
     @RewriteQueriesToDropUnusedColumns
     fun songsFavoritesByRowIdDesc(): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY likedAt")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND likedAt IS NOT NULL ORDER BY likedAt")
     @RewriteQueriesToDropUnusedColumns
     fun songsFavoritesByLikedAtAsc(): Flow<List<Song>>
 
     @Transaction
-    @Query("SELECT * FROM Song WHERE likedAt IS NOT NULL ORDER BY likedAt DESC")
+    @Query("SELECT * FROM Song WHERE totalPlayTimeMs > 0 AND likedAt IS NOT NULL ORDER BY likedAt DESC")
     @RewriteQueriesToDropUnusedColumns
     fun songsFavoritesByLikedAtDesc(): Flow<List<Song>>
 
     @Transaction
     @Query("SELECT DISTINCT S.* FROM Song S LEFT JOIN Event E ON E.songId=S.id " +
-            "WHERE likedAt IS NOT NULL AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "WHERE totalPlayTimeMs > 0 AND likedAt IS NOT NULL AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
             "ORDER BY E.timestamp DESC")
     fun songsFavoritesByDatePlayedDesc(): Flow<List<Song>>
 
     @Transaction
     @Query("SELECT DISTINCT S.* FROM Song S LEFT JOIN Event E ON E.songId=S.id " +
-            "WHERE likedAt IS NOT NULL AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
+            "WHERE totalPlayTimeMs > 0 AND likedAt IS NOT NULL AND S.id NOT LIKE '$LOCAL_KEY_PREFIX%' " +
             "ORDER BY E.timestamp")
     fun songsFavoritesByDatePlayedAsc(): Flow<List<Song>>
 
@@ -491,6 +495,9 @@ interface Database {
             }
         }
     }
+
+    @Query("UPDATE Song SET totalPlayTimeMs = 0 WHERE id = :id")
+    fun resetTotalPlayTimeMs(id: String)
 
     @Query("UPDATE Song SET totalPlayTimeMs = totalPlayTimeMs + :addition WHERE id = :id")
     fun incrementTotalPlayTimeMs(id: String, addition: Long)

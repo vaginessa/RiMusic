@@ -173,6 +173,63 @@ fun InPlaylistMediaItemMenu(
 @UnstableApi
 @ExperimentalAnimationApi
 @Composable
+fun NonQueuedMediaItemMenuLibrary(
+    onDismiss: () -> Unit,
+    mediaItem: MediaItem,
+    modifier: Modifier = Modifier,
+    onRemoveFromPlaylist: (() -> Unit)? = null,
+    onRemoveFromQuickPicks: (() -> Unit)? = null,
+    onDownload: (() -> Unit)? = null,
+) {
+    val binder = LocalPlayerServiceBinder.current
+
+    var isHiding by remember {
+        mutableStateOf(false)
+    }
+
+    if (isHiding) {
+        ConfirmationDialog(
+            text = stringResource(R.string.hidesong),
+            onDismiss = { isHiding = false },
+            onConfirm = {
+                onDismiss()
+                query {
+                    if (binder != null) {
+                            binder.cache.removeResource(mediaItem.mediaId)
+                            Database.resetTotalPlayTimeMs(mediaItem.mediaId)
+                    }
+                }
+            }
+        )
+    }
+
+    BaseMediaItemMenu(
+        mediaItem = mediaItem,
+        onDismiss = onDismiss,
+        onStartRadio = {
+            binder?.stopRadio()
+            binder?.player?.forcePlay(mediaItem)
+            binder?.setupRadio(
+                NavigationEndpoint.Endpoint.Watch(
+                    videoId = mediaItem.mediaId,
+                    playlistId = mediaItem.mediaMetadata.extras?.getString("playlistId")
+                )
+            )
+        },
+        onPlayNext = { binder?.player?.addNext(mediaItem) },
+        onEnqueue = { binder?.player?.enqueue(mediaItem) },
+        onDownload = onDownload,
+        onRemoveFromPlaylist = onRemoveFromPlaylist,
+        onHideFromDatabase = { isHiding = true },
+        onRemoveFromQuickPicks = onRemoveFromQuickPicks,
+        modifier = modifier
+    )
+}
+
+@ExperimentalTextApi
+@UnstableApi
+@ExperimentalAnimationApi
+@Composable
 fun NonQueuedMediaItemMenu(
     onDismiss: () -> Unit,
     mediaItem: MediaItem,
