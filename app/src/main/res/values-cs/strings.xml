@@ -431,7 +431,7 @@
     <string name="smart_recommendations">CHYTRÁ DOPORUČENÍ</string>
     <string name="player_collapsed_disable_swiping_down">Zakázat přejetí dolů</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Vyhněte se zavírání přehrávače a vyčištění fronty přejetím prstem dolů, když je minimalizovaný</string>
-    <string name="sort_date_liked">Datum Oblíbeno</string>
+    <string name="sort_date_liked">Datum oblíbení</string>
     <string name="export_playlist">Exportovat playlist</string>
     <string name="lang_afrikaans">Afrikánština (Afrikaans)</string>
     <string name="playlist_top">Top Playlist</string>
