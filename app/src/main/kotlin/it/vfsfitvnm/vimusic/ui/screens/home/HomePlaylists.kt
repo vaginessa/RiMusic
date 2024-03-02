@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.ui.screens.home
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -93,6 +94,7 @@ import it.vfsfitvnm.vimusic.utils.playlistSortByKey
 import it.vfsfitvnm.vimusic.utils.playlistSortOrderKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.requestPermission
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.toast
 
@@ -169,9 +171,12 @@ fun HomePlaylists(
         mutableStateOf(0L)
     }
     val context = LocalContext.current
+    val activity = context as Activity
     val importLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             if (uri == null) return@rememberLauncherForActivityResult
+
+            //requestPermission(activity, "Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED")
 
             context.applicationContext.contentResolver.openInputStream(uri)
                 ?.use { inputStream ->
@@ -463,8 +468,7 @@ fun HomePlaylists(
                             try {
                                 importLauncher.launch(
                                     arrayOf(
-                                        "text/csv",
-                                        "text/txt"
+                                        "text/*"
                                     )
                                 )
                             } catch (e: ActivityNotFoundException) {

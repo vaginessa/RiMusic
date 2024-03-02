@@ -160,6 +160,7 @@ fun CacheSettings() {
             )
         }
 
+
         binder?.cache?.let { cache ->
             val diskCacheSize by remember {
                 derivedStateOf {
@@ -167,23 +168,30 @@ fun CacheSettings() {
                 }
             }
 
+
+
             SettingsGroupSpacer()
 
             SettingsEntryGroupText(title = stringResource(R.string.song_cache_by_player))
 
-            if(exoPlayerDiskCacheMaxSize != ExoPlayerDiskCacheMaxSize.Disabled)
+            //if(exoPlayerDiskCacheMaxSize != ExoPlayerDiskCacheMaxSize.Disabled)
             SettingsDescription(
                 text = buildString {
                     append(Formatter.formatShortFileSize(context, diskCacheSize))
-                    append(" ${stringResource(R.string.used)}")
+                    //append(" ${stringResource(R.string.used)}")
+                    //append(" (${diskCacheSize * 100 / exoPlayerDiskCacheMaxSize.bytes}%)")
+                    /*
                     when (val size = exoPlayerDiskCacheMaxSize) {
                         ExoPlayerDiskCacheMaxSize.Unlimited -> {}
                         ExoPlayerDiskCacheMaxSize.Custom -> { exoPlayerCustomCache }
                         else -> append(" (${diskCacheSize * 100 / size.bytes}%)")
+
                     }
+                     */
                 }
             )
 
+            /*
             if(exoPlayerDiskCacheMaxSize == ExoPlayerDiskCacheMaxSize.Custom)
                 SettingsDescription(
                     text = stringResource(R.string.custom_cache_size) +" "+exoPlayerCustomCache+"MB"
@@ -228,8 +236,10 @@ fun CacheSettings() {
                         showExoPlayerCustomCacheDialog = false
                     }
                 )
+            */
 
         }
+
 
         binder?.downloadCache?.let { downloadCache ->
             val diskDownloadCacheSize by remember {

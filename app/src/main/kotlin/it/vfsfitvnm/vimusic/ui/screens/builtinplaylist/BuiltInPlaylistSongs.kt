@@ -193,8 +193,31 @@ fun BuiltInPlaylistSongs(
         MaxTopPlaylistItems.`10`
     )
 
+    var cleanCacheOfflineSongs by remember {
+        mutableStateOf(false)
+    }
+    var reloadSongs by remember {
+        mutableStateOf(false)
+    }
 
-     LaunchedEffect(Unit, sortBy, sortOrder, filter) {
+    if (cleanCacheOfflineSongs) {
+        ConfirmationDialog(
+            text = stringResource(R.string.do_you_really_want_to_delete_all_offline_songs),
+            onDismiss = {
+                cleanCacheOfflineSongs = false
+            },
+            onConfirm = {
+                binder?.cache?.keys?.forEach { song ->
+                    binder.cache.removeResource(song)
+                }
+                reloadSongs = !reloadSongs
+            }
+        )
+
+    }
+
+
+     LaunchedEffect(Unit, sortBy, sortOrder, filter, reloadSongs) {
          when (builtInPlaylist) {
 
              BuiltInPlaylist.Downloaded -> {
@@ -624,6 +647,14 @@ fun BuiltInPlaylistSongs(
                             isRecommendationEnabled = !isRecommendationEnabled
                         }
                     )
+
+                    if (builtInPlaylist == BuiltInPlaylist.Offline)
+                        HeaderIconButton(
+                            icon = R.drawable.trash,
+                            enabled = true,
+                            color = if (songs.isNotEmpty()) colorPalette.text else colorPalette.textDisabled,
+                            onClick = { cleanCacheOfflineSongs = true }
+                        )
 
                     HeaderIconButton(
                         icon = R.drawable.shuffle,

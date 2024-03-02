@@ -374,34 +374,38 @@ class PlayerService : InvincibleService(),
         showLikeButton = preferences.getBoolean(showLikeButtonBackgroundPlayerKey, true)
         showDownloadButton = preferences.getBoolean(showDownloadButtonBackgroundPlayerKey, true)
 
-        val exoPlayerCustomCache = preferences.getInt(exoPlayerCustomCacheKey, 32) * 1000 * 1000L
+        //val exoPlayerCustomCache = preferences.getInt(exoPlayerCustomCacheKey, 32) * 1000 * 1000L
 
+        /*
         val cacheEvictor = when (val size =
             preferences.getEnum(exoPlayerDiskCacheMaxSizeKey, ExoPlayerDiskCacheMaxSize.`32MB`)) {
             ExoPlayerDiskCacheMaxSize.Unlimited -> NoOpCacheEvictor()
             ExoPlayerDiskCacheMaxSize.Custom -> LeastRecentlyUsedCacheEvictor(exoPlayerCustomCache)
             else -> LeastRecentlyUsedCacheEvictor(size.bytes)
         }
-
+         */
+        val cacheEvictor = NoOpCacheEvictor()
 
         var directory = cacheDir
-        val downloadDirectory = getExternalFilesDir(null) ?: filesDir
-        var cacheDirName = "rimusic_cache"
+        //val downloadDirectory = getExternalFilesDir(null) ?: filesDir
+        val cacheDirName = "rimusic_cache"
+        /*
         val cacheSize =
             preferences.getEnum(exoPlayerDiskCacheMaxSizeKey, ExoPlayerDiskCacheMaxSize.`32MB`)
 
 
         if (cacheSize == ExoPlayerDiskCacheMaxSize.Disabled) cacheDirName = "rimusic_no_cache"
+         */
 
         if (exoPlayerAlternateCacheLocation == "") {
-            directory = cacheDir.resolve(cacheDirName).also { directory ->
-                if (directory.exists()) return@also
+            directory = cacheDir.resolve(cacheDirName).also { dir ->
+                if (dir.exists()) return@also
 
-                directory.mkdir()
+                dir.mkdir()
 
                 cacheDir.listFiles()?.forEach { file ->
                     if (file.isDirectory && file.name.length == 1 && file.name.isDigitsOnly() || file.extension == "uid") {
-                        if (!file.renameTo(directory.resolve(file.name))) {
+                        if (!file.renameTo(dir.resolve(file.name))) {
                             file.deleteRecursively()
                         }
                     }
@@ -413,20 +417,20 @@ class PlayerService : InvincibleService(),
         } else {
             // Available before android 10
             var path = File(exoPlayerAlternateCacheLocation)
-            directory = path?.resolve(cacheDirName).also { directory ->
-                if (directory?.exists() == true) return@also
+            directory = path?.resolve(cacheDirName).also { dir ->
+                if (dir?.exists() == true) return@also
 
-                directory?.mkdir()
+                dir?.mkdir()
 
-                directory?.listFiles()?.forEach { file ->
+                dir?.listFiles()?.forEach { file ->
                     if (file.isDirectory && file.name.length == 1 && file.name.isDigitsOnly() || file.extension == "uid") {
-                        if (!file.renameTo(directory?.resolve(file.name))) {
+                        if (!file.renameTo(dir?.resolve(file.name))) {
                             file.deleteRecursively()
                         }
                     }
                 }
 
-                directory?.resolve("coil")?.deleteRecursively()
+                dir?.resolve("coil")?.deleteRecursively()
             }
         }
 

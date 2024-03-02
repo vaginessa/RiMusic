@@ -12,7 +12,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
@@ -33,11 +35,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import coil.Coil
@@ -58,8 +62,10 @@ import it.vfsfitvnm.vimusic.service.MyDownloadService
 import it.vfsfitvnm.vimusic.service.PlayerService
 import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.DefaultDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.HeaderWithIcon
 import it.vfsfitvnm.vimusic.ui.components.themed.InputNumericDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.Switch
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
 import it.vfsfitvnm.vimusic.utils.bold
@@ -247,6 +253,25 @@ fun DataSettings() {
     val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
     val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
 
+    var cleanCacheOfflineSongs by remember {
+        mutableStateOf(false)
+    }
+
+    if (cleanCacheOfflineSongs) {
+        ConfirmationDialog(
+            text = stringResource(R.string.do_you_really_want_to_delete_all_offline_songs),
+            onDismiss = {
+                cleanCacheOfflineSongs = false
+            },
+            onConfirm = {
+                binder?.cache?.keys?.forEach { song ->
+                    binder.cache.removeResource(song)
+                }
+            }
+        )
+
+    }
+
     Column(
         modifier = Modifier
             .background(colorPalette.background0)
@@ -369,6 +394,43 @@ fun DataSettings() {
             )
              */
 
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(horizontal = 30.dp)
+                    .fillMaxWidth()
+            ){
+                Column (
+                    modifier = Modifier
+                        .fillMaxWidth(0.6f)
+                )
+                {
+                    BasicText(
+                        text = stringResource(R.string.song_cache_max_size),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        style = typography.xs.semiBold.secondary.copy(color = colorPalette.text),
+                    )
+                    BasicText(
+                        text = Formatter.formatShortFileSize(context, diskCacheSize),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = typography.xs.semiBold.secondary.copy(color = colorPalette.textDisabled),
+                    )
+                }
+
+
+                HeaderIconButton(
+                    icon = R.drawable.trash,
+                    enabled = true,
+                    color = colorPalette.text,
+                    onClick = { cleanCacheOfflineSongs = true }
+                )
+            }
+
+
+            /*
             EnumValueSelectorSettingsEntry(
                 title = stringResource(R.string.song_cache_max_size),
                 titleSecondary = when (exoPlayerDiskCacheMaxSize) {
@@ -420,6 +482,7 @@ fun DataSettings() {
                         showExoPlayerCustomCacheDialog = false
                     }
                 )
+                */
 
         }
 
