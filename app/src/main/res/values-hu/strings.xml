@@ -431,14 +431,14 @@
     <string name="smart_recommendations">OKOS AJÁNLÁSOK</string>
     <string name="player_collapsed_disable_swiping_down">Letiltja a lefelé húzást</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Kerüld el a lejátszó bezárását és a várólista tisztítását a lefelé húzással, miközben az minimalizálva van</string>
-    <string name="sort_date_liked">Date Liked</string>
-    <string name="export_playlist">Export playlist</string>
-    <string name="lang_afrikaans">Afrikaans</string>
-    <string name="playlist_top">Playlist Top</string>
-    <string name="my_playlist_top">My Top</string>
-    <string name="navigation_bar_position">Navigation bar position</string>
-    <string name="direction_left">Left</string>
-    <string name="direction_right">Right</string>
-    <string name="copy_lyrics">Copy lyrics</string>
-    <string name="value_copied">Copied</string>
+    <string name="sort_date_liked">Hozzáadás dátuma</string>
+    <string name="export_playlist">Lejátszási lista exportálása</string>
+    <string name="lang_afrikaans">Afrikai</string>
+    <string name="playlist_top">Legjobb lejátszási lista</string>
+    <string name="my_playlist_top">Legjobbjaid</string>
+    <string name="navigation_bar_position">Navigációs sáv pozíciója</string>
+    <string name="direction_left">Balra</string>
+    <string name="direction_right">Jobbra</string>
+    <string name="copy_lyrics">Dalszöveg másolása</string>
+    <string name="value_copied">Másolva</string>
 </resources>
