@@ -90,8 +90,11 @@ import it.vfsfitvnm.vimusic.enums.AudioQualityFormat
 import it.vfsfitvnm.vimusic.enums.ExoPlayerDiskCacheMaxSize
 import it.vfsfitvnm.vimusic.enums.ExoPlayerMinTimeForEvent
 import it.vfsfitvnm.vimusic.models.Event
+import it.vfsfitvnm.vimusic.models.PersistentQueue
+import it.vfsfitvnm.vimusic.models.PersistentSong
 import it.vfsfitvnm.vimusic.models.QueuedMediaItem
 import it.vfsfitvnm.vimusic.models.Song
+import it.vfsfitvnm.vimusic.models.asMediaItem
 import it.vfsfitvnm.vimusic.query
 import it.vfsfitvnm.vimusic.transaction
 import it.vfsfitvnm.vimusic.utils.ConditionalCacheDataSourceFactory
@@ -130,6 +133,7 @@ import it.vfsfitvnm.vimusic.utils.skipSilenceKey
 import it.vfsfitvnm.vimusic.utils.timer
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
 import it.vfsfitvnm.vimusic.utils.volumeNormalizationKey
+import it.vfsfitvnm.vimusic.utils.windows
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -158,6 +162,8 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import java.io.File
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 import java.net.InetSocketAddress
 import java.net.Proxy
 import java.time.Duration
@@ -464,7 +470,8 @@ class PlayerService : InvincibleService(),
         player.addListener(this)
         player.addAnalyticsListener(PlaybackStatsListener(false, this))
 
-        maybeRestorePlayerQueue()
+
+
 
         mediaSession = MediaSessionCompat(baseContext, "PlayerService")
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
@@ -560,6 +567,9 @@ class PlayerService : InvincibleService(),
         )
         //registerReceiver(notificationActionReceiver, filter)
 
+        maybeRestorePlayerQueue()
+        //maybeRestoreFromDiskPlayerQueue()
+
         maybeResumePlaybackWhenDeviceConnected()
 
 
@@ -570,10 +580,13 @@ class PlayerService : InvincibleService(),
                     delay(25.seconds)
                         withContext(Dispatchers.Main) {
                             maybeSavePlayerQueue()
+                            //maybeSaveToDiskPlayerQueue()
                         }
                 }
             }
         }
+
+
 
     }
 
@@ -581,8 +594,9 @@ class PlayerService : InvincibleService(),
         super.onTaskRemoved(rootIntent)
         isclosebackgroundPlayerEnabled = preferences.getBoolean(closebackgroundPlayerKey, false)
         if (isclosebackgroundPlayerEnabled == true) {
+            this.stopService(this.intent<PlayerService>())
             super.stopSelf()
-            onDestroy()
+            super.onDestroy()
         }
 
     }
@@ -742,27 +756,103 @@ class PlayerService : InvincibleService(),
         }
     }
 
-    private fun maybeSavePlayerQueue() {
-        //Log.d("mediaItem", "Save ${player.currentTimeline.mediaItems.size}")
-        //if (!isPersistentQueueEnabled && player.currentTimeline.mediaItems.isNotEmpty()) return
+    @FlowPreview
+    @UnstableApi
+    private fun maybeRestoreFromDiskPlayerQueue() {
+        if (!isPersistentQueueEnabled) return
+        //Log.d("mediaItem", "QueuePersistentEnabled Restore Initial")
+
+        runCatching {
+            filesDir.resolve("persistentQueue.data").inputStream().use { fis ->
+                ObjectInputStream(fis).use { oos ->
+                    oos.readObject() as PersistentQueue
+                }
+            }
+        }.onSuccess { queue ->
+            //Log.d("mediaItem", "QueuePersistentEnabled Restored queue $queue")
+            //Log.d("mediaItem", "QueuePersistentEnabled Restored ${queue.songMediaItems.size}")
+            runBlocking (Dispatchers.Main) {
+                player.setMediaItems(
+                    queue.songMediaItems.map { song ->
+                        song.asMediaItem.buildUpon()
+                            .setUri(song.asMediaItem.mediaId)
+                            .setCustomCacheKey(song.asMediaItem.mediaId)
+                            .build().apply {
+                                mediaMetadata.extras?.putBoolean("isFromPersistentQueue", true)
+                            }
+                    },
+                    queue.mediaItemIndex,
+                    queue.position
+                )
+
+                player.prepare()
+
+                isNotificationStarted = true
+                startForegroundService(this@PlayerService, intent<PlayerService>())
+                startForeground(NotificationId, notification())
+            }
+
+        }.onFailure {
+            it.printStackTrace()
+        }
+
+        //Log.d("mediaItem", "QueuePersistentEnabled Restored ${player.currentTimeline.mediaItems.size}")
+
+    }
+
+    private fun maybeSaveToDiskPlayerQueue() {
+
         if (!isPersistentQueueEnabled) return
         //Log.d("mediaItem", "QueuePersistentEnabled Save ${player.currentTimeline.mediaItems.size}")
 
-        val mediaItems = player.currentTimeline.mediaItems
-        val mediaItemIndex = player.currentMediaItemIndex
-        val mediaItemPosition = player.currentPosition
+        val persistentQueue = PersistentQueue(
+            title = "title",
+            songMediaItems = player.currentTimeline.mediaItems.map {
+                PersistentSong(
+                       id = it.mediaId,
+                       title = it.mediaMetadata.title.toString(),
+                       durationText = it.mediaMetadata.extras?.getString("durationText").toString(),
+                       thumbnailUrl = it.mediaMetadata.artworkUri.toString()
+                   )
+            },
+            mediaItemIndex = player.currentMediaItemIndex,
+            position = player.currentPosition
+        )
 
-        mediaItems.mapIndexed { index, mediaItem ->
-            QueuedMediaItem(
-                mediaItem = mediaItem,
-                position = if (index == mediaItemIndex) mediaItemPosition else null
-            )
-        }.let { queuedMediaItems ->
-            query {
-                Database.clearQueue()
-                Database.insert(queuedMediaItems)
+        runCatching {
+            filesDir.resolve("persistentQueue.data").outputStream().use { fos ->
+                ObjectOutputStream(fos).use { oos ->
+                    oos.writeObject(persistentQueue)
+                }
             }
+        }.onFailure {
+            it.printStackTrace()
+        }.onSuccess {
+            Log.d("mediaItem", "QueuePersistentEnabled Saved $persistentQueue")
         }
+
+    }
+
+    private fun maybeSavePlayerQueue() {
+        if (!isPersistentQueueEnabled) return
+        //Log.d("mediaItem", "QueuePersistentEnabled Save ${player.currentTimeline.mediaItems.size}")
+        //Log.d("mediaItem", "QueuePersistentEnabled Save initial")
+
+            val mediaItems = player.currentTimeline.mediaItems
+            val mediaItemIndex = player.currentMediaItemIndex
+            val mediaItemPosition = player.currentPosition
+
+            mediaItems.mapIndexed { index, mediaItem ->
+                QueuedMediaItem(
+                    mediaItem = mediaItem,
+                    position = if (index == mediaItemIndex) mediaItemPosition else null
+                )
+            }.let { queuedMediaItems ->
+                query {
+                    Database.clearQueue()
+                    Database.insert(queuedMediaItems)
+                }
+            }
     }
 
     @UnstableApi
@@ -1079,7 +1169,7 @@ class PlayerService : InvincibleService(),
             ) {
                 putExtra("expandPlayerBottomSheet", true)
             })
-            .setDeleteIntent(broadCastPendingIntent<NotificationDismissReceiver>())
+            //.setDeleteIntent(broadCastPendingIntent<NotificationDismissReceiver>())
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
             .setStyle(
@@ -1191,6 +1281,7 @@ class PlayerService : InvincibleService(),
             .build()
     }
 
+
     @UnstableApi
     private fun createCacheDataSource() = ConditionalCacheDataSourceFactory(
         cacheDataSourceFactory = CacheDataSource.Factory().setCache(downloadCache)
@@ -1198,6 +1289,7 @@ class PlayerService : InvincibleService(),
             .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR),
         upstreamDataSourceFactory = CacheDataSource.Factory()
             .setCache(cache)
+            .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
             .setUpstreamDataSourceFactory(
                 DefaultDataSource.Factory(
                     this,
@@ -1213,6 +1305,7 @@ class PlayerService : InvincibleService(),
                 )
             )
     ) { !it.isLocal }
+
 
     @UnstableApi
     private fun createDataSourceFactory(): DataSource.Factory {
@@ -1519,11 +1612,13 @@ class PlayerService : InvincibleService(),
         }
     }
 
+    /*
     class NotificationDismissReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            context.stopService(context.intent<PlayerService>())
+            //context.stopService(context.intent<PlayerService>())
         }
     }
+     */
 
     @JvmInline
     private value class Action(val value: String) {
