@@ -48,10 +48,10 @@
     <string name="id">Id</string>
     <string name="itag">Itag</string>
     <string name="bitrate">Bitrate</string>
-    <string name="size">Size</string>
+    <string name="size">Storlek</string>
     <string name="cached">Cached</string>
     <string name="loudness">Loudness</string>
-    <string name="clear">Clear</string>
+    <string name="clear">Rensa</string>
     <string name="error">An error has occurred.</string>
     <string name="enter_a_name">Enter a name</string>
     <string name="online">Online</string>
@@ -213,7 +213,7 @@
     <string name="moods_and_genres">Moods and genres</string>
     <string name="search_queries">" search queries"</string>
     <string name="not_find_battery_optimization_settings">Couldn\'t find battery optimization settings, please whitelist manually</string>
-    <string name="search">Search...</string>
+    <string name="search">Sök</string>
     <string name="no">No</string>
     <string name="stop">Stop</string>
     <string name="preferences">PREFERENCES</string>
