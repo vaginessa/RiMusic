@@ -434,8 +434,8 @@
     <string name="sort_date_liked">좋아요 표시한 날짜</string>
     <string name="export_playlist">재생목록 내보내기</string>
     <string name="lang_afrikaans">아프리카어</string>
-    <string name="playlist_top">재생목록 상단</string>
-    <string name="my_playlist_top">내 상단</string>
+    <string name="playlist_top">재생목록 순위</string>
+    <string name="my_playlist_top">나의 Top</string>
     <string name="navigation_bar_position">내비게이션 바 위치</string>
     <string name="direction_left">왼쪽</string>
     <string name="direction_right">오른쪽</string>
