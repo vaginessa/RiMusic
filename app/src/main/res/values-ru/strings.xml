@@ -387,7 +387,7 @@
     <string name="smart_recommendations">УМНЫЕ РЕКОМЕНДАЦИИ</string>
     <string name="player_collapsed_disable_swiping_down">Отключить свайп вниз</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Избежать закрытия плеера и очистки очереди свайпом вниз, пока он свёрнут</string>
-   <string name="sort_date_liked">Date Liked</string>
+    <string name="sort_date_liked">Date Liked</string>
     <string name="export_playlist">Export playlist</string>
     <string name="lang_afrikaans">Afrikaans</string>
     <string name="playlist_top">Playlist Top</string>

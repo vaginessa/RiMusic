@@ -387,7 +387,7 @@
     <string name="smart_recommendations">RECOMENDAÇÕES INTELIGENTES</string>
     <string name="player_collapsed_disable_swiping_down">Desativar deslize para baixo</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Evite fechar o player e limpar a fila deslizando para baixo quando estiver minimizado</string>
-     <string name="sort_date_liked">Date Liked</string>
+    <string name="sort_date_liked">Date Liked</string>
     <string name="export_playlist">Export playlist</string>
     <string name="lang_afrikaans">Afrikaans</string>
     <string name="playlist_top">Playlist Top</string>

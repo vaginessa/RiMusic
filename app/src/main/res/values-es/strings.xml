@@ -387,16 +387,16 @@
     <string name="smart_recommendations">RECOMENDACIONES INTELIGENTES</string>
     <string name="player_collapsed_disable_swiping_down">Deshabilitar deslizar hacia abajo</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Evitar cerrar el reproductor y limpieza de la cola deslizando hacia abajo mientras se está minimizado</string>
-    <string name="sort_date_liked">Date Liked</string>
-    <string name="export_playlist">Export playlist</string>
+    <string name="sort_date_liked">Fecha de Favorito</string>
+    <string name="export_playlist">Exportar lista de reproducción</string>
     <string name="lang_afrikaans">Afrikaans</string>
     <string name="playlist_top">Playlist Top</string>
     <string name="my_playlist_top">My Top</string>
-    <string name="navigation_bar_position">Navigation bar position</string>
-    <string name="direction_left">Left</string>
-    <string name="direction_right">Right</string>
-    <string name="copy_lyrics">Copy lyrics</string>
-    <string name="value_copied">Copied</string>
+    <string name="navigation_bar_position">Posición para la barra de navegación</string>
+    <string name="direction_left">Izquierda</string>
+    <string name="direction_right">Derecha</string>
+    <string name="copy_lyrics">Copiar letra</string>
+    <string name="value_copied">Copiado</string>
     <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="do_you_really_want_to_delete_all_offline_songs">Do you really want to delete all offline songs?</string>
 </resources>

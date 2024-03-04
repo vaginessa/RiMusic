@@ -387,16 +387,16 @@
     <string name="smart_recommendations">CONSIGLIO BRANI INTELLIGENTE</string>
     <string name="player_collapsed_disable_swiping_down">Disattiva scorrimento verso il basso</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Impedisci lo scorrimento verso il basso quando il player è minimizzato per chiudere il player e svuotare la coda</string>
-    <string name="sort_date_liked">Date Liked</string>
-    <string name="export_playlist">Export playlist</string>
+    <string name="sort_date_liked">Data Mi Piace</string>
+    <string name="export_playlist">Esporta playlist</string>
     <string name="lang_afrikaans">Afrikaans</string>
-    <string name="playlist_top">Playlist Top</string>
-    <string name="my_playlist_top">My Top</string>
-    <string name="navigation_bar_position">Navigation bar position</string>
-    <string name="direction_left">Left</string>
-    <string name="direction_right">Right</string>
-    <string name="copy_lyrics">Copy lyrics</string>
-    <string name="value_copied">Copied</string>
+    <string name="playlist_top">Playlist dei Top</string>
+    <string name="my_playlist_top">Il Mio Top</string>
+    <string name="navigation_bar_position">Posizione barra di navigazione</string>
+    <string name="direction_left">Sinistra</string>
+    <string name="direction_right">Destra</string>
+    <string name="copy_lyrics">Copia testo</string>
+    <string name="value_copied">Copiato</string>
     <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="do_you_really_want_to_delete_all_offline_songs">Do you really want to delete all offline songs?</string>
 </resources>
