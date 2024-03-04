@@ -377,7 +377,6 @@
     <string name="player_action_bar">BARRA DE AÇÃO DO REPRODUTOR</string>
     <string name="tab_data">Data</string>
     <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
-    <string name="do_you_really_want_to_delete_all_offline_songs">Do you really want to delete all offline songs?</string>
     <string name="image_cache_max_size">Tamanho máximo do cache de imagens</string>
     <string name="song_cache_max_size">Tamanho máximo do cache de músicas</string>
     <string name="song_download_max_size">Tamanho máximo do download de músicas</string>
@@ -399,4 +398,5 @@
     <string name="direction_right">Direita</string>
     <string name="copy_lyrics">Copiar letra</string>
     <string name="value_copied">Copiado</string>
+    <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
 </resources>

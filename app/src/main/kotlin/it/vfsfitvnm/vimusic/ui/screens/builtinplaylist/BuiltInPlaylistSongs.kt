@@ -202,7 +202,23 @@ fun BuiltInPlaylistSongs(
 
     if (cleanCacheOfflineSongs) {
         ConfirmationDialog(
-            text = stringResource(R.string.do_you_really_want_to_delete_all_offline_songs),
+            text = stringResource(R.string.do_you_really_want_to_delete_cache),
+            onDismiss = {
+                cleanCacheOfflineSongs = false
+            },
+            onConfirm = {
+                binder?.cache?.keys?.forEach { song ->
+                    binder.cache.removeResource(song)
+                }
+                reloadSongs = !reloadSongs
+            }
+        )
+
+    }
+
+    if (cleanCacheOfflineSongs) {
+        ConfirmationDialog(
+            text = stringResource(R.string.do_you_really_want_to_delete_cache),
             onDismiss = {
                 cleanCacheOfflineSongs = false
             },

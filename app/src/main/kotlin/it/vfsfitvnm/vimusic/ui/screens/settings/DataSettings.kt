@@ -257,9 +257,13 @@ fun DataSettings() {
         mutableStateOf(false)
     }
 
+    var cleanDownloadCache by remember {
+        mutableStateOf(false)
+    }
+
     if (cleanCacheOfflineSongs) {
         ConfirmationDialog(
-            text = stringResource(R.string.do_you_really_want_to_delete_all_offline_songs),
+            text = stringResource(R.string.do_you_really_want_to_delete_cache),
             onDismiss = {
                 cleanCacheOfflineSongs = false
             },
@@ -269,7 +273,20 @@ fun DataSettings() {
                 }
             }
         )
+    }
 
+    if (cleanDownloadCache) {
+        ConfirmationDialog(
+            text = stringResource(R.string.do_you_really_want_to_delete_cache),
+            onDismiss = {
+                cleanDownloadCache = false
+            },
+            onConfirm = {
+                binder?.downloadCache?.keys?.forEach { song ->
+                    binder.downloadCache.removeResource(song)
+                }
+            }
+        )
     }
 
     Column(
@@ -369,6 +386,7 @@ fun DataSettings() {
                     text = stringResource(R.string.custom_cache_size) +" "+exoPlayerCustomCache+"MB"
                 )
 
+
             EnumValueSelectorSettingsEntry(
                 title = stringResource(R.string.max_size),
                 selectedValue = exoPlayerDiskCacheMaxSize,
@@ -394,6 +412,7 @@ fun DataSettings() {
             )
              */
 
+            /*
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
@@ -428,9 +447,9 @@ fun DataSettings() {
                     onClick = { cleanCacheOfflineSongs = true }
                 )
             }
+            */
 
 
-            /*
             EnumValueSelectorSettingsEntry(
                 title = stringResource(R.string.song_cache_max_size),
                 titleSecondary = when (exoPlayerDiskCacheMaxSize) {
@@ -445,6 +464,14 @@ fun DataSettings() {
                             else -> append(" (${diskCacheSize * 100 / size.bytes}%)")
                         }
                     }
+                },
+                trailingContent = {
+                    HeaderIconButton(
+                        icon = R.drawable.trash,
+                        enabled = true,
+                        color = colorPalette.text,
+                        onClick = { cleanCacheOfflineSongs = true }
+                    )
                 },
                 selectedValue = exoPlayerDiskCacheMaxSize,
                 onValueSelected = {
@@ -482,7 +509,7 @@ fun DataSettings() {
                         showExoPlayerCustomCacheDialog = false
                     }
                 )
-                */
+
 
         }
 
@@ -540,6 +567,14 @@ fun DataSettings() {
                             else -> append(" (${diskDownloadCacheSize * 100 / size.bytes}%)")
                         }
                     }
+                },
+                trailingContent = {
+                    HeaderIconButton(
+                        icon = R.drawable.trash,
+                        enabled = true,
+                        color = colorPalette.text,
+                        onClick = { cleanDownloadCache = true }
+                    )
                 },
                 selectedValue = exoPlayerDiskDownloadCacheMaxSize,
                 onValueSelected = { exoPlayerDiskDownloadCacheMaxSize = it },

@@ -392,28 +392,27 @@ class PlayerService : InvincibleService(),
         showLikeButton = preferences.getBoolean(showLikeButtonBackgroundPlayerKey, true)
         showDownloadButton = preferences.getBoolean(showDownloadButtonBackgroundPlayerKey, true)
 
-        //val exoPlayerCustomCache = preferences.getInt(exoPlayerCustomCacheKey, 32) * 1000 * 1000L
+        val exoPlayerCustomCache = preferences.getInt(exoPlayerCustomCacheKey, 32) * 1000 * 1000L
 
-        /*
+
         val cacheEvictor = when (val size =
             preferences.getEnum(exoPlayerDiskCacheMaxSizeKey, ExoPlayerDiskCacheMaxSize.`32MB`)) {
             ExoPlayerDiskCacheMaxSize.Unlimited -> NoOpCacheEvictor()
             ExoPlayerDiskCacheMaxSize.Custom -> LeastRecentlyUsedCacheEvictor(exoPlayerCustomCache)
             else -> LeastRecentlyUsedCacheEvictor(size.bytes)
         }
-         */
-        val cacheEvictor = NoOpCacheEvictor()
+
+        //val cacheEvictor = NoOpCacheEvictor()
 
         var directory = cacheDir
         //val downloadDirectory = getExternalFilesDir(null) ?: filesDir
-        val cacheDirName = "rimusic_cache"
-        /*
+        var cacheDirName = "rimusic_cache"
+
         val cacheSize =
             preferences.getEnum(exoPlayerDiskCacheMaxSizeKey, ExoPlayerDiskCacheMaxSize.`32MB`)
 
-
         if (cacheSize == ExoPlayerDiskCacheMaxSize.Disabled) cacheDirName = "rimusic_no_cache"
-         */
+
 
         if (exoPlayerAlternateCacheLocation == "") {
             directory = cacheDir.resolve(cacheDirName).also { dir ->

@@ -397,6 +397,6 @@
     <string name="direction_right">Dreapta</string>
     <string name="copy_lyrics">Copiază versurile</string>
     <string name="value_copied">Copiat</string>
-    <string name="do_you_really_want_to_delete_all_offline_songs">Do you really want to delete all offline songs?</string>
     <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
+    <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
 </resources>
