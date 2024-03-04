@@ -845,7 +845,7 @@ class PlayerService : InvincibleService(),
     }
 
     private fun maybeSavePlayerQueue() {
-        if (!isPersistentQueueEnabled) return
+            if (!isPersistentQueueEnabled) return
         /*
         if (player.playbackState == Player.STATE_IDLE) {
             Log.d("mediaItem", "QueuePersistentEnabled playbackstate idle return")
