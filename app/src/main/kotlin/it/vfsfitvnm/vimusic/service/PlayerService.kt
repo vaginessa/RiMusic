@@ -839,8 +839,8 @@ class PlayerService : InvincibleService(),
             return
         }
          */
-        Log.d("mediaItem", "QueuePersistentEnabled Save ${player.currentTimeline.mediaItems.size}")
-        Log.d("mediaItem", "QueuePersistentEnabled Save initial")
+        //Log.d("mediaItem", "QueuePersistentEnabled Save ${player.currentTimeline.mediaItems.size}")
+        //Log.d("mediaItem", "QueuePersistentEnabled Save initial")
 
             val mediaItems = player.currentTimeline.mediaItems
             val mediaItemIndex = player.currentMediaItemIndex
