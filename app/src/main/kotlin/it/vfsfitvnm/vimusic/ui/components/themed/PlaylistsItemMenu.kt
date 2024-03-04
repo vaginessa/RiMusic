@@ -64,6 +64,7 @@ fun PlaylistsItemMenu(
     playlist: PlaylistPreview? = null,
     modifier: Modifier = Modifier,
     onEnqueue: (() -> Unit)? = null,
+    onImportOnlinePlaylist: (() -> Unit)? = null,
     onAddToPlaylist: ((PlaylistPreview) -> Unit)? = null,
     showOnSyncronize: Boolean = false,
     onSyncronize: (() -> Unit)? = null,
@@ -276,6 +277,16 @@ fun PlaylistsItemMenu(
                     )
                 }
 
+                onImportOnlinePlaylist?.let { onImportOnlinePlaylist ->
+                    MenuEntry(
+                        icon = R.drawable.add_in_playlist,
+                        text = stringResource(R.string.import_playlist),
+                        onClick = {
+                            onDismiss()
+                            onImportOnlinePlaylist()
+                        }
+                    )
+                }
 
                 if (onAddToPlaylist != null) {
                     MenuEntry(

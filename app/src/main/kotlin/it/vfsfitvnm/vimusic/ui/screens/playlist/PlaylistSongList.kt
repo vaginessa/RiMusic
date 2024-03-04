@@ -36,6 +36,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -90,7 +91,11 @@ import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.InputTextField
 import it.vfsfitvnm.vimusic.ui.components.themed.LayoutWithAdaptiveThumbnail
+import it.vfsfitvnm.vimusic.ui.components.themed.Menu
+import it.vfsfitvnm.vimusic.ui.components.themed.MenuEntry
 import it.vfsfitvnm.vimusic.ui.components.themed.NonQueuedMediaItemMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.PlayerMenu
+import it.vfsfitvnm.vimusic.ui.components.themed.PlaylistsItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.TextFieldDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.adaptiveThumbnailContent
@@ -120,6 +125,7 @@ import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
+import it.vfsfitvnm.vimusic.utils.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -197,7 +203,7 @@ fun PlaylistSongList(
         thumbnailRoundnessKey,
         ThumbnailRoundness.Heavy
     )
-
+/*
     var showAddPlaylistSelectDialog by remember {
         mutableStateOf(false)
     }
@@ -209,6 +215,7 @@ fun PlaylistSongList(
     var showPlaylistSelectDialog by remember {
         mutableStateOf(false)
     }
+ */
 
     var totalPlayTimes = 0L
     playlistPage?.songsPage?.items?.forEach {
@@ -239,8 +246,13 @@ fun PlaylistSongList(
                             }?.let(Database::insertSongPlaylistMaps)
                     }
                 }
+                context.toast(context.resources.getString(R.string.done))
             }
         )
+    }
+
+    var position by remember {
+        mutableIntStateOf(0)
     }
 
     val headerContent: @Composable () -> Unit = {
@@ -376,10 +388,40 @@ fun PlaylistSongList(
                     icon = R.drawable.add_in_playlist,
                     color = colorPalette.text,
                     onClick = {
-                        showAddPlaylistSelectDialog = true
+                        menuState.display {
+                            PlaylistsItemMenu(
+                                modifier = Modifier.fillMaxHeight(0.4f),
+                                onDismiss = menuState::hide,
+                                onImportOnlinePlaylist = {
+                                    isImportingPlaylist = true
+                                },
+                                onAddToPlaylist = { playlistPreview ->
+                                    position =
+                                        playlistPreview.songCount.minus(1) ?: 0
+                                    //Log.d("mediaItem", " maxPos in Playlist $it ${position}")
+                                    if (position > 0) position++ else position = 0
+                                    //Log.d("mediaItem", "next initial pos ${position}")
+
+                                    playlistPage!!.songsPage?.items?.forEachIndexed { index, song ->
+                                            transaction {
+                                                Database.insert(song.asMediaItem)
+                                                Database.insert(
+                                                    SongPlaylistMap(
+                                                        songId = song.asMediaItem.mediaId,
+                                                        playlistId = playlistPreview.playlist.id,
+                                                        position = position + index
+                                                    )
+                                                )
+                                            }
+                                        }
+                                    context.toast(context.resources.getString(R.string.done))
+                                }
+                            )
+                        }
                     }
                 )
 
+                /*
                 if (showAddPlaylistSelectDialog)
                     SelectorDialog(
                         title = stringResource(R.string.add_in_playlist),
@@ -396,6 +438,7 @@ fun PlaylistSongList(
                             showAddPlaylistSelectDialog = false
                         }
                     )
+
 
                 if (showPlaylistSelectDialog) {
 
@@ -436,6 +479,7 @@ fun PlaylistSongList(
                         }
                     )
                 }
+                 */
 
                 HeaderIconButton(
                     icon = R.drawable.share_social,
