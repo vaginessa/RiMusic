@@ -398,4 +398,5 @@
     <string name="copy_lyrics">Kopiuj tekst piosenki</string>
     <string name="value_copied">Skopiowano</string>
      <string name="do_you_really_want_to_delete_all_offline_songs">Do you really want to delete all offline songs?</string>
+    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
 </resources>

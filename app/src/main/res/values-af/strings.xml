@@ -70,6 +70,7 @@
     <string name="lockscreen">SLUIT SKERM</string>
     <string name="show_song_cover">Wys liedjie foto</string>
     <string name="use_song_cover_on_lockscreen">Gebruik die liedjie wat speel se foto as die sluit skerm se agtergrond foto</string>
+    <string name="cache">Cache</string>
     <string name="cache_cleared">As die cache nie meer spasie het nie word die hulpbronne wat vir die langste tyd nie verkry is nie uitgevee</string>
     <string name="image_cache">FOTO CACHE</string>
     <string name="max_size">Maksimum grootte</string>
