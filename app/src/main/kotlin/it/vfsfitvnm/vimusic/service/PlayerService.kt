@@ -560,12 +560,11 @@ class PlayerService : InvincibleService(),
         }
 
         ContextCompat.registerReceiver(
-            /* context  = */ this,
-            /* receiver = */ notificationActionReceiver,
-            /* filter   = */ filter,
-            /* flags    = */ ContextCompat.RECEIVER_NOT_EXPORTED
+             this,
+             notificationActionReceiver,
+             filter,
+             ContextCompat.RECEIVER_NOT_EXPORTED
         )
-        //registerReceiver(notificationActionReceiver, filter)
 
         maybeRestorePlayerQueue()
         //maybeRestoreFromDiskPlayerQueue()
@@ -589,7 +588,6 @@ class PlayerService : InvincibleService(),
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         super.onTaskRemoved(rootIntent)
-        Log.d("mediaItem", "onTaskRemoved event")
         isclosebackgroundPlayerEnabled = preferences.getBoolean(closebackgroundPlayerKey, false)
         if (isclosebackgroundPlayerEnabled) {
             this.stopService(this.intent<PlayerService>())
