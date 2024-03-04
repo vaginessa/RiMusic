@@ -271,8 +271,8 @@ class PlayerMediaBrowserService : MediaBrowserServiceCompat(), ServiceConnection
         @UnstableApi
         override fun onCustomAction(action: String?, extras: Bundle?) {
             super.onCustomAction(action, extras)
-            if (action == "LIKE") {}
-            if (action == "DOWNLOAD") {}
+            //if (action == "LIKE") {}
+            //if (action == "DOWNLOAD") {}
         }
 
         @UnstableApi

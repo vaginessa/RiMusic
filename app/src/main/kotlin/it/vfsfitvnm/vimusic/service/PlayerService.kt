@@ -73,7 +73,8 @@ import androidx.media3.exoplayer.audio.DefaultAudioSink
 import androidx.media3.exoplayer.audio.DefaultAudioSink.DefaultAudioProcessorChain
 import androidx.media3.exoplayer.audio.MediaCodecAudioRenderer
 import androidx.media3.exoplayer.audio.SilenceSkippingAudioProcessor
-import androidx.media3.exoplayer.audio.SonicAudioProcessor
+//import androidx.media3.exoplayer.audio.SonicAudioProcessor
+import androidx.media3.common.audio.SonicAudioProcessor
 import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.MediaSource
@@ -192,6 +193,8 @@ class PlayerService : InvincibleService(),
     private lateinit var player: ExoPlayer
     private lateinit var downloadCache: SimpleCache
 
+    @ExperimentalCoroutinesApi
+    @FlowPreview
     private val stateBuilderWithoutCustomAction
         get() = PlaybackStateCompat.Builder().setActions(
             PlaybackStateCompat.ACTION_PLAY or
@@ -205,6 +208,8 @@ class PlayerService : InvincibleService(),
                     PlaybackStateCompat.ACTION_REWIND
         )
 
+    @ExperimentalCoroutinesApi
+    @FlowPreview
     private val stateBuilder
         get() = PlaybackStateCompat.Builder().setActions(
             PlaybackStateCompat.ACTION_PLAY or
@@ -229,6 +234,8 @@ class PlayerService : InvincibleService(),
             /* icon   = */ if (isLikedState.value) R.drawable.heart else R.drawable.heart_outline
         )
 
+    @ExperimentalCoroutinesApi
+    @FlowPreview
     private val stateBuilderWithDownloadOnly
         get() = PlaybackStateCompat.Builder().setActions(
             PlaybackStateCompat.ACTION_PLAY or
@@ -249,6 +256,8 @@ class PlayerService : InvincibleService(),
 
         )
 
+    @ExperimentalCoroutinesApi
+    @FlowPreview
     private val stateBuilderWithLikeOnly
         get() = PlaybackStateCompat.Builder().setActions(
             PlaybackStateCompat.ACTION_PLAY or
@@ -305,6 +314,7 @@ class PlayerService : InvincibleService(),
 
     private val mediaItemState = MutableStateFlow<MediaItem?>(null)
 
+    @ExperimentalCoroutinesApi
     @FlowPreview
     private val isLikedState = mediaItemState
         .flatMapMerge { item ->
@@ -351,6 +361,8 @@ class PlayerService : InvincibleService(),
         return binder
     }
 
+
+    @ExperimentalCoroutinesApi
     @FlowPreview
     @SuppressLint("Range")
     @UnstableApi
@@ -422,21 +434,21 @@ class PlayerService : InvincibleService(),
 
         } else {
             // Available before android 10
-            var path = File(exoPlayerAlternateCacheLocation)
-            directory = path?.resolve(cacheDirName).also { dir ->
-                if (dir?.exists() == true) return@also
+            val path = File(exoPlayerAlternateCacheLocation)
+            directory = path.resolve(cacheDirName).also { dir ->
+                if (dir.exists()) return@also
 
-                dir?.mkdir()
+                dir.mkdir()
 
-                dir?.listFiles()?.forEach { file ->
+                dir.listFiles()?.forEach { file ->
                     if (file.isDirectory && file.name.length == 1 && file.name.isDigitsOnly() || file.extension == "uid") {
-                        if (!file.renameTo(dir?.resolve(file.name))) {
+                        if (!dir.resolve(file.name).let { file.renameTo(it) }) {
                             file.deleteRecursively()
                         }
                     }
                 }
 
-                dir?.resolve("coil")?.deleteRecursively()
+                dir.resolve("coil").deleteRecursively()
             }
         }
 
@@ -624,6 +636,8 @@ class PlayerService : InvincibleService(),
     }
 
 
+    @ExperimentalCoroutinesApi
+    @FlowPreview
     override fun onConfigurationChanged(newConfig: Configuration) {
         if (bitmapProvider.setDefaultBitmap() && player.currentMediaItem != null) {
             notificationManager?.notify(NotificationId, notification())
@@ -752,6 +766,7 @@ class PlayerService : InvincibleService(),
         }
     }
 
+    @ExperimentalCoroutinesApi
     @FlowPreview
     @UnstableApi
     private fun maybeRestoreFromDiskPlayerQueue() {
@@ -857,6 +872,8 @@ class PlayerService : InvincibleService(),
             }
     }
 
+    @ExperimentalCoroutinesApi
+    @FlowPreview
     @UnstableApi
     private fun maybeRestorePlayerQueue() {
         if (!isPersistentQueueEnabled) return
@@ -993,6 +1010,8 @@ class PlayerService : InvincibleService(),
         )
     }
 
+    @ExperimentalCoroutinesApi
+    @FlowPreview
     private fun updatePlaybackState() = coroutineScope.launch {
         playbackStateMutex.withLock {
             withContext(Dispatchers.Main) {
@@ -1038,6 +1057,8 @@ class PlayerService : InvincibleService(),
         }
 
     // legacy behavior may cause inconsistencies, but not available on sdk 24 or lower
+    @ExperimentalCoroutinesApi
+    @FlowPreview
     @Suppress("DEPRECATION")
     override fun onEvents(player: Player, events: Player.Events) {
         if (player.duration != C.TIME_UNSET) mediaSession.setMetadata(
@@ -1135,6 +1156,7 @@ class PlayerService : InvincibleService(),
         }
     }
 
+    @ExperimentalCoroutinesApi
     @FlowPreview
     override fun notification(): Notification? {
         if (player.currentMediaItem == null) return null
@@ -1531,6 +1553,7 @@ class PlayerService : InvincibleService(),
         }
     }
 
+    @ExperimentalCoroutinesApi
     @FlowPreview
     private fun toggleLikeAction() = mediaItemState.value?.let { mediaItem ->
             transaction {
@@ -1542,6 +1565,8 @@ class PlayerService : InvincibleService(),
         }.let {  }
 
 
+    @ExperimentalCoroutinesApi
+    @FlowPreview
     private fun toggleDownloadAction() = mediaDownloadedItemState.value?.let { mediaItem ->
         manageDownload(
             context = this,
@@ -1564,6 +1589,8 @@ class PlayerService : InvincibleService(),
             runCatching { player.seekToDefaultPosition(id.toInt()) }.let { }
 
 
+        @ExperimentalCoroutinesApi
+        @FlowPreview
         override fun onCustomAction(action: String, extras: Bundle?) {
             super.onCustomAction(action, extras)
             //From Android 11
@@ -1581,6 +1608,8 @@ class PlayerService : InvincibleService(),
 
     inner class NotificationActionReceiver(private val player: Player) : BroadcastReceiver() {
 
+        @ExperimentalCoroutinesApi
+        @FlowPreview
         // Prior Android 11
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
