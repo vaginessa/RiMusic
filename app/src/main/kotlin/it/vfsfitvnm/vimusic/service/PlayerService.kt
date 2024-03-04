@@ -570,11 +570,8 @@ class PlayerService : InvincibleService(),
         maybeRestorePlayerQueue()
         //maybeRestoreFromDiskPlayerQueue()
 
-        maybeResumePlaybackWhenDeviceConnected()
-
-
         if (isPersistentQueueEnabled) {
-        // Save persistent queue periodically
+            // Save persistent queue periodically
             coroutineScope.launch {
                 while (isActive) {
                     delay(25.seconds)
@@ -586,17 +583,18 @@ class PlayerService : InvincibleService(),
             }
         }
 
-
+        maybeResumePlaybackWhenDeviceConnected()
 
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         super.onTaskRemoved(rootIntent)
+        Log.d("mediaItem", "onTaskRemoved event")
         isclosebackgroundPlayerEnabled = preferences.getBoolean(closebackgroundPlayerKey, false)
-        if (isclosebackgroundPlayerEnabled == true) {
+        if (isclosebackgroundPlayerEnabled) {
             this.stopService(this.intent<PlayerService>())
-            super.stopSelf()
-            super.onDestroy()
+            stopSelf()
+            onDestroy()
         }
 
     }
@@ -835,8 +833,14 @@ class PlayerService : InvincibleService(),
 
     private fun maybeSavePlayerQueue() {
         if (!isPersistentQueueEnabled) return
-        //Log.d("mediaItem", "QueuePersistentEnabled Save ${player.currentTimeline.mediaItems.size}")
-        //Log.d("mediaItem", "QueuePersistentEnabled Save initial")
+        /*
+        if (player.playbackState == Player.STATE_IDLE) {
+            Log.d("mediaItem", "QueuePersistentEnabled playbackstate idle return")
+            return
+        }
+         */
+        Log.d("mediaItem", "QueuePersistentEnabled Save ${player.currentTimeline.mediaItems.size}")
+        Log.d("mediaItem", "QueuePersistentEnabled Save initial")
 
             val mediaItems = player.currentTimeline.mediaItems
             val mediaItemIndex = player.currentMediaItemIndex
@@ -861,7 +865,6 @@ class PlayerService : InvincibleService(),
 
         query {
             val queuedSong = Database.queue()
-            Database.clearQueue()
 
             if (queuedSong.isEmpty()) return@query
 
@@ -887,8 +890,6 @@ class PlayerService : InvincibleService(),
                 startForeground(NotificationId, notification())
             }
         }
-
-        //Log.d("mediaItem", "QueuePersistentEnabled Restored ${player.currentTimeline.mediaItems.size}")
 
     }
 
