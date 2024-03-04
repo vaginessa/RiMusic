@@ -112,6 +112,7 @@ import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.showNewAlbumsArtistsKey
 import it.vfsfitvnm.vimusic.utils.showPlaylistMightLikeKey
 import it.vfsfitvnm.vimusic.utils.showRelatedAlbumsKey
+import it.vfsfitvnm.vimusic.utils.showSearchTabKey
 import it.vfsfitvnm.vimusic.utils.showSimilarArtistsKey
 import kotlinx.coroutines.flow.distinctUntilChanged
 
@@ -233,6 +234,8 @@ fun QuickPicks(
         .padding(top = 24.dp, bottom = 8.dp)
         .padding(endPaddingValues)
 
+    val showSearchTab by rememberPreference(showSearchTabKey, false)
+
     BoxWithConstraints (
         modifier = Modifier
             //.pullRefresh(refreshState)
@@ -263,7 +266,7 @@ fun QuickPicks(
                 title = stringResource(R.string.quick_picks),
                 iconId = R.drawable.search,
                 enabled = true,
-                showIcon = true,
+                showIcon = !showSearchTab,
                 modifier = Modifier,
                 onClick = onSearchClick
             )

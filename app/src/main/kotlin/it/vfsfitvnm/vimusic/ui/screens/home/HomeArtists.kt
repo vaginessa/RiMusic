@@ -72,6 +72,7 @@ import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
+import it.vfsfitvnm.vimusic.utils.showSearchTabKey
 
 @ExperimentalMaterialApi
 @SuppressLint("SuspiciousIndentation")
@@ -104,15 +105,19 @@ fun HomeArtistList(
         animationSpec = tween(durationMillis = 400, easing = LinearEasing), label = ""
     )
 
+    /*
     var showSortTypeSelectDialog by remember {
         mutableStateOf(false)
     }
+     */
 
     val lazyGridState = rememberLazyGridState()
 
     val context = LocalContext.current
     val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
     val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
+
+    val showSearchTab by rememberPreference(showSearchTabKey, false)
 
     Box (
         modifier = Modifier
@@ -145,7 +150,7 @@ fun HomeArtistList(
                     title = stringResource(R.string.artists),
                     iconId = R.drawable.search,
                     enabled = true,
-                    showIcon = true,
+                    showIcon = !showSearchTab,
                     modifier = Modifier,
                     onClick = onSearchClick
                 )

@@ -58,6 +58,7 @@ import it.vfsfitvnm.vimusic.utils.playlistSortByKey
 import it.vfsfitvnm.vimusic.utils.playlistSortOrderKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.showSearchTabKey
 
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalAnimationApi
@@ -126,6 +127,8 @@ fun HomeStatistics(
     val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
     val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
 
+    val showSearchTab by rememberPreference(showSearchTabKey, false)
+
     Box(
         modifier = Modifier
             .background(colorPalette.background0)
@@ -153,7 +156,7 @@ fun HomeStatistics(
                     title = stringResource(R.string.statistics),
                     iconId = R.drawable.search,
                     enabled = true,
-                    showIcon = true,
+                    showIcon = !showSearchTab,
                     modifier = Modifier,
                     onClick = onSearchClick
                 )

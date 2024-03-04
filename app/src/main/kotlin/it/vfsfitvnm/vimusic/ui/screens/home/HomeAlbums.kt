@@ -73,6 +73,7 @@ import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.semiBold
+import it.vfsfitvnm.vimusic.utils.showSearchTabKey
 
 @ExperimentalTextApi
 @UnstableApi
@@ -118,6 +119,8 @@ fun HomeAlbums(
 
     val lazyListState = rememberLazyListState()
 
+    val showSearchTab by rememberPreference(showSearchTabKey, false)
+
     Box (
         modifier = Modifier
         .background(colorPalette.background0)
@@ -142,7 +145,7 @@ fun HomeAlbums(
                     title = stringResource(R.string.albums),
                     iconId = R.drawable.search,
                     enabled = true,
-                    showIcon = true,
+                    showIcon = !showSearchTab,
                     modifier = Modifier,
                     onClick = onSearchClick
                 )

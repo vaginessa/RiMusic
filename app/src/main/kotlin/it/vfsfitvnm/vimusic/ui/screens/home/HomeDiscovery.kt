@@ -79,6 +79,7 @@ import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
+import it.vfsfitvnm.vimusic.utils.showSearchTabKey
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -129,6 +130,8 @@ fun HomeDiscovery(
     val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
     val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
 
+    val showSearchTab by rememberPreference(showSearchTabKey, false)
+
     //Log.d("mediaItemArtists",preferitesArtists.toString())
 
     BoxWithConstraints {
@@ -172,7 +175,7 @@ fun HomeDiscovery(
                 title = stringResource(R.string.discovery),
                 iconId = R.drawable.search,
                 enabled = true,
-                showIcon = true,
+                showIcon = !showSearchTab,
                 modifier = Modifier,
                 onClick = onSearchClick
             )

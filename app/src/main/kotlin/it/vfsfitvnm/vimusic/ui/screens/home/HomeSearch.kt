@@ -105,7 +105,7 @@ fun HomeSearch(
                     title = stringResource(R.string.search),
                     iconId = R.drawable.search,
                     enabled = false,
-                    showIcon = true,
+                    showIcon = false,
                     modifier = Modifier,
                     onClick = {}
                 )

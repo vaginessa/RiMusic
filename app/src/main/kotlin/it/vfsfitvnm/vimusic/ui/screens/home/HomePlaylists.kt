@@ -96,6 +96,7 @@ import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.requestPermission
 import it.vfsfitvnm.vimusic.utils.semiBold
+import it.vfsfitvnm.vimusic.utils.showSearchTabKey
 import it.vfsfitvnm.vimusic.utils.toast
 
 @ExperimentalMaterialApi
@@ -248,6 +249,8 @@ fun HomePlaylists(
 
     val lazyGridState = rememberLazyGridState()
 
+    val showSearchTab by rememberPreference(showSearchTabKey, false)
+
     Box(
         modifier = Modifier
             .background(colorPalette.background0)
@@ -275,7 +278,7 @@ fun HomePlaylists(
                     title = stringResource(R.string.library),
                     iconId = R.drawable.search,
                     enabled = true,
-                    showIcon = true,
+                    showIcon = !showSearchTab,
                     modifier = Modifier,
                     onClick = onSearchClick
                 )

@@ -106,6 +106,7 @@ import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
+import it.vfsfitvnm.vimusic.utils.showSearchTabKey
 import it.vfsfitvnm.vimusic.utils.songSortByKey
 import it.vfsfitvnm.vimusic.utils.songSortOrderKey
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
@@ -183,6 +184,8 @@ fun HomeSongs(
 
     val lazyListState = rememberLazyListState()
 
+    val showSearchTab by rememberPreference(showSearchTabKey, false)
+
     Box(
         modifier = Modifier
             .background(colorPalette.background0)
@@ -204,7 +207,7 @@ fun HomeSongs(
                     title = stringResource(R.string.songs),
                     iconId = R.drawable.search,
                     enabled = true,
-                    showIcon = true,
+                    showIcon = !showSearchTab,
                     modifier = Modifier,
                     onClick = onSearchClick
                 )
