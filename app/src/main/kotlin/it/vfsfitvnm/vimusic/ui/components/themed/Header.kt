@@ -183,6 +183,7 @@ fun HeaderWithIcon (
                 fontWeight = typography.xxl.bold.fontWeight,
                 color = colorPalette.text,
                 textAlign = if(uiType != UiType.ViMusic) TextAlign.Center else TextAlign.End
+
             ),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
