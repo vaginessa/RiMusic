@@ -304,11 +304,12 @@ fun StatisticsPage(
 
             )
 
-            BasicText(
-                text = "${maxStatisticsItems} ${stringResource(R.string.most_played_songs)}",
-                style = typography.m.semiBold,
-                modifier = sectionTextModifier
-            )
+            if (allSongs.isNotEmpty())
+                BasicText(
+                    text = "${maxStatisticsItems} ${stringResource(R.string.most_played_songs)}",
+                    style = typography.m.semiBold,
+                    modifier = sectionTextModifier
+                )
 
                 LazyHorizontalGrid(
                     state = quickPicksLazyGridState,
@@ -376,11 +377,12 @@ fun StatisticsPage(
 
                 }
 
-            BasicText(
-                text = "${maxStatisticsItems} ${stringResource(R.string.most_listened_artists)}",
-                style = typography.m.semiBold,
-                modifier = sectionTextModifier
-            )
+            if (artists.isNotEmpty())
+                BasicText(
+                    text = "${maxStatisticsItems} ${stringResource(R.string.most_listened_artists)}",
+                    style = typography.m.semiBold,
+                    modifier = sectionTextModifier
+                )
 
             LazyRow(contentPadding = endPaddingValues) {
                 items(
@@ -406,11 +408,12 @@ fun StatisticsPage(
             }
 
 
-            BasicText(
-                text = "${maxStatisticsItems} ${stringResource(R.string.most_albums_listened)}",
-                style = typography.m.semiBold,
-                modifier = sectionTextModifier
-            )
+            if (albums.isNotEmpty())
+                BasicText(
+                    text = "${maxStatisticsItems} ${stringResource(R.string.most_albums_listened)}",
+                    style = typography.m.semiBold,
+                    modifier = sectionTextModifier
+                )
 
             LazyRow(contentPadding = endPaddingValues) {
                 items(
@@ -435,12 +438,12 @@ fun StatisticsPage(
             }
 
 
-
-            BasicText(
-                text = "${maxStatisticsItems} ${stringResource(R.string.most_played_playlists)}",
-                style = typography.m.semiBold,
-                modifier = sectionTextModifier
-            )
+            if (playlists.isNotEmpty())
+                BasicText(
+                    text = "${maxStatisticsItems} ${stringResource(R.string.most_played_playlists)}",
+                    style = typography.m.semiBold,
+                    modifier = sectionTextModifier
+                )
 
             LazyRow(contentPadding = endPaddingValues) {
                 items(
