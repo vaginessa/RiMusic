@@ -413,7 +413,7 @@
     <string name="item_select">Kiválaszt</string>
     <string name="item_uncheck">Törölje a kijelölést</string>
     <string name="blacklisted_folders">Feketelistás mappák</string>
-    <string name="edit_blacklist_for_on_device_songs">Fekete lista szerkesztése a készüléken lévő dalokhoz.</string>
+    <string name="edit_blacklist_for_on_device_songs">Feketelista szerkesztése a készüléken lévő dalokhoz.</string>
     <string name="add_folder">Mappa hozzáadása</string>
     <string name="this_folder_already_exists">Ez a mappa már létezik.</string>
     <string name="are_you_sure_you_want_to_remove_this_folder_from_the_blacklist">Biztos, hogy el akarod távolítani ezt a mappát a feketelistáról?</string>
