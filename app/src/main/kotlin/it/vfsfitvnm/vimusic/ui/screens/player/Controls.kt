@@ -59,6 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.innertube.models.NavigationEndpoint
 import it.vfsfitvnm.vimusic.Database
@@ -107,8 +108,12 @@ import it.vfsfitvnm.vimusic.utils.seamlessPlay
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.time.Duration.Companion.seconds
 
 
 @ExperimentalTextApi
@@ -214,11 +219,14 @@ fun Controls(
 
     var playerThumbnailSize by rememberPreference(playerThumbnailSizeKey, PlayerThumbnailSize.Medium)
 
+    /*
     var showLyrics by rememberSaveable {
         mutableStateOf(false)
     }
+     */
 
-    val menuState = LocalMenuState.current
+    //val menuState = LocalMenuState.current
+    val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.Start,
@@ -559,15 +567,47 @@ fun Controls(
             if (duration != C.TIME_UNSET) {
                 val positionAndDuration = binder.player.positionAndDurationState()
                 var timeRemaining by remember { mutableIntStateOf(0) }
-                if (positionAndDuration != null) {
-                    timeRemaining = positionAndDuration.value.second.toInt() - positionAndDuration.value.first.toInt()
+                timeRemaining = positionAndDuration.value.second.toInt() - positionAndDuration.value.first.toInt()
+                var paused by remember { mutableStateOf(false) }
+                LaunchedEffect(timeRemaining){
+                    Log.d("mediaItem", "timeRemaining long ${timeRemaining.toLong()}")
+
+                    if (
+                        //formatAsDuration(timeRemaining.toLong()) == "0:00"
+                        timeRemaining.toLong() < 500
+                        )
+                    {
+                        paused = true
+                        binder.player.pause()
+                        Log.d("mediaItem", "Transition... delay timeRemaining $timeRemaining")
+                        delay(10.seconds)
+                        //binder.player.seekTo(position+2000)
+                        binder.player.play()
+                        paused = false
+                        Log.d("mediaItem", "Transition... delayed")
+                    }
                 }
-                BasicText(
-                    text = stringResource(R.string.left, formatAsDuration(timeRemaining.toLong())),
-                    style = typography.xxs.semiBold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+
+                if (!paused) {
+                    BasicText(
+                        text = stringResource(
+                            R.string.left,
+                            formatAsDuration(timeRemaining.toLong())
+                        ),
+                        style = typography.xxs.semiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(R.drawable.alarm),
+                        colorFilter = ColorFilter.tint(colorPalette.accent),
+                        modifier = Modifier
+                            .size(20.dp),
+                        contentDescription = "Background Image",
+                        contentScale = ContentScale.Fit
+                    )
+                }
 
                 BasicText(
                     text = formatAsDuration(duration),
