@@ -66,6 +66,7 @@ import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.ColorPaletteName
+import it.vfsfitvnm.vimusic.enums.PauseBetweenSongs
 import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
@@ -99,6 +100,7 @@ import it.vfsfitvnm.vimusic.utils.forceSeekToNext
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
 import it.vfsfitvnm.vimusic.utils.isCompositionLaunched
+import it.vfsfitvnm.vimusic.utils.pauseBetweenSongsKey
 import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
 import it.vfsfitvnm.vimusic.utils.playerTimelineTypeKey
@@ -225,8 +227,8 @@ fun Controls(
     }
      */
 
-    //val menuState = LocalMenuState.current
-    val context = LocalContext.current
+    val pauseBetweenSongs  by rememberPreference(pauseBetweenSongsKey,   PauseBetweenSongs.`0`)
+
 
     Column(
         horizontalAlignment = Alignment.Start,
@@ -569,24 +571,26 @@ fun Controls(
                 var timeRemaining by remember { mutableIntStateOf(0) }
                 timeRemaining = positionAndDuration.value.second.toInt() - positionAndDuration.value.first.toInt()
                 var paused by remember { mutableStateOf(false) }
-                LaunchedEffect(timeRemaining){
-                    Log.d("mediaItem", "timeRemaining long ${timeRemaining.toLong()}")
 
-                    if (
-                        //formatAsDuration(timeRemaining.toLong()) == "0:00"
-                        timeRemaining.toLong() < 500
-                        )
-                    {
-                        paused = true
-                        binder.player.pause()
-                        Log.d("mediaItem", "Transition... delay timeRemaining $timeRemaining")
-                        delay(10.seconds)
-                        //binder.player.seekTo(position+2000)
-                        binder.player.play()
-                        paused = false
-                        Log.d("mediaItem", "Transition... delayed")
+                if (pauseBetweenSongs != PauseBetweenSongs.`0`)
+                    LaunchedEffect(timeRemaining){
+                        Log.d("mediaItem", "timeRemaining long ${timeRemaining.toLong()}")
+
+                        if (
+                            //formatAsDuration(timeRemaining.toLong()) == "0:00"
+                            timeRemaining.toLong() < 500
+                            )
+                        {
+                            paused = true
+                            binder.player.pause()
+                            Log.d("mediaItem", "Transition... delay timeRemaining $timeRemaining")
+                            delay(pauseBetweenSongs.number)
+                            //binder.player.seekTo(position+2000)
+                            binder.player.play()
+                            paused = false
+                            Log.d("mediaItem", "Transition... delayed")
+                        }
                     }
-                }
 
                 if (!paused) {
                     BasicText(

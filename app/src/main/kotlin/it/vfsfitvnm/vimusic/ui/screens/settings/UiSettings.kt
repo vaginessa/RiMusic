@@ -41,6 +41,7 @@ import it.vfsfitvnm.vimusic.enums.HomeScreenTabs
 import it.vfsfitvnm.vimusic.enums.MaxTopPlaylistItems
 import it.vfsfitvnm.vimusic.enums.NavigationBarPosition
 import it.vfsfitvnm.vimusic.enums.NavigationBarType
+import it.vfsfitvnm.vimusic.enums.PauseBetweenSongs
 import it.vfsfitvnm.vimusic.enums.PlayerPlayButtonType
 import it.vfsfitvnm.vimusic.enums.PlayerThumbnailSize
 import it.vfsfitvnm.vimusic.enums.PlayerTimelineType
@@ -77,6 +78,7 @@ import it.vfsfitvnm.vimusic.utils.lastPlayerVisualizerTypeKey
 import it.vfsfitvnm.vimusic.utils.maxStatisticsItemsKey
 import it.vfsfitvnm.vimusic.utils.navigationBarPositionKey
 import it.vfsfitvnm.vimusic.utils.navigationBarTypeKey
+import it.vfsfitvnm.vimusic.utils.pauseBetweenSongsKey
 import it.vfsfitvnm.vimusic.utils.persistentQueueKey
 import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
 import it.vfsfitvnm.vimusic.utils.playerThumbnailSizeKey
@@ -176,6 +178,7 @@ fun  UiSettings() {
     var navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
     val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
     var navigationBarType by rememberPreference(navigationBarTypeKey, NavigationBarType.IconAndText)
+    var pauseBetweenSongs  by rememberPreference(pauseBetweenSongsKey,   PauseBetweenSongs.`0`)
 
     Column(
         modifier = Modifier
@@ -293,6 +296,25 @@ fun  UiSettings() {
             }
         )
         SettingsDescription(text = stringResource(R.string.is_min_list_time_for_tips_or_quick_pics))
+
+        EnumValueSelectorSettingsEntry(
+            title = "Pause between songs",
+            selectedValue = pauseBetweenSongs,
+            onValueSelected = { pauseBetweenSongs = it },
+            valueText = {
+                when (it) {
+                    PauseBetweenSongs.`0` -> "0s"
+                    PauseBetweenSongs.`5` -> "5s"
+                    PauseBetweenSongs.`10` -> "10s"
+                    PauseBetweenSongs.`15` -> "15s"
+                    PauseBetweenSongs.`20` -> "20s"
+                    PauseBetweenSongs.`30` -> "30s"
+                    PauseBetweenSongs.`40` -> "40s"
+                    PauseBetweenSongs.`50` -> "50s"
+                    PauseBetweenSongs.`60` -> "60s"
+                }
+            }
+        )
 
         SwitchSettingEntry(
             title = stringResource(R.string.player_keep_minimized),
