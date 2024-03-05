@@ -399,4 +399,5 @@
     <string name="value_copied">Kopyalandı</string>
     <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
+    <string name="lang_swedish">Swedish</string>
 </resources>

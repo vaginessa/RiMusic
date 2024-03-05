@@ -399,4 +399,5 @@
     <string name="copy_lyrics">Copiar letra</string>
     <string name="value_copied">Copiado</string>
     <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
+    <string name="lang_swedish">Swedish</string>
 </resources>
