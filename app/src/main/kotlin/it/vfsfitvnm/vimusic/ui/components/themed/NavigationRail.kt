@@ -35,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.size.Dimension
 import it.vfsfitvnm.vimusic.LocalPlayerAwareWindowInsets
+import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.enums.NavigationBarType
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
@@ -52,6 +53,9 @@ inline fun NavigationRail(
     topIconButton2Id: Int,
     noinline onTopIconButton2Click: () -> Unit,
     showButton2: Boolean,
+    bottomIconButtonId: Int? = R.drawable.search,
+    noinline onBottomIconButtonClick: () -> Unit,
+    showBottomButton: Boolean? = false,
     tabIndex: Int,
     crossinline onTabIndexChanged: (Int) -> Unit,
     content: @Composable ColumnScope.(@Composable (Int, String, Int) -> Unit) -> Unit,
@@ -239,6 +243,28 @@ inline fun NavigationRail(
                 }
             }
         }
+
+        if (showBottomButton == true)
+            Box(
+                contentAlignment = Alignment.TopCenter,
+                modifier = Modifier
+                    .size(
+                        width = if (isLandscape) Dimensions.navigationRailWidthLandscape else Dimensions.navigationRailWidth,
+                        height = Dimensions.halfheaderHeight
+                    )
+            ) {
+                Image(
+                    painter = painterResource(bottomIconButtonId ?: R.drawable.search ),
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(colorPalette.textSecondary),
+                    modifier = Modifier
+                        .clickable(onClick = onBottomIconButtonClick )
+                        .padding(all = 12.dp)
+                        .size(24.dp)
+                )
+            }
+
+
     }
 }
 

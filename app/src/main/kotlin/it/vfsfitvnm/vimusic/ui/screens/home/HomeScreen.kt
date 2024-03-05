@@ -175,6 +175,8 @@ fun HomeScreen(
                 topIconButton2Id = R.drawable.stats_chart,
                 onTopIconButton2Click = { statisticsTypeRoute(StatisticsType.Today) },
                 showButton2 = true,
+                showBottomButton = showSearchTab,
+                onBottomIconButtonClick = { searchRoute("") },
                 tabIndex = tabIndex,
                 onTabChanged = onTabChanged,
                 tabColumnContent = { Item ->
@@ -184,8 +186,8 @@ fun HomeScreen(
                     Item(3, stringResource(R.string.albums), R.drawable.disc)
                     Item(4, stringResource(R.string.library), R.drawable.library)
                     Item(5, stringResource(R.string.discovery), R.drawable.megaphone)
-                    if (showSearchTab)
-                        Item(6, stringResource(R.string.search), R.drawable.search)
+                    //if (showSearchTab)
+                    //Item(6, stringResource(R.string.search), R.drawable.search)
                     //Item(6, "Equalizer", R.drawable.musical_notes)
                     //Item(6, "Settings", R.drawable.equalizer)
                 }
@@ -236,9 +238,11 @@ fun HomeScreen(
                         )
                          */
 
+                        /*
                         6 -> HomeSearch(
                             onSearchType = { searchTypeRoute(it) }
                         )
+                         */
                     }
                 }
             }

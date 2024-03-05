@@ -39,6 +39,8 @@ import it.vfsfitvnm.vimusic.utils.exoPlayerDiskDownloadCacheMaxSizeKey
 import it.vfsfitvnm.vimusic.utils.pauseSearchHistoryKey
 import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
+import it.vfsfitvnm.vimusic.utils.showSearchTabKey
+
 @ExperimentalMaterialApi
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
@@ -73,6 +75,7 @@ fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
         MaxTopPlaylistItemsKey,
         MaxTopPlaylistItems.`10`
     )
+    val showSearchTab by rememberPreference(showSearchTabKey, false)
 
     PersistMapCleanup(tagPrefix = "${builtInPlaylist.name}/")
 
@@ -113,6 +116,8 @@ fun BuiltInPlaylistScreen(builtInPlaylist: BuiltInPlaylist) {
                 topIconButton2Id = R.drawable.chevron_back,
                 onTopIconButton2Click = pop,
                 showButton2 = false,
+                showBottomButton = showSearchTab,
+                onBottomIconButtonClick = { searchRoute("") },
                 tabIndex = tabIndex,
                 onTabChanged = onTabIndexChanged,
                 tabColumnContent = { Item ->

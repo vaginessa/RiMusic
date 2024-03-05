@@ -165,7 +165,7 @@ fun HeaderWithIcon (
     val typography = LocalAppearance.current.typography
     val colorPalette = LocalAppearance.current.colorPalette
     val uiType  by rememberPreference(UiTypeKey, UiType.RiMusic)
-    val disableIconButtonOnTop by rememberPreference(disableIconButtonOnTopKey, false)
+    //val disableIconButtonOnTop by rememberPreference(disableIconButtonOnTopKey, false)
 
     Row (
         horizontalArrangement = Arrangement.End,
@@ -182,7 +182,7 @@ fun HeaderWithIcon (
                 fontSize = typography.xxl.bold.fontSize,
                 fontWeight = typography.xxl.bold.fontWeight,
                 color = colorPalette.text,
-                textAlign = if(showIcon && uiType != UiType.ViMusic) TextAlign.Center else TextAlign.End
+                textAlign = if(uiType != UiType.ViMusic) TextAlign.Center else TextAlign.End
             ),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
