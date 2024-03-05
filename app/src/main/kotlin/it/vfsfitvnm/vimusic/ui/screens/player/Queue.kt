@@ -259,15 +259,16 @@ fun Queue(
                         .padding(horizontalBottomPaddingValues)
 
                 ) {
-                    Image(
-                        painter = painterResource(R.drawable.horizontal_bold_line_rounded),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(colorPalette.text),
-                        modifier = Modifier
-                            .absoluteOffset(0.dp,-10.dp)
-                            .align(Alignment.TopCenter)
-                            .size(30.dp)
-                    )
+                    if (!showButtonPlayerArrow)
+                        Image(
+                            painter = painterResource(R.drawable.horizontal_bold_line_rounded),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(colorPalette.text),
+                            modifier = Modifier
+                                .absoluteOffset(0.dp,-10.dp)
+                                .align(Alignment.TopCenter)
+                                .size(30.dp)
+                        )
                 }
 
                 LazyColumn(
@@ -540,15 +541,16 @@ fun Queue(
                     .padding(horizontalBottomPaddingValues)
                     .height(60.dp) //bottom bar queue
             ) {
-                Image(
-                    painter = painterResource(R.drawable.horizontal_bold_line_rounded),
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(colorPalette.text),
-                    modifier = Modifier
-                        .absoluteOffset(0.dp,-10.dp)
-                        .align(Alignment.TopCenter)
-                        .size(30.dp)
-                )
+                if (!showButtonPlayerArrow)
+                    Image(
+                        painter = painterResource(R.drawable.horizontal_bold_line_rounded),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(colorPalette.text),
+                        modifier = Modifier
+                            .absoluteOffset(0.dp,-10.dp)
+                            .align(Alignment.TopCenter)
+                            .size(30.dp)
+                    )
 
 
             Row(
@@ -671,20 +673,22 @@ fun Queue(
                         }
                     )
 
-                    Spacer(
-                        modifier = Modifier
-                            .width(12.dp)
-                    )
 
-                    IconButton(
-                        icon = R.drawable.chevron_down,
-                        color = colorPalette.text,
-                        onClick = { layoutState.collapseSoft() },
-                        modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .size(24.dp)
-                    )
-                    
+
+                    if (showButtonPlayerArrow) {
+                        Spacer(
+                            modifier = Modifier
+                                .width(12.dp)
+                        )
+                        IconButton(
+                            icon = R.drawable.chevron_down,
+                            color = colorPalette.text,
+                            onClick = { layoutState.collapseSoft() },
+                            modifier = Modifier
+                                .padding(horizontal = 4.dp)
+                                .size(24.dp)
+                        )
+                    }
 
 
                 }
