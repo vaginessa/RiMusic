@@ -366,7 +366,7 @@
     <string name="restore_completed">復元完了！</string>
     <string name="click_to_close">クリックして閉じる</string>
     <string name="lang_dutch">オランダ語</string>
-    <string name="do_you_really_want_to_renumbering_positions_in_this_playlist">本当にこのプレイリストで番号の順番を変更しますか？</string>
+    <string name="do_you_really_want_to_renumbering_positions_in_this_playlist">本当にこのプレイリストで番号の入れ替えをしますか？</string>
     <string name="renumber_songs_positions">番号の順番</string>
     <string name="do_you_really_want_to_delete_all_playback_events">本当に全ての再生イベントを削除しますか？</string>
     <string name="lang_sinhala">シンハラ語</string>
@@ -429,16 +429,16 @@
     <string name="swipe_to_action">スワイプ動作</string>
     <string name="activate_the_action_menu_by_swiping_the_song_left_or_right">楽曲を左右にスワイプしてアクションメニューを有効にする</string>
     <string name="smart_recommendations">SMART RECOMMENDATIONS</string>
-    <string name="player_collapsed_disable_swiping_down">Disable swiping down</string>
-    <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Avoid closing the player and cleaning the queue by swiping down while it is minimized</string>
-    <string name="sort_date_liked">Date Liked</string>
-    <string name="export_playlist">Export playlist</string>
-    <string name="lang_afrikaans">Afrikaans</string>
-    <string name="playlist_top">Playlist Top</string>
+    <string name="player_collapsed_disable_swiping_down">下スワイプを無効化</string>
+    <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">最小化されている間、下スワイプでプレイヤーを閉じること、キューの除去をしない</string>
+    <string name="sort_date_liked">いいねした日付</string>
+    <string name="export_playlist">プレイリストのエクスポート</string>
+    <string name="lang_afrikaans">アフリカーンス語</string>
+    <string name="playlist_top">プレイリストトップ</string>
     <string name="my_playlist_top">My Top</string>
-    <string name="navigation_bar_position">Navigation bar position</string>
-    <string name="direction_left">Left</string>
-    <string name="direction_right">Right</string>
-    <string name="copy_lyrics">Copy lyrics</string>
-    <string name="value_copied">Copied</string>
+    <string name="navigation_bar_position">ナビゲーションバーの位置</string>
+    <string name="direction_left">左</string>
+    <string name="direction_right">右</string>
+    <string name="copy_lyrics">歌詞をコピー</string>
+    <string name="value_copied">コピーしました</string>
 </resources>
