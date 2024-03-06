@@ -264,7 +264,7 @@ fun FullLyricsSheet(
                                             modifier = Modifier
                                                 .clip(RoundedCornerShape(playPauseRoundness))
                                                 .clickable {
-                                                    Log.d("mediaItem", "$shouldBePlaying")
+                                                    //Log.d("mediaItem", "$shouldBePlaying")
                                                     shouldBePlaying = if (shouldBePlaying == true) {
                                                         binder.player.pause()
                                                         false

@@ -1326,7 +1326,6 @@ fun Player(
             backgroundColorProvider = { colorPalette.background2 },
             onMaximize = { lyricsBottomSheetState.collapseSoft() },
             onRefresh = {
-                Log.d("mediaItem", "refresh lyrics")
                 lyricsBottomSheetState.collapse(tween(50))
                 lyricsBottomSheetState.expand(tween(50))
             }
