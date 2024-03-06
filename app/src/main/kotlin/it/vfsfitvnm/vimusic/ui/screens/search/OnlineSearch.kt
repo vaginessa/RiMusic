@@ -1,9 +1,11 @@
 package it.vfsfitvnm.vimusic.ui.screens.search
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,6 +30,7 @@ import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -79,6 +82,7 @@ import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 
+@ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
 fun OnlineSearch(
@@ -94,7 +98,11 @@ fun OnlineSearch(
 
     var history by persistList<SearchQuery>("search/online/history")
 
-    LaunchedEffect(textFieldValue.text) {
+    var reloadHistory by remember {
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect(textFieldValue.text, reloadHistory) {
         if (!context.preferences.getBoolean(pauseSearchHistoryKey, false)) {
             Database.queries("%${textFieldValue.text}%")
                 .distinctUntilChanged { old, new -> old.size == new.size }
@@ -125,7 +133,7 @@ fun OnlineSearch(
 
     val rippleIndication = rememberRipple(bounded = false)
     val timeIconPainter = painterResource(R.drawable.time)
-    val closeIconPainter = painterResource(R.drawable.close)
+    val closeIconPainter = painterResource(R.drawable.trash)
     val arrowForwardIconPainter = painterResource(R.drawable.arrow_forward)
 
     val focusRequester = remember {
@@ -198,7 +206,7 @@ fun OnlineSearch(
                             cursorBrush = SolidColor(colorPalette.text),
                             decorationBox = decorationBox,
                             modifier = Modifier
-                               .background(
+                                .background(
                                     //colorPalette.background4,
                                     colorPalette.background1,
                                     shape = thumbnailRoundness.shape()
@@ -285,13 +293,21 @@ fun OnlineSearch(
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(colorPalette.textDisabled),
                         modifier = Modifier
-                            .clickable(
+                            .combinedClickable(
                                 indication = rippleIndication,
                                 interactionSource = remember { MutableInteractionSource() },
                                 onClick = {
                                     query {
                                         Database.delete(searchQuery)
                                     }
+                                },
+                                onLongClick = {
+                                    query {
+                                        history.forEach {
+                                            Database.delete(it)
+                                        }
+                                    }
+                                    reloadHistory = !reloadHistory
                                 }
                             )
                             .padding(horizontal = 8.dp)
