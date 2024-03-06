@@ -274,10 +274,11 @@ fun SettingsEntry(
                 modifier = Modifier
                     .padding(bottom = 4.dp)
             )
-            BasicText(
-                text = text,
-                style = typography.xs.semiBold.copy(color = colorPalette.textSecondary),
-            )
+            if (text != "")
+                BasicText(
+                    text = text,
+                    style = typography.xs.semiBold.copy(color = colorPalette.textSecondary),
+                )
         }
 
         trailingContent?.invoke()

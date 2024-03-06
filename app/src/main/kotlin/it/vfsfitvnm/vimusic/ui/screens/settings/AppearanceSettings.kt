@@ -70,8 +70,14 @@ import it.vfsfitvnm.vimusic.utils.showButtonPlayerLyricsKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerMenuKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerShuffleKey
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerSleepTimerKey
+import it.vfsfitvnm.vimusic.utils.showCachedPlaylistKey
 import it.vfsfitvnm.vimusic.utils.showDownloadButtonBackgroundPlayerKey
+import it.vfsfitvnm.vimusic.utils.showDownloadedPlaylistKey
+import it.vfsfitvnm.vimusic.utils.showFavoritesPlaylistKey
 import it.vfsfitvnm.vimusic.utils.showLikeButtonBackgroundPlayerKey
+import it.vfsfitvnm.vimusic.utils.showMyTopPlaylistKey
+import it.vfsfitvnm.vimusic.utils.showOnDevicePlaylistKey
+import it.vfsfitvnm.vimusic.utils.showPlaylistsKey
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.thumbnailTapEnabledKey
 import it.vfsfitvnm.vimusic.utils.useSystemFontKey
@@ -127,6 +133,13 @@ fun AppearanceSettings() {
     val context = LocalContext.current
     val navigationBarPosition by rememberPreference(navigationBarPositionKey, NavigationBarPosition.Left)
     val contentWidth = context.preferences.getFloat(contentWidthKey,0.8f)
+
+    var showFavoritesPlaylist by rememberPreference(showFavoritesPlaylistKey, true)
+    var showCachedPlaylist by rememberPreference(showCachedPlaylistKey, true)
+    var showMyTopPlaylist by rememberPreference(showMyTopPlaylistKey, true)
+    var showDownloadedPlaylist by rememberPreference(showDownloadedPlaylistKey, true)
+    var showOnDevicePlaylist by rememberPreference(showOnDevicePlaylistKey, true)
+    var showPlaylists by rememberPreference(showPlaylistsKey, true)
 
     Column(
         modifier = Modifier
@@ -337,6 +350,46 @@ fun AppearanceSettings() {
             text = "",
             isChecked = showButtonPlayerMenu,
             onCheckedChange = { showButtonPlayerMenu = it }
+        )
+
+        SettingsGroupSpacer()
+        SettingsEntryGroupText(title = stringResource(R.string.playlists).uppercase())
+
+        SwitchSettingEntry(
+            title = "${stringResource(R.string.show)} ${stringResource(R.string.favorites)}",
+            text = "",
+            isChecked = showFavoritesPlaylist,
+            onCheckedChange = { showFavoritesPlaylist = it }
+        )
+        SwitchSettingEntry(
+            title = "${stringResource(R.string.show)} ${stringResource(R.string.cached)}",
+            text = "",
+            isChecked = showCachedPlaylist,
+            onCheckedChange = { showCachedPlaylist = it }
+        )
+        SwitchSettingEntry(
+            title = "${stringResource(R.string.show)} ${stringResource(R.string.downloaded)}",
+            text = "",
+            isChecked = showDownloadedPlaylist,
+            onCheckedChange = { showDownloadedPlaylist = it }
+        )
+        SwitchSettingEntry(
+            title = "${stringResource(R.string.show)} ${stringResource(R.string.my_playlist_top)}",
+            text = "",
+            isChecked = showMyTopPlaylist,
+            onCheckedChange = { showMyTopPlaylist = it }
+        )
+        SwitchSettingEntry(
+            title = "${stringResource(R.string.show)} ${stringResource(R.string.on_device)}",
+            text = "",
+            isChecked = showOnDevicePlaylist,
+            onCheckedChange = { showOnDevicePlaylist = it }
+        )
+        SwitchSettingEntry(
+            title = "${stringResource(R.string.show)} ${stringResource(R.string.playlists)}",
+            text = "",
+            isChecked = showPlaylists,
+            onCheckedChange = { showPlaylists = it }
         )
 
         SettingsGroupSpacer()

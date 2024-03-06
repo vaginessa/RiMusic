@@ -96,6 +96,12 @@ import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.requestPermission
 import it.vfsfitvnm.vimusic.utils.semiBold
+import it.vfsfitvnm.vimusic.utils.showCachedPlaylistKey
+import it.vfsfitvnm.vimusic.utils.showDownloadedPlaylistKey
+import it.vfsfitvnm.vimusic.utils.showFavoritesPlaylistKey
+import it.vfsfitvnm.vimusic.utils.showMyTopPlaylistKey
+import it.vfsfitvnm.vimusic.utils.showOnDevicePlaylistKey
+import it.vfsfitvnm.vimusic.utils.showPlaylistsKey
 import it.vfsfitvnm.vimusic.utils.showSearchTabKey
 import it.vfsfitvnm.vimusic.utils.toast
 
@@ -251,6 +257,13 @@ fun HomePlaylists(
 
     val showSearchTab by rememberPreference(showSearchTabKey, false)
 
+    val showFavoritesPlaylist by rememberPreference(showFavoritesPlaylistKey, true)
+    val showCachedPlaylist by rememberPreference(showCachedPlaylistKey, true)
+    val showMyTopPlaylist by rememberPreference(showMyTopPlaylistKey, true)
+    val showDownloadedPlaylist by rememberPreference(showDownloadedPlaylistKey, true)
+    val showOnDevicePlaylist by rememberPreference(showOnDevicePlaylistKey, true)
+    val showPlaylists by rememberPreference(showPlaylistsKey, true)
+
     Box(
         modifier = Modifier
             .background(colorPalette.background0)
@@ -352,150 +365,158 @@ fun HomePlaylists(
                 }
             }
 
-            item(key = "favorites") {
-                PlaylistItem(
-                    icon = R.drawable.heart,
-                    colorTint = colorPalette.favoritesIcon,
-                    name = stringResource(R.string.favorites),
-                    songCount = null,
-                    thumbnailSizeDp = thumbnailSizeDp,
-                    alternative = true,
-                    modifier = Modifier
-                        .clip(thumbnailShape)
-                        .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Favorites) })
-                        .animateItemPlacement()
+            if (showFavoritesPlaylist)
+                item(key = "favorites") {
+                    PlaylistItem(
+                        icon = R.drawable.heart,
+                        colorTint = colorPalette.favoritesIcon,
+                        name = stringResource(R.string.favorites),
+                        songCount = null,
+                        thumbnailSizeDp = thumbnailSizeDp,
+                        alternative = true,
+                        modifier = Modifier
+                            .clip(thumbnailShape)
+                            .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Favorites) })
+                            .animateItemPlacement()
 
-                )
-            }
-            if(exoPlayerDiskCacheMaxSize != ExoPlayerDiskCacheMaxSize.Disabled)
-            item(key = "offline") {
-                PlaylistItem(
-                    icon = R.drawable.sync,
-                    colorTint = colorPalette.favoritesIcon,
-                    name = stringResource(R.string.cached),
-                    songCount = null,
-                    thumbnailSizeDp = thumbnailSizeDp,
-                    alternative = true,
-                    modifier = Modifier
-                        .clip(thumbnailShape)
-                        .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Offline) })
-                        .animateItemPlacement()
-                )
-            }
+                    )
+                }
 
-            if(exoPlayerDiskDownloadCacheMaxSize != ExoPlayerDiskDownloadCacheMaxSize.Disabled)
-            item(key = "downloaded") {
-                PlaylistItem(
-                    icon = R.drawable.downloaded,
-                    colorTint = colorPalette.favoritesIcon,
-                    name = stringResource(R.string.downloaded),
-                    songCount = null,
-                    thumbnailSizeDp = thumbnailSizeDp,
-                    alternative = true,
-                    modifier = Modifier
-                        .clip(thumbnailShape)
-                        .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Downloaded) })
-                        .animateItemPlacement()
-                )
-            }
+            if(exoPlayerDiskCacheMaxSize != ExoPlayerDiskCacheMaxSize.Disabled && showCachedPlaylist)
+                item(key = "offline") {
+                    PlaylistItem(
+                        icon = R.drawable.sync,
+                        colorTint = colorPalette.favoritesIcon,
+                        name = stringResource(R.string.cached),
+                        songCount = null,
+                        thumbnailSizeDp = thumbnailSizeDp,
+                        alternative = true,
+                        modifier = Modifier
+                            .clip(thumbnailShape)
+                            .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Offline) })
+                            .animateItemPlacement()
+                    )
+                }
 
-            item(key = "top") {
-                PlaylistItem(
-                    icon = R.drawable.trending,
-                    colorTint = colorPalette.favoritesIcon,
-                    name = stringResource(R.string.my_playlist_top) + " ${maxTopPlaylistItems.number}",
-                    songCount = null,
-                    thumbnailSizeDp = thumbnailSizeDp,
-                    alternative = true,
-                    modifier = Modifier
-                        .clip(thumbnailShape)
-                        .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Top) })
-                        .animateItemPlacement()
-                )
-            }
+            if(exoPlayerDiskDownloadCacheMaxSize != ExoPlayerDiskDownloadCacheMaxSize.Disabled && showDownloadedPlaylist)
+                item(key = "downloaded") {
+                    PlaylistItem(
+                        icon = R.drawable.downloaded,
+                        colorTint = colorPalette.favoritesIcon,
+                        name = stringResource(R.string.downloaded),
+                        songCount = null,
+                        thumbnailSizeDp = thumbnailSizeDp,
+                        alternative = true,
+                        modifier = Modifier
+                            .clip(thumbnailShape)
+                            .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Downloaded) })
+                            .animateItemPlacement()
+                    )
+                }
 
-            item(key = "ondevice") {
-                PlaylistItem(
-                    icon = R.drawable.musical_notes,
-                    colorTint = colorPalette.favoritesIcon,
-                    name = stringResource(R.string.on_device),
-                    songCount = null,
-                    thumbnailSizeDp = thumbnailSizeDp,
-                    alternative = true,
-                    modifier = Modifier
-                        .clip(thumbnailShape)
-                        .clickable(onClick = { onDeviceListSongsClick() })
-                        .animateItemPlacement()
-                )
-            }
+            if (showMyTopPlaylist)
+                item(key = "top") {
+                    PlaylistItem(
+                        icon = R.drawable.trending,
+                        colorTint = colorPalette.favoritesIcon,
+                        name = stringResource(R.string.my_playlist_top) + " ${maxTopPlaylistItems.number}",
+                        songCount = null,
+                        thumbnailSizeDp = thumbnailSizeDp,
+                        alternative = true,
+                        modifier = Modifier
+                            .clip(thumbnailShape)
+                            .clickable(onClick = { onBuiltInPlaylist(BuiltInPlaylist.Top) })
+                            .animateItemPlacement()
+                    )
+                }
 
-            /*    */
-
-            item(key = "headerplaylist", contentType = 0, span = { GridItemSpan(maxLineSpan) }) {
-                BasicText(
-                    text = stringResource(R.string.playlists),
-                    style = typography.m.semiBold,
-                    modifier = sectionTextModifier
-                )
-            }
+            if (showOnDevicePlaylist)
+                item(key = "ondevice") {
+                    PlaylistItem(
+                        icon = R.drawable.musical_notes,
+                        colorTint = colorPalette.favoritesIcon,
+                        name = stringResource(R.string.on_device),
+                        songCount = null,
+                        thumbnailSizeDp = thumbnailSizeDp,
+                        alternative = true,
+                        modifier = Modifier
+                            .clip(thumbnailShape)
+                            .clickable(onClick = { onDeviceListSongsClick() })
+                            .animateItemPlacement()
+                    )
+                }
 
             /*    */
 
-            item(key = "newPlaylist") {
-                PlaylistItem(
-                    icon = R.drawable.add_in_playlist,
-                    colorTint = colorPalette.favoritesIcon,
-                    name = stringResource(R.string.new_playlist),
-                    songCount = null,
-                    thumbnailSizeDp = thumbnailSizeDp,
-                    alternative = true,
-                    modifier = Modifier
-                        .clip(thumbnailShape)
-                        .clickable(onClick = { isCreatingANewPlaylist = true })
-                        .animateItemPlacement()
+            if (showPlaylists) {
+                item(
+                    key = "headerplaylist",
+                    contentType = 0,
+                    span = { GridItemSpan(maxLineSpan) }) {
+                    BasicText(
+                        text = stringResource(R.string.playlists),
+                        style = typography.m.semiBold,
+                        modifier = sectionTextModifier
+                    )
+                }
 
-                )
-            }
 
-            item(key = "importPlaylist") {
-                PlaylistItem(
-                    icon = R.drawable.resource_import,
-                    colorTint = colorPalette.favoritesIcon,
-                    name = stringResource(R.string.import_playlist),
-                    songCount = null,
-                    thumbnailSizeDp = thumbnailSizeDp,
-                    alternative = true,
-                    modifier = Modifier
-                        .clip(thumbnailShape)
-                        .clickable(onClick = {
-                            try {
-                                importLauncher.launch(
-                                    arrayOf(
-                                        "text/*"
+
+                item(key = "newPlaylist") {
+                    PlaylistItem(
+                        icon = R.drawable.add_in_playlist,
+                        colorTint = colorPalette.favoritesIcon,
+                        name = stringResource(R.string.new_playlist),
+                        songCount = null,
+                        thumbnailSizeDp = thumbnailSizeDp,
+                        alternative = true,
+                        modifier = Modifier
+                            .clip(thumbnailShape)
+                            .clickable(onClick = { isCreatingANewPlaylist = true })
+                            .animateItemPlacement()
+
+                    )
+                }
+
+                item(key = "importPlaylist") {
+                    PlaylistItem(
+                        icon = R.drawable.resource_import,
+                        colorTint = colorPalette.favoritesIcon,
+                        name = stringResource(R.string.import_playlist),
+                        songCount = null,
+                        thumbnailSizeDp = thumbnailSizeDp,
+                        alternative = true,
+                        modifier = Modifier
+                            .clip(thumbnailShape)
+                            .clickable(onClick = {
+                                try {
+                                    importLauncher.launch(
+                                        arrayOf(
+                                            "text/*"
+                                        )
                                     )
-                                )
-                            } catch (e: ActivityNotFoundException) {
-                                context.toast("Couldn't find an application to open documents")
-                            }
-                        })
-                        .animateItemPlacement()
+                                } catch (e: ActivityNotFoundException) {
+                                    context.toast("Couldn't find an application to open documents")
+                                }
+                            })
+                            .animateItemPlacement()
 
-                )
+                    )
+                }
+
+                items(items = items, key = { it.playlist.id }) { playlistPreview ->
+                    PlaylistItem(
+                        playlist = playlistPreview,
+                        thumbnailSizeDp = thumbnailSizeDp,
+                        thumbnailSizePx = thumbnailSizePx,
+                        alternative = true,
+                        modifier = Modifier
+                            .clickable(onClick = { onPlaylistClick(playlistPreview.playlist) })
+                            .animateItemPlacement()
+                            .fillMaxSize()
+                    )
+                }
             }
-
-            items(items = items, key = { it.playlist.id }) { playlistPreview ->
-                PlaylistItem(
-                    playlist = playlistPreview,
-                    thumbnailSizeDp = thumbnailSizeDp,
-                    thumbnailSizePx = thumbnailSizePx,
-                    alternative = true,
-                    modifier = Modifier
-                        .clickable(onClick = { onPlaylistClick(playlistPreview.playlist) })
-                        .animateItemPlacement()
-                        .fillMaxSize()
-                )
-            }
-
         }
 
         FloatingActionsContainerWithScrollToTop(lazyGridState = lazyGridState)

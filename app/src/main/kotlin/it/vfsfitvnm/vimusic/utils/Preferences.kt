@@ -101,6 +101,12 @@ const val contentWidthKey = "0.8f"
 const val navigationBarPositionKey = "navigationBarPosition"
 const val navigationBarTypeKey = "navigationBarType"
 const val pauseBetweenSongsKey = "pauseBetweenSongs"
+const val showFavoritesPlaylistKey = "showFavoritesPlaylist"
+const val showCachedPlaylistKey = "showCachedPlaylist"
+const val showMyTopPlaylistKey = "showMyTopPlaylist"
+const val showDownloadedPlaylistKey = "showDownloadedPlaylist"
+const val showOnDevicePlaylistKey = "showOnDevicePlaylist"
+const val showPlaylistsKey = "showPlaylists"
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,
