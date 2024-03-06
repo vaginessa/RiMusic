@@ -2,7 +2,10 @@ package it.vfsfitvnm.vimusic.ui.screens.player
 
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
@@ -46,9 +49,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -69,6 +74,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import androidx.media3.exoplayer.offline.Download
+import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import com.valentinilk.shimmer.shimmer
 import it.vfsfitvnm.compose.reordering.draggedItem
 import it.vfsfitvnm.compose.reordering.rememberReorderingState
@@ -76,6 +82,7 @@ import it.vfsfitvnm.compose.reordering.reorder
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
 import it.vfsfitvnm.vimusic.R
+import it.vfsfitvnm.vimusic.enums.BuiltInPlaylist
 import it.vfsfitvnm.vimusic.enums.UiType
 import it.vfsfitvnm.vimusic.models.Info
 import it.vfsfitvnm.vimusic.models.Song
@@ -87,8 +94,12 @@ import it.vfsfitvnm.vimusic.ui.components.BottomSheet
 import it.vfsfitvnm.vimusic.ui.components.BottomSheetState
 import it.vfsfitvnm.vimusic.ui.components.LocalMenuState
 import it.vfsfitvnm.vimusic.ui.components.MusicBars
+import it.vfsfitvnm.vimusic.ui.components.themed.ConfirmationDialog
 import it.vfsfitvnm.vimusic.ui.components.themed.FloatingActionsContainerWithScrollToTop
+import it.vfsfitvnm.vimusic.ui.components.themed.HeaderIconButton
 import it.vfsfitvnm.vimusic.ui.components.themed.IconButton
+import it.vfsfitvnm.vimusic.ui.components.themed.InputTextDialog
+import it.vfsfitvnm.vimusic.ui.components.themed.PlaylistsItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.QueuedMediaItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SelectorDialog
 import it.vfsfitvnm.vimusic.ui.items.SongItem
@@ -115,8 +126,11 @@ import it.vfsfitvnm.vimusic.utils.shouldBePlaying
 import it.vfsfitvnm.vimusic.utils.showButtonPlayerArrowKey
 import it.vfsfitvnm.vimusic.utils.shuffleQueue
 import it.vfsfitvnm.vimusic.utils.smoothScrollToTop
+import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.utils.windows
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @ExperimentalTextApi
 @SuppressLint("SuspiciousIndentation")
@@ -235,6 +249,9 @@ fun Queue(
         }
 
         var listMediaItems = remember {
+            mutableListOf<MediaItem>()
+        }
+        var listMediaItemsIndex = remember {
             mutableListOf<Int>()
         }
 
@@ -245,6 +262,100 @@ fun Queue(
         var showSelectTypeClearQueue by remember {
             mutableStateOf(false)
         }
+        var position by remember {
+            mutableIntStateOf(0)
+        }
+
+        var showConfirmDeleteAllDialog by remember {
+            mutableStateOf(false)
+        }
+
+        if (showConfirmDeleteAllDialog) {
+            ConfirmationDialog(
+                text = "Do you really want to clean queue?",
+                onDismiss = { showConfirmDeleteAllDialog = false },
+                onConfirm = {
+                    showConfirmDeleteAllDialog = false
+                    val mediacount = binder.player.mediaItemCount - 1
+                    for (i in mediacount.downTo(0)) {
+                        if (i == mediaItemIndex) null else binder.player.removeMediaItem(i)
+                    }
+                    listMediaItems.clear()
+                    listMediaItemsIndex.clear()
+                }
+            )
+        }
+
+        var plistName by remember {
+            mutableStateOf("")
+        }
+
+        val exportLauncher =
+            rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("text/csv")) { uri ->
+                if (uri == null) return@rememberLauncherForActivityResult
+
+                context.applicationContext.contentResolver.openOutputStream(uri)
+                    ?.use { outputStream ->
+                        csvWriter().open(outputStream){
+                            writeRow("PlaylistBrowseId", "PlaylistName", "MediaId", "Title", "Artists", "Duration", "ThumbnailUrl")
+                            if (listMediaItems.isEmpty()) {
+                                windows.forEach {
+                                    writeRow(
+                                        "",
+                                        plistName,
+                                        it.mediaItem.mediaId,
+                                        it.mediaItem.mediaMetadata.title,
+                                        it.mediaItem.mediaMetadata.artist,
+                                        "",
+                                        it.mediaItem.mediaMetadata.artworkUri
+                                    )
+                                }
+                            } else {
+                                listMediaItems.forEach {
+                                    writeRow(
+                                        "",
+                                        plistName,
+                                        it.mediaId,
+                                        it.mediaMetadata.title,
+                                        it.mediaMetadata.artist,
+                                        "",
+                                        it.mediaMetadata.artworkUri
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+            }
+
+        var isExporting by rememberSaveable {
+            mutableStateOf(false)
+        }
+
+        if (isExporting) {
+            InputTextDialog(
+                onDismiss = {
+                    isExporting = false
+                },
+                title = stringResource(R.string.enter_the_playlist_name),
+                value = plistName,
+                placeholder = stringResource(R.string.enter_the_playlist_name),
+                setValue = { text ->
+                    plistName = text
+                    try {
+                        @SuppressLint("SimpleDateFormat")
+                        val dateFormat = SimpleDateFormat("yyyyMMddHHmmss")
+                        exportLauncher.launch("RMPlaylist_${text.take(20)}_${dateFormat.format(
+                            Date()
+                        )}")
+                    } catch (e: ActivityNotFoundException) {
+                        context.toast("Couldn't find an application to create documents")
+                    }
+                }
+            )
+        }
+
+
 
         Column {
             Box(
@@ -299,7 +410,7 @@ fun Queue(
                                     song = window.mediaItem,
                                     isDownloaded = isDownloaded,
                                     onDownloadClick = {
-                                        binder?.cache?.removeResource(window.mediaItem.mediaId)
+                                        binder.cache.removeResource(window.mediaItem.mediaId)
                                         if (!isLocal)
                                             manageDownload(
                                                 context = context,
@@ -352,8 +463,14 @@ fun Queue(
                                                 checked = checkedState.value,
                                                 onCheckedChange = {
                                                     checkedState.value = it
-                                                    if (it) listMediaItems.add(window.firstPeriodIndex) else
-                                                        listMediaItems.remove(window.firstPeriodIndex)
+                                                    if (it) {
+                                                        listMediaItems.add(window.mediaItem)
+                                                        listMediaItemsIndex.add(window.firstPeriodIndex)
+                                                    } else
+                                                    {
+                                                        listMediaItems.remove(window.mediaItem)
+                                                        listMediaItemsIndex.remove(window.firstPeriodIndex)
+                                                    }
                                                 },
                                                 colors = colors(
                                                     checkedColor = colorPalette.accent,
@@ -562,18 +679,20 @@ fun Queue(
 
             ) {
 
+                /*
                 IconButton(
                     icon = R.drawable.trash,
                     color = colorPalette.text,
                     onClick = {
                         if (!selectQueueItems)
                         showSelectTypeClearQueue = true else {
-                            val mediacount = listMediaItems.size - 1
-                            listMediaItems.sort()
+                            val mediacount = listMediaItemsIndex.size - 1
+                            listMediaItemsIndex.sort()
                             for (i in mediacount.downTo(0)) {
                                 //if (i == mediaItemIndex) null else
-                                binder.player.removeMediaItem(listMediaItems[i])
+                                binder.player.removeMediaItem(listMediaItemsIndex[i])
                             }
+                            listMediaItemsIndex.clear()
                             listMediaItems.clear()
                             selectQueueItems = false
                         }
@@ -583,6 +702,8 @@ fun Queue(
                         .size(24.dp)
                 )
 
+                 */
+                /*
                 if (showSelectTypeClearQueue)
                     SelectorDialog(
                         title = stringResource(R.string.clear_queue),
@@ -602,7 +723,8 @@ fun Queue(
                             showSelectTypeClearQueue = false
                         }
                     )
-
+                */
+                /*
                 IconButton(
                     icon = R.drawable.chevron_forward,
                     color = colorPalette.text,
@@ -612,6 +734,7 @@ fun Queue(
                         .padding(horizontal = 4.dp)
                         .size(16.dp)
                 )
+                 */
                 BasicText(
                     text = "${binder.player.mediaItemCount} " + stringResource(R.string.songs), //+ " " + stringResource(R.string.on_queue),
                     style = typography.xxs.medium,
@@ -673,6 +796,90 @@ fun Queue(
                         }
                     )
 
+                    Spacer(
+                        modifier = Modifier
+                            .width(12.dp)
+                    )
+                    HeaderIconButton(
+                        icon = R.drawable.ellipsis_horizontal,
+                        color = if (windows.isNotEmpty() == true) colorPalette.text else colorPalette.textDisabled,
+                        enabled = windows.isNotEmpty() == true,
+                        modifier = Modifier
+                            .padding(end = 4.dp),
+                        onClick = {
+                            menuState.display {
+                                PlaylistsItemMenu(
+                                    onDismiss = menuState::hide,
+                                    onSelect = { selectQueueItems = true },
+                                    onUncheck = {
+                                        selectQueueItems = false
+                                        listMediaItems.clear()
+                                        listMediaItemsIndex.clear()
+                                    },
+                                    onDelete = {
+                                        if (listMediaItemsIndex.isNotEmpty())
+                                            //showSelectTypeClearQueue = true else
+                                            {
+                                            val mediacount = listMediaItemsIndex.size - 1
+                                            listMediaItemsIndex.sort()
+                                            for (i in mediacount.downTo(0)) {
+                                                //if (i == mediaItemIndex) null else
+                                                binder.player.removeMediaItem(listMediaItemsIndex[i])
+                                            }
+                                            listMediaItemsIndex.clear()
+                                            listMediaItems.clear()
+                                            selectQueueItems = false
+                                        } else {
+                                            showConfirmDeleteAllDialog = true
+                                        }
+                                    },
+                                    onAddToPlaylist = { playlistPreview ->
+                                        position =
+                                            playlistPreview.songCount.minus(1) ?: 0
+                                        //Log.d("mediaItem", " maxPos in Playlist $it ${position}")
+                                        if (position > 0) position++ else position = 0
+                                        //Log.d("mediaItem", "next initial pos ${position}")
+                                        if (listMediaItems.isEmpty()) {
+                                            windows.forEachIndexed { index, song ->
+                                                transaction {
+                                                    Database.insert(song.mediaItem)
+                                                    Database.insert(
+                                                        SongPlaylistMap(
+                                                            songId = song.mediaItem.mediaId,
+                                                            playlistId = playlistPreview.playlist.id,
+                                                            position = position + index
+                                                        )
+                                                    )
+                                                }
+                                                //Log.d("mediaItemPos", "added position ${position + index}")
+                                            }
+                                        } else {
+                                            listMediaItems.forEachIndexed { index, song ->
+                                                //Log.d("mediaItemMaxPos", position.toString())
+                                                transaction {
+                                                    Database.insert(song)
+                                                    Database.insert(
+                                                        SongPlaylistMap(
+                                                            songId = song.mediaId,
+                                                            playlistId = playlistPreview.playlist.id,
+                                                            position = position + index
+                                                        )
+                                                    )
+                                                }
+                                                //Log.d("mediaItemPos", "add position $position")
+                                            }
+                                            listMediaItems.clear()
+                                            listMediaItemsIndex.clear()
+                                            selectQueueItems = false
+                                        }
+                                    },
+                                    onExport = {
+                                        isExporting = true
+                                    }
+                                )
+                            }
+                        }
+                    )
 
 
                     if (showButtonPlayerArrow) {
