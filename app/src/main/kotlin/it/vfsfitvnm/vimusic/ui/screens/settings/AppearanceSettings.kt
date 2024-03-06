@@ -236,6 +236,7 @@ fun AppearanceSettings() {
             },
             valueText = {
                 when (it) {
+                    PlayerPlayButtonType.Disabled -> stringResource(R.string.vt_disabled)
                     PlayerPlayButtonType.Default -> stringResource(R.string._default)
                     PlayerPlayButtonType.Rectangular -> stringResource(R.string.rectangular)
                     PlayerPlayButtonType.Square -> stringResource(R.string.square)

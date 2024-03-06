@@ -1,6 +1,7 @@
 package it.vfsfitvnm.vimusic.enums
 
 enum class PlayerPlayButtonType {
+    Disabled,
     Default,
     Rectangular,
     CircularRibbed,
@@ -8,7 +9,7 @@ enum class PlayerPlayButtonType {
 
     val height: Int
         get() = when (this) {
-            Default -> 60
+            Default, Disabled -> 60
             Rectangular -> 70
             CircularRibbed -> 90
             Square -> 75
@@ -16,7 +17,7 @@ enum class PlayerPlayButtonType {
 
     val width: Int
         get() = when (this) {
-            Default -> 60
+            Default, Disabled -> 60
             Rectangular -> 110
             CircularRibbed -> 90
             Square -> 75

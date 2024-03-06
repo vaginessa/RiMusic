@@ -697,11 +697,15 @@ fun Controls(
                         when (colorPaletteName) {
                             ColorPaletteName.Dynamic, ColorPaletteName.Default ->
                                 if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
-                                    colorPalette.background1 else colorPalette.background2
+                                    colorPalette.background1 else
+                                    if (playerPlayButtonType != PlayerPlayButtonType.Disabled)
+                                        colorPalette.background2 else colorPalette.background1
 
                             ColorPaletteName.PureBlack, ColorPaletteName.ModernBlack ->
                                 if (playerPlayButtonType == PlayerPlayButtonType.CircularRibbed)
-                                    colorPalette.background1 else colorPalette.background4
+                                    colorPalette.background1 else
+                                    if (playerPlayButtonType != PlayerPlayButtonType.Disabled)
+                                        colorPalette.background4 else colorPalette.background0
                         }
                     )
                     .width(if (uiType != UiType.RiMusic) PlayerPlayButtonType.Default.width.dp else playerPlayButtonType.width.dp)
