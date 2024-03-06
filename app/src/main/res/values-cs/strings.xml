@@ -398,6 +398,6 @@
     <string name="direction_right">Vpravo</string>
     <string name="copy_lyrics">Zkopírovat písňový text</string>
     <string name="value_copied">Zkopírováno</string>
-    <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
-    <string name="lang_swedish">Swedish</string>
+    <string name="do_you_really_want_to_delete_cache">Opravdu chcete odstranit mezipaměť?</string>
+    <string name="lang_swedish">Švědština (Svenska)</string>
 </resources>
