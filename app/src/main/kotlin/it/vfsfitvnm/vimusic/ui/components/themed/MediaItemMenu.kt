@@ -284,6 +284,7 @@ fun QueuedMediaItemMenu(
         onRemoveFromQueue = if (indexInQueue != null) ({
             binder?.player?.removeMediaItem(indexInQueue)
         }) else null,
+        onPlayNext = { binder?.player?.addNext(mediaItem) },
         modifier = modifier
     )
 }

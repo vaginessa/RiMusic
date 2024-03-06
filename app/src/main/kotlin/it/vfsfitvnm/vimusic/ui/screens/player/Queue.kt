@@ -113,6 +113,7 @@ import it.vfsfitvnm.vimusic.utils.DisposableListener
 import it.vfsfitvnm.vimusic.utils.LeftAction
 import it.vfsfitvnm.vimusic.utils.RightActions
 import it.vfsfitvnm.vimusic.utils.UiTypeKey
+import it.vfsfitvnm.vimusic.utils.addNext
 import it.vfsfitvnm.vimusic.utils.asMediaItem
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
 import it.vfsfitvnm.vimusic.utils.enqueue

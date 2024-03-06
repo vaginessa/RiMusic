@@ -33,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import it.vfsfitvnm.vimusic.Database
 import it.vfsfitvnm.vimusic.LocalPlayerServiceBinder
@@ -47,6 +48,7 @@ import it.vfsfitvnm.vimusic.ui.items.PlaylistItem
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.px
+import it.vfsfitvnm.vimusic.utils.addNext
 import it.vfsfitvnm.vimusic.utils.playlistSortByKey
 import it.vfsfitvnm.vimusic.utils.playlistSortOrderKey
 import it.vfsfitvnm.vimusic.utils.rememberPreference
@@ -86,6 +88,9 @@ fun PlaylistsItemMenu(
     var height by remember {
         mutableStateOf(0.dp)
     }
+
+    val binder = LocalPlayerServiceBinder.current
+
 
     AnimatedContent(
         targetState = isViewingPlaylists,
@@ -253,7 +258,6 @@ fun PlaylistsItemMenu(
                         }
                     )
                 }
-
 
                 onEnqueue?.let { onEnqueue ->
                     MenuEntry(
