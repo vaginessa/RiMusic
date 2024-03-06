@@ -140,7 +140,7 @@
     <string name="error_the_returned_video_id_doesn_t_match_the_requested_one">Vrácené id videa neodpovídá požadovanému id videa</string>
     <string name="error_an_unknown_playback_error_has_occurred">Došlo k neznámé chybě při přehrávání</string>
     <string name="tips">Tipy</string>
-    <string name="is_min_list_time_for_tips_or_quick_pics">To je minimální doba poslechu, aby bylo možné skladbu zařadit mezi možné Tipy nebo Rychlý výběr</string>
+    <string name="is_min_list_time_for_tips_or_quick_pics">Minimální doba přehrátí skladby pro zařazení do Rychlého výběru</string>
     <string name="min_listening_time">Minimální doba poslechu</string>
     <string name="player_thumbnail_size">Velikost miniatur</string>
     <string name="restarting_rimusic_is_required">Je vyžadován restart</string>
@@ -335,7 +335,7 @@
     <string name="f_droid_users_can_wait_for_the_update_info">Uživatelé F-Droidu mohou počkat na aktualizaci z F-Droidu, která se obvykle objeví během několika hodin v případě repozitáře IzzyOnDroid a během několika dní v případě repozitáře F-Droid.org.</string>
     <string name="check_update">Zkontrolovat aktualizace</string>
     <string name="enable_check_for_update">Povolit kontrolu aktualizací</string>
-    <string name="when_enabled_a_new_version_is_checked_and_notified_during_startup">Pokud je tato funkce povolena, při spuštění se kontroluje nová verze a zobrazuje se upozornění na ni.</string>
+    <string name="when_enabled_a_new_version_is_checked_and_notified_during_startup">Zobrazení oznámení s výzvou k aktualizaci aplikace, když je k dispozici nová verze.</string>
     <string name="check_at_github_for_updates">Zkontrolovat aktualizace na Githubu?</string>
     <string name="when_an_update_is_available_you_will_be_asked_if_you_want_to_install_info">Když je aktualizace k dispozici, zobrazí se dotaz, zda ji chcete nainstalovat. Nebude docházet k automatické instalaci za vašimi zády.</string>
     <string name="you_can_still_turn_it_on_or_off_from_the_settings">V nastavení ji můžete stále zapnout nebo vypnout.</string>
