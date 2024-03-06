@@ -46,6 +46,7 @@ import kotlinx.coroutines.launch
 fun BottomSheet(
     state: BottomSheetState,
     disableVerticalDrag: Boolean? = false,
+    disableDismiss: Boolean? = false,
     modifier: Modifier = Modifier,
     onDismiss: (() -> Unit)? = null,
     collapsedContent: @Composable BoxScope.() -> Unit,
@@ -66,7 +67,8 @@ fun BottomSheet(
                     onVerticalDrag = { change, dragAmount ->
                         if (disableVerticalDrag == false) {
                             velocityTracker.addPointerInputChange(change)
-                            state.dispatchRawDelta(dragAmount)
+                            if (disableDismiss == false)
+                                state.dispatchRawDelta(dragAmount)
                         }
                     },
                     onDragCancel = {
@@ -77,7 +79,7 @@ fun BottomSheet(
                         if (disableVerticalDrag == false) {
                             val velocity = -velocityTracker.calculateVelocity().y
                             velocityTracker.resetTracking()
-                            state.performFling(velocity, onDismiss)
+                            state.performFling(velocity, if (disableDismiss == false) onDismiss else null)
                         }
                     }
                 )

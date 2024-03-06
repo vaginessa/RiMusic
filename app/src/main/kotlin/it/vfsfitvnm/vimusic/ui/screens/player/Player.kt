@@ -545,14 +545,15 @@ fun Player(
     BottomSheet(
         state = layoutState,
         modifier = modifier,
+        disableDismiss = disableClosingPlayerSwipingDown,
         onDismiss = {
-            if (disableClosingPlayerSwipingDown) {
-                val playerBottomSheetMinHeight = 80.dp
-                layoutState.snapTo(playerBottomSheetMinHeight)
-            } else {
+            //if (disableClosingPlayerSwipingDown) {
+                //val playerBottomSheetMinHeight = 70.dp
+                //layoutState.snapTo(playerBottomSheetMinHeight)
+            //} else {
                 binder.stopRadio()
                 binder.player.clearMediaItems()
-            }
+            //}
         },
         collapsedContent = {
             var deltaX by remember { mutableStateOf(0f) }
@@ -598,7 +599,7 @@ fun Player(
                             onDragEnd = {
                                 if (!disablePlayerHorizontalSwipe) {
                                     if (deltaX > 0) {
-                                        binder.player.seekToPreviousMediaItem()
+                                        binder.player.seekToPrevious()
                                     } else {
                                         binder.player.forceSeekToNext()
                                     }
