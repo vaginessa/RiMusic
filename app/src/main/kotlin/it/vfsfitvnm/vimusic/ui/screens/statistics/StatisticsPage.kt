@@ -282,7 +282,7 @@ fun StatisticsPage(
                     StatisticsType.ThreeMonths -> R.drawable.stat_3months
                     StatisticsType.SixMonths -> R.drawable.stat_6months
                     StatisticsType.OneYear -> R.drawable.stat_year
-                    StatisticsType.All -> R.drawable.stat
+                    StatisticsType.All -> R.drawable.calendar_clear
                 },
                 enabled = true,
                 showIcon = true,

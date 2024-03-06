@@ -71,7 +71,7 @@ fun StatisticsScreen(
                     Item(3, stringResource(R.string._3_month), R.drawable.stat_3months)
                     Item(4, stringResource(R.string._6_month), R.drawable.stat_6months)
                     Item(5, stringResource(R.string._1_year), R.drawable.stat_year)
-                    Item(6, stringResource(R.string.all), R.drawable.stat)
+                    Item(6, stringResource(R.string.all), R.drawable.calendar_clear)
                 }
             ) { currentTabIndex ->
                 saveableStateHolder.SaveableStateProvider(key = currentTabIndex) {
