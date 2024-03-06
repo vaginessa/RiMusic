@@ -65,13 +65,13 @@ fun StatisticsScreen(
                 tabIndex = tabIndex,
                 onTabChanged = onTabIndexChanged,
                 tabColumnContent = { Item ->
-                    Item(0, stringResource(R.string.today), R.drawable.stats_chart)
-                    Item(1, stringResource(R.string._1_week), R.drawable.stats_chart)
-                    Item(2, stringResource(R.string._1_month), R.drawable.stats_chart)
-                    Item(3, stringResource(R.string._3_month), R.drawable.stats_chart)
-                    Item(4, stringResource(R.string._6_month), R.drawable.stats_chart)
-                    Item(5, stringResource(R.string._1_year), R.drawable.stats_chart)
-                    Item(6, stringResource(R.string.all), R.drawable.stats_chart)
+                    Item(0, stringResource(R.string.today), R.drawable.stat_today)
+                    Item(1, stringResource(R.string._1_week), R.drawable.stat_week)
+                    Item(2, stringResource(R.string._1_month), R.drawable.stat_month)
+                    Item(3, stringResource(R.string._3_month), R.drawable.stat_3months)
+                    Item(4, stringResource(R.string._6_month), R.drawable.stat_6months)
+                    Item(5, stringResource(R.string._1_year), R.drawable.stat_year)
+                    Item(6, stringResource(R.string.all), R.drawable.stat)
                 }
             ) { currentTabIndex ->
                 saveableStateHolder.SaveableStateProvider(key = currentTabIndex) {

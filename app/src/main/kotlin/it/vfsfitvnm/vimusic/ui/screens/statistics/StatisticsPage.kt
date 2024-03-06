@@ -275,7 +275,15 @@ fun StatisticsPage(
                     StatisticsType.OneYear -> stringResource(R.string._1_year)
                     StatisticsType.All -> stringResource(R.string.all)
                 },
-                iconId = R.drawable.stats_chart,
+                iconId = when (statisticsType) {
+                    StatisticsType.Today -> R.drawable.stat_today
+                    StatisticsType.OneWeek -> R.drawable.stat_week
+                    StatisticsType.OneMonth -> R.drawable.stat_month
+                    StatisticsType.ThreeMonths -> R.drawable.stat_3months
+                    StatisticsType.SixMonths -> R.drawable.stat_6months
+                    StatisticsType.OneYear -> R.drawable.stat_year
+                    StatisticsType.All -> R.drawable.stat
+                },
                 enabled = true,
                 showIcon = true,
                 modifier = Modifier,
