@@ -16,8 +16,10 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +40,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -975,6 +978,18 @@ fun Player(
                             .height(30.dp)
                     ) {
 
+                        Image(
+                            painter = painterResource(R.drawable.chevron_down),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(colorPalette.collapsedPlayerProgressBar),
+                            modifier = Modifier
+                                .clickable { layoutState.collapseSoft() }
+                                .rotate(rotationAngle)
+                                //.padding(10.dp)
+                                .size(24.dp)
+
+                        )
+                        /*
                         IconButton(
                             icon = R.drawable.chevron_down,
                             color = colorPalette.text,
@@ -986,7 +1001,20 @@ fun Player(
                                 //.padding(horizontal = 15.dp)
                                 .size(24.dp)
                         )
+                         */
 
+                        Image(
+                            painter = painterResource(R.drawable.app_icon),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(colorPalette.collapsedPlayerProgressBar),
+                            modifier = Modifier
+                                .clickable { onGoToHome() }
+                                .rotate(rotationAngle)
+                                //.padding(10.dp)
+                                .size(24.dp)
+
+                        )
+                        /*
                         IconButton(
                             icon = R.drawable.app_icon,
                             color = colorPalette.text,
@@ -998,7 +1026,28 @@ fun Player(
                                 //.padding(horizontal = 4.dp)
                                 .size(24.dp)
                         )
+                         */
 
+                        Image(
+                            painter = painterResource(R.drawable.ellipsis_vertical),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(colorPalette.collapsedPlayerProgressBar),
+                            modifier = Modifier
+                                .clickable {
+                                    menuState.display {
+                                        PlayerMenu(
+                                            onDismiss = menuState::hide,
+                                            mediaItem = mediaItem,
+                                            binder = binder
+                                        )
+                                    }
+                                }
+                                .rotate(rotationAngle)
+                                //.padding(10.dp)
+                                .size(24.dp)
+
+                        )
+                        /*
                         IconButton(
                             icon = R.drawable.ellipsis_vertical,
                             color = colorPalette.text,
@@ -1015,6 +1064,7 @@ fun Player(
                                 //.padding(horizontal = 15.dp)
                                 .size(24.dp)
                         )
+                         */
 
 
                     }

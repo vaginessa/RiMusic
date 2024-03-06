@@ -74,7 +74,6 @@
     <string name="cache_cleared">When the cache runs out of space, the resources that haven\'t been accessed for the longest time are cleared</string>
     <string name="image_cache">IMAGE CACHE</string>
     <string name="max_size">Max size</string>
-    <string name="song_cache">SONG CACHE</string>
     <string name="database">Databas</string>
     <string name="reset_quick_picks">Reset quick picks</string>
     <string name="quick_picks_are_cleared">Quick picks are cleared</string>
@@ -116,7 +115,6 @@
     <string name="more_of">More of</string>
     <string name="sleep_timer">Sleep timer</string>
     <string name="left">%1$s left</string>
-    <string name="set">Set</string>
     <string name="confirm">Bekräfta</string>
     <string name="show">Show</string>
     <string name="unsynchronized_lyrics">unsynchronized lyrics</string>
