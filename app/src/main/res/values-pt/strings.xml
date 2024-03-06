@@ -389,15 +389,15 @@
     <string name="player_collapsed_disable_swiping_down">Desativar deslize para baixo</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Evite fechar o player e limpar a fila deslizando para baixo quando estiver minimizado</string>
     <string name="sort_date_liked">Date Liked</string>
-    <string name="export_playlist">Export playlist</string>
-    <string name="lang_afrikaans">Afrikaans</string>
-    <string name="playlist_top">Playlist Top</string>
-    <string name="my_playlist_top">My Top</string>
-    <string name="navigation_bar_position">Navigation bar position</string>
-    <string name="direction_left">Left</string>
-    <string name="direction_right">Right</string>
-    <string name="copy_lyrics">Copy lyrics</string>
-    <string name="value_copied">Copied</string>
-    <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
-    <string name="lang_swedish">Swedish</string>
+    <string name="export_playlist">Exportar playlist</string>
+    <string name="lang_afrikaans">Africânder (Afrikaans)</string>
+    <string name="playlist_top">Playlist do Top</string>
+    <string name="my_playlist_top">Meu Top</string>
+    <string name="navigation_bar_position">Posição da barra de navegação</string>
+    <string name="direction_left">Esquerda</string>
+    <string name="direction_right">Direita</string>
+    <string name="copy_lyrics">Copiar letra</string>
+    <string name="value_copied">Copiado</string>
+    <string name="do_you_really_want_to_delete_cache">Tem a certeza que quer apagar o cache?</string>
+    <string name="lang_swedish">Sueco (Svenska)</string>
 </resources>
