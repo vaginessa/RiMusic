@@ -574,8 +574,6 @@ fun Controls(
 
                 if (pauseBetweenSongs != PauseBetweenSongs.`0`)
                     LaunchedEffect(timeRemaining){
-                        Log.d("mediaItem", "timeRemaining long ${timeRemaining.toLong()}")
-
                         if (
                             //formatAsDuration(timeRemaining.toLong()) == "0:00"
                             timeRemaining.toLong() < 500
@@ -583,12 +581,10 @@ fun Controls(
                         {
                             paused = true
                             binder.player.pause()
-                            Log.d("mediaItem", "Transition... delay timeRemaining $timeRemaining")
                             delay(pauseBetweenSongs.number)
                             //binder.player.seekTo(position+2000)
                             binder.player.play()
                             paused = false
-                            Log.d("mediaItem", "Transition... delayed")
                         }
                     }
 
