@@ -398,6 +398,6 @@
     <string name="direction_right">Праворуч</string>
     <string name="copy_lyrics">Копіювати текст</string>
     <string name="value_copied">Скопійовано</string>
-    <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
-    <string name="lang_swedish">Swedish</string>
+    <string name="do_you_really_want_to_delete_cache">Ви дійсно хочете очистити кеш?</string>
+    <string name="lang_swedish">Swedish (Svenska)</string>
 </resources>
