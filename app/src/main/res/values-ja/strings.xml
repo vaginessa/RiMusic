@@ -398,6 +398,6 @@
     <string name="direction_right">右</string>
     <string name="copy_lyrics">歌詞をコピー</string>
     <string name="value_copied">コピーしました</string>
-    <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
-    <string name="lang_swedish">Swedish</string>
+    <string name="do_you_really_want_to_delete_cache">本当にキャッシュを削除しますか？</string>
+    <string name="lang_swedish">スウェーデン語</string>
 </resources>
