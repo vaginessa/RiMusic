@@ -6,15 +6,21 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -33,6 +39,8 @@ import it.vfsfitvnm.vimusic.ui.screens.globalRoutes
 import it.vfsfitvnm.vimusic.ui.screens.homeRoute
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
+import it.vfsfitvnm.vimusic.utils.applyFontPaddingKey
+import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.secondary
 @ExperimentalMaterialApi
 @ExperimentalTextApi
@@ -66,6 +74,8 @@ fun SearchScreen(
         )
     }
 
+    val applyFontPadding by rememberPreference(applyFontPaddingKey, false)
+
     PersistMapCleanup(tagPrefix = "search/")
 
     RouteHandler(listenToGlobalEmitter = true) {
@@ -80,14 +90,22 @@ fun SearchScreen(
                        // .weight(1f)
                         .padding(horizontal = 10.dp)
                 ) {
-                    IconButton(
-                        onClick = {},
-                        icon = R.drawable.search,
-                        color = colorPalette.favoritesIcon,
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .size(24.dp)
-                    )
+                    Column (
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        if (applyFontPadding)
+                            Spacer(modifier = Modifier.padding(top = 5.dp))
+                            
+                        IconButton(
+                            onClick = {},
+                            icon = R.drawable.search,
+                            color = colorPalette.favoritesIcon,
+                            modifier = Modifier
+                                //.align(Alignment.CenterStart)
+                                .size(24.dp)
+                        )
+                    }
+
                 }
                 Box(
                     contentAlignment = Alignment.CenterStart,
