@@ -397,7 +397,7 @@
     <string name="direction_right">오른쪽</string>
     <string name="copy_lyrics">가사 복사</string>
     <string name="value_copied">복사됨</string>
+    <string name="do_you_really_want_to_delete_cache">정말로 캐시를 삭제하실건가요?</string>
+    <string name="lang_swedish">스웨덴어</string>
     <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
-    <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
-    <string name="lang_swedish">Swedish</string>
 </resources>
