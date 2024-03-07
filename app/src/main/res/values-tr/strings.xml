@@ -398,6 +398,6 @@
     <string name="direction_right">Sağ</string>
     <string name="copy_lyrics">Şarkı sözlerini kopyala</string>
     <string name="value_copied">Kopyalandı</string>
-    <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
+    <string name="do_you_really_want_to_delete_cache">Önbelleği gerçekten silmek istiyor musunuz?</string>
     <string name="lang_swedish">Swedish</string>
 </resources>
