@@ -31,15 +31,12 @@ import it.vfsfitvnm.vimusic.service.isLocal
 import it.vfsfitvnm.vimusic.ui.components.themed.NewVersionDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import org.json.JSONException
-import org.json.JSONObject
 import java.io.File
 import java.net.InetSocketAddress
 import java.net.Proxy
@@ -47,6 +44,8 @@ import java.time.Duration
 import java.time.LocalTime
 import java.util.Timer
 import kotlin.concurrent.timerTask
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
 val Innertube.SongItem.asMediaItem: MediaItem
@@ -187,6 +186,10 @@ fun formatAsTime(millis: Long): String {
 
     return "${timePart1} ${timePart2}s"
 }
+
+fun formatTimelineSongDurationToTime(millis: Long) =
+    Duration.ofMillis(millis*1000).toMinutes().minutes.toString()
+
 
 suspend fun Result<Innertube.PlaylistOrAlbumPage>.completed(
     maxDepth: Int = Int.MAX_VALUE

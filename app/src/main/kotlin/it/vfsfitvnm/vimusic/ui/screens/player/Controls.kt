@@ -95,10 +95,13 @@ import it.vfsfitvnm.vimusic.utils.bold
 import it.vfsfitvnm.vimusic.utils.colorPaletteNameKey
 import it.vfsfitvnm.vimusic.utils.disableScrollingTextKey
 import it.vfsfitvnm.vimusic.utils.downloadedStateMedia
+import it.vfsfitvnm.vimusic.utils.durationTextToMillis
 import it.vfsfitvnm.vimusic.utils.effectRotationKey
 import it.vfsfitvnm.vimusic.utils.forceSeekToNext
 import it.vfsfitvnm.vimusic.utils.forceSeekToPrevious
 import it.vfsfitvnm.vimusic.utils.formatAsDuration
+import it.vfsfitvnm.vimusic.utils.formatAsTime
+import it.vfsfitvnm.vimusic.utils.formatTimelineSongDurationToTime
 import it.vfsfitvnm.vimusic.utils.isCompositionLaunched
 import it.vfsfitvnm.vimusic.utils.pauseBetweenSongsKey
 import it.vfsfitvnm.vimusic.utils.playerPlayButtonTypeKey
@@ -110,9 +113,12 @@ import it.vfsfitvnm.vimusic.utils.seamlessPlay
 import it.vfsfitvnm.vimusic.utils.semiBold
 import it.vfsfitvnm.vimusic.utils.toast
 import it.vfsfitvnm.vimusic.utils.trackLoopEnabledKey
+import it.vfsfitvnm.vimusic.utils.windows
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.seconds
@@ -229,12 +235,32 @@ fun Controls(
 
     val pauseBetweenSongs  by rememberPreference(pauseBetweenSongsKey,   PauseBetweenSongs.`0`)
 
+    var windows by remember {
+        mutableStateOf(binder.player.currentTimeline.windows)
+    }
+    var queuedSongs by remember {
+        mutableStateOf<List<Song>>(emptyList())
+    }
+    LaunchedEffect(mediaId, windows) {
+        Database.getSongsList(
+            windows.map {
+                it.mediaItem.mediaId
+            }
+        ).collect{ queuedSongs = it}
+    }
+
+    var totalPlayTimes = 0L
+    queuedSongs.forEach {
+        totalPlayTimes += it.durationText?.let { it1 ->
+            durationTextToMillis(it1)
+        }?.toLong() ?: 0
+    }
+
 
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = modifier
             .fillMaxWidth()
-            //.padding(horizontal = 10.dp)
             .padding(horizontal = playerThumbnailSize.size.dp)
     ) {
 
@@ -588,9 +614,38 @@ fun Controls(
                         }
                     }
 
-                if (!paused) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                ) {
+                    if (!paused) {
+                        Image(
+                            painter = painterResource(R.drawable.time),
+                            colorFilter = ColorFilter.tint(colorPalette.accent),
+                            modifier = Modifier
+                                .size(20.dp)
+                                .padding(horizontal = 5.dp),
+                            contentDescription = "Background Image",
+                            contentScale = ContentScale.Fit
+                        )
+                        BasicText(
+                            text = formatAsDuration(timeRemaining.toLong()),
+                            style = typography.xxs.semiBold,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .padding(horizontal = 5.dp)
+                        )
+                        BasicText(
+                            text = " [${formatAsTime(totalPlayTimes)}]",
+                            style = typography.xxs.semiBold,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                        /*
                     BasicText(
-                        text = stringResource(
+                        text = formatTimelineSongDurationToTime(totalPlayTimes) + " " + stringResource(
                             R.string.left,
                             formatAsDuration(timeRemaining.toLong())
                         ),
@@ -598,17 +653,18 @@ fun Controls(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
-                } else {
-                    Image(
-                        painter = painterResource(R.drawable.alarm),
-                        colorFilter = ColorFilter.tint(colorPalette.accent),
-                        modifier = Modifier
-                            .size(20.dp),
-                        contentDescription = "Background Image",
-                        contentScale = ContentScale.Fit
-                    )
+                     */
+                    } else {
+                        Image(
+                            painter = painterResource(R.drawable.pause),
+                            colorFilter = ColorFilter.tint(colorPalette.accent),
+                            modifier = Modifier
+                                .size(20.dp),
+                            contentDescription = "Background Image",
+                            contentScale = ContentScale.Fit
+                        )
+                    }
                 }
-
                 BasicText(
                     text = formatAsDuration(duration),
                     style = typography.xxs.semiBold,
