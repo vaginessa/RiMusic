@@ -388,7 +388,7 @@
     <string name="smart_recommendations">ÄLYKKÄÄT SUOSITUKSET</string>
     <string name="player_collapsed_disable_swiping_down">Poista pyyhkäisy alas -toiminto</string>
     <string name="avoid_closing_the_player_cleaning_queue_by_swiping_down">Vältä soittimen sulkeminen ja jonon puhdistaminen pyyhkäisemällä alaspäin, kun se on pienennettynä</string>
-    <string name="sort_date_liked">Date Liked</string>
+    <string name="sort_date_liked">Tykkäyspäivämäärä</string>
     <string name="export_playlist">Vie soittolista</string>
     <string name="lang_afrikaans">afrikaans</string>
     <string name="playlist_top">Playlist Top</string>
