@@ -334,6 +334,7 @@ fun HomePlaylists(
                                 PlaylistSortBy.Name -> stringResource(R.string.sort_name)
                                 PlaylistSortBy.SongCount -> stringResource(R.string.sort_songs_number)
                                 PlaylistSortBy.DateAdded -> stringResource(R.string.sort_date_added)
+                                PlaylistSortBy.MostPlayed -> stringResource(R.string.most_played_playlists)
                             },
                             style = typography.xs.semiBold,
                             maxLines = 1,
@@ -347,9 +348,9 @@ fun HomePlaylists(
                                             onName = { sortBy = PlaylistSortBy.Name },
                                             onSongNumber = { sortBy = PlaylistSortBy.SongCount },
                                             onDateAdded = { sortBy = PlaylistSortBy.DateAdded },
+                                            onPlayTime = { sortBy = PlaylistSortBy.MostPlayed },
                                         )
                                     }
-                                    //showSortTypeSelectDialog = true
                                 }
                         )
 

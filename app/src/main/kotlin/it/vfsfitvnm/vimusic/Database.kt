@@ -654,6 +654,27 @@ interface Database {
     @Transaction
     @Query("SELECT id, name, (SELECT COUNT(*) FROM SongPlaylistMap WHERE playlistId = id) as songCount FROM Playlist ORDER BY songCount DESC")
     fun playlistPreviewsByDateSongCountDesc(): Flow<List<PlaylistPreview>>
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Transaction
+    @Query("SELECT id, name, " +
+            "(SELECT COUNT(*) FROM SongPlaylistMap WHERE playlistId = id) as songCount, " +
+            "(SELECT SUM(Song.totalPlayTimeMs) FROM Song " +
+            "JOIN SongPlaylistMap ON Song.id = SongPlaylistMap.songId " +
+            "WHERE SongPlaylistMap.playlistId = Playlist.id ) as TotPlayTime " +
+            "FROM Playlist " +
+            "ORDER BY 4")
+    fun playlistPreviewsByMostPlayedSongsAsc(): Flow<List<PlaylistPreview>>
+
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Transaction
+    @Query("SELECT id, name, " +
+            "(SELECT COUNT(*) FROM SongPlaylistMap WHERE playlistId = id) as songCount, " +
+            "(SELECT SUM(Song.totalPlayTimeMs) FROM Song " +
+            "JOIN SongPlaylistMap ON Song.id = SongPlaylistMap.songId " +
+            "WHERE SongPlaylistMap.playlistId = Playlist.id ) as TotPlayTime " +
+            "FROM Playlist " +
+            "ORDER BY 4 DESC")
+    fun playlistPreviewsByMostPlayedSongsDesc(): Flow<List<PlaylistPreview>>
 
     fun playlistPreviews(
         sortBy: PlaylistSortBy,
@@ -671,6 +692,10 @@ interface Database {
             PlaylistSortBy.DateAdded -> when (sortOrder) {
                 SortOrder.Ascending -> playlistPreviewsByDateAddedAsc()
                 SortOrder.Descending -> playlistPreviewsByDateAddedDesc()
+            }
+            PlaylistSortBy.MostPlayed -> when (sortOrder) {
+                SortOrder.Ascending -> playlistPreviewsByMostPlayedSongsAsc()
+                SortOrder.Descending -> playlistPreviewsByMostPlayedSongsDesc()
             }
         }
     }
