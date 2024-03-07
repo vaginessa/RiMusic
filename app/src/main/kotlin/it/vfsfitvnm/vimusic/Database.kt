@@ -57,6 +57,7 @@ import it.vfsfitvnm.vimusic.models.SongArtistMap
 import it.vfsfitvnm.vimusic.models.SongPlaylistMap
 import it.vfsfitvnm.vimusic.models.SortedSongPlaylistMap
 import it.vfsfitvnm.vimusic.service.LOCAL_KEY_PREFIX
+import it.vfsfitvnm.vimusic.ui.screens.home.PINNED_PREFIX
 import kotlin.jvm.Throws
 import kotlinx.coroutines.flow.Flow
 
@@ -397,6 +398,11 @@ interface Database {
 
     @Query("DELETE FROM SearchQuery")
     fun clearQueries()
+
+    @Query("UPDATE Playlist SET name = '${PINNED_PREFIX}'||name WHERE id = :playlistId")
+    fun pinPlaylist(playlistId: Long): Int
+    @Query("UPDATE Playlist SET name = REPLACE(name,'${PINNED_PREFIX}','') WHERE id = :playlistId")
+    fun unPinPlaylist(playlistId: Long): Int
 
     @Query("SELECT count(id) FROM Song WHERE id = :songId and likedAt is not NULL")
     fun songliked(songId: String): Int

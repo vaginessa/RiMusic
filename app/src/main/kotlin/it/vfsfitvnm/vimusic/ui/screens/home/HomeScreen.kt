@@ -63,6 +63,7 @@ import it.vfsfitvnm.vimusic.utils.preferences
 import it.vfsfitvnm.vimusic.utils.rememberPreference
 import it.vfsfitvnm.vimusic.utils.showSearchTabKey
 
+const val PINNED_PREFIX = "pinned:"
 
 @ExperimentalMaterialApi
 @ExperimentalTextApi

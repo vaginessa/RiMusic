@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicText
@@ -30,10 +31,13 @@ import coil.compose.AsyncImage
 import it.vfsfitvnm.compose.persist.persistList
 import it.vfsfitvnm.innertube.Innertube
 import it.vfsfitvnm.vimusic.Database
+import it.vfsfitvnm.vimusic.R
 import it.vfsfitvnm.vimusic.models.PlaylistPreview
 import it.vfsfitvnm.vimusic.models.Song
 import it.vfsfitvnm.vimusic.ui.components.themed.TextPlaceholder
+import it.vfsfitvnm.vimusic.ui.screens.home.PINNED_PREFIX
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
+import it.vfsfitvnm.vimusic.ui.styling.overlay
 import it.vfsfitvnm.vimusic.ui.styling.shimmer
 import it.vfsfitvnm.vimusic.utils.secondary
 import it.vfsfitvnm.vimusic.utils.semiBold
@@ -212,6 +216,21 @@ fun PlaylistItem(
                 modifier = Modifier
                     .fillMaxSize()
             )
+
+            name?.let {
+                if (it.startsWith(PINNED_PREFIX,0,true)) {
+                    Image(
+                        painter = painterResource(R.drawable.star),
+                        colorFilter = ColorFilter.tint(colorPalette.accent),
+                        modifier = Modifier
+                            .size(40.dp)
+                            .padding(all = 5.dp),
+                        contentDescription = "Background Image",
+                        contentScale = ContentScale.Fit
+                    )
+                }
+            }
+
 /*
             songCount?.let {
                 BasicText(
@@ -236,12 +255,14 @@ fun PlaylistItem(
                 .fillMaxSize()
         ) {
             if (showName)
-                BasicText(
-                    text = name ?: "",
-                    style = typography.xs.semiBold,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                if (name != null) {
+                    BasicText(
+                        text = name.substringAfter(PINNED_PREFIX) ?: "",
+                        style = typography.xs.semiBold,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
 
             channelName?.let {
                 BasicText(

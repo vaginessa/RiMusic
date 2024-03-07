@@ -118,6 +118,7 @@ import it.vfsfitvnm.vimusic.ui.components.themed.Playlist
 import it.vfsfitvnm.vimusic.ui.components.themed.PlaylistsItemMenu
 import it.vfsfitvnm.vimusic.ui.components.themed.SortMenu
 import it.vfsfitvnm.vimusic.ui.items.SongItem
+import it.vfsfitvnm.vimusic.ui.screens.home.PINNED_PREFIX
 import it.vfsfitvnm.vimusic.ui.styling.Dimensions
 import it.vfsfitvnm.vimusic.ui.styling.LocalAppearance
 import it.vfsfitvnm.vimusic.ui.styling.favoritesIcon
@@ -155,6 +156,7 @@ import it.vfsfitvnm.vimusic.utils.songSortOrderKey
 import it.vfsfitvnm.vimusic.utils.thumbnailRoundnessKey
 import it.vfsfitvnm.vimusic.utils.toast
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.runBlocking
@@ -553,7 +555,7 @@ fun LocalPlaylistSongs(
                         .fillMaxWidth()
                 ) {
                     HeaderWithIcon(
-                        title = playlistPreview?.playlist?.name ?: "Unknown",
+                        title = playlistPreview?.playlist?.name?.substringAfter(PINNED_PREFIX) ?: "Unknown",
                         iconId = R.drawable.playlist,
                         enabled = true,
                         showIcon = true,
@@ -628,6 +630,20 @@ fun LocalPlaylistSongs(
                         .padding(horizontal = 10.dp)
                         .fillMaxWidth()
                 ) {
+
+                    HeaderIconButton(
+                        icon = R.drawable.star,
+                        enabled = playlistSongs.isNotEmpty(),
+                        color = if (playlistPreview?.playlist?.name?.startsWith(PINNED_PREFIX,0,true) == true)
+                            colorPalette.text else colorPalette.textDisabled,
+                        onClick = {
+                            query {
+                                if (playlistPreview?.playlist?.name?.startsWith(PINNED_PREFIX,0,true) == true)
+                                    Database.unPinPlaylist(playlistId) else
+                                    Database.pinPlaylist(playlistId)
+                            }
+                        }
+                    )
 
                     HeaderIconButton(
                         icon = R.drawable.downloaded,

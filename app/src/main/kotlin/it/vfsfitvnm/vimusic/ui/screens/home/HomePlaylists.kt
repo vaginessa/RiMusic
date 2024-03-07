@@ -105,6 +105,7 @@ import it.vfsfitvnm.vimusic.utils.showPlaylistsKey
 import it.vfsfitvnm.vimusic.utils.showSearchTabKey
 import it.vfsfitvnm.vimusic.utils.toast
 
+
 @ExperimentalMaterialApi
 @SuppressLint("SuspiciousIndentation")
 @ExperimentalAnimationApi
@@ -451,7 +452,7 @@ fun HomePlaylists(
 
             if (showPlaylists) {
                 item(
-                    key = "headerplaylist",
+                    key = "headerPinnedPlaylist",
                     contentType = 0,
                     span = { GridItemSpan(maxLineSpan) }) {
                     BasicText(
@@ -461,7 +462,31 @@ fun HomePlaylists(
                     )
                 }
 
+                items(items = items.filter {
+                    it.playlist.name.startsWith(PINNED_PREFIX,0,true)
+                }, key = { it.playlist.id }) { playlistPreview ->
+                    PlaylistItem(
+                        playlist = playlistPreview,
+                        thumbnailSizeDp = thumbnailSizeDp,
+                        thumbnailSizePx = thumbnailSizePx,
+                        alternative = true,
+                        modifier = Modifier
+                            .clickable(onClick = { onPlaylistClick(playlistPreview.playlist) })
+                            .animateItemPlacement()
+                            .fillMaxSize()
+                    )
+                }
 
+                item(
+                    key = "headerplaylist",
+                    contentType = 0,
+                    span = { GridItemSpan(maxLineSpan) }) {
+                    BasicText(
+                        text = stringResource(R.string.pinned_playlists),
+                        style = typography.m.semiBold,
+                        modifier = sectionTextModifier
+                    )
+                }
 
                 item(key = "newPlaylist") {
                     PlaylistItem(
@@ -505,7 +530,11 @@ fun HomePlaylists(
                     )
                 }
 
-                items(items = items, key = { it.playlist.id }) { playlistPreview ->
+
+
+                items(items = items.filter {
+                    it.playlist.name.startsWith(PINNED_PREFIX,0,true) == false
+                }, key = { it.playlist.id }) { playlistPreview ->
                     PlaylistItem(
                         playlist = playlistPreview,
                         thumbnailSizeDp = thumbnailSizeDp,
