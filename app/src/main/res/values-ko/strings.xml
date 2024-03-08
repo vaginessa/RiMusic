@@ -316,6 +316,7 @@
     <string name="lang_finnish">핀란드어</string>
     <string name="listening_time">재생 시간</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">들은 노래의 수와 청취 시간 표시</string>
+    <string name="app_update_dialog_new">새로운 버전 %s을 다운로드할 수 있습니다!</string>
     <string name="enable_language_in_discovery">탐색에서 언어 활성화</string>
     <string name="if_possible_allows_discovery_content_language">가능하면, 사용자의 언어로 된 탐색 콘텐츠를 수신할 수 있습니다.</string>
     <string name="set_to">설정</string>
@@ -399,6 +400,5 @@
     <string name="value_copied">복사됨</string>
     <string name="do_you_really_want_to_delete_cache">정말로 캐시를 삭제하실건가요?</string>
     <string name="lang_swedish">스웨덴어</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="pinned_playlists">Pinned Playlists</string>
 </resources>
