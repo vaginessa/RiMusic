@@ -398,6 +398,6 @@
     <string name="direction_right">Oikea</string>
     <string name="copy_lyrics">Kopioi sanoitukset</string>
     <string name="value_copied">Kopioitu</string>
-    <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
-    <string name="lang_swedish">Swedish</string>
+    <string name="do_you_really_want_to_delete_cache">Haluatko varmasti tyhjentää välimuistin?</string>
+    <string name="lang_swedish">ruotsi</string>
 </resources>
