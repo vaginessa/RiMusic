@@ -316,6 +316,7 @@
     <string name="lang_finnish">suomi</string>
     <string name="listening_time">Kuunteluaika</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Näyttää montako kappaletta on kuunneltu ja niiden keston</string>
+    <string name="app_update_dialog_new">Uusi versio %s ladattavissa!</string>
     <string name="enable_language_in_discovery">Ota kieli käyttöön Haussa</string>
     <string name="if_possible_allows_discovery_content_language">Jos mahdollista, Haun-sisältöä voidaan näyttää valitulla kielellä.</string>
     <string name="set_to">Asetettu</string>
@@ -399,6 +400,5 @@
     <string name="value_copied">Kopioitu</string>
     <string name="do_you_really_want_to_delete_cache">Haluatko varmasti tyhjentää välimuistin?</string>
     <string name="lang_swedish">ruotsi</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="pinned_playlists">Pinned Playlists</string>
 </resources>
