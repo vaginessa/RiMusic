@@ -316,6 +316,7 @@
     <string name="lang_finnish">Finlandés</string>
     <string name="listening_time">Tiempo de reproducción</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Muestra el número de canciones escuchadas y su tiempo de reproducción</string>
+    <string name="app_update_dialog_new">¡La nueva versión %s puede ser descargada!</string>
     <string name="enable_language_in_discovery">Activar idioma en Descubrimiento</string>
     <string name="if_possible_allows_discovery_content_language">Si es posible, permite recibir contenido de Descubrimiento en su propio idioma.</string>
     <string name="set_to">Establecer en</string>
@@ -397,7 +398,6 @@
     <string name="direction_right">Derecha</string>
     <string name="copy_lyrics">Copiar letra</string>
     <string name="value_copied">Copiado</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
     <string name="lang_swedish">Swedish</string>
     <string name="pinned_playlists">Pinned Playlists</string>

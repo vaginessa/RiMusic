@@ -316,6 +316,7 @@
     <string name="lang_finnish">Finlandês</string>
     <string name="listening_time">Tempo de reprodução</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Mostra o número de músicas ouvidas e o seu tempo de reprodução</string>
+    <string name="app_update_dialog_new">A nova versão %s pode ser baixada!</string>
     <string name="enable_language_in_discovery">Habilitar Idioma na Descobrir</string>
     <string name="if_possible_allows_discovery_content_language">Se possível, permite receber conteúdo de Descobrir na sua própria língua.</string>
     <string name="set_to">Definir para</string>
@@ -376,7 +377,6 @@
     <string name="player_appearance">Aparência do Player</string>
     <string name="player_action_bar">BARRA DE AÇÃO DO REPRODUTOR</string>
     <string name="tab_data">Data</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="image_cache_max_size">Tamanho máximo do cache de imagens</string>
     <string name="song_cache_max_size">Tamanho máximo do cache de músicas</string>
     <string name="song_download_max_size">Tamanho máximo do download de músicas</string>

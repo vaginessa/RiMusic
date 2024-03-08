@@ -55,7 +55,7 @@
     <string name="online">Συνδεδεμένο</string>
     <string name="no_results_found">Δεν βρέθηκαν αποτελέσματα. Δοκιμάστε διαφορετικές λέξεις-κλειδιά ή κατηγορίες</string>
     <string name="videos">Βίντεο</string>
-    <string name="featured">Προτεινόμενα</string>
+    <string name="featured">﻿Προτεινόμενα</string>
     <string name="view_the_source_code">Προβολή Πηγαίου Κώδικα</string>
     <string name="report_an_issue">Αναφορά προβλήματος</string>
     <string name="you_will_be_redirected_to_github">Θα μεταφερθείτε στο GitHub</string>
@@ -201,7 +201,7 @@
     <string name="listen_on_youtube">Ακούστε στο YouTube</string>
     <string name="listen_on_youtube_music">Ακούστε στο YouTube Music</string>
     <string name="on_device">Στη συσκευή</string>
-    <string name="wavy_timeline">Wavy timeline</string>
+    <string name="wavy_timeline">Κυματισμένη γραμμή χρόνου</string>
     <string name="play_next">Αναπαραγωγή επόμενου</string>
     <string name="toggle_lyrics">Εναλλαγή στίχων</string>
     <string name="by_tapping_on_the_thumbnail">Πατώντας τη μικρογραφία</string>
@@ -275,7 +275,7 @@
     <string name="show_favorite_button_in_lock_screen_and_notification_area">Εμφάνιση κουμπιού αγαπημένων στην οθόνη κλειδώματος και στην περιοχή ειδοποιήσεων</string>
     <string name="show_download_button">Εμφάνιση κουμπιού λήψης</string>
     <string name="show_download_button_in_lock_screen_and_notification_area">Εμφάνιση κουμπιού λήψης στην οθόνη κλειδώματος και στην περιοχή ειδοποιήσεων</string>
-   <string name="by_most_played_song">By Most played song</string>
+    <string name="by_most_played_song">By Most played song</string>
     <string name="by_last_played_song">By Last played song</string>
     <string name="audio_quality_automatic">Automatic</string>
     <string name="statistics_songs_heard">songs heard</string>
@@ -316,6 +316,7 @@
     <string name="lang_finnish">Finnish</string>
     <string name="listening_time">Listening time</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Shows the number of songs heard and their listening time</string>
+    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="enable_language_in_discovery">Enable language in Discovery</string>
     <string name="if_possible_allows_discovery_content_language">If possible, it allows to receive Discovery content in your own language.</string>
     <string name="set_to">Set to</string>
@@ -397,7 +398,6 @@
     <string name="direction_right">Right</string>
     <string name="copy_lyrics">Copy lyrics</string>
     <string name="value_copied">Copied</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
     <string name="lang_swedish">Swedish</string>
     <string name="pinned_playlists">Pinned Playlists</string>

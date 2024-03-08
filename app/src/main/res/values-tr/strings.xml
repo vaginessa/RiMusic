@@ -316,6 +316,7 @@
     <string name="lang_finnish">Fince (Finnish)</string>
     <string name="listening_time">Dinleme süresi</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Dinlediğiniz şarkı sayısını ve dinlenme süresini gösterir</string>
+    <string name="app_update_dialog_new">Yeni sürüm %s indirilebilir!</string>
     <string name="enable_language_in_discovery">Keşfette dili etkinleştir</string>
     <string name="if_possible_allows_discovery_content_language">Mümkün olduğunda, Keşfet içeriğini kendi dilinizde almanızı sağlar.</string>
     <string name="set_to">Ayarla</string>
@@ -398,7 +399,6 @@
     <string name="copy_lyrics">Şarkı sözlerini kopyala</string>
     <string name="value_copied">Kopyalandı</string>
     <string name="do_you_really_want_to_delete_cache">Önbelleği gerçekten silmek istiyor musunuz?</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="lang_swedish">Swedish</string>
     <string name="pinned_playlists">Pinned Playlists</string>
 </resources>

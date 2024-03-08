@@ -60,7 +60,7 @@
     <string name="report_an_issue">Report an issue</string>
     <string name="you_will_be_redirected_to_github">You will be redirected to GitHub</string>
     <string name="request_a_feature_or_suggest_an_idea">Request a feature or suggest an idea</string>
-    <string name="theme">Theme</string>
+    <string name="theme">Tema</string>
     <string name="theme_mode">Theme mode</string>
     <string name="thumbnail_roundness">Thumbnail roundness</string>
     <string name="use_system_font">Use system font</string>
@@ -198,9 +198,9 @@
     <string name="search">Sök</string>
     <string name="no">Nej</string>
     <string name="stop">Stop</string>
-    <string name="listen_on_youtube">Listen on YouTube</string>
+    <string name="listen_on_youtube">Lyssna på YouTube</string>
     <string name="listen_on_youtube_music">Listen on YouTube Music</string>
-    <string name="on_device">On device</string>
+    <string name="on_device">På enhet</string>
     <string name="wavy_timeline">Wavy timeline</string>
     <string name="play_next">Play next</string>
     <string name="toggle_lyrics">Toggle lyrics</string>
@@ -316,6 +316,7 @@
     <string name="lang_finnish">Finska</string>
     <string name="listening_time">Listening time</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Shows the number of songs heard and their listening time</string>
+    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="enable_language_in_discovery">Enable language in Discovery</string>
     <string name="if_possible_allows_discovery_content_language">If possible, it allows to receive Discovery content in your own language.</string>
     <string name="set_to">Set to</string>
@@ -397,7 +398,6 @@
     <string name="direction_right">Right</string>
     <string name="copy_lyrics">Copy lyrics</string>
     <string name="value_copied">Copied</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
     <string name="lang_swedish">Svenska</string>
     <string name="pinned_playlists">Pinned Playlists</string>

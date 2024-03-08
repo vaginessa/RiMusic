@@ -122,7 +122,7 @@
     <string name="provided_by">Furnizat de</string>
     <string name="delete_playback_events">Ștergeți %1$s evenimente de ascultare</string>
     <string name="existing_data_will_be_overwritten">Datele existente vor fi suprascrise.\n%1$s se va închide automat după restabilirea bazei de date.</string>
-    <string name="folder_cache">CACHE FOLDER</string>
+    <string name="folder_cache">FOLDER CACHE</string>
     <string name="cache_reset_by_clicking_button">Atenție! Făcând clic pe butonul de mai jos, folderul cache va fi resetat!</string>
     <string name="cache_location_folder">Locație folder</string>
     <string name="custom_cache_from_android_10_may_not_be_available">Începând cu Android 10, această funcție poate să nu fie disponibilă</string>
@@ -316,6 +316,7 @@
     <string name="lang_finnish">Finlandeză</string>
     <string name="listening_time">Timp de ascultare</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Arată numărul de muzici ascultate și timpul lor de ascultare</string>
+    <string name="app_update_dialog_new">Noua versiune %s poate fi descărcată!</string>
     <string name="enable_language_in_discovery">Activează limba în Descoperiri</string>
     <string name="if_possible_allows_discovery_content_language">Dacă este posibil, acesta permite să primiți conținut din Discovery în limba dvs.</string>
     <string name="set_to">Setează pe</string>
@@ -397,8 +398,7 @@
     <string name="direction_right">Dreapta</string>
     <string name="copy_lyrics">Copiază versurile</string>
     <string name="value_copied">Copiat</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
-    <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
-    <string name="lang_swedish">Swedish</string>
+    <string name="do_you_really_want_to_delete_cache">Sigur dorești să ștergi memoria cache?</string>
+    <string name="lang_swedish">Suedeză (Svenska)</string>
     <string name="pinned_playlists">Pinned Playlists</string>
 </resources>

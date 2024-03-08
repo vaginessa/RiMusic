@@ -316,6 +316,7 @@
     <string name="lang_finnish">Finn</string>
     <string name="listening_time">Hallgatási idő</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Megmutatja a hallott dalok számát és hallgatási idejét</string>
+    <string name="app_update_dialog_new">Az új verzió %s letölthető!</string>
     <string name="enable_language_in_discovery">Nyelv engedélyezése a Felfedezésben</string>
     <string name="if_possible_allows_discovery_content_language">Ha lehetséges, lehetővé teszi, hogy a Felfedezés tartalmát az saját nyelvén kapd meg.</string>
     <string name="set_to">Beállítva</string>
@@ -397,7 +398,6 @@
     <string name="direction_right">Jobbra</string>
     <string name="copy_lyrics">Dalszöveg másolása</string>
     <string name="value_copied">Másolva</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
     <string name="lang_swedish">Swedish</string>
     <string name="pinned_playlists">Pinned Playlists</string>

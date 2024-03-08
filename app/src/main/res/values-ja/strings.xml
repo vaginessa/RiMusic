@@ -316,6 +316,7 @@
     <string name="lang_finnish">フィンランド語</string>
     <string name="listening_time">再生時間</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">聴いた楽曲数と再生時間を表示します</string>
+    <string name="app_update_dialog_new">新しいバージョンは %s ダウンロード済みです！</string>
     <string name="enable_language_in_discovery">ディスカバリーで言語を有効にする</string>
     <string name="if_possible_allows_discovery_content_language">可能であれば、Discoveryコンテンツをあなたの使用言語で受け取る。</string>
     <string name="set_to">設定する</string>
@@ -397,8 +398,7 @@
     <string name="direction_right">右</string>
     <string name="copy_lyrics">歌詞をコピー</string>
     <string name="value_copied">コピーしました</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
-    <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
-    <string name="lang_swedish">Swedish</string>
+    <string name="do_you_really_want_to_delete_cache">本当にキャッシュを削除しますか？</string>
+    <string name="lang_swedish">スウェーデン語</string>
     <string name="pinned_playlists">Pinned Playlists</string>
 </resources>

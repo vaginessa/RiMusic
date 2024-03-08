@@ -316,6 +316,7 @@
     <string name="lang_finnish">Finnish</string>
     <string name="listening_time">收听时间</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">显示所听歌曲的数量和他们的收听时间</string>
+    <string name="app_update_dialog_new">新版本 %s 可以下载！</string>
     <string name="enable_language_in_discovery">Enable language in Discovery</string>
     <string name="if_possible_allows_discovery_content_language">如果可能的话，它允许接收您自己的语言的发现内容。</string>
     <string name="set_to">设置为</string>
@@ -397,7 +398,6 @@
     <string name="direction_right">Right</string>
     <string name="copy_lyrics">Copy lyrics</string>
     <string name="value_copied">Copied</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
     <string name="lang_swedish">Swedish</string>
     <string name="pinned_playlists">Pinned Playlists</string>
