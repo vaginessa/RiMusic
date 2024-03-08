@@ -316,6 +316,7 @@
     <string name="lang_finnish">Fins</string>
     <string name="listening_time">Luistertijd</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Toont het aantal beluisterde nummers en de luistertijd</string>
+    <string name="app_update_dialog_new">De nieuwe versie %s kan worden gedownload!</string>
     <string name="enable_language_in_discovery">Taal in Discovery inschakelen</string>
     <string name="if_possible_allows_discovery_content_language">Indien mogelijk, maakt het mogelijk om Discovery-inhoud in uw eigen taal te ontvangen.</string>
     <string name="set_to">Instellen naar</string>
@@ -397,7 +398,6 @@
     <string name="direction_right">Right</string>
     <string name="copy_lyrics">Copy lyrics</string>
     <string name="value_copied">Copied</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
     <string name="lang_swedish">Swedish</string>
     <string name="pinned_playlists">Pinned Playlists</string>
