@@ -285,10 +285,10 @@
     <string name="chinese_simplified">Chinese Simplified</string>
     <string name="chinese_traditional">Chinese Traditional</string>
     <string name="do_you_really_want_to_download_all">Do you really want to download all?</string>
-    <string name="add_all_in_playlist">Add all in playlist</string>
-    <string name="add_in_playlist">Add in playlist</string>
-    <string name="import_playlist">Import playlist</string>
-    <string name="lang_ukrainian">Ukrainian</string>
+    <string name="add_all_in_playlist">Lägg till alla i spellista</string>
+    <string name="add_in_playlist">Lägg till i spellista</string>
+    <string name="import_playlist">Importera spellista</string>
+    <string name="lang_ukrainian">Ukrainska</string>
     <string name="proxy">PROXY</string>
     <string name="enable_proxy">Enable Proxy</string>
     <string name="proxy_mode">Proxy Mode</string>
@@ -399,6 +399,6 @@
     <string name="value_copied">Copied</string>
     <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
-    <string name="lang_swedish">Swedish</string>
+    <string name="lang_swedish">Svenska</string>
     <string name="pinned_playlists">Pinned Playlists</string>
 </resources>
