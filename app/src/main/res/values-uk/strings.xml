@@ -292,7 +292,7 @@
     <string name="proxy">ПРОКСІ</string>
     <string name="enable_proxy">Використовувати Проксі</string>
     <string name="proxy_mode">Режим проксі</string>
-    <string name="proxy_host">Проксі сервер</string>
+    <string name="proxy_host">Хост</string>
     <string name="proxy_port">Порт проксі</string>
     <string name="disable_if_you_do_not_want_to_see">Вимкніть, якщо ви не хочете бачити</string>
     <string name="lang_hebrew">Hebrew (עִברִית)</string>
