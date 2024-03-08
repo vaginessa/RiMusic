@@ -317,6 +317,7 @@ CC-BY-SA 3.0</string>
     <string name="lang_finnish">Finnish</string>
     <string name="listening_time">Listening time</string>
     <string name="shows_the_number_of_songs_heard_and_their_listening_time">Shows the number of songs heard and their listening time</string>
+    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="enable_language_in_discovery">Enable language in Discovery</string>
     <string name="if_possible_allows_discovery_content_language">If possible, it allows to receive Discovery content in your own language.</string>
     <string name="set_to">Set to</string>
@@ -398,7 +399,6 @@ CC-BY-SA 3.0</string>
     <string name="direction_right">Right</string>
     <string name="copy_lyrics">Copy lyrics</string>
     <string name="value_copied">Copied</string>
-    <string name="app_update_dialog_new">The new version %s can be downloaded!</string>
     <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
     <string name="lang_swedish">Swedish</string>
     <string name="pinned_playlists">Pinned Playlists</string>
