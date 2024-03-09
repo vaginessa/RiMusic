@@ -400,5 +400,5 @@
     <string name="value_copied">Copiato</string>
     <string name="do_you_really_want_to_delete_cache">Sei sicuro di voler eliminare la cache?</string>
     <string name="lang_swedish">Svedese</string>
-    <string name="pinned_playlists">Pinned Playlists</string>
+    <string name="pinned_playlists">Playlist in evidenza</string>
 </resources>
