@@ -398,7 +398,7 @@
     <string name="direction_right">Droite</string>
     <string name="copy_lyrics">Copier les paroles</string>
     <string name="value_copied">Copié</string>
-    <string name="do_you_really_want_to_delete_cache">Do you really want to delete cache?</string>
-    <string name="lang_swedish">Swedish</string>
-    <string name="pinned_playlists">Pinned Playlists</string>
+    <string name="do_you_really_want_to_delete_cache">Voulez-vous vraiment vider le cache ?</string>
+    <string name="lang_swedish">Suédois (Swedish)</string>
+    <string name="pinned_playlists">Playlists épinglées</string>
 </resources>
